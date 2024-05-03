@@ -17,7 +17,7 @@ hklpy2
 
    license
 
-.. hide, for now
+.. TODO remove from comment
     .. icons: https://fonts.google.com/icons
 
     .. grid:: 2
@@ -40,6 +40,5 @@ About
 :index: :ref:`genindex`
 :module: :ref:`modindex`
 :1st gen: |hklpy|
-
-"This product includes software produced by UChicago Argonne, LLC 
-under Contract No. DE-AC02-06CH11357 with the Department of Energy."
+:acknowledgement: "This product includes software produced by UChicago Argonne,
+    LLC under Contract No. DE-AC02-06CH11357 with the Department of Energy."
