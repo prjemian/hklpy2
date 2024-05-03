@@ -9,27 +9,30 @@ hklpy2
 |hklpy2| - the 2nd generation Python package for practical use of diffractometers with the
 `Bluesky Framework <https://blueskyproject.io>`_.
 
+.. caution:: Development in progress.
+
 .. toctree::
    :glob:
    :hidden:
 
    license
 
-.. icons: https://fonts.google.com/icons
+.. hide, for now
+    .. icons: https://fonts.google.com/icons
 
-.. grid:: 2
+    .. grid:: 2
 
-    .. grid-item-card:: :material-outlined:`summarize;3em` User Guide
-    .. grid-item-card:: :material-regular:`install_desktop;3em` Installation
-    .. grid-item-card:: :material-regular:`subscriptions;3em` API
-    .. grid-item-card:: :material-regular:`history;3em` History of changes
+        .. grid-item-card:: :material-outlined:`summarize;3em` User Guide
+        .. grid-item-card:: :material-regular:`install_desktop;3em` Installation
+        .. grid-item-card:: :material-regular:`subscriptions;3em` API
+        .. grid-item-card:: :material-regular:`history;3em` History of changes
 
 .. _about:
 
 About
 -----
 
-:home: https://github.com/prjemian/hklpy2
+:home: https://prjemian.github.io/hklpy2
 :source: https://github.com/prjemian/hklpy2
 :license: :ref:`license`
 :full version: |release|
