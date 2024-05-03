@@ -22,10 +22,6 @@ copyright = "2023-2024, Argonne National Laboratory"
 # author = 'Bluesky team'
 release = hklpy2.__version__
 version = ".".join(release.split(".")[:2])
-short_version = version
-if "+g" in version and ".d2" in version:
-    # Extra date (1.0.5.dev146+gbb34ee0.d20231102) makes the title too long.
-    short_version = short_version.rsplit(".d2", 1)[0]
 today_fmt = "%Y-%m-%d %H:%M"
 
 # -- General configuration ---------------------------------------------------
