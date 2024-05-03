@@ -54,6 +54,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: hklpy2-docs
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           path: ${{ steps.deployment.outputs.artifact }}
 
       - name: Deploy (to gh-pages branch) only on demand
