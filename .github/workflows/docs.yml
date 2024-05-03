@@ -1,0 +1,64 @@
+name: Publish Sphinx Docs to GitHub Pages
+
+on:
+  # Build the docs on pushes to main branch, PRs to main branch, and new tags.
+  # Publish only on demand.
+  push:
+    branches:
+      - main
+    tags:
+      - '*'  # all tags
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:   # allow manual triggering
+    inputs:
+      deploy:
+        description: 'Deploy documentation'
+        type: boolean
+        required: true
+        default: false
+
+defaults:
+  run:
+    shell: bash -l {0}
+
+jobs:
+
+  docs:
+    name: Publish documentation
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Deploy Information
+        if: ${{ github.event.inputs.deploy }}
+        run: |
+          echo "The docs will be published from this workflow run."
+
+      - name: Set time zone
+        run: echo "TZ=America/Chicago" >> "$GITHUB_ENV"
+
+      - name: Sphinx build
+        id: deployment
+        uses: sphinx-notes/pages@v3
+        with:
+          documentation_path: ./docs/source
+          publish: false
+          requirements_path: ./docs/requirements.txt
+
+      - name: Diagnostic
+        run: ls -lAFgh ${{ steps.deployment.outputs.artifact }}
+    
+      - name: Upload Docs ZIP file as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: hklpy2-docs
+          path: ${{ steps.deployment.outputs.artifact }}
+
+      - name: Deploy (to gh-pages branch) only on demand
+        uses: peaceiris/actions-gh-pages@v3
+        if: ${{ github.event.inputs.deploy }}
+        with:
+          publish_branch: gh-pages
+          github_token: ${{ secrets.GITHUB_TOKEN }}
