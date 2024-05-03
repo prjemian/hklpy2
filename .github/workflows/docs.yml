@@ -60,5 +60,6 @@ jobs:
         uses: peaceiris/actions-gh-pages@v4
         if: ${{ github.event.inputs.deploy }}
         with:
-          publish_branch: gh-pages
           github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: ${{ steps.deployment.outputs.artifact }}
