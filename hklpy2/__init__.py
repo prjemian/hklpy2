@@ -1,8 +1,6 @@
 """
-Define constants used throughout the code.
+Package-level initialization.
 """
-
-import pathlib
 
 __settings_orgName__ = "prjemian"
 __package_name__ = "hklpy2"
