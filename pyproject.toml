@@ -1,0 +1,104 @@
+[build-system]
+requires = [
+  "setuptools_scm[toml]>=8",
+  "setuptools>=64.0",
+]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "hklpy2"
+description = "2nd generation diffractometer controls for the Bluesky Framework."
+authors = [
+  { name="Pete Jemian", email="prjemian+hklpy2@gmail.com" },
+]
+maintainers = [
+  { name="Pete Jemian", email="prjemian+hklpy2@gmail.com" },
+]
+dynamic = ["version"]
+readme = "README.md"
+requires-python = ">=3.10"
+keywords = ["bluesky", "diffraction", "diffractometer"]
+# https://packaging.python.org/en/latest/specifications/declaring-project-metadata/?highlight=license
+license = {file = "LICENSE"}
+# https://pypi.org/classifiers/
+classifiers = [
+    "Development Status :: 1 - Planning",
+    "Environment :: Console",
+    "Intended Audience :: Science/Research",
+    "License :: Freely Distributable",
+    "License :: Public Domain",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python",
+    "Topic :: Scientific/Engineering :: Astronomy",
+    "Topic :: Scientific/Engineering :: Bio-Informatics",
+    "Topic :: Scientific/Engineering :: Chemistry",
+    "Topic :: Scientific/Engineering :: Mathematics",
+    "Topic :: Scientific/Engineering :: Physics",
+    "Topic :: Scientific/Engineering :: Visualization",
+    "Topic :: Scientific/Engineering",
+]
+
+dependencies = [
+  "numpy",
+  "ophyd",
+  "pint",
+]
+
+[project.optional-dependencies]
+docs = [
+  "pydata-sphinx-theme",
+]
+libhkl = [
+  "pygobject",
+]
+tests = [
+  "packaging",
+]
+all = ["hklpy2[docs,libhkl,tests]"]
+
+[project.urls]
+"Homepage" = "https://github.com/prjemian/hklpy2/"
+"Bug Tracker" = "https://github.com/prjemian/hklpy2/issues"
+
+[tool.black]
+line-length = 115  # matches the value of 'max-line-length' in .flake8
+target-version = ['py312']
+include = '\.pyi?$'
+exclude = '''
+
+(
+  /(
+      \.eggs         # exclude a few common directories in the
+    | \.git          # root of the project
+    | \.mypy_cache
+    | \.tox
+    | \.venv
+    | _build
+    | examples/archive
+    | build
+    | dist
+  )/
+  | hkl/_version.py
+)
+'''
+
+[tool.flake8]
+max-line-length = 115
+extend-ignore = ["E501"]
+
+[tool.isort]
+profile = "black"
+force_single_line  = "True"
+line_length = 115
+multi_line_output = "NOQA"
+src_paths = ["hkl"]
+
+[tool.pytest.ini_options]
+addopts = [
+    "--import-mode=importlib",
+]
+[tool.setuptools_scm]
