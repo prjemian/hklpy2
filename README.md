@@ -11,4 +11,4 @@ Framework](https://blueskyproject.io).
 
 ## References
 
-- hklpy2 documentation: <https://github.com/prjemian/hklpy2>
+- hklpy2 documentation: <https://prjemian.github.io/hklpy2>
