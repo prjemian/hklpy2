@@ -1,5 +1,6 @@
-# TODO: add plugin support for selecting the backend solver
-# Use entry points: https://setuptools.pypa.io/en/latest/userguide/entry_point.html#entry-points-for-plugins
+# Backend Solver plugins are connected via entry points.
+# group="hklpy2.solver"
+# https://setuptools.pypa.io/en/latest/userguide/entry_point.html#entry-points-for-plugins
 
 """
 - https://github.com/bluesky/hklpy/issues/14
@@ -17,4 +18,4 @@
 - https://github.com/prjemian/pyub
 """
 
-from .hkl_backend import libhkl as solver  # noqa
+# from .hkl_backend import libhkl as solver  # noqa

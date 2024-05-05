@@ -48,6 +48,10 @@ dependencies = [
   "pint",
 ]
 
+[project.entry-points."hklpy2.solver"]
+no_op = "hklpy2.backends.no_op_backend:NoOpSolver"
+libhkl = "hklpy2.backends.hkl_backend:HklSolver"
+
 [project.optional-dependencies]
 libhkl = [
   "pygobject",

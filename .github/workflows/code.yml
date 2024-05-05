@@ -71,6 +71,9 @@ jobs:
         # https://github.com/pradyunsg/furo/discussions/308#discussioncomment-3064061
         pip install coverage coveralls
 
+    - name: Install source code
+      run: pip install -e . --no-deps
+
     - name: Diagnostic
       run: |
         micromamba info
