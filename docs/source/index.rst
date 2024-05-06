@@ -16,7 +16,6 @@ hklpy2
    :hidden:
 
    api
-   license
 
 .. TODO remove from comment
     .. icons: https://fonts.google.com/icons

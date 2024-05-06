@@ -8,7 +8,7 @@ no reciprocal-space conversions
     ~NoOpSolver
 """
 
-from ..__init__ import __version__
+from .. import __version__
 
 
 class NoOpSolver:

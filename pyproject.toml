@@ -49,17 +49,17 @@ dependencies = [
 ]
 
 [project.entry-points."hklpy2.solver"]
-no_op = "hklpy2.backends.no_op_backend:NoOpSolver"
-libhkl = "hklpy2.backends.hkl_backend:HklSolver"
+no_op = "hklpy2.backends.no_op:NoOpSolver"
+hkl_soleil = "hklpy2.backends.hkl_soleil:HklSolver"
 
 [project.optional-dependencies]
-libhkl = [
+hkl_soleil = [
   "pygobject",
 ]
 tests = [
   "packaging",
 ]
-all = ["hklpy2[libhkl,tests]"]
+all = ["hklpy2[hkl_soleil,tests]"]
 
 [project.urls]
 "Homepage" = "https://prjemian.github.io/hklpy2"

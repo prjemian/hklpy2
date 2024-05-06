@@ -4,7 +4,7 @@ from importlib.metadata import entry_points
 import pytest
 
 
-@pytest.mark.parametrize("solver_name", ["libhkl", "no_op"])
+@pytest.mark.parametrize("solver_name", ["hkl_soleil", "no_op"])
 def test_solvers(solver_name):
     solvers = entry_points(group="hklpy2.solver")
     assert len(solvers) > 0
