@@ -23,7 +23,7 @@ backend that provides diffractometer capabilities:
 
 A solver is written as a plugin for |hklpy2| and is connected by an `entry point
 <https://setuptools.pypa.io/en/latest/userguide/entry_point.html#entry-points-for-plugins>`_
-using the ``"hklpy2.solver"`` group.  Here's an example from the |hklpy2|'s
+using the ``"hklpy2.solver"`` group.  Here's an example from |hklpy2|'s
 ``pyproject.toml`` file for two such Solvers::
 
     [project.entry-points."hklpy2.solver"]
