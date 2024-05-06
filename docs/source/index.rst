@@ -15,6 +15,7 @@ hklpy2
    :glob:
    :hidden:
 
+   api
    license
 
 .. TODO remove from comment
@@ -38,7 +39,7 @@ About
 :full version: |release|
 :published: |today|
 :index: :ref:`genindex`
-:module: :ref:`modindex`
+:modules: :ref:`modindex`
 :1st gen: |hklpy|
 :acknowledgement: "This product includes software produced by UChicago Argonne,
     LLC under Contract No. DE-AC02-06CH11357 with the Department of Energy."

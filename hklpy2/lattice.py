@@ -22,9 +22,23 @@ triclinic       Lattice(4, 5, 3, 75., 85., 95.) 4 5 3 75    85   95
 .. autosummary::
 
     ~Lattice
+    ~SI_LATTICE_PARAMETER
+    ~SI_LATTICE_PARAMETER_UNCERTAINTY
 """
 
 import math
+
+SI_LATTICE_PARAMETER = 5.431020511
+"""
+2018 CODATA recommended lattice parameter of silicon, Angstrom.
+
+:see: https://physics.nist.gov/cgi-bin/cuu/Value?asil
+"""
+
+SI_LATTICE_PARAMETER_UNCERTAINTY = 0.000000089
+"""
+Reported uncertainty of ``SI_LATTICE_PARAMETER``.
+"""
 
 
 class Lattice:
