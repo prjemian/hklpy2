@@ -120,6 +120,7 @@ class SolverBase(ABC):
         """Compute list of solutions(reals) from pseudos (hkl -> [angles])."""
         pass
 
+    @property
     @abstractmethod
     def geometries(self):
         """Ordered list of the geometry names."""
@@ -130,16 +131,19 @@ class SolverBase(ABC):
         """Compute tuple of pseudos from reals (angles -> hkl)."""
         pass
 
+    @property
     @abstractmethod
     def modes(self):
         """List of the geometry operating modes."""
         pass
 
+    @property
     @abstractmethod
     def pseudo_axis_names(self):
         """Ordered list of the pseudo axis names (such as h, k, l)."""
         pass
 
+    @property
     @abstractmethod
     def real_axis_names(self):
         """Ordered list of the real axis names (such as omega, chi, phi, tth)."""

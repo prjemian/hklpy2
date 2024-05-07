@@ -74,6 +74,7 @@ class HklSolver(SolverBase):
         """Compute list of solutions(reals) from pseudos (hkl -> [angles])."""
         return []  # TODO
 
+    @property
     def geometries(self):
         geometries = [
             f"{factory.name_get()}, {engine.name_get()}"
@@ -87,15 +88,18 @@ class HklSolver(SolverBase):
         """Compute tuple of pseudos from reals (angles -> hkl)."""
         return tuple()  # TODO
 
+    @property
     def modes(self):
         """List of the geometry operating modes."""
         return []  # TODO
 
+    @property
     def pseudo_axis_names(self):
         """Ordered list of the pseudo axis names (such as h, k, l)."""
         if self._engine is not None:
             return self._engine.pseudo_axis_names_get()
 
+    @property
     def real_axis_names(self):
         """Ordered list of the real axis names (such as omega, chi, phi, tth)."""
         if self._geometry is not None:

@@ -53,18 +53,22 @@ class NoOpSolver(SolverBase):
     def forward(self):
         return []
 
+    @property
     def geometries(self):
         return []
 
     def inverse(self):
         return ["No Ops"]
 
+    @property
     def modes(self):
         return []
 
+    @property
     def pseudo_axis_names(self):
         return []  # no axes
 
+    @property
     def real_axis_names(self):
         return []  # no axes
 

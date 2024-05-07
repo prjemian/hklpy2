@@ -38,8 +38,8 @@ def test_HklSolver():
     assert solver.gname == gname
     assert solver._geometry.name_get() == gname
 
-    reals = solver.real_axis_names()
+    reals = solver.real_axis_names
     assert reals == "mu eta phi nu delta".split()
 
-    pseudos = solver.pseudo_axis_names()
+    pseudos = solver.pseudo_axis_names
     assert pseudos == "h k l".split()
