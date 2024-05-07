@@ -16,6 +16,11 @@ except (LookupError, ModuleNotFoundError):
     __version__ = version(__package_name__)
     del version
 
+from .backends import SOLVER_ENTRYPOINT_GROUP  # noqa: F401
+from .backends import SolverBase  # noqa: F401
+from .backends import setSolver  # noqa: F401
+from .backends import solvers  # noqa: F401
+
 # -----------------------------------------------------------------------------
 # :copyright: (c) 2023-2024, UChicago Argonne, LLC
 #
