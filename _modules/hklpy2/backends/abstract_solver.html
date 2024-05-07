@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>hklpy2.backends.no_op &#8212; hklpy2 0.1</title>
+    <title>hklpy2.backends.abstract_solver &#8212; hklpy2 0.1</title>
   
   
   
@@ -43,7 +43,7 @@
     <script src="../../../_static/tabs.js?v=3030b3cb"></script>
     <script src="../../../_static/design-tabs.js?v=36754332"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/hklpy2/backends/no_op';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/hklpy2/backends/abstract_solver';</script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
@@ -301,28 +301,56 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <h1>Source code for hklpy2.backends.no_op</h1><div class="highlight"><pre>
+  <h1>Source code for hklpy2.backends.abstract_solver</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">Backend: no_op</span>
-
-<span class="sd">no reciprocal-space conversions</span>
+<span class="sd">Backend: abstract base class</span>
 
 <span class="sd">.. autosummary::</span>
 
-<span class="sd">    ~NoOpSolver</span>
+<span class="sd">    ~SolverBase</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
+<span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABC</span>
+<span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">abstractmethod</span>
+
 <span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">__version__</span>
-<span class="kn">from</span> <span class="nn">.abstract_solver</span> <span class="kn">import</span> <span class="n">SolverBase</span>
+
+<span class="n">SOLVER_ENTRYPOINT_GROUP</span> <span class="o">=</span> <span class="s2">&quot;hklpy2.solver&quot;</span>
+<span class="sd">&quot;&quot;&quot;Name by which hklpy2 backend Solver classes are grouped.&quot;&quot;&quot;</span>
 
 
-<div class="viewcode-block" id="NoOpSolver">
-<a class="viewcode-back" href="../../../api/backends.html#hklpy2.backends.no_op.NoOpSolver">[docs]</a>
-<span class="k">class</span> <span class="nc">NoOpSolver</span><span class="p">(</span><span class="n">SolverBase</span><span class="p">):</span>
+<div class="viewcode-block" id="setSolver">
+<a class="viewcode-back" href="../../../api/backends.html#hklpy2.backends.abstract_solver.setSolver">[docs]</a>
+<span class="k">def</span> <span class="nf">setSolver</span><span class="p">(</span><span class="n">solver_name</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Load a Solver class from a named entry point.&quot;&quot;&quot;</span>
+    <span class="kn">from</span> <span class="nn">importlib.metadata</span> <span class="kn">import</span> <span class="n">entry_points</span>
+
+    <span class="n">entries</span> <span class="o">=</span> <span class="n">entry_points</span><span class="p">(</span><span class="n">group</span><span class="o">=</span><span class="n">SOLVER_ENTRYPOINT_GROUP</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">entries</span><span class="p">[</span><span class="n">solver_name</span><span class="p">]</span><span class="o">.</span><span class="n">load</span><span class="p">()</span></div>
+
+
+
+<div class="viewcode-block" id="solvers">
+<a class="viewcode-back" href="../../../api/backends.html#hklpy2.backends.abstract_solver.solvers">[docs]</a>
+<span class="k">def</span> <span class="nf">solvers</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Dictionary of available Solver classes by entry point name.&quot;&quot;&quot;</span>
+    <span class="kn">from</span> <span class="nn">importlib.metadata</span> <span class="kn">import</span> <span class="n">entry_points</span>
+
+    <span class="c1"># fmt: off</span>
+    <span class="n">entries</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="n">ep</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="n">ep</span><span class="o">.</span><span class="n">value</span>
+        <span class="k">for</span> <span class="n">ep</span> <span class="ow">in</span> <span class="n">entry_points</span><span class="p">(</span><span class="n">group</span><span class="o">=</span><span class="n">SOLVER_ENTRYPOINT_GROUP</span><span class="p">)</span>
+    <span class="p">}</span>
+    <span class="c1"># fmt: on</span>
+    <span class="k">return</span> <span class="n">entries</span></div>
+
+
+
+<div class="viewcode-block" id="SolverBase">
+<a class="viewcode-back" href="../../../api/backends.html#hklpy2.backends.abstract_solver.SolverBase">[docs]</a>
+<span class="k">class</span> <span class="nc">SolverBase</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    ``&quot;no_op&quot;`` (any OS) no transformations.</span>
-
-<span class="sd">    Solver that has no reciprocal space transformations.</span>
+<span class="sd">    Base class for all |hklpy2| Solver classes.</span>
 
 <span class="sd">    .. autosummary::</span>
 
@@ -338,51 +366,55 @@ document.write(`
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">gname</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_geometry</span> <span class="o">=</span> <span class="kc">None</span>
 
-<div class="viewcode-block" id="NoOpSolver.forward">
-<a class="viewcode-back" href="../../../api/backends.html#hklpy2.backends.no_op.NoOpSolver.forward">[docs]</a>
+<div class="viewcode-block" id="SolverBase.forward">
+<a class="viewcode-back" href="../../../api/backends.html#hklpy2.backends.abstract_solver.SolverBase.forward">[docs]</a>
+    <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute list of solutions(reals) from pseudos (hkl -&gt; [angles]).&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="p">[]</span></div>
+        <span class="k">pass</span></div>
 
 
-<div class="viewcode-block" id="NoOpSolver.geometries">
-<a class="viewcode-back" href="../../../api/backends.html#hklpy2.backends.no_op.NoOpSolver.geometries">[docs]</a>
+<div class="viewcode-block" id="SolverBase.geometries">
+<a class="viewcode-back" href="../../../api/backends.html#hklpy2.backends.abstract_solver.SolverBase.geometries">[docs]</a>
+    <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">geometries</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Ordered list of the geometry names.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="p">[]</span></div>
+        <span class="k">pass</span></div>
 
 
-<div class="viewcode-block" id="NoOpSolver.inverse">
-<a class="viewcode-back" href="../../../api/backends.html#hklpy2.backends.no_op.NoOpSolver.inverse">[docs]</a>
+<div class="viewcode-block" id="SolverBase.inverse">
+<a class="viewcode-back" href="../../../api/backends.html#hklpy2.backends.abstract_solver.SolverBase.inverse">[docs]</a>
+    <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">inverse</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute list of pseudoss from reals (angles -&gt; hkl).&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="p">[</span><span class="s2">&quot;No Ops&quot;</span><span class="p">]</span></div>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute tuple of pseudos from reals (angles -&gt; hkl).&quot;&quot;&quot;</span>
+        <span class="k">pass</span></div>
 
 
-<div class="viewcode-block" id="NoOpSolver.pseudo_axis_names">
-<a class="viewcode-back" href="../../../api/backends.html#hklpy2.backends.no_op.NoOpSolver.pseudo_axis_names">[docs]</a>
+<div class="viewcode-block" id="SolverBase.pseudo_axis_names">
+<a class="viewcode-back" href="../../../api/backends.html#hklpy2.backends.abstract_solver.SolverBase.pseudo_axis_names">[docs]</a>
+    <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">pseudo_axis_names</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Ordered list of the pseudo axis names.&quot;&quot;&quot;</span>
         <span class="c1"># such as h, k, l</span>
-        <span class="k">return</span> <span class="p">[]</span>  <span class="c1"># no axes</span></div>
+        <span class="k">pass</span></div>
 
 
-<div class="viewcode-block" id="NoOpSolver.real_axis_names">
-<a class="viewcode-back" href="../../../api/backends.html#hklpy2.backends.no_op.NoOpSolver.real_axis_names">[docs]</a>
+<div class="viewcode-block" id="SolverBase.real_axis_names">
+<a class="viewcode-back" href="../../../api/backends.html#hklpy2.backends.abstract_solver.SolverBase.real_axis_names">[docs]</a>
+    <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">real_axis_names</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Ordered list of the real axis names.&quot;&quot;&quot;</span>
         <span class="c1"># such as omega, chi, phi, tth</span>
-        <span class="k">return</span> <span class="p">[]</span>  <span class="c1"># no axes</span></div>
+        <span class="k">pass</span></div>
 
 
-<div class="viewcode-block" id="NoOpSolver.setGeometry">
-<a class="viewcode-back" href="../../../api/backends.html#hklpy2.backends.no_op.NoOpSolver.setGeometry">[docs]</a>
+<div class="viewcode-block" id="SolverBase.setGeometry">
+<a class="viewcode-back" href="../../../api/backends.html#hklpy2.backends.abstract_solver.SolverBase.setGeometry">[docs]</a>
+    <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">setGeometry</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gname</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Select one of the diffractometer geometries.&quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">gname</span> <span class="o">=</span> <span class="n">gname</span>
-        <span class="k">return</span> <span class="kc">None</span></div>
+        <span class="k">pass</span></div>
 </div>
 
 </pre></div>
