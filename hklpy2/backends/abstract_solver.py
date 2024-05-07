@@ -146,7 +146,7 @@ class SolverBase(ABC):
     @property
     @abstractmethod
     def real_axis_names(self):
-        """Ordered list of the real axis names (such as omega, chi, phi, tth)."""
+        """Ordered list of the real axis names (such as th, tth)."""
         pass
 
     @abstractmethod

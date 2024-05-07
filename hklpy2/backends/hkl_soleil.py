@@ -101,7 +101,7 @@ class HklSolver(SolverBase):
 
     @property
     def real_axis_names(self):
-        """Ordered list of the real axis names (such as omega, chi, phi, tth)."""
+        """Ordered list of the real axis names (such as th, tth)."""
         if self._geometry is not None:
             return self._geometry.axis_names_get()
 
