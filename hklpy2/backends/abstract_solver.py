@@ -68,11 +68,9 @@ class SolverBase(ABC):
     class <https://docs.python.org/3/library/abc.html#abc.ABC>`_,
     cannot not be used directly by |hklpy2| users.
 
-    .. index::Solver class
-
-    As the parent class for all custom |solver| classes,
-    :class:`~SolverBase` defines the methods and attributes to be written that
-    will connect |hklpy2| with the support library that defines
+    As the parent class for all custom :index:`Solver` classes,
+    :class:`~SolverBase` defines the methods and attributes to be written
+    that will connect |hklpy2| with the support library that defines
     specific diffractometer geometries and the computations for
     using them.  Subclasses should implement each of these methods
     as best fits the underlying support library.
