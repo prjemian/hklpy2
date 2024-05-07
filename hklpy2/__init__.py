@@ -26,5 +26,5 @@ from .backends import solvers  # noqa: F401
 #
 # Distributed under the terms of the Argonne National Laboratory Open Source License.
 #
-# The full license is in the file LICENSE.txt, distributed with this software.
+# The full license is in the file LICENSE, distributed with this software.
 # -----------------------------------------------------------------------------
