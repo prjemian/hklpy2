@@ -16,16 +16,23 @@ class NoOpSolver(SolverBase):
     """
     ``"no_op"`` (any OS) no transformations.
 
-    Solver that has no reciprocal space transformations.
+    |solver| that has no reciprocal space transformations.
 
     .. autosummary::
 
+        ~addReflection
+        ~addSample
+        ~calculateOrientation
         ~forward
         ~geometries
         ~inverse
+        ~modes
         ~pseudo_axis_names
         ~real_axis_names
+        ~refineLattice
         ~setGeometry
+        ~setLattice
+        ~setMode
     """
 
     __version__ = __version__
@@ -34,29 +41,42 @@ class NoOpSolver(SolverBase):
         self.gname = None
         self._geometry = None
 
+    def addReflection(self, pseudos, reals, wavelength):
+        pass  # TODO
+
+    def addSample(self, sample):
+        pass  # TODO
+
+    def calculateOrientation(self, r1, r2):
+        return
+
     def forward(self):
-        """Compute list of solutions(reals) from pseudos (hkl -> [angles])."""
         return []
 
     def geometries(self):
-        """Ordered list of the geometry names."""
         return []
 
     def inverse(self):
-        """Compute list of pseudoss from reals (angles -> hkl)."""
         return ["No Ops"]
 
+    def modes(self):
+        return []
+
     def pseudo_axis_names(self):
-        """Ordered list of the pseudo axis names."""
-        # such as h, k, l
         return []  # no axes
 
     def real_axis_names(self):
-        """Ordered list of the real axis names."""
-        # such as omega, chi, phi, tth
         return []  # no axes
 
+    def refineLattice(self, reflections):
+        return None
+
     def setGeometry(self, gname, **kwargs):
-        """Select one of the diffractometer geometries."""
         self.gname = gname
         return None
+
+    def setLattice(self, lattice):
+        pass  # TODO
+
+    def setMode(self, mode):
+        pass

@@ -21,10 +21,10 @@ backend that provides diffractometer capabilities:
   * calculate the UB matrix
   * refine the crystal lattice
 
-A *solver* is written as a plugin for |hklpy2| and is connected by an `entry point
+A |solver| class is written as a plugin for |hklpy2| and is connected by an `entry point
 <https://setuptools.pypa.io/en/latest/userguide/entry_point.html#entry-points-for-plugins>`_
 using the ``"hklpy2.solver"`` group.  Here's an example from |hklpy2|'s
-``pyproject.toml`` file for two such Solvers::
+``pyproject.toml`` file for two such |solver| classes::
 
     [project.entry-points."hklpy2.solver"]
     no_op = "hklpy2.backends.no_op:NoOpSolver"
@@ -35,24 +35,23 @@ using the ``"hklpy2.solver"`` group.  Here's an example from |hklpy2|'s
 How to select a Solver
 ----------------------
 
-To select a Solver class, call
+To select a |solver| class, call
 :func:`~hklpy2.backends.abstract_solver.setSolver`. This example
-selects the |libhkl| solver (using its entry point name: ``"hkl_soleil"``)::
+selects the |libhkl| |solver| (using its entry point name: ``"hkl_soleil"``)::
 
     >>> from hklpy2 import setSolver
     >>> Solver = setSolver("hkl_soleil")
     >>> print(f"{Solver=}")
     Solver=<class 'hklpy2.backends.hkl_soleil.HklSolver'>    
 
-To list all available solver classes (by their entry point name), 
+To list all available |solver| classes (by their entry point name), 
 call :func:`~hklpy2.backends.abstract_solver.solvers()`.
-This example shows the solvers supplied with |hklpy2|::
+This example shows the |solver| classes supplied with |hklpy2|::
 
     >>> from hklpy2 import solvers
     >>> solvers()
     {'hkl_soleil': 'hklpy2.backends.hkl_soleil:HklSolver',
      'no_op': 'hklpy2.backends.no_op:NoOpSolver'}
-
 
 .. _api.backends.howto:
 
@@ -61,7 +60,7 @@ How to write a new Solver
 
 .. caution:: TODO:: work-in-progress
 
-Solver classes always subclass :class:`~hklpy2.backends.abstract_solver.SolverBase`::
+|solver| classes always subclass :class:`~hklpy2.backends.abstract_solver.SolverBase`::
 
     from hklpy2.backends.SolverBase
 
@@ -83,6 +82,13 @@ Solver classes always subclass :class:`~hklpy2.backends.abstract_solver.SolverBa
     - SPEC server mode
     - https://github.com/prjemian/pyub
 
+
+.. toctree::
+   :glob:
+   :hidden:
+
+   backends/*
+
 Source Code Documentation
 -------------------------
 
@@ -92,20 +98,3 @@ Source Code Documentation
     :show-inheritance:
     :inherited-members:
 
-.. automodule:: hklpy2.backends.abstract_solver
-    :members:
-    :private-members:
-    :show-inheritance:
-    :inherited-members:
-
-.. automodule:: hklpy2.backends.hkl_soleil
-    :members:
-    :private-members:
-    :show-inheritance:
-    :inherited-members:
-
-.. automodule:: hklpy2.backends.no_op
-    :members:
-    :private-members:
-    :show-inheritance:
-    :inherited-members:

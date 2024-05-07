@@ -23,17 +23,24 @@ class HklSolver(SolverBase):
     """
     ``"hkl_soleil"`` (Linux x86_64 only) |libhkl|.
 
-    Solver with support for many common diffractometer geoemtries.
+    |solver| with support for many common diffractometer geoemtries.
     Wraps the |libhkl| library from Frédéric-Emmanuel PICCA (Soleil).
 
     .. autosummary::
 
+        ~addReflection
+        ~addSample
+        ~calculateOrientation
         ~forward
         ~geometries
         ~inverse
+        ~modes
         ~pseudo_axis_names
         ~real_axis_names
+        ~refineLattice
         ~setGeometry
+        ~setLattice
+        ~setMode
 
     :see: docs - https://people.debian.org/~picca/hkl/hkl.html
     :see: source - https://repo.or.cz/hkl.git
@@ -51,12 +58,23 @@ class HklSolver(SolverBase):
         self._geometry = None
         self.user_units = libhkl.UnitEnum.USER
 
+    def addReflection(self, pseudos, reals, wavelength):
+        """Add information about a reflection."""
+        pass  # TODO
+
+    def addSample(self, sample):
+        """Add a sample."""
+        pass  # TODO
+
+    def calculateOrientation(self, r1, r2):
+        """Calculate the UB (orientation) matrix from two reflections."""
+        pass  # TODO
+
     def forward(self):
         """Compute list of solutions(reals) from pseudos (hkl -> [angles])."""
         return []  # TODO
 
     def geometries(self):
-        """Ordered list of the geometry names."""
         geometries = [
             f"{factory.name_get()}, {engine.name_get()}"
             # f"{factory.name_get()}"
@@ -69,23 +87,41 @@ class HklSolver(SolverBase):
         """Compute tuple of pseudos from reals (angles -> hkl)."""
         return tuple()  # TODO
 
+    def modes(self):
+        """List of the geometry operating modes."""
+        return []  # TODO
+
     def pseudo_axis_names(self):
-        """Ordered list of the pseudo axis names."""
-        # such as h, k, l
+        """Ordered list of the pseudo axis names (such as h, k, l)."""
         if self._engine is not None:
             return self._engine.pseudo_axis_names_get()
 
     def real_axis_names(self):
-        """Ordered list of the real axis names."""
-        # such as omega, chi, phi, tth
+        """Ordered list of the real axis names (such as omega, chi, phi, tth)."""
         if self._geometry is not None:
             return self._geometry.axis_names_get()
 
+    def refineLattice(self, reflections):
+        """Refine the lattice parameters from a list of reflections."""
+        pass  # TODO
+
     def setGeometry(self, gname, engine="hkl"):
-        """Select one of the diffractometer geometries."""
         factory = self._factories[gname]
         self.gname = gname
         self._geometry = factory.create_new_geometry()
         self._engines = factory.create_new_engine_list()
         self._engine = self._engines.engine_get_by_name(engine)
         return self._geometry
+
+    def setLattice(self, lattice):
+        """Define the sample's lattice parameters."""
+        pass  # TODO
+
+    def setMode(self, mode):
+        """
+        Define the geometry's operating mode.
+
+        A mode defines constraints on the solutions provided by the
+        :meth:`forward` computation.
+        """
+        pass  # TODO
