@@ -16,8 +16,10 @@ gi.require_version("Hkl", "5.0")
 from gi.repository import GLib  # noqa: E402, F401
 from gi.repository import Hkl as libhkl  # noqa: E402
 
+from .abstract_solver import SolverBase
 
-class HklSolver:
+
+class HklSolver(SolverBase):
     """
     This solver wraps the Hkl (libhkl) library from Fred Picca (Soleil).
 

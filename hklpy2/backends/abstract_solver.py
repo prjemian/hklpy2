@@ -1,20 +1,19 @@
 """
-Backend: no_op
-
-no reciprocal-space conversions
+Backend: abstract base class
 
 .. autosummary::
 
-    ~NoOpSolver
+    ~SolverBase
 """
 
+from abc import ABC, abstractmethod
+
 from .. import __version__
-from .abstract_solver import SolverBase
 
 
-class NoOpSolver(SolverBase):
+class SolverBase(ABC):
     """
-    A backend solver that has no transformations for reciprocal space.
+    The base class for all |hklpy2| Solver classes.
 
     .. autosummary::
 
@@ -30,31 +29,35 @@ class NoOpSolver(SolverBase):
 
     def __init__(self) -> None:
         self.gname = None
-        self._geometry = None
 
+    @abstractmethod
     def chooseGeometry(self, gname, **kwargs):
         """Select one of the diffractometer geometries."""
-        self.gname = gname
-        return None
+        pass
 
+    @abstractmethod
     def forward(self):
         """Compute list of solutions(reals) from pseudos (hkl -> [angles])."""
-        return []
+        pass
 
+    @abstractmethod
     def getGeometries(self):
         """Ordered list of the geometry names."""
-        return []
+        pass
 
+    @abstractmethod
     def inverse(self):
-        """Compute list of pseudoss from reals (angles -> hkl)."""
-        return ["No Ops"]
+        """Compute tuple of pseudos from reals (angles -> hkl)."""
+        pass
 
+    @abstractmethod
     def pseudo_axis_names(self):
         """Ordered list of the pseudo axis names."""
         # such as h, k, l
-        return []  # no axes
+        pass
 
+    @abstractmethod
     def real_axis_names(self):
         """Ordered list of the real axis names."""
         # such as omega, chi, phi, tth
-        return []  # no axes
+        pass
