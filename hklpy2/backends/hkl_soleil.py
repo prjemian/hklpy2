@@ -34,12 +34,14 @@ class HklSolver:
     __version__ = libhkl.VERSION
 
     def __init__(self) -> None:
-        self.detector = libhkl.Detector.factory_new(libhkl.DetectorType(0))
-        self.user_units = libhkl.UnitEnum.USER
-        self._factories = libhkl.factories()
         self.gname = None
-        self._geometry = None
+
+        self.detector = libhkl.Detector.factory_new(libhkl.DetectorType(0))
         self._engine = None
+        self._engines = None
+        self._factories = libhkl.factories()
+        self._geometry = None
+        self.user_units = libhkl.UnitEnum.USER
 
     def chooseGeometry(self, gname, engine="hkl"):
         """Select one of the diffractometer geometries."""
@@ -57,10 +59,10 @@ class HklSolver:
     def getGeometries(self):
         """Ordered list of the geometry names."""
         geometries = [
-            # f"{factory.name_get()}, {engine.name_get()}"
-            f"{factory.name_get()}"
-            for factory in self._factories.values()
-            for engine in self._engines.engines_get()
+            f"{factory.name_get()}, {engine.name_get()}"
+            # f"{factory.name_get()}"
+            for factory in (self._factories or {}).values()
+            for engine in (self._engines or {}).engines_get()
         ]
         return sorted(set(geometries))
 

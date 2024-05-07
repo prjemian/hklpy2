@@ -49,11 +49,27 @@ def test_engine(gname, ename, reals):
     r_axes = geometry.axis_names_get()
     assert r_axes == reals, f"{r_axes=}"
 
-    engine = factory.create_new_engine_list().engine_get_by_name(ename)
+    # tip: libhkl will dump core if engines is combined into following:
+    #   factory.create_new_engine_list().engine_get_by_name(ename)
+    engines = factory.create_new_engine_list()
+    assert engines is not None
+
+    engine = engines.engine_get_by_name(ename)
     assert engine is not None
+    assert engine.name_get() == ename
 
-    # FIXME: dumps core
-    # p_axes = engine.pseudo_axis_names_get()
+    p_axes = engine.pseudo_axis_names_get()
+    assert p_axes == "h k l".split(), f"{p_axes=}"
 
-    # FIXME: dumps core
-    # assert engine.name_get() == ename
+
+def test_geometries():
+    solver = hkl_soleil.HklSolver()
+    assert solver is not None
+
+    solver.chooseGeometry("E4CV")
+
+    glist = solver.getGeometries()
+    assert len(glist) >= 18
+    for gname in "E4CV E4CH E6C K4CV K6C ZAXIS TwoC".split():
+        assert f"{gname}, hkl" in glist, f"{gname=}  {glist=}"
+    # assert glist == [], f"{glist=}"

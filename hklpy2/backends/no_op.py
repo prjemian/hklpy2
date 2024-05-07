@@ -31,7 +31,7 @@ class NoOpSolver:
         self.gname = None
         self._geometry = None
 
-    def chooseGeometry(self, gname):
+    def chooseGeometry(self, gname, **kwargs):
         """Select one of the diffractometer geometries."""
         self.gname = gname
         return None
