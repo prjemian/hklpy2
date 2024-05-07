@@ -1,25 +1,35 @@
 .. include:: /substitutions.txt
 
+.. index::!Solver class
+
 .. _api.backends:
 
 ==================
 Backend Solvers
 ==================
 
-A backend (or solver) is a Python class that connects |hklpy2| with a library
-backend that provides diffractometer capabilities:
+A |solver| is a Python class that connects |hklpy2| with a (backend) library
+that provides diffractometer capabilities, including:
 
 * definition(s) of physical diffractometer **geometries**
-* calculation *engines* that convert:
+
+  * axes (angles and reciprocal space)
+  * operating **modes** for the axes (angles and reciprocal space)
+
+* calculations that convert:
 
   * **forward**: reciprocal space coordinates into diffractometer angles
   * **inverse**: diffractometer angles into reciprocal space coordinates
 
-* engine-based operating **modes** for the axes (angles and reciprocal space)
-* support functions include:
+* support operations include:
 
   * calculate the UB matrix
   * refine the crystal lattice
+  * sample definition
+
+    * name
+    * crystal lattice parameters: :math:`a, b, c, \alpha, \beta, \gamma`
+    * list of orientation reflections
 
 A |solver| class is written as a plugin for |hklpy2| and is connected by an `entry point
 <https://setuptools.pypa.io/en/latest/userguide/entry_point.html#entry-points-for-plugins>`_

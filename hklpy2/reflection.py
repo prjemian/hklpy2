@@ -13,7 +13,14 @@ import uuid
 
 
 class Reflection:
-    """Coordinates real and pseudo axes."""
+    """
+    Coordinates real and pseudo axes.
+
+    EXAMPLE::
+
+        import hklpy2
+        r1 = hklpy2.Reflection(...)  # TODO
+    """
 
     def __init__(
         self, solver, pseudos: dict, angles: dict, wavelength: float, name=None

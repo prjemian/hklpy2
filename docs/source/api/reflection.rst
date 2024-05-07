@@ -1,15 +1,19 @@
 .. _api.reflection:
 
-==================
-Reflection
-==================
+======================
+Orientation Reflection
+======================
 
-A reflection is a peak intensity (typically an observation) due to diffraction
-from a specific orientation of a crystalline sample with respect to the incident
-radiation. The reflection occurs for a precise alignment of crystalline planes
-and diffractometer axes with the incoming beam. The coordinates of two or more
-reflections in both real and reciprocal space are used to determine the
-:math:`UB` orientation matrix.
+An orientation :index:`!reflection` is a peak intensity (typically an
+observation) due to diffraction from a specific orientation of a crystalline
+sample with respect to the incident radiation. The reflection occurs for a
+precise alignment of the sample's crystalline planes and diffractometer axes
+with the incoming radiation. 
+
+The coordinates of two (or more) reflections are used to compute a sample's
+:math:`UB` :index:`orientation matrix`.  :math:`UB` transforms between the
+sample's crystallographic axes (:index:`reciprocal-space`) and the
+diffractometer's physical axes (:index:`real-space`).
 
 Each reflection is defined by:
 
@@ -29,4 +33,3 @@ Source Code Documentation
     :private-members:
     :show-inheritance:
     :inherited-members:
-

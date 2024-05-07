@@ -1,24 +1,6 @@
 """
 Lattice parameters for a single crystal.
 
-Simplify for high-symmetry crystal systems.
-
-EXAMPLES (highest to lowest symmetry):
-
-=============== =============================== = = = ===== ==== =====
-system          command                         a b c alpha beta gamma
-=============== =============================== = = = ===== ==== =====
-cubic           Lattice(5.)                     5 5 5 90    90   90
-hexagonal       Lattice(4., c=3., gamma=120)    4 4 3 90    90   120
-rhombohedral    Lattice(4., alpha=80.2)         4 4 4 80.2  80.2 80.2
-tetragonal      Lattice(4, c=3)                 4 4 3 90    90   90
-orthorhombic    Lattice(4, 5, 3)                4 5 3 90    90   90
-monoclinic      Lattice(4, 5, 3, beta=75)       4 5 3 90    75   90
-triclinic       Lattice(4, 5, 3, 75., 85., 95.) 4 5 3 75    85   95
-=============== =============================== = = = ===== ==== =====
-
-.. see: https://en.wikipedia.org/wiki/Crystal_system
-
 .. autosummary::
 
     ~Lattice
@@ -44,6 +26,11 @@ Reported uncertainty of ``SI_LATTICE_PARAMETER``.
 class Lattice:
     """
     Crystal lattice parameters.
+
+    EXAMPLE::
+
+        import hklpy2
+        hexagonal = hklpy2.Lattice(4.74, c=9.515, gamma=120)
 
     .. autosummary::
 
@@ -75,7 +62,7 @@ class Lattice:
 
         EXAMPLE::
 
-            lattice1.equal(lattice1)
+            lattice1.equal(lattice2)
         """
 
         def equivalent(us: float, them: float):
@@ -108,7 +95,7 @@ class Lattice:
 
         EXAMPLE::
 
-            lattice1 == lattice1
+            lattice1 == lattice2
         """
         return self.equal(self, latt)
 
