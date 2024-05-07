@@ -21,14 +21,6 @@ backend that provides diffractometer capabilities:
   * calculate the UB matrix
   * refine the crystal lattice
 
-.. rubric:: Built-in Solvers
-
-.. autosummary::
-
-    ~hklpy2.backends.abstract_solver.SolverBase
-    ~hklpy2.backends.hkl_soleil.HklSolver
-    ~hklpy2.backends.no_op.NoOpSolver
-
 A *solver* is written as a plugin for |hklpy2| and is connected by an `entry point
 <https://setuptools.pypa.io/en/latest/userguide/entry_point.html#entry-points-for-plugins>`_
 using the ``"hklpy2.solver"`` group.  Here's an example from |hklpy2|'s
@@ -38,9 +30,43 @@ using the ``"hklpy2.solver"`` group.  Here's an example from |hklpy2|'s
     no_op = "hklpy2.backends.no_op:NoOpSolver"
     hkl_soleil = "hklpy2.backends.hkl_soleil:HklSolver"
 
-.. TODO: How to write a new Solver
+.. _api.backends.set:
 
-* Solver classes always subclass :class:`~hklpy2.backends.abstract_solver.SolverBase`
+How to select a Solver
+----------------------
+
+To select a Solver class, call
+:func:`~hklpy2.backends.abstract_solver.setSolver`. This example
+selects the |libhkl| solver (using its entry point name: ``"hkl_soleil"``)::
+
+    >>> from hklpy2 import setSolver
+    >>> Solver = setSolver("hkl_soleil")
+    >>> print(f"{Solver=}")
+    Solver=<class 'hklpy2.backends.hkl_soleil.HklSolver'>    
+
+To list all available solver classes (by their entry point name), 
+call :func:`~hklpy2.backends.abstract_solver.solvers()`.
+This example shows the solvers supplied with |hklpy2|::
+
+    >>> from hklpy2 import solvers
+    >>> solvers()
+    {'hkl_soleil': 'hklpy2.backends.hkl_soleil:HklSolver',
+     'no_op': 'hklpy2.backends.no_op:NoOpSolver'}
+
+
+.. _api.backends.howto:
+
+How to write a new Solver
+-------------------------
+
+.. caution:: TODO:: work-in-progress
+
+Solver classes always subclass :class:`~hklpy2.backends.abstract_solver.SolverBase`::
+
+    from hklpy2.backends.SolverBase
+
+    class MySolver(SolverBase):
+        ...
 
 .. TODO: Collected considerations for Solvers
     - https://github.com/bluesky/hklpy/issues/14
@@ -59,6 +85,12 @@ using the ``"hklpy2.solver"`` group.  Here's an example from |hklpy2|'s
 
 Source Code Documentation
 -------------------------
+
+.. automodule:: hklpy2.backends
+    :members:
+    :private-members:
+    :show-inheritance:
+    :inherited-members:
 
 .. automodule:: hklpy2.backends.abstract_solver
     :members:

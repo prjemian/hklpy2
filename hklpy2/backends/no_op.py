@@ -14,16 +14,18 @@ from .abstract_solver import SolverBase
 
 class NoOpSolver(SolverBase):
     """
-    A backend solver that has no transformations for reciprocal space.
+    ``"no_op"`` (any OS) no transformations.
+
+    Solver that has no reciprocal space transformations.
 
     .. autosummary::
 
-        ~chooseGeometry
         ~forward
-        ~getGeometries
+        ~geometries
         ~inverse
         ~pseudo_axis_names
         ~real_axis_names
+        ~setGeometry
     """
 
     __version__ = __version__
@@ -32,16 +34,11 @@ class NoOpSolver(SolverBase):
         self.gname = None
         self._geometry = None
 
-    def chooseGeometry(self, gname, **kwargs):
-        """Select one of the diffractometer geometries."""
-        self.gname = gname
-        return None
-
     def forward(self):
         """Compute list of solutions(reals) from pseudos (hkl -> [angles])."""
         return []
 
-    def getGeometries(self):
+    def geometries(self):
         """Ordered list of the geometry names."""
         return []
 
@@ -58,3 +55,8 @@ class NoOpSolver(SolverBase):
         """Ordered list of the real axis names."""
         # such as omega, chi, phi, tth
         return []  # no axes
+
+    def setGeometry(self, gname, **kwargs):
+        """Select one of the diffractometer geometries."""
+        self.gname = gname
+        return None

@@ -66,9 +66,9 @@ def test_geometries():
     solver = hkl_soleil.HklSolver()
     assert solver is not None
 
-    solver.chooseGeometry("E4CV")
+    solver.setGeometry("E4CV")
 
-    glist = solver.getGeometries()
+    glist = solver.geometries()
     assert len(glist) >= 18
     for gname in "E4CV E4CH E6C K4CV K6C ZAXIS TwoC".split():
         assert f"{gname}, hkl" in glist, f"{gname=}  {glist=}"

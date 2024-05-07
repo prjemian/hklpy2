@@ -1,11 +1,14 @@
 import inspect
-from importlib.metadata import entry_points
 
 import pytest
+
+from ..backends import setSolver
 
 
 @pytest.mark.parametrize("solver_name", ["hkl_soleil", "no_op"])
 def test_solvers(solver_name):
+    from importlib.metadata import entry_points
+
     solvers = entry_points(group="hklpy2.solver")
     assert len(solvers) > 0
     assert solver_name in solvers.names, f"{solver_name=}"
@@ -22,7 +25,7 @@ def test_solvers(solver_name):
 
 
 def test_HklSolver():
-    Solver = entry_points(group="hklpy2.solver")["hkl_soleil"].load()
+    Solver = setSolver("hkl_soleil")
     assert Solver is not None
 
     solver = Solver()
@@ -30,7 +33,7 @@ def test_HklSolver():
     assert isinstance(solver.__version__, str)
 
     gname = "ESRF ID01 PSIC"
-    solver.chooseGeometry(gname)
+    solver.setGeometry(gname)
     assert solver._geometry is not None
     assert solver.gname == gname
     assert solver._geometry.name_get() == gname

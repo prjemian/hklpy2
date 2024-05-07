@@ -1,5 +1,5 @@
 """
-Backend: Hkl
+Backend: Hkl (``"hkl_soleil"``)
 
 .. autosummary::
 
@@ -21,16 +21,22 @@ from .abstract_solver import SolverBase  # noqa: E402
 
 class HklSolver(SolverBase):
     """
-    This solver wraps the Hkl (libhkl) library from Fred Picca (Soleil).
+    ``"hkl_soleil"`` (Linux x86_64 only) |libhkl|.
+
+    Solver with support for many common diffractometer geoemtries.
+    Wraps the |libhkl| library from Frédéric-Emmanuel PICCA (Soleil).
 
     .. autosummary::
 
-        ~chooseGeometry
         ~forward
-        ~getGeometries
+        ~geometries
         ~inverse
         ~pseudo_axis_names
         ~real_axis_names
+        ~setGeometry
+
+    :see: docs - https://people.debian.org/~picca/hkl/hkl.html
+    :see: source - https://repo.or.cz/hkl.git
     """
 
     __version__ = libhkl.VERSION
@@ -45,20 +51,11 @@ class HklSolver(SolverBase):
         self._geometry = None
         self.user_units = libhkl.UnitEnum.USER
 
-    def chooseGeometry(self, gname, engine="hkl"):
-        """Select one of the diffractometer geometries."""
-        factory = self._factories[gname]
-        self.gname = gname
-        self._geometry = factory.create_new_geometry()
-        self._engines = factory.create_new_engine_list()
-        self._engine = self._engines.engine_get_by_name(engine)
-        return self._geometry
-
     def forward(self):
         """Compute list of solutions(reals) from pseudos (hkl -> [angles])."""
         return []  # TODO
 
-    def getGeometries(self):
+    def geometries(self):
         """Ordered list of the geometry names."""
         geometries = [
             f"{factory.name_get()}, {engine.name_get()}"
@@ -83,3 +80,12 @@ class HklSolver(SolverBase):
         # such as omega, chi, phi, tth
         if self._geometry is not None:
             return self._geometry.axis_names_get()
+
+    def setGeometry(self, gname, engine="hkl"):
+        """Select one of the diffractometer geometries."""
+        factory = self._factories[gname]
+        self.gname = gname
+        self._geometry = factory.create_new_geometry()
+        self._engines = factory.create_new_engine_list()
+        self._engine = self._engines.engine_get_by_name(engine)
+        return self._geometry

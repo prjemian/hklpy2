@@ -8,7 +8,7 @@ def test_reflection_no_op():
     solver = NoOpSolver()
     assert solver is not None
 
-    g = solver.chooseGeometry("No geometry")
+    g = solver.setGeometry("No geometry")
     assert g is None  # NoOpSolver always returns None for geometry
 
     ref1 = Reflection(solver, {}, {}, 1.0, name="r1")
@@ -33,7 +33,7 @@ def test_reflection_hkl_soleil():
     solver = HklSolver()
     assert solver is not None
 
-    g = solver.chooseGeometry("E4CV", "hkl")
+    g = solver.setGeometry("E4CV", "hkl")
     assert g is not None
 
     reals = dict(omega=10, chi=0, phi=0, tth=20)
