@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
   <script src="../../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script src="../../_static/documentation_options.js?v=8cb078ad"></script>
+    <script src="../../_static/documentation_options.js?v=b99b87c1"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/tabs.js?v=3030b3cb"></script>
@@ -305,24 +305,6 @@ document.write(`
 <span></span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">Lattice parameters for a single crystal.</span>
 
-<span class="sd">Simplify for high-symmetry crystal systems.</span>
-
-<span class="sd">EXAMPLES (highest to lowest symmetry):</span>
-
-<span class="sd">=============== =============================== = = = ===== ==== =====</span>
-<span class="sd">system          command                         a b c alpha beta gamma</span>
-<span class="sd">=============== =============================== = = = ===== ==== =====</span>
-<span class="sd">cubic           Lattice(5.)                     5 5 5 90    90   90</span>
-<span class="sd">hexagonal       Lattice(4., c=3., gamma=120)    4 4 3 90    90   120</span>
-<span class="sd">rhombohedral    Lattice(4., alpha=80.2)         4 4 4 80.2  80.2 80.2</span>
-<span class="sd">tetragonal      Lattice(4, c=3)                 4 4 3 90    90   90</span>
-<span class="sd">orthorhombic    Lattice(4, 5, 3)                4 5 3 90    90   90</span>
-<span class="sd">monoclinic      Lattice(4, 5, 3, beta=75)       4 5 3 90    75   90</span>
-<span class="sd">triclinic       Lattice(4, 5, 3, 75., 85., 95.) 4 5 3 75    85   95</span>
-<span class="sd">=============== =============================== = = = ===== ==== =====</span>
-
-<span class="sd">.. see: https://en.wikipedia.org/wiki/Crystal_system</span>
-
 <span class="sd">.. autosummary::</span>
 
 <span class="sd">    ~Lattice</span>
@@ -350,6 +332,11 @@ document.write(`
 <span class="k">class</span> <span class="nc">Lattice</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Crystal lattice parameters.</span>
+
+<span class="sd">    EXAMPLE::</span>
+
+<span class="sd">        import hklpy2</span>
+<span class="sd">        hexagonal = hklpy2.Lattice(4.74, c=9.515, gamma=120)</span>
 
 <span class="sd">    .. autosummary::</span>
 
@@ -383,7 +370,7 @@ document.write(`
 
 <span class="sd">        EXAMPLE::</span>
 
-<span class="sd">            lattice1.equal(lattice1)</span>
+<span class="sd">            lattice1.equal(lattice2)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">def</span> <span class="nf">equivalent</span><span class="p">(</span><span class="n">us</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">them</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
@@ -420,7 +407,7 @@ document.write(`
 
 <span class="sd">        EXAMPLE::</span>
 
-<span class="sd">            lattice1 == lattice1</span>
+<span class="sd">            lattice1 == lattice2</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">equal</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">latt</span><span class="p">)</span>
 

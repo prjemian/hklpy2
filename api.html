@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
   <script src="_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script src="_static/documentation_options.js?v=8cb078ad"></script>
+    <script src="_static/documentation_options.js?v=b99b87c1"></script>
     <script src="_static/doctools.js?v=9a2dae69"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/design-tabs.js?v=36754332"></script>
@@ -261,9 +261,14 @@ document.write(`
      aria-label="Section Navigation">
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
   <div class="bd-toc-item navbar-nav"><ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="api/backends.html">Backend Solvers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="api/lattice.html">Lattice</a></li>
-<li class="toctree-l1"><a class="reference internal" href="api/reflection.html">Reflection</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="api/backends.html">Backend Solvers</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/backends/abstract_solver.html">SolverBase</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/backends/hkl_soleil.html">hkl_soleil (HklSolver)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/backends/no_op.html">no_op (NoOpSolver)</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api/lattice.html">Crystal Lattice</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/reflection.html">Orientation Reflection</a></li>
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
 </ul>
 </div>
@@ -327,33 +332,10 @@ document.write(`
 <li class="toctree-l1"><a class="reference internal" href="api/backends.html">Backend Solvers</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="api/backends.html#how-to-select-a-solver">How to select a Solver</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/backends.html#how-to-write-a-new-solver">How to write a new Solver</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api/backends.html#module-hklpy2.backends">Source Code Documentation</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="api/backends.html#hklpy2.backends.abstract_solver.SOLVER_ENTRYPOINT_GROUP"><code class="docutils literal notranslate"><span class="pre">SOLVER_ENTRYPOINT_GROUP</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/backends.html#hklpy2.backends.abstract_solver.SolverBase"><code class="docutils literal notranslate"><span class="pre">SolverBase</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="api/backends.html#hklpy2.backends.abstract_solver.SolverBase.forward"><code class="docutils literal notranslate"><span class="pre">SolverBase.forward()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="api/backends.html#hklpy2.backends.abstract_solver.SolverBase.geometries"><code class="docutils literal notranslate"><span class="pre">SolverBase.geometries()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="api/backends.html#hklpy2.backends.abstract_solver.SolverBase.inverse"><code class="docutils literal notranslate"><span class="pre">SolverBase.inverse()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="api/backends.html#hklpy2.backends.abstract_solver.SolverBase.pseudo_axis_names"><code class="docutils literal notranslate"><span class="pre">SolverBase.pseudo_axis_names()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="api/backends.html#hklpy2.backends.abstract_solver.SolverBase.real_axis_names"><code class="docutils literal notranslate"><span class="pre">SolverBase.real_axis_names()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="api/backends.html#hklpy2.backends.abstract_solver.SolverBase.setGeometry"><code class="docutils literal notranslate"><span class="pre">SolverBase.setGeometry()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/backends.html#module-hklpy2.backends">Source Code Documentation</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="api/backends.html#hklpy2.backends.abstract_solver.setSolver"><code class="docutils literal notranslate"><span class="pre">setSolver()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/backends.html#hklpy2.backends.abstract_solver.solvers"><code class="docutils literal notranslate"><span class="pre">solvers()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/backends.html#hklpy2.backends.no_op.NoOpSolver"><code class="docutils literal notranslate"><span class="pre">NoOpSolver</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="api/backends.html#hklpy2.backends.no_op.NoOpSolver.forward"><code class="docutils literal notranslate"><span class="pre">NoOpSolver.forward()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="api/backends.html#hklpy2.backends.no_op.NoOpSolver.geometries"><code class="docutils literal notranslate"><span class="pre">NoOpSolver.geometries()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="api/backends.html#hklpy2.backends.no_op.NoOpSolver.inverse"><code class="docutils literal notranslate"><span class="pre">NoOpSolver.inverse()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="api/backends.html#hklpy2.backends.no_op.NoOpSolver.pseudo_axis_names"><code class="docutils literal notranslate"><span class="pre">NoOpSolver.pseudo_axis_names()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="api/backends.html#hklpy2.backends.no_op.NoOpSolver.real_axis_names"><code class="docutils literal notranslate"><span class="pre">NoOpSolver.real_axis_names()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="api/backends.html#hklpy2.backends.no_op.NoOpSolver.setGeometry"><code class="docutils literal notranslate"><span class="pre">NoOpSolver.setGeometry()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="api/lattice.html">Lattice</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="api/lattice.html">Crystal Lattice</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="api/lattice.html#module-hklpy2.lattice">Source Code Documentation</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="api/lattice.html#hklpy2.lattice.Lattice"><code class="docutils literal notranslate"><span class="pre">Lattice</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="api/lattice.html#hklpy2.lattice.Lattice._asdict"><code class="docutils literal notranslate"><span class="pre">Lattice._asdict()</span></code></a></li>
@@ -366,7 +348,7 @@ document.write(`
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="api/reflection.html">Reflection</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="api/reflection.html">Orientation Reflection</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="api/reflection.html#module-hklpy2.reflection">Source Code Documentation</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="api/reflection.html#hklpy2.reflection.Reflection"><code class="docutils literal notranslate"><span class="pre">Reflection</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="api/reflection.html#hklpy2.reflection.Reflection._asdict"><code class="docutils literal notranslate"><span class="pre">Reflection._asdict()</span></code></a></li>

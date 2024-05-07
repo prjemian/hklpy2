@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Reflection &#8212; hklpy2 0.1</title>
+    <title>Orientation Reflection &#8212; hklpy2 0.1</title>
   
   
   
@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
   <script src="../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script src="../_static/documentation_options.js?v=8cb078ad"></script>
+    <script src="../_static/documentation_options.js?v=b99b87c1"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/design-tabs.js?v=36754332"></script>
@@ -49,7 +49,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="License" href="../license.html" />
-    <link rel="prev" title="Lattice" href="lattice.html" />
+    <link rel="prev" title="Crystal Lattice" href="lattice.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -261,9 +261,14 @@ document.write(`
      aria-label="Section Navigation">
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
   <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="backends.html">Backend Solvers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="lattice.html">Lattice</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Reflection</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="backends.html">Backend Solvers</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="backends/abstract_solver.html">SolverBase</a></li>
+<li class="toctree-l2"><a class="reference internal" href="backends/hkl_soleil.html">hkl_soleil (HklSolver)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="backends/no_op.html">no_op (NoOpSolver)</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="lattice.html">Crystal Lattice</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Orientation Reflection</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
 </ul>
 </div>
@@ -305,7 +310,7 @@ document.write(`
     
     <li class="breadcrumb-item"><a href="../api.html" class="nav-link">API</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page">Reflection</li>
+    <li class="breadcrumb-item active" aria-current="page">Orientation...</li>
   </ul>
 </nav>
 </div>
@@ -322,14 +327,17 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="reflection">
-<span id="api-reflection"></span><h1>Reflection<a class="headerlink" href="#reflection" title="Link to this heading">#</a></h1>
-<p>A reflection is a peak intensity (typically an observation) due to diffraction
-from a specific orientation of a crystalline sample with respect to the incident
-radiation. The reflection occurs for a precise alignment of crystalline planes
-and diffractometer axes with the incoming beam. The coordinates of two or more
-reflections in both real and reciprocal space are used to determine the
-<span class="math notranslate nohighlight">\(UB\)</span> orientation matrix.</p>
+  <section id="orientation-reflection">
+<span id="api-reflection"></span><h1>Orientation Reflection<a class="headerlink" href="#orientation-reflection" title="Link to this heading">#</a></h1>
+<p>An orientation <span class="target" id="index-0"></span>reflection is a peak intensity (typically an
+observation) due to diffraction from a specific orientation of a crystalline
+sample with respect to the incident radiation. The reflection occurs for a
+precise alignment of the sample’s crystalline planes and diffractometer axes
+with the incoming radiation.</p>
+<p>The coordinates of two (or more) reflections are used to compute a sample’s
+<span class="math notranslate nohighlight">\(UB\)</span> <span class="target" id="index-1"></span>orientation matrix.  <span class="math notranslate nohighlight">\(UB\)</span> transforms between the
+sample’s crystallographic axes (<span class="target" id="index-2"></span>reciprocal-space) and the
+diffractometer’s physical axes (<span class="target" id="index-3"></span>real-space).</p>
 <p>Each reflection is defined by:</p>
 <ul class="simple">
 <li><p>full set of diffractometer angles - <em>real axes</em></p></li>
@@ -356,6 +364,11 @@ in <em>degrees</em>.</p>
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">hklpy2.reflection.</span></span><span class="sig-name descname"><span class="pre">Reflection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">solver</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pseudos</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.12)"><span class="pre">dict</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">angles</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.12)"><span class="pre">dict</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">wavelength</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><span class="pre">float</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hklpy2/reflection.html#Reflection"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.reflection.Reflection" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Coordinates real and pseudo axes.</p>
+<p>EXAMPLE:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">hklpy2</span>
+<span class="n">r1</span> <span class="o">=</span> <span class="n">hklpy2</span><span class="o">.</span><span class="n">Reflection</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>  <span class="c1"># TODO</span>
+</pre></div>
+</div>
 <dl class="py method">
 <dt class="sig sig-object py" id="hklpy2.reflection.Reflection._asdict">
 <span class="sig-name descname"><span class="pre">_asdict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hklpy2/reflection.html#Reflection._asdict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.reflection.Reflection._asdict" title="Link to this definition">#</a></dt>
@@ -383,7 +396,7 @@ in <em>degrees</em>.</p>
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Lattice</p>
+        <p class="prev-next-title">Crystal Lattice</p>
       </div>
     </a>
     <a class="right-next"

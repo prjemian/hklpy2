@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Lattice &#8212; hklpy2 0.1</title>
+    <title>Crystal Lattice &#8212; hklpy2 0.1</title>
   
   
   
@@ -38,16 +38,18 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
   <script src="../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script src="../_static/documentation_options.js?v=8cb078ad"></script>
+    <script src="../_static/documentation_options.js?v=b99b87c1"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/design-tabs.js?v=36754332"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'api/lattice';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Reflection" href="reflection.html" />
-    <link rel="prev" title="Backend Solvers" href="backends.html" />
+    <link rel="next" title="Orientation Reflection" href="reflection.html" />
+    <link rel="prev" title="no_op (NoOpSolver)" href="backends/no_op.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -259,9 +261,14 @@ document.write(`
      aria-label="Section Navigation">
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
   <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="backends.html">Backend Solvers</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Lattice</a></li>
-<li class="toctree-l1"><a class="reference internal" href="reflection.html">Reflection</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="backends.html">Backend Solvers</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="backends/abstract_solver.html">SolverBase</a></li>
+<li class="toctree-l2"><a class="reference internal" href="backends/hkl_soleil.html">hkl_soleil (HklSolver)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="backends/no_op.html">no_op (NoOpSolver)</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Crystal Lattice</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reflection.html">Orientation Reflection</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
 </ul>
 </div>
@@ -303,7 +310,7 @@ document.write(`
     
     <li class="breadcrumb-item"><a href="../api.html" class="nav-link">API</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page">Lattice</li>
+    <li class="breadcrumb-item active" aria-current="page">Crystal Lattice</li>
   </ul>
 </nav>
 </div>
@@ -320,13 +327,14 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="lattice">
-<span id="api-lattice"></span><h1>Lattice<a class="headerlink" href="#lattice" title="Link to this heading">#</a></h1>
-<section id="module-hklpy2.lattice">
-<span id="source-code-documentation"></span><h2>Source Code Documentation<a class="headerlink" href="#module-hklpy2.lattice" title="Link to this heading">#</a></h2>
-<p>Lattice parameters for a single crystal.</p>
-<p>Simplify for high-symmetry crystal systems.</p>
-<p>EXAMPLES (highest to lowest symmetry):</p>
+  <section id="crystal-lattice">
+<span id="api-lattice"></span><h1>Crystal Lattice<a class="headerlink" href="#crystal-lattice" title="Link to this heading">#</a></h1>
+<p>Record a sample’s crystalline <span class="target" id="index-0"></span>lattice parameters:
+<span class="math notranslate nohighlight">\(a, b, c, \alpha, \beta, \gamma\)</span>.  The
+<a class="reference internal" href="#hklpy2.lattice.Lattice" title="hklpy2.lattice.Lattice"><code class="xref py py-class docutils literal notranslate"><span class="pre">Lattice()</span></code></a> interface is
+simplified; it is not necessary to enter all parameters
+for high-symmetry crystal systems.</p>
+<p class="rubric">Examples of the Seven 3-D Crystal Systems (highest to lowest symmetry)</p>
 <table class="table">
 <thead>
 <tr class="row-odd"><th class="head"><p>system</p></th>
@@ -405,6 +413,41 @@ document.write(`
 </tr>
 </tbody>
 </table>
+<dl class="field-list simple">
+<dt class="field-odd">see<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://dictionary.iucr.org/Crystal_system">https://dictionary.iucr.org/Crystal_system</a></p>
+</dd>
+<dt class="field-even">see<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://en.wikipedia.org/wiki/Crystal_system">https://en.wikipedia.org/wiki/Crystal_system</a></p>
+</dd>
+</dl>
+<p class="rubric">EXAMPLES</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hklpy2</span> <span class="kn">import</span> <span class="n">Lattice</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Lattice</span><span class="p">(</span><span class="mf">5.</span><span class="p">)</span>
+<span class="go">Lattice(a=5.0, b=5.0, c=5.0, alpha=90.0, beta=90.0, gamma=90.0)</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Lattice</span><span class="p">(</span><span class="mf">4.</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="mf">3.</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="mi">120</span><span class="p">)</span>
+<span class="go">Lattice(a=4.0, b=4.0, c=3.0, alpha=90.0, beta=90.0, gamma=120)</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Lattice</span><span class="p">(</span><span class="mf">4.</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">80.2</span><span class="p">)</span>
+<span class="go">Lattice(a=4.0, b=4.0, c=4.0, alpha=80.2, beta=80.2, gamma=80.2)</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Lattice</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="go">Lattice(a=4, b=4, c=3, alpha=90.0, beta=90.0, gamma=90.0)</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Lattice</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="go">Lattice(a=4, b=5, c=3, alpha=90.0, beta=90.0, gamma=90.0)</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Lattice</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="mi">75</span><span class="p">)</span>
+<span class="go">Lattice(a=4, b=5, c=3, alpha=90.0, beta=75, gamma=90.0)</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Lattice</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mf">75.</span><span class="p">,</span> <span class="mf">85.</span><span class="p">,</span> <span class="mf">95.</span><span class="p">)</span>
+<span class="go">Lattice(a=4, b=5, c=3, alpha=75.0, beta=85.0, gamma=95.0)</span>
+</pre></div>
+</div>
+<section id="module-hklpy2.lattice">
+<span id="source-code-documentation"></span><h2>Source Code Documentation<a class="headerlink" href="#module-hklpy2.lattice" title="Link to this heading">#</a></h2>
+<p>Lattice parameters for a single crystal.</p>
 <table class="autosummary longtable table autosummary">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.lattice.Lattice" title="hklpy2.lattice.Lattice"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Lattice</span></code></a>(a[, b, c, alpha, beta, gamma])</p></td>
@@ -423,6 +466,11 @@ document.write(`
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">hklpy2.lattice.</span></span><span class="sig-name descname"><span class="pre">Lattice</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><span class="pre">float</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><span class="pre">float</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><span class="pre">float</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">90.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><span class="pre">float</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gamma</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><span class="pre">float</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hklpy2/lattice.html#Lattice"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.lattice.Lattice" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Crystal lattice parameters.</p>
+<p>EXAMPLE:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">hklpy2</span>
+<span class="n">hexagonal</span> <span class="o">=</span> <span class="n">hklpy2</span><span class="o">.</span><span class="n">Lattice</span><span class="p">(</span><span class="mf">4.74</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="mf">9.515</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="mi">120</span><span class="p">)</span>
+</pre></div>
+</div>
 <table class="autosummary longtable table autosummary">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.lattice.Lattice.equal" title="hklpy2.lattice.Lattice.equal"><code class="xref py py-obj docutils literal notranslate"><span class="pre">equal</span></code></a>(latt[, tolerance])</p></td>
@@ -450,7 +498,7 @@ document.write(`
 <span class="sig-name descname"><span class="pre">equal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">latt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tolerance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-06</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hklpy2/lattice.html#Lattice.equal"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.lattice.Lattice.equal" title="Link to this definition">#</a></dt>
 <dd><p>Compare two lattices for equality, within given tolerance.</p>
 <p>EXAMPLE:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">lattice1</span><span class="o">.</span><span class="n">equal</span><span class="p">(</span><span class="n">lattice1</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">lattice1</span><span class="o">.</span><span class="n">equal</span><span class="p">(</span><span class="n">lattice2</span><span class="p">)</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -488,12 +536,12 @@ document.write(`
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="backends.html"
+       href="backends/no_op.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Backend Solvers</p>
+        <p class="prev-next-title">no_op (NoOpSolver)</p>
       </div>
     </a>
     <a class="right-next"
@@ -501,7 +549,7 @@ document.write(`
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Reflection</p>
+        <p class="prev-next-title">Orientation Reflection</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>

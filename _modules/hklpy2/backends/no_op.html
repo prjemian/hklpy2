@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
   <script src="../../../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script src="../../../_static/documentation_options.js?v=8cb078ad"></script>
+    <script src="../../../_static/documentation_options.js?v=b99b87c1"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/tabs.js?v=3030b3cb"></script>
@@ -317,21 +317,28 @@ document.write(`
 
 
 <div class="viewcode-block" id="NoOpSolver">
-<a class="viewcode-back" href="../../../api/backends.html#hklpy2.backends.no_op.NoOpSolver">[docs]</a>
+<a class="viewcode-back" href="../../../api/backends/no_op.html#hklpy2.backends.no_op.NoOpSolver">[docs]</a>
 <span class="k">class</span> <span class="nc">NoOpSolver</span><span class="p">(</span><span class="n">SolverBase</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    ``&quot;no_op&quot;`` (any OS) no transformations.</span>
 
-<span class="sd">    Solver that has no reciprocal space transformations.</span>
+<span class="sd">    |solver| that has no reciprocal space transformations.</span>
 
 <span class="sd">    .. autosummary::</span>
 
+<span class="sd">        ~addReflection</span>
+<span class="sd">        ~addSample</span>
+<span class="sd">        ~calculateOrientation</span>
 <span class="sd">        ~forward</span>
 <span class="sd">        ~geometries</span>
 <span class="sd">        ~inverse</span>
+<span class="sd">        ~modes</span>
 <span class="sd">        ~pseudo_axis_names</span>
 <span class="sd">        ~real_axis_names</span>
+<span class="sd">        ~refineLattice</span>
 <span class="sd">        ~setGeometry</span>
+<span class="sd">        ~setLattice</span>
+<span class="sd">        ~setMode</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">__version__</span> <span class="o">=</span> <span class="n">__version__</span>
@@ -340,49 +347,75 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">gname</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_geometry</span> <span class="o">=</span> <span class="kc">None</span>
 
+<div class="viewcode-block" id="NoOpSolver.addReflection">
+<a class="viewcode-back" href="../../../api/backends/no_op.html#hklpy2.backends.no_op.NoOpSolver.addReflection">[docs]</a>
+    <span class="k">def</span> <span class="nf">addReflection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pseudos</span><span class="p">,</span> <span class="n">reals</span><span class="p">,</span> <span class="n">wavelength</span><span class="p">):</span>
+        <span class="k">pass</span>  <span class="c1"># TODO</span></div>
+
+
+<div class="viewcode-block" id="NoOpSolver.addSample">
+<a class="viewcode-back" href="../../../api/backends/no_op.html#hklpy2.backends.no_op.NoOpSolver.addSample">[docs]</a>
+    <span class="k">def</span> <span class="nf">addSample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sample</span><span class="p">):</span>
+        <span class="k">pass</span>  <span class="c1"># TODO</span></div>
+
+
+<div class="viewcode-block" id="NoOpSolver.calculateOrientation">
+<a class="viewcode-back" href="../../../api/backends/no_op.html#hklpy2.backends.no_op.NoOpSolver.calculateOrientation">[docs]</a>
+    <span class="k">def</span> <span class="nf">calculateOrientation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">r1</span><span class="p">,</span> <span class="n">r2</span><span class="p">):</span>
+        <span class="k">return</span></div>
+
+
 <div class="viewcode-block" id="NoOpSolver.forward">
-<a class="viewcode-back" href="../../../api/backends.html#hklpy2.backends.no_op.NoOpSolver.forward">[docs]</a>
+<a class="viewcode-back" href="../../../api/backends/no_op.html#hklpy2.backends.no_op.NoOpSolver.forward">[docs]</a>
     <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute list of solutions(reals) from pseudos (hkl -&gt; [angles]).&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="p">[]</span></div>
 
 
-<div class="viewcode-block" id="NoOpSolver.geometries">
-<a class="viewcode-back" href="../../../api/backends.html#hklpy2.backends.no_op.NoOpSolver.geometries">[docs]</a>
+    <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">geometries</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Ordered list of the geometry names.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="p">[]</span></div>
-
+        <span class="k">return</span> <span class="p">[]</span>
 
 <div class="viewcode-block" id="NoOpSolver.inverse">
-<a class="viewcode-back" href="../../../api/backends.html#hklpy2.backends.no_op.NoOpSolver.inverse">[docs]</a>
+<a class="viewcode-back" href="../../../api/backends/no_op.html#hklpy2.backends.no_op.NoOpSolver.inverse">[docs]</a>
     <span class="k">def</span> <span class="nf">inverse</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute list of pseudoss from reals (angles -&gt; hkl).&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="p">[</span><span class="s2">&quot;No Ops&quot;</span><span class="p">]</span></div>
 
 
-<div class="viewcode-block" id="NoOpSolver.pseudo_axis_names">
-<a class="viewcode-back" href="../../../api/backends.html#hklpy2.backends.no_op.NoOpSolver.pseudo_axis_names">[docs]</a>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">modes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">[]</span>
+
+    <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">pseudo_axis_names</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Ordered list of the pseudo axis names.&quot;&quot;&quot;</span>
-        <span class="c1"># such as h, k, l</span>
-        <span class="k">return</span> <span class="p">[]</span>  <span class="c1"># no axes</span></div>
+        <span class="k">return</span> <span class="p">[]</span>  <span class="c1"># no axes</span>
 
-
-<div class="viewcode-block" id="NoOpSolver.real_axis_names">
-<a class="viewcode-back" href="../../../api/backends.html#hklpy2.backends.no_op.NoOpSolver.real_axis_names">[docs]</a>
+    <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">real_axis_names</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Ordered list of the real axis names.&quot;&quot;&quot;</span>
-        <span class="c1"># such as omega, chi, phi, tth</span>
-        <span class="k">return</span> <span class="p">[]</span>  <span class="c1"># no axes</span></div>
+        <span class="k">return</span> <span class="p">[]</span>  <span class="c1"># no axes</span>
+
+<div class="viewcode-block" id="NoOpSolver.refineLattice">
+<a class="viewcode-back" href="../../../api/backends/no_op.html#hklpy2.backends.no_op.NoOpSolver.refineLattice">[docs]</a>
+    <span class="k">def</span> <span class="nf">refineLattice</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reflections</span><span class="p">):</span>
+        <span class="k">return</span> <span class="kc">None</span></div>
 
 
 <div class="viewcode-block" id="NoOpSolver.setGeometry">
-<a class="viewcode-back" href="../../../api/backends.html#hklpy2.backends.no_op.NoOpSolver.setGeometry">[docs]</a>
+<a class="viewcode-back" href="../../../api/backends/no_op.html#hklpy2.backends.no_op.NoOpSolver.setGeometry">[docs]</a>
     <span class="k">def</span> <span class="nf">setGeometry</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gname</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Select one of the diffractometer geometries.&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">gname</span> <span class="o">=</span> <span class="n">gname</span>
         <span class="k">return</span> <span class="kc">None</span></div>
+
+
+<div class="viewcode-block" id="NoOpSolver.setLattice">
+<a class="viewcode-back" href="../../../api/backends/no_op.html#hklpy2.backends.no_op.NoOpSolver.setLattice">[docs]</a>
+    <span class="k">def</span> <span class="nf">setLattice</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lattice</span><span class="p">):</span>
+        <span class="k">pass</span>  <span class="c1"># TODO</span></div>
+
+
+<div class="viewcode-block" id="NoOpSolver.setMode">
+<a class="viewcode-back" href="../../../api/backends/no_op.html#hklpy2.backends.no_op.NoOpSolver.setMode">[docs]</a>
+    <span class="k">def</span> <span class="nf">setMode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mode</span><span class="p">):</span>
+        <span class="k">pass</span></div>
 </div>
 
 </pre></div>

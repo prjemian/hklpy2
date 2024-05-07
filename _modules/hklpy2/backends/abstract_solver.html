@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
   <script src="../../../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script src="../../../_static/documentation_options.js?v=8cb078ad"></script>
+    <script src="../../../_static/documentation_options.js?v=b99b87c1"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/tabs.js?v=3030b3cb"></script>
@@ -308,6 +308,9 @@ document.write(`
 <span class="sd">.. autosummary::</span>
 
 <span class="sd">    ~SolverBase</span>
+<span class="sd">    ~SOLVER_ENTRYPOINT_GROUP</span>
+<span class="sd">    ~setSolver</span>
+<span class="sd">    ~solvers</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABC</span>
@@ -316,13 +319,20 @@ document.write(`
 <span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">__version__</span>
 
 <span class="n">SOLVER_ENTRYPOINT_GROUP</span> <span class="o">=</span> <span class="s2">&quot;hklpy2.solver&quot;</span>
-<span class="sd">&quot;&quot;&quot;Name by which hklpy2 backend Solver classes are grouped.&quot;&quot;&quot;</span>
+<span class="sd">&quot;&quot;&quot;Name by which |hklpy2| backend |solver| classes are grouped.&quot;&quot;&quot;</span>
 
 
 <div class="viewcode-block" id="setSolver">
-<a class="viewcode-back" href="../../../api/backends.html#hklpy2.backends.abstract_solver.setSolver">[docs]</a>
+<a class="viewcode-back" href="../../../api/backends/abstract_solver.html#hklpy2.backends.abstract_solver.setSolver">[docs]</a>
 <span class="k">def</span> <span class="nf">setSolver</span><span class="p">(</span><span class="n">solver_name</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Load a Solver class from a named entry point.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Load a Solver class from a named entry point.</span>
+
+<span class="sd">    ::</span>
+
+<span class="sd">        import hklpy2</span>
+<span class="sd">        Solver = hklpy2.setSolver(&quot;hkl_soleil&quot;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="kn">from</span> <span class="nn">importlib.metadata</span> <span class="kn">import</span> <span class="n">entry_points</span>
 
     <span class="n">entries</span> <span class="o">=</span> <span class="n">entry_points</span><span class="p">(</span><span class="n">group</span><span class="o">=</span><span class="n">SOLVER_ENTRYPOINT_GROUP</span><span class="p">)</span>
@@ -331,9 +341,16 @@ document.write(`
 
 
 <div class="viewcode-block" id="solvers">
-<a class="viewcode-back" href="../../../api/backends.html#hklpy2.backends.abstract_solver.solvers">[docs]</a>
+<a class="viewcode-back" href="../../../api/backends/abstract_solver.html#hklpy2.backends.abstract_solver.solvers">[docs]</a>
 <span class="k">def</span> <span class="nf">solvers</span><span class="p">():</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Dictionary of available Solver classes by entry point name.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Dictionary of available Solver classes, mapped by entry point name.</span>
+
+<span class="sd">    ::</span>
+
+<span class="sd">        import hklpy2</span>
+<span class="sd">        print(hklpy2.solvers())</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="kn">from</span> <span class="nn">importlib.metadata</span> <span class="kn">import</span> <span class="n">entry_points</span>
 
     <span class="c1"># fmt: off</span>
@@ -347,73 +364,154 @@ document.write(`
 
 
 <div class="viewcode-block" id="SolverBase">
-<a class="viewcode-back" href="../../../api/backends.html#hklpy2.backends.abstract_solver.SolverBase">[docs]</a>
+<a class="viewcode-back" href="../../../api/backends/abstract_solver.html#hklpy2.backends.abstract_solver.SolverBase">[docs]</a>
 <span class="k">class</span> <span class="nc">SolverBase</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Base class for all |hklpy2| Solver classes.</span>
+<span class="sd">    Base class for all |hklpy2| |solver| classes.</span>
+
+<span class="sd">    ::</span>
+
+<span class="sd">        import hklpy2</span>
+
+<span class="sd">        class MySolver(hklpy2.SolverBase):</span>
+<span class="sd">            ...</span>
+
+<span class="sd">    :class:`~SolverBase`, an `abstract base</span>
+<span class="sd">    class &lt;https://docs.python.org/3/library/abc.html#abc.ABC&gt;`_,</span>
+<span class="sd">    cannot not be used directly by |hklpy2| users.</span>
+
+<span class="sd">    .. index::Solver class</span>
+
+<span class="sd">    As the parent class for all custom |solver| classes,</span>
+<span class="sd">    :class:`~SolverBase` defines the methods and attributes to be written that</span>
+<span class="sd">    will connect |hklpy2| with the support library that defines</span>
+<span class="sd">    specific diffractometer geometries and the computations for</span>
+<span class="sd">    using them.  Subclasses should implement each of these methods</span>
+<span class="sd">    as best fits the underlying support library.</span>
+
+<span class="sd">    .. seealso:: :ref:`api.backends.hkl_soleil` &amp; :ref:`api.backends.no_op`</span>
 
 <span class="sd">    .. autosummary::</span>
 
+<span class="sd">        ~addReflection</span>
+<span class="sd">        ~addSample</span>
+<span class="sd">        ~calculateOrientation</span>
 <span class="sd">        ~forward</span>
 <span class="sd">        ~geometries</span>
 <span class="sd">        ~inverse</span>
+<span class="sd">        ~modes</span>
 <span class="sd">        ~pseudo_axis_names</span>
 <span class="sd">        ~real_axis_names</span>
+<span class="sd">        ~refineLattice</span>
 <span class="sd">        ~setGeometry</span>
+<span class="sd">        ~setLattice</span>
+<span class="sd">        ~setMode</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">__version__</span> <span class="o">=</span> <span class="n">__version__</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Version of this Solver.&quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">gname</span> <span class="o">=</span> <span class="kc">None</span>
 
+<div class="viewcode-block" id="SolverBase.addReflection">
+<a class="viewcode-back" href="../../../api/backends/abstract_solver.html#hklpy2.backends.abstract_solver.SolverBase.addReflection">[docs]</a>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">addReflection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pseudos</span><span class="p">,</span> <span class="n">reals</span><span class="p">,</span> <span class="n">wavelength</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add information about a reflection.&quot;&quot;&quot;</span>
+        <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="SolverBase.addSample">
+<a class="viewcode-back" href="../../../api/backends/abstract_solver.html#hklpy2.backends.abstract_solver.SolverBase.addSample">[docs]</a>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">addSample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sample</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add a sample.&quot;&quot;&quot;</span>
+        <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="SolverBase.calculateOrientation">
+<a class="viewcode-back" href="../../../api/backends/abstract_solver.html#hklpy2.backends.abstract_solver.SolverBase.calculateOrientation">[docs]</a>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">calculateOrientation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">r1</span><span class="p">,</span> <span class="n">r2</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculate the UB (orientation) matrix from two reflections.&quot;&quot;&quot;</span>
+        <span class="k">pass</span></div>
+
+
 <div class="viewcode-block" id="SolverBase.forward">
-<a class="viewcode-back" href="../../../api/backends.html#hklpy2.backends.abstract_solver.SolverBase.forward">[docs]</a>
+<a class="viewcode-back" href="../../../api/backends/abstract_solver.html#hklpy2.backends.abstract_solver.SolverBase.forward">[docs]</a>
     <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute list of solutions(reals) from pseudos (hkl -&gt; [angles]).&quot;&quot;&quot;</span>
         <span class="k">pass</span></div>
 
 
-<div class="viewcode-block" id="SolverBase.geometries">
-<a class="viewcode-back" href="../../../api/backends.html#hklpy2.backends.abstract_solver.SolverBase.geometries">[docs]</a>
+    <span class="nd">@property</span>
     <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">geometries</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Ordered list of the geometry names.&quot;&quot;&quot;</span>
-        <span class="k">pass</span></div>
-
+        <span class="k">pass</span>
 
 <div class="viewcode-block" id="SolverBase.inverse">
-<a class="viewcode-back" href="../../../api/backends.html#hklpy2.backends.abstract_solver.SolverBase.inverse">[docs]</a>
+<a class="viewcode-back" href="../../../api/backends/abstract_solver.html#hklpy2.backends.abstract_solver.SolverBase.inverse">[docs]</a>
     <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">inverse</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute tuple of pseudos from reals (angles -&gt; hkl).&quot;&quot;&quot;</span>
         <span class="k">pass</span></div>
 
 
-<div class="viewcode-block" id="SolverBase.pseudo_axis_names">
-<a class="viewcode-back" href="../../../api/backends.html#hklpy2.backends.abstract_solver.SolverBase.pseudo_axis_names">[docs]</a>
+    <span class="nd">@property</span>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">modes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;List of the geometry operating modes.&quot;&quot;&quot;</span>
+        <span class="k">pass</span>
+
+    <span class="nd">@property</span>
     <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">pseudo_axis_names</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Ordered list of the pseudo axis names.&quot;&quot;&quot;</span>
-        <span class="c1"># such as h, k, l</span>
-        <span class="k">pass</span></div>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Ordered list of the pseudo axis names (such as h, k, l).&quot;&quot;&quot;</span>
+        <span class="k">pass</span>
 
-
-<div class="viewcode-block" id="SolverBase.real_axis_names">
-<a class="viewcode-back" href="../../../api/backends.html#hklpy2.backends.abstract_solver.SolverBase.real_axis_names">[docs]</a>
+    <span class="nd">@property</span>
     <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">real_axis_names</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Ordered list of the real axis names.&quot;&quot;&quot;</span>
-        <span class="c1"># such as omega, chi, phi, tth</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Ordered list of the real axis names (such as th, tth).&quot;&quot;&quot;</span>
+        <span class="k">pass</span>
+
+<div class="viewcode-block" id="SolverBase.refineLattice">
+<a class="viewcode-back" href="../../../api/backends/abstract_solver.html#hklpy2.backends.abstract_solver.SolverBase.refineLattice">[docs]</a>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">refineLattice</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reflections</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Refine the lattice parameters from a list of reflections.&quot;&quot;&quot;</span>
         <span class="k">pass</span></div>
 
 
 <div class="viewcode-block" id="SolverBase.setGeometry">
-<a class="viewcode-back" href="../../../api/backends.html#hklpy2.backends.abstract_solver.SolverBase.setGeometry">[docs]</a>
+<a class="viewcode-back" href="../../../api/backends/abstract_solver.html#hklpy2.backends.abstract_solver.SolverBase.setGeometry">[docs]</a>
     <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">setGeometry</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gname</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Select one of the diffractometer geometries.&quot;&quot;&quot;</span>
+        <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="SolverBase.setLattice">
+<a class="viewcode-back" href="../../../api/backends/abstract_solver.html#hklpy2.backends.abstract_solver.SolverBase.setLattice">[docs]</a>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">setLattice</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lattice</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Define the sample&#39;s lattice parameters.&quot;&quot;&quot;</span>
+        <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="SolverBase.setMode">
+<a class="viewcode-back" href="../../../api/backends/abstract_solver.html#hklpy2.backends.abstract_solver.SolverBase.setMode">[docs]</a>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">setMode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mode</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Define the geometry&#39;s operating mode.</span>
+
+<span class="sd">        A mode defines constraints on the solutions provided by the</span>
+<span class="sd">        :meth:`forward` computation.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">pass</span></div>
 </div>
 
