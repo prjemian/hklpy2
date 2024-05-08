@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>hklpy2.backends.no_op &#8212; hklpy2 0.1</title>
+    <title>hklpy2.backends.hkl_soleil &#8212; hklpy2 0.1</title>
   
   
   
@@ -43,7 +43,7 @@
     <script src="../../../_static/tabs.js?v=3030b3cb"></script>
     <script src="../../../_static/design-tabs.js?v=36754332"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/hklpy2/backends/no_op';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/hklpy2/backends/hkl_soleil';</script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
@@ -301,28 +301,33 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <h1>Source code for hklpy2.backends.no_op</h1><div class="highlight"><pre>
+  <h1>Source code for hklpy2.backends.hkl_soleil</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">Backend: no_op</span>
-
-<span class="sd">no reciprocal-space conversions</span>
+<span class="sd">Backend: Hkl (``&quot;hkl_soleil&quot;``)</span>
 
 <span class="sd">.. autosummary::</span>
 
-<span class="sd">    ~NoOpSolver</span>
+<span class="sd">    ~HklSolver</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">__version__</span>
-<span class="kn">from</span> <span class="nn">.base</span> <span class="kn">import</span> <span class="n">SolverBase</span>
+<span class="kn">import</span> <span class="nn">gi</span>
+
+<span class="n">gi</span><span class="o">.</span><span class="n">require_version</span><span class="p">(</span><span class="s2">&quot;Hkl&quot;</span><span class="p">,</span> <span class="s2">&quot;5.0&quot;</span><span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">gi.repository</span> <span class="kn">import</span> <span class="n">GLib</span>  <span class="c1"># noqa: E402, F401</span>
+<span class="kn">from</span> <span class="nn">gi.repository</span> <span class="kn">import</span> <span class="n">Hkl</span> <span class="k">as</span> <span class="n">libhkl</span>  <span class="c1"># noqa: E402</span>
+
+<span class="kn">from</span> <span class="nn">.base</span> <span class="kn">import</span> <span class="n">SolverBase</span>  <span class="c1"># noqa: E402</span>
 
 
-<div class="viewcode-block" id="NoOpSolver">
-<a class="viewcode-back" href="../../../api/backends/no_op.html#hklpy2.backends.no_op.NoOpSolver">[docs]</a>
-<span class="k">class</span> <span class="nc">NoOpSolver</span><span class="p">(</span><span class="n">SolverBase</span><span class="p">):</span>
+<div class="viewcode-block" id="HklSolver">
+<a class="viewcode-back" href="../../../api/backends/hkl_soleil.html#hklpy2.backends.hkl_soleil.HklSolver">[docs]</a>
+<span class="k">class</span> <span class="nc">HklSolver</span><span class="p">(</span><span class="n">SolverBase</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    ``&quot;no_op&quot;`` (any OS) no transformations.</span>
+<span class="sd">    ``&quot;hkl_soleil&quot;`` (Linux x86_64 only) |libhkl|.</span>
 
-<span class="sd">    |solver| that has no reciprocal space transformations.</span>
+<span class="sd">    |solver| with support for many common diffractometer geoemtries.</span>
+<span class="sd">    Wraps the |libhkl| library from Frédéric-Emmanuel PICCA (Soleil).</span>
 
 <span class="sd">    .. autosummary::</span>
 
@@ -341,81 +346,115 @@ document.write(`
 <span class="sd">        ~setMode</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">__version__</span> <span class="o">=</span> <span class="n">__version__</span>
+    <span class="n">__version__</span> <span class="o">=</span> <span class="n">libhkl</span><span class="o">.</span><span class="n">VERSION</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">gname</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">detector</span> <span class="o">=</span> <span class="n">libhkl</span><span class="o">.</span><span class="n">Detector</span><span class="o">.</span><span class="n">factory_new</span><span class="p">(</span><span class="n">libhkl</span><span class="o">.</span><span class="n">DetectorType</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_engine</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_engines</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_factories</span> <span class="o">=</span> <span class="n">libhkl</span><span class="o">.</span><span class="n">factories</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_geometry</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">user_units</span> <span class="o">=</span> <span class="n">libhkl</span><span class="o">.</span><span class="n">UnitEnum</span><span class="o">.</span><span class="n">USER</span>
 
-<div class="viewcode-block" id="NoOpSolver.addReflection">
-<a class="viewcode-back" href="../../../api/backends/no_op.html#hklpy2.backends.no_op.NoOpSolver.addReflection">[docs]</a>
+<div class="viewcode-block" id="HklSolver.addReflection">
+<a class="viewcode-back" href="../../../api/backends/hkl_soleil.html#hklpy2.backends.hkl_soleil.HklSolver.addReflection">[docs]</a>
     <span class="k">def</span> <span class="nf">addReflection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pseudos</span><span class="p">,</span> <span class="n">reals</span><span class="p">,</span> <span class="n">wavelength</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add information about a reflection.&quot;&quot;&quot;</span>
         <span class="k">pass</span>  <span class="c1"># TODO</span></div>
 
 
-<div class="viewcode-block" id="NoOpSolver.addSample">
-<a class="viewcode-back" href="../../../api/backends/no_op.html#hklpy2.backends.no_op.NoOpSolver.addSample">[docs]</a>
+<div class="viewcode-block" id="HklSolver.addSample">
+<a class="viewcode-back" href="../../../api/backends/hkl_soleil.html#hklpy2.backends.hkl_soleil.HklSolver.addSample">[docs]</a>
     <span class="k">def</span> <span class="nf">addSample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sample</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add a sample.&quot;&quot;&quot;</span>
         <span class="k">pass</span>  <span class="c1"># TODO</span></div>
 
 
-<div class="viewcode-block" id="NoOpSolver.calculateOrientation">
-<a class="viewcode-back" href="../../../api/backends/no_op.html#hklpy2.backends.no_op.NoOpSolver.calculateOrientation">[docs]</a>
+<div class="viewcode-block" id="HklSolver.calculateOrientation">
+<a class="viewcode-back" href="../../../api/backends/hkl_soleil.html#hklpy2.backends.hkl_soleil.HklSolver.calculateOrientation">[docs]</a>
     <span class="k">def</span> <span class="nf">calculateOrientation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">r1</span><span class="p">,</span> <span class="n">r2</span><span class="p">):</span>
-        <span class="k">return</span></div>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculate the UB (orientation) matrix from two reflections.&quot;&quot;&quot;</span>
+        <span class="k">pass</span>  <span class="c1"># TODO</span></div>
 
 
-<div class="viewcode-block" id="NoOpSolver.forward">
-<a class="viewcode-back" href="../../../api/backends/no_op.html#hklpy2.backends.no_op.NoOpSolver.forward">[docs]</a>
+<div class="viewcode-block" id="HklSolver.forward">
+<a class="viewcode-back" href="../../../api/backends/hkl_soleil.html#hklpy2.backends.hkl_soleil.HklSolver.forward">[docs]</a>
     <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="p">[]</span></div>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute list of solutions(reals) from pseudos (hkl -&gt; [angles]).&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[]</span>  <span class="c1"># TODO</span></div>
 
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">geometries</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="p">[]</span>
+        <span class="n">geometries</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">factory</span><span class="o">.</span><span class="n">name_get</span><span class="p">()</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">engine</span><span class="o">.</span><span class="n">name_get</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="c1"># f&quot;{factory.name_get()}&quot;</span>
+            <span class="k">for</span> <span class="n">factory</span> <span class="ow">in</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_factories</span> <span class="ow">or</span> <span class="p">{})</span><span class="o">.</span><span class="n">values</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">engine</span> <span class="ow">in</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_engines</span> <span class="ow">or</span> <span class="p">{})</span><span class="o">.</span><span class="n">engines_get</span><span class="p">()</span>
+        <span class="p">]</span>
+        <span class="k">return</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">geometries</span><span class="p">))</span>
 
-<div class="viewcode-block" id="NoOpSolver.inverse">
-<a class="viewcode-back" href="../../../api/backends/no_op.html#hklpy2.backends.no_op.NoOpSolver.inverse">[docs]</a>
+<div class="viewcode-block" id="HklSolver.inverse">
+<a class="viewcode-back" href="../../../api/backends/hkl_soleil.html#hklpy2.backends.hkl_soleil.HklSolver.inverse">[docs]</a>
     <span class="k">def</span> <span class="nf">inverse</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="p">[</span><span class="s2">&quot;No Ops&quot;</span><span class="p">]</span></div>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute tuple of pseudos from reals (angles -&gt; hkl).&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">tuple</span><span class="p">()</span>  <span class="c1"># TODO</span></div>
 
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">modes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="p">[]</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;List of the geometry operating modes.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[]</span>  <span class="c1"># TODO</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">pseudo_axis_names</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="p">[]</span>  <span class="c1"># no axes</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Ordered list of the pseudo axis names (such as h, k, l).&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_engine</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_engine</span><span class="o">.</span><span class="n">pseudo_axis_names_get</span><span class="p">()</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">real_axis_names</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="p">[]</span>  <span class="c1"># no axes</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Ordered list of the real axis names (such as th, tth).&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_geometry</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_geometry</span><span class="o">.</span><span class="n">axis_names_get</span><span class="p">()</span>
 
-<div class="viewcode-block" id="NoOpSolver.refineLattice">
-<a class="viewcode-back" href="../../../api/backends/no_op.html#hklpy2.backends.no_op.NoOpSolver.refineLattice">[docs]</a>
+<div class="viewcode-block" id="HklSolver.refineLattice">
+<a class="viewcode-back" href="../../../api/backends/hkl_soleil.html#hklpy2.backends.hkl_soleil.HklSolver.refineLattice">[docs]</a>
     <span class="k">def</span> <span class="nf">refineLattice</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reflections</span><span class="p">):</span>
-        <span class="k">return</span> <span class="kc">None</span></div>
-
-
-<div class="viewcode-block" id="NoOpSolver.setGeometry">
-<a class="viewcode-back" href="../../../api/backends/no_op.html#hklpy2.backends.no_op.NoOpSolver.setGeometry">[docs]</a>
-    <span class="k">def</span> <span class="nf">setGeometry</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gname</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">gname</span> <span class="o">=</span> <span class="n">gname</span>
-        <span class="k">return</span> <span class="kc">None</span></div>
-
-
-<div class="viewcode-block" id="NoOpSolver.setLattice">
-<a class="viewcode-back" href="../../../api/backends/no_op.html#hklpy2.backends.no_op.NoOpSolver.setLattice">[docs]</a>
-    <span class="k">def</span> <span class="nf">setLattice</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lattice</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Refine the lattice parameters from a list of reflections.&quot;&quot;&quot;</span>
         <span class="k">pass</span>  <span class="c1"># TODO</span></div>
 
 
-<div class="viewcode-block" id="NoOpSolver.setMode">
-<a class="viewcode-back" href="../../../api/backends/no_op.html#hklpy2.backends.no_op.NoOpSolver.setMode">[docs]</a>
+<div class="viewcode-block" id="HklSolver.setGeometry">
+<a class="viewcode-back" href="../../../api/backends/hkl_soleil.html#hklpy2.backends.hkl_soleil.HklSolver.setGeometry">[docs]</a>
+    <span class="k">def</span> <span class="nf">setGeometry</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gname</span><span class="p">,</span> <span class="n">engine</span><span class="o">=</span><span class="s2">&quot;hkl&quot;</span><span class="p">):</span>
+        <span class="n">factory</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_factories</span><span class="p">[</span><span class="n">gname</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gname</span> <span class="o">=</span> <span class="n">gname</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_geometry</span> <span class="o">=</span> <span class="n">factory</span><span class="o">.</span><span class="n">create_new_geometry</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_engines</span> <span class="o">=</span> <span class="n">factory</span><span class="o">.</span><span class="n">create_new_engine_list</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_engine</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_engines</span><span class="o">.</span><span class="n">engine_get_by_name</span><span class="p">(</span><span class="n">engine</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_geometry</span></div>
+
+
+<div class="viewcode-block" id="HklSolver.setLattice">
+<a class="viewcode-back" href="../../../api/backends/hkl_soleil.html#hklpy2.backends.hkl_soleil.HklSolver.setLattice">[docs]</a>
+    <span class="k">def</span> <span class="nf">setLattice</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lattice</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Define the sample&#39;s lattice parameters.&quot;&quot;&quot;</span>
+        <span class="k">pass</span>  <span class="c1"># TODO</span></div>
+
+
+<div class="viewcode-block" id="HklSolver.setMode">
+<a class="viewcode-back" href="../../../api/backends/hkl_soleil.html#hklpy2.backends.hkl_soleil.HklSolver.setMode">[docs]</a>
     <span class="k">def</span> <span class="nf">setMode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mode</span><span class="p">):</span>
-        <span class="k">pass</span></div>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Define the geometry&#39;s operating mode.</span>
+
+<span class="sd">        A mode defines constraints on the solutions provided by the</span>
+<span class="sd">        :meth:`forward` computation.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span>  <span class="c1"># TODO</span></div>
 </div>
 
 </pre></div>
