@@ -1,3 +1,5 @@
+.. include:: /substitutions.txt
+
 .. _api.lattice:
 
 ==================

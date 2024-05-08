@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
   <script src="../../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script src="../../_static/documentation_options.js?v=ade03732"></script>
+    <script src="../../_static/documentation_options.js?v=d9a92a61"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/design-tabs.js?v=36754332"></script>
@@ -341,7 +341,7 @@ document.write(`
 <tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.backends.base.SOLVER_ENTRYPOINT_GROUP" title="hklpy2.backends.base.SOLVER_ENTRYPOINT_GROUP"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SOLVER_ENTRYPOINT_GROUP</span></code></a></p></td>
 <td><p>Name by which <strong>hklpy2</strong> backend <strong>Solver</strong> classes are grouped.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.backends.base.setSolver" title="hklpy2.backends.base.setSolver"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setSolver</span></code></a>(solver_name)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.backends.base.get_solver" title="hklpy2.backends.base.get_solver"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_solver</span></code></a>(solver_name)</p></td>
 <td><p>Load a Solver class from a named entry point.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.backends.base.solvers" title="hklpy2.backends.base.solvers"><code class="xref py py-obj docutils literal notranslate"><span class="pre">solvers</span></code></a>()</p></td>
@@ -508,11 +508,11 @@ as best fits the underlying support library.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="hklpy2.backends.base.setSolver">
-<span class="sig-prename descclassname"><span class="pre">hklpy2.backends.base.</span></span><span class="sig-name descname"><span class="pre">setSolver</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">solver_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hklpy2/backends/base.html#setSolver"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.backends.base.setSolver" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py" id="hklpy2.backends.base.get_solver">
+<span class="sig-prename descclassname"><span class="pre">hklpy2.backends.base.</span></span><span class="sig-name descname"><span class="pre">get_solver</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">solver_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hklpy2/backends/base.html#get_solver"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.backends.base.get_solver" title="Link to this definition">#</a></dt>
 <dd><p>Load a Solver class from a named entry point.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">hklpy2</span>
-<span class="n">Solver</span> <span class="o">=</span> <span class="n">hklpy2</span><span class="o">.</span><span class="n">setSolver</span><span class="p">(</span><span class="s2">&quot;hkl_soleil&quot;</span><span class="p">)</span>
+<span class="n">Solver</span> <span class="o">=</span> <span class="n">hklpy2</span><span class="o">.</span><span class="n">get_solver</span><span class="p">(</span><span class="s2">&quot;hkl_soleil&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -592,7 +592,7 @@ as best fits the underlying support library.</p>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.backends.base.SolverBase.setMode"><code class="docutils literal notranslate"><span class="pre">SolverBase.setMode()</span></code></a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.backends.base.setSolver"><code class="docutils literal notranslate"><span class="pre">setSolver()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.backends.base.get_solver"><code class="docutils literal notranslate"><span class="pre">get_solver()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.backends.base.solvers"><code class="docutils literal notranslate"><span class="pre">solvers()</span></code></a></li>
 </ul>
   </nav></div>

@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
   <script src="../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script src="../_static/documentation_options.js?v=ade03732"></script>
+    <script src="../_static/documentation_options.js?v=d9a92a61"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/design-tabs.js?v=36754332"></script>
@@ -371,10 +371,10 @@ using the <code class="docutils literal notranslate"><span class="pre">&quot;hkl
 <section id="how-to-select-a-solver">
 <span id="api-backends-set"></span><h2>How to select a Solver<a class="headerlink" href="#how-to-select-a-solver" title="Link to this heading">#</a></h2>
 <p>To select a <strong>Solver</strong> class, call
-<a class="reference internal" href="backends/base.html#hklpy2.backends.base.setSolver" title="hklpy2.backends.base.setSolver"><code class="xref py py-func docutils literal notranslate"><span class="pre">setSolver()</span></code></a>. This example
+<a class="reference internal" href="backends/base.html#hklpy2.backends.base.get_solver" title="hklpy2.backends.base.get_solver"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_solver()</span></code></a>. This example
 selects the <strong>Hkl/Soleil</strong> <strong>Solver</strong> (using its entry point name: <code class="docutils literal notranslate"><span class="pre">&quot;hkl_soleil&quot;</span></code>):</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hklpy2</span> <span class="kn">import</span> <span class="n">setSolver</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">Solver</span> <span class="o">=</span> <span class="n">setSolver</span><span class="p">(</span><span class="s2">&quot;hkl_soleil&quot;</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hklpy2</span> <span class="kn">import</span> <span class="n">get_solver</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Solver</span> <span class="o">=</span> <span class="n">get_solver</span><span class="p">(</span><span class="s2">&quot;hkl_soleil&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">Solver</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
 <span class="go">Solver=&lt;class &#39;hklpy2.backends.hkl_soleil.HklSolver&#39;&gt;</span>
 </pre></div>
@@ -428,7 +428,7 @@ for details.</p>
 <tr class="row-odd"><td><p><a class="reference internal" href="backends/base.html#hklpy2.backends.base.SolverBase" title="hklpy2.backends.base.SolverBase"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SolverBase</span></code></a>()</p></td>
 <td><p>Base class for all <strong>hklpy2</strong> <strong>Solver</strong> classes.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="backends/base.html#hklpy2.backends.base.setSolver" title="hklpy2.backends.base.setSolver"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setSolver</span></code></a>(solver_name)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="backends/base.html#hklpy2.backends.base.get_solver" title="hklpy2.backends.base.get_solver"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_solver</span></code></a>(solver_name)</p></td>
 <td><p>Load a Solver class from a named entry point.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="backends/base.html#hklpy2.backends.base.solvers" title="hklpy2.backends.base.solvers"><code class="xref py py-obj docutils literal notranslate"><span class="pre">solvers</span></code></a>()</p></td>
