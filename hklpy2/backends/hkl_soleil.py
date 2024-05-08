@@ -4,9 +4,6 @@ Backend: Hkl (``"hkl_soleil"``)
 .. autosummary::
 
     ~HklSolver
-
-:home: https://people.debian.org/~picca/hkl/hkl.html
-:source: https://repo.or.cz/hkl.git
 """
 
 import gi
@@ -41,9 +38,6 @@ class HklSolver(SolverBase):
         ~setGeometry
         ~setLattice
         ~setMode
-
-    :see: docs - https://people.debian.org/~picca/hkl/hkl.html
-    :see: source - https://repo.or.cz/hkl.git
     """
 
     __version__ = libhkl.VERSION
