@@ -11,12 +11,13 @@ A Crystalline Sample.
 
 # TODO: When solver is needed, set it up first.
 
+from . import Hklpy2Error
 from . import ReflectionsDict
 from .misc import uuid7
 
 
-class SampleError(Exception):
-    """Any exception from the Sample() class."""
+class SampleError(Hklpy2Error):
+    """Any exception from the :mod:`hklpy2.sample` module."""
 
 
 class Sample:

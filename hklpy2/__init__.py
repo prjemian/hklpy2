@@ -25,12 +25,16 @@ except (LookupError, ModuleNotFoundError):
     __version__ = version(__package_name__)
     del version
 
-from .backends import SOLVER_ENTRYPOINT_GROUP  # noqa: F401
-from .backends import SolverBase  # noqa: F401
-from .backends import setSolver  # noqa: F401
-from .backends import solvers  # noqa: F401
-from .lattice import SI_LATTICE_PARAMETER  # noqa: F401
-from .lattice import Lattice  # noqa: F401
-from .reflection import Reflection  # noqa: F401
-from .reflection import ReflectionsDict  # noqa: F401
-from .sample import Sample  # noqa: F401
+class Hklpy2Error(Exception):
+    """Any exception from the |hklpy2| package."""
+
+
+from .backends import SOLVER_ENTRYPOINT_GROUP  # noqa: E402, F401
+from .backends import SolverBase  # noqa: E402, F401
+from .backends import setSolver  # noqa: E402, F401
+from .backends import solvers  # noqa: E402, F401
+from .lattice import SI_LATTICE_PARAMETER  # noqa: E402, F401
+from .lattice import Lattice  # noqa: E402, F401
+from .reflection import Reflection  # noqa: E402, F401
+from .reflection import ReflectionsDict  # noqa: E402, F401
+from .sample import Sample  # noqa: E402, F401

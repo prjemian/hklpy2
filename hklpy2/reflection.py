@@ -11,11 +11,12 @@ Associates diffractometer angles (real-space) with crystalline reciprocal-space
     ~ReflectionsDict
 """
 
+from . import Hklpy2Error
 from .misc import uuid7
 
 
-class ReflectionError(Exception):
-    """Any exception from the Reflection() class."""
+class ReflectionError(Hklpy2Error):
+    """Any exception from the :mod:`hklpy2.reflection` module."""
 
 
 class Reflection:
