@@ -93,9 +93,9 @@ class Sample:
         return self._solver
 
     @solver.setter
-    def solver(self, solver):
-        if not isinstance(solver, SolverBase):
-            raise TypeError(f"Must supply SolverBase() object, received {solver!r}")
+    def solver(self, new_solver):
+        if not isinstance(new_solver, SolverBase):
+            raise TypeError(f"Must supply SolverBase() object, received {new_solver!r}")
         # note: calling SolverBase() will always generate a TypeError
         # "Can't instantiate abstract class SolverBase with abstract methods" ...
-        self._solver = solver
+        self._solver = new_solver

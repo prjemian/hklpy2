@@ -3,7 +3,7 @@ Miscellaneous Support.
 
 .. autosummary::
 
-    ~uuid7
+    ~unique_name
 """
 
 import uuid
