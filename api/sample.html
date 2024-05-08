@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Backend Solvers &#8212; hklpy2 0.1</title>
+    <title>Crystalline Sample &#8212; hklpy2 0.1</title>
   
   
   
@@ -45,11 +45,11 @@
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'api/backends';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'api/sample';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="SolverBase" href="backends/base.html" />
-    <link rel="prev" title="API" href="../api.html" />
+    <link rel="next" title="Miscellaneous Support" href="z_misc.html" />
+    <link rel="prev" title="Orientation Reflection" href="reflection.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -261,7 +261,7 @@ document.write(`
      aria-label="Section Navigation">
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
   <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
-<li class="toctree-l1 current active has-children"><a class="current reference internal" href="#">Backend Solvers</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="backends.html">Backend Solvers</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="backends/base.html">SolverBase</a></li>
 <li class="toctree-l2"><a class="reference internal" href="backends/hkl_soleil.html">hkl_soleil (HklSolver)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="backends/no_op.html">no_op (NoOpSolver)</a></li>
@@ -269,7 +269,7 @@ document.write(`
 </li>
 <li class="toctree-l1"><a class="reference internal" href="lattice.html">Crystal Lattice</a></li>
 <li class="toctree-l1"><a class="reference internal" href="reflection.html">Orientation Reflection</a></li>
-<li class="toctree-l1"><a class="reference internal" href="sample.html">Crystalline Sample</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Crystalline Sample</a></li>
 <li class="toctree-l1"><a class="reference internal" href="z_misc.html">Miscellaneous Support</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
 </ul>
@@ -312,7 +312,7 @@ document.write(`
     
     <li class="breadcrumb-item"><a href="../api.html" class="nav-link">API</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page">Backend Solvers</li>
+    <li class="breadcrumb-item active" aria-current="page">Crystalline Sample</li>
   </ul>
 </nav>
 </div>
@@ -329,113 +329,87 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="backend-solvers">
-<span id="api-backends"></span><h1>Backend Solvers<a class="headerlink" href="#backend-solvers" title="Link to this heading">#</a></h1>
-<p>A <strong>Solver</strong> is a Python class that connects <strong>hklpy2</strong> with a (backend) library
-that provides diffractometer capabilities, including:</p>
-<ul class="simple">
-<li><p>definition(s) of physical diffractometer <strong>geometries</strong></p>
-<ul>
-<li><p>axes (angles and reciprocal space)</p></li>
-<li><p>operating <strong>modes</strong> for the axes (angles and reciprocal space)</p></li>
-</ul>
-</li>
-<li><p>calculations that convert:</p>
-<ul>
-<li><p><strong>forward</strong>: reciprocal space coordinates into diffractometer angles</p></li>
-<li><p><strong>inverse</strong>: diffractometer angles into reciprocal space coordinates</p></li>
-</ul>
-</li>
-<li><p>support operations include:</p>
-<ul>
-<li><p>calculate the UB matrix</p></li>
-<li><p>refine the crystal lattice</p></li>
-<li><p>sample definition</p>
-<ul>
-<li><p>name</p></li>
-<li><p>crystal lattice parameters: <span class="math notranslate nohighlight">\(a, b, c, \alpha, \beta, \gamma\)</span></p></li>
-<li><p>list of orientation reflections</p></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<p>A <strong>Solver</strong> class is written as a plugin for <strong>hklpy2</strong> and is connected by an <a class="reference external" href="https://setuptools.pypa.io/en/latest/userguide/entry_point.html#entry-points-for-plugins">entry point</a>
-using the <code class="docutils literal notranslate"><span class="pre">&quot;hklpy2.solver&quot;</span></code> group.  Here’s an example from <strong>hklpy2</strong>’s
-<code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code> file for two such <strong>Solver</strong> classes:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">project</span><span class="o">.</span><span class="n">entry</span><span class="o">-</span><span class="n">points</span><span class="o">.</span><span class="s2">&quot;hklpy2.solver&quot;</span><span class="p">]</span>
-<span class="n">no_op</span> <span class="o">=</span> <span class="s2">&quot;hklpy2.backends.no_op:NoOpSolver&quot;</span>
-<span class="n">hkl_soleil</span> <span class="o">=</span> <span class="s2">&quot;hklpy2.backends.hkl_soleil:HklSolver&quot;</span>
-</pre></div>
-</div>
-<section id="how-to-select-a-solver">
-<span id="api-backends-set"></span><h2>How to select a Solver<a class="headerlink" href="#how-to-select-a-solver" title="Link to this heading">#</a></h2>
-<p>To select a <strong>Solver</strong> class, call
-<a class="reference internal" href="backends/base.html#hklpy2.backends.base.setSolver" title="hklpy2.backends.base.setSolver"><code class="xref py py-func docutils literal notranslate"><span class="pre">setSolver()</span></code></a>. This example
-selects the <strong>Hkl/Soleil</strong> <strong>Solver</strong> (using its entry point name: <code class="docutils literal notranslate"><span class="pre">&quot;hkl_soleil&quot;</span></code>):</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hklpy2</span> <span class="kn">import</span> <span class="n">setSolver</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">Solver</span> <span class="o">=</span> <span class="n">setSolver</span><span class="p">(</span><span class="s2">&quot;hkl_soleil&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">Solver</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="go">Solver=&lt;class &#39;hklpy2.backends.hkl_soleil.HklSolver&#39;&gt;</span>
-</pre></div>
-</div>
-<p>To list all available <strong>Solver</strong> classes (by their entry point name),
-call <a class="reference internal" href="backends/base.html#hklpy2.backends.base.solvers" title="hklpy2.backends.base.solvers"><code class="xref py py-func docutils literal notranslate"><span class="pre">solvers()</span></code></a>.
-This example shows the <strong>Solver</strong> classes supplied with <strong>hklpy2</strong>:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hklpy2</span> <span class="kn">import</span> <span class="n">solvers</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">solvers</span><span class="p">()</span>
-<span class="go">{&#39;hkl_soleil&#39;: &#39;hklpy2.backends.hkl_soleil:HklSolver&#39;,</span>
-<span class="go"> &#39;no_op&#39;: &#39;hklpy2.backends.no_op:NoOpSolver&#39;}</span>
-</pre></div>
-</div>
-</section>
-<section id="how-to-write-a-new-solver">
-<span id="api-backends-howto"></span><h2>How to write a new Solver<a class="headerlink" href="#how-to-write-a-new-solver" title="Link to this heading">#</a></h2>
-<div class="admonition caution">
-<p class="admonition-title">Caution</p>
-<p>TODO:: work-in-progress</p>
-</div>
-<p><strong>Solver</strong> classes always subclass <a class="reference internal" href="backends/base.html#hklpy2.backends.base.SolverBase" title="hklpy2.backends.base.SolverBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">SolverBase</span></code></a>:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">hklpy2.backends.SolverBase</span>
+  <section id="crystalline-sample">
+<span id="api-sample"></span><h1>Crystalline Sample<a class="headerlink" href="#crystalline-sample" title="Link to this heading">#</a></h1>
+<section id="module-hklpy2.sample">
+<span id="source-code-documentation"></span><h2>Source Code Documentation<a class="headerlink" href="#module-hklpy2.sample" title="Link to this heading">#</a></h2>
+<p>A Crystalline Sample.</p>
+<table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.sample.Sample" title="hklpy2.sample.Sample"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Sample</span></code></a>(solver, lattice[, name])</p></td>
+<td><p>A crystalline sample mounted on a diffractometer.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.sample.SampleError" title="hklpy2.sample.SampleError"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SampleError</span></code></a></p></td>
+<td><p>Any exception from the Sample() class.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py class">
+<dt class="sig sig-object py" id="hklpy2.sample.Sample">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">hklpy2.sample.</span></span><span class="sig-name descname"><span class="pre">Sample</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">solver</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lattice</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hklpy2/sample.html#Sample"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.sample.Sample" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>A crystalline sample mounted on a diffractometer.</p>
+<table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.sample.Sample.name" title="hklpy2.sample.Sample.name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></a></p></td>
+<td><p>Sample name.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.sample.Sample.refine_lattice" title="hklpy2.sample.Sample.refine_lattice"><code class="xref py py-obj docutils literal notranslate"><span class="pre">refine_lattice</span></code></a>()</p></td>
+<td><p>Refine the lattice parameters from 3 or more reflections.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.sample.Sample.U" title="hklpy2.sample.Sample.U"><code class="xref py py-obj docutils literal notranslate"><span class="pre">U</span></code></a></p></td>
+<td><p>Return the matrix, U, crystal orientation on the diffractometer.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.sample.Sample.UB" title="hklpy2.sample.Sample.UB"><code class="xref py py-obj docutils literal notranslate"><span class="pre">UB</span></code></a></p></td>
+<td><p>Return the crystal orientation matrix, UB.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py property">
+<dt class="sig sig-object py" id="hklpy2.sample.Sample.U">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">U</span></span><a class="headerlink" href="#hklpy2.sample.Sample.U" title="Link to this definition">#</a></dt>
+<dd><p>Return the matrix, U, crystal orientation on the diffractometer.</p>
+</dd></dl>
 
-<span class="k">class</span> <span class="nc">MySolver</span><span class="p">(</span><span class="n">SolverBase</span><span class="p">):</span>
-    <span class="o">...</span>
-</pre></div>
-</div>
-<div class="toctree-wrapper compound">
-</div>
-</section>
-<section id="module-hklpy2.backends">
-<span id="source-code-documentation"></span><h2>Source Code Documentation<a class="headerlink" href="#module-hklpy2.backends" title="Link to this heading">#</a></h2>
-<p>A Solver connects <strong>hklpy2</strong> with a backend calculation library.</p>
-<p>A backend (or solver) is a Python class that connects <strong>hklpy2</strong> with a library
-backend that provides diffractometer capabilities.  See the API documentation
-for details.</p>
-<p class="rubric">Built-in Solvers</p>
-<table class="autosummary longtable table autosummary">
-<tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="backends/no_op.html#hklpy2.backends.no_op.NoOpSolver" title="hklpy2.backends.no_op.NoOpSolver"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NoOpSolver</span></code></a>()</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">&quot;no_op&quot;</span></code> (any OS) no transformations.</p></td>
-</tr>
-</tbody>
-</table>
-<p class="rubric">Other support</p>
-<table class="autosummary longtable table autosummary">
-<tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="backends/base.html#hklpy2.backends.base.SolverBase" title="hklpy2.backends.base.SolverBase"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SolverBase</span></code></a>()</p></td>
-<td><p>Base class for all <strong>hklpy2</strong> <strong>Solver</strong> classes.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="backends/base.html#hklpy2.backends.base.setSolver" title="hklpy2.backends.base.setSolver"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setSolver</span></code></a>(solver_name)</p></td>
-<td><p>Load a Solver class from a named entry point.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="backends/base.html#hklpy2.backends.base.solvers" title="hklpy2.backends.base.solvers"><code class="xref py py-obj docutils literal notranslate"><span class="pre">solvers</span></code></a>()</p></td>
-<td><p>Dictionary of available Solver classes, mapped by entry point name.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="backends/base.html#hklpy2.backends.base.SOLVER_ENTRYPOINT_GROUP" title="hklpy2.backends.base.SOLVER_ENTRYPOINT_GROUP"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SOLVER_ENTRYPOINT_GROUP</span></code></a></p></td>
-<td><p>Name by which <strong>hklpy2</strong> backend <strong>Solver</strong> classes are grouped.</p></td>
-</tr>
-</tbody>
-</table>
+<dl class="py property">
+<dt class="sig sig-object py" id="hklpy2.sample.Sample.UB">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">UB</span></span><a class="headerlink" href="#hklpy2.sample.Sample.UB" title="Link to this definition">#</a></dt>
+<dd><p>Return the crystal orientation matrix, UB.</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(UB\)</span> - orientation matrix</p></li>
+<li><p><span class="math notranslate nohighlight">\(B\)</span> - crystal lattice on the diffractometer</p></li>
+<li><p><span class="math notranslate nohighlight">\(U\)</span> - rotation matrix, crystal orientation on diffractometer</p></li>
+</ul>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="hklpy2.sample.Sample.name">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#hklpy2.sample.Sample.name" title="Link to this definition">#</a></dt>
+<dd><p>Sample name.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="hklpy2.sample.Sample.refine_lattice">
+<span class="sig-name descname"><span class="pre">refine_lattice</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hklpy2/sample.html#Sample.refine_lattice"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.sample.Sample.refine_lattice" title="Link to this definition">#</a></dt>
+<dd><p>Refine the lattice parameters from 3 or more reflections.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="hklpy2.sample.SampleError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">hklpy2.sample.</span></span><span class="sig-name descname"><span class="pre">SampleError</span></span><a class="reference internal" href="../_modules/hklpy2/sample.html#SampleError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.sample.SampleError" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/exceptions.html#Exception" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></a></p>
+<p>Any exception from the Sample() class.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="hklpy2.sample.SampleError.with_traceback">
+<span class="sig-name descname"><span class="pre">with_traceback</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#hklpy2.sample.SampleError.with_traceback" title="Link to this definition">#</a></dt>
+<dd><p>Exception.with_traceback(tb) –
+set self.__traceback__ to tb and return self.</p>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 </section>
 
@@ -450,20 +424,20 @@ for details.</p>
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="../api.html"
+       href="reflection.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">API</p>
+        <p class="prev-next-title">Orientation Reflection</p>
       </div>
     </a>
     <a class="right-next"
-       href="backends/base.html"
+       href="z_misc.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">SolverBase</p>
+        <p class="prev-next-title">Miscellaneous Support</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -485,16 +459,27 @@ for details.</p>
   </div>
   <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-select-a-solver">How to select a Solver</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-write-a-new-solver">How to write a new Solver</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-hklpy2.backends">Source Code Documentation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-hklpy2.sample">Source Code Documentation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.sample.Sample"><code class="docutils literal notranslate"><span class="pre">Sample</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.sample.Sample.U"><code class="docutils literal notranslate"><span class="pre">Sample.U</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.sample.Sample.UB"><code class="docutils literal notranslate"><span class="pre">Sample.UB</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.sample.Sample.name"><code class="docutils literal notranslate"><span class="pre">Sample.name</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.sample.Sample.refine_lattice"><code class="docutils literal notranslate"><span class="pre">Sample.refine_lattice()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.sample.SampleError"><code class="docutils literal notranslate"><span class="pre">SampleError</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.sample.SampleError.with_traceback"><code class="docutils literal notranslate"><span class="pre">SampleError.with_traceback()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
   </nav></div>
 
   <div class="sidebar-secondary-item">
 
   <div class="tocsection sourcelink">
-    <a href="../_sources/api/backends.rst.txt">
+    <a href="../_sources/api/sample.rst.txt">
       <i class="fa-solid fa-file-lines"></i> Show Source
     </a>
   </div>

@@ -1,12 +1,12 @@
 .. include:: /substitutions.txt
 
-.. _api.backends.abstract_solver:
+.. _api.backends.base:
 
 ========================
 SolverBase
 ========================
 
-.. automodule:: hklpy2.backends.abstract_solver
+.. automodule:: hklpy2.backends.base
     :members:
     :private-members:
     :show-inheritance:

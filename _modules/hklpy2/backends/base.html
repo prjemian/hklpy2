@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>hklpy2.backends.abstract_solver &#8212; hklpy2 0.1</title>
+    <title>hklpy2.backends.base &#8212; hklpy2 0.1</title>
   
   
   
@@ -37,13 +37,13 @@
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
   <script src="../../../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script src="../../../_static/documentation_options.js?v=b99b87c1"></script>
+    <script src="../../../_static/documentation_options.js?v=94ef68cd"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/tabs.js?v=3030b3cb"></script>
     <script src="../../../_static/design-tabs.js?v=36754332"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/hklpy2/backends/abstract_solver';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/hklpy2/backends/base';</script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
@@ -284,7 +284,7 @@ document.write(`
     
     <li class="breadcrumb-item"><a href="../../index.html" class="nav-link">Module code</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page">hklpy2.backe...</li>
+    <li class="breadcrumb-item active" aria-current="page">hklpy2.backends.base</li>
   </ul>
 </nav>
 </div>
@@ -301,7 +301,7 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <h1>Source code for hklpy2.backends.abstract_solver</h1><div class="highlight"><pre>
+  <h1>Source code for hklpy2.backends.base</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">Backend: abstract base class</span>
 
@@ -323,7 +323,7 @@ document.write(`
 
 
 <div class="viewcode-block" id="setSolver">
-<a class="viewcode-back" href="../../../api/backends/abstract_solver.html#hklpy2.backends.abstract_solver.setSolver">[docs]</a>
+<a class="viewcode-back" href="../../../api/backends/base.html#hklpy2.backends.base.setSolver">[docs]</a>
 <span class="k">def</span> <span class="nf">setSolver</span><span class="p">(</span><span class="n">solver_name</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Load a Solver class from a named entry point.</span>
@@ -341,7 +341,7 @@ document.write(`
 
 
 <div class="viewcode-block" id="solvers">
-<a class="viewcode-back" href="../../../api/backends/abstract_solver.html#hklpy2.backends.abstract_solver.solvers">[docs]</a>
+<a class="viewcode-back" href="../../../api/backends/base.html#hklpy2.backends.base.solvers">[docs]</a>
 <span class="k">def</span> <span class="nf">solvers</span><span class="p">():</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Dictionary of available Solver classes, mapped by entry point name.</span>
@@ -364,7 +364,7 @@ document.write(`
 
 
 <div class="viewcode-block" id="SolverBase">
-<a class="viewcode-back" href="../../../api/backends/abstract_solver.html#hklpy2.backends.abstract_solver.SolverBase">[docs]</a>
+<a class="viewcode-back" href="../../../api/backends/base.html#hklpy2.backends.base.SolverBase">[docs]</a>
 <span class="k">class</span> <span class="nc">SolverBase</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Base class for all |hklpy2| |solver| classes.</span>
@@ -376,15 +376,13 @@ document.write(`
 <span class="sd">        class MySolver(hklpy2.SolverBase):</span>
 <span class="sd">            ...</span>
 
-<span class="sd">    :class:`~SolverBase`, an `abstract base</span>
-<span class="sd">    class &lt;https://docs.python.org/3/library/abc.html#abc.ABC&gt;`_,</span>
-<span class="sd">    cannot not be used directly by |hklpy2| users.</span>
+<span class="sd">    .. note:: :class:`~SolverBase`, an `abstract base</span>
+<span class="sd">        class &lt;https://docs.python.org/3/library/abc.html#abc.ABC&gt;`_,</span>
+<span class="sd">        cannot not be used directly by |hklpy2| users.</span>
 
-<span class="sd">    .. index::Solver class</span>
-
-<span class="sd">    As the parent class for all custom |solver| classes,</span>
-<span class="sd">    :class:`~SolverBase` defines the methods and attributes to be written that</span>
-<span class="sd">    will connect |hklpy2| with the support library that defines</span>
+<span class="sd">    As the parent class for all custom :index:`Solver` classes,</span>
+<span class="sd">    :class:`~SolverBase` defines the methods and attributes to be written</span>
+<span class="sd">    that will connect |hklpy2| with the support library that defines</span>
 <span class="sd">    specific diffractometer geometries and the computations for</span>
 <span class="sd">    using them.  Subclasses should implement each of these methods</span>
 <span class="sd">    as best fits the underlying support library.</span>
@@ -415,7 +413,7 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">gname</span> <span class="o">=</span> <span class="kc">None</span>
 
 <div class="viewcode-block" id="SolverBase.addReflection">
-<a class="viewcode-back" href="../../../api/backends/abstract_solver.html#hklpy2.backends.abstract_solver.SolverBase.addReflection">[docs]</a>
+<a class="viewcode-back" href="../../../api/backends/base.html#hklpy2.backends.base.SolverBase.addReflection">[docs]</a>
     <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">addReflection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pseudos</span><span class="p">,</span> <span class="n">reals</span><span class="p">,</span> <span class="n">wavelength</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Add information about a reflection.&quot;&quot;&quot;</span>
@@ -423,7 +421,7 @@ document.write(`
 
 
 <div class="viewcode-block" id="SolverBase.addSample">
-<a class="viewcode-back" href="../../../api/backends/abstract_solver.html#hklpy2.backends.abstract_solver.SolverBase.addSample">[docs]</a>
+<a class="viewcode-back" href="../../../api/backends/base.html#hklpy2.backends.base.SolverBase.addSample">[docs]</a>
     <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">addSample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sample</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Add a sample.&quot;&quot;&quot;</span>
@@ -431,7 +429,7 @@ document.write(`
 
 
 <div class="viewcode-block" id="SolverBase.calculateOrientation">
-<a class="viewcode-back" href="../../../api/backends/abstract_solver.html#hklpy2.backends.abstract_solver.SolverBase.calculateOrientation">[docs]</a>
+<a class="viewcode-back" href="../../../api/backends/base.html#hklpy2.backends.base.SolverBase.calculateOrientation">[docs]</a>
     <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">calculateOrientation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">r1</span><span class="p">,</span> <span class="n">r2</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculate the UB (orientation) matrix from two reflections.&quot;&quot;&quot;</span>
@@ -439,7 +437,7 @@ document.write(`
 
 
 <div class="viewcode-block" id="SolverBase.forward">
-<a class="viewcode-back" href="../../../api/backends/abstract_solver.html#hklpy2.backends.abstract_solver.SolverBase.forward">[docs]</a>
+<a class="viewcode-back" href="../../../api/backends/base.html#hklpy2.backends.base.SolverBase.forward">[docs]</a>
     <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute list of solutions(reals) from pseudos (hkl -&gt; [angles]).&quot;&quot;&quot;</span>
@@ -453,7 +451,7 @@ document.write(`
         <span class="k">pass</span>
 
 <div class="viewcode-block" id="SolverBase.inverse">
-<a class="viewcode-back" href="../../../api/backends/abstract_solver.html#hklpy2.backends.abstract_solver.SolverBase.inverse">[docs]</a>
+<a class="viewcode-back" href="../../../api/backends/base.html#hklpy2.backends.base.SolverBase.inverse">[docs]</a>
     <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">inverse</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute tuple of pseudos from reals (angles -&gt; hkl).&quot;&quot;&quot;</span>
@@ -479,7 +477,7 @@ document.write(`
         <span class="k">pass</span>
 
 <div class="viewcode-block" id="SolverBase.refineLattice">
-<a class="viewcode-back" href="../../../api/backends/abstract_solver.html#hklpy2.backends.abstract_solver.SolverBase.refineLattice">[docs]</a>
+<a class="viewcode-back" href="../../../api/backends/base.html#hklpy2.backends.base.SolverBase.refineLattice">[docs]</a>
     <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">refineLattice</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reflections</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Refine the lattice parameters from a list of reflections.&quot;&quot;&quot;</span>
@@ -487,7 +485,7 @@ document.write(`
 
 
 <div class="viewcode-block" id="SolverBase.setGeometry">
-<a class="viewcode-back" href="../../../api/backends/abstract_solver.html#hklpy2.backends.abstract_solver.SolverBase.setGeometry">[docs]</a>
+<a class="viewcode-back" href="../../../api/backends/base.html#hklpy2.backends.base.SolverBase.setGeometry">[docs]</a>
     <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">setGeometry</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gname</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Select one of the diffractometer geometries.&quot;&quot;&quot;</span>
@@ -495,7 +493,7 @@ document.write(`
 
 
 <div class="viewcode-block" id="SolverBase.setLattice">
-<a class="viewcode-back" href="../../../api/backends/abstract_solver.html#hklpy2.backends.abstract_solver.SolverBase.setLattice">[docs]</a>
+<a class="viewcode-back" href="../../../api/backends/base.html#hklpy2.backends.base.SolverBase.setLattice">[docs]</a>
     <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">setLattice</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lattice</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Define the sample&#39;s lattice parameters.&quot;&quot;&quot;</span>
@@ -503,7 +501,7 @@ document.write(`
 
 
 <div class="viewcode-block" id="SolverBase.setMode">
-<a class="viewcode-back" href="../../../api/backends/abstract_solver.html#hklpy2.backends.abstract_solver.SolverBase.setMode">[docs]</a>
+<a class="viewcode-back" href="../../../api/backends/base.html#hklpy2.backends.base.SolverBase.setMode">[docs]</a>
     <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">setMode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mode</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>

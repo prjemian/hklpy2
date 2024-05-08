@@ -46,7 +46,7 @@ How to select a Solver
 ----------------------
 
 To select a |solver| class, call
-:func:`~hklpy2.backends.abstract_solver.setSolver`. This example
+:func:`~hklpy2.backends.base.setSolver`. This example
 selects the |libhkl| |solver| (using its entry point name: ``"hkl_soleil"``)::
 
     >>> from hklpy2 import setSolver
@@ -55,7 +55,7 @@ selects the |libhkl| |solver| (using its entry point name: ``"hkl_soleil"``)::
     Solver=<class 'hklpy2.backends.hkl_soleil.HklSolver'>    
 
 To list all available |solver| classes (by their entry point name), 
-call :func:`~hklpy2.backends.abstract_solver.solvers()`.
+call :func:`~hklpy2.backends.base.solvers()`.
 This example shows the |solver| classes supplied with |hklpy2|::
 
     >>> from hklpy2 import solvers
@@ -70,7 +70,7 @@ How to write a new Solver
 
 .. caution:: TODO:: work-in-progress
 
-|solver| classes always subclass :class:`~hklpy2.backends.abstract_solver.SolverBase`::
+|solver| classes always subclass :class:`~hklpy2.backends.base.SolverBase`::
 
     from hklpy2.backends.SolverBase
 
