@@ -10,7 +10,7 @@ hkl_soleil (HklSolver)
 :source: https://repo.or.cz/hkl.git
 
 
-.. automodule :: hklpy2.backends.hkl_soleil
+.. automodule:: hklpy2.backends.hkl_soleil
     :members:
     :private-members:
     :show-inheritance:
