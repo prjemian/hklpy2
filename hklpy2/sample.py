@@ -71,10 +71,10 @@ class Sample:
         return self._lattice
 
     @lattice.setter
-    def lattice(self, lattice):
-        if not isinstance(lattice, Lattice):
-            raise TypeError(f"Must supply Lattice() object, received {lattice!r}")
-        self._lattice = lattice
+    def lattice(self, value):
+        if not isinstance(value, Lattice):
+            raise TypeError(f"Must supply Lattice() object, received {value!r}")
+        self._lattice = value
 
     @property
     def name(self):
@@ -82,10 +82,10 @@ class Sample:
         return self._name
 
     @name.setter
-    def name(self, new_name):
-        if not isinstance(new_name, (type(None), str)):
-            raise TypeError(f"Must supply str, received {new_name!r}")
-        self._name = new_name
+    def name(self, value):
+        if not isinstance(value, (type(None), str)):
+            raise TypeError(f"Must supply str, received {value!r}")
+        self._name = value
 
     @property
     def solver(self):
@@ -93,9 +93,9 @@ class Sample:
         return self._solver
 
     @solver.setter
-    def solver(self, new_solver):
-        if not isinstance(new_solver, SolverBase):
-            raise TypeError(f"Must supply SolverBase() object, received {new_solver!r}")
+    def solver(self, value):
+        if not isinstance(value, SolverBase):
+            raise TypeError(f"Must supply SolverBase() object, received {value!r}")
         # note: calling SolverBase() will always generate a TypeError
         # "Can't instantiate abstract class SolverBase with abstract methods" ...
-        self._solver = new_solver
+        self._solver = value

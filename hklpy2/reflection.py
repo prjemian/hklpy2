@@ -12,6 +12,7 @@ Associates diffractometer angles (real-space) with crystalline reciprocal-space
 """
 
 from . import Hklpy2Error
+from . import SolverBase
 from .misc import unique_name
 
 
@@ -63,13 +64,63 @@ class Reflection:
     # --------- get/set properties
 
     @property
+    def angles(self):
+        """Ordered dictionary of diffractometer's real-space axes."""
+        return self._angles
+
+    @angles.setter
+    def angles(self, value):
+        if not isinstance(value, dict):
+            raise TypeError(f"Must supply dict, received {value!r}")
+        self._angles = value
+
+    @property
     def name(self):
         """Sample name."""
         return self._name
 
     @name.setter
-    def name(self, new_name):
-        self._name = new_name
+    def name(self, value):
+        if not isinstance(value, (type(None), str)):
+            raise TypeError(f"Must supply str, received {value!r}")
+        self._name = value
+
+    @property
+    def pseudos(self):
+        """Ordered dictionary of diffractometer's reciprocal-space axes."""
+        return self._pseudos
+
+    @pseudos.setter
+    def pseudos(self, value):
+        if not isinstance(value, dict):
+            raise TypeError(f"Must supply dict, received {value!r}")
+        self._pseudos = value
+
+    @property
+    def solver(self):
+        """Diffractometer |solver|."""
+        return self._solver
+
+    @solver.setter
+    def solver(self, value):
+        if not isinstance(value, SolverBase):
+            raise TypeError(f"Must supply SolverBase() object, received {value!r}")
+        # note: calling SolverBase() will always generate a TypeError
+        # "Can't instantiate abstract class SolverBase with abstract methods" ...
+        self._solver = value
+
+    @property
+    def wavelength(self):
+        """Wavelength of reflection."""
+        return self._wavelength
+
+    @wavelength.setter
+    def wavelength(self, value):
+        if not isinstance(value, (int, float)):
+            raise TypeError(f"Must supply number, received {value!r}")
+        if value < 0:
+            raise ValueError(f"Must be >0, received {value}")
+        self._wavelength = value
 
 
 class ReflectionsDict(dict):
