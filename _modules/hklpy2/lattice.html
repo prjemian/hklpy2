@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
   <script src="../../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script src="../../_static/documentation_options.js?v=d9a92a61"></script>
+    <script src="../../_static/documentation_options.js?v=c801243c"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/tabs.js?v=3030b3cb"></script>
@@ -308,11 +308,14 @@ document.write(`
 <span class="sd">.. autosummary::</span>
 
 <span class="sd">    ~Lattice</span>
+<span class="sd">    ~LatticeError</span>
 <span class="sd">    ~SI_LATTICE_PARAMETER</span>
 <span class="sd">    ~SI_LATTICE_PARAMETER_UNCERTAINTY</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">import</span> <span class="nn">math</span>
+
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">Hklpy2Error</span>
 
 <span class="n">SI_LATTICE_PARAMETER</span> <span class="o">=</span> <span class="mf">5.431020511</span>
 <span class="sd">&quot;&quot;&quot;</span>
@@ -323,8 +326,14 @@ document.write(`
 
 <span class="n">SI_LATTICE_PARAMETER_UNCERTAINTY</span> <span class="o">=</span> <span class="mf">0.000000089</span>
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">Reported uncertainty of ``SI_LATTICE_PARAMETER``.</span>
+<span class="sd">2018 CODATA reported uncertainty of :data:`SI_LATTICE_PARAMETER`.</span>
 <span class="sd">&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="LatticeError">
+<a class="viewcode-back" href="../../api/lattice.html#hklpy2.lattice.LatticeError">[docs]</a>
+<span class="k">class</span> <span class="nc">LatticeError</span><span class="p">(</span><span class="n">Hklpy2Error</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Custom exceptions from the :mod:`hklpy2.lattice` module.&quot;&quot;&quot;</span></div>
+
 
 
 <div class="viewcode-block" id="Lattice">

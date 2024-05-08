@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
   <script src="../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script src="../_static/documentation_options.js?v=d9a92a61"></script>
+    <script src="../_static/documentation_options.js?v=c801243c"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/design-tabs.js?v=36754332"></script>
@@ -455,11 +455,14 @@ for high-symmetry crystal systems.</p>
 <tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.lattice.Lattice" title="hklpy2.lattice.Lattice"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Lattice</span></code></a>(a[, b, c, alpha, beta, gamma])</p></td>
 <td><p>Crystal lattice parameters.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.lattice.SI_LATTICE_PARAMETER" title="hklpy2.lattice.SI_LATTICE_PARAMETER"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SI_LATTICE_PARAMETER</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.lattice.LatticeError" title="hklpy2.lattice.LatticeError"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LatticeError</span></code></a></p></td>
+<td><p>Custom exceptions from the <a class="reference internal" href="#module-hklpy2.lattice" title="hklpy2.lattice"><code class="xref py py-mod docutils literal notranslate"><span class="pre">hklpy2.lattice</span></code></a> module.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.lattice.SI_LATTICE_PARAMETER" title="hklpy2.lattice.SI_LATTICE_PARAMETER"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SI_LATTICE_PARAMETER</span></code></a></p></td>
 <td><p>2018 CODATA recommended lattice parameter of silicon, Angstrom.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.lattice.SI_LATTICE_PARAMETER_UNCERTAINTY" title="hklpy2.lattice.SI_LATTICE_PARAMETER_UNCERTAINTY"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SI_LATTICE_PARAMETER_UNCERTAINTY</span></code></a></p></td>
-<td><p>Reported uncertainty of <code class="docutils literal notranslate"><span class="pre">SI_LATTICE_PARAMETER</span></code>.</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.lattice.SI_LATTICE_PARAMETER_UNCERTAINTY" title="hklpy2.lattice.SI_LATTICE_PARAMETER_UNCERTAINTY"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SI_LATTICE_PARAMETER_UNCERTAINTY</span></code></a></p></td>
+<td><p>2018 CODATA reported uncertainty of <a class="reference internal" href="#hklpy2.lattice.SI_LATTICE_PARAMETER" title="hklpy2.lattice.SI_LATTICE_PARAMETER"><code class="xref py py-data docutils literal notranslate"><span class="pre">SI_LATTICE_PARAMETER</span></code></a>.</p></td>
 </tr>
 </tbody>
 </table>
@@ -507,6 +510,20 @@ for high-symmetry crystal systems.</p>
 
 </dd></dl>
 
+<dl class="py exception">
+<dt class="sig sig-object py" id="hklpy2.lattice.LatticeError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">hklpy2.lattice.</span></span><span class="sig-name descname"><span class="pre">LatticeError</span></span><a class="reference internal" href="../_modules/hklpy2/lattice.html#LatticeError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.lattice.LatticeError" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Hklpy2Error</span></code></p>
+<p>Custom exceptions from the <a class="reference internal" href="#module-hklpy2.lattice" title="hklpy2.lattice"><code class="xref py py-mod docutils literal notranslate"><span class="pre">hklpy2.lattice</span></code></a> module.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="hklpy2.lattice.LatticeError.with_traceback">
+<span class="sig-name descname"><span class="pre">with_traceback</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#hklpy2.lattice.LatticeError.with_traceback" title="Link to this definition">#</a></dt>
+<dd><p>Exception.with_traceback(tb) –
+set self.__traceback__ to tb and return self.</p>
+</dd></dl>
+
+</dd></dl>
+
 <dl class="py data">
 <dt class="sig sig-object py" id="hklpy2.lattice.SI_LATTICE_PARAMETER">
 <span class="sig-prename descclassname"><span class="pre">hklpy2.lattice.</span></span><span class="sig-name descname"><span class="pre">SI_LATTICE_PARAMETER</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">5.431020511</span></em><a class="headerlink" href="#hklpy2.lattice.SI_LATTICE_PARAMETER" title="Link to this definition">#</a></dt>
@@ -521,7 +538,7 @@ for high-symmetry crystal systems.</p>
 <dl class="py data">
 <dt class="sig sig-object py" id="hklpy2.lattice.SI_LATTICE_PARAMETER_UNCERTAINTY">
 <span class="sig-prename descclassname"><span class="pre">hklpy2.lattice.</span></span><span class="sig-name descname"><span class="pre">SI_LATTICE_PARAMETER_UNCERTAINTY</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">8.9e-08</span></em><a class="headerlink" href="#hklpy2.lattice.SI_LATTICE_PARAMETER_UNCERTAINTY" title="Link to this definition">#</a></dt>
-<dd><p>Reported uncertainty of <code class="docutils literal notranslate"><span class="pre">SI_LATTICE_PARAMETER</span></code>.</p>
+<dd><p>2018 CODATA reported uncertainty of <a class="reference internal" href="#hklpy2.lattice.SI_LATTICE_PARAMETER" title="hklpy2.lattice.SI_LATTICE_PARAMETER"><code class="xref py py-data docutils literal notranslate"><span class="pre">SI_LATTICE_PARAMETER</span></code></a>.</p>
 </dd></dl>
 
 </section>
@@ -577,6 +594,10 @@ for high-symmetry crystal systems.</p>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.lattice.Lattice"><code class="docutils literal notranslate"><span class="pre">Lattice</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.lattice.Lattice._asdict"><code class="docutils literal notranslate"><span class="pre">Lattice._asdict()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.lattice.Lattice.equal"><code class="docutils literal notranslate"><span class="pre">Lattice.equal()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.lattice.LatticeError"><code class="docutils literal notranslate"><span class="pre">LatticeError</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.lattice.LatticeError.with_traceback"><code class="docutils literal notranslate"><span class="pre">LatticeError.with_traceback()</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.lattice.SI_LATTICE_PARAMETER"><code class="docutils literal notranslate"><span class="pre">SI_LATTICE_PARAMETER</span></code></a></li>
