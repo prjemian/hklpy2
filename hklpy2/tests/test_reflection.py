@@ -1,3 +1,4 @@
+from ..misc import unique_name
 from ..reflection import Reflection
 
 
@@ -23,7 +24,7 @@ def test_reflection_no_op():
     ref2 = Reflection(solver, {}, {}, 1.01)
     assert ref2 is not None
     assert ref2.name != "r2"
-    assert len(ref2.name) == 7
+    assert len(ref2.name) == len(unique_name())
 
 
 def test_reflection_hkl_soleil():

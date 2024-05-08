@@ -2,7 +2,7 @@ import inspect
 
 import pytest
 
-from ..backends import setSolver
+from ..backends import get_solver
 
 
 @pytest.mark.parametrize("solver_name", ["hkl_soleil", "no_op"])
@@ -25,7 +25,7 @@ def test_solvers(solver_name):
 
 
 def test_HklSolver():
-    Solver = setSolver("hkl_soleil")
+    Solver = get_solver("hkl_soleil")
     assert Solver is not None
 
     solver = Solver()

@@ -17,7 +17,7 @@ for details.
 .. autosummary::
 
     ~hklpy2.backends.base.SolverBase
-    ~hklpy2.backends.base.setSolver
+    ~hklpy2.backends.base.get_solver
     ~hklpy2.backends.base.solvers
     ~hklpy2.backends.base.SOLVER_ENTRYPOINT_GROUP
 
@@ -25,5 +25,5 @@ for details.
 
 from .base import SOLVER_ENTRYPOINT_GROUP  # noqa: F401
 from .base import SolverBase  # noqa: F401
-from .base import setSolver  # noqa: F401
+from .base import get_solver  # noqa: F401
 from .base import solvers  # noqa: F401

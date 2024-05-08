@@ -46,11 +46,11 @@ How to select a Solver
 ----------------------
 
 To select a |solver| class, call
-:func:`~hklpy2.backends.base.setSolver`. This example
+:func:`~hklpy2.backends.base.get_solver`. This example
 selects the |libhkl| |solver| (using its entry point name: ``"hkl_soleil"``)::
 
-    >>> from hklpy2 import setSolver
-    >>> Solver = setSolver("hkl_soleil")
+    >>> from hklpy2 import get_solver
+    >>> Solver = get_solver("hkl_soleil")
     >>> print(f"{Solver=}")
     Solver=<class 'hklpy2.backends.hkl_soleil.HklSolver'>    
 

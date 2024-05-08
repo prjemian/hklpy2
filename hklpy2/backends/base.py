@@ -5,7 +5,7 @@ Backend: abstract base class
 
     ~SolverBase
     ~SOLVER_ENTRYPOINT_GROUP
-    ~setSolver
+    ~get_solver
     ~solvers
 """
 
@@ -18,14 +18,14 @@ SOLVER_ENTRYPOINT_GROUP = "hklpy2.solver"
 """Name by which |hklpy2| backend |solver| classes are grouped."""
 
 
-def setSolver(solver_name):
+def get_solver(solver_name):
     """
     Load a Solver class from a named entry point.
 
     ::
 
         import hklpy2
-        Solver = hklpy2.setSolver("hkl_soleil")
+        Solver = hklpy2.get_solver("hkl_soleil")
     """
     from importlib.metadata import entry_points
 

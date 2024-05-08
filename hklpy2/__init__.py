@@ -31,7 +31,7 @@ class Hklpy2Error(Exception):
 
 from .backends import SOLVER_ENTRYPOINT_GROUP  # noqa: E402, F401
 from .backends import SolverBase  # noqa: E402, F401
-from .backends import setSolver  # noqa: E402, F401
+from .backends import get_solver  # noqa: E402, F401
 from .backends import solvers  # noqa: E402, F401
 from .lattice import SI_LATTICE_PARAMETER  # noqa: E402, F401
 from .lattice import Lattice  # noqa: E402, F401

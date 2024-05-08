@@ -12,7 +12,7 @@ Associates diffractometer angles (real-space) with crystalline reciprocal-space
 """
 
 from . import Hklpy2Error
-from .misc import uuid7
+from .misc import unique_name
 
 
 class ReflectionError(Hklpy2Error):
@@ -37,7 +37,7 @@ class Reflection:
     def __init__(
         self, solver, pseudos: dict, angles: dict, wavelength: float, name=None
     ) -> None:
-        self.name = name or uuid7()
+        self.name = name or unique_name()
         self.solver = solver
         self.angles = angles
         self.pseudos = pseudos
