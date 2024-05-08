@@ -16,14 +16,14 @@ for details.
 
 .. autosummary::
 
-    ~hklpy2.backends.abstract_solver.SolverBase
-    ~hklpy2.backends.abstract_solver.setSolver
-    ~hklpy2.backends.abstract_solver.solvers
-    ~hklpy2.backends.abstract_solver.SOLVER_ENTRYPOINT_GROUP
+    ~hklpy2.backends.base.SolverBase
+    ~hklpy2.backends.base.setSolver
+    ~hklpy2.backends.base.solvers
+    ~hklpy2.backends.base.SOLVER_ENTRYPOINT_GROUP
 
 """
 
-from .abstract_solver import SOLVER_ENTRYPOINT_GROUP  # noqa: F401
-from .abstract_solver import SolverBase  # noqa: F401
-from .abstract_solver import setSolver  # noqa: F401
-from .abstract_solver import solvers  # noqa: F401
+from .base import SOLVER_ENTRYPOINT_GROUP  # noqa: F401
+from .base import SolverBase  # noqa: F401
+from .base import setSolver  # noqa: F401
+from .base import solvers  # noqa: F401

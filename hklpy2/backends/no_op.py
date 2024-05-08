@@ -9,7 +9,7 @@ no reciprocal-space conversions
 """
 
 from .. import __version__
-from .abstract_solver import SolverBase
+from .base import SolverBase
 
 
 class NoOpSolver(SolverBase):

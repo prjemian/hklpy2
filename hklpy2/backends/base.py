@@ -64,9 +64,9 @@ class SolverBase(ABC):
         class MySolver(hklpy2.SolverBase):
             ...
 
-    :class:`~SolverBase`, an `abstract base
-    class <https://docs.python.org/3/library/abc.html#abc.ABC>`_,
-    cannot not be used directly by |hklpy2| users.
+    .. note:: :class:`~SolverBase`, an `abstract base
+        class <https://docs.python.org/3/library/abc.html#abc.ABC>`_,
+        cannot not be used directly by |hklpy2| users.
 
     As the parent class for all custom :index:`Solver` classes,
     :class:`~SolverBase` defines the methods and attributes to be written
