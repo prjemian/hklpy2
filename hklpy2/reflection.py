@@ -16,7 +16,7 @@ from .misc import unique_name
 
 
 class ReflectionError(Hklpy2Error):
-    """Any exception from the :mod:`hklpy2.reflection` module."""
+    """Custom exceptions from the :mod:`hklpy2.reflection` module."""
 
 
 class Reflection:

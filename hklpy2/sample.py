@@ -19,7 +19,7 @@ from .misc import unique_name
 
 
 class SampleError(Hklpy2Error):
-    """Any exception from the :mod:`hklpy2.sample` module."""
+    """Custom exceptions from the :mod:`hklpy2.sample` module."""
 
 
 class Sample:

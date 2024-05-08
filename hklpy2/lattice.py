@@ -4,11 +4,14 @@ Lattice parameters for a single crystal.
 .. autosummary::
 
     ~Lattice
+    ~LatticeError
     ~SI_LATTICE_PARAMETER
     ~SI_LATTICE_PARAMETER_UNCERTAINTY
 """
 
 import math
+
+from . import Hklpy2Error
 
 SI_LATTICE_PARAMETER = 5.431020511
 """
@@ -19,8 +22,11 @@ SI_LATTICE_PARAMETER = 5.431020511
 
 SI_LATTICE_PARAMETER_UNCERTAINTY = 0.000000089
 """
-Reported uncertainty of ``SI_LATTICE_PARAMETER``.
+2018 CODATA reported uncertainty of :data:`SI_LATTICE_PARAMETER`.
 """
+
+class LatticeError(Hklpy2Error):
+    """Custom exceptions from the :mod:`hklpy2.lattice` module."""
 
 
 class Lattice:
