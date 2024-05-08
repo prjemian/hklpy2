@@ -94,11 +94,17 @@ class SolverBase(ABC):
         ~setMode
     """
 
+    __name__ = "base"
+    """Name of this Solver."""
+
     __version__ = __version__
     """Version of this Solver."""
 
     def __init__(self) -> None:
         self.gname = None
+
+    def __repr__(self) -> str:
+        return f"{self.__class__.__name__}(name={self.__name__})"
 
     @abstractmethod
     def addReflection(self, pseudos, reals, wavelength):

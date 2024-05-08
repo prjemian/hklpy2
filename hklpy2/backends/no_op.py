@@ -35,9 +35,11 @@ class NoOpSolver(SolverBase):
         ~setMode
     """
 
+    __name__ = "no_op"
     __version__ = __version__
 
     def __init__(self) -> None:
+        super().__init__()
         self.gname = None
         self._geometry = None
 
@@ -56,6 +58,17 @@ class NoOpSolver(SolverBase):
     @property
     def geometries(self):
         return []
+
+    @property
+    def geometry(self):
+        """Diffractometer geometry."""
+        return self._geometry
+
+    @geometry.setter
+    def geometry(self, value):
+        if not isinstance(value, (type(None), str)):
+            raise TypeError(f"Must supply str, received {value!r}")
+        self._geometry = value
 
     def inverse(self):
         return ["No Ops"]
@@ -77,7 +90,7 @@ class NoOpSolver(SolverBase):
 
     def setGeometry(self, gname, **kwargs):
         self.gname = gname
-        return None
+        return self.gname
 
     def setLattice(self, lattice):
         pass  # TODO

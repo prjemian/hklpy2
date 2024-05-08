@@ -40,9 +40,11 @@ class HklSolver(SolverBase):
         ~setMode
     """
 
+    __name__ = "hkl_soleil"
     __version__ = libhkl.VERSION
 
     def __init__(self) -> None:
+        super().__init__()
         self.gname = None
 
         self.detector = libhkl.Detector.factory_new(libhkl.DetectorType(0))
@@ -77,6 +79,21 @@ class HklSolver(SolverBase):
             for engine in (self._engines or {}).engines_get()
         ]
         return sorted(set(geometries))
+
+    @property
+    def geometry(self):
+        """Diffractometer geometry."""
+        return self._geometry
+
+    @geometry.setter
+    def geometry(self, value):
+        if not isinstance(value, (type(None), str)):
+            raise TypeError(f"Must supply str, received {value!r}")
+        # self._geometry = value
+        if value not in self.geometries:
+            raise KeyError(f"Geometry {value} unknown.")
+        gname, engine = [s.strip() for s in value.split(",")]
+        self.setGeometry(gname, engine=engine)
 
     def inverse(self):
         """Compute tuple of pseudos from reals (angles -> hkl)."""
