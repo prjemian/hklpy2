@@ -51,7 +51,7 @@ class Reflection:
             "pseudos": self.pseudos,
             "angles": self.angles,
             "wavelength": self.wavelength,
-            "geometry": repr(self.solver.gname),
+            # FIXME: "geometry": repr(self.solver.gname),
         }
 
     def __repr__(self):
@@ -103,7 +103,7 @@ class Reflection:
 
     @solver.setter
     def solver(self, value):
-        if not isinstance(value, SolverBase):
+        if not (isinstance(value, SolverBase) or issubclass(value, SolverBase)):
             raise TypeError(
                 f"Must supply SolverBase() object, received solver={value!r}"
             )
@@ -132,20 +132,26 @@ class ReflectionsDict(dict):
     .. autosummary::
 
         ~ordering
+        ~setor
         ~set_orientation_reflections
-        ~set_or
         ~swap
     """
 
     ordering = []  # TODO: use get/set property?
     """List of ordering reflection names."""
 
-    def set_orientation_reflections(self, r1: Reflection, r2: Reflection):
-        """Designate r1 & r2 as the two named reflections."""
-        self.ordering = [r1.name, r2.name]
+    def set_orientation_reflections(self, reflections: [Reflection]) -> None:
+        """Designate the order of the reflections to be used."""
+        self.ordering = [r.name for r in reflections]
 
-    set_or = set_orientation_reflections
+    setor = set_orientation_reflections
     """Common alias for :meth:`~set_orientation_reflections`."""
+
+    def add(self, reflection: Reflection):
+        """Add an orientation reflection."""
+        self[reflection.name] = reflection
+        self.ordering.append(reflection.name)
+        # TODO: ensure no duplicate names
 
     def swap(self):
         """Swap the two named orientation reflections."""

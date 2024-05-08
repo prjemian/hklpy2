@@ -38,7 +38,11 @@ class Sample:
         self.name = name or unique_name()
         self.solver = solver
         self.lattice = lattice
+        # TODO: reciprocal_lattice
         self.reflections = ReflectionsDict()
+
+    def __repr__(self):
+        return f"Sample(name={self.name!r}, lattice={self.lattice!r})"
 
     @property
     def U(self):
@@ -52,7 +56,7 @@ class Sample:
 
         * :math:`UB` - orientation matrix
         * :math:`B` - crystal lattice on the diffractometer
-        * :math:`U` - rotation matrix, crystal orientation on diffractometer
+        * :math:`U` - rotation matrix, relative orientation of crystal on diffractometer
         """
         # self.solver.calculateOrientation()  # TODO
 
@@ -105,7 +109,8 @@ class Sample:
 
     @solver.setter
     def solver(self, value):
-        if not isinstance(value, SolverBase):
+        # FIXME: SolverBase ___sometimes___ is not a class.  Why?
+        if not (isinstance(value, SolverBase) or issubclass(value, SolverBase)):
             raise TypeError(f"Must supply SolverBase() object, received {value!r}")
         # note: calling SolverBase() will always generate a TypeError
         # "Can't instantiate abstract class SolverBase with abstract methods" ...

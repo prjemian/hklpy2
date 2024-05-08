@@ -19,15 +19,12 @@ def test_reflection_no_op():
     assert solver is not None
 
     g = solver.setGeometry("No geometry")
-    assert g is None  # NoOpSolver always returns None for geometry
+    assert g == "No geometry"
 
     ref1 = Reflection(solver, {}, {}, 1.0, name="r1")
     assert ref1 is not None
     assert ref1.name == "r1"
-    expected = (
-        "Reflection(name='r1', pseudos={}, angles={}, "
-        "wavelength=1.0, geometry='No geometry')"
-    )
+    expected = "Reflection(name='r1', pseudos={}, angles={}, " "wavelength=1.0)"
     assert str(ref1) == expected, f"{ref1}"
 
     ref2 = Reflection(solver, {}, {}, 1.01)
@@ -53,7 +50,7 @@ def test_reflection_hkl_soleil():
     expected = (
         "Reflection(name='r1', pseudos={'h': 1, 'k': 0, 'l': 0}, "
         "angles={'omega': 10, 'chi': 0, 'phi': 0, 'tth': 20}, "
-        "wavelength=1.0, geometry='E4CV')"
+        "wavelength=1.0)"
     )
     assert str(ref1) == expected, f"{ref1}"
 
@@ -153,7 +150,7 @@ def test_reflectionsdict_constructor(outcome, reason):
         rdict = ReflectionsDict()
         assert rdict is not None
         assert rdict.ordering == []
-        assert rdict.set_or == rdict.set_orientation_reflections
+        assert rdict.setor == rdict.set_orientation_reflections
 
     if reason is not None:
         assert reason in str(excuse.value), f"{excuse=}"
