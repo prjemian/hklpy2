@@ -46,6 +46,8 @@ class Lattice:
         ~__repr__
     """
 
+    digits = 4
+
     def __init__(
         self,
         a: float,
@@ -109,5 +111,5 @@ class Lattice:
         """
         Standard representation of lattice.
         """
-        parameters = [f"{k}={v}" for k, v in self._asdict().items()]
+        parameters = [f"{k}={round(v, self.digits)}" for k, v in self._asdict().items()]
         return "Lattice(" + ", ".join(parameters) + ")"
