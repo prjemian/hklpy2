@@ -6,7 +6,11 @@
 hkl_soleil (HklSolver)
 ========================
 
-.. automodule:: hklpy2.backends.hkl_soleil
+:home: https://people.debian.org/~picca/hkl/hkl.html
+:source: https://repo.or.cz/hkl.git
+
+
+.. automodule :: hklpy2.backends.hkl_soleil
     :members:
     :private-members:
     :show-inheritance:

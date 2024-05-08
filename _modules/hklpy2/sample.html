@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
   <script src="../../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script src="../../_static/documentation_options.js?v=06c7b6df"></script>
+    <script src="../../_static/documentation_options.js?v=256c0ed4"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/tabs.js?v=3030b3cb"></script>
@@ -368,12 +368,8 @@ document.write(`
     <span class="k">def</span> <span class="nf">refine_lattice</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Refine the lattice parameters from 3 or more reflections.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_reflections</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">:</span>
-            <span class="c1"># fmt: off</span>
-            <span class="k">raise</span> <span class="n">SampleError</span><span class="p">(</span>
-                <span class="s2">&quot;Must have at least 3 reflections to refine_lattice().&quot;</span>
-            <span class="p">)</span></div>
+            <span class="k">raise</span> <span class="n">SampleError</span><span class="p">(</span><span class="s2">&quot;Need 3 or more reflections to refine lattice.&quot;</span><span class="p">)</span></div>
 
-            <span class="c1"># fmt: on</span>
 
         <span class="c1"># self.solver.refineLattice()  # TODO</span>
 
