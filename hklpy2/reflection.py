@@ -40,8 +40,8 @@ class Reflection:
     ) -> None:
         self.name = name or unique_name()
         self.solver = solver
-        self.angles = angles
         self.pseudos = pseudos
+        self.angles = angles
         self.wavelength = wavelength
 
     def _asdict(self):
@@ -71,7 +71,7 @@ class Reflection:
     @angles.setter
     def angles(self, value):
         if not isinstance(value, dict):
-            raise TypeError(f"Must supply dict, received {value!r}")
+            raise TypeError(f"Must supply dict, received angles={value!r}")
         self._angles = value
 
     @property
@@ -82,7 +82,7 @@ class Reflection:
     @name.setter
     def name(self, value):
         if not isinstance(value, (type(None), str)):
-            raise TypeError(f"Must supply str, received {value!r}")
+            raise TypeError(f"Must supply str, received name={value!r}")
         self._name = value
 
     @property
@@ -93,7 +93,7 @@ class Reflection:
     @pseudos.setter
     def pseudos(self, value):
         if not isinstance(value, dict):
-            raise TypeError(f"Must supply dict, received {value!r}")
+            raise TypeError(f"Must supply dict, received pseudos={value!r}")
         self._pseudos = value
 
     @property
@@ -104,7 +104,9 @@ class Reflection:
     @solver.setter
     def solver(self, value):
         if not isinstance(value, SolverBase):
-            raise TypeError(f"Must supply SolverBase() object, received {value!r}")
+            raise TypeError(
+                f"Must supply SolverBase() object, received solver={value!r}"
+            )
         # note: calling SolverBase() will always generate a TypeError
         # "Can't instantiate abstract class SolverBase with abstract methods" ...
         self._solver = value
@@ -117,9 +119,9 @@ class Reflection:
     @wavelength.setter
     def wavelength(self, value):
         if not isinstance(value, (int, float)):
-            raise TypeError(f"Must supply number, received {value!r}")
+            raise TypeError(f"Must supply number, received wavelength={value!r}")
         if value < 0:
-            raise ValueError(f"Must be >0, received {value}")
+            raise ValueError(f"Must be >=0, received wavelength={value}")
         self._wavelength = value
 
 
@@ -135,7 +137,7 @@ class ReflectionsDict(dict):
         ~swap
     """
 
-    ordering = []
+    ordering = []  # TODO: use get/set property?
     """List of ordering reflection names."""
 
     def set_orientation_reflections(self, r1: Reflection, r2: Reflection):

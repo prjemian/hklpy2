@@ -13,7 +13,7 @@ no_op_solver = get_solver("no_op")()
 
 
 def test_with_solver_base():
-    """Special case that does not fit constructor."""
+    """Special case that does not fit constructor test."""
     reason = "Can't instantiate abstract class SolverBase"
     with pytest.raises(TypeError) as excuse:
         Sample(SolverBase(), Lattice(4), name="solver")
@@ -73,5 +73,6 @@ def test_constructor(solver, lattice, sname, outcome, reason):
             assert sample.name == sname
         assert isinstance(sample.lattice, Lattice), f"{sample.lattice=}"
         assert isinstance(sample.reflections, ReflectionsDict)
+
     if reason is not None:
         assert reason in str(excuse.value), f"{excuse=}"
