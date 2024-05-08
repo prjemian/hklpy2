@@ -15,17 +15,18 @@ hklpy2
    :glob:
    :hidden:
 
+   guide
    api
 
-.. TODO remove from comment
-    .. icons: https://fonts.google.com/icons
+.. icons: https://fonts.google.com/icons
 
-    .. grid:: 2
+.. grid:: 2
 
-        .. grid-item-card:: :material-outlined:`summarize;3em` User Guide
-        .. grid-item-card:: :material-regular:`install_desktop;3em` Installation
-        .. grid-item-card:: :material-regular:`subscriptions;3em` API
-        .. grid-item-card:: :material-regular:`history;3em` History of changes
+    .. grid-item-card:: :material-outlined:`summarize;3em` :ref:`user_guide`
+    .. grid-item-card:: :material-regular:`subscriptions;3em` :ref:`api`
+
+.. .. grid-item-card :: :material-regular:`install_desktop;3em` Installation
+.. .. grid-item-card:: :material-regular:`history;3em` History of changes
 
 .. _about:
 
