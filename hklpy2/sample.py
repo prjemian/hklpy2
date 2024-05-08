@@ -58,7 +58,7 @@ class Sample:
 
     def refine_lattice(self):
         """Refine the lattice parameters from 3 or more reflections."""
-        if len(self._reflections) < 3:
+        if len(self.self.reflections) < 3:
             raise SampleError("Need 3 or more reflections to refine lattice.")
 
         # self.solver.refineLattice()  # TODO
@@ -86,6 +86,17 @@ class Sample:
         if not isinstance(value, (type(None), str)):
             raise TypeError(f"Must supply str, received {value!r}")
         self._name = value
+
+    @property
+    def reflections(self):
+        """Ordered dictionary of orientation reflections."""
+        return self._reflections
+
+    @reflections.setter
+    def reflections(self, value):
+        if not isinstance(value, ReflectionsDict):
+            raise TypeError(f"Must supply ReflectionsDict() object, received {value!r}")
+        self._reflections = value
 
     @property
     def solver(self):
