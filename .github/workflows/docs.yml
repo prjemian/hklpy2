@@ -39,6 +39,9 @@ jobs:
       - name: Set time zone
         run: echo "TZ=America/Chicago" >> "$GITHUB_ENV"
 
+      - name: install pandoc in the OS
+        run: sudo apt-get install pandoc
+
       - name: Sphinx build
         id: deployment
         uses: sphinx-notes/pages@v3
