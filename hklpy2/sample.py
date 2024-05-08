@@ -57,11 +57,7 @@ class Sample:
     def refine_lattice(self):
         """Refine the lattice parameters from 3 or more reflections."""
         if len(self._reflections) < 3:
-            # fmt: off
-            raise SampleError(
-                "Must have at least 3 reflections to refine_lattice()."
-            )
-            # fmt: on
+            raise SampleError("Need 3 or more reflections to refine lattice.")
 
         # self.solver.refineLattice()  # TODO
 
