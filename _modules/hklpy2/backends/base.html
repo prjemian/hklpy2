@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
   <script src="../../../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script src="../../../_static/documentation_options.js?v=a9fe22ea"></script>
+    <script src="../../../_static/documentation_options.js?v=a65697ad"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/tabs.js?v=3030b3cb"></script>
@@ -430,7 +430,7 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">gname</span> <span class="o">=</span> <span class="kc">None</span>
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">(name=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">)&quot;</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">(name=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__name__</span><span class="si">!r}</span><span class="s2">)&quot;</span>
 
 <div class="viewcode-block" id="SolverBase.addReflection">
 <a class="viewcode-back" href="../../../api/backends/base.html#hklpy2.backends.base.SolverBase.addReflection">[docs]</a>
@@ -469,6 +469,9 @@ document.write(`
     <span class="k">def</span> <span class="nf">geometries</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Ordered list of the geometry names.&quot;&quot;&quot;</span>
         <span class="k">pass</span>
+
+    <span class="c1"># TODO geometry get/set properties</span>
+    <span class="c1"># TODO: refactor all of setGeometry into geometry set</span>
 
 <div class="viewcode-block" id="SolverBase.inverse">
 <a class="viewcode-back" href="../../../api/backends/base.html#hklpy2.backends.base.SolverBase.inverse">[docs]</a>

@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
   <script src="../../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script src="../../_static/documentation_options.js?v=a9fe22ea"></script>
+    <script src="../../_static/documentation_options.js?v=a65697ad"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/design-tabs.js?v=36754332"></script>
@@ -440,12 +440,18 @@ Wraps the <strong>Hkl/Soleil</strong> library from Frédéric-Emmanuel PICCA (So
 <dt class="sig sig-object py" id="hklpy2.backends.hkl_soleil.HklSolver.geometries">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">geometries</span></span><a class="headerlink" href="#hklpy2.backends.hkl_soleil.HklSolver.geometries" title="Link to this definition">#</a></dt>
 <dd><p>Ordered list of the geometry names.</p>
+<p>For <strong>Hkl/Soleil</strong>, each geometry may have zero or more computational
+<em>engines</em>. Each engine has its own set of pseudos and reals.  Some of
+the engines have additional (optional) axes.</p>
+<p>So the gemoetry <em>names</em> include both the geometry and its engine, such
+as <cite>“E4CV, hkl”</cite>.</p>
+<p>TODO: confirm with the <strong>Hkl/Soleil</strong> docs</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="hklpy2.backends.hkl_soleil.HklSolver.geometry">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">geometry</span></span><a class="headerlink" href="#hklpy2.backends.hkl_soleil.HklSolver.geometry" title="Link to this definition">#</a></dt>
-<dd><p>Diffractometer geometry.</p>
+<dd><p>Diffractometer geometry, such as <cite>“E4CV, hkl”</cite>.</p>
 </dd></dl>
 
 <dl class="py method">

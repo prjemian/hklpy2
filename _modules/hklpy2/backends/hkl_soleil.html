@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
   <script src="../../../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script src="../../../_static/documentation_options.js?v=a9fe22ea"></script>
+    <script src="../../../_static/documentation_options.js?v=a65697ad"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/tabs.js?v=3030b3cb"></script>
@@ -370,7 +370,7 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">detector</span> <span class="o">=</span> <span class="n">libhkl</span><span class="o">.</span><span class="n">Detector</span><span class="o">.</span><span class="n">factory_new</span><span class="p">(</span><span class="n">libhkl</span><span class="o">.</span><span class="n">DetectorType</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_engine</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_engines</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_factories</span> <span class="o">=</span> <span class="n">libhkl</span><span class="o">.</span><span class="n">factories</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_factory</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_geometry</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">user_units</span> <span class="o">=</span> <span class="n">libhkl</span><span class="o">.</span><span class="n">UnitEnum</span><span class="o">.</span><span class="n">USER</span>
 
@@ -404,17 +404,31 @@ document.write(`
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">geometries</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">geometries</span> <span class="o">=</span> <span class="p">[</span>
-            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">factory</span><span class="o">.</span><span class="n">name_get</span><span class="p">()</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">engine</span><span class="o">.</span><span class="n">name_get</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span>
-            <span class="c1"># f&quot;{factory.name_get()}&quot;</span>
-            <span class="k">for</span> <span class="n">factory</span> <span class="ow">in</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_factories</span> <span class="ow">or</span> <span class="p">{})</span><span class="o">.</span><span class="n">values</span><span class="p">()</span>
-            <span class="k">for</span> <span class="n">engine</span> <span class="ow">in</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_engines</span> <span class="ow">or</span> <span class="p">{})</span><span class="o">.</span><span class="n">engines_get</span><span class="p">()</span>
-        <span class="p">]</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Ordered list of the geometry names.</span>
+
+<span class="sd">        For |libhkl|, each geometry may have zero or more computational</span>
+<span class="sd">        *engines*. Each engine has its own set of pseudos and reals.  Some of</span>
+<span class="sd">        the engines have additional (optional) axes.</span>
+
+<span class="sd">        So the gemoetry *names* include both the geometry and its engine, such</span>
+<span class="sd">        as `&quot;E4CV, hkl&quot;`.</span>
+
+<span class="sd">        TODO: confirm with the |libhkl| docs</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">geometries</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">fname</span><span class="p">,</span> <span class="n">factory</span> <span class="ow">in</span> <span class="n">libhkl</span><span class="o">.</span><span class="n">factories</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="c1"># Underlying library raises error for the merged call:</span>
+            <span class="c1">#   factory.create_new_engine_list().engines_get()</span>
+            <span class="c1"># MUST do this in two parts here (and elsewhere).</span>
+            <span class="n">engines</span> <span class="o">=</span> <span class="n">factory</span><span class="o">.</span><span class="n">create_new_engine_list</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">engine</span> <span class="ow">in</span> <span class="n">engines</span><span class="o">.</span><span class="n">engines_get</span><span class="p">():</span>
+                <span class="n">geometries</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">fname</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">engine</span><span class="o">.</span><span class="n">name_get</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">geometries</span><span class="p">))</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">geometry</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Diffractometer geometry.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Diffractometer geometry, such as `&quot;E4CV, hkl&quot;`.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_geometry</span>
 
     <span class="nd">@geometry</span><span class="o">.</span><span class="n">setter</span>
@@ -425,7 +439,7 @@ document.write(`
         <span class="k">if</span> <span class="n">value</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">geometries</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Geometry </span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2"> unknown.&quot;</span><span class="p">)</span>
         <span class="n">gname</span><span class="p">,</span> <span class="n">engine</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">value</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">setGeometry</span><span class="p">(</span><span class="n">gname</span><span class="p">,</span> <span class="n">engine</span><span class="o">=</span><span class="n">engine</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">setGeometry</span><span class="p">(</span><span class="n">gname</span><span class="p">,</span> <span class="n">engine</span><span class="o">=</span><span class="n">engine</span><span class="p">)</span>  <span class="c1"># TODO: refactor all of setGeometry here</span>
 
 <div class="viewcode-block" id="HklSolver.inverse">
 <a class="viewcode-back" href="../../../api/backends/hkl_soleil.html#hklpy2.backends.hkl_soleil.HklSolver.inverse">[docs]</a>
@@ -461,10 +475,10 @@ document.write(`
 <div class="viewcode-block" id="HklSolver.setGeometry">
 <a class="viewcode-back" href="../../../api/backends/hkl_soleil.html#hklpy2.backends.hkl_soleil.HklSolver.setGeometry">[docs]</a>
     <span class="k">def</span> <span class="nf">setGeometry</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gname</span><span class="p">,</span> <span class="n">engine</span><span class="o">=</span><span class="s2">&quot;hkl&quot;</span><span class="p">):</span>
-        <span class="n">factory</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_factories</span><span class="p">[</span><span class="n">gname</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_factory</span> <span class="o">=</span> <span class="n">libhkl</span><span class="o">.</span><span class="n">factories</span><span class="p">()[</span><span class="n">gname</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">gname</span> <span class="o">=</span> <span class="n">gname</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_geometry</span> <span class="o">=</span> <span class="n">factory</span><span class="o">.</span><span class="n">create_new_geometry</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_engines</span> <span class="o">=</span> <span class="n">factory</span><span class="o">.</span><span class="n">create_new_engine_list</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_geometry</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_factory</span><span class="o">.</span><span class="n">create_new_geometry</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_engines</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_factory</span><span class="o">.</span><span class="n">create_new_engine_list</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_engine</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_engines</span><span class="o">.</span><span class="n">engine_get_by_name</span><span class="p">(</span><span class="n">engine</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_geometry</span></div>
 
