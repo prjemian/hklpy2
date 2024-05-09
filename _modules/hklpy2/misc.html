@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
   <script src="../../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script src="../../_static/documentation_options.js?v=a65697ad"></script>
+    <script src="../../_static/documentation_options.js?v=d96bc490"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/tabs.js?v=3030b3cb"></script>
@@ -321,10 +321,55 @@ document.write(`
 
 <span class="sd">.. autosummary::</span>
 
+<span class="sd">    ~SOLVER_ENTRYPOINT_GROUP</span>
+<span class="sd">    ~get_solver</span>
+<span class="sd">    ~solvers</span>
 <span class="sd">    ~unique_name</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">import</span> <span class="nn">uuid</span>
+<span class="kn">from</span> <span class="nn">importlib.metadata</span> <span class="kn">import</span> <span class="n">entry_points</span>
+
+<span class="n">SOLVER_ENTRYPOINT_GROUP</span> <span class="o">=</span> <span class="s2">&quot;hklpy2.solver&quot;</span>
+<span class="sd">&quot;&quot;&quot;Name by which |hklpy2| backend |solver| classes are grouped.&quot;&quot;&quot;</span>
+
+
+<div class="viewcode-block" id="get_solver">
+<a class="viewcode-back" href="../../api/z_misc.html#hklpy2.misc.get_solver">[docs]</a>
+<span class="k">def</span> <span class="nf">get_solver</span><span class="p">(</span><span class="n">solver_name</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Load a Solver class from a named entry point.</span>
+
+<span class="sd">    ::</span>
+
+<span class="sd">        import hklpy2</span>
+<span class="sd">        SolverClass = hklpy2.get_solver(&quot;hkl_soleil&quot;)</span>
+<span class="sd">        libhkl_solver = SolverClass()</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">entries</span> <span class="o">=</span> <span class="n">entry_points</span><span class="p">(</span><span class="n">group</span><span class="o">=</span><span class="n">SOLVER_ENTRYPOINT_GROUP</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">entries</span><span class="p">[</span><span class="n">solver_name</span><span class="p">]</span><span class="o">.</span><span class="n">load</span><span class="p">()</span></div>
+
+
+
+<div class="viewcode-block" id="solvers">
+<a class="viewcode-back" href="../../api/z_misc.html#hklpy2.misc.solvers">[docs]</a>
+<span class="k">def</span> <span class="nf">solvers</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Dictionary of available Solver classes, mapped by entry point name.</span>
+
+<span class="sd">    ::</span>
+
+<span class="sd">        import hklpy2</span>
+<span class="sd">        print(hklpy2.solvers())</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># fmt: off</span>
+    <span class="n">entries</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="n">ep</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="n">ep</span><span class="o">.</span><span class="n">value</span>
+        <span class="k">for</span> <span class="n">ep</span> <span class="ow">in</span> <span class="n">entry_points</span><span class="p">(</span><span class="n">group</span><span class="o">=</span><span class="n">SOLVER_ENTRYPOINT_GROUP</span><span class="p">)</span>
+    <span class="p">}</span>
+    <span class="c1"># fmt: on</span>
+    <span class="k">return</span> <span class="n">entries</span></div>
+
 
 
 <div class="viewcode-block" id="unique_name">

@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
   <script src="../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script src="../_static/documentation_options.js?v=a65697ad"></script>
+    <script src="../_static/documentation_options.js?v=d96bc490"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/design-tabs.js?v=36754332"></script>
@@ -348,11 +348,47 @@ document.write(`
 <p>Miscellaneous Support.</p>
 <table class="autosummary longtable table autosummary">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.misc.unique_name" title="hklpy2.misc.unique_name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">unique_name</span></code></a>([prefix])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.misc.SOLVER_ENTRYPOINT_GROUP" title="hklpy2.misc.SOLVER_ENTRYPOINT_GROUP"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SOLVER_ENTRYPOINT_GROUP</span></code></a></p></td>
+<td><p>Name by which <strong>hklpy2</strong> backend <strong>Solver</strong> classes are grouped.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.misc.get_solver" title="hklpy2.misc.get_solver"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_solver</span></code></a>(solver_name)</p></td>
+<td><p>Load a Solver class from a named entry point.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.misc.solvers" title="hklpy2.misc.solvers"><code class="xref py py-obj docutils literal notranslate"><span class="pre">solvers</span></code></a>()</p></td>
+<td><p>Dictionary of available Solver classes, mapped by entry point name.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.misc.unique_name" title="hklpy2.misc.unique_name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">unique_name</span></code></a>([prefix])</p></td>
 <td><p>Short, unique name, first 7 characters of a unique, random uuid.</p></td>
 </tr>
 </tbody>
 </table>
+<dl class="py data">
+<dt class="sig sig-object py" id="hklpy2.misc.SOLVER_ENTRYPOINT_GROUP">
+<span class="sig-prename descclassname"><span class="pre">hklpy2.misc.</span></span><span class="sig-name descname"><span class="pre">SOLVER_ENTRYPOINT_GROUP</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'hklpy2.solver'</span></em><a class="headerlink" href="#hklpy2.misc.SOLVER_ENTRYPOINT_GROUP" title="Link to this definition">#</a></dt>
+<dd><p>Name by which <strong>hklpy2</strong> backend <strong>Solver</strong> classes are grouped.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="hklpy2.misc.get_solver">
+<span class="sig-prename descclassname"><span class="pre">hklpy2.misc.</span></span><span class="sig-name descname"><span class="pre">get_solver</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">solver_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hklpy2/misc.html#get_solver"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.misc.get_solver" title="Link to this definition">#</a></dt>
+<dd><p>Load a Solver class from a named entry point.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">hklpy2</span>
+<span class="n">SolverClass</span> <span class="o">=</span> <span class="n">hklpy2</span><span class="o">.</span><span class="n">get_solver</span><span class="p">(</span><span class="s2">&quot;hkl_soleil&quot;</span><span class="p">)</span>
+<span class="n">libhkl_solver</span> <span class="o">=</span> <span class="n">SolverClass</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="hklpy2.misc.solvers">
+<span class="sig-prename descclassname"><span class="pre">hklpy2.misc.</span></span><span class="sig-name descname"><span class="pre">solvers</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hklpy2/misc.html#solvers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.misc.solvers" title="Link to this definition">#</a></dt>
+<dd><p>Dictionary of available Solver classes, mapped by entry point name.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">hklpy2</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">hklpy2</span><span class="o">.</span><span class="n">solvers</span><span class="p">())</span>
+</pre></div>
+</div>
+</dd></dl>
+
 <dl class="py function">
 <dt class="sig sig-object py" id="hklpy2.misc.unique_name">
 <span class="sig-prename descclassname"><span class="pre">hklpy2.misc.</span></span><span class="sig-name descname"><span class="pre">unique_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prefix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hklpy2/misc.html#unique_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.misc.unique_name" title="Link to this definition">#</a></dt>
@@ -409,6 +445,9 @@ document.write(`
   <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-hklpy2.misc">Source Code Documentation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.misc.SOLVER_ENTRYPOINT_GROUP"><code class="docutils literal notranslate"><span class="pre">SOLVER_ENTRYPOINT_GROUP</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.misc.get_solver"><code class="docutils literal notranslate"><span class="pre">get_solver()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.misc.solvers"><code class="docutils literal notranslate"><span class="pre">solvers()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.misc.unique_name"><code class="docutils literal notranslate"><span class="pre">unique_name()</span></code></a></li>
 </ul>
 </li>

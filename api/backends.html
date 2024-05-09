@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
   <script src="../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script src="../_static/documentation_options.js?v=a65697ad"></script>
+    <script src="../_static/documentation_options.js?v=d96bc490"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/design-tabs.js?v=36754332"></script>
@@ -385,7 +385,7 @@ using the <code class="docutils literal notranslate"><span class="pre">&quot;hkl
 <section id="how-to-select-a-solver">
 <span id="api-backends-set"></span><h2>How to select a Solver<a class="headerlink" href="#how-to-select-a-solver" title="Link to this heading">#</a></h2>
 <p>To select a <strong>Solver</strong> class, call
-<a class="reference internal" href="backends/base.html#hklpy2.backends.base.get_solver" title="hklpy2.backends.base.get_solver"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_solver()</span></code></a>. This example
+<a class="reference internal" href="z_misc.html#hklpy2.misc.get_solver" title="hklpy2.misc.get_solver"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_solver()</span></code></a>. This example
 selects the <strong>Hkl/Soleil</strong> <strong>Solver</strong> (using its entry point name: <code class="docutils literal notranslate"><span class="pre">&quot;hkl_soleil&quot;</span></code>):</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hklpy2</span> <span class="kn">import</span> <span class="n">get_solver</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">Solver</span> <span class="o">=</span> <span class="n">get_solver</span><span class="p">(</span><span class="s2">&quot;hkl_soleil&quot;</span><span class="p">)</span>
@@ -394,7 +394,7 @@ selects the <strong>Hkl/Soleil</strong> <strong>Solver</strong> (using its entry
 </pre></div>
 </div>
 <p>To list all available <strong>Solver</strong> classes (by their entry point name),
-call <a class="reference internal" href="backends/base.html#hklpy2.backends.base.solvers" title="hklpy2.backends.base.solvers"><code class="xref py py-func docutils literal notranslate"><span class="pre">solvers()</span></code></a>.
+call <code class="xref py py-func docutils literal notranslate"><span class="pre">solvers()</span></code>.
 This example shows the <strong>Solver</strong> classes supplied with <strong>hklpy2</strong>:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hklpy2</span> <span class="kn">import</span> <span class="n">solvers</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">solvers</span><span class="p">()</span>
@@ -422,9 +422,10 @@ This example shows the <strong>Solver</strong> classes supplied with <strong>hkl
 <section id="module-hklpy2.backends">
 <span id="source-code-documentation"></span><h2>Source Code Documentation<a class="headerlink" href="#module-hklpy2.backends" title="Link to this heading">#</a></h2>
 <p>A Solver connects <strong>hklpy2</strong> with a backend calculation library.</p>
-<p>A backend (or solver) is a Python class that connects <strong>hklpy2</strong> with a library
-backend that provides diffractometer capabilities.  See the API documentation
-for details.</p>
+<p>A <span class="target" id="index-0"></span>Solver class (also described as a <em>backend</em>) is a
+Python class that connects <strong>hklpy2</strong> with a library
+that provides diffractometer geometries &amp; calculations.
+See the API documentation for details.</p>
 <p class="rubric">Built-in Solvers</p>
 <table class="autosummary longtable table autosummary">
 <tbody>
@@ -436,20 +437,11 @@ for details.</p>
 </tr>
 </tbody>
 </table>
-<p class="rubric">Other support</p>
+<p class="rubric">Base class for all solvers</p>
 <table class="autosummary longtable table autosummary">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="backends/base.html#hklpy2.backends.base.SolverBase" title="hklpy2.backends.base.SolverBase"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SolverBase</span></code></a>()</p></td>
 <td><p>Base class for all <strong>hklpy2</strong> <strong>Solver</strong> classes.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="backends/base.html#hklpy2.backends.base.get_solver" title="hklpy2.backends.base.get_solver"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_solver</span></code></a>(solver_name)</p></td>
-<td><p>Load a Solver class from a named entry point.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="backends/base.html#hklpy2.backends.base.solvers" title="hklpy2.backends.base.solvers"><code class="xref py py-obj docutils literal notranslate"><span class="pre">solvers</span></code></a>()</p></td>
-<td><p>Dictionary of available Solver classes, mapped by entry point name.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="backends/base.html#hklpy2.backends.base.SOLVER_ENTRYPOINT_GROUP" title="hklpy2.backends.base.SOLVER_ENTRYPOINT_GROUP"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SOLVER_ENTRYPOINT_GROUP</span></code></a></p></td>
-<td><p>Name by which <strong>hklpy2</strong> backend <strong>Solver</strong> classes are grouped.</p></td>
 </tr>
 </tbody>
 </table>

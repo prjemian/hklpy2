@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
   <script src="../../../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script src="../../../_static/documentation_options.js?v=a65697ad"></script>
+    <script src="../../../_static/documentation_options.js?v=d96bc490"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/tabs.js?v=3030b3cb"></script>
@@ -319,6 +319,12 @@ document.write(`
 <span></span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">Backend: Hkl (``&quot;hkl_soleil&quot;``)</span>
 
+<span class="sd">Example::</span>
+
+<span class="sd">    import hklpy2</span>
+<span class="sd">    SolverClass = hklpy2.get_solver(&quot;hkl_soleil&quot;)</span>
+<span class="sd">    libhkl_solver = SolverClass()</span>
+
 <span class="sd">.. autosummary::</span>
 
 <span class="sd">    ~HklSolver</span>
@@ -350,12 +356,12 @@ document.write(`
 <span class="sd">        ~calculateOrientation</span>
 <span class="sd">        ~forward</span>
 <span class="sd">        ~geometries</span>
+<span class="sd">        ~geometry</span>
 <span class="sd">        ~inverse</span>
 <span class="sd">        ~modes</span>
 <span class="sd">        ~pseudo_axis_names</span>
 <span class="sd">        ~real_axis_names</span>
 <span class="sd">        ~refineLattice</span>
-<span class="sd">        ~setGeometry</span>
 <span class="sd">        ~setLattice</span>
 <span class="sd">        ~setMode</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -438,8 +444,14 @@ document.write(`
         <span class="c1"># self._geometry = value</span>
         <span class="k">if</span> <span class="n">value</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">geometries</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Geometry </span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2"> unknown.&quot;</span><span class="p">)</span>
+
         <span class="n">gname</span><span class="p">,</span> <span class="n">engine</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">value</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">setGeometry</span><span class="p">(</span><span class="n">gname</span><span class="p">,</span> <span class="n">engine</span><span class="o">=</span><span class="n">engine</span><span class="p">)</span>  <span class="c1"># TODO: refactor all of setGeometry here</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_factory</span> <span class="o">=</span> <span class="n">libhkl</span><span class="o">.</span><span class="n">factories</span><span class="p">()[</span><span class="n">gname</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gname</span> <span class="o">=</span> <span class="n">gname</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_geometry</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_factory</span><span class="o">.</span><span class="n">create_new_geometry</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_engines</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_factory</span><span class="o">.</span><span class="n">create_new_engine_list</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_engine</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_engines</span><span class="o">.</span><span class="n">engine_get_by_name</span><span class="p">(</span><span class="n">engine</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_geometry</span>
 
 <div class="viewcode-block" id="HklSolver.inverse">
 <a class="viewcode-back" href="../../../api/backends/hkl_soleil.html#hklpy2.backends.hkl_soleil.HklSolver.inverse">[docs]</a>
@@ -470,17 +482,6 @@ document.write(`
     <span class="k">def</span> <span class="nf">refineLattice</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reflections</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Refine the lattice parameters from a list of reflections.&quot;&quot;&quot;</span>
         <span class="k">pass</span>  <span class="c1"># TODO</span></div>
-
-
-<div class="viewcode-block" id="HklSolver.setGeometry">
-<a class="viewcode-back" href="../../../api/backends/hkl_soleil.html#hklpy2.backends.hkl_soleil.HklSolver.setGeometry">[docs]</a>
-    <span class="k">def</span> <span class="nf">setGeometry</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gname</span><span class="p">,</span> <span class="n">engine</span><span class="o">=</span><span class="s2">&quot;hkl&quot;</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_factory</span> <span class="o">=</span> <span class="n">libhkl</span><span class="o">.</span><span class="n">factories</span><span class="p">()[</span><span class="n">gname</span><span class="p">]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">gname</span> <span class="o">=</span> <span class="n">gname</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_geometry</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_factory</span><span class="o">.</span><span class="n">create_new_geometry</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_engines</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_factory</span><span class="o">.</span><span class="n">create_new_engine_list</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_engine</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_engines</span><span class="o">.</span><span class="n">engine_get_by_name</span><span class="p">(</span><span class="n">engine</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_geometry</span></div>
 
 
 <div class="viewcode-block" id="HklSolver.setLattice">

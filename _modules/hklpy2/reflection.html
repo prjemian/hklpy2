@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
   <script src="../../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script src="../../_static/documentation_options.js?v=a65697ad"></script>
+    <script src="../../_static/documentation_options.js?v=d96bc490"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/tabs.js?v=3030b3cb"></script>
@@ -366,6 +366,7 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">pseudos</span> <span class="o">=</span> <span class="n">pseudos</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">angles</span> <span class="o">=</span> <span class="n">angles</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">wavelength</span> <span class="o">=</span> <span class="n">wavelength</span>
+        <span class="c1"># TODO: what about optional items (azimuth, h1, h2, zones, ...)</span>
 
 <div class="viewcode-block" id="Reflection._asdict">
 <a class="viewcode-back" href="../../api/reflection.html#hklpy2.reflection.Reflection._asdict">[docs]</a>
@@ -390,7 +391,7 @@ document.write(`
     <span class="c1"># --------- get/set properties</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">angles</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">angles</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>  <span class="c1"># TODO: rename as reals?</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Ordered dictionary of diffractometer&#39;s real-space axes.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_angles</span>
 
@@ -398,6 +399,7 @@ document.write(`
     <span class="k">def</span> <span class="nf">angles</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Must supply dict, received angles=</span><span class="si">{</span><span class="n">value</span><span class="si">!r}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="c1"># TODO: validate against self.solver.real_axis_names</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_angles</span> <span class="o">=</span> <span class="n">value</span>
 
     <span class="nd">@property</span>
@@ -420,6 +422,7 @@ document.write(`
     <span class="k">def</span> <span class="nf">pseudos</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Must supply dict, received pseudos=</span><span class="si">{</span><span class="n">value</span><span class="si">!r}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="c1"># TODO: validate against self.solver.pseudo_axis_names</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_pseudos</span> <span class="o">=</span> <span class="n">value</span>
 
     <span class="nd">@property</span>
@@ -481,12 +484,18 @@ document.write(`
 
 <div class="viewcode-block" id="ReflectionsDict.add">
 <a class="viewcode-back" href="../../api/reflection.html#hklpy2.reflection.ReflectionsDict.add">[docs]</a>
-    <span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reflection</span><span class="p">:</span> <span class="n">Reflection</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reflection</span><span class="p">:</span> <span class="n">Reflection</span><span class="p">,</span> <span class="n">overwrite</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Add an orientation reflection.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">reflection</span><span class="o">.</span><span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">overwrite</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">ReflectionError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Reflection </span><span class="si">{</span><span class="n">reflection</span><span class="o">.</span><span class="n">name</span><span class="si">!r}</span><span class="s2"> already defined. &quot;</span>
+                <span class="s2">&quot;Set `overwrite=True` to replace it.&quot;</span>
+            <span class="p">)</span>
         <span class="bp">self</span><span class="p">[</span><span class="n">reflection</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">reflection</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">ordering</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">reflection</span><span class="o">.</span><span class="n">name</span><span class="p">)</span></div>
+        <span class="k">if</span> <span class="n">reflection</span><span class="o">.</span><span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">ordering</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ordering</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">reflection</span><span class="o">.</span><span class="n">name</span><span class="p">)</span></div>
 
-        <span class="c1"># TODO: ensure no duplicate names</span>
+        <span class="c1"># TODO: remove any reflections from ordering that no longer exist</span>
 
 <div class="viewcode-block" id="ReflectionsDict.swap">
 <a class="viewcode-back" href="../../api/reflection.html#hklpy2.reflection.ReflectionsDict.swap">[docs]</a>

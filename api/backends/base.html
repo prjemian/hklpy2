@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
   <script src="../../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script src="../../_static/documentation_options.js?v=a65697ad"></script>
+    <script src="../../_static/documentation_options.js?v=d96bc490"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/design-tabs.js?v=36754332"></script>
@@ -352,23 +352,8 @@ document.write(`
 <tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.backends.base.SolverBase" title="hklpy2.backends.base.SolverBase"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SolverBase</span></code></a>()</p></td>
 <td><p>Base class for all <strong>hklpy2</strong> <strong>Solver</strong> classes.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.backends.base.SOLVER_ENTRYPOINT_GROUP" title="hklpy2.backends.base.SOLVER_ENTRYPOINT_GROUP"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SOLVER_ENTRYPOINT_GROUP</span></code></a></p></td>
-<td><p>Name by which <strong>hklpy2</strong> backend <strong>Solver</strong> classes are grouped.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.backends.base.get_solver" title="hklpy2.backends.base.get_solver"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_solver</span></code></a>(solver_name)</p></td>
-<td><p>Load a Solver class from a named entry point.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.backends.base.solvers" title="hklpy2.backends.base.solvers"><code class="xref py py-obj docutils literal notranslate"><span class="pre">solvers</span></code></a>()</p></td>
-<td><p>Dictionary of available Solver classes, mapped by entry point name.</p></td>
-</tr>
 </tbody>
 </table>
-<dl class="py data">
-<dt class="sig sig-object py" id="hklpy2.backends.base.SOLVER_ENTRYPOINT_GROUP">
-<span class="sig-prename descclassname"><span class="pre">hklpy2.backends.base.</span></span><span class="sig-name descname"><span class="pre">SOLVER_ENTRYPOINT_GROUP</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'hklpy2.solver'</span></em><a class="headerlink" href="#hklpy2.backends.base.SOLVER_ENTRYPOINT_GROUP" title="Link to this definition">#</a></dt>
-<dd><p>Name by which <strong>hklpy2</strong> backend <strong>Solver</strong> classes are grouped.</p>
-</dd></dl>
-
 <dl class="py class">
 <dt class="sig sig-object py" id="hklpy2.backends.base.SolverBase">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">hklpy2.backends.base.</span></span><span class="sig-name descname"><span class="pre">SolverBase</span></span><a class="reference internal" href="../../_modules/hklpy2/backends/base.html#SolverBase"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.backends.base.SolverBase" title="Link to this definition">#</a></dt>
@@ -413,23 +398,23 @@ as best fits the underlying support library.</p>
 <tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.backends.base.SolverBase.geometries" title="hklpy2.backends.base.SolverBase.geometries"><code class="xref py py-obj docutils literal notranslate"><span class="pre">geometries</span></code></a></p></td>
 <td><p>Ordered list of the geometry names.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.backends.base.SolverBase.inverse" title="hklpy2.backends.base.SolverBase.inverse"><code class="xref py py-obj docutils literal notranslate"><span class="pre">inverse</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.backends.base.SolverBase.geometry" title="hklpy2.backends.base.SolverBase.geometry"><code class="xref py py-obj docutils literal notranslate"><span class="pre">geometry</span></code></a></p></td>
+<td><p>Selected diffractometer geometry.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.backends.base.SolverBase.inverse" title="hklpy2.backends.base.SolverBase.inverse"><code class="xref py py-obj docutils literal notranslate"><span class="pre">inverse</span></code></a>()</p></td>
 <td><p>Compute tuple of pseudos from reals (angles -&gt; hkl).</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.backends.base.SolverBase.modes" title="hklpy2.backends.base.SolverBase.modes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">modes</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.backends.base.SolverBase.modes" title="hklpy2.backends.base.SolverBase.modes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">modes</span></code></a></p></td>
 <td><p>List of the geometry operating modes.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.backends.base.SolverBase.pseudo_axis_names" title="hklpy2.backends.base.SolverBase.pseudo_axis_names"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pseudo_axis_names</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.backends.base.SolverBase.pseudo_axis_names" title="hklpy2.backends.base.SolverBase.pseudo_axis_names"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pseudo_axis_names</span></code></a></p></td>
 <td><p>Ordered list of the pseudo axis names (such as h, k, l).</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.backends.base.SolverBase.real_axis_names" title="hklpy2.backends.base.SolverBase.real_axis_names"><code class="xref py py-obj docutils literal notranslate"><span class="pre">real_axis_names</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.backends.base.SolverBase.real_axis_names" title="hklpy2.backends.base.SolverBase.real_axis_names"><code class="xref py py-obj docutils literal notranslate"><span class="pre">real_axis_names</span></code></a></p></td>
 <td><p>Ordered list of the real axis names (such as th, tth).</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.backends.base.SolverBase.refineLattice" title="hklpy2.backends.base.SolverBase.refineLattice"><code class="xref py py-obj docutils literal notranslate"><span class="pre">refineLattice</span></code></a>(reflections)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.backends.base.SolverBase.refineLattice" title="hklpy2.backends.base.SolverBase.refineLattice"><code class="xref py py-obj docutils literal notranslate"><span class="pre">refineLattice</span></code></a>(reflections)</p></td>
 <td><p>Refine the lattice parameters from a list of reflections.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.backends.base.SolverBase.setGeometry" title="hklpy2.backends.base.SolverBase.setGeometry"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setGeometry</span></code></a>(gname, **kwargs)</p></td>
-<td><p>Select one of the diffractometer geometries.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.backends.base.SolverBase.setLattice" title="hklpy2.backends.base.SolverBase.setLattice"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setLattice</span></code></a>(lattice)</p></td>
 <td><p>Define the sample's lattice parameters.</p></td>
@@ -469,6 +454,12 @@ as best fits the underlying support library.</p>
 <dd><p>Ordered list of the geometry names.</p>
 </dd></dl>
 
+<dl class="py property">
+<dt class="sig sig-object py" id="hklpy2.backends.base.SolverBase.geometry">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">geometry</span></span><a class="headerlink" href="#hklpy2.backends.base.SolverBase.geometry" title="Link to this definition">#</a></dt>
+<dd><p>Selected diffractometer geometry.</p>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="hklpy2.backends.base.SolverBase.inverse">
 <em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">inverse</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hklpy2/backends/base.html#SolverBase.inverse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.backends.base.SolverBase.inverse" title="Link to this definition">#</a></dt>
@@ -500,12 +491,6 @@ as best fits the underlying support library.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="hklpy2.backends.base.SolverBase.setGeometry">
-<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">setGeometry</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gname</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hklpy2/backends/base.html#SolverBase.setGeometry"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.backends.base.SolverBase.setGeometry" title="Link to this definition">#</a></dt>
-<dd><p>Select one of the diffractometer geometries.</p>
-</dd></dl>
-
-<dl class="py method">
 <dt class="sig sig-object py" id="hklpy2.backends.base.SolverBase.setLattice">
 <em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">setLattice</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lattice</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hklpy2/backends/base.html#SolverBase.setLattice"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.backends.base.SolverBase.setLattice" title="Link to this definition">#</a></dt>
 <dd><p>Define the sample’s lattice parameters.</p>
@@ -519,26 +504,6 @@ as best fits the underlying support library.</p>
 <a class="reference internal" href="#hklpy2.backends.base.SolverBase.forward" title="hklpy2.backends.base.SolverBase.forward"><code class="xref py py-meth docutils literal notranslate"><span class="pre">forward()</span></code></a> computation.</p>
 </dd></dl>
 
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="hklpy2.backends.base.get_solver">
-<span class="sig-prename descclassname"><span class="pre">hklpy2.backends.base.</span></span><span class="sig-name descname"><span class="pre">get_solver</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">solver_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hklpy2/backends/base.html#get_solver"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.backends.base.get_solver" title="Link to this definition">#</a></dt>
-<dd><p>Load a Solver class from a named entry point.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">hklpy2</span>
-<span class="n">Solver</span> <span class="o">=</span> <span class="n">hklpy2</span><span class="o">.</span><span class="n">get_solver</span><span class="p">(</span><span class="s2">&quot;hkl_soleil&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="hklpy2.backends.base.solvers">
-<span class="sig-prename descclassname"><span class="pre">hklpy2.backends.base.</span></span><span class="sig-name descname"><span class="pre">solvers</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hklpy2/backends/base.html#solvers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.backends.base.solvers" title="Link to this definition">#</a></dt>
-<dd><p>Dictionary of available Solver classes, mapped by entry point name.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">hklpy2</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">hklpy2</span><span class="o">.</span><span class="n">solvers</span><span class="p">())</span>
-</pre></div>
-</div>
 </dd></dl>
 
 </section>
@@ -589,25 +554,22 @@ as best fits the underlying support library.</p>
   </div>
   <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.backends.base.SOLVER_ENTRYPOINT_GROUP"><code class="docutils literal notranslate"><span class="pre">SOLVER_ENTRYPOINT_GROUP</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.backends.base.SolverBase"><code class="docutils literal notranslate"><span class="pre">SolverBase</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.backends.base.SolverBase.addReflection"><code class="docutils literal notranslate"><span class="pre">SolverBase.addReflection()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.backends.base.SolverBase.addSample"><code class="docutils literal notranslate"><span class="pre">SolverBase.addSample()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.backends.base.SolverBase.calculateOrientation"><code class="docutils literal notranslate"><span class="pre">SolverBase.calculateOrientation()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.backends.base.SolverBase.forward"><code class="docutils literal notranslate"><span class="pre">SolverBase.forward()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.backends.base.SolverBase.geometries"><code class="docutils literal notranslate"><span class="pre">SolverBase.geometries</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.backends.base.SolverBase.geometry"><code class="docutils literal notranslate"><span class="pre">SolverBase.geometry</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.backends.base.SolverBase.inverse"><code class="docutils literal notranslate"><span class="pre">SolverBase.inverse()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.backends.base.SolverBase.modes"><code class="docutils literal notranslate"><span class="pre">SolverBase.modes</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.backends.base.SolverBase.pseudo_axis_names"><code class="docutils literal notranslate"><span class="pre">SolverBase.pseudo_axis_names</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.backends.base.SolverBase.real_axis_names"><code class="docutils literal notranslate"><span class="pre">SolverBase.real_axis_names</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.backends.base.SolverBase.refineLattice"><code class="docutils literal notranslate"><span class="pre">SolverBase.refineLattice()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.backends.base.SolverBase.setGeometry"><code class="docutils literal notranslate"><span class="pre">SolverBase.setGeometry()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.backends.base.SolverBase.setLattice"><code class="docutils literal notranslate"><span class="pre">SolverBase.setLattice()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.backends.base.SolverBase.setMode"><code class="docutils literal notranslate"><span class="pre">SolverBase.setMode()</span></code></a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.backends.base.get_solver"><code class="docutils literal notranslate"><span class="pre">get_solver()</span></code></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.backends.base.solvers"><code class="docutils literal notranslate"><span class="pre">solvers()</span></code></a></li>
 </ul>
   </nav></div>
 
