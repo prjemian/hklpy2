@@ -33,7 +33,7 @@ def test_HklSolver():
     assert isinstance(solver.__version__, str)
 
     gname = "ESRF ID01 PSIC"
-    solver.setGeometry(gname)
+    solver.geometry = f"{gname}, hkl"
     assert solver._geometry is not None
     assert solver.gname == gname
     assert solver._geometry.name_get() == gname

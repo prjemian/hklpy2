@@ -43,12 +43,12 @@ class SolverBase(ABC):
         ~calculateOrientation
         ~forward
         ~geometries
+        ~geometry
         ~inverse
         ~modes
         ~pseudo_axis_names
         ~real_axis_names
         ~refineLattice
-        ~setGeometry
         ~setLattice
         ~setMode
     """
@@ -91,8 +91,16 @@ class SolverBase(ABC):
         """Ordered list of the geometry names."""
         pass
 
-    # TODO geometry get/set properties
-    # TODO: refactor all of setGeometry into geometry set
+    @property
+    def geometry(self):
+        """Selected diffractometer geometry."""
+        return self._geometry
+
+    @geometry.setter
+    def geometry(self, value):
+        if not isinstance(value, (type(None), str)):
+            raise TypeError(f"Must supply str, received {value!r}")
+        self._geometry = value
 
     @abstractmethod
     def inverse(self):
@@ -120,11 +128,6 @@ class SolverBase(ABC):
     @abstractmethod
     def refineLattice(self, reflections):
         """Refine the lattice parameters from a list of reflections."""
-        pass
-
-    @abstractmethod
-    def setGeometry(self, gname, **kwargs):
-        """Select one of the diffractometer geometries."""
         pass
 
     @abstractmethod

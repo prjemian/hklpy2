@@ -1,6 +1,12 @@
 """
 Backend: Hkl (``"hkl_soleil"``)
 
+Example::
+
+    import hklpy2
+    SolverClass = hklpy2.get_solver("hkl_soleil")
+    libhkl_solver = SolverClass()
+
 .. autosummary::
 
     ~HklSolver
@@ -30,12 +36,12 @@ class HklSolver(SolverBase):
         ~calculateOrientation
         ~forward
         ~geometries
+        ~geometry
         ~inverse
         ~modes
         ~pseudo_axis_names
         ~real_axis_names
         ~refineLattice
-        ~setGeometry
         ~setLattice
         ~setMode
     """
@@ -106,8 +112,14 @@ class HklSolver(SolverBase):
         # self._geometry = value
         if value not in self.geometries:
             raise KeyError(f"Geometry {value} unknown.")
+
         gname, engine = [s.strip() for s in value.split(",")]
-        self.setGeometry(gname, engine=engine)  # TODO: refactor all of setGeometry here
+        self._factory = libhkl.factories()[gname]
+        self.gname = gname
+        self._geometry = self._factory.create_new_geometry()
+        self._engines = self._factory.create_new_engine_list()
+        self._engine = self._engines.engine_get_by_name(engine)
+        return self._geometry
 
     def inverse(self):
         """Compute tuple of pseudos from reals (angles -> hkl)."""
@@ -133,14 +145,6 @@ class HklSolver(SolverBase):
     def refineLattice(self, reflections):
         """Refine the lattice parameters from a list of reflections."""
         pass  # TODO
-
-    def setGeometry(self, gname, engine="hkl"):
-        self._factory = libhkl.factories()[gname]
-        self.gname = gname
-        self._geometry = self._factory.create_new_geometry()
-        self._engines = self._factory.create_new_engine_list()
-        self._engine = self._engines.engine_get_by_name(engine)
-        return self._geometry
 
     def setLattice(self, lattice):
         """Define the sample's lattice parameters."""

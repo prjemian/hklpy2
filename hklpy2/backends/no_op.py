@@ -3,6 +3,12 @@ Backend: no_op
 
 no reciprocal-space conversions
 
+Example::
+
+    import hklpy2
+    SolverClass = hklpy2.get_solver("no_op")
+    noop_solver = SolverClass()
+
 .. autosummary::
 
     ~NoOpSolver
@@ -25,12 +31,12 @@ class NoOpSolver(SolverBase):
         ~calculateOrientation
         ~forward
         ~geometries
+        ~geometry
         ~inverse
         ~modes
         ~pseudo_axis_names
         ~real_axis_names
         ~refineLattice
-        ~setGeometry
         ~setLattice
         ~setMode
     """
@@ -68,8 +74,9 @@ class NoOpSolver(SolverBase):
     def geometry(self, value):
         if not isinstance(value, (type(None), str)):
             raise TypeError(f"Must supply str, received {value!r}")
-        self._geometry = value
-        self.setGeometry(value)  # TODO: refactor all of setGeometry here
+        self._geometry = value  # TODO: Why?
+        self.gname = value
+        return self.gname
 
     def inverse(self):
         return ["No Ops"]
@@ -88,10 +95,6 @@ class NoOpSolver(SolverBase):
 
     def refineLattice(self, reflections):
         return None
-
-    def setGeometry(self, gname, **kwargs):
-        self.gname = gname
-        return self.gname
 
     def setLattice(self, lattice):
         pass  # TODO
