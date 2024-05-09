@@ -70,6 +70,6 @@ def test_geometries():
 
     glist = solver.geometries
     assert len(glist) >= 18
-    for gname in "E4CV E4CH E6C K4CV K6C ZAXIS TwoC".split():
+    for gname in "E4CV E4CH E6C K4CV K6C ZAXIS".split():
         assert f"{gname}, hkl" in glist, f"{gname=}  {glist=}"
     # assert glist == [], f"{glist=}"

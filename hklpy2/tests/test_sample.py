@@ -25,13 +25,13 @@ def test_with_solver_base():
     [
         [no_op_solver, Lattice(4), "sample name", does_not_raise(), None],
         [no_op_solver, Lattice(4), None, does_not_raise(), None],
-        # [  # FIXME
-        #     None,  # <-- not a subclass of SolverBase
-        #     None,
-        #     None,
-        #     pytest.raises(TypeError),
-        #     "Must supply SolverBase() object,",
-        # ],
+        [
+            None,  # <-- not a subclass of SolverBase
+            None,
+            None,
+            pytest.raises(TypeError),
+            "Must supply SolverBase() object,",
+        ],
         [
             no_op_solver,
             None,  # <-- not a Lattice

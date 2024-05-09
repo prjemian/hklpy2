@@ -48,10 +48,10 @@ class Reflection:
         """Describe the reflection as a dictionary."""
         return {
             "name": repr(self.name),
+            "geometry": repr(self.solver.gname),
             "pseudos": self.pseudos,
             "angles": self.angles,
             "wavelength": self.wavelength,
-            # FIXME: "geometry": repr(self.solver.gname),
         }
 
     def __repr__(self):
@@ -103,7 +103,7 @@ class Reflection:
 
     @solver.setter
     def solver(self, value):
-        if not (isinstance(value, SolverBase) or issubclass(value, SolverBase)):
+        if not (isinstance(value, SolverBase) or issubclass(type(value), SolverBase)):
             raise TypeError(
                 f"Must supply SolverBase() object, received solver={value!r}"
             )

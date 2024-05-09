@@ -109,8 +109,7 @@ class Sample:
 
     @solver.setter
     def solver(self, value):
-        # FIXME: SolverBase ___sometimes___ is not a class.  Why?
-        if not (isinstance(value, SolverBase) or issubclass(value, SolverBase)):
+        if not (isinstance(value, SolverBase) or issubclass(type(value), SolverBase)):
             raise TypeError(f"Must supply SolverBase() object, received {value!r}")
         # note: calling SolverBase() will always generate a TypeError
         # "Can't instantiate abstract class SolverBase with abstract methods" ...

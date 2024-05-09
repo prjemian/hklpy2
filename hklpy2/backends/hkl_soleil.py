@@ -50,7 +50,7 @@ class HklSolver(SolverBase):
         self.detector = libhkl.Detector.factory_new(libhkl.DetectorType(0))
         self._engine = None
         self._engines = None
-        self._factories = libhkl.factories()
+        self._factory = None
         self._geometry = None
         self.user_units = libhkl.UnitEnum.USER
 
@@ -72,17 +72,31 @@ class HklSolver(SolverBase):
 
     @property
     def geometries(self):
-        geometries = [
-            f"{factory.name_get()}, {engine.name_get()}"
-            # f"{factory.name_get()}"
-            for factory in (self._factories or {}).values()
-            for engine in (self._engines or {}).engines_get()
-        ]
+        """
+        Ordered list of the geometry names.
+
+        For |libhkl|, each geometry may have zero or more computational
+        *engines*. Each engine has its own set of pseudos and reals.  Some of
+        the engines have additional (optional) axes.
+
+        So the gemoetry *names* include both the geometry and its engine, such
+        as `"E4CV, hkl"`.
+
+        TODO: confirm with the |libhkl| docs
+        """
+        geometries = []
+        for fname, factory in libhkl.factories().items():
+            # Underlying library raises error for the merged call:
+            #   factory.create_new_engine_list().engines_get()
+            # MUST do this in two parts here (and elsewhere).
+            engines = factory.create_new_engine_list()
+            for engine in engines.engines_get():
+                geometries.append(f"{fname}, {engine.name_get()}")
         return sorted(set(geometries))
 
     @property
     def geometry(self):
-        """Diffractometer geometry."""
+        """Diffractometer geometry, such as `"E4CV, hkl"`."""
         return self._geometry
 
     @geometry.setter
@@ -93,7 +107,7 @@ class HklSolver(SolverBase):
         if value not in self.geometries:
             raise KeyError(f"Geometry {value} unknown.")
         gname, engine = [s.strip() for s in value.split(",")]
-        self.setGeometry(gname, engine=engine)
+        self.setGeometry(gname, engine=engine)  # TODO: refactor all of setGeometry here
 
     def inverse(self):
         """Compute tuple of pseudos from reals (angles -> hkl)."""
@@ -121,10 +135,10 @@ class HklSolver(SolverBase):
         pass  # TODO
 
     def setGeometry(self, gname, engine="hkl"):
-        factory = self._factories[gname]
+        self._factory = libhkl.factories()[gname]
         self.gname = gname
-        self._geometry = factory.create_new_geometry()
-        self._engines = factory.create_new_engine_list()
+        self._geometry = self._factory.create_new_geometry()
+        self._engines = self._factory.create_new_engine_list()
         self._engine = self._engines.engine_get_by_name(engine)
         return self._geometry
 

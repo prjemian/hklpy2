@@ -69,6 +69,7 @@ class NoOpSolver(SolverBase):
         if not isinstance(value, (type(None), str)):
             raise TypeError(f"Must supply str, received {value!r}")
         self._geometry = value
+        self.setGeometry(value)  # TODO: refactor all of setGeometry here
 
     def inverse(self):
         return ["No Ops"]

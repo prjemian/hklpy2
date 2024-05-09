@@ -104,7 +104,7 @@ class SolverBase(ABC):
         self.gname = None
 
     def __repr__(self) -> str:
-        return f"{self.__class__.__name__}(name={self.__name__})"
+        return f"{self.__class__.__name__}(name={self.__name__!r})"
 
     @abstractmethod
     def addReflection(self, pseudos, reals, wavelength):
@@ -131,6 +131,9 @@ class SolverBase(ABC):
     def geometries(self):
         """Ordered list of the geometry names."""
         pass
+
+    # TODO geometry get/set properties
+    # TODO: refactor all of setGeometry into geometry set
 
     @abstractmethod
     def inverse(self):
