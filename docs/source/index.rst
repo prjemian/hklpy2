@@ -40,6 +40,7 @@ About
 :published: |today|
 :index: :ref:`genindex`
 :modules: :ref:`modindex`
-:1st gen: |hklpy|
+:|hklpy|: |hklpy.url|
+:|libhkl|: https://people.debian.org/~picca/hkl/hkl.html
 :acknowledgement: "This product includes software produced by UChicago Argonne,
     LLC under Contract No. DE-AC02-06CH11357 with the Department of Energy."
