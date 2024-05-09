@@ -4,54 +4,12 @@ Backend: abstract base class
 .. autosummary::
 
     ~SolverBase
-    ~SOLVER_ENTRYPOINT_GROUP
-    ~get_solver
-    ~solvers
 """
 
 from abc import ABC
 from abc import abstractmethod
 
 from .. import __version__
-
-SOLVER_ENTRYPOINT_GROUP = "hklpy2.solver"
-"""Name by which |hklpy2| backend |solver| classes are grouped."""
-
-
-def get_solver(solver_name):
-    """
-    Load a Solver class from a named entry point.
-
-    ::
-
-        import hklpy2
-        SolverClass = hklpy2.get_solver("hkl_soleil")
-        libhkl_solver = SolverClass()
-    """
-    from importlib.metadata import entry_points
-
-    entries = entry_points(group=SOLVER_ENTRYPOINT_GROUP)
-    return entries[solver_name].load()
-
-
-def solvers():
-    """
-    Dictionary of available Solver classes, mapped by entry point name.
-
-    ::
-
-        import hklpy2
-        print(hklpy2.solvers())
-    """
-    from importlib.metadata import entry_points
-
-    # fmt: off
-    entries = {
-        ep.name: ep.value
-        for ep in entry_points(group=SOLVER_ENTRYPOINT_GROUP)
-    }
-    # fmt: on
-    return entries
 
 
 class SolverBase(ABC):

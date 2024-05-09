@@ -46,7 +46,7 @@ How to select a Solver
 ----------------------
 
 To select a |solver| class, call
-:func:`~hklpy2.backends.base.get_solver`. This example
+:func:`~hklpy2.misc.get_solver`. This example
 selects the |libhkl| |solver| (using its entry point name: ``"hkl_soleil"``)::
 
     >>> from hklpy2 import get_solver

@@ -2,7 +2,7 @@ import inspect
 
 import pytest
 
-from ..backends import get_solver
+from .. import get_solver
 
 
 @pytest.mark.parametrize("solver_name", ["hkl_soleil", "no_op"])

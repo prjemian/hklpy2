@@ -29,12 +29,12 @@ class Hklpy2Error(Exception):
     """Any exception from the |hklpy2| package."""
 
 
-from .backends import SOLVER_ENTRYPOINT_GROUP  # noqa: E402, F401
 from .backends import SolverBase  # noqa: E402, F401
-from .backends import get_solver  # noqa: E402, F401
-from .backends import solvers  # noqa: E402, F401
 from .lattice import SI_LATTICE_PARAMETER  # noqa: E402, F401
 from .lattice import Lattice  # noqa: E402, F401
+from .misc import SOLVER_ENTRYPOINT_GROUP  # noqa: E402, F401
+from .misc import get_solver  # noqa: E402, F401
+from .misc import solvers  # noqa: E402, F401
 from .reflection import Reflection  # noqa: E402, F401
 from .reflection import ReflectionsDict  # noqa: E402, F401
 from .sample import Sample  # noqa: E402, F401
