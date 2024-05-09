@@ -43,6 +43,7 @@ class Reflection:
         self.pseudos = pseudos
         self.angles = angles
         self.wavelength = wavelength
+        # TODO: what about optional items (azimuth, h1, h2, zones, ...)
 
     def _asdict(self):
         """Describe the reflection as a dictionary."""
@@ -64,7 +65,7 @@ class Reflection:
     # --------- get/set properties
 
     @property
-    def angles(self):
+    def angles(self):  # TODO: rename as reals?
         """Ordered dictionary of diffractometer's real-space axes."""
         return self._angles
 
@@ -72,6 +73,7 @@ class Reflection:
     def angles(self, value):
         if not isinstance(value, dict):
             raise TypeError(f"Must supply dict, received angles={value!r}")
+        # TODO: validate against self.solver.real_axis_names
         self._angles = value
 
     @property
@@ -94,6 +96,7 @@ class Reflection:
     def pseudos(self, value):
         if not isinstance(value, dict):
             raise TypeError(f"Must supply dict, received pseudos={value!r}")
+        # TODO: validate against self.solver.pseudo_axis_names
         self._pseudos = value
 
     @property
