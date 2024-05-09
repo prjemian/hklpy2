@@ -1,0 +1,215 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "id": "687747a6-47b1-4d11-9d4c-64c071d735b3",
+   "metadata": {},
+   "source": [
+    "## Demonstrate **hklpy2**'s API"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "id": "61d5927e-d2d3-4fae-9b47-eb5fdb6117c1",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "hklpy2.solvers()={'hkl_soleil': 'hklpy2.backends.hkl_soleil:HklSolver', 'no_op': 'hklpy2.backends.no_op:NoOpSolver'}\n"
+     ]
+    }
+   ],
+   "source": [
+    "import hklpy2\n",
+    "print(f\"{hklpy2.solvers()=}\")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "id": "4233356b-1d43-4b37-bafe-89678e3a1dde",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "solver=<class 'hklpy2.backends.hkl_soleil.HklSolver'>\n"
+     ]
+    }
+   ],
+   "source": [
+    "solver = hklpy2.get_solver(\"hkl_soleil\")\n",
+    "print(f\"{solver=!r}\")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "id": "c3e63a54-b9ad-4a3b-abfe-ea1c0aaedc22",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "solver=<class 'hklpy2.backends.hkl_soleil.HklSolver'>\n",
+      "solver.pseudo_axis_names=<property object at 0x7f8250e7c5e0>\n",
+      "solver.real_axis_names=<property object at 0x7f8262ec1850>\n"
+     ]
+    }
+   ],
+   "source": [
+    "solver.geometry = \"E4CV, hkl\"\n",
+    "print(f\"{solver=}\")\n",
+    "print(f\"{solver.pseudo_axis_names=}\")  # FIXME\n",
+    "print(f\"{solver.real_axis_names=}\")  # FIXME"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "id": "c001ebff-27ff-4e40-9b44-4a6bf55c6716",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# FIXME: solver._engine.pseudo_axis_names_get()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 5,
+   "id": "71b53164-cd05-460e-aeee-34709d54afa4",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "vibranium=Lattice(a=6.2832, b=6.2832, c=6.2832, alpha=90.0, beta=90.0, gamma=90.0)\n"
+     ]
+    }
+   ],
+   "source": [
+    "import math\n",
+    "vibranium = hklpy2.Lattice(2*math.pi)\n",
+    "print(f\"{vibranium=}\")\n",
+    "vibranium.digits = 2"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 6,
+   "id": "15c41d66-c141-4fd4-bff7-ab731fefe8b7",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "vibranium=Sample(name='vibranium', lattice=Lattice(a=6.28, b=6.28, c=6.28, alpha=90.0, beta=90.0, gamma=90.0))\n"
+     ]
+    }
+   ],
+   "source": [
+    "vibranium = hklpy2.Sample(solver, vibranium, name=\"vibranium\")\n",
+    "print(f\"{vibranium=}\")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 11,
+   "id": "b1f545e2-ec28-4468-a6ac-43a807a586ad",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "vibranium.reflections.ordering = []"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 12,
+   "id": "d93281fe-ec11-4e6d-aad4-fc62987a6de5",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Reflection(name='r1', pseudos={'h': 1, 'k': 0, 'l': 0}, angles={'omega': 10, 'chi': 0, 'phi': 0, 'tth': 20}, wavelength=1.0)\n",
+      "Reflection(name='r2', pseudos={'h': 0, 'k': 1, 'l': 0}, angles={'omega': 10, 'chi': -90, 'phi': 0, 'tth': 20}, wavelength=1.0)\n"
+     ]
+    }
+   ],
+   "source": [
+    "vibranium.reflections.add(\n",
+    "    hklpy2.Reflection(\n",
+    "        solver, \n",
+    "        dict(h=1, k=0, l=0), \n",
+    "        dict(omega=10, chi=0, phi=0, tth=20), \n",
+    "        wavelength=1.00, \n",
+    "        name=\"r1\"\n",
+    "    )\n",
+    ")\n",
+    "vibranium.reflections.add(\n",
+    "    hklpy2.Reflection(\n",
+    "        solver, \n",
+    "        dict(h=0, k=1, l=0), \n",
+    "        dict(omega=10, chi=-90, phi=0, tth=20), \n",
+    "        wavelength=1.00, \n",
+    "        name=\"r2\"\n",
+    "    )\n",
+    ")\n",
+    "for r in vibranium.reflections.ordering:\n",
+    "    print(f\"{vibranium.reflections[r]}\")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 13,
+   "id": "eb3391b0-1560-486d-b1d9-005e766063dd",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "vibranium.reflections.ordering=['r2', 'r1']\n",
+      "Reflection(name='r2', pseudos={'h': 0, 'k': 1, 'l': 0}, angles={'omega': 10, 'chi': -90, 'phi': 0, 'tth': 20}, wavelength=1.0)\n",
+      "Reflection(name='r1', pseudos={'h': 1, 'k': 0, 'l': 0}, angles={'omega': 10, 'chi': 0, 'phi': 0, 'tth': 20}, wavelength=1.0)\n"
+     ]
+    }
+   ],
+   "source": [
+    "vibranium.reflections.swap()\n",
+    "print(f\"{vibranium.reflections.ordering=}\")\n",
+    "for r in vibranium.reflections.ordering:\n",
+    "    print(f\"{vibranium.reflections[r]}\")"
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "bluesky_2024_2",
+   "language": "python",
+   "name": "bluesky_2024_2"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.11.8"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}
