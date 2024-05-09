@@ -25,7 +25,8 @@ def get_solver(solver_name):
     ::
 
         import hklpy2
-        Solver = hklpy2.get_solver("hkl_soleil")
+        SolverClass = hklpy2.get_solver("hkl_soleil")
+        libhkl_solver = SolverClass()
     """
     from importlib.metadata import entry_points
 
