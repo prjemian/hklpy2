@@ -150,11 +150,17 @@ class ReflectionsDict(dict):
     setor = set_orientation_reflections
     """Common alias for :meth:`~set_orientation_reflections`."""
 
-    def add(self, reflection: Reflection):
+    def add(self, reflection: Reflection, overwrite: bool = False):
         """Add an orientation reflection."""
+        if reflection.name in self and not overwrite:
+            raise ReflectionError(
+                f"Reflection {reflection.name!r} already defined. "
+                "Set `overwrite=True` to replace it."
+            )
         self[reflection.name] = reflection
-        self.ordering.append(reflection.name)
-        # TODO: ensure no duplicate names
+        if reflection.name not in self.ordering:
+            self.ordering.append(reflection.name)
+        # TODO: remove any reflections from ordering that no longer exist
 
     def swap(self):
         """Swap the two named orientation reflections."""
