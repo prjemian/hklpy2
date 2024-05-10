@@ -63,7 +63,11 @@ class SolverBase(ABC):
         self._geometry = None
 
     def __repr__(self) -> str:
-        return f"{self.__class__.__name__}(name={self.__name__!r})"
+        return (
+            f"{self.__class__.__name__}("
+            f"name={self.__name__!r}, "
+            f"version={self.__version__!r})"
+        )
 
     @abstractmethod
     def addReflection(self, pseudos, reals, wavelength):
