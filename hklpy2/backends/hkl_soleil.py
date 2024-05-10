@@ -12,14 +12,20 @@ Example::
     ~HklSolver
 """
 
-import gi
+
+from .. import SolverError  # noqa: E402
+
+try:
+    import gi
+except ModuleNotFoundError:
+    raise SolverError("No gobject-introspection library.  Is libhkl installed?")
 
 gi.require_version("Hkl", "5.0")
 
 from gi.repository import GLib  # noqa: E402, F401, W0611
 from gi.repository import Hkl as libhkl  # noqa: E402
 
-from .base import SolverBase  # noqa: E402
+from .. import SolverBase  # noqa: E402
 
 
 class HklSolver(SolverBase):
