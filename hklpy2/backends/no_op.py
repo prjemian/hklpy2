@@ -1,5 +1,5 @@
 """
-Backend: no_op
+Backend: no_op (``"no_op"``)
 
 no reciprocal-space conversions
 
@@ -33,12 +33,12 @@ class NoOpSolver(SolverBase):
         ~geometries
         ~geometry
         ~inverse
+        ~lattice
+        ~mode
         ~modes
         ~pseudo_axis_names
         ~real_axis_names
         ~refineLattice
-        ~setLattice
-        ~setMode
     """
 
     __name__ = "no_op"
@@ -59,7 +59,7 @@ class NoOpSolver(SolverBase):
         return
 
     def forward(self):
-        return []
+        return [{}]
 
     @property
     def geometries(self):
@@ -78,8 +78,8 @@ class NoOpSolver(SolverBase):
         self.gname = value
         return self.gname
 
-    def inverse(self):
-        return ["No Ops"]
+    def inverse(self, reals: dict):
+        return {}
 
     @property
     def modes(self):
@@ -98,6 +98,3 @@ class NoOpSolver(SolverBase):
 
     def setLattice(self, lattice):
         pass  # TODO
-
-    def setMode(self, mode):
-        pass

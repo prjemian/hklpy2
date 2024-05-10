@@ -4,6 +4,7 @@ Miscellaneous Support.
 .. autosummary::
 
     ~SOLVER_ENTRYPOINT_GROUP
+    ~SolverError
     ~get_solver
     ~solvers
     ~unique_name
@@ -12,8 +13,14 @@ Miscellaneous Support.
 import uuid
 from importlib.metadata import entry_points
 
+from . import Hklpy2Error
+
 SOLVER_ENTRYPOINT_GROUP = "hklpy2.solver"
 """Name by which |hklpy2| backend |solver| classes are grouped."""
+
+
+class SolverError(Hklpy2Error):
+    """Custom exceptions from a |solver|."""
 
 
 def get_solver(solver_name):

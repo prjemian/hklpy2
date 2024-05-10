@@ -38,12 +38,11 @@ class HklSolver(SolverBase):
         ~geometries
         ~geometry
         ~inverse
+        ~lattice
         ~modes
         ~pseudo_axis_names
         ~real_axis_names
         ~refineLattice
-        ~setLattice
-        ~setMode
     """
 
     __name__ = "hkl_soleil"
@@ -60,21 +59,18 @@ class HklSolver(SolverBase):
         self._geometry = None
         self.user_units = libhkl.UnitEnum.USER
 
-    def addReflection(self, pseudos, reals, wavelength):
+    def addReflection(self, pseudos, reals, wavelength):  # TODO
         """Add information about a reflection."""
-        pass  # TODO
 
-    def addSample(self, sample):
+    def addSample(self, sample):  # TODO
         """Add a sample."""
-        pass  # TODO
 
-    def calculateOrientation(self, r1, r2):
+    def calculateOrientation(self, r1, r2):  # TODO
         """Calculate the UB (orientation) matrix from two reflections."""
-        pass  # TODO
 
     def forward(self):
         """Compute list of solutions(reals) from pseudos (hkl -> [angles])."""
-        return []  # TODO
+        return [{}]
 
     @property
     def geometries(self):
@@ -125,7 +121,6 @@ class HklSolver(SolverBase):
     def geometry(self, value):
         if not isinstance(value, (type(None), str)):
             raise TypeError(f"Must supply str, received {value!r}")
-        # self._geometry = value
         if value not in self.geometries:
             raise KeyError(f"Geometry {value} unknown.")
 
@@ -137,7 +132,7 @@ class HklSolver(SolverBase):
         self._engine = self._engines.engine_get_by_name(engine)
         return self._geometry
 
-    def inverse(self):
+    def inverse(self, reals: dict):
         """Compute tuple of pseudos from reals (angles -> hkl)."""
         return tuple()  # TODO
 
@@ -164,13 +159,4 @@ class HklSolver(SolverBase):
 
     def setLattice(self, lattice):
         """Define the sample's lattice parameters."""
-        pass  # TODO
-
-    def setMode(self, mode):
-        """
-        Define the geometry's operating mode.
-
-        A mode defines constraints on the solutions provided by the
-        :meth:`forward` computation.
-        """
         pass  # TODO

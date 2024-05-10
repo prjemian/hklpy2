@@ -45,12 +45,12 @@ class SolverBase(ABC):
         ~geometries
         ~geometry
         ~inverse
+        ~lattice
+        ~mode
         ~modes
         ~pseudo_axis_names
         ~real_axis_names
         ~refineLattice
-        ~setLattice
-        ~setMode
     """
 
     __name__ = "base"
@@ -60,7 +60,8 @@ class SolverBase(ABC):
     """Version of this Solver."""
 
     def __init__(self) -> None:
-        self.gname = None
+        self.gname = None  # TODO: refactor to use self._geometry
+        self._geometry = None
 
     def __repr__(self) -> str:
         return f"{self.__class__.__name__}(name={self.__name__!r})"
@@ -68,79 +69,103 @@ class SolverBase(ABC):
     @abstractmethod
     def addReflection(self, pseudos, reals, wavelength):
         """Add information about a reflection."""
-        pass
 
     @abstractmethod
     def addSample(self, sample):
         """Add a sample."""
-        pass
 
     @abstractmethod
     def calculateOrientation(self, r1, r2):
         """Calculate the UB (orientation) matrix from two reflections."""
-        pass
 
     @abstractmethod
     def forward(self):
         """Compute list of solutions(reals) from pseudos (hkl -> [angles])."""
-        pass
+        # based on geometry and mode
+        return [{}]
 
     @property
     @abstractmethod
     def geometries(self):
         """Ordered list of the geometry names."""
-        pass
+        return []
 
     @property
+    @abstractmethod
     def geometry(self):
         """Selected diffractometer geometry."""
         return self._geometry
 
     @geometry.setter
+    @abstractmethod
     def geometry(self, value):
         if not isinstance(value, (type(None), str)):
             raise TypeError(f"Must supply str, received {value!r}")
+        if value not in self.geometries:
+            raise KeyError(
+                f"Geometry {value} unknown. Pick one of: {self.geometries!r}"
+            )
         self._geometry = value
 
     @abstractmethod
-    def inverse(self):
+    def inverse(self, reals: dict):
         """Compute tuple of pseudos from reals (angles -> hkl)."""
-        pass
+
+    @property
+    def lattice(self):
+        """
+        Crystal lattice parameters.  (not used by this |solver|).
+        """
+        return self._lattice
+
+    @lattice.setter
+    def lattice(self, value):
+        from .. import Lattice
+
+        if not isinstance(value, Lattice):
+            raise TypeError(f"Must supply Lattice object, received {value!r}")
+        self._lattice = value
+
+    @property
+    def mode(self):
+        """
+        Diffractometer geometry operation mode for forward().
+
+        A mode defines which axes will be modified by the
+        :meth:`forward` computation.
+        """
+        try:
+            self._mode
+        except AttributeError:
+            self._mode = None
+        return self._mode
+
+    @mode.setter
+    def mode(self, value):
+        if not isinstance(value, (type(None), str)):
+            raise TypeError(f"Must supply str, received {value!r}")
+        if value not in self.modes:
+            raise KeyError(f"Mode {value} unknown. Pick one of: {self.modes!r}")
+        self._mode = value
 
     @property
     @abstractmethod
     def modes(self):
         """List of the geometry operating modes."""
-        pass
+        return []
 
     @property
     @abstractmethod
     def pseudo_axis_names(self):
         """Ordered list of the pseudo axis names (such as h, k, l)."""
-        pass
+        return []
 
     @property
     @abstractmethod
     def real_axis_names(self):
         """Ordered list of the real axis names (such as th, tth)."""
-        pass
+        return []
 
     @abstractmethod
     def refineLattice(self, reflections):
         """Refine the lattice parameters from a list of reflections."""
-        pass
-
-    @abstractmethod
-    def setLattice(self, lattice):
-        """Define the sample's lattice parameters."""
-        pass
-
-    @abstractmethod
-    def setMode(self, mode):
-        """
-        Define the geometry's operating mode.
-
-        A mode defines constraints on the solutions provided by the
-        :meth:`forward` computation.
-        """
-        pass
