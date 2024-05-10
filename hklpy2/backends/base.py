@@ -60,7 +60,6 @@ class SolverBase(ABC):
     """Version of this Solver."""
 
     def __init__(self) -> None:
-        self.gname = None  # TODO: refactor to use self._geometry
         self._geometry = None
 
     def __repr__(self) -> str:

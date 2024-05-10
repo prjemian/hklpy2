@@ -46,7 +46,6 @@ class NoOpSolver(SolverBase):
 
     def __init__(self) -> None:
         super().__init__()
-        self.gname = None
         self._geometry = None
 
     def addReflection(self, pseudos, reals, wavelength):
@@ -74,9 +73,7 @@ class NoOpSolver(SolverBase):
     def geometry(self, value):
         if not isinstance(value, (type(None), str)):
             raise TypeError(f"Must supply str, received {value!r}")
-        self._geometry = value  # TODO: Why?
-        self.gname = value
-        return self.gname
+        self._geometry = value
 
     def inverse(self, reals: dict):
         return {}

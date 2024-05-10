@@ -31,8 +31,8 @@ class ThTthSolver(SolverBase):
     ============== =================
     transformation equation
     ============== =================
-    ``forward()``  :math:`\\theta = \\sin^{-1}(q\\lambda / 4\\pi), 2\\theta=2\\cdot\\theta`
-    ``inverse()``  :math:`q = (4\\pi / \\lambda) \\sin({1 \over 2} 2\\theta)`
+    ``forward()``  :math:`\\theta = \\sin^{-1}(q\\lambda / 4\\pi)`
+    ``inverse()``  :math:`q = (4\\pi / \\lambda) \\sin(\\theta)`
     ============== =================
 
     Wavelength is specified either directly (``solver.wavelength = 1.0``) or
@@ -62,7 +62,6 @@ class ThTthSolver(SolverBase):
 
     def __init__(self) -> None:
         super().__init__()
-        self.gname = None
         self._geometry = None
         self._reflections = []
         self._wavelength = None
@@ -123,8 +122,7 @@ class ThTthSolver(SolverBase):
             raise TypeError(f"Must supply str, received {value!r}")
         if value not in self.geometries:
             raise KeyError(f"Geometry {value} unknown.")
-        self._geometry = value  # TODO: Why?
-        self.gname = value
+        self._geometry = value
 
     def inverse(self, reals: dict):
         """Transform reals to pseudos."""

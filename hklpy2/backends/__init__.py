@@ -12,6 +12,7 @@ See the API documentation for details.
 
     ~hklpy2.backends.hkl_soleil.HklSolver
     ~hklpy2.backends.no_op.NoOpSolver
+    ~hklpy2.backends.th_tth_q.ThTthSolver
 
 .. rubric:: Base class for all solvers
 

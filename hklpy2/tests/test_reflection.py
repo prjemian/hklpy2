@@ -20,7 +20,7 @@ def test_reflection_no_op():
 
     gname = "test geometry"
     solver.geometry = gname
-    assert solver.gname == gname, f"{solver.gname=!r}"
+    assert solver.geometry == gname, f"{solver.geometry=!r}"
 
     ref1 = Reflection(solver, {}, {}, 1.0, name="r1")
     assert ref1 is not None
@@ -46,14 +46,14 @@ def test_reflection_hkl_soleil():
 
     gname = "E4CV"
     solver.geometry = f"{gname}, hkl"
-    assert solver.gname == gname, f"{solver.gname=!r}"
+    assert solver.geometry == f"{gname}, hkl"
 
     reals = dict(omega=10, chi=0, phi=0, tth=20)
     pseudos = dict(h=1, k=0, l=0)
     ref1 = Reflection(solver, pseudos, reals, 1.0, name="r1")
     assert ref1.name == "r1"
     expected = (
-        f"Reflection(name='r1', geometry={gname!r}, "
+        f"Reflection(name='r1', geometry={gname+', hkl'!r}, "
         "pseudos={'h': 1, 'k': 0, 'l': 0}, "
         "angles={'omega': 10, 'chi': 0, 'phi': 0, 'tth': 20}, "
         "wavelength=1.0)"

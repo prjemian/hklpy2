@@ -34,9 +34,8 @@ def test_HklSolver():
 
     gname = "ESRF ID01 PSIC"
     solver.geometry = f"{gname}, hkl"
-    assert solver._geometry is not None
-    assert solver.gname == gname
-    assert solver._geometry.name_get() == gname
+    assert solver.geometry is not None
+    # assert solver._geometry.name_get() == gname
 
     reals = solver.real_axis_names
     assert reals == "mu eta phi nu delta".split()

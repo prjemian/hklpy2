@@ -1,5 +1,6 @@
 .. include:: /substitutions.txt
 
+.. index:: Solver; SolverBase
 .. _api.backends.base:
 
 ========================

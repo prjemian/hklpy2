@@ -49,7 +49,7 @@ class Reflection:
         """Describe the reflection as a dictionary."""
         return {
             "name": repr(self.name),
-            "geometry": repr(self.solver.gname),
+            "geometry": repr(self.solver.geometry),
             "pseudos": self.pseudos,
             "angles": self.angles,
             "wavelength": self.wavelength,

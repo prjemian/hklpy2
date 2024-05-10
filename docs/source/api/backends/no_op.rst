@@ -1,5 +1,6 @@
 .. include:: /substitutions.txt
 
+.. index:: Solver; NoOpSolver
 .. _api.backends.no_op:
 
 ========================

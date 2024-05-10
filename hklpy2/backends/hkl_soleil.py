@@ -56,14 +56,13 @@ class HklSolver(SolverBase):
 
     def __init__(self) -> None:
         super().__init__()
-        self.gname = None
 
         self.detector = libhkl.Detector.factory_new(libhkl.DetectorType(0))
-        self._engine = None
-        self._engines = None
         self._factory = None
         self._geometry = None
         self.user_units = libhkl.UnitEnum.USER
+        self._pseudo_axis_names = []
+        self._real_axis_names = []
 
     def addReflection(self, pseudos, reals, wavelength):  # TODO
         """Add information about a reflection."""
@@ -130,13 +129,16 @@ class HklSolver(SolverBase):
         if value not in self.geometries:
             raise KeyError(f"Geometry {value} unknown.")
 
+        self._geometry = value
+
         gname, engine = [s.strip() for s in value.split(",")]
         self._factory = libhkl.factories()[gname]
-        self.gname = gname
-        self._geometry = self._factory.create_new_geometry()
-        self._engines = self._factory.create_new_engine_list()
-        self._engine = self._engines.engine_get_by_name(engine)
-        return self._geometry
+        engines = self._factory.create_new_engine_list()
+        engine = engines.engine_get_by_name(engine)
+
+        g = self._factory.create_new_geometry()
+        self._real_axis_names = g.axis_names_get()
+        self._pseudo_axis_names = engine.pseudo_axis_names_get()
 
     def inverse(self, reals: dict):
         """Compute tuple of pseudos from reals (angles -> hkl)."""
@@ -150,14 +152,12 @@ class HklSolver(SolverBase):
     @property
     def pseudo_axis_names(self):
         """Ordered list of the pseudo axis names (such as h, k, l)."""
-        if self._engine is not None:
-            return self._engine.pseudo_axis_names_get()
+        return self._pseudo_axis_names
 
     @property
     def real_axis_names(self):
         """Ordered list of the real axis names (such as th, tth)."""
-        if self._geometry is not None:
-            return self._geometry.axis_names_get()
+        return self._real_axis_names
 
     def refineLattice(self, reflections):
         """Refine the lattice parameters from a list of reflections."""
