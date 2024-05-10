@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
   <script src="../../../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script src="../../../_static/documentation_options.js?v=d96bc490"></script>
+    <script src="../../../_static/documentation_options.js?v=5f8e27fe"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/tabs.js?v=3030b3cb"></script>
@@ -365,12 +365,12 @@ document.write(`
 <span class="sd">        ~geometries</span>
 <span class="sd">        ~geometry</span>
 <span class="sd">        ~inverse</span>
+<span class="sd">        ~lattice</span>
+<span class="sd">        ~mode</span>
 <span class="sd">        ~modes</span>
 <span class="sd">        ~pseudo_axis_names</span>
 <span class="sd">        ~real_axis_names</span>
 <span class="sd">        ~refineLattice</span>
-<span class="sd">        ~setLattice</span>
-<span class="sd">        ~setMode</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="vm">__name__</span> <span class="o">=</span> <span class="s2">&quot;base&quot;</span>
@@ -380,7 +380,8 @@ document.write(`
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Version of this Solver.&quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">gname</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gname</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># TODO: refactor to use self._geometry</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_geometry</span> <span class="o">=</span> <span class="kc">None</span>
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">(name=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__name__</span><span class="si">!r}</span><span class="s2">)&quot;</span>
@@ -389,24 +390,21 @@ document.write(`
 <a class="viewcode-back" href="../../../api/backends/base.html#hklpy2.backends.base.SolverBase.addReflection">[docs]</a>
     <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">addReflection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pseudos</span><span class="p">,</span> <span class="n">reals</span><span class="p">,</span> <span class="n">wavelength</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add information about a reflection.&quot;&quot;&quot;</span>
-        <span class="k">pass</span></div>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add information about a reflection.&quot;&quot;&quot;</span></div>
 
 
 <div class="viewcode-block" id="SolverBase.addSample">
 <a class="viewcode-back" href="../../../api/backends/base.html#hklpy2.backends.base.SolverBase.addSample">[docs]</a>
     <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">addSample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sample</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add a sample.&quot;&quot;&quot;</span>
-        <span class="k">pass</span></div>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add a sample.&quot;&quot;&quot;</span></div>
 
 
 <div class="viewcode-block" id="SolverBase.calculateOrientation">
 <a class="viewcode-back" href="../../../api/backends/base.html#hklpy2.backends.base.SolverBase.calculateOrientation">[docs]</a>
     <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">calculateOrientation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">r1</span><span class="p">,</span> <span class="n">r2</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculate the UB (orientation) matrix from two reflections.&quot;&quot;&quot;</span>
-        <span class="k">pass</span></div>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculate the UB (orientation) matrix from two reflections.&quot;&quot;&quot;</span></div>
 
 
 <div class="viewcode-block" id="SolverBase.forward">
@@ -414,79 +412,100 @@ document.write(`
     <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute list of solutions(reals) from pseudos (hkl -&gt; [angles]).&quot;&quot;&quot;</span>
-        <span class="k">pass</span></div>
+        <span class="c1"># based on geometry and mode</span>
+        <span class="k">return</span> <span class="p">[{}]</span></div>
 
 
     <span class="nd">@property</span>
     <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">geometries</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Ordered list of the geometry names.&quot;&quot;&quot;</span>
-        <span class="k">pass</span>
+        <span class="k">return</span> <span class="p">[]</span>
 
     <span class="nd">@property</span>
+    <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">geometry</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Selected diffractometer geometry.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_geometry</span>
 
     <span class="nd">@geometry</span><span class="o">.</span><span class="n">setter</span>
+    <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">geometry</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="kc">None</span><span class="p">),</span> <span class="nb">str</span><span class="p">)):</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Must supply str, received </span><span class="si">{</span><span class="n">value</span><span class="si">!r}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">geometries</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Geometry </span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2"> unknown. Pick one of: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">geometries</span><span class="si">!r}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_geometry</span> <span class="o">=</span> <span class="n">value</span>
 
 <div class="viewcode-block" id="SolverBase.inverse">
 <a class="viewcode-back" href="../../../api/backends/base.html#hklpy2.backends.base.SolverBase.inverse">[docs]</a>
     <span class="nd">@abstractmethod</span>
-    <span class="k">def</span> <span class="nf">inverse</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute tuple of pseudos from reals (angles -&gt; hkl).&quot;&quot;&quot;</span>
-        <span class="k">pass</span></div>
+    <span class="k">def</span> <span class="nf">inverse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reals</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute tuple of pseudos from reals (angles -&gt; hkl).&quot;&quot;&quot;</span></div>
 
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">lattice</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Crystal lattice parameters.  (not used by this |solver|).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lattice</span>
+
+    <span class="nd">@lattice</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">lattice</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">Lattice</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">Lattice</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Must supply Lattice object, received </span><span class="si">{</span><span class="n">value</span><span class="si">!r}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_lattice</span> <span class="o">=</span> <span class="n">value</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">mode</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Diffractometer geometry operation mode for forward().</span>
+
+<span class="sd">        A mode defines which axes will be modified by the</span>
+<span class="sd">        :meth:`forward` computation.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_mode</span>
+        <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_mode</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mode</span>
+
+    <span class="nd">@mode</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">mode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="kc">None</span><span class="p">),</span> <span class="nb">str</span><span class="p">)):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Must supply str, received </span><span class="si">{</span><span class="n">value</span><span class="si">!r}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">modes</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Mode </span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2"> unknown. Pick one of: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">modes</span><span class="si">!r}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_mode</span> <span class="o">=</span> <span class="n">value</span>
 
     <span class="nd">@property</span>
     <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">modes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;List of the geometry operating modes.&quot;&quot;&quot;</span>
-        <span class="k">pass</span>
+        <span class="k">return</span> <span class="p">[]</span>
 
     <span class="nd">@property</span>
     <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">pseudo_axis_names</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Ordered list of the pseudo axis names (such as h, k, l).&quot;&quot;&quot;</span>
-        <span class="k">pass</span>
+        <span class="k">return</span> <span class="p">[]</span>
 
     <span class="nd">@property</span>
     <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">real_axis_names</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Ordered list of the real axis names (such as th, tth).&quot;&quot;&quot;</span>
-        <span class="k">pass</span>
+        <span class="k">return</span> <span class="p">[]</span>
 
 <div class="viewcode-block" id="SolverBase.refineLattice">
 <a class="viewcode-back" href="../../../api/backends/base.html#hklpy2.backends.base.SolverBase.refineLattice">[docs]</a>
     <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">refineLattice</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reflections</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Refine the lattice parameters from a list of reflections.&quot;&quot;&quot;</span>
-        <span class="k">pass</span></div>
-
-
-<div class="viewcode-block" id="SolverBase.setLattice">
-<a class="viewcode-back" href="../../../api/backends/base.html#hklpy2.backends.base.SolverBase.setLattice">[docs]</a>
-    <span class="nd">@abstractmethod</span>
-    <span class="k">def</span> <span class="nf">setLattice</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lattice</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Define the sample&#39;s lattice parameters.&quot;&quot;&quot;</span>
-        <span class="k">pass</span></div>
-
-
-<div class="viewcode-block" id="SolverBase.setMode">
-<a class="viewcode-back" href="../../../api/backends/base.html#hklpy2.backends.base.SolverBase.setMode">[docs]</a>
-    <span class="nd">@abstractmethod</span>
-    <span class="k">def</span> <span class="nf">setMode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mode</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Define the geometry&#39;s operating mode.</span>
-
-<span class="sd">        A mode defines constraints on the solutions provided by the</span>
-<span class="sd">        :meth:`forward` computation.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">pass</span></div>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Refine the lattice parameters from a list of reflections.&quot;&quot;&quot;</span></div>
 </div>
 
 </pre></div>

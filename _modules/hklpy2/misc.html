@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
   <script src="../../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script src="../../_static/documentation_options.js?v=d96bc490"></script>
+    <script src="../../_static/documentation_options.js?v=5f8e27fe"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/tabs.js?v=3030b3cb"></script>
@@ -322,6 +322,7 @@ document.write(`
 <span class="sd">.. autosummary::</span>
 
 <span class="sd">    ~SOLVER_ENTRYPOINT_GROUP</span>
+<span class="sd">    ~SolverError</span>
 <span class="sd">    ~get_solver</span>
 <span class="sd">    ~solvers</span>
 <span class="sd">    ~unique_name</span>
@@ -330,8 +331,17 @@ document.write(`
 <span class="kn">import</span> <span class="nn">uuid</span>
 <span class="kn">from</span> <span class="nn">importlib.metadata</span> <span class="kn">import</span> <span class="n">entry_points</span>
 
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">Hklpy2Error</span>
+
 <span class="n">SOLVER_ENTRYPOINT_GROUP</span> <span class="o">=</span> <span class="s2">&quot;hklpy2.solver&quot;</span>
 <span class="sd">&quot;&quot;&quot;Name by which |hklpy2| backend |solver| classes are grouped.&quot;&quot;&quot;</span>
+
+
+<div class="viewcode-block" id="SolverError">
+<a class="viewcode-back" href="../../api/z_misc.html#hklpy2.misc.SolverError">[docs]</a>
+<span class="k">class</span> <span class="nc">SolverError</span><span class="p">(</span><span class="n">Hklpy2Error</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Custom exceptions from a |solver|.&quot;&quot;&quot;</span></div>
+
 
 
 <div class="viewcode-block" id="get_solver">

@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
   <script src="../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script src="../_static/documentation_options.js?v=d96bc490"></script>
+    <script src="../_static/documentation_options.js?v=5f8e27fe"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/design-tabs.js?v=36754332"></script>
@@ -277,6 +277,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="backends/base.html">SolverBase</a></li>
 <li class="toctree-l2"><a class="reference internal" href="backends/hkl_soleil.html">hkl_soleil (HklSolver)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="backends/no_op.html">no_op (NoOpSolver)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="backends/th_tth_q.html">th_tth (ThTthSolver)</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="lattice.html">Crystal Lattice</a></li>
@@ -351,13 +352,16 @@ document.write(`
 <tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.misc.SOLVER_ENTRYPOINT_GROUP" title="hklpy2.misc.SOLVER_ENTRYPOINT_GROUP"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SOLVER_ENTRYPOINT_GROUP</span></code></a></p></td>
 <td><p>Name by which <strong>hklpy2</strong> backend <strong>Solver</strong> classes are grouped.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.misc.get_solver" title="hklpy2.misc.get_solver"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_solver</span></code></a>(solver_name)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.misc.SolverError" title="hklpy2.misc.SolverError"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SolverError</span></code></a></p></td>
+<td><p>Custom exceptions from a <strong>Solver</strong>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.misc.get_solver" title="hklpy2.misc.get_solver"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_solver</span></code></a>(solver_name)</p></td>
 <td><p>Load a Solver class from a named entry point.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.misc.solvers" title="hklpy2.misc.solvers"><code class="xref py py-obj docutils literal notranslate"><span class="pre">solvers</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.misc.solvers" title="hklpy2.misc.solvers"><code class="xref py py-obj docutils literal notranslate"><span class="pre">solvers</span></code></a>()</p></td>
 <td><p>Dictionary of available Solver classes, mapped by entry point name.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.misc.unique_name" title="hklpy2.misc.unique_name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">unique_name</span></code></a>([prefix])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.misc.unique_name" title="hklpy2.misc.unique_name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">unique_name</span></code></a>([prefix])</p></td>
 <td><p>Short, unique name, first 7 characters of a unique, random uuid.</p></td>
 </tr>
 </tbody>
@@ -366,6 +370,27 @@ document.write(`
 <dt class="sig sig-object py" id="hklpy2.misc.SOLVER_ENTRYPOINT_GROUP">
 <span class="sig-prename descclassname"><span class="pre">hklpy2.misc.</span></span><span class="sig-name descname"><span class="pre">SOLVER_ENTRYPOINT_GROUP</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'hklpy2.solver'</span></em><a class="headerlink" href="#hklpy2.misc.SOLVER_ENTRYPOINT_GROUP" title="Link to this definition">#</a></dt>
 <dd><p>Name by which <strong>hklpy2</strong> backend <strong>Solver</strong> classes are grouped.</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="hklpy2.misc.SolverError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">hklpy2.misc.</span></span><span class="sig-name descname"><span class="pre">SolverError</span></span><a class="reference internal" href="../_modules/hklpy2/misc.html#SolverError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.misc.SolverError" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Hklpy2Error</span></code></p>
+<p>Custom exceptions from a <strong>Solver</strong>.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="hklpy2.misc.SolverError.add_note">
+<span class="sig-name descname"><span class="pre">add_note</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#hklpy2.misc.SolverError.add_note" title="Link to this definition">#</a></dt>
+<dd><p>Exception.add_note(note) –
+add a note to the exception</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="hklpy2.misc.SolverError.with_traceback">
+<span class="sig-name descname"><span class="pre">with_traceback</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#hklpy2.misc.SolverError.with_traceback" title="Link to this definition">#</a></dt>
+<dd><p>Exception.with_traceback(tb) –
+set self.__traceback__ to tb and return self.</p>
+</dd></dl>
+
 </dd></dl>
 
 <dl class="py function">
@@ -446,6 +471,11 @@ document.write(`
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-hklpy2.misc">Source Code Documentation</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.misc.SOLVER_ENTRYPOINT_GROUP"><code class="docutils literal notranslate"><span class="pre">SOLVER_ENTRYPOINT_GROUP</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.misc.SolverError"><code class="docutils literal notranslate"><span class="pre">SolverError</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.misc.SolverError.add_note"><code class="docutils literal notranslate"><span class="pre">SolverError.add_note()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.misc.SolverError.with_traceback"><code class="docutils literal notranslate"><span class="pre">SolverError.with_traceback()</span></code></a></li>
+</ul>
+</li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.misc.get_solver"><code class="docutils literal notranslate"><span class="pre">get_solver()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.misc.solvers"><code class="docutils literal notranslate"><span class="pre">solvers()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.misc.unique_name"><code class="docutils literal notranslate"><span class="pre">unique_name()</span></code></a></li>

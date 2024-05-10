@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
   <script src="../../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script src="../../_static/documentation_options.js?v=d96bc490"></script>
+    <script src="../../_static/documentation_options.js?v=5f8e27fe"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/design-tabs.js?v=36754332"></script>
@@ -277,6 +277,7 @@ document.write(`
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">SolverBase</a></li>
 <li class="toctree-l2"><a class="reference internal" href="hkl_soleil.html">hkl_soleil (HklSolver)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="no_op.html">no_op (NoOpSolver)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="th_tth_q.html">th_tth (ThTthSolver)</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../lattice.html">Crystal Lattice</a></li>
@@ -401,8 +402,14 @@ as best fits the underlying support library.</p>
 <tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.backends.base.SolverBase.geometry" title="hklpy2.backends.base.SolverBase.geometry"><code class="xref py py-obj docutils literal notranslate"><span class="pre">geometry</span></code></a></p></td>
 <td><p>Selected diffractometer geometry.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.backends.base.SolverBase.inverse" title="hklpy2.backends.base.SolverBase.inverse"><code class="xref py py-obj docutils literal notranslate"><span class="pre">inverse</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.backends.base.SolverBase.inverse" title="hklpy2.backends.base.SolverBase.inverse"><code class="xref py py-obj docutils literal notranslate"><span class="pre">inverse</span></code></a>(reals)</p></td>
 <td><p>Compute tuple of pseudos from reals (angles -&gt; hkl).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.backends.base.SolverBase.lattice" title="hklpy2.backends.base.SolverBase.lattice"><code class="xref py py-obj docutils literal notranslate"><span class="pre">lattice</span></code></a></p></td>
+<td><p>Crystal lattice parameters.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.backends.base.SolverBase.mode" title="hklpy2.backends.base.SolverBase.mode"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mode</span></code></a></p></td>
+<td><p>Diffractometer geometry operation mode for forward().</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.backends.base.SolverBase.modes" title="hklpy2.backends.base.SolverBase.modes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">modes</span></code></a></p></td>
 <td><p>List of the geometry operating modes.</p></td>
@@ -415,12 +422,6 @@ as best fits the underlying support library.</p>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.backends.base.SolverBase.refineLattice" title="hklpy2.backends.base.SolverBase.refineLattice"><code class="xref py py-obj docutils literal notranslate"><span class="pre">refineLattice</span></code></a>(reflections)</p></td>
 <td><p>Refine the lattice parameters from a list of reflections.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.backends.base.SolverBase.setLattice" title="hklpy2.backends.base.SolverBase.setLattice"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setLattice</span></code></a>(lattice)</p></td>
-<td><p>Define the sample's lattice parameters.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.backends.base.SolverBase.setMode" title="hklpy2.backends.base.SolverBase.setMode"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setMode</span></code></a>(mode)</p></td>
-<td><p>Define the geometry's operating mode.</p></td>
 </tr>
 </tbody>
 </table>
@@ -456,14 +457,28 @@ as best fits the underlying support library.</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="hklpy2.backends.base.SolverBase.geometry">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">geometry</span></span><a class="headerlink" href="#hklpy2.backends.base.SolverBase.geometry" title="Link to this definition">#</a></dt>
+<em class="property"><span class="pre">abstract</span><span class="w"> </span><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">geometry</span></span><a class="headerlink" href="#hklpy2.backends.base.SolverBase.geometry" title="Link to this definition">#</a></dt>
 <dd><p>Selected diffractometer geometry.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="hklpy2.backends.base.SolverBase.inverse">
-<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">inverse</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hklpy2/backends/base.html#SolverBase.inverse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.backends.base.SolverBase.inverse" title="Link to this definition">#</a></dt>
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">inverse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">reals</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.12)"><span class="pre">dict</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hklpy2/backends/base.html#SolverBase.inverse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.backends.base.SolverBase.inverse" title="Link to this definition">#</a></dt>
 <dd><p>Compute tuple of pseudos from reals (angles -&gt; hkl).</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="hklpy2.backends.base.SolverBase.lattice">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">lattice</span></span><a class="headerlink" href="#hklpy2.backends.base.SolverBase.lattice" title="Link to this definition">#</a></dt>
+<dd><p>Crystal lattice parameters.  (not used by this <strong>Solver</strong>).</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="hklpy2.backends.base.SolverBase.mode">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">mode</span></span><a class="headerlink" href="#hklpy2.backends.base.SolverBase.mode" title="Link to this definition">#</a></dt>
+<dd><p>Diffractometer geometry operation mode for forward().</p>
+<p>A mode defines which axes will be modified by the
+<a class="reference internal" href="#hklpy2.backends.base.SolverBase.forward" title="hklpy2.backends.base.SolverBase.forward"><code class="xref py py-meth docutils literal notranslate"><span class="pre">forward()</span></code></a> computation.</p>
 </dd></dl>
 
 <dl class="py property">
@@ -488,20 +503,6 @@ as best fits the underlying support library.</p>
 <dt class="sig sig-object py" id="hklpy2.backends.base.SolverBase.refineLattice">
 <em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">refineLattice</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">reflections</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hklpy2/backends/base.html#SolverBase.refineLattice"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.backends.base.SolverBase.refineLattice" title="Link to this definition">#</a></dt>
 <dd><p>Refine the lattice parameters from a list of reflections.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="hklpy2.backends.base.SolverBase.setLattice">
-<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">setLattice</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lattice</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hklpy2/backends/base.html#SolverBase.setLattice"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.backends.base.SolverBase.setLattice" title="Link to this definition">#</a></dt>
-<dd><p>Define the sample’s lattice parameters.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="hklpy2.backends.base.SolverBase.setMode">
-<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">setMode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mode</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hklpy2/backends/base.html#SolverBase.setMode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.backends.base.SolverBase.setMode" title="Link to this definition">#</a></dt>
-<dd><p>Define the geometry’s operating mode.</p>
-<p>A mode defines constraints on the solutions provided by the
-<a class="reference internal" href="#hklpy2.backends.base.SolverBase.forward" title="hklpy2.backends.base.SolverBase.forward"><code class="xref py py-meth docutils literal notranslate"><span class="pre">forward()</span></code></a> computation.</p>
 </dd></dl>
 
 </dd></dl>
@@ -562,12 +563,12 @@ as best fits the underlying support library.</p>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.backends.base.SolverBase.geometries"><code class="docutils literal notranslate"><span class="pre">SolverBase.geometries</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.backends.base.SolverBase.geometry"><code class="docutils literal notranslate"><span class="pre">SolverBase.geometry</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.backends.base.SolverBase.inverse"><code class="docutils literal notranslate"><span class="pre">SolverBase.inverse()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.backends.base.SolverBase.lattice"><code class="docutils literal notranslate"><span class="pre">SolverBase.lattice</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.backends.base.SolverBase.mode"><code class="docutils literal notranslate"><span class="pre">SolverBase.mode</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.backends.base.SolverBase.modes"><code class="docutils literal notranslate"><span class="pre">SolverBase.modes</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.backends.base.SolverBase.pseudo_axis_names"><code class="docutils literal notranslate"><span class="pre">SolverBase.pseudo_axis_names</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.backends.base.SolverBase.real_axis_names"><code class="docutils literal notranslate"><span class="pre">SolverBase.real_axis_names</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.backends.base.SolverBase.refineLattice"><code class="docutils literal notranslate"><span class="pre">SolverBase.refineLattice()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.backends.base.SolverBase.setLattice"><code class="docutils literal notranslate"><span class="pre">SolverBase.setLattice()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.backends.base.SolverBase.setMode"><code class="docutils literal notranslate"><span class="pre">SolverBase.setMode()</span></code></a></li>
 </ul>
 </li>
 </ul>

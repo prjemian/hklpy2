@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
   <script src="../../../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script src="../../../_static/documentation_options.js?v=d96bc490"></script>
+    <script src="../../../_static/documentation_options.js?v=5f8e27fe"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/tabs.js?v=3030b3cb"></script>
@@ -317,7 +317,7 @@ document.write(`
                   
   <h1>Source code for hklpy2.backends.no_op</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">Backend: no_op</span>
+<span class="sd">Backend: no_op (``&quot;no_op&quot;``)</span>
 
 <span class="sd">no reciprocal-space conversions</span>
 
@@ -353,12 +353,12 @@ document.write(`
 <span class="sd">        ~geometries</span>
 <span class="sd">        ~geometry</span>
 <span class="sd">        ~inverse</span>
+<span class="sd">        ~lattice</span>
+<span class="sd">        ~mode</span>
 <span class="sd">        ~modes</span>
 <span class="sd">        ~pseudo_axis_names</span>
 <span class="sd">        ~real_axis_names</span>
 <span class="sd">        ~refineLattice</span>
-<span class="sd">        ~setLattice</span>
-<span class="sd">        ~setMode</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="vm">__name__</span> <span class="o">=</span> <span class="s2">&quot;no_op&quot;</span>
@@ -390,7 +390,7 @@ document.write(`
 <div class="viewcode-block" id="NoOpSolver.forward">
 <a class="viewcode-back" href="../../../api/backends/no_op.html#hklpy2.backends.no_op.NoOpSolver.forward">[docs]</a>
     <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="p">[]</span></div>
+        <span class="k">return</span> <span class="p">[{}]</span></div>
 
 
     <span class="nd">@property</span>
@@ -412,8 +412,8 @@ document.write(`
 
 <div class="viewcode-block" id="NoOpSolver.inverse">
 <a class="viewcode-back" href="../../../api/backends/no_op.html#hklpy2.backends.no_op.NoOpSolver.inverse">[docs]</a>
-    <span class="k">def</span> <span class="nf">inverse</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="p">[</span><span class="s2">&quot;No Ops&quot;</span><span class="p">]</span></div>
+    <span class="k">def</span> <span class="nf">inverse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reals</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">{}</span></div>
 
 
     <span class="nd">@property</span>
@@ -434,17 +434,8 @@ document.write(`
         <span class="k">return</span> <span class="kc">None</span></div>
 
 
-<div class="viewcode-block" id="NoOpSolver.setLattice">
-<a class="viewcode-back" href="../../../api/backends/no_op.html#hklpy2.backends.no_op.NoOpSolver.setLattice">[docs]</a>
     <span class="k">def</span> <span class="nf">setLattice</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lattice</span><span class="p">):</span>
         <span class="k">pass</span>  <span class="c1"># TODO</span></div>
-
-
-<div class="viewcode-block" id="NoOpSolver.setMode">
-<a class="viewcode-back" href="../../../api/backends/no_op.html#hklpy2.backends.no_op.NoOpSolver.setMode">[docs]</a>
-    <span class="k">def</span> <span class="nf">setMode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mode</span><span class="p">):</span>
-        <span class="k">pass</span></div>
-</div>
 
 </pre></div>
 
