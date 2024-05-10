@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
   <script src="../../../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script src="../../../_static/documentation_options.js?v=5f8e27fe"></script>
+    <script src="../../../_static/documentation_options.js?v=ffead06e"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/tabs.js?v=3030b3cb"></script>
@@ -351,8 +351,8 @@ document.write(`
 <span class="sd">    ============== =================</span>
 <span class="sd">    transformation equation</span>
 <span class="sd">    ============== =================</span>
-<span class="sd">    ``forward()``  :math:`\\theta = \\sin^{-1}(q\\lambda / 4\\pi), 2\\theta=2\\cdot\\theta`</span>
-<span class="sd">    ``inverse()``  :math:`q = (4\\pi / \\lambda) \\sin({1 \over 2} 2\\theta)`</span>
+<span class="sd">    ``forward()``  :math:`\\theta = \\sin^{-1}(q\\lambda / 4\\pi)`</span>
+<span class="sd">    ``inverse()``  :math:`q = (4\\pi / \\lambda) \\sin(\\theta)`</span>
 <span class="sd">    ============== =================</span>
 
 <span class="sd">    Wavelength is specified either directly (``solver.wavelength = 1.0``) or</span>
@@ -382,7 +382,6 @@ document.write(`
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">gname</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_geometry</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_reflections</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_wavelength</span> <span class="o">=</span> <span class="kc">None</span>
@@ -455,8 +454,7 @@ document.write(`
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Must supply str, received </span><span class="si">{</span><span class="n">value</span><span class="si">!r}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">value</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">geometries</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Geometry </span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2"> unknown.&quot;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_geometry</span> <span class="o">=</span> <span class="n">value</span>  <span class="c1"># TODO: Why?</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">gname</span> <span class="o">=</span> <span class="n">value</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_geometry</span> <span class="o">=</span> <span class="n">value</span>
 
 <div class="viewcode-block" id="ThTthSolver.inverse">
 <a class="viewcode-back" href="../../../api/backends/th_tth_q.html#hklpy2.backends.th_tth_q.ThTthSolver.inverse">[docs]</a>

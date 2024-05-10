@@ -1,5 +1,6 @@
 .. include:: /substitutions.txt
 
+.. index:: Solver; HklSolver
 .. _api.backends.hkl_soleil:
 
 ========================

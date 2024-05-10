@@ -1,5 +1,6 @@
 .. include:: /substitutions.txt
 
+.. index:: Solver; ThTthSolver
 .. _api.backends.th_tth:
 
 ========================
