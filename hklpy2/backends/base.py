@@ -71,7 +71,7 @@ class SolverBase(ABC):
 
     @abstractmethod
     def addReflection(self, pseudos, reals, wavelength):
-        """Add information about a reflection."""
+        """Add coordinates of a diffraction condition (a reflection)."""
 
     @abstractmethod
     def addSample(self, sample):

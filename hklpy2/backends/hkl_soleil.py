@@ -65,7 +65,7 @@ class HklSolver(SolverBase):
         self._real_axis_names = []
 
     def addReflection(self, pseudos, reals, wavelength):  # TODO
-        """Add information about a reflection."""
+        """Add coordinates of a diffraction condition (a reflection)."""
 
     def addSample(self, sample):  # TODO
         """Add a sample."""

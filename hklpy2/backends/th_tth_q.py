@@ -67,6 +67,7 @@ class ThTthSolver(SolverBase):
         self._wavelength = None
 
     def addReflection(self, value: Reflection):
+        """Add coordinates of a diffraction condition (a reflection)."""
         if not isinstance(value, Reflection):
             raise TypeError(f"Must supply Reflection object, received {value!r}")
         self._reflections.append(value)

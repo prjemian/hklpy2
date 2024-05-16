@@ -49,10 +49,10 @@ class NoOpSolver(SolverBase):
         self._geometry = None
 
     def addReflection(self, pseudos, reals, wavelength):
-        pass  # TODO
+        pass
 
     def addSample(self, sample):
-        pass  # TODO
+        pass
 
     def calculateOrientation(self, r1, r2):
         return
@@ -94,4 +94,4 @@ class NoOpSolver(SolverBase):
         return None
 
     def setLattice(self, lattice):
-        pass  # TODO
+        pass
