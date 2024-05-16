@@ -74,11 +74,11 @@ autodoc_default_options = {
     # 'undoc-members': True,
     "exclude-members": autodoc_exclude_members,
 }
-autodoc_mock_imports = [
-    "gi",
-    "ophyd",
-    "pint",
-]
+autodoc_mock_imports = """
+    gi
+    ophyd
+    pint
+""".split()
 
 # Example configuration for intersphinx: refer to the Python standard library.
 intersphinx_mapping = {"python": ("https://docs.python.org/3", None)}
