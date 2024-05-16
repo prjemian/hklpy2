@@ -9,6 +9,13 @@ NOTE:  this project at initial development
 2nd generation controls for using diffractometers within the [Bluesky
 Framework](https://blueskyproject.io).
 
-## References
+## About
 
-- hklpy2 documentation: <https://prjemian.github.io/hklpy2>
+- home: https://prjemian.github.io/hklpy2
+- source: https://github.com/prjemian/hklpy2
+- license: [Argonne Open Source License](/LICENSE)
+- **hklpy**, v1: [docs](https://blueskyproject.io/hklpy/), [source](https://github.com/bluesky/hklpy)
+- **libhkl**: [docs](https://people.debian.org/~picca/hkl/hkl.html),  [source](https://repo.or.cz/hkl.git)
+- acknowledgement: 
+  "This product includes software produced by UChicago Argonne,
+  LLC under Contract No. DE-AC02-06CH11357 with the Department of Energy."
