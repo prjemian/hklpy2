@@ -25,11 +25,13 @@ except (LookupError, ModuleNotFoundError):
     __version__ = version(__package_name__)
     del version
 
+
 class Hklpy2Error(Exception):
     """Any exception from the |hklpy2| package."""
 
 
 from .backends import SolverBase  # noqa: E402, F401
+from .diffract import DiffractometerBase  # noqa: E402, F401
 from .lattice import SI_LATTICE_PARAMETER  # noqa: E402, F401
 from .lattice import Lattice  # noqa: E402, F401
 from .misc import SOLVER_ENTRYPOINT_GROUP  # noqa: E402, F401

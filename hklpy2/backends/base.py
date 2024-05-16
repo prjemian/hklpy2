@@ -63,11 +63,7 @@ class SolverBase(ABC):
         self._geometry = None
 
     def __repr__(self) -> str:
-        return (
-            f"{self.__class__.__name__}("
-            f"name={self.__name__!r}, "
-            f"version={self.__version__!r})"
-        )
+        return f"{self.__class__.__name__}(" f"name={self.__name__!r}, " f"version={self.__version__!r})"
 
     @abstractmethod
     def addReflection(self, pseudos, reals, wavelength):
@@ -105,9 +101,7 @@ class SolverBase(ABC):
         if not isinstance(value, (type(None), str)):
             raise TypeError(f"Must supply str, received {value!r}")
         if value not in self.geometries:
-            raise KeyError(
-                f"Geometry {value} unknown. Pick one of: {self.geometries!r}"
-            )
+            raise KeyError(f"Geometry {value} unknown. Pick one of: {self.geometries!r}")
         self._geometry = value
 
     @abstractmethod

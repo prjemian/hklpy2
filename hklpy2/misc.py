@@ -10,10 +10,13 @@ Miscellaneous Support.
     ~unique_name
 """
 
+import logging
 import uuid
 from importlib.metadata import entry_points
 
 from . import Hklpy2Error
+
+logger = logging.getLogger(__name__)
 
 SOLVER_ENTRYPOINT_GROUP = "hklpy2.solver"
 """Name by which |hklpy2| backend |solver| classes are grouped."""

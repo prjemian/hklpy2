@@ -10,12 +10,15 @@ A Crystalline Sample.
 """
 
 # TODO: When solver is needed, set it up first.
+import logging
 
 from . import Hklpy2Error
 from . import Lattice
 from . import ReflectionsDict
 from . import SolverBase
 from .misc import unique_name
+
+logger = logging.getLogger(__name__)
 
 
 class SampleError(Hklpy2Error):

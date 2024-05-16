@@ -25,10 +25,7 @@ def test_reflection_no_op():
     ref1 = Reflection(solver, {}, {}, 1.0, name="r1")
     assert ref1 is not None
     assert ref1.name == "r1"
-    expected = (
-        f"Reflection(name='r1', geometry={gname!r}, "
-        "pseudos={}, angles={}, wavelength=1.0)"
-    )
+    expected = f"Reflection(name='r1', geometry={gname!r}, " "pseudos={}, angles={}, wavelength=1.0)"
     assert str(ref1) == expected, f"{ref1}"
 
     ref2 = Reflection(solver, {}, {}, 1.01)
@@ -128,9 +125,7 @@ def test_with_solver_base():
         ],
     ],
 )
-def test_reflection_constructor(
-    solver, pseudos, angles, wavelength, rname, outcome, reason
-):
+def test_reflection_constructor(solver, pseudos, angles, wavelength, rname, outcome, reason):
     with outcome as excuse:
         reflection = Reflection(solver, pseudos, angles, wavelength, name=rname)
         assert reflection is not None

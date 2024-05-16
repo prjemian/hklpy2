@@ -11,9 +11,13 @@ Associates diffractometer angles (real-space) with crystalline reciprocal-space
     ~ReflectionsDict
 """
 
+import logging
+
 from . import Hklpy2Error
 from . import SolverBase
 from .misc import unique_name
+
+logger = logging.getLogger(__name__)
 
 
 class ReflectionError(Hklpy2Error):
@@ -35,9 +39,7 @@ class Reflection:
         ~name
     """
 
-    def __init__(
-        self, solver, pseudos: dict, angles: dict, wavelength: float, name=None
-    ) -> None:
+    def __init__(self, solver, pseudos: dict, angles: dict, wavelength: float, name=None) -> None:
         self.name = name or unique_name()
         self.solver = solver
         self.pseudos = pseudos
@@ -107,9 +109,7 @@ class Reflection:
     @solver.setter
     def solver(self, value):
         if not (isinstance(value, SolverBase) or issubclass(type(value), SolverBase)):
-            raise TypeError(
-                f"Must supply SolverBase() object, received solver={value!r}"
-            )
+            raise TypeError(f"Must supply SolverBase() object, received solver={value!r}")
         # note: calling SolverBase() will always generate a TypeError
         # "Can't instantiate abstract class SolverBase with abstract methods" ...
         self._solver = value
@@ -154,8 +154,7 @@ class ReflectionsDict(dict):
         """Add an orientation reflection."""
         if reflection.name in self and not overwrite:
             raise ReflectionError(
-                f"Reflection {reflection.name!r} already defined. "
-                "Set `overwrite=True` to replace it."
+                f"Reflection {reflection.name!r} already defined. " "Set `overwrite=True` to replace it."
             )
         self[reflection.name] = reflection
         if reflection.name not in self.ordering:

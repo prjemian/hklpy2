@@ -12,7 +12,6 @@ Example::
     ~HklSolver
 """
 
-
 from .. import SolverError  # noqa: E402
 
 try:

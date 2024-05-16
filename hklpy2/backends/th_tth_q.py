@@ -76,10 +76,7 @@ class ThTthSolver(SolverBase):
         wavelengths = [r.wavelength for r in self._reflections]
         if min(wavelengths) != max(wavelengths):
             self._reflections.pop(-1)
-            raise SolverError(
-                "All reflections must have same wavelength.  "
-                f"Received: {wavelengths!r}"
-            )
+            raise SolverError(f"All reflections must have same wavelength. Received: {wavelengths!r}")
         self.wavelength = wavelengths[0]
 
     def addSample(self, sample):
@@ -99,9 +96,7 @@ class ThTthSolver(SolverBase):
             if q is None:
                 raise SolverError(f"'q' not defined. Received {pseudos!r}.")
             if self.wavelength is None:
-                raise SolverError(
-                    "Wavelength is not set. Set wavelength or add reflection."
-                )
+                raise SolverError("Wavelength is not set. Set wavelength or add reflection.")
             if self.mode == "bisector":
                 th = math.degrees(math.asin(q * self.wavelength / 4 / math.pi))
                 solutions.append({"th": th, "tth": 2 * th})
@@ -136,9 +131,7 @@ class ThTthSolver(SolverBase):
             if tth is None:
                 raise SolverError(f"'tth' not defined. Received {reals!r}.")
             if self.wavelength is None:
-                raise SolverError(
-                    "Wavelength is not set. Set wavelength or add reflection."
-                )
+                raise SolverError("Wavelength is not set. Set wavelength or add reflection.")
             if self.mode == "bisector":
                 q = (4 * math.pi) / self.wavelength
                 q *= math.sin(math.radians(tth / 2))
