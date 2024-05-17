@@ -13,8 +13,12 @@ from ophyd import PseudoPositioner
 from ophyd import Signal
 from ophyd.signal import AttributeSignal
 
+from .misc import A_KEV
+
 __all__ = ["DiffractometerBase"]
 logger = logging.getLogger(__name__)
+
+DEFAULT_PHOTON_ENERGY_KEV = 8.0
 
 
 class DiffractometerBase(PseudoPositioner):
@@ -24,6 +28,7 @@ class DiffractometerBase(PseudoPositioner):
     .. autosummary::
 
         ~solver
+        ~wavelength
         ~energy
         ~energy_units
         ~energy_offset
@@ -35,18 +40,35 @@ class DiffractometerBase(PseudoPositioner):
     # _real = []
     # """List of real-space positioner objects."""
 
-    solver = Cpt(Signal, value=None, doc="backend library")
-    """Connects Diffractometer with a backend Solver (library)."""
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self._backend_solver = None
 
-    _wavelength = None
+    solver = Cpt(
+        AttributeSignal,
+        attr="_solver",
+        doc="Name of backend |solver| (library).",
+        write_access=True,
+    )
+    """Name of backend |solver| (library)."""
+
+    # TODO: Refactor as a class.  Could be changed more easily.
+    # To support other incident beam sources, such as neutron TOF,
+    # handle wavelength with a class.
+    _wavelength = A_KEV / DEFAULT_PHOTON_ENERGY_KEV
     wavelength = Cpt(
         AttributeSignal,
         attr="_wavelength",
         doc="incident wavelength, (angstrom)",
         write_access=False,
     )
+    """Incident wavelength, (angstrom)."""
 
-    energy = Cpt(Signal, value=8.0, doc="monochromatic X-ray photon energy")
+    # fmt: off
+    energy = Cpt(
+        Signal, value=DEFAULT_PHOTON_ENERGY_KEV,
+        doc="monochromatic X-ray photon energy"
+    )
     """
     Incoming monochromatic X-ray photon energy (:math:`E`).
 
@@ -54,6 +76,7 @@ class DiffractometerBase(PseudoPositioner):
 
         \\lambda = (h \\nu) / (E + \\Delta E)
     """
+    # fmt: on
 
     energy_units = Cpt(Signal, value="keV")
     """Engineering units of photon energy."""
@@ -63,3 +86,14 @@ class DiffractometerBase(PseudoPositioner):
 
     # energy_update_calc_flag = Cpt(Signal, value=True)
     # """internal use"""
+
+    # ---- get/set properties
+
+    @property
+    def _solver(self):
+        """Backend |solver|, transformations between pseudos and reals."""
+        return self._backend_solver
+
+    @_solver.setter
+    def _solver(self, value: str):
+        self._backend_solver = value

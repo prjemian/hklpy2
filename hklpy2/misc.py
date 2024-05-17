@@ -3,6 +3,7 @@ Miscellaneous Support.
 
 .. autosummary::
 
+    ~A_KEV
     ~SOLVER_ENTRYPOINT_GROUP
     ~SolverError
     ~get_solver
