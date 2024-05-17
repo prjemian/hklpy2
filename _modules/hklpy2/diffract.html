@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>hklpy2.misc &#8212; hklpy2 0.0</title>
+    <title>hklpy2.diffract &#8212; hklpy2 0.0</title>
   
   
   
@@ -43,7 +43,7 @@
     <script src="../../_static/tabs.js?v=3030b3cb"></script>
     <script src="../../_static/design-tabs.js?v=36754332"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/hklpy2/misc';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/hklpy2/diffract';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
@@ -298,7 +298,7 @@ document.write(`
     
     <li class="breadcrumb-item"><a href="../index.html" class="nav-link">Module code</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page">hklpy2.misc</li>
+    <li class="breadcrumb-item active" aria-current="page">hklpy2.diffract</li>
   </ul>
 </nav>
 </div>
@@ -315,81 +315,95 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <h1>Source code for hklpy2.misc</h1><div class="highlight"><pre>
+  <h1>Source code for hklpy2.diffract</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">Miscellaneous Support.</span>
+<span class="sd">Base class for all diffractometers</span>
 
 <span class="sd">.. autosummary::</span>
 
-<span class="sd">    ~SOLVER_ENTRYPOINT_GROUP</span>
-<span class="sd">    ~SolverError</span>
-<span class="sd">    ~get_solver</span>
-<span class="sd">    ~solvers</span>
-<span class="sd">    ~unique_name</span>
+<span class="sd">    ~DiffractometerBase</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">import</span> <span class="nn">logging</span>
-<span class="kn">import</span> <span class="nn">uuid</span>
-<span class="kn">from</span> <span class="nn">importlib.metadata</span> <span class="kn">import</span> <span class="n">entry_points</span>
 
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">Hklpy2Error</span>
+<span class="kn">from</span> <span class="nn">ophyd</span> <span class="kn">import</span> <span class="n">Component</span> <span class="k">as</span> <span class="n">Cpt</span>
+<span class="kn">from</span> <span class="nn">ophyd</span> <span class="kn">import</span> <span class="n">PseudoPositioner</span>
+<span class="kn">from</span> <span class="nn">ophyd.signal</span> <span class="kn">import</span> <span class="n">AttributeSignal</span>
 
+<span class="kn">from</span> <span class="nn">.wavelength_support</span> <span class="kn">import</span> <span class="n">DEFAULT_WAVELENGTH</span>
+<span class="kn">from</span> <span class="nn">.wavelength_support</span> <span class="kn">import</span> <span class="n">ConstantMonochromaticWavelength</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;DiffractometerBase&quot;</span><span class="p">]</span>
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
-<span class="n">SOLVER_ENTRYPOINT_GROUP</span> <span class="o">=</span> <span class="s2">&quot;hklpy2.solver&quot;</span>
-<span class="sd">&quot;&quot;&quot;Name by which |hklpy2| backend |solver| classes are grouped.&quot;&quot;&quot;</span>
+<span class="n">DEFAULT_PHOTON_ENERGY_KEV</span> <span class="o">=</span> <span class="mf">8.0</span>
 
 
-<div class="viewcode-block" id="SolverError">
-<a class="viewcode-back" href="../../api/z_misc.html#hklpy2.misc.SolverError">[docs]</a>
-<span class="k">class</span> <span class="nc">SolverError</span><span class="p">(</span><span class="n">Hklpy2Error</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Custom exceptions from a |solver|.&quot;&quot;&quot;</span></div>
-
-
-
-<div class="viewcode-block" id="get_solver">
-<a class="viewcode-back" href="../../api/z_misc.html#hklpy2.misc.get_solver">[docs]</a>
-<span class="k">def</span> <span class="nf">get_solver</span><span class="p">(</span><span class="n">solver_name</span><span class="p">):</span>
+<div class="viewcode-block" id="DiffractometerBase">
+<a class="viewcode-back" href="../../api/diffract.html#hklpy2.diffract.DiffractometerBase">[docs]</a>
+<span class="k">class</span> <span class="nc">DiffractometerBase</span><span class="p">(</span><span class="n">PseudoPositioner</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Load a Solver class from a named entry point.</span>
+<span class="sd">    Base class for all diffractometers.</span>
 
-<span class="sd">    ::</span>
+<span class="sd">    .. autosummary::</span>
 
-<span class="sd">        import hklpy2</span>
-<span class="sd">        SolverClass = hklpy2.get_solver(&quot;hkl_soleil&quot;)</span>
-<span class="sd">        libhkl_solver = SolverClass()</span>
+<span class="sd">        ~solver</span>
+<span class="sd">        ~wavelength</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">entries</span> <span class="o">=</span> <span class="n">entry_points</span><span class="p">(</span><span class="n">group</span><span class="o">=</span><span class="n">SOLVER_ENTRYPOINT_GROUP</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">entries</span><span class="p">[</span><span class="n">solver_name</span><span class="p">]</span><span class="o">.</span><span class="n">load</span><span class="p">()</span></div>
 
+    <span class="c1"># TODO: allow for extra pseudos and reals</span>
+    <span class="c1"># Allow the subclass to provide more axes than required.</span>
+    <span class="c1"># Also allow axes to be renamed.</span>
+    <span class="c1"># Needs a way to specify which ones used with particular solver.</span>
 
+    <span class="c1"># These two attributes are used by the PseudoPositioner class.</span>
+    <span class="c1"># _pseudo = []  # List of pseudo-space PseudoPositioner objects.</span>
+    <span class="c1"># _real = []  # List of real-space positioner objects.</span>
 
-<div class="viewcode-block" id="solvers">
-<a class="viewcode-back" href="../../api/z_misc.html#hklpy2.misc.solvers">[docs]</a>
-<span class="k">def</span> <span class="nf">solvers</span><span class="p">():</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Dictionary of available Solver classes, mapped by entry point name.</span>
+    <span class="c1"># ophyd Device Components</span>
 
-<span class="sd">    ::</span>
+    <span class="c1"># ophyd Device Attribute Components</span>
 
-<span class="sd">        import hklpy2</span>
-<span class="sd">        print(hklpy2.solvers())</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1"># fmt: off</span>
-    <span class="n">entries</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="n">ep</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="n">ep</span><span class="o">.</span><span class="n">value</span>
-        <span class="k">for</span> <span class="n">ep</span> <span class="ow">in</span> <span class="n">entry_points</span><span class="p">(</span><span class="n">group</span><span class="o">=</span><span class="n">SOLVER_ENTRYPOINT_GROUP</span><span class="p">)</span>
-    <span class="p">}</span>
-    <span class="c1"># fmt: on</span>
-    <span class="k">return</span> <span class="n">entries</span></div>
+    <span class="n">solver</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span>
+        <span class="n">AttributeSignal</span><span class="p">,</span>
+        <span class="n">attr</span><span class="o">=</span><span class="s2">&quot;_solver&quot;</span><span class="p">,</span>
+        <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Name of backend |solver| (library).&quot;</span><span class="p">,</span>
+        <span class="n">write_access</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Name of backend |solver| (library).&quot;&quot;&quot;</span>
 
+    <span class="n">wavelength</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span>
+        <span class="n">AttributeSignal</span><span class="p">,</span>
+        <span class="n">attr</span><span class="o">=</span><span class="s2">&quot;_wavelength.wavelength&quot;</span><span class="p">,</span>
+        <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;incident wavelength, (angstrom)&quot;</span><span class="p">,</span>
+        <span class="n">write_access</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Incident wavelength.&quot;&quot;&quot;</span>
 
+    <span class="n">wavelength_units</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span>
+        <span class="n">AttributeSignal</span><span class="p">,</span>
+        <span class="n">attr</span><span class="o">=</span><span class="s2">&quot;_wavelength.wavelength_units&quot;</span><span class="p">,</span>
+        <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;engineering units of the incident wavelength&quot;</span><span class="p">,</span>
+        <span class="n">write_access</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Engineering units of the incident wavelength.&quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="unique_name">
-<a class="viewcode-back" href="../../api/z_misc.html#hklpy2.misc.unique_name">[docs]</a>
-<span class="k">def</span> <span class="nf">unique_name</span><span class="p">(</span><span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Short, unique name, first 7 characters of a unique, random uuid.&quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">prefix</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">())[:</span><span class="mi">7</span><span class="p">]</span></div>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_backend_solver</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_wavelength</span> <span class="o">=</span> <span class="n">ConstantMonochromaticWavelength</span><span class="p">(</span><span class="n">DEFAULT_WAVELENGTH</span><span class="p">)</span>
+
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="c1"># ---- get/set properties</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">_solver</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Backend |solver|, transformations between pseudos and reals.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_backend_solver</span>
+
+    <span class="nd">@_solver</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">_solver</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_backend_solver</span> <span class="o">=</span> <span class="n">value</span></div>
 
 </pre></div>
 

@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
   <script src="../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script src="../_static/documentation_options.js?v=f7cdbf68"></script>
+    <script src="../_static/documentation_options.js?v=1c962388"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/design-tabs.js?v=36754332"></script>
@@ -282,9 +282,11 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="backends/th_tth_q.html">th_tth (ThTthSolver)</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="diffract.html">Diffractometer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lattice.html">Crystal Lattice</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Orientation Reflection</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sample.html">Crystalline Sample</a></li>
+<li class="toctree-l1"><a class="reference internal" href="wavelength_support.html">Wavelength</a></li>
 <li class="toctree-l1"><a class="reference internal" href="z_misc.html">Miscellaneous Support</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
 </ul>
@@ -377,7 +379,7 @@ in <em>degrees</em>.</p>
 <tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.reflection.ReflectionError" title="hklpy2.reflection.ReflectionError"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ReflectionError</span></code></a></p></td>
 <td><p>Custom exceptions from the <a class="reference internal" href="#module-hklpy2.reflection" title="hklpy2.reflection"><code class="xref py py-mod docutils literal notranslate"><span class="pre">hklpy2.reflection</span></code></a> module.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.reflection.ReflectionsDict" title="hklpy2.reflection.ReflectionsDict"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ReflectionsDict</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.reflection.ReflectionsDict" title="hklpy2.reflection.ReflectionsDict"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ReflectionsDict</span></code></a>(*args, **kwargs)</p></td>
 <td><p>Dictionary of Reflections.</p></td>
 </tr>
 </tbody>
@@ -463,7 +465,7 @@ set self.__traceback__ to tb and return self.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="hklpy2.reflection.ReflectionsDict">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">hklpy2.reflection.</span></span><span class="sig-name descname"><span class="pre">ReflectionsDict</span></span><a class="reference internal" href="../_modules/hklpy2/reflection.html#ReflectionsDict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.reflection.ReflectionsDict" title="Link to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">hklpy2.reflection.</span></span><span class="sig-name descname"><span class="pre">ReflectionsDict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hklpy2/reflection.html#ReflectionsDict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.reflection.ReflectionsDict" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a></p>
 <p>Dictionary of Reflections.</p>
 <table class="autosummary longtable table autosummary">
@@ -520,9 +522,9 @@ set self.__traceback__ to tb and return self.</p>
 <span class="sig-name descname"><span class="pre">keys</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">a</span> <span class="pre">set-like</span> <span class="pre">object</span> <span class="pre">providing</span> <span class="pre">a</span> <span class="pre">view</span> <span class="pre">on</span> <span class="pre">D's</span> <span class="pre">keys</span></span></span><a class="headerlink" href="#hklpy2.reflection.ReflectionsDict.keys" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
-<dl class="py attribute">
+<dl class="py property">
 <dt class="sig sig-object py" id="hklpy2.reflection.ReflectionsDict.ordering">
-<span class="sig-name descname"><span class="pre">ordering</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></em><a class="headerlink" href="#hklpy2.reflection.ReflectionsDict.ordering" title="Link to this definition">#</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ordering</span></span><a class="headerlink" href="#hklpy2.reflection.ReflectionsDict.ordering" title="Link to this definition">#</a></dt>
 <dd><p>List of ordering reflection names.</p>
 </dd></dl>
 
