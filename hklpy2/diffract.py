@@ -10,10 +10,10 @@ import logging
 
 from ophyd import Component as Cpt
 from ophyd import PseudoPositioner
-from ophyd import Signal
 from ophyd.signal import AttributeSignal
 
-from .misc import A_KEV
+from .wavelength_support import DEFAULT_WAVELENGTH
+from .wavelength_support import ConstantMonochromaticWavelength
 
 __all__ = ["DiffractometerBase"]
 logger = logging.getLogger(__name__)
@@ -29,20 +29,20 @@ class DiffractometerBase(PseudoPositioner):
 
         ~solver
         ~wavelength
-        ~energy
-        ~energy_units
-        ~energy_offset
     """
 
-    # _pseudo = []
-    # """List of pseudo-space PseudoPositioner objects."""
+    # TODO: allow for extra pseudos and reals
+    # Allow the subclass to provide more axes than required.
+    # Also allow axes to be renamed.
+    # Needs a way to specify which ones used with particular solver.
 
-    # _real = []
-    # """List of real-space positioner objects."""
+    # These two attributes are used by the PseudoPositioner class.
+    # _pseudo = []  # List of pseudo-space PseudoPositioner objects.
+    # _real = []  # List of real-space positioner objects.
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self._backend_solver = None
+    # ophyd Device Components
+
+    # ophyd Device Attribute Components
 
     solver = Cpt(
         AttributeSignal,
@@ -52,40 +52,27 @@ class DiffractometerBase(PseudoPositioner):
     )
     """Name of backend |solver| (library)."""
 
-    # TODO: Refactor as a class.  Could be changed more easily.
-    # To support other incident beam sources, such as neutron TOF,
-    # handle wavelength with a class.
-    _wavelength = A_KEV / DEFAULT_PHOTON_ENERGY_KEV
     wavelength = Cpt(
         AttributeSignal,
-        attr="_wavelength",
+        attr="_wavelength.wavelength",
         doc="incident wavelength, (angstrom)",
         write_access=False,
     )
-    """Incident wavelength, (angstrom)."""
+    """Incident wavelength."""
 
-    # fmt: off
-    energy = Cpt(
-        Signal, value=DEFAULT_PHOTON_ENERGY_KEV,
-        doc="monochromatic X-ray photon energy"
+    wavelength_units = Cpt(
+        AttributeSignal,
+        attr="_wavelength.wavelength_units",
+        doc="engineering units of the incident wavelength",
+        write_access=False,
     )
-    """
-    Incoming monochromatic X-ray photon energy (:math:`E`).
+    """Engineering units of the incident wavelength."""
 
-    .. math::
+    def __init__(self, *args, **kwargs):
+        self._backend_solver = None
+        self._wavelength = ConstantMonochromaticWavelength(DEFAULT_WAVELENGTH)
 
-        \\lambda = (h \\nu) / (E + \\Delta E)
-    """
-    # fmt: on
-
-    energy_units = Cpt(Signal, value="keV")
-    """Engineering units of photon energy."""
-
-    energy_offset = Cpt(Signal, value=0)
-    """X-ray photon energy adjustment constant (:math:`\\Delta E`)."""
-
-    # energy_update_calc_flag = Cpt(Signal, value=True)
-    # """internal use"""
+        super().__init__(*args, **kwargs)
 
     # ---- get/set properties
 

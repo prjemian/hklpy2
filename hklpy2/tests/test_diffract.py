@@ -8,17 +8,19 @@ from ophyd import Kind
 from ophyd import PseudoSingle
 from ophyd import SoftPositioner
 
-from .. import A_KEV
-from ..diffract import DEFAULT_PHOTON_ENERGY_KEV
 from ..diffract import DiffractometerBase
+from ..wavelength_support import DEFAULT_WAVELENGTH
+from ..wavelength_support import DEFAULT_WAVELENGTH_UNITS
 
 NORMAL_HINTED = Kind.hinted | Kind.normal
 
 
 class Fourc(DiffractometerBase):
-    h = Cpt(PseudoSingle, "", kind=NORMAL_HINTED)
-    k = Cpt(PseudoSingle, "", kind=NORMAL_HINTED)
-    l = Cpt(PseudoSingle, "", kind=NORMAL_HINTED)
+    """Test case."""
+
+    h = Cpt(PseudoSingle, "", kind=NORMAL_HINTED)  # noqa: E741
+    k = Cpt(PseudoSingle, "", kind=NORMAL_HINTED)  # noqa: E741
+    l = Cpt(PseudoSingle, "", kind=NORMAL_HINTED)  # noqa: E741
 
     omega = Cpt(SoftPositioner, limits=(-180, 180), init_pos=0, kind=NORMAL_HINTED)
     chi = Cpt(SoftPositioner, limits=(-180, 180), init_pos=0, kind=NORMAL_HINTED)
@@ -27,14 +29,16 @@ class Fourc(DiffractometerBase):
 
 
 class Th2Th(DiffractometerBase):
-    q = Cpt(PseudoSingle, "", kind=NORMAL_HINTED)
+    """Test case."""
+
+    q = Cpt(PseudoSingle, "", kind=NORMAL_HINTED)  # noqa: E741
 
     th = Cpt(SoftPositioner, limits=(-90, 90), init_pos=0, kind=NORMAL_HINTED)
     tth = Cpt(SoftPositioner, limits=(-170, 170), init_pos=0, kind=NORMAL_HINTED)
 
 
 def test_DiffractometerBase():
-    # TODO: Until more of the baae class is developed, an exception
+    # TODO: Until more of the base class is developed, an exception
     # will be raised if an object is created.  Test that situation.
     with pytest.raises(ValueError) as reason:
         DiffractometerBase("", name="dbase")
@@ -50,8 +54,8 @@ def test_goniometer(geometry, npseudos, nreals):
     assert len(goniometer.real_positioners) == nreals
     assert len(goniometer._real) == nreals
     assert not goniometer.moving
-    assert math.isclose(goniometer.energy.get(), DEFAULT_PHOTON_ENERGY_KEV, abs_tol=0.01)
-    assert math.isclose(goniometer.wavelength.get(), A_KEV / DEFAULT_PHOTON_ENERGY_KEV, abs_tol=0.001)
+    assert math.isclose(goniometer.wavelength.get(), DEFAULT_WAVELENGTH, abs_tol=0.001)
+    assert goniometer.wavelength_units.get() == DEFAULT_WAVELENGTH_UNITS
     assert goniometer.solver.get() is None
 
     # TODO: position needs a solver
