@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
   <script src="../../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script src="../../_static/documentation_options.js?v=1c962388"></script>
+    <script src="../../_static/documentation_options.js?v=649cc688"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/tabs.js?v=3030b3cb"></script>
@@ -398,7 +398,7 @@ document.write(`
     <span class="nd">@property</span>
     <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">wavelength</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Wavelength.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Wavelength (:math:`\\lambda`).&quot;&quot;&quot;</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">wavelength_units</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
@@ -423,6 +423,13 @@ document.write(`
 <span class="sd">    Monochromatic wavelength (and units); cannot be changed.</span>
 
 <span class="sd">    Just wavelength.  Can be used with any type of radiation source.</span>
+
+<span class="sd">    .. autosummary::</span>
+
+<span class="sd">        ~wavelength</span>
+<span class="sd">        ~wavelength_units</span>
+<span class="sd">        ~source_type</span>
+<span class="sd">        ~spectrum_type</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">source_type</span> <span class="o">=</span> <span class="s2">&quot;any&quot;</span>
@@ -456,6 +463,8 @@ document.write(`
 <span class="sd">        ~wavelength_units</span>
 <span class="sd">        ~energy</span>
 <span class="sd">        ~energy_units</span>
+<span class="sd">        ~source_type</span>
+<span class="sd">        ~spectrum_type</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">source_type</span> <span class="o">=</span> <span class="s2">&quot;X-ray&quot;</span>
@@ -468,7 +477,7 @@ document.write(`
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">wavelength</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Wavelength.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Wavelength (:math:`\\lambda`).&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_wavelength</span>
 
     <span class="nd">@wavelength</span><span class="o">.</span><span class="n">setter</span>
