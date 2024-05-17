@@ -75,7 +75,7 @@ class WavelengthBase(ABC):
     @property
     @abstractmethod
     def wavelength(self) -> float:
-        """Wavelength."""
+        """Wavelength (:math:`\\lambda`)."""
 
     @property
     def wavelength_units(self) -> str:
@@ -97,6 +97,13 @@ class ConstantMonochromaticWavelength(WavelengthBase):
     Monochromatic wavelength (and units); cannot be changed.
 
     Just wavelength.  Can be used with any type of radiation source.
+
+    .. autosummary::
+
+        ~wavelength
+        ~wavelength_units
+        ~source_type
+        ~spectrum_type
     """
 
     source_type = "any"
@@ -127,6 +134,8 @@ class MonochromaticXrayWavelength(WavelengthBase):
         ~wavelength_units
         ~energy
         ~energy_units
+        ~source_type
+        ~spectrum_type
     """
 
     source_type = "X-ray"
@@ -139,7 +148,7 @@ class MonochromaticXrayWavelength(WavelengthBase):
 
     @property
     def wavelength(self) -> float:
-        """Wavelength."""
+        """Wavelength (:math:`\\lambda`)."""
         return self._wavelength
 
     @wavelength.setter
