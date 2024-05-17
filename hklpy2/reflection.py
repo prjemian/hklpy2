@@ -140,8 +140,9 @@ class ReflectionsDict(dict):
         ~swap
     """
 
-    ordering = []  # TODO: use get/set property?
-    """List of ordering reflection names."""
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self._ordering = []
 
     def set_orientation_reflections(self, reflections: [Reflection]) -> None:
         """Designate the order of the reflections to be used."""
@@ -168,3 +169,14 @@ class ReflectionsDict(dict):
         rname1, rname2 = self.ordering[:2]
         self.ordering[0] = rname2
         self.ordering[1] = rname1
+
+    # ---- get/set properties
+
+    @property
+    def ordering(self):
+        """List of ordering reflection names."""
+        return self._ordering
+
+    @ordering.setter
+    def ordering(self, value):
+        self._ordering = value

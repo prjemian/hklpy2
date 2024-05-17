@@ -150,7 +150,7 @@ def test_reflectionsdict_constructor(outcome, reason):
     with outcome as excuse:
         rdict = ReflectionsDict()
         assert rdict is not None
-        assert rdict.ordering == []
+        assert rdict.ordering == [], f"{rdict.ordering=!r}"
         assert rdict.setor == rdict.set_orientation_reflections
 
     if reason is not None:
@@ -160,7 +160,7 @@ def test_reflectionsdict_constructor(outcome, reason):
 def test_reflectionsdict_swap():
     rdict = ReflectionsDict()
     assert rdict is not None
-    assert rdict.ordering == []
+    assert rdict.ordering == [], f"{rdict.ordering=!r}"
 
     rdict.ordering = "one two".split()
     rdict.swap()

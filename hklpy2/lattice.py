@@ -50,8 +50,6 @@ class Lattice:
         ~__repr__
     """
 
-    digits = 4
-
     def __init__(
         self,
         a: float,
@@ -60,6 +58,7 @@ class Lattice:
         alpha: float = 90.0,  # degrees
         beta: float = None,  # degrees
         gamma: float = None,  # degrees
+        digits: int = 4,
     ):
         self.a = a
         self.b = b or a
@@ -67,6 +66,7 @@ class Lattice:
         self.alpha = alpha
         self.beta = beta or alpha
         self.gamma = gamma or alpha
+        self.digits = digits
 
     def equal(self, latt, tolerance=1e-6):
         """
@@ -117,3 +117,14 @@ class Lattice:
         """
         parameters = [f"{k}={round(v, self.digits)}" for k, v in self._asdict().items()]
         return "Lattice(" + ", ".join(parameters) + ")"
+
+    # ---- get/set properties
+
+    @property
+    def digits(self) -> int:
+        """Number of digits to display."""
+        return self._digits
+
+    @digits.setter
+    def digits(self, value: int):
+        self._digits = value
