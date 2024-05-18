@@ -12,4 +12,5 @@ TODO
    :glob:
    :hidden:
 
+   design-discussion
    notebooks/*

@@ -1,4 +1,4 @@
-# Plans for hklpy2
+# Design for hklpy2
 
 Gather the discussion points, thoughts, issues, etc. for development of
 [*hklpy2*](https://github.com/prjemian/hklpy2), the second generation of
