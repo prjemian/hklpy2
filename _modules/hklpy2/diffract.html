@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
   <script src="../../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script src="../../_static/documentation_options.js?v=a21b7b0e"></script>
+    <script src="../../_static/documentation_options.js?v=4068d621"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/tabs.js?v=3030b3cb"></script>
@@ -345,10 +345,20 @@ document.write(`
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Base class for all diffractometers.</span>
 
+<span class="sd">    .. rubric:: (ophyd) Components</span>
+
 <span class="sd">    .. autosummary::</span>
 
 <span class="sd">        ~solver</span>
 <span class="sd">        ~wavelength</span>
+
+<span class="sd">    .. rubric:: Python Methods</span>
+
+<span class="sd">    .. rubric:: Python Properties</span>
+
+<span class="sd">    .. autosummary::</span>
+
+<span class="sd">        ~backend_solver</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="c1"># TODO: allow for extra pseudos and reals</span>
@@ -366,7 +376,7 @@ document.write(`
 
     <span class="n">solver</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span>
         <span class="n">AttributeSignal</span><span class="p">,</span>
-        <span class="n">attr</span><span class="o">=</span><span class="s2">&quot;_solver&quot;</span><span class="p">,</span>
+        <span class="n">attr</span><span class="o">=</span><span class="s2">&quot;backend_solver&quot;</span><span class="p">,</span>
         <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Name of backend |solver| (library).&quot;</span><span class="p">,</span>
         <span class="n">write_access</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="p">)</span>
@@ -397,12 +407,12 @@ document.write(`
     <span class="c1"># ---- get/set properties</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">_solver</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">backend_solver</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Backend |solver|, transformations between pseudos and reals.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_backend_solver</span>
 
-    <span class="nd">@_solver</span><span class="o">.</span><span class="n">setter</span>
-    <span class="k">def</span> <span class="nf">_solver</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="nd">@backend_solver</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">backend_solver</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_backend_solver</span> <span class="o">=</span> <span class="n">value</span></div>
 
 </pre></div>

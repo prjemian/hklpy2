@@ -7,6 +7,8 @@
 no_op (NoOpSolver)
 ========================
 
+.. caution:: work-in-progress
+
 .. automodule:: hklpy2.backends.no_op
     :members:
     :private-members:

@@ -38,11 +38,13 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
   <script src="../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script src="../_static/documentation_options.js?v=a21b7b0e"></script>
+    <script src="../_static/documentation_options.js?v=4068d621"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/design-tabs.js?v=36754332"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'api/diffract';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -346,6 +348,74 @@ document.write(`
                   
   <section id="diffractometer">
 <span id="api-diffract"></span><h1>Diffractometer<a class="headerlink" href="#diffractometer" title="Link to this heading">#</a></h1>
+<div class="admonition caution">
+<p class="admonition-title">Caution</p>
+<p>work-in-progress</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">concept<span class="colon">:</span></dt>
+<dd class="field-odd"><p>User builds a subclass of
+<a class="reference internal" href="#hklpy2.diffract.DiffractometerBase" title="hklpy2.diffract.DiffractometerBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">DiffractometerBase()</span></code></a>, adding a variety of
+positioners as ophyd Components.  In an instance of that subclass, user
+sets <a class="reference internal" href="#hklpy2.diffract.DiffractometerBase.backend_solver" title="hklpy2.diffract.DiffractometerBase.backend_solver"><code class="xref py py-attr docutils literal notranslate"><span class="pre">backend_solver</span></code></a> by calling
+<a class="reference internal" href="z_misc.html#hklpy2.misc.get_solver" title="hklpy2.misc.get_solver"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_solver()</span></code></a>
+and defines which Components are to be used as
+pseudos, reals, and extras.  The backend implements
+<a class="reference internal" href="backends/base.html#hklpy2.backends.base.SolverBase.forward" title="hklpy2.backends.base.SolverBase.forward"><code class="xref py py-meth docutils literal notranslate"><span class="pre">forward()</span></code></a>,
+<a class="reference internal" href="backends/base.html#hklpy2.backends.base.SolverBase.inverse" title="hklpy2.backends.base.SolverBase.inverse"><code class="xref py py-meth docutils literal notranslate"><span class="pre">inverse()</span></code></a>, and all related support, for
+only the pseudos, reals, and extras that are identified.</p>
+</dd>
+</dl>
+<div class="sd-container-fluid sd-sphinx-override sd-mb-4 docutils">
+<div class="sd-row sd-row-cols-2 sd-row-cols-xs-2 sd-row-cols-sm-2 sd-row-cols-md-2 sd-row-cols-lg-2 docutils">
+<div class="sd-col sd-d-flex-row docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils">
+<div class="sd-card-body docutils">
+<div class="sd-card-title sd-font-weight-bold docutils">
+<svg version="4.0.0.63c5cb3" width="3.0em" height="3.0em" class="sd-material-icon sd-material-icon-check_box" viewBox="0 0 24 24" aria-hidden="true"><path d="M0 0h24v24H0V0z" fill="none"></path><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zM17.99 9l-1.41-1.42-6.59 6.59-2.58-2.57-1.42 1.41 4 3.99z"></path></svg> A <strong>Solver</strong> is not needed to:</div>
+<ul class="simple">
+<li><p class="sd-card-text">define subclass of <a class="reference internal" href="#hklpy2.diffract.DiffractometerBase" title="hklpy2.diffract.DiffractometerBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">DiffractometerBase()</span></code></a> and create instance</p></li>
+<li><p class="sd-card-text">create instance of <a class="reference internal" href="sample.html#hklpy2.sample.Sample" title="hklpy2.sample.Sample"><code class="xref py py-class docutils literal notranslate"><span class="pre">Sample()</span></code></a></p></li>
+<li><p class="sd-card-text">create instance of <a class="reference internal" href="lattice.html#hklpy2.lattice.Lattice" title="hklpy2.lattice.Lattice"><code class="xref py py-class docutils literal notranslate"><span class="pre">Lattice()</span></code></a></p></li>
+<li><p class="sd-card-text">create instance of <a class="reference internal" href="wavelength_support.html#hklpy2.wavelength_support.WavelengthBase" title="hklpy2.wavelength_support.WavelengthBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">WavelengthBase()</span></code></a> subclass</p></li>
+<li><p class="sd-card-text">create instance of <a class="reference internal" href="backends/base.html#hklpy2.backends.base.SolverBase" title="hklpy2.backends.base.SolverBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">SolverBase()</span></code></a> subclass</p></li>
+<li><p class="sd-card-text">set <a class="reference internal" href="wavelength_support.html#hklpy2.wavelength_support.WavelengthBase.wavelength" title="hklpy2.wavelength_support.WavelengthBase.wavelength"><code class="xref py py-attr docutils literal notranslate"><span class="pre">wavelength</span></code></a></p></li>
+<li><p class="sd-card-text">list <em>available</em> solvers: (<a class="reference internal" href="z_misc.html#hklpy2.misc.solvers" title="hklpy2.misc.solvers"><code class="xref py py-func docutils literal notranslate"><span class="pre">solvers()</span></code></a>)</p></li>
+<li><p class="sd-card-text">review saved orientation details</p></li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sd-col sd-d-flex-row docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils">
+<div class="sd-card-body docutils">
+<div class="sd-card-title sd-font-weight-bold docutils">
+<svg version="4.0.0.63c5cb3" width="3.0em" height="3.0em" class="sd-material-icon sd-material-icon-rule" viewBox="0 0 24 24" aria-hidden="true"><g><rect fill="none" height="24" width="24"></rect><path d="M16.54,11L13,7.46l1.41-1.41l2.12,2.12l4.24-4.24l1.41,1.41L16.54,11z M11,7H2v2h9V7z M21,13.41L19.59,12L17,14.59 L14.41,12L13,13.41L15.59,16L13,18.59L14.41,20L17,17.41L19.59,20L21,18.59L18.41,16L21,13.41z M11,15H2v2h9V15z"></path></g></svg> A <strong>Solver</strong> is needed to:</div>
+<ul class="simple">
+<li><p class="sd-card-text">list available <strong>Solver</strong> <a class="reference internal" href="backends/base.html#hklpy2.backends.base.SolverBase.geometries" title="hklpy2.backends.base.SolverBase.geometries"><code class="xref py py-attr docutils literal notranslate"><span class="pre">geometries</span></code></a></p></li>
+<li><p class="sd-card-text">list a <strong>Solver</strong> geometry’s required
+<a class="reference internal" href="backends/base.html#hklpy2.backends.base.SolverBase.pseudo_axis_names" title="hklpy2.backends.base.SolverBase.pseudo_axis_names"><code class="xref py py-attr docutils literal notranslate"><span class="pre">pseudo_axis_names</span></code></a>,
+<a class="reference internal" href="backends/base.html#hklpy2.backends.base.SolverBase.real_axis_names" title="hklpy2.backends.base.SolverBase.real_axis_names"><code class="xref py py-attr docutils literal notranslate"><span class="pre">real_axis_names</span></code></a>,
+extras (TODO),
+<a class="reference internal" href="backends/base.html#hklpy2.backends.base.SolverBase.modes" title="hklpy2.backends.base.SolverBase.modes"><code class="xref py py-attr docutils literal notranslate"><span class="pre">modes</span></code></a></p></li>
+<li><p class="sd-card-text">create instance of <a class="reference internal" href="reflection.html#hklpy2.reflection.Reflection" title="hklpy2.reflection.Reflection"><code class="xref py py-class docutils literal notranslate"><span class="pre">Reflection()</span></code></a></p></li>
+<li><p class="sd-card-text">define or compute a <span class="math notranslate nohighlight">\(UB\)</span> matrix
+(<a class="reference internal" href="backends/base.html#hklpy2.backends.base.SolverBase.calculateOrientation" title="hklpy2.backends.base.SolverBase.calculateOrientation"><code class="xref py py-meth docutils literal notranslate"><span class="pre">calculateOrientation()</span></code></a>)</p></li>
+<li><p class="sd-card-text"><a class="reference internal" href="backends/base.html#hklpy2.backends.base.SolverBase.forward" title="hklpy2.backends.base.SolverBase.forward"><code class="xref py py-meth docutils literal notranslate"><span class="pre">forward()</span></code></a>
+and <a class="reference internal" href="backends/base.html#hklpy2.backends.base.SolverBase.inverse" title="hklpy2.backends.base.SolverBase.inverse"><code class="xref py py-meth docutils literal notranslate"><span class="pre">inverse()</span></code></a></p></li>
+<li><p class="sd-card-text">determine the diffractometer <code class="xref py py-attr docutils literal notranslate"><span class="pre">position</span></code></p></li>
+<li><p class="sd-card-text">save or restore orientation details</p></li>
+<li><p class="sd-card-text">refine lattice parameters</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p class="sd-card-text">Add <code class="docutils literal notranslate"><span class="pre">&#64;needs_solver</span></code> decorator for these actions.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
 <section id="module-hklpy2.diffract">
 <span id="source-code-documentation"></span><h2>Source Code Documentation<a class="headerlink" href="#module-hklpy2.diffract" title="Link to this heading">#</a></h2>
 <p>Base class for all diffractometers</p>
@@ -361,6 +431,7 @@ document.write(`
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">hklpy2.diffract.</span></span><span class="sig-name descname"><span class="pre">DiffractometerBase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hklpy2/diffract.html#DiffractometerBase"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.diffract.DiffractometerBase" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">PseudoPositioner</span></code></p>
 <p>Base class for all diffractometers.</p>
+<p class="rubric">(ophyd) Components</p>
 <table class="autosummary longtable table autosummary">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.diffract.DiffractometerBase.solver" title="hklpy2.diffract.DiffractometerBase.solver"><code class="xref py py-obj docutils literal notranslate"><span class="pre">solver</span></code></a></p></td>
@@ -371,95 +442,163 @@ document.write(`
 </tr>
 </tbody>
 </table>
+<p class="rubric">Python Methods</p>
+<p class="rubric">Python Properties</p>
+<table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.diffract.DiffractometerBase.backend_solver" title="hklpy2.diffract.DiffractometerBase.backend_solver"><code class="xref py py-obj docutils literal notranslate"><span class="pre">backend_solver</span></code></a></p></td>
+<td><p>Backend <strong>Solver</strong>, transformations between pseudos and reals.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py property">
+<dt class="sig sig-object py" id="hklpy2.diffract.DiffractometerBase.backend_solver">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">backend_solver</span></span><a class="headerlink" href="#hklpy2.diffract.DiffractometerBase.backend_solver" title="Link to this definition">#</a></dt>
+<dd><p>Backend <strong>Solver</strong>, transformations between pseudos and reals.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="hklpy2.diffract.DiffractometerBase.solver">
+<span class="sig-name descname"><span class="pre">solver</span></span><a class="headerlink" href="#hklpy2.diffract.DiffractometerBase.solver" title="Link to this definition">#</a></dt>
+<dd><p>Name of backend <strong>Solver</strong> (library).</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="hklpy2.diffract.DiffractometerBase.wavelength">
+<span class="sig-name descname"><span class="pre">wavelength</span></span><a class="headerlink" href="#hklpy2.diffract.DiffractometerBase.wavelength" title="Link to this definition">#</a></dt>
+<dd><p>Incident wavelength.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="hklpy2.diffract.DiffractometerBase.wavelength_units">
+<span class="sig-name descname"><span class="pre">wavelength_units</span></span><a class="headerlink" href="#hklpy2.diffract.DiffractometerBase.wavelength_units" title="Link to this definition">#</a></dt>
+<dd><p>Engineering units of the incident wavelength.</p>
+</dd></dl>
+
+</dd></dl>
+
+<section id="inherited-members-from-ophyd-pseudopositioner">
+<h3>Inherited members, from <code class="docutils literal notranslate"><span class="pre">ophyd.PseudoPositioner</span></code><a class="headerlink" href="#inherited-members-from-ophyd-pseudopositioner" title="Link to this heading">#</a></h3>
+<p>Base class for all diffractometers</p>
+<table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.diffract.DiffractometerBase" title="hklpy2.diffract.DiffractometerBase"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DiffractometerBase</span></code></a>(*args, **kwargs)</p></td>
+<td><p>Base class for all diffractometers.</p></td>
+</tr>
+</tbody>
+</table>
 <dl class="py class">
-<dt class="sig sig-object py" id="hklpy2.diffract.DiffractometerBase.OphydAttrList">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">OphydAttrList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kind</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remove_kind</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">recurse_key</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#hklpy2.diffract.DiffractometerBase.OphydAttrList" title="Link to this definition">#</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.MutableSequence" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">MutableSequence</span></code></a></p>
-<p>list proxy to migrate away from Device.read_attrs and Device.config_attrs</p>
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">hklpy2.diffract.</span></span><span class="sig-name descname"><span class="pre">DiffractometerBase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hklpy2/diffract.html#DiffractometerBase"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Base class for all diffractometers.</p>
+<p class="rubric">(ophyd) Components</p>
+<table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.diffract.DiffractometerBase.solver" title="hklpy2.diffract.DiffractometerBase.solver"><code class="xref py py-obj docutils literal notranslate"><span class="pre">solver</span></code></a></p></td>
+<td><p>Name of backend <strong>Solver</strong> (library).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.diffract.DiffractometerBase.wavelength" title="hklpy2.diffract.DiffractometerBase.wavelength"><code class="xref py py-obj docutils literal notranslate"><span class="pre">wavelength</span></code></a></p></td>
+<td><p>Incident wavelength.</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Python Methods</p>
+<p class="rubric">Python Properties</p>
+<table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.diffract.DiffractometerBase.backend_solver" title="hklpy2.diffract.DiffractometerBase.backend_solver"><code class="xref py py-obj docutils literal notranslate"><span class="pre">backend_solver</span></code></a></p></td>
+<td><p>Backend <strong>Solver</strong>, transformations between pseudos and reals.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py class">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">OphydAttrList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kind</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remove_kind</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">recurse_key</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>list proxy to migrate away from Device.read_attrs and Device.config_attrs</p>
 <dl class="py method">
-<dt class="sig sig-object py" id="hklpy2.diffract.DiffractometerBase.OphydAttrList.append">
-<span class="sig-name descname"><span class="pre">append</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#hklpy2.diffract.DiffractometerBase.OphydAttrList.append" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">append</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>S.append(value) – append value to the end of the sequence</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="hklpy2.diffract.DiffractometerBase.OphydAttrList.clear">
-<span class="sig-name descname"><span class="pre">clear</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span> <span class="pre">--</span> <span class="pre">remove</span> <span class="pre">all</span> <span class="pre">items</span> <span class="pre">from</span> <span class="pre">S</span></span></span><a class="headerlink" href="#hklpy2.diffract.DiffractometerBase.OphydAttrList.clear" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">clear</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span> <span class="pre">--</span> <span class="pre">remove</span> <span class="pre">all</span> <span class="pre">items</span> <span class="pre">from</span> <span class="pre">S</span></span></span></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="hklpy2.diffract.DiffractometerBase.OphydAttrList.count">
-<span class="sig-name descname"><span class="pre">count</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">integer</span> <span class="pre">--</span> <span class="pre">return</span> <span class="pre">number</span> <span class="pre">of</span> <span class="pre">occurrences</span> <span class="pre">of</span> <span class="pre">value</span></span></span><a class="headerlink" href="#hklpy2.diffract.DiffractometerBase.OphydAttrList.count" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">count</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">integer</span> <span class="pre">--</span> <span class="pre">return</span> <span class="pre">number</span> <span class="pre">of</span> <span class="pre">occurrences</span> <span class="pre">of</span> <span class="pre">value</span></span></span></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="hklpy2.diffract.DiffractometerBase.OphydAttrList.extend">
-<span class="sig-name descname"><span class="pre">extend</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">values</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#hklpy2.diffract.DiffractometerBase.OphydAttrList.extend" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">extend</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">values</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>S.extend(iterable) – extend sequence by appending elements from the iterable</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="hklpy2.diffract.DiffractometerBase.OphydAttrList.index">
-<span class="sig-name descname"><span class="pre">index</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="optional">[</span>, <em class="sig-param"><span class="n"><span class="pre">start</span></span></em><span class="optional">[</span>, <em class="sig-param"><span class="n"><span class="pre">stop</span></span></em><span class="optional">]</span><span class="optional">]</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">integer</span> <span class="pre">--</span> <span class="pre">return</span> <span class="pre">first</span> <span class="pre">index</span> <span class="pre">of</span> <span class="pre">value.</span></span></span><a class="headerlink" href="#hklpy2.diffract.DiffractometerBase.OphydAttrList.index" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">index</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="optional">[</span>, <em class="sig-param"><span class="n"><span class="pre">start</span></span></em><span class="optional">[</span>, <em class="sig-param"><span class="n"><span class="pre">stop</span></span></em><span class="optional">]</span><span class="optional">]</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">integer</span> <span class="pre">--</span> <span class="pre">return</span> <span class="pre">first</span> <span class="pre">index</span> <span class="pre">of</span> <span class="pre">value.</span></span></span></dt>
 <dd><p>Raises ValueError if the value is not present.</p>
 <p>Supporting start and stop arguments is optional, but
 recommended.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="hklpy2.diffract.DiffractometerBase.OphydAttrList.insert">
-<span class="sig-name descname"><span class="pre">insert</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">object</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#hklpy2.diffract.DiffractometerBase.OphydAttrList.insert" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">insert</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">object</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>S.insert(index, value) – insert value before index</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="hklpy2.diffract.DiffractometerBase.OphydAttrList.pop">
-<span class="sig-name descname"><span class="pre">pop</span></span><span class="sig-paren">(</span><span class="optional">[</span><em class="sig-param"><span class="n"><span class="pre">index</span></span></em><span class="optional">]</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">item</span> <span class="pre">--</span> <span class="pre">remove</span> <span class="pre">and</span> <span class="pre">return</span> <span class="pre">item</span> <span class="pre">at</span> <span class="pre">index</span> <span class="pre">(default</span> <span class="pre">last).</span></span></span><a class="headerlink" href="#hklpy2.diffract.DiffractometerBase.OphydAttrList.pop" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">pop</span></span><span class="sig-paren">(</span><span class="optional">[</span><em class="sig-param"><span class="n"><span class="pre">index</span></span></em><span class="optional">]</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">item</span> <span class="pre">--</span> <span class="pre">remove</span> <span class="pre">and</span> <span class="pre">return</span> <span class="pre">item</span> <span class="pre">at</span> <span class="pre">index</span> <span class="pre">(default</span> <span class="pre">last).</span></span></span></dt>
 <dd><p>Raise IndexError if list is empty or index is out of range.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="hklpy2.diffract.DiffractometerBase.OphydAttrList.remove">
-<span class="sig-name descname"><span class="pre">remove</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#hklpy2.diffract.DiffractometerBase.OphydAttrList.remove" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">remove</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>S.remove(value) – remove first occurrence of value.
 Raise ValueError if the value is not present.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="hklpy2.diffract.DiffractometerBase.OphydAttrList.reverse">
-<span class="sig-name descname"><span class="pre">reverse</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#hklpy2.diffract.DiffractometerBase.OphydAttrList.reverse" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">reverse</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
 <dd><p>S.reverse() – reverse <em>IN PLACE</em></p>
 </dd></dl>
 
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="hklpy2.diffract.DiffractometerBase._concurrent_move">
-<span class="sig-name descname"><span class="pre">_concurrent_move</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">real_pos</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#hklpy2.diffract.DiffractometerBase._concurrent_move" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">_concurrent_move</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">real_pos</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Move all real positioners to a certain position, in parallel</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="hklpy2.diffract.DiffractometerBase._done_acquiring">
-<span class="sig-name descname"><span class="pre">_done_acquiring</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#hklpy2.diffract.DiffractometerBase._done_acquiring" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">_done_acquiring</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Call when acquisition has completed.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="hklpy2.diffract.DiffractometerBase._done_moving">
-<span class="sig-name descname"><span class="pre">_done_moving</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">success</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#hklpy2.diffract.DiffractometerBase._done_moving" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">_done_moving</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">success</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Call this when motion has completed.  Runs SUB_DONE subscription.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="hklpy2.diffract.DiffractometerBase._get_components_of_kind">
-<span class="sig-name descname"><span class="pre">_get_components_of_kind</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">kind</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#hklpy2.diffract.DiffractometerBase._get_components_of_kind" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">_get_components_of_kind</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">kind</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Get names of components that match a specific kind</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="hklpy2.diffract.DiffractometerBase._get_kind">
-<span class="sig-name descname"><span class="pre">_get_kind</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#hklpy2.diffract.DiffractometerBase._get_kind" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">_get_kind</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Get a Kind for a given Component</p>
 <p>If the Component is instantiated, it will be retrieved directly from
 that object.</p>
@@ -469,8 +608,8 @@ specified by the Component class will be used.  This is stashed away in
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="hklpy2.diffract.DiffractometerBase._get_pseudo_positioners">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">_get_pseudo_positioners</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#hklpy2.diffract.DiffractometerBase._get_pseudo_positioners" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">_get_pseudo_positioners</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
 <dd><p>Inspect the components and find the pseudo positioners</p>
 <p>All <cite>PseudoSingle</cite> (and subclassed) components will be returned, by
 default.</p>
@@ -485,8 +624,8 @@ be a list of attribute names.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="hklpy2.diffract.DiffractometerBase._get_real_positioners">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">_get_real_positioners</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#hklpy2.diffract.DiffractometerBase._get_real_positioners" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">_get_real_positioners</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
 <dd><p>Inspect the components and find the real positioners</p>
 <p>All <cite>Positioner</cite> components which are not <a href="#id1"><span class="problematic" id="id2">`</span></a>PseudoSingle`s will be
 returned, by default.</p>
@@ -503,8 +642,8 @@ calculations.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="hklpy2.diffract.DiffractometerBase._initialize_device">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">_initialize_device</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#hklpy2.diffract.DiffractometerBase._initialize_device" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">_initialize_device</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
 <dd><p>Initializes the Device and all of its Components</p>
 <dl class="simple">
 <dt>Initializes the following attributes from the Components::</dt><dd><ul class="simple">
@@ -522,56 +661,56 @@ connected</p></li>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="hklpy2.diffract.DiffractometerBase._instantiate_component">
-<span class="sig-name descname"><span class="pre">_instantiate_component</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">attr</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#hklpy2.diffract.DiffractometerBase._instantiate_component" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">_instantiate_component</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">attr</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Create a Component specifically for this Device</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="hklpy2.diffract.DiffractometerBase._pseudo_position_tuple">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">_pseudo_position_tuple</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#hklpy2.diffract.DiffractometerBase._pseudo_position_tuple" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">_pseudo_position_tuple</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
 <dd><p>A namedtuple for a pseudo motor position</p>
 <p>This is automatically generated at the class-level for all
 PseudoSingle-based positioners.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="hklpy2.diffract.DiffractometerBase._real_finished">
-<span class="sig-name descname"><span class="pre">_real_finished</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">status</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">obj</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#hklpy2.diffract.DiffractometerBase._real_finished" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">_real_finished</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">status</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">obj</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Callback: A single real positioner has finished moving.</p>
 <p>Used for asynchronous motion, if all have finished moving then fire a
 callback (via <cite>Positioner._done_moving</cite>)</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="hklpy2.diffract.DiffractometerBase._real_pos_update">
-<span class="sig-name descname"><span class="pre">_real_pos_update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#hklpy2.diffract.DiffractometerBase._real_pos_update" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">_real_pos_update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Callback: A single real positioner has moved</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="hklpy2.diffract.DiffractometerBase._real_position_tuple">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">_real_position_tuple</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#hklpy2.diffract.DiffractometerBase._real_position_tuple" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">_real_position_tuple</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
 <dd><p>A namedtuple for a real motor position</p>
 <p>This is automatically generated at the class-level for all
 non-PseudoSingle-based positioners.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="hklpy2.diffract.DiffractometerBase._repr_info">
-<span class="sig-name descname"><span class="pre">_repr_info</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#hklpy2.diffract.DiffractometerBase._repr_info" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">_repr_info</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
 <dd><p>Yields pairs of (key, value) to generate the object repr</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="hklpy2.diffract.DiffractometerBase._reset_sub">
-<span class="sig-name descname"><span class="pre">_reset_sub</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event_type</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#hklpy2.diffract.DiffractometerBase._reset_sub" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">_reset_sub</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event_type</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Remove all subscriptions in an event type</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="hklpy2.diffract.DiffractometerBase._run_subs">
-<span class="sig-name descname"><span class="pre">_run_subs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sub_type</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#hklpy2.diffract.DiffractometerBase._run_subs" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">_run_subs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sub_type</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Run a set of subscription callbacks</p>
 <p>Only the kwarg <code class="docutils literal notranslate"><span class="pre">sub_type</span></code> is required, indicating
 the type of callback to perform. All other positional arguments
@@ -584,26 +723,26 @@ time.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="hklpy2.diffract.DiffractometerBase._sequential_move">
-<span class="sig-name descname"><span class="pre">_sequential_move</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">real_pos</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#hklpy2.diffract.DiffractometerBase._sequential_move" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">_sequential_move</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">real_pos</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Move all real positioners to a certain position, in series</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="hklpy2.diffract.DiffractometerBase._set_kind">
-<span class="sig-name descname"><span class="pre">_set_kind</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kind</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#hklpy2.diffract.DiffractometerBase._set_kind" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">_set_kind</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kind</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Set the Kind for a given Component</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="hklpy2.diffract.DiffractometerBase._set_position">
-<span class="sig-name descname"><span class="pre">_set_position</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#hklpy2.diffract.DiffractometerBase._set_position" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">_set_position</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Set the current internal position, run the readback subscription</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="hklpy2.diffract.DiffractometerBase._setup_move">
-<span class="sig-name descname"><span class="pre">_setup_move</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">position</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">status</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#hklpy2.diffract.DiffractometerBase._setup_move" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">_setup_move</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">position</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">status</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Move requested to position</p>
 <p>This is a customization of SoftPositioner’s _setup_move method which
 is what gets called when a motion request happens.</p>
@@ -617,27 +756,21 @@ is what gets called when a motion request happens.</p>
 </dl>
 </dd></dl>
 
-<dl class="py property">
-<dt class="sig sig-object py" id="hklpy2.diffract.DiffractometerBase._solver">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">_solver</span></span><a class="headerlink" href="#hklpy2.diffract.DiffractometerBase._solver" title="Link to this definition">#</a></dt>
-<dd><p>Backend <strong>Solver</strong>, transformations between pseudos and reals.</p>
-</dd></dl>
-
 <dl class="py method">
-<dt class="sig sig-object py" id="hklpy2.diffract.DiffractometerBase._summary">
-<span class="sig-name descname"><span class="pre">_summary</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#hklpy2.diffract.DiffractometerBase._summary" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">_summary</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
 <dd><p>Return a string summarizing the structure of the Device.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="hklpy2.diffract.DiffractometerBase._update_position">
-<span class="sig-name descname"><span class="pre">_update_position</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#hklpy2.diffract.DiffractometerBase._update_position" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">_update_position</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
 <dd><p>Update the internal position based on all of the real positioners</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="hklpy2.diffract.DiffractometerBase.add_instantiation_callback">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">add_instantiation_callback</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">callback</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fail_if_late</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#hklpy2.diffract.DiffractometerBase.add_instantiation_callback" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">add_instantiation_callback</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">callback</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fail_if_late</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Register a callback which will receive each OphydObject instance.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -651,15 +784,21 @@ be “missed” by this registry. False by default.</p></li>
 </dl>
 </dd></dl>
 
+<dl class="py property">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">backend_solver</span></span></dt>
+<dd><p>Backend <strong>Solver</strong>, transformations between pseudos and reals.</p>
+</dd></dl>
+
 <dl class="py method">
-<dt class="sig sig-object py" id="hklpy2.diffract.DiffractometerBase.check_single">
-<span class="sig-name descname"><span class="pre">check_single</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pseudo_single</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">single_pos</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#hklpy2.diffract.DiffractometerBase.check_single" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">check_single</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pseudo_single</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">single_pos</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Check if a new position for a single pseudo positioner is valid</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="hklpy2.diffract.DiffractometerBase.check_value">
-<span class="sig-name descname"><span class="pre">check_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pseudo_pos</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#hklpy2.diffract.DiffractometerBase.check_value" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">check_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pseudo_pos</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Check if a new position for all pseudo positioners is valid</p>
 <p>First checks limits against those set for individual pseudo axes.
 Second, calculates forward(pseudo_pos) =&gt; real_pos and checks it
@@ -670,10 +809,10 @@ in your subclass.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="hklpy2.diffract.DiffractometerBase.clear_sub">
-<span class="sig-name descname"><span class="pre">clear_sub</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cb</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">event_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#hklpy2.diffract.DiffractometerBase.clear_sub" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">clear_sub</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cb</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">event_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Remove a subscription, given the original callback function</p>
-<p>See also <a class="reference internal" href="#hklpy2.diffract.DiffractometerBase.subscribe" title="hklpy2.diffract.DiffractometerBase.subscribe"><code class="xref py py-meth docutils literal notranslate"><span class="pre">subscribe()</span></code></a>, <a class="reference internal" href="#hklpy2.diffract.DiffractometerBase.unsubscribe" title="hklpy2.diffract.DiffractometerBase.unsubscribe"><code class="xref py py-meth docutils literal notranslate"><span class="pre">unsubscribe()</span></code></a></p>
+<p>See also <code class="xref py py-meth docutils literal notranslate"><span class="pre">subscribe()</span></code>, <code class="xref py py-meth docutils literal notranslate"><span class="pre">unsubscribe()</span></code></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -686,20 +825,20 @@ types)</p></li>
 </dd></dl>
 
 <dl class="py property">
-<dt class="sig sig-object py" id="hklpy2.diffract.DiffractometerBase.composite_egu">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">composite_egu</span></span><a class="headerlink" href="#hklpy2.diffract.DiffractometerBase.composite_egu" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">composite_egu</span></span></dt>
 <dd><p>The composite engineering units (EGU) from all PseudoSingles</p>
 </dd></dl>
 
 <dl class="py property">
-<dt class="sig sig-object py" id="hklpy2.diffract.DiffractometerBase.concurrent">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">concurrent</span></span><a class="headerlink" href="#hklpy2.diffract.DiffractometerBase.concurrent" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">concurrent</span></span></dt>
 <dd><p>If concurrent is set, motors will move concurrently (in parallel)</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="hklpy2.diffract.DiffractometerBase.configure">
-<span class="sig-name descname"><span class="pre">configure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">d</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.12)"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.12)"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.12)"><span class="pre">Tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.12)"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.12)"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.12)"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.12)"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#hklpy2.diffract.DiffractometerBase.configure" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">configure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">d</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.12)"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.12)"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.12)"><span class="pre">Tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.12)"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.12)"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.12)"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.12)"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span></dt>
 <dd><p>Configure the device for something during a run</p>
 <p>This default implementation allows the user to change any of the
 <cite>configuration_attrs</cite>. Subclasses might override this to perform
@@ -720,15 +859,15 @@ the changes should be made, use an OrderedDict.</p>
 </dd></dl>
 
 <dl class="py property">
-<dt class="sig sig-object py" id="hklpy2.diffract.DiffractometerBase.connected">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">connected</span></span><a class="headerlink" href="#hklpy2.diffract.DiffractometerBase.connected" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">connected</span></span></dt>
 <dd><p>If the device is connected.</p>
 <p>Subclasses should override this</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="hklpy2.diffract.DiffractometerBase.describe">
-<span class="sig-name descname"><span class="pre">describe</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">OrderedDictType</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.12)"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.12)"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#hklpy2.diffract.DiffractometerBase.describe" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">describe</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">OrderedDictType</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.12)"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.12)"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span></dt>
 <dd><p>Provide schema and meta-data for <code class="xref py py-meth docutils literal notranslate"><span class="pre">read()</span></code>.</p>
 <p>This keys in the <cite>OrderedDict</cite> this method returns must match the
 keys in the <cite>OrderedDict</cite> return by <code class="xref py py-meth docutils literal notranslate"><span class="pre">read()</span></code>.</p>
@@ -746,8 +885,8 @@ with the <code class="docutils literal notranslate"><span class="pre">event_mode
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="hklpy2.diffract.DiffractometerBase.describe_configuration">
-<span class="sig-name descname"><span class="pre">describe_configuration</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">OrderedDictType</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.12)"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.12)"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#hklpy2.diffract.DiffractometerBase.describe_configuration" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">describe_configuration</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">OrderedDictType</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.12)"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.12)"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span></dt>
 <dd><p>Provide schema &amp; meta-data for <code class="xref py py-meth docutils literal notranslate"><span class="pre">read_configuration()</span></code></p>
 <p>This keys in the <cite>OrderedDict</cite> this method returns must match the
 keys in the <cite>OrderedDict</cite> return by <code class="xref py py-meth docutils literal notranslate"><span class="pre">read()</span></code>.</p>
@@ -765,32 +904,32 @@ with the <code class="docutils literal notranslate"><span class="pre">event_mode
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="hklpy2.diffract.DiffractometerBase.destroy">
-<span class="sig-name descname"><span class="pre">destroy</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#hklpy2.diffract.DiffractometerBase.destroy" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">destroy</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
 <dd><p>Disconnect and destroy all signals on the Device</p>
 </dd></dl>
 
 <dl class="py property">
-<dt class="sig sig-object py" id="hklpy2.diffract.DiffractometerBase.dotted_name">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">dotted_name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a></em><a class="headerlink" href="#hklpy2.diffract.DiffractometerBase.dotted_name" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">dotted_name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a></em></dt>
 <dd><p>Return the dotted name</p>
 </dd></dl>
 
 <dl class="py property">
-<dt class="sig sig-object py" id="hklpy2.diffract.DiffractometerBase.egu">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">egu</span></span><a class="headerlink" href="#hklpy2.diffract.DiffractometerBase.egu" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">egu</span></span></dt>
 <dd><p>The engineering units (EGU) for positions</p>
 </dd></dl>
 
 <dl class="py property">
-<dt class="sig sig-object py" id="hklpy2.diffract.DiffractometerBase.event_types">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">event_types</span></span><a class="headerlink" href="#hklpy2.diffract.DiffractometerBase.event_types" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">event_types</span></span></dt>
 <dd><p>Events that can be subscribed to via <code class="docutils literal notranslate"><span class="pre">obj.subscribe</span></code></p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="hklpy2.diffract.DiffractometerBase.forward">
-<span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pseudo_pos</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#hklpy2.diffract.DiffractometerBase.forward" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pseudo_pos</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Calculate a RealPosition from a given PseudoPosition</p>
 <p>Must be defined on the subclass.</p>
 <dl class="field-list simple">
@@ -807,24 +946,24 @@ with the <code class="docutils literal notranslate"><span class="pre">event_mode
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="hklpy2.diffract.DiffractometerBase.get">
-<span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#hklpy2.diffract.DiffractometerBase.get" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Get the value of all components in the device</p>
 <p>Keyword arguments are passed onto each signal.get(). Components
 beginning with an underscore will not be included.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="hklpy2.diffract.DiffractometerBase.get_device_tuple">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_device_tuple</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#hklpy2.diffract.DiffractometerBase.get_device_tuple" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_device_tuple</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
 <dd><p>The device tuple type associated with an Device class</p>
 <p>This is a tuple representing the full state of all components and
 dynamic device sub-components.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="hklpy2.diffract.DiffractometerBase.get_instantiated_signals">
-<span class="sig-name descname"><span class="pre">get_instantiated_signals</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attr_prefix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#hklpy2.diffract.DiffractometerBase.get_instantiated_signals" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">get_instantiated_signals</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attr_prefix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Yields all of the instantiated signals in a device hierarchy</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -837,14 +976,14 @@ dynamic device sub-components.</p>
 </dd></dl>
 
 <dl class="py property">
-<dt class="sig sig-object py" id="hklpy2.diffract.DiffractometerBase.high_limit">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">high_limit</span></span><a class="headerlink" href="#hklpy2.diffract.DiffractometerBase.high_limit" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">high_limit</span></span></dt>
 <dd><p>All PseudoSingle high limits as a namedtuple</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="hklpy2.diffract.DiffractometerBase.inverse">
-<span class="sig-name descname"><span class="pre">inverse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">real_pos</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#hklpy2.diffract.DiffractometerBase.inverse" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">inverse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">real_pos</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Calculate a PseudoPosition from a given RealPosition</p>
 <p>Must be defined on the subclass.</p>
 <dl class="field-list simple">
@@ -861,20 +1000,20 @@ dynamic device sub-components.</p>
 </dd></dl>
 
 <dl class="py property">
-<dt class="sig sig-object py" id="hklpy2.diffract.DiffractometerBase.limits">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">limits</span></span><a class="headerlink" href="#hklpy2.diffract.DiffractometerBase.limits" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">limits</span></span></dt>
 <dd><p>All PseudoSingle limits as a namedtuple</p>
 </dd></dl>
 
 <dl class="py property">
-<dt class="sig sig-object py" id="hklpy2.diffract.DiffractometerBase.low_limit">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">low_limit</span></span><a class="headerlink" href="#hklpy2.diffract.DiffractometerBase.low_limit" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">low_limit</span></span></dt>
 <dd><p>All PseudoSingle low limits as a namedtuple</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="hklpy2.diffract.DiffractometerBase.move">
-<span class="sig-name descname"><span class="pre">move</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">position</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wait</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">moved_cb</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#hklpy2.diffract.DiffractometerBase.move" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">move</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">position</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wait</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">moved_cb</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Move to a specified position, optionally waiting for motion to
 complete.</p>
 <dl class="field-list simple">
@@ -905,8 +1044,8 @@ this positioner instance.</p></li>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="hklpy2.diffract.DiffractometerBase.move_single">
-<span class="sig-name descname"><span class="pre">move_single</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pseudo</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">position</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#hklpy2.diffract.DiffractometerBase.move_single" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">move_single</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pseudo</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">position</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Move one PseudoSingle axis to a position</p>
 <p>All other positioners will use their current setpoint/target value, if
 available. Failing that, their current readback value will be used (see
@@ -923,8 +1062,8 @@ available. Failing that, their current readback value will be used (see
 </dd></dl>
 
 <dl class="py property">
-<dt class="sig sig-object py" id="hklpy2.diffract.DiffractometerBase.moving">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">moving</span></span><a class="headerlink" href="#hklpy2.diffract.DiffractometerBase.moving" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">moving</span></span></dt>
 <dd><p>Whether or not the motor is moving</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -937,21 +1076,21 @@ available. Failing that, their current readback value will be used (see
 </dd></dl>
 
 <dl class="py property">
-<dt class="sig sig-object py" id="hklpy2.diffract.DiffractometerBase.name">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#hklpy2.diffract.DiffractometerBase.name" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span></dt>
 <dd><p>name of the device</p>
 </dd></dl>
 
 <dl class="py property">
-<dt class="sig sig-object py" id="hklpy2.diffract.DiffractometerBase.parent">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">parent</span></span><a class="headerlink" href="#hklpy2.diffract.DiffractometerBase.parent" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">parent</span></span></dt>
 <dd><p>The parent of the ophyd object.</p>
 <p>If at the top of its hierarchy, <cite>parent</cite> will be None</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="hklpy2.diffract.DiffractometerBase.pause">
-<span class="sig-name descname"><span class="pre">pause</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#hklpy2.diffract.DiffractometerBase.pause" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">pause</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><span class="pre">None</span></a></span></span></dt>
 <dd><p>Attempt to ‘pause’ the device.</p>
 <p>This is called when ever the
 <code class="xref py py-obj docutils literal notranslate"><span class="pre">RunEngine</span></code> is interrupted.</p>
@@ -968,14 +1107,14 @@ the plan can not be rewound.</p>
 </dd></dl>
 
 <dl class="py property">
-<dt class="sig sig-object py" id="hklpy2.diffract.DiffractometerBase.position">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">position</span></span><a class="headerlink" href="#hklpy2.diffract.DiffractometerBase.position" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">position</span></span></dt>
 <dd><p>Pseudo motor position namedtuple</p>
 </dd></dl>
 
 <dl class="py property">
-<dt class="sig sig-object py" id="hklpy2.diffract.DiffractometerBase.pseudo_positioners">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">pseudo_positioners</span></span><a class="headerlink" href="#hklpy2.diffract.DiffractometerBase.pseudo_positioners" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">pseudo_positioners</span></span></dt>
 <dd><p>Pseudo positioners instances in a namedtuple</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -988,8 +1127,8 @@ the plan can not be rewound.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="hklpy2.diffract.DiffractometerBase.put">
-<span class="sig-name descname"><span class="pre">put</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dev_t</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#hklpy2.diffract.DiffractometerBase.put" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">put</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dev_t</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Put a value to all components of the device</p>
 <p>Keyword arguments are passed onto each signal.put()</p>
 <dl class="field-list simple">
@@ -1000,8 +1139,8 @@ the plan can not be rewound.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="hklpy2.diffract.DiffractometerBase.read">
-<span class="sig-name descname"><span class="pre">read</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">OrderedDictType</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.12)"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.12)"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#hklpy2.diffract.DiffractometerBase.read" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">read</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">OrderedDictType</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.12)"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.12)"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span></dt>
 <dd><p>Read data from the device.</p>
 <p>This method is expected to be as instantaneous as possible,
 with any substantial acquisition time taken care of in
@@ -1026,22 +1165,22 @@ with the keys <code class="docutils literal notranslate"><span class="pre">{'val
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="hklpy2.diffract.DiffractometerBase.read_configuration">
-<span class="sig-name descname"><span class="pre">read_configuration</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">OrderedDictType</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.12)"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.12)"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#hklpy2.diffract.DiffractometerBase.read_configuration" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">read_configuration</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">OrderedDictType</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.12)"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.12)"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span></dt>
 <dd><p>Dictionary mapping names to value dicts with keys: value, timestamp</p>
 <p>To control which fields are included, change the Component kinds on the
 device, or modify the <code class="docutils literal notranslate"><span class="pre">configuration_attrs</span></code> list.</p>
 </dd></dl>
 
 <dl class="py property">
-<dt class="sig sig-object py" id="hklpy2.diffract.DiffractometerBase.real_position">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">real_position</span></span><a class="headerlink" href="#hklpy2.diffract.DiffractometerBase.real_position" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">real_position</span></span></dt>
 <dd><p>Real motor position namedtuple</p>
 </dd></dl>
 
 <dl class="py property">
-<dt class="sig sig-object py" id="hklpy2.diffract.DiffractometerBase.real_positioners">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">real_positioners</span></span><a class="headerlink" href="#hklpy2.diffract.DiffractometerBase.real_positioners" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">real_positioners</span></span></dt>
 <dd><p>Real positioners instances in a namedtuple</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -1054,14 +1193,14 @@ device, or modify the <code class="docutils literal notranslate"><span class="pr
 </dd></dl>
 
 <dl class="py property">
-<dt class="sig sig-object py" id="hklpy2.diffract.DiffractometerBase.report">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">report</span></span><a class="headerlink" href="#hklpy2.diffract.DiffractometerBase.report" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">report</span></span></dt>
 <dd><p>A report on the object.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="hklpy2.diffract.DiffractometerBase.resume">
-<span class="sig-name descname"><span class="pre">resume</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#hklpy2.diffract.DiffractometerBase.resume" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">resume</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><span class="pre">None</span></a></span></span></dt>
 <dd><p>Resume a device from a ‘paused’ state.</p>
 <p>This is called by the <code class="xref py py-obj docutils literal notranslate"><span class="pre">bluesky.run_engine.RunEngine</span></code>
 when it resumes from an interruption and is responsible for
@@ -1069,21 +1208,21 @@ ensuring that the device is ready to take data again.</p>
 </dd></dl>
 
 <dl class="py property">
-<dt class="sig sig-object py" id="hklpy2.diffract.DiffractometerBase.root">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">root</span></span><a class="headerlink" href="#hklpy2.diffract.DiffractometerBase.root" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">root</span></span></dt>
 <dd><p>Walk parents to find ultimate ancestor (parent’s parent…).</p>
 </dd></dl>
 
 <dl class="py property">
-<dt class="sig sig-object py" id="hklpy2.diffract.DiffractometerBase.sequential">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">sequential</span></span><a class="headerlink" href="#hklpy2.diffract.DiffractometerBase.sequential" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">sequential</span></span></dt>
 <dd><p>If sequential is set, motors will move in the sequence they were
 defined in (i.e., in series)</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="hklpy2.diffract.DiffractometerBase.set">
-<span class="sig-name descname"><span class="pre">set</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">position</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#hklpy2.diffract.DiffractometerBase.set" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">set</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">position</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Move to a new position asynchronously</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1099,20 +1238,20 @@ defined in (i.e., in series)</p>
 </dd></dl>
 
 <dl class="py property">
-<dt class="sig sig-object py" id="hklpy2.diffract.DiffractometerBase.settle_time">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">settle_time</span></span><a class="headerlink" href="#hklpy2.diffract.DiffractometerBase.settle_time" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">settle_time</span></span></dt>
 <dd><p>Amount of time to wait after moves to report status completion</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="hklpy2.diffract.DiffractometerBase.solver">
-<span class="sig-name descname"><span class="pre">solver</span></span><a class="headerlink" href="#hklpy2.diffract.DiffractometerBase.solver" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">solver</span></span></dt>
 <dd><p>Name of backend <strong>Solver</strong> (library).</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="hklpy2.diffract.DiffractometerBase.stage">
-<span class="sig-name descname"><span class="pre">stage</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.12)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><span class="pre">object</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#hklpy2.diffract.DiffractometerBase.stage" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">stage</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.12)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><span class="pre">object</span></a><span class="p"><span class="pre">]</span></span></span></span></dt>
 <dd><p>Stage the device for data collection.</p>
 <p>This method is expected to put the device into a state where
 repeated calls to <code class="xref py py-meth docutils literal notranslate"><span class="pre">trigger()</span></code> and
@@ -1139,14 +1278,14 @@ staging behavior it should not implement <cite>stage</cite> (or
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="hklpy2.diffract.DiffractometerBase.stop">
-<span class="sig-name descname"><span class="pre">stop</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">success</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#hklpy2.diffract.DiffractometerBase.stop" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">stop</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">success</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Stop the Device and all (instantiated) subdevices</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="hklpy2.diffract.DiffractometerBase.subscribe">
-<span class="sig-name descname"><span class="pre">subscribe</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">callback</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">event_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">run</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#hklpy2.diffract.DiffractometerBase.subscribe" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">subscribe</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">callback</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">event_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">run</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Subscribe to events this event_type generates.</p>
 <p>The callback will be called as <code class="docutils literal notranslate"><span class="pre">cb(*args,</span> <span class="pre">**kwargs)</span></code> with
 the values passed to <cite>_run_subs</cite> with the following additional keys:</p>
@@ -1184,7 +1323,7 @@ the default sub for the instance - obj._default_sub)</p>
 </dl>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
-<p><a class="reference internal" href="#hklpy2.diffract.DiffractometerBase.clear_sub" title="hklpy2.diffract.DiffractometerBase.clear_sub"><code class="xref py py-obj docutils literal notranslate"><span class="pre">clear_sub</span></code></a>, <a class="reference internal" href="#hklpy2.diffract.DiffractometerBase._run_subs" title="hklpy2.diffract.DiffractometerBase._run_subs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_run_subs</span></code></a></p>
+<p><code class="xref py py-obj docutils literal notranslate"><span class="pre">clear_sub</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">_run_subs</span></code></p>
 </div>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -1198,32 +1337,32 @@ callback</p>
 </dd></dl>
 
 <dl class="py property">
-<dt class="sig sig-object py" id="hklpy2.diffract.DiffractometerBase.target">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">target</span></span><a class="headerlink" href="#hklpy2.diffract.DiffractometerBase.target" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">target</span></span></dt>
 <dd><p>Last commanded target positions</p>
 </dd></dl>
 
 <dl class="py property">
-<dt class="sig sig-object py" id="hklpy2.diffract.DiffractometerBase.timeout">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">timeout</span></span><a class="headerlink" href="#hklpy2.diffract.DiffractometerBase.timeout" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">timeout</span></span></dt>
 <dd><p>Amount of time to wait before to considering a motion as failed</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="hklpy2.diffract.DiffractometerBase.to_pseudo_tuple">
-<span class="sig-name descname"><span class="pre">to_pseudo_tuple</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#hklpy2.diffract.DiffractometerBase.to_pseudo_tuple" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">to_pseudo_tuple</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Convert arguments to a PseudoPosition namedtuple and kwargs</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="hklpy2.diffract.DiffractometerBase.to_real_tuple">
-<span class="sig-name descname"><span class="pre">to_real_tuple</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#hklpy2.diffract.DiffractometerBase.to_real_tuple" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">to_real_tuple</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Convert arguments to a RealPosition namedtuple and kwargs</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="hklpy2.diffract.DiffractometerBase.trigger">
-<span class="sig-name descname"><span class="pre">trigger</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">StatusBase</span></span></span><a class="headerlink" href="#hklpy2.diffract.DiffractometerBase.trigger" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">trigger</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">StatusBase</span></span></span></dt>
 <dd><p>Trigger the device and return status object.</p>
 <p>This method is responsible for implementing ‘trigger’ or
 ‘acquire’ functionality of this device.</p>
@@ -1248,8 +1387,8 @@ as complete when the device is ready to be read.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="hklpy2.diffract.DiffractometerBase.unstage">
-<span class="sig-name descname"><span class="pre">unstage</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.12)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><span class="pre">object</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#hklpy2.diffract.DiffractometerBase.unstage" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">unstage</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.12)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><span class="pre">object</span></a><span class="p"><span class="pre">]</span></span></span></span></dt>
 <dd><p>Unstage the device.</p>
 <p>This method returns the device to the state it was prior to the
 last <cite>stage</cite> call.</p>
@@ -1268,20 +1407,20 @@ call to ‘stage’) have no effect.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="hklpy2.diffract.DiffractometerBase.unsubscribe">
-<span class="sig-name descname"><span class="pre">unsubscribe</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cid</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#hklpy2.diffract.DiffractometerBase.unsubscribe" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">unsubscribe</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cid</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Remove a subscription</p>
-<p>See also <a class="reference internal" href="#hklpy2.diffract.DiffractometerBase.subscribe" title="hklpy2.diffract.DiffractometerBase.subscribe"><code class="xref py py-meth docutils literal notranslate"><span class="pre">subscribe()</span></code></a>, <a class="reference internal" href="#hklpy2.diffract.DiffractometerBase.clear_sub" title="hklpy2.diffract.DiffractometerBase.clear_sub"><code class="xref py py-meth docutils literal notranslate"><span class="pre">clear_sub()</span></code></a></p>
+<p>See also <code class="xref py py-meth docutils literal notranslate"><span class="pre">subscribe()</span></code>, <code class="xref py py-meth docutils literal notranslate"><span class="pre">clear_sub()</span></code></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>cid</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><em>int</em></a>) – token return by <a class="reference internal" href="#hklpy2.diffract.DiffractometerBase.subscribe" title="hklpy2.diffract.DiffractometerBase.subscribe"><code class="xref py py-meth docutils literal notranslate"><span class="pre">subscribe()</span></code></a></p>
+<dd class="field-odd"><p><strong>cid</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><em>int</em></a>) – token return by <code class="xref py py-meth docutils literal notranslate"><span class="pre">subscribe()</span></code></p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="hklpy2.diffract.DiffractometerBase.wait_for_connection">
-<span class="sig-name descname"><span class="pre">wait_for_connection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">all_signals</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2.0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#hklpy2.diffract.DiffractometerBase.wait_for_connection" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">wait_for_connection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">all_signals</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2.0</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Wait for signals to connect</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1294,8 +1433,8 @@ call to ‘stage’) have no effect.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="hklpy2.diffract.DiffractometerBase.walk_components">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">walk_components</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#hklpy2.diffract.DiffractometerBase.walk_components" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">walk_components</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
 <dd><p>Walk all components in the Device hierarchy</p>
 <dl class="field-list simple">
 <dt class="field-odd">Yields<span class="colon">:</span></dt>
@@ -1306,8 +1445,8 @@ top-level device <cite>walk_components</cite> was called on.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="hklpy2.diffract.DiffractometerBase.walk_signals">
-<span class="sig-name descname"><span class="pre">walk_signals</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_lazy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#hklpy2.diffract.DiffractometerBase.walk_signals" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">walk_signals</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_lazy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Walk all signals in the Device hierarchy</p>
 <p>EXPERIMENTAL: This method is experimental, and there are tentative
 plans to change its API in a way that may not be backward-compatible.</p>
@@ -1323,8 +1462,8 @@ top-level device <cite>walk_signals</cite> was called on.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="hklpy2.diffract.DiffractometerBase.walk_subdevice_classes">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">walk_subdevice_classes</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#hklpy2.diffract.DiffractometerBase.walk_subdevice_classes" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">walk_subdevice_classes</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
 <dd><p>Walk all sub-Devices classes in the Device hierarchy</p>
 <dl class="field-list simple">
 <dt class="field-odd">Yields<span class="colon">:</span></dt>
@@ -1334,8 +1473,8 @@ top-level device <cite>walk_signals</cite> was called on.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="hklpy2.diffract.DiffractometerBase.walk_subdevices">
-<span class="sig-name descname"><span class="pre">walk_subdevices</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_lazy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#hklpy2.diffract.DiffractometerBase.walk_subdevices" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">walk_subdevices</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_lazy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Walk all sub-Devices in the hierarchy</p>
 <p>EXPERIMENTAL: This method is experimental, and there are tentative
 plans to change its API in a way that may not be backward-compatible.</p>
@@ -1347,19 +1486,20 @@ plans to change its API in a way that may not be backward-compatible.</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="hklpy2.diffract.DiffractometerBase.wavelength">
-<span class="sig-name descname"><span class="pre">wavelength</span></span><a class="headerlink" href="#hklpy2.diffract.DiffractometerBase.wavelength" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">wavelength</span></span></dt>
 <dd><p>Incident wavelength.</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="hklpy2.diffract.DiffractometerBase.wavelength_units">
-<span class="sig-name descname"><span class="pre">wavelength_units</span></span><a class="headerlink" href="#hklpy2.diffract.DiffractometerBase.wavelength_units" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">wavelength_units</span></span></dt>
 <dd><p>Engineering units of the incident wavelength.</p>
 </dd></dl>
 
 </dd></dl>
 
+</section>
 </section>
 </section>
 
@@ -1411,102 +1551,13 @@ plans to change its API in a way that may not be backward-compatible.</p>
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-hklpy2.diffract">Source Code Documentation</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.diffract.DiffractometerBase"><code class="docutils literal notranslate"><span class="pre">DiffractometerBase</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.diffract.DiffractometerBase.OphydAttrList"><code class="docutils literal notranslate"><span class="pre">DiffractometerBase.OphydAttrList</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.diffract.DiffractometerBase.OphydAttrList.append"><code class="docutils literal notranslate"><span class="pre">DiffractometerBase.OphydAttrList.append()</span></code></a></li>
-<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.diffract.DiffractometerBase.OphydAttrList.clear"><code class="docutils literal notranslate"><span class="pre">DiffractometerBase.OphydAttrList.clear()</span></code></a></li>
-<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.diffract.DiffractometerBase.OphydAttrList.count"><code class="docutils literal notranslate"><span class="pre">DiffractometerBase.OphydAttrList.count()</span></code></a></li>
-<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.diffract.DiffractometerBase.OphydAttrList.extend"><code class="docutils literal notranslate"><span class="pre">DiffractometerBase.OphydAttrList.extend()</span></code></a></li>
-<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.diffract.DiffractometerBase.OphydAttrList.index"><code class="docutils literal notranslate"><span class="pre">DiffractometerBase.OphydAttrList.index()</span></code></a></li>
-<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.diffract.DiffractometerBase.OphydAttrList.insert"><code class="docutils literal notranslate"><span class="pre">DiffractometerBase.OphydAttrList.insert()</span></code></a></li>
-<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.diffract.DiffractometerBase.OphydAttrList.pop"><code class="docutils literal notranslate"><span class="pre">DiffractometerBase.OphydAttrList.pop()</span></code></a></li>
-<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.diffract.DiffractometerBase.OphydAttrList.remove"><code class="docutils literal notranslate"><span class="pre">DiffractometerBase.OphydAttrList.remove()</span></code></a></li>
-<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.diffract.DiffractometerBase.OphydAttrList.reverse"><code class="docutils literal notranslate"><span class="pre">DiffractometerBase.OphydAttrList.reverse()</span></code></a></li>
-</ul>
-</li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.diffract.DiffractometerBase._concurrent_move"><code class="docutils literal notranslate"><span class="pre">DiffractometerBase._concurrent_move()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.diffract.DiffractometerBase._done_acquiring"><code class="docutils literal notranslate"><span class="pre">DiffractometerBase._done_acquiring()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.diffract.DiffractometerBase._done_moving"><code class="docutils literal notranslate"><span class="pre">DiffractometerBase._done_moving()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.diffract.DiffractometerBase._get_components_of_kind"><code class="docutils literal notranslate"><span class="pre">DiffractometerBase._get_components_of_kind()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.diffract.DiffractometerBase._get_kind"><code class="docutils literal notranslate"><span class="pre">DiffractometerBase._get_kind()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.diffract.DiffractometerBase._get_pseudo_positioners"><code class="docutils literal notranslate"><span class="pre">DiffractometerBase._get_pseudo_positioners()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.diffract.DiffractometerBase._get_real_positioners"><code class="docutils literal notranslate"><span class="pre">DiffractometerBase._get_real_positioners()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.diffract.DiffractometerBase._initialize_device"><code class="docutils literal notranslate"><span class="pre">DiffractometerBase._initialize_device()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.diffract.DiffractometerBase._instantiate_component"><code class="docutils literal notranslate"><span class="pre">DiffractometerBase._instantiate_component()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.diffract.DiffractometerBase._pseudo_position_tuple"><code class="docutils literal notranslate"><span class="pre">DiffractometerBase._pseudo_position_tuple()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.diffract.DiffractometerBase._real_finished"><code class="docutils literal notranslate"><span class="pre">DiffractometerBase._real_finished()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.diffract.DiffractometerBase._real_pos_update"><code class="docutils literal notranslate"><span class="pre">DiffractometerBase._real_pos_update()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.diffract.DiffractometerBase._real_position_tuple"><code class="docutils literal notranslate"><span class="pre">DiffractometerBase._real_position_tuple()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.diffract.DiffractometerBase._repr_info"><code class="docutils literal notranslate"><span class="pre">DiffractometerBase._repr_info()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.diffract.DiffractometerBase._reset_sub"><code class="docutils literal notranslate"><span class="pre">DiffractometerBase._reset_sub()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.diffract.DiffractometerBase._run_subs"><code class="docutils literal notranslate"><span class="pre">DiffractometerBase._run_subs()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.diffract.DiffractometerBase._sequential_move"><code class="docutils literal notranslate"><span class="pre">DiffractometerBase._sequential_move()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.diffract.DiffractometerBase._set_kind"><code class="docutils literal notranslate"><span class="pre">DiffractometerBase._set_kind()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.diffract.DiffractometerBase._set_position"><code class="docutils literal notranslate"><span class="pre">DiffractometerBase._set_position()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.diffract.DiffractometerBase._setup_move"><code class="docutils literal notranslate"><span class="pre">DiffractometerBase._setup_move()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.diffract.DiffractometerBase._solver"><code class="docutils literal notranslate"><span class="pre">DiffractometerBase._solver</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.diffract.DiffractometerBase._summary"><code class="docutils literal notranslate"><span class="pre">DiffractometerBase._summary()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.diffract.DiffractometerBase._update_position"><code class="docutils literal notranslate"><span class="pre">DiffractometerBase._update_position()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.diffract.DiffractometerBase.add_instantiation_callback"><code class="docutils literal notranslate"><span class="pre">DiffractometerBase.add_instantiation_callback()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.diffract.DiffractometerBase.check_single"><code class="docutils literal notranslate"><span class="pre">DiffractometerBase.check_single()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.diffract.DiffractometerBase.check_value"><code class="docutils literal notranslate"><span class="pre">DiffractometerBase.check_value()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.diffract.DiffractometerBase.clear_sub"><code class="docutils literal notranslate"><span class="pre">DiffractometerBase.clear_sub()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.diffract.DiffractometerBase.composite_egu"><code class="docutils literal notranslate"><span class="pre">DiffractometerBase.composite_egu</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.diffract.DiffractometerBase.concurrent"><code class="docutils literal notranslate"><span class="pre">DiffractometerBase.concurrent</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.diffract.DiffractometerBase.configure"><code class="docutils literal notranslate"><span class="pre">DiffractometerBase.configure()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.diffract.DiffractometerBase.connected"><code class="docutils literal notranslate"><span class="pre">DiffractometerBase.connected</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.diffract.DiffractometerBase.describe"><code class="docutils literal notranslate"><span class="pre">DiffractometerBase.describe()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.diffract.DiffractometerBase.describe_configuration"><code class="docutils literal notranslate"><span class="pre">DiffractometerBase.describe_configuration()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.diffract.DiffractometerBase.destroy"><code class="docutils literal notranslate"><span class="pre">DiffractometerBase.destroy()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.diffract.DiffractometerBase.dotted_name"><code class="docutils literal notranslate"><span class="pre">DiffractometerBase.dotted_name</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.diffract.DiffractometerBase.egu"><code class="docutils literal notranslate"><span class="pre">DiffractometerBase.egu</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.diffract.DiffractometerBase.event_types"><code class="docutils literal notranslate"><span class="pre">DiffractometerBase.event_types</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.diffract.DiffractometerBase.forward"><code class="docutils literal notranslate"><span class="pre">DiffractometerBase.forward()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.diffract.DiffractometerBase.get"><code class="docutils literal notranslate"><span class="pre">DiffractometerBase.get()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.diffract.DiffractometerBase.get_device_tuple"><code class="docutils literal notranslate"><span class="pre">DiffractometerBase.get_device_tuple()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.diffract.DiffractometerBase.get_instantiated_signals"><code class="docutils literal notranslate"><span class="pre">DiffractometerBase.get_instantiated_signals()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.diffract.DiffractometerBase.high_limit"><code class="docutils literal notranslate"><span class="pre">DiffractometerBase.high_limit</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.diffract.DiffractometerBase.inverse"><code class="docutils literal notranslate"><span class="pre">DiffractometerBase.inverse()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.diffract.DiffractometerBase.limits"><code class="docutils literal notranslate"><span class="pre">DiffractometerBase.limits</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.diffract.DiffractometerBase.low_limit"><code class="docutils literal notranslate"><span class="pre">DiffractometerBase.low_limit</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.diffract.DiffractometerBase.move"><code class="docutils literal notranslate"><span class="pre">DiffractometerBase.move()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.diffract.DiffractometerBase.move_single"><code class="docutils literal notranslate"><span class="pre">DiffractometerBase.move_single()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.diffract.DiffractometerBase.moving"><code class="docutils literal notranslate"><span class="pre">DiffractometerBase.moving</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.diffract.DiffractometerBase.name"><code class="docutils literal notranslate"><span class="pre">DiffractometerBase.name</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.diffract.DiffractometerBase.parent"><code class="docutils literal notranslate"><span class="pre">DiffractometerBase.parent</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.diffract.DiffractometerBase.pause"><code class="docutils literal notranslate"><span class="pre">DiffractometerBase.pause()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.diffract.DiffractometerBase.position"><code class="docutils literal notranslate"><span class="pre">DiffractometerBase.position</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.diffract.DiffractometerBase.pseudo_positioners"><code class="docutils literal notranslate"><span class="pre">DiffractometerBase.pseudo_positioners</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.diffract.DiffractometerBase.put"><code class="docutils literal notranslate"><span class="pre">DiffractometerBase.put()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.diffract.DiffractometerBase.read"><code class="docutils literal notranslate"><span class="pre">DiffractometerBase.read()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.diffract.DiffractometerBase.read_configuration"><code class="docutils literal notranslate"><span class="pre">DiffractometerBase.read_configuration()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.diffract.DiffractometerBase.real_position"><code class="docutils literal notranslate"><span class="pre">DiffractometerBase.real_position</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.diffract.DiffractometerBase.real_positioners"><code class="docutils literal notranslate"><span class="pre">DiffractometerBase.real_positioners</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.diffract.DiffractometerBase.report"><code class="docutils literal notranslate"><span class="pre">DiffractometerBase.report</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.diffract.DiffractometerBase.resume"><code class="docutils literal notranslate"><span class="pre">DiffractometerBase.resume()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.diffract.DiffractometerBase.root"><code class="docutils literal notranslate"><span class="pre">DiffractometerBase.root</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.diffract.DiffractometerBase.sequential"><code class="docutils literal notranslate"><span class="pre">DiffractometerBase.sequential</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.diffract.DiffractometerBase.set"><code class="docutils literal notranslate"><span class="pre">DiffractometerBase.set()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.diffract.DiffractometerBase.settle_time"><code class="docutils literal notranslate"><span class="pre">DiffractometerBase.settle_time</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.diffract.DiffractometerBase.backend_solver"><code class="docutils literal notranslate"><span class="pre">DiffractometerBase.backend_solver</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.diffract.DiffractometerBase.solver"><code class="docutils literal notranslate"><span class="pre">DiffractometerBase.solver</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.diffract.DiffractometerBase.stage"><code class="docutils literal notranslate"><span class="pre">DiffractometerBase.stage()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.diffract.DiffractometerBase.stop"><code class="docutils literal notranslate"><span class="pre">DiffractometerBase.stop()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.diffract.DiffractometerBase.subscribe"><code class="docutils literal notranslate"><span class="pre">DiffractometerBase.subscribe()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.diffract.DiffractometerBase.target"><code class="docutils literal notranslate"><span class="pre">DiffractometerBase.target</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.diffract.DiffractometerBase.timeout"><code class="docutils literal notranslate"><span class="pre">DiffractometerBase.timeout</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.diffract.DiffractometerBase.to_pseudo_tuple"><code class="docutils literal notranslate"><span class="pre">DiffractometerBase.to_pseudo_tuple()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.diffract.DiffractometerBase.to_real_tuple"><code class="docutils literal notranslate"><span class="pre">DiffractometerBase.to_real_tuple()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.diffract.DiffractometerBase.trigger"><code class="docutils literal notranslate"><span class="pre">DiffractometerBase.trigger()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.diffract.DiffractometerBase.unstage"><code class="docutils literal notranslate"><span class="pre">DiffractometerBase.unstage()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.diffract.DiffractometerBase.unsubscribe"><code class="docutils literal notranslate"><span class="pre">DiffractometerBase.unsubscribe()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.diffract.DiffractometerBase.wait_for_connection"><code class="docutils literal notranslate"><span class="pre">DiffractometerBase.wait_for_connection()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.diffract.DiffractometerBase.walk_components"><code class="docutils literal notranslate"><span class="pre">DiffractometerBase.walk_components()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.diffract.DiffractometerBase.walk_signals"><code class="docutils literal notranslate"><span class="pre">DiffractometerBase.walk_signals()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.diffract.DiffractometerBase.walk_subdevice_classes"><code class="docutils literal notranslate"><span class="pre">DiffractometerBase.walk_subdevice_classes()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.diffract.DiffractometerBase.walk_subdevices"><code class="docutils literal notranslate"><span class="pre">DiffractometerBase.walk_subdevices()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.diffract.DiffractometerBase.wavelength"><code class="docutils literal notranslate"><span class="pre">DiffractometerBase.wavelength</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.diffract.DiffractometerBase.wavelength_units"><code class="docutils literal notranslate"><span class="pre">DiffractometerBase.wavelength_units</span></code></a></li>
 </ul>
 </li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#inherited-members-from-ophyd-pseudopositioner">Inherited members, from <code class="docutils literal notranslate"><span class="pre">ophyd.PseudoPositioner</span></code></a></li>
 </ul>
 </li>
 </ul>

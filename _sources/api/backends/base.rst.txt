@@ -7,6 +7,8 @@
 SolverBase
 ========================
 
+.. caution:: work-in-progress
+
 .. automodule:: hklpy2.backends.base
     :members:
     :private-members:

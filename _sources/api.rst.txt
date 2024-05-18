@@ -6,6 +6,8 @@ API
 
 .. include:: /substitutions.txt
 
+.. caution:: work-in-progress
+
 Application-Programmer Interface - the source code.
 
 .. figure:: _static/hklpy2-block-diagram.png
