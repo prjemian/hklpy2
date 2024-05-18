@@ -14,6 +14,7 @@ Framework](https://blueskyproject.io).
 - home: https://prjemian.github.io/hklpy2
 - source: https://github.com/prjemian/hklpy2
 - license: [Argonne Open Source License](/LICENSE)
+- design: [considerations](/hklpy2/design-considerations.md)
 - **hklpy**, v1: [docs](https://blueskyproject.io/hklpy/), [source](https://github.com/bluesky/hklpy)
 - **libhkl**: [docs](https://people.debian.org/~picca/hkl/hkl.html),  [source](https://repo.or.cz/hkl.git)
 - acknowledgement: 
