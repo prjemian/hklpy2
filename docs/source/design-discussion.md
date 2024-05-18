@@ -18,6 +18,7 @@ Redesign of the Diffractometer object.
 - move libhkl to be a replaceable back-end computation library
 - easy to save/restore configuration
 - easy to use different *engines* (such as `hkl`, `qper_qpar`, `emergence`, ...)
+- user can choose different names for any of the diffractometer axes
 
 ## Design ideas
 
