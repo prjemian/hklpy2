@@ -62,6 +62,13 @@ It should be easy to switch between solvers at run time so that new things can b
   - [ ] Do we need to tie these new ophyd objects together with diffractometer object?  
           What is the best way to do that?
 
+- Make it easy to provide additional axes, such as for:
+  - rotation about arbitrary vector
+  - Solvers with different reciprocal-space axes
+  - extra parameters, as required by solver
+    (For example, see `emergence` mode in
+    [E4CV](https://blueskyproject.io/hklpy/geometry_tables.html#geometry-e4cv))
+
 #### Reflections
 
 - [write orientation reflections with scan](https://github.com/bluesky/hklpy/issues/158), 
