@@ -37,6 +37,17 @@ class Th2Th(DiffractometerBase):
     tth = Cpt(SoftPositioner, limits=(-170, 170), init_pos=0, kind=NORMAL_HINTED)
 
 
+class TwoC(DiffractometerBase):
+    """Test case with custom names and additional axes."""
+
+    # sorted alphabetically
+    d_spacing = Cpt(PseudoSingle, "", kind=NORMAL_HINTED)  # noqa: E741
+    q = Cpt(PseudoSingle, "", kind=NORMAL_HINTED)  # noqa: E741
+    theta = Cpt(SoftPositioner, limits=(-90, 90), init_pos=0, kind=NORMAL_HINTED)
+    ttheta = Cpt(SoftPositioner, limits=(-170, 170), init_pos=0, kind=NORMAL_HINTED)
+    x = Cpt(SoftPositioner, limits=(-10, 855), init_pos=0, kind=NORMAL_HINTED)
+
+
 def test_DiffractometerBase():
     # TODO: Until more of the base class is developed, an exception
     # will be raised if an object is created.  Test that situation.
@@ -45,7 +56,9 @@ def test_DiffractometerBase():
     assert "Must have at least 1 positioner and pseudo-positioner" in str(reason)
 
 
-@pytest.mark.parametrize("geometry, npseudos, nreals", [[Fourc, 3, 4], [Th2Th, 1, 2]])
+@pytest.mark.parametrize(
+    "geometry, npseudos, nreals", [[Fourc, 3, 4], [Th2Th, 1, 2], [TwoC, 2, 3]]
+)
 def test_goniometer(geometry, npseudos, nreals):
     goniometer = geometry("", name="goniometer")
     assert goniometer is not None

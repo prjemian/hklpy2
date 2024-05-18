@@ -41,20 +41,29 @@ class ThTthSolver(SolverBase):
 
     No orientation matrix is used in this geometry.
 
+    .. rubric:: Python Methods
+
     .. autosummary::
 
         ~addReflection
         ~addSample
         ~calculateOrientation
+        ~extra_axis_names
         ~forward
-        ~geometries
-        ~geometry
         ~inverse
-        ~lattice
-        ~modes
         ~pseudo_axis_names
         ~real_axis_names
         ~refineLattice
+
+    .. rubric:: Python Properties
+
+    .. autosummary::
+
+        ~geometries
+        ~geometry
+        ~lattice
+        ~mode
+        ~modes
     """
 
     __name__ = "th_tth"
@@ -102,6 +111,10 @@ class ThTthSolver(SolverBase):
                 solutions.append({"th": th, "tth": 2 * th})
 
         return solutions
+
+    @property
+    def extra_axis_names(self):
+        return []
 
     @property
     def geometries(self):

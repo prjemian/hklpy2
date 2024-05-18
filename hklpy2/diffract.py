@@ -54,6 +54,7 @@ class DiffractometerBase(PseudoPositioner):
 
     # ophyd Device Attribute Components
 
+    # TODO: need a solver object AND a solver name
     solver = Cpt(
         AttributeSignal,
         attr="backend_solver",
@@ -89,8 +90,13 @@ class DiffractometerBase(PseudoPositioner):
     @property
     def backend_solver(self):
         """Backend |solver|, transformations between pseudos and reals."""
+        # TODO: self._backend_solver should be instance of a |solver| class.
+        # return its name (if it is not None)
+        # TODO: backend_solver v. backend_solver_name
         return self._backend_solver
 
     @backend_solver.setter
     def backend_solver(self, value: str):
+        # TODO: self._backend_solver should be instance of a |solver| class.
+        # TODO: backend_solver v. backend_solver_name
         self._backend_solver = value

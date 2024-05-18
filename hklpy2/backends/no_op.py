@@ -24,21 +24,29 @@ class NoOpSolver(SolverBase):
 
     |solver| that has no reciprocal space transformations.
 
+    .. rubric:: Python Methods
+
     .. autosummary::
 
         ~addReflection
         ~addSample
         ~calculateOrientation
+        ~extra_axis_names
         ~forward
-        ~geometries
-        ~geometry
         ~inverse
-        ~lattice
-        ~mode
-        ~modes
         ~pseudo_axis_names
         ~real_axis_names
         ~refineLattice
+
+    .. rubric:: Python Properties
+
+    .. autosummary::
+
+        ~geometries
+        ~geometry
+        ~lattice
+        ~mode
+        ~modes
     """
 
     __name__ = "no_op"
@@ -56,6 +64,10 @@ class NoOpSolver(SolverBase):
 
     def calculateOrientation(self, r1, r2):
         return
+
+    @property
+    def extra_axis_names(self):
+        return []
 
     def forward(self):
         return [{}]

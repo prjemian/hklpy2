@@ -34,20 +34,29 @@ class HklSolver(SolverBase):
     |solver| with support for many common diffractometer geoemtries.
     Wraps the |libhkl| library from Frédéric-Emmanuel PICCA (Soleil).
 
+    .. rubric:: Python Methods
+
     .. autosummary::
 
         ~addReflection
         ~addSample
         ~calculateOrientation
+        ~extra_axis_names
         ~forward
-        ~geometries
-        ~geometry
         ~inverse
-        ~lattice
-        ~modes
         ~pseudo_axis_names
         ~real_axis_names
         ~refineLattice
+
+    .. rubric:: Python Properties
+
+    .. autosummary::
+
+        ~geometries
+        ~geometry
+        ~lattice
+        ~mode
+        ~modes
     """
 
     __name__ = "hkl_soleil"
@@ -71,6 +80,11 @@ class HklSolver(SolverBase):
 
     def calculateOrientation(self, r1, r2):  # TODO
         """Calculate the UB (orientation) matrix from two reflections."""
+
+    @property
+    def extra_axis_names(self):
+        """Ordered list of any extra axis names (such as x, y, z)."""
+        return []  # TODO
 
     def forward(self):
         """Compute list of solutions(reals) from pseudos (hkl -> [angles])."""

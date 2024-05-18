@@ -38,7 +38,7 @@ Diffractometer
       - list a |solver| geometry's required 
         :attr:`~hklpy2.backends.base.SolverBase.pseudo_axis_names`,
         :attr:`~hklpy2.backends.base.SolverBase.real_axis_names`,
-        extras (TODO),
+        :attr:`~hklpy2.backends.base.SolverBase.extra_axis_names`,
         :attr:`~hklpy2.backends.base.SolverBase.modes`
       - create instance of :class:`~hklpy2.reflection.Reflection()`
       - define or compute a :math:`UB` matrix
@@ -50,6 +50,36 @@ Diffractometer
       - refine lattice parameters
 
       .. note:: Add ``@needs_solver`` decorator for these actions.
+
+Regarding user-defined axis names, the 
+:class:`~hklpy2.diffract.DiffractometerBase`` subclass is defined
+with the user names.  Consider this example for a two-circle
+class (with some extra axes)::
+
+    class MyTwoC(DiffractometerBase):
+        """Test case."""
+
+        d_spacing = Component(PseudoSingle)
+        q = Component(PseudoSingle, "")
+        theta = Component(SoftPositioner)
+        ttheta = Component(SoftPositioner)
+        x = Component(SoftPositioner, "")
+
+    twoc = MyTwoC("", name="twoc")
+
+When creating the |solver| instance, the caller specifies the required axes in
+the order expected by the |solver|. The ``"TH TTH Q"`` geometry expects ``q`` as the
+only pseudo axis and ``th`` and ``tth`` as the two real axes (no extra axes).
+Connect the user-defined axes of the diffractometer with the canonical axis
+names expected by the solver like this::
+
+    solver_class = get_solver("th_tth")
+    # TODO: pick the "TH TTH Q" geometry
+    twoc.backend_solver = solver_class(
+        pseudos=[twoc.q],
+        reals=[twoc.theta, twoc.ttheta],
+        extras=[],
+    )
 
 Source Code Documentation
 -------------------------

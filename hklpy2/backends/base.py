@@ -36,21 +36,29 @@ class SolverBase(ABC):
 
     .. seealso:: :ref:`api.backends.hkl_soleil` & :ref:`api.backends.no_op`
 
+    .. rubric:: Python Methods
+
     .. autosummary::
 
         ~addReflection
         ~addSample
         ~calculateOrientation
+        ~extra_axis_names
         ~forward
-        ~geometries
-        ~geometry
         ~inverse
-        ~lattice
-        ~mode
-        ~modes
         ~pseudo_axis_names
         ~real_axis_names
         ~refineLattice
+
+    .. rubric:: Python Properties
+
+    .. autosummary::
+
+        ~geometries
+        ~geometry
+        ~lattice
+        ~mode
+        ~modes
     """
 
     __name__ = "base"
@@ -76,6 +84,12 @@ class SolverBase(ABC):
     @abstractmethod
     def calculateOrientation(self, r1, r2):
         """Calculate the UB (orientation) matrix from two reflections."""
+
+    @property
+    @abstractmethod
+    def extra_axis_names(self):
+        """Ordered list of any extra axis names (such as x, y, z)."""
+        return []
 
     @abstractmethod
     def forward(self):
@@ -111,7 +125,7 @@ class SolverBase(ABC):
     @property
     def lattice(self):
         """
-        Crystal lattice parameters.  (not used by this |solver|).
+        Crystal lattice parameters.  (Not used by this |solver|.)
         """
         return self._lattice
 
@@ -126,7 +140,7 @@ class SolverBase(ABC):
     @property
     def mode(self):
         """
-        Diffractometer geometry operation mode for forward().
+        Diffractometer geometry operation mode for :meth:`forward()`.
 
         A mode defines which axes will be modified by the
         :meth:`forward` computation.
