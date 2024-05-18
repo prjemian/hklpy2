@@ -6,7 +6,7 @@
 Diffractometer
 ==================
 
-:concept: User builds a subclass of :class:`~hklpy2.diffract.Diffractometer()`,
+:concept: User builds a subclass of :class:`~hklpy2.diffract.DiffractometerBase()`,
   adding a variety of positioners as ophyd Components.  In an instance of that
   subclass, user selects a backend |solver| and defines which Components are to
   be used as pseudos, reals, and extras.  The backend implements ``forward()`` and
