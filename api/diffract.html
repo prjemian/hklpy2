@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
   <script src="../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script src="../_static/documentation_options.js?v=4068d621"></script>
+    <script src="../_static/documentation_options.js?v=e1ddb97b"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/design-tabs.js?v=36754332"></script>
@@ -396,7 +396,7 @@ only the pseudos, reals, and extras that are identified.</p>
 <li><p class="sd-card-text">list a <strong>Solver</strong> geometry’s required
 <a class="reference internal" href="backends/base.html#hklpy2.backends.base.SolverBase.pseudo_axis_names" title="hklpy2.backends.base.SolverBase.pseudo_axis_names"><code class="xref py py-attr docutils literal notranslate"><span class="pre">pseudo_axis_names</span></code></a>,
 <a class="reference internal" href="backends/base.html#hklpy2.backends.base.SolverBase.real_axis_names" title="hklpy2.backends.base.SolverBase.real_axis_names"><code class="xref py py-attr docutils literal notranslate"><span class="pre">real_axis_names</span></code></a>,
-extras (TODO),
+<a class="reference internal" href="backends/base.html#hklpy2.backends.base.SolverBase.extra_axis_names" title="hklpy2.backends.base.SolverBase.extra_axis_names"><code class="xref py py-attr docutils literal notranslate"><span class="pre">extra_axis_names</span></code></a>,
 <a class="reference internal" href="backends/base.html#hklpy2.backends.base.SolverBase.modes" title="hklpy2.backends.base.SolverBase.modes"><code class="xref py py-attr docutils literal notranslate"><span class="pre">modes</span></code></a></p></li>
 <li><p class="sd-card-text">create instance of <a class="reference internal" href="reflection.html#hklpy2.reflection.Reflection" title="hklpy2.reflection.Reflection"><code class="xref py py-class docutils literal notranslate"><span class="pre">Reflection()</span></code></a></p></li>
 <li><p class="sd-card-text">define or compute a <span class="math notranslate nohighlight">\(UB\)</span> matrix
@@ -415,6 +415,36 @@ and <a class="reference internal" href="backends/base.html#hklpy2.backends.base.
 </div>
 </div>
 </div>
+</div>
+<p>Regarding user-defined axis names, the
+<code class="xref py py-class docutils literal notranslate"><span class="pre">DiffractometerBase`</span></code> subclass is defined
+with the user names.  Consider this example for a two-circle
+class (with some extra axes):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">MyTwoC</span><span class="p">(</span><span class="n">DiffractometerBase</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test case.&quot;&quot;&quot;</span>
+
+    <span class="n">d_spacing</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">PseudoSingle</span><span class="p">)</span>
+    <span class="n">q</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">PseudoSingle</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+    <span class="n">theta</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">SoftPositioner</span><span class="p">)</span>
+    <span class="n">ttheta</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">SoftPositioner</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">SoftPositioner</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+
+<span class="n">twoc</span> <span class="o">=</span> <span class="n">MyTwoC</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;twoc&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>When creating the <strong>Solver</strong> instance, the caller specifies the required axes in
+the order expected by the <strong>Solver</strong>. The <code class="docutils literal notranslate"><span class="pre">&quot;TH</span> <span class="pre">TTH</span> <span class="pre">Q&quot;</span></code> geometry expects <code class="docutils literal notranslate"><span class="pre">q</span></code> as the
+only pseudo axis and <code class="docutils literal notranslate"><span class="pre">th</span></code> and <code class="docutils literal notranslate"><span class="pre">tth</span></code> as the two real axes (no extra axes).
+Connect the user-defined axes of the diffractometer with the canonical axis
+names expected by the solver like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">solver_class</span> <span class="o">=</span> <span class="n">get_solver</span><span class="p">(</span><span class="s2">&quot;th_tth&quot;</span><span class="p">)</span>
+<span class="c1"># TODO: pick the &quot;TH TTH Q&quot; geometry</span>
+<span class="n">twoc</span><span class="o">.</span><span class="n">backend_solver</span> <span class="o">=</span> <span class="n">solver_class</span><span class="p">(</span>
+    <span class="n">pseudos</span><span class="o">=</span><span class="p">[</span><span class="n">twoc</span><span class="o">.</span><span class="n">q</span><span class="p">],</span>
+    <span class="n">reals</span><span class="o">=</span><span class="p">[</span><span class="n">twoc</span><span class="o">.</span><span class="n">theta</span><span class="p">,</span> <span class="n">twoc</span><span class="o">.</span><span class="n">ttheta</span><span class="p">],</span>
+    <span class="n">extras</span><span class="o">=</span><span class="p">[],</span>
+<span class="p">)</span>
+</pre></div>
 </div>
 <section id="module-hklpy2.diffract">
 <span id="source-code-documentation"></span><h2>Source Code Documentation<a class="headerlink" href="#module-hklpy2.diffract" title="Link to this heading">#</a></h2>

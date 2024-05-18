@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
   <script src="../../../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script src="../../../_static/documentation_options.js?v=4068d621"></script>
+    <script src="../../../_static/documentation_options.js?v=e1ddb97b"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/tabs.js?v=3030b3cb"></script>
@@ -361,20 +361,29 @@ document.write(`
 
 <span class="sd">    No orientation matrix is used in this geometry.</span>
 
+<span class="sd">    .. rubric:: Python Methods</span>
+
 <span class="sd">    .. autosummary::</span>
 
 <span class="sd">        ~addReflection</span>
 <span class="sd">        ~addSample</span>
 <span class="sd">        ~calculateOrientation</span>
+<span class="sd">        ~extra_axis_names</span>
 <span class="sd">        ~forward</span>
-<span class="sd">        ~geometries</span>
-<span class="sd">        ~geometry</span>
 <span class="sd">        ~inverse</span>
-<span class="sd">        ~lattice</span>
-<span class="sd">        ~modes</span>
 <span class="sd">        ~pseudo_axis_names</span>
 <span class="sd">        ~real_axis_names</span>
 <span class="sd">        ~refineLattice</span>
+
+<span class="sd">    .. rubric:: Python Properties</span>
+
+<span class="sd">    .. autosummary::</span>
+
+<span class="sd">        ~geometries</span>
+<span class="sd">        ~geometry</span>
+<span class="sd">        ~lattice</span>
+<span class="sd">        ~mode</span>
+<span class="sd">        ~modes</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="vm">__name__</span> <span class="o">=</span> <span class="s2">&quot;th_tth&quot;</span>
@@ -434,6 +443,10 @@ document.write(`
 
         <span class="k">return</span> <span class="n">solutions</span></div>
 
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">extra_axis_names</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">[]</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">geometries</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>

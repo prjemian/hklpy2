@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
   <script src="../../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script src="../../_static/documentation_options.js?v=4068d621"></script>
+    <script src="../../_static/documentation_options.js?v=e1ddb97b"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/tabs.js?v=3030b3cb"></script>
@@ -374,6 +374,7 @@ document.write(`
 
     <span class="c1"># ophyd Device Attribute Components</span>
 
+    <span class="c1"># TODO: need a solver object AND a solver name</span>
     <span class="n">solver</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span>
         <span class="n">AttributeSignal</span><span class="p">,</span>
         <span class="n">attr</span><span class="o">=</span><span class="s2">&quot;backend_solver&quot;</span><span class="p">,</span>
@@ -409,10 +410,15 @@ document.write(`
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">backend_solver</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Backend |solver|, transformations between pseudos and reals.&quot;&quot;&quot;</span>
+        <span class="c1"># TODO: self._backend_solver should be instance of a |solver| class.</span>
+        <span class="c1"># return its name (if it is not None)</span>
+        <span class="c1"># TODO: backend_solver v. backend_solver_name</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_backend_solver</span>
 
     <span class="nd">@backend_solver</span><span class="o">.</span><span class="n">setter</span>
     <span class="k">def</span> <span class="nf">backend_solver</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="c1"># TODO: self._backend_solver should be instance of a |solver| class.</span>
+        <span class="c1"># TODO: backend_solver v. backend_solver_name</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_backend_solver</span> <span class="o">=</span> <span class="n">value</span></div>
 
 </pre></div>
