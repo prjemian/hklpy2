@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
   <script src="_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script src="_static/documentation_options.js?v=544b1993"></script>
+    <script src="_static/documentation_options.js?v=16f56e50"></script>
     <script src="_static/doctools.js?v=9a2dae69"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/design-tabs.js?v=36754332"></script>
@@ -347,8 +347,9 @@ the <a class="reference external" href="https://github.com/bluesky/hklpy"><em>hk
 <li><p>easy to save/restore configuration</p></li>
 <li><p>easy to use different <em>engines</em> (such as <code class="docutils literal notranslate"><span class="pre">hkl</span></code>, <code class="docutils literal notranslate"><span class="pre">qper_qpar</span></code>, <code class="docutils literal notranslate"><span class="pre">emergence</span></code>, …)</p></li>
 </ul>
+</section>
 <section id="design-ideas">
-<h3>Design ideas<a class="headerlink" href="#design-ideas" title="Link to this heading">#</a></h3>
+<h2>Design ideas<a class="headerlink" href="#design-ideas" title="Link to this heading">#</a></h2>
 <p>This is a starting format for suggestions, but it may become clear that a different format to describe our requirements is necessary.</p>
 <ol class="arabic simple">
 <li><p>Default diffractometer geometries</p></li>
@@ -358,8 +359,9 @@ the <a class="reference external" href="https://github.com/bluesky/hklpy"><em>hk
 <li><p>Built in reciprocal space plans (or scans)</p></li>
 <li><p>Choice of calculation engines other than the hkl C package</p></li>
 </ol>
+</section>
 <section id="review-of-terminology-coordinate-systems">
-<h4>Review of terminology coordinate systems<a class="headerlink" href="#review-of-terminology-coordinate-systems" title="Link to this heading">#</a></h4>
+<h2>Review of terminology coordinate systems<a class="headerlink" href="#review-of-terminology-coordinate-systems" title="Link to this heading">#</a></h2>
 <ul class="simple">
 <li><p>$B$ goes from <em>hkl</em> to an orthonormal basis in the crystal reference frame</p></li>
 <li><p>$U$ goes from the crystal reference frame to the reciprocal lab frame (expressing how the crystal is stuck onto the diffractometer)</p></li>
@@ -367,7 +369,7 @@ the <a class="reference external" href="https://github.com/bluesky/hklpy"><em>hk
 </ul>
 </section>
 <section id="desired-api">
-<h4>Desired API<a class="headerlink" href="#desired-api" title="Link to this heading">#</a></h4>
+<h2>Desired API<a class="headerlink" href="#desired-api" title="Link to this heading">#</a></h2>
 <p>The desired “solver API” into the HKL computation code should be transformations
 from reciprocal space to diffractometer angle space and vice versa, each taking
 three arguments:</p>
@@ -385,7 +387,7 @@ three arguments:</p>
 <p>It should be easy to switch between solvers at run time so that new things can be validated.</p>
 </section>
 <section id="support-for-additions">
-<h4>Support for Additions<a class="headerlink" href="#support-for-additions" title="Link to this heading">#</a></h4>
+<h2>Support for Additions<a class="headerlink" href="#support-for-additions" title="Link to this heading">#</a></h2>
 <ul>
 <li><p><a class="reference external" href="https://github.com/bluesky/hklpy/issues/92">analyzers and polarizers</a></p>
 <p>Perhaps everything is already in place to support these items as stand alone
@@ -409,7 +411,7 @@ What is the best way to do that?</p></li>
 </ul>
 </section>
 <section id="reflections">
-<h4>Reflections<a class="headerlink" href="#reflections" title="Link to this heading">#</a></h4>
+<h2>Reflections<a class="headerlink" href="#reflections" title="Link to this heading">#</a></h2>
 <ul class="simple">
 <li><p><a class="reference external" href="https://github.com/bluesky/hklpy/issues/158">write orientation reflections with scan</a>,
 <a class="reference external" href="https://github.com/bluesky/hklpy/issues/247">also</a></p></li>
@@ -422,7 +424,7 @@ What is the best way to do that?</p></li>
 </ul>
 </section>
 <section id="other">
-<h4>Other<a class="headerlink" href="#other" title="Link to this heading">#</a></h4>
+<h2>Other<a class="headerlink" href="#other" title="Link to this heading">#</a></h2>
 <ul class="simple">
 <li><p><a class="reference external" href="https://github.com/bluesky/hklpy/issues/157">modify existing sample</a></p></li>
 <li><p><a class="reference external" href="https://github.com/bluesky/hklpy/issues/179">control display precision in <code class="docutils literal notranslate"><span class="pre">wh()</span></code> and <code class="docutils literal notranslate"><span class="pre">pa()</span></code></a></p></li>
@@ -430,7 +432,7 @@ What is the best way to do that?</p></li>
 </ul>
 </section>
 <section id="sources">
-<h4>Sources<a class="headerlink" href="#sources" title="Link to this heading">#</a></h4>
+<h2>Sources<a class="headerlink" href="#sources" title="Link to this heading">#</a></h2>
 <p>As listed in <em>hklpy</em> issues:</p>
 <ul class="simple">
 <li><p><a class="reference external" href="https://github.com/bluesky/hklpy/issues/14">design conversation for an hkl solver API</a></p></li>
@@ -438,21 +440,8 @@ What is the best way to do that?</p></li>
 <li><p><a class="reference external" href="https://docs.google.com/document/d/1QHNc1usAH3DoIHvtqVJTmHI0Q5lbwC4zimRLurOGiWE/edit">requirements</a></p></li>
 </ul>
 </section>
-</section>
-</section>
-<section id="backend-solvers-as-entrypoints">
-<h2>Backend Solvers as entrypoints<a class="headerlink" href="#backend-solvers-as-entrypoints" title="Link to this heading">#</a></h2>
-<p>per <a class="reference external" href="https://github.com/bluesky/hklpy/issues/162">hklpy/#161</a> …</p>
-<blockquote>
-<div><p>It provides an useful tool for pluggable Python software development.</p>
-</div></blockquote>
-<p><a class="reference external" href="https://stackoverflow.com/a/9615473/1046449">Article with example</a>
-about entrypoints.</p>
-<p>Demo (9 years old): https://github.com/RichardBronosky/entrypoint_demo</p>
-<p>See the docs in setuptools regarding <a class="reference external" href="https://setuptools.pypa.io/en/latest/userguide/entry_point.html#entry-points-for-plugins"><em>Entry Points for
-Plugins</em></a>.</p>
 <section id="additional-solvers">
-<h3>Additional Solvers<a class="headerlink" href="#additional-solvers" title="Link to this heading">#</a></h3>
+<h2>Additional Solvers<a class="headerlink" href="#additional-solvers" title="Link to this heading">#</a></h2>
 <p>As listed in <em>hklpy</em> issues.</p>
 <ul class="simple">
 <li><p><a class="reference external" href="https://github.com/bluesky/hklpy/issues/244"><em>ad-hoc</em> geometries</a></p></li>
@@ -462,6 +451,18 @@ Plugins</em></a>.</p>
 <li><p>SPEC server</p></li>
 </ul>
 </section>
+<section id="python-entrypoints">
+<h2>Python entrypoints<a class="headerlink" href="#python-entrypoints" title="Link to this heading">#</a></h2>
+<p>Could be used for <a class="reference external" href="https://github.com/bluesky/hklpy/issues/161">backend solvers</a></p>
+<blockquote>
+<div><p>It provides an useful tool for pluggable Python software development.</p>
+</div></blockquote>
+<ul class="simple">
+<li><p><a class="reference external" href="https://stackoverflow.com/a/9615473/1046449">Article with example</a> about entrypoints.</p></li>
+<li><p><a class="reference external" href="https://github.com/RichardBronosky/entrypoint_demo">Demo</a> (9 years old)</p></li>
+</ul>
+<p>See the docs in setuptools regarding <a class="reference external" href="https://setuptools.pypa.io/en/latest/userguide/entry_point.html#entry-points-for-plugins"><em>Entry Points for
+Plugins</em></a>.</p>
 </section>
 </section>
 
@@ -511,22 +512,16 @@ Plugins</em></a>.</p>
   </div>
   <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy-release-v2-0-project">hklpy release v2.0 project</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#design-ideas">Design ideas</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#review-of-terminology-coordinate-systems">Review of terminology coordinate systems</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#desired-api">Desired API</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#support-for-additions">Support for Additions</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#reflections">Reflections</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#other">Other</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sources">Sources</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#backend-solvers-as-entrypoints">Backend Solvers as entrypoints</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#additional-solvers">Additional Solvers</a></li>
-</ul>
-</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy-release-v2-0-project">hklpy release v2.0 project</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#design-ideas">Design ideas</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#review-of-terminology-coordinate-systems">Review of terminology coordinate systems</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#desired-api">Desired API</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#support-for-additions">Support for Additions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reflections">Reflections</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#other">Other</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sources">Sources</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#additional-solvers">Additional Solvers</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#python-entrypoints">Python entrypoints</a></li>
 </ul>
   </nav></div>
 
