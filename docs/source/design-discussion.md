@@ -15,7 +15,7 @@ Redesign of the Diffractometer object.
 - easy to save/restore configuration
 - easy to use different *engines* (such as `hkl`, `qper_qpar`, `emergence`, ...)
 
-### Design ideas
+## Design ideas
 
 This is a starting format for suggestions, but it may become clear that a different format to describe our requirements is necessary.
 
@@ -26,13 +26,13 @@ This is a starting format for suggestions, but it may become clear that a differ
 1. Built in reciprocal space plans (or scans)
 1. Choice of calculation engines other than the hkl C package
 
-#### Review of terminology coordinate systems
+## Review of terminology coordinate systems
 
 - $B$ goes from *hkl* to an orthonormal basis in the crystal reference frame
 - $U$ goes from the crystal reference frame to the reciprocal lab frame (expressing how the crystal is stuck onto the diffractometer)
 - Solving the diffractometer equation goes from the reciprocal lab frame to diffractometer angles. (Some people loosely call this "real space" but perhaps they shouldn't. It's angles.)
 
-#### Desired API
+## Desired API
 
 The desired "solver API" into the HKL computation code should be transformations 
 from reciprocal space to diffractometer angle space and vice versa, each taking
@@ -50,7 +50,7 @@ Underneath this API could be many different solvers:
 
 It should be easy to switch between solvers at run time so that new things can be validated.
 
-#### Support for Additions
+## Support for Additions
 
 - [analyzers and polarizers](https://github.com/bluesky/hklpy/issues/92)
 
@@ -69,7 +69,7 @@ It should be easy to switch between solvers at run time so that new things can b
     (For example, see `emergence` mode in
     [E4CV](https://blueskyproject.io/hklpy/geometry_tables.html#geometry-e4cv))
 
-#### Reflections
+## Reflections
 
 - [write orientation reflections with scan](https://github.com/bluesky/hklpy/issues/158), 
   [also](https://github.com/bluesky/hklpy/issues/247)
@@ -80,13 +80,13 @@ It should be easy to switch between solvers at run time so that new things can b
 - [avoid duplications](https://github.com/bluesky/hklpy/issues/248)
 - [label each reflection](https://github.com/bluesky/hklpy/issues/293)
 
-#### Other
+## Other
 
 - [modify existing sample](https://github.com/bluesky/hklpy/issues/157)
 - [control display precision in `wh()` and `pa()`](https://github.com/bluesky/hklpy/issues/179)
 - [crystallographic *zones*](https://github.com/bluesky/hklpy/issues/291)
 
-#### Sources
+## Sources
 
 As listed in *hklpy* issues:
 
@@ -94,21 +94,7 @@ As listed in *hklpy* issues:
 - [requirements RFP](https://github.com/bluesky/hklpy/issues/47)
 - [requirements](https://docs.google.com/document/d/1QHNc1usAH3DoIHvtqVJTmHI0Q5lbwC4zimRLurOGiWE/edit)
 
-## Backend Solvers as entrypoints
-
-per [hklpy/#161](https://github.com/bluesky/hklpy/issues/162) ...
-
-> It provides an useful tool for pluggable Python software development.
-
-[Article with example](https://stackoverflow.com/a/9615473/1046449)
-about entrypoints.
-
-Demo (9 years old): https://github.com/RichardBronosky/entrypoint_demo
-
-See the docs in setuptools regarding [*Entry Points for
-Plugins*](https://setuptools.pypa.io/en/latest/userguide/entry_point.html#entry-points-for-plugins).
-
-### Additional Solvers
+## Additional Solvers
 
 As listed in *hklpy* issues.
 
@@ -117,3 +103,15 @@ As listed in *hklpy* issues.
 - [TwoC unknown](https://github.com/bluesky/hklpy/issues/165)
 - [xrayutilities](https://github.com/bluesky/hklpy/issues/162)
 - SPEC server
+
+## Python entrypoints
+
+Could be used for [backend solvers](https://github.com/bluesky/hklpy/issues/161)
+
+> It provides an useful tool for pluggable Python software development.
+
+- [Article with example](https://stackoverflow.com/a/9615473/1046449) about entrypoints.
+- [Demo](https://github.com/RichardBronosky/entrypoint_demo) (9 years old)
+
+See the docs in setuptools regarding [*Entry Points for
+Plugins*](https://setuptools.pypa.io/en/latest/userguide/entry_point.html#entry-points-for-plugins).
