@@ -7,6 +7,8 @@
 th_tth (ThTthSolver)
 ========================
 
+.. caution:: work-in-progress
+
 .. automodule:: hklpy2.backends.th_tth_q
     :members:
     :private-members:

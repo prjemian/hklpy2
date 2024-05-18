@@ -25,10 +25,20 @@ class DiffractometerBase(PseudoPositioner):
     """
     Base class for all diffractometers.
 
+    .. rubric:: (ophyd) Components
+
     .. autosummary::
 
         ~solver
         ~wavelength
+
+    .. rubric:: Python Methods
+
+    .. rubric:: Python Properties
+
+    .. autosummary::
+
+        ~backend_solver
     """
 
     # TODO: allow for extra pseudos and reals
@@ -46,7 +56,7 @@ class DiffractometerBase(PseudoPositioner):
 
     solver = Cpt(
         AttributeSignal,
-        attr="_solver",
+        attr="backend_solver",
         doc="Name of backend |solver| (library).",
         write_access=True,
     )
@@ -77,10 +87,10 @@ class DiffractometerBase(PseudoPositioner):
     # ---- get/set properties
 
     @property
-    def _solver(self):
+    def backend_solver(self):
         """Backend |solver|, transformations between pseudos and reals."""
         return self._backend_solver
 
-    @_solver.setter
-    def _solver(self, value: str):
+    @backend_solver.setter
+    def backend_solver(self, value: str):
         self._backend_solver = value
