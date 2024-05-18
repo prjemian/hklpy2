@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>API &#8212; hklpy2 0.0</title>
+    <title>Design for hklpy2 &#8212; hklpy2 0.0</title>
   
   
   
@@ -43,13 +43,11 @@
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/design-tabs.js?v=36754332"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
-    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'api';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'design-discussion';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Backend Solvers" href="api/backends.html" />
-    <link rel="prev" title="Demonstrate hklpy2’s API" href="notebooks/demo.html" />
+    <link rel="next" title="Demonstrate hklpy2’s API" href="notebooks/demo.html" />
+    <link rel="prev" title="User Guide" href="guide.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -136,15 +134,15 @@
 <nav class="navbar-nav">
   <ul class="bd-navbar-elements navbar-nav">
     
-                    <li class="nav-item">
+                    <li class="nav-item current active">
                       <a class="nav-link nav-internal" href="guide.html">
                         User Guide
                       </a>
                     </li>
                 
 
-                    <li class="nav-item current active">
-                      <a class="nav-link nav-internal" href="#">
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="api.html">
                         API
                       </a>
                     </li>
@@ -231,15 +229,15 @@ document.write(`
 <nav class="navbar-nav">
   <ul class="bd-navbar-elements navbar-nav">
     
-                    <li class="nav-item">
+                    <li class="nav-item current active">
                       <a class="nav-link nav-internal" href="guide.html">
                         User Guide
                       </a>
                     </li>
                 
 
-                    <li class="nav-item current active">
-                      <a class="nav-link nav-internal" href="#">
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="api.html">
                         API
                       </a>
                     </li>
@@ -274,21 +272,9 @@ document.write(`
 <nav class="bd-docs-nav bd-links"
      aria-label="Section Navigation">
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
-  <div class="bd-toc-item navbar-nav"><ul class="nav bd-sidenav">
-<li class="toctree-l1 has-children"><a class="reference internal" href="api/backends.html">Backend Solvers</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="api/backends/base.html">SolverBase</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api/backends/hkl_soleil.html">hkl_soleil (HklSolver)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api/backends/no_op.html">no_op (NoOpSolver)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api/backends/th_tth_q.html">th_tth (ThTthSolver)</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="api/diffract.html">Diffractometer</a></li>
-<li class="toctree-l1"><a class="reference internal" href="api/lattice.html">Crystal Lattice</a></li>
-<li class="toctree-l1"><a class="reference internal" href="api/reflection.html">Orientation Reflection</a></li>
-<li class="toctree-l1"><a class="reference internal" href="api/sample.html">Crystalline Sample</a></li>
-<li class="toctree-l1"><a class="reference internal" href="api/wavelength_support.html">Wavelength</a></li>
-<li class="toctree-l1"><a class="reference internal" href="api/z_misc.html">Miscellaneous Support</a></li>
-<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Design for hklpy2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/demo.html">Demonstrate <strong>hklpy2</strong>’s API</a></li>
 </ul>
 </div>
 </nav></div>
@@ -326,7 +312,10 @@ document.write(`
         <i class="fa-solid fa-home"></i>
       </a>
     </li>
-    <li class="breadcrumb-item active" aria-current="page">API</li>
+    
+    <li class="breadcrumb-item"><a href="guide.html" class="nav-link">User Guide</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">Design for hklpy2</li>
   </ul>
 </nav>
 </div>
@@ -343,83 +332,128 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="api">
-<span id="id1"></span><h1>API<a class="headerlink" href="#api" title="Link to this heading">#</a></h1>
-<p>Application-Programmer Interface - the source code.</p>
-<figure class="align-default" id="id2">
-<img alt="Block hklpy2-block-diagram" src="_images/hklpy2-block-diagram.png" />
-<figcaption>
-<p><span class="caption-text">Functional blocks in  <strong>hklpy2</strong>.</span><a class="headerlink" href="#id2" title="Link to this image">#</a></p>
-</figcaption>
-</figure>
-<div class="toctree-wrapper compound">
+  <section id="design-for-hklpy2">
+<h1>Design for hklpy2<a class="headerlink" href="#design-for-hklpy2" title="Link to this heading">#</a></h1>
+<p>Gather the discussion points, thoughts, issues, etc. for development of
+<a class="reference external" href="https://github.com/prjemian/hklpy2"><em>hklpy2</em></a>, the second generation of
+the <a class="reference external" href="https://github.com/bluesky/hklpy"><em>hklpy</em></a> package.</p>
+<section id="hklpy-release-v2-0-project">
+<h2>hklpy release v2.0 project<a class="headerlink" href="#hklpy-release-v2-0-project" title="Link to this heading">#</a></h2>
+<p>As stated in the <a class="reference external" href="https://github.com/orgs/bluesky/projects/4/settings">project</a>:</p>
+<p>Redesign of the Diffractometer object.</p>
+<ul class="simple">
+<li><p>user-requested changes</p></li>
+<li><p>move libhkl to be a replaceable back-end computation library</p></li>
+<li><p>easy to save/restore configuration</p></li>
+<li><p>easy to use different <em>engines</em> (such as <code class="docutils literal notranslate"><span class="pre">hkl</span></code>, <code class="docutils literal notranslate"><span class="pre">qper_qpar</span></code>, <code class="docutils literal notranslate"><span class="pre">emergence</span></code>, …)</p></li>
+</ul>
+<section id="design-ideas">
+<h3>Design ideas<a class="headerlink" href="#design-ideas" title="Link to this heading">#</a></h3>
+<p>This is a starting format for suggestions, but it may become clear that a different format to describe our requirements is necessary.</p>
+<ol class="arabic simple">
+<li><p>Default diffractometer geometries</p></li>
+<li><p>Bragg Peak optimization tools</p></li>
+<li><p>Defining orientation matrix or matrices</p></li>
+<li><p>Simulating diffraction and diffractometer modes</p></li>
+<li><p>Built in reciprocal space plans (or scans)</p></li>
+<li><p>Choice of calculation engines other than the hkl C package</p></li>
+</ol>
+<section id="review-of-terminology-coordinate-systems">
+<h4>Review of terminology coordinate systems<a class="headerlink" href="#review-of-terminology-coordinate-systems" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p>$B$ goes from <em>hkl</em> to an orthonormal basis in the crystal reference frame</p></li>
+<li><p>$U$ goes from the crystal reference frame to the reciprocal lab frame (expressing how the crystal is stuck onto the diffractometer)</p></li>
+<li><p>Solving the diffractometer equation goes from the reciprocal lab frame to diffractometer angles. (Some people loosely call this “real space” but perhaps they shouldn’t. It’s angles.)</p></li>
+</ul>
+</section>
+<section id="desired-api">
+<h4>Desired API<a class="headerlink" href="#desired-api" title="Link to this heading">#</a></h4>
+<p>The desired “solver API” into the HKL computation code should be transformations
+from reciprocal space to diffractometer angle space and vice versa, each taking
+three arguments:</p>
+<ul class="simple">
+<li><p>a structure (dict or struct) describing a geometry (motors, reference positions, and constraints)</p></li>
+<li><p>observed mapping between real and reciprocal space to give you the “U” of the UB matrix</p></li>
+<li><p>the crystallography to give you the “B”</p></li>
+</ul>
+<p>Underneath this API could be many different solvers:</p>
+<ul class="simple">
+<li><p>custom project</p></li>
+<li><p>pybind-wrapped components from <code class="docutils literal notranslate"><span class="pre">libhkl</span></code></p></li>
+<li><p>SPEC</p></li>
+</ul>
+<p>It should be easy to switch between solvers at run time so that new things can be validated.</p>
+</section>
+<section id="support-for-additions">
+<h4>Support for Additions<a class="headerlink" href="#support-for-additions" title="Link to this heading">#</a></h4>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="api/backends.html">Backend Solvers</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="api/backends.html#how-to-select-a-solver">How to select a Solver</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api/backends.html#how-to-write-a-new-solver">How to write a new Solver</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api/backends.html#module-hklpy2.backends">Source Code Documentation</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="api/diffract.html">Diffractometer</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="api/diffract.html#module-hklpy2.diffract">Source Code Documentation</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="api/diffract.html#hklpy2.diffract.DiffractometerBase"><code class="docutils literal notranslate"><span class="pre">DiffractometerBase</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="api/lattice.html">Crystal Lattice</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="api/lattice.html#module-hklpy2.lattice">Source Code Documentation</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="api/lattice.html#hklpy2.lattice.Lattice"><code class="docutils literal notranslate"><span class="pre">Lattice</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/lattice.html#hklpy2.lattice.LatticeError"><code class="docutils literal notranslate"><span class="pre">LatticeError</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/lattice.html#hklpy2.lattice.SI_LATTICE_PARAMETER"><code class="docutils literal notranslate"><span class="pre">SI_LATTICE_PARAMETER</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/lattice.html#hklpy2.lattice.SI_LATTICE_PARAMETER_UNCERTAINTY"><code class="docutils literal notranslate"><span class="pre">SI_LATTICE_PARAMETER_UNCERTAINTY</span></code></a></li>
+<li><p><a class="reference external" href="https://github.com/bluesky/hklpy/issues/92">analyzers and polarizers</a></p>
+<p>Perhaps everything is already in place to support these items as stand alone
+ophyd objects. Here is what’s needed:</p>
+<ul class="simple">
+<li><p>[ ] Identify if we are missing items to support analyzers or polarizers</p></li>
+<li><p>[ ] Make sure we don’t over specify requirements to cause problems for analyzers or polarizers</p></li>
+<li><p>[ ] Do we need to tie these new ophyd objects together with diffractometer object?<br />
+What is the best way to do that?</p></li>
 </ul>
 </li>
 </ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="api/reflection.html">Orientation Reflection</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="api/reflection.html#module-hklpy2.reflection">Source Code Documentation</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="api/reflection.html#hklpy2.reflection.Reflection"><code class="docutils literal notranslate"><span class="pre">Reflection</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/reflection.html#hklpy2.reflection.ReflectionError"><code class="docutils literal notranslate"><span class="pre">ReflectionError</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/reflection.html#hklpy2.reflection.ReflectionsDict"><code class="docutils literal notranslate"><span class="pre">ReflectionsDict</span></code></a></li>
+</section>
+<section id="reflections">
+<h4>Reflections<a class="headerlink" href="#reflections" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/bluesky/hklpy/issues/158">write orientation reflections with scan</a>,
+<a class="reference external" href="https://github.com/bluesky/hklpy/issues/247">also</a></p></li>
+<li><p><a class="reference external" href="https://github.com/bluesky/hklpy/issues/176">identify orientation reflections</a></p></li>
+<li><p><a class="reference external" href="https://github.com/bluesky/hklpy/issues/178"><code class="docutils literal notranslate"><span class="pre">cahkl()</span></code> should make nice report when reflection can’t be reached</a></p></li>
+<li><p><a class="reference external" href="https://github.com/bluesky/hklpy/issues/189">reflection is a Python class</a></p></li>
+<li><p><a class="reference external" href="https://github.com/bluesky/hklpy/issues/219"><code class="docutils literal notranslate"><span class="pre">addReflection()</span></code>, when to use current positions</a></p></li>
+<li><p><a class="reference external" href="https://github.com/bluesky/hklpy/issues/248">avoid duplications</a></p></li>
+<li><p><a class="reference external" href="https://github.com/bluesky/hklpy/issues/293">label each reflection</a></p></li>
 </ul>
-</li>
+</section>
+<section id="other">
+<h4>Other<a class="headerlink" href="#other" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/bluesky/hklpy/issues/157">modify existing sample</a></p></li>
+<li><p><a class="reference external" href="https://github.com/bluesky/hklpy/issues/179">control display precision in <code class="docutils literal notranslate"><span class="pre">wh()</span></code> and <code class="docutils literal notranslate"><span class="pre">pa()</span></code></a></p></li>
+<li><p><a class="reference external" href="https://github.com/bluesky/hklpy/issues/291">crystallographic <em>zones</em></a></p></li>
 </ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="api/sample.html">Crystalline Sample</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="api/sample.html#module-hklpy2.sample">Source Code Documentation</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="api/sample.html#hklpy2.sample.Sample"><code class="docutils literal notranslate"><span class="pre">Sample</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/sample.html#hklpy2.sample.SampleError"><code class="docutils literal notranslate"><span class="pre">SampleError</span></code></a></li>
+</section>
+<section id="sources">
+<h4>Sources<a class="headerlink" href="#sources" title="Link to this heading">#</a></h4>
+<p>As listed in <em>hklpy</em> issues:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/bluesky/hklpy/issues/14">design conversation for an hkl solver API</a></p></li>
+<li><p><a class="reference external" href="https://github.com/bluesky/hklpy/issues/47">requirements RFP</a></p></li>
+<li><p><a class="reference external" href="https://docs.google.com/document/d/1QHNc1usAH3DoIHvtqVJTmHI0Q5lbwC4zimRLurOGiWE/edit">requirements</a></p></li>
 </ul>
-</li>
+</section>
+</section>
+</section>
+<section id="backend-solvers-as-entrypoints">
+<h2>Backend Solvers as entrypoints<a class="headerlink" href="#backend-solvers-as-entrypoints" title="Link to this heading">#</a></h2>
+<p>per <a class="reference external" href="https://github.com/bluesky/hklpy/issues/162">hklpy/#161</a> …</p>
+<blockquote>
+<div><p>It provides an useful tool for pluggable Python software development.</p>
+</div></blockquote>
+<p><a class="reference external" href="https://stackoverflow.com/a/9615473/1046449">Article with example</a>
+about entrypoints.</p>
+<p>Demo (9 years old): https://github.com/RichardBronosky/entrypoint_demo</p>
+<p>See the docs in setuptools regarding <a class="reference external" href="https://setuptools.pypa.io/en/latest/userguide/entry_point.html#entry-points-for-plugins"><em>Entry Points for
+Plugins</em></a>.</p>
+<section id="additional-solvers">
+<h3>Additional Solvers<a class="headerlink" href="#additional-solvers" title="Link to this heading">#</a></h3>
+<p>As listed in <em>hklpy</em> issues.</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/bluesky/hklpy/issues/244"><em>ad-hoc</em> geometries</a></p></li>
+<li><p><a class="reference external" href="https://github.com/bluesky/hklpy/issues/163">diffcalc</a></p></li>
+<li><p><a class="reference external" href="https://github.com/bluesky/hklpy/issues/165">TwoC unknown</a></p></li>
+<li><p><a class="reference external" href="https://github.com/bluesky/hklpy/issues/162">xrayutilities</a></p></li>
+<li><p>SPEC server</p></li>
 </ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="api/wavelength_support.html">Wavelength</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="api/wavelength_support.html#module-hklpy2.wavelength_support">Source Code Documentation</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="api/wavelength_support.html#hklpy2.wavelength_support.A_KEV"><code class="docutils literal notranslate"><span class="pre">A_KEV</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/wavelength_support.html#hklpy2.wavelength_support.ConstantMonochromaticWavelength"><code class="docutils literal notranslate"><span class="pre">ConstantMonochromaticWavelength</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/wavelength_support.html#hklpy2.wavelength_support.MonochromaticXrayWavelength"><code class="docutils literal notranslate"><span class="pre">MonochromaticXrayWavelength</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/wavelength_support.html#hklpy2.wavelength_support.WavelengthBase"><code class="docutils literal notranslate"><span class="pre">WavelengthBase</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/wavelength_support.html#hklpy2.wavelength_support.WavelengthError"><code class="docutils literal notranslate"><span class="pre">WavelengthError</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/wavelength_support.html#hklpy2.wavelength_support.XRAY_ENERGY_EQUIVALENT_"><code class="docutils literal notranslate"><span class="pre">XRAY_ENERGY_EQUIVALENT_</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="api/z_misc.html">Miscellaneous Support</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="api/z_misc.html#module-hklpy2.misc">Source Code Documentation</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="api/z_misc.html#hklpy2.misc.SOLVER_ENTRYPOINT_GROUP"><code class="docutils literal notranslate"><span class="pre">SOLVER_ENTRYPOINT_GROUP</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/z_misc.html#hklpy2.misc.SolverError"><code class="docutils literal notranslate"><span class="pre">SolverError</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/z_misc.html#hklpy2.misc.get_solver"><code class="docutils literal notranslate"><span class="pre">get_solver()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/z_misc.html#hklpy2.misc.solvers"><code class="docutils literal notranslate"><span class="pre">solvers()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/z_misc.html#hklpy2.misc.unique_name"><code class="docutils literal notranslate"><span class="pre">unique_name()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
-</ul>
-</div>
+</section>
+</section>
 </section>
 
 
@@ -433,20 +467,20 @@ document.write(`
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="notebooks/demo.html"
+       href="guide.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Demonstrate <strong>hklpy2</strong>’s API</p>
+        <p class="prev-next-title">User Guide</p>
       </div>
     </a>
     <a class="right-next"
-       href="api/backends.html"
+       href="notebooks/demo.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Backend Solvers</p>
+        <p class="prev-next-title">Demonstrate <strong>hklpy2</strong>’s API</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -461,9 +495,36 @@ document.write(`
 
 
   <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy-release-v2-0-project">hklpy release v2.0 project</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#design-ideas">Design ideas</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#review-of-terminology-coordinate-systems">Review of terminology coordinate systems</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#desired-api">Desired API</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#support-for-additions">Support for Additions</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#reflections">Reflections</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#other">Other</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sources">Sources</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#backend-solvers-as-entrypoints">Backend Solvers as entrypoints</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#additional-solvers">Additional Solvers</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
 
   <div class="tocsection sourcelink">
-    <a href="_sources/api.rst.txt">
+    <a href="_sources/design-discussion.md.txt">
       <i class="fa-solid fa-file-lines"></i> Show Source
     </a>
   </div>
