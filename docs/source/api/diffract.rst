@@ -68,14 +68,15 @@ class (with some extra axes)::
     twoc = MyTwoC("", name="twoc")
 
 When creating the |solver| instance, the caller specifies the required axes in
-the order expected by the |solver|. The ``"TH TTH Q"`` geometry expects ``q`` as the
-only pseudo axis and ``th`` and ``tth`` as the two real axes (no extra axes).
-Connect the user-defined axes of the diffractometer with the canonical axis
-names expected by the solver like this::
+the order expected by the |solver|. The ``"TH TTH Q"`` geometry expects ``q`` as
+the only pseudo axis and ``th`` and ``tth`` as the two real axes (no extra axes).
+Connect the user-defined axes of the diffractometer with the axes in the order
+expected by the solver like this::
 
-    solver_class = get_solver("th_tth")
-    # TODO: pick the "TH TTH Q" geometry
-    twoc.backend_solver = solver_class(
+    from hklpy2 import solver_factory
+    twoc.backend_solver = solver_factory(
+        "th_tth",
+        "TH TTH Q",
         pseudos=[twoc.q],
         reals=[twoc.theta, twoc.ttheta],
         extras=[],
@@ -91,6 +92,8 @@ Source Code Documentation
 
 Inherited members, from ``ophyd.PseudoPositioner``
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. so many inherited members, list separately
 
 .. automodule:: hklpy2.diffract
     :inherited-members:

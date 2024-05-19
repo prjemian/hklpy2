@@ -7,6 +7,7 @@ Miscellaneous Support.
     ~SolverError
     ~get_solver
     ~solvers
+    ~solver_factory
     ~unique_name
 """
 
@@ -38,6 +39,25 @@ def get_solver(solver_name):
     """
     entries = entry_points(group=SOLVER_ENTRYPOINT_GROUP)
     return entries[solver_name].load()
+
+
+def solver_factory(
+    solver_name: str,
+    geometry: str,
+    pseudos: list = [],
+    reals: list = [],
+    extras: list = [],
+):
+    """
+    Create a |solver| object with geometry and axes.
+    """
+    solver_class = get_solver(solver_name)
+    return solver_class(
+        geometry=geometry,
+        pseudos=pseudos,
+        reals=reals,
+        extras=extras,
+    )
 
 
 def solvers():

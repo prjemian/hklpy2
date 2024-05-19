@@ -6,10 +6,13 @@ Backend: abstract base class
     ~SolverBase
 """
 
+import logging
 from abc import ABC
 from abc import abstractmethod
 
 from .. import __version__
+
+logger = logging.getLogger(__name__)
 
 
 class SolverBase(ABC):
@@ -67,11 +70,26 @@ class SolverBase(ABC):
     __version__ = __version__
     """Version of this Solver."""
 
-    def __init__(self) -> None:
+    def __init__(self, *args, **kwargs) -> None:
+        # TODO: setup geometry
+        # twoc.backend_solver = solver_class(
+        #     geometry="TH TTH Q",
+        #     pseudos=[twoc.q],
+        #     reals=[twoc.theta, twoc.ttheta],
+        #     extras=[],
+        # )
+
         self._geometry = None
+        logger.debug("args=%s, kwargs=%s", repr(args), repr(kwargs))
 
     def __repr__(self) -> str:
-        return f"{self.__class__.__name__}(" f"name={self.__name__!r}, " f"version={self.__version__!r})"
+        # fmt: off
+        args = [
+            f"{s}={getattr(self, f'__{s}__')!r}"
+            for s in "name version".split()
+        ]
+        # fmt: on
+        return f"{self.__class__.__name__}({', '.join(args)})"
 
     @abstractmethod
     def addReflection(self, pseudos, reals, wavelength):
@@ -112,10 +130,6 @@ class SolverBase(ABC):
     @geometry.setter
     @abstractmethod
     def geometry(self, value):
-        if not isinstance(value, (type(None), str)):
-            raise TypeError(f"Must supply str, received {value!r}")
-        if value not in self.geometries:
-            raise KeyError(f"Geometry {value} unknown. Pick one of: {self.geometries!r}")
         self._geometry = value
 
     @abstractmethod

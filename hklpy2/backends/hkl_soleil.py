@@ -12,6 +12,8 @@ Example::
     ~HklSolver
 """
 
+import logging
+
 from .. import SolverError  # noqa: E402
 
 try:
@@ -25,6 +27,8 @@ from gi.repository import GLib  # noqa: E402, F401, W0611
 from gi.repository import Hkl as libhkl  # noqa: E402
 
 from .. import SolverBase  # noqa: E402
+
+logger = logging.getLogger(__name__)
 
 
 class HklSolver(SolverBase):
@@ -62,7 +66,7 @@ class HklSolver(SolverBase):
     __name__ = "hkl_soleil"
     __version__ = libhkl.VERSION
 
-    def __init__(self) -> None:
+    def __init__(self, *args, **kwargs) -> None:
         super().__init__()
 
         self.detector = libhkl.Detector.factory_new(libhkl.DetectorType(0))
@@ -140,7 +144,9 @@ class HklSolver(SolverBase):
         if not isinstance(value, (type(None), str)):
             raise TypeError(f"Must supply str, received {value!r}")
         if value not in self.geometries:
-            raise KeyError(f"Geometry {value} unknown.")
+            raise KeyError(
+                f"Geometry {value} unknown. Pick one of: {self.geometries!r}"
+            )
 
         self._geometry = value
 

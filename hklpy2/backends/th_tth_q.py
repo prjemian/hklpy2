@@ -14,6 +14,7 @@ Example::
     ~ThTthSolver
 """
 
+import logging
 import math
 
 from .. import Reflection
@@ -21,6 +22,7 @@ from .. import SolverError
 from .. import __version__
 from .base import SolverBase
 
+logger = logging.getLogger(__name__)
 TH_TTH_Q_GEOMETRY = "TH TTH Q"
 
 
@@ -69,7 +71,7 @@ class ThTthSolver(SolverBase):
     __name__ = "th_tth"
     __version__ = __version__
 
-    def __init__(self) -> None:
+    def __init__(self, *args, **kwargs) -> None:
         super().__init__()
         self._geometry = None
         self._reflections = []
@@ -130,7 +132,9 @@ class ThTthSolver(SolverBase):
         if not isinstance(value, (type(None), str)):
             raise TypeError(f"Must supply str, received {value!r}")
         if value not in self.geometries:
-            raise KeyError(f"Geometry {value} unknown.")
+            raise KeyError(
+                f"Geometry {value} unknown. Pick one of: {self.geometries!r}"
+            )
         self._geometry = value
 
     def inverse(self, reals: dict):

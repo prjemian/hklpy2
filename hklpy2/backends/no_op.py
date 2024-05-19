@@ -14,8 +14,12 @@ Example::
     ~NoOpSolver
 """
 
+import logging
+
 from .. import __version__
 from .base import SolverBase
+
+logger = logging.getLogger(__name__)
 
 
 class NoOpSolver(SolverBase):
@@ -52,7 +56,7 @@ class NoOpSolver(SolverBase):
     __name__ = "no_op"
     __version__ = __version__
 
-    def __init__(self) -> None:
+    def __init__(self, *args, **kwargs) -> None:
         super().__init__()
         self._geometry = None
 
@@ -83,8 +87,8 @@ class NoOpSolver(SolverBase):
 
     @geometry.setter
     def geometry(self, value):
-        if not isinstance(value, (type(None), str)):
-            raise TypeError(f"Must supply str, received {value!r}")
+        if value not in self.geometries:
+            raise KeyError(f"Geometry {value} unknown.")
         self._geometry = value
 
     def inverse(self, reals: dict):
