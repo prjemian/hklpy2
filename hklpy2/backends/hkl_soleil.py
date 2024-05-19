@@ -143,21 +143,25 @@ class HklSolver(SolverBase):
     def geometry(self, value):
         if not isinstance(value, (type(None), str)):
             raise TypeError(f"Must supply str, received {value!r}")
-        if value not in self.geometries:
+        if value not in self.geometries and value is not None:
             raise KeyError(
                 f"Geometry {value} unknown. Pick one of: {self.geometries!r}"
             )
 
         self._geometry = value
+        if value is None:
+            self._factory = None
+            self._real_axis_names = None
+            self._pseudo_axis_names = None
+        else:
+            gname, engine = [s.strip() for s in value.split(",")]
+            self._factory = libhkl.factories()[gname]
+            engines = self._factory.create_new_engine_list()
+            engine = engines.engine_get_by_name(engine)
 
-        gname, engine = [s.strip() for s in value.split(",")]
-        self._factory = libhkl.factories()[gname]
-        engines = self._factory.create_new_engine_list()
-        engine = engines.engine_get_by_name(engine)
-
-        g = self._factory.create_new_geometry()
-        self._real_axis_names = g.axis_names_get()
-        self._pseudo_axis_names = engine.pseudo_axis_names_get()
+            g = self._factory.create_new_geometry()
+            self._real_axis_names = g.axis_names_get()
+            self._pseudo_axis_names = engine.pseudo_axis_names_get()
 
     def inverse(self, reals: dict):
         """Compute tuple of pseudos from reals (angles -> hkl)."""

@@ -131,7 +131,7 @@ class ThTthSolver(SolverBase):
     def geometry(self, value):
         if not isinstance(value, (type(None), str)):
             raise TypeError(f"Must supply str, received {value!r}")
-        if value not in self.geometries:
+        if value not in self.geometries and value is not None:
             raise KeyError(
                 f"Geometry {value} unknown. Pick one of: {self.geometries!r}"
             )

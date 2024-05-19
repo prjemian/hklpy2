@@ -70,17 +70,24 @@ class SolverBase(ABC):
     __version__ = __version__
     """Version of this Solver."""
 
-    def __init__(self, *args, **kwargs) -> None:
-        # TODO: setup geometry
-        # twoc.backend_solver = solver_class(
-        #     geometry="TH TTH Q",
-        #     pseudos=[twoc.q],
-        #     reals=[twoc.theta, twoc.ttheta],
-        #     extras=[],
-        # )
-
-        self._geometry = None
-        logger.debug("args=%s, kwargs=%s", repr(args), repr(kwargs))
+    def __init__(
+        self,
+        geometry: str = None,
+        pseudos: list = [],
+        reals: list = [],
+        extras: list = [],
+        **kwargs,
+    ) -> None:
+        self.geometry = geometry
+        # TODO: stash the pseudos, reals, & extras
+        logger.debug(
+            "geometry=%s, pseudos=%s, reals=%s, extras=%s, kwargs=%s",
+            repr(geometry),
+            repr(pseudos),
+            repr(reals),
+            repr(extras),
+            repr(kwargs),
+        )
 
     def __repr__(self) -> str:
         # fmt: off
@@ -88,6 +95,7 @@ class SolverBase(ABC):
             f"{s}={getattr(self, f'__{s}__')!r}"
             for s in "name version".split()
         ]
+        args.append(f"geometry={self.geometry!r}")
         # fmt: on
         return f"{self.__class__.__name__}({', '.join(args)})"
 

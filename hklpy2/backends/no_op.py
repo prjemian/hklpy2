@@ -87,8 +87,6 @@ class NoOpSolver(SolverBase):
 
     @geometry.setter
     def geometry(self, value):
-        if value not in self.geometries:
-            raise KeyError(f"Geometry {value} unknown.")
         self._geometry = value
 
     def inverse(self, reals: dict):
