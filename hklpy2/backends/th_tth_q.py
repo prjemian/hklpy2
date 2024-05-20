@@ -72,7 +72,7 @@ class ThTthSolver(SolverBase):
     __version__ = __version__
 
     def __init__(self, *args, **kwargs) -> None:
-        super().__init__()
+        super().__init__(*args, **kwargs)
         self._geometry = None
         self._reflections = []
         self._wavelength = None

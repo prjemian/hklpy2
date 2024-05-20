@@ -79,7 +79,11 @@ class SolverBase(ABC):
         **kwargs,
     ) -> None:
         self.geometry = geometry
-        # TODO: stash the pseudos, reals, & extras
+
+        self.user_pseudos = pseudos
+        self.user_reals = reals
+        self.user_extras = extras
+
         logger.debug(
             "geometry=%s, pseudos=%s, reals=%s, extras=%s, kwargs=%s",
             repr(geometry),

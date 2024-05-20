@@ -67,11 +67,10 @@ class HklSolver(SolverBase):
     __version__ = libhkl.VERSION
 
     def __init__(self, *args, **kwargs) -> None:
-        super().__init__()
+        super().__init__(*args, **kwargs)
 
         self.detector = libhkl.Detector.factory_new(libhkl.DetectorType(0))
         self._factory = None
-        self._geometry = None
         self.user_units = libhkl.UnitEnum.USER
         self._pseudo_axis_names = []
         self._real_axis_names = []
