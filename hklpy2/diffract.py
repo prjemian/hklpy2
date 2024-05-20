@@ -10,6 +10,8 @@ import logging
 
 from ophyd import Component as Cpt
 from ophyd import PseudoPositioner
+from ophyd.pseudopos import pseudo_position_argument
+from ophyd.pseudopos import real_position_argument
 from ophyd.signal import AttributeSignal
 
 from . import Hklpy2Error
@@ -113,6 +115,16 @@ class DiffractometerBase(PseudoPositioner):
 
         super().__init__(*args, **kwargs)
 
+    @pseudo_position_argument
+    def forward(self, pseudos: dict):
+        """Compute tuple of reals from pseudos (hkl -> angles)."""
+        return tuple((0, 0, 0, 0, 0, 0, 0, 0, 0, 0))  # FIXME
+
+    @real_position_argument
+    def inverse(self, reals: dict):
+        """Compute tuple of pseudos from reals (angles -> hkl)."""
+        return tuple((0, 0, 0, 0, 0, 0, 0, 0, 0, 0))  # FIXME
+
     # ---- get/set properties
 
     @property
@@ -133,7 +145,7 @@ class DiffractometerBase(PseudoPositioner):
         """Backend |solver| library name."""
         if self._solver == UNDEFINED:
             return ""
-        return self._solver.__name__
+        return self._solver.name
 
     @solver_name.setter
     def solver_name(self, value: str):

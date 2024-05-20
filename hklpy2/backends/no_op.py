@@ -53,8 +53,8 @@ class NoOpSolver(SolverBase):
         ~modes
     """
 
-    __name__ = "no_op"
-    __version__ = __version__
+    name = "no_op"
+    version = __version__
 
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)

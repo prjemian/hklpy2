@@ -12,6 +12,7 @@ from abc import abstractmethod
 
 from .. import __version__
 from ..misc import UNDEFINED
+from ..misc import SolverError
 
 logger = logging.getLogger(__name__)
 
@@ -46,6 +47,7 @@ class SolverBase(ABC):
 
         ~addReflection
         ~addSample
+        ~auto_assign_axes
         ~calculateOrientation
         ~extra_axis_names
         ~forward
@@ -63,14 +65,12 @@ class SolverBase(ABC):
         ~lattice
         ~mode
         ~modes
-        ~name
-        ~version
     """
 
-    __name__ = "base"
+    name = "base"
     """Name of this Solver."""
 
-    __version__ = __version__
+    version = __version__
     """Version of this Solver."""
 
     def __init__(
@@ -112,6 +112,27 @@ class SolverBase(ABC):
     @abstractmethod
     def addSample(self, sample):
         """Add a sample."""
+
+    def auto_assign_axes(self, diffractometer):
+        """Automatically assign diffractometer axes to this solver."""
+        pnames = self.pseudo_axis_names
+        np = len(pnames)
+        if len(diffractometer.pseudo_positioners) < np:
+            raise SolverError(f"Need these pseudo axes: {pnames!r}")
+
+        rnames = self.real_axis_names
+        nr = len(rnames)
+        if len(diffractometer.real_positioners) < nr:
+            raise SolverError(f"Need these real axes: {rnames!r}")
+
+        self.user_pseudos = diffractometer.pseudo_positioners[:np]
+        self.user_reals = diffractometer.real_positioners[:nr]
+
+        # any (and all) remaining are assigned into extras
+        self.user_extras = (
+            diffractometer.pseudo_positioners[np:]
+            + diffractometer.real_positioners[nr:]
+        )
 
     @abstractmethod
     def calculateOrientation(self, r1, r2):
@@ -208,13 +229,3 @@ class SolverBase(ABC):
     @abstractmethod
     def refineLattice(self, reflections):
         """Refine the lattice parameters from a list of reflections."""
-
-    @property
-    def name(self):
-        """Name of this Solver."""
-        return self.__name__
-
-    @property
-    def version(self):
-        """Version of this Solver."""
-        return self.__version__

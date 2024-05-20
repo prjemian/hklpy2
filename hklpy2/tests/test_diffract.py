@@ -97,18 +97,16 @@ def test_goniometer(solver, gname, geometry, npseudos, nreals):
     assert isinstance(value, str), f"{value=!r} {reason=!r}"
     assert value == "", f"{value=!r} {solver=!r} {reason=!r}"
 
-    # position needs a solver
-    with pytest.raises(NotImplementedError) as reason:
+    with does_not_raise() as reason:
         goniometer.position
-    assert "NotImplementedError" in str(reason), f"{reason=!r}"
-    # report needs position
-    with pytest.raises(NotImplementedError) as reason:
+    assert reason is None
+    with does_not_raise() as reason:
         goniometer.report
-    assert "NotImplementedError" in str(reason), f"{reason=!r}"
+    assert reason is None
 
     solver_object = solver_factory(solver, geometry=gname)
     assert solver_object is not None
-    assert solver_object.__name__ == solver
+    assert solver_object.name == solver
 
 
 def test_extras():
@@ -126,3 +124,4 @@ def test_extras():
         extras=[fourc.h2, fourc.k2, fourc.l2, fourc.psi],
     )
     assert solver is not None
+    # TODO:

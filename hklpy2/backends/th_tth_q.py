@@ -68,8 +68,8 @@ class ThTthSolver(SolverBase):
         ~modes
     """
 
-    __name__ = "th_tth"
-    __version__ = __version__
+    name = "th_tth"
+    version = __version__
 
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)

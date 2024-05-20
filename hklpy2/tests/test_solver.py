@@ -20,8 +20,8 @@ def test_solvers(solver_name):
     assert inspect.isclass(solver_class)
 
     solver = solver_class()
-    assert isinstance(solver.__version__, str)
-    assert len(solver.__version__) > 0, f"{solver.__version__=}"
+    assert isinstance(solver.version, str)
+    assert len(solver.version) > 0, f"{solver.version=}"
 
 
 def test_HklSolver():
@@ -30,7 +30,7 @@ def test_HklSolver():
 
     solver = Solver()
     assert solver is not None
-    assert isinstance(solver.__version__, str)
+    assert isinstance(solver.version, str)
 
     gname = "ESRF ID01 PSIC"
     solver.geometry = f"{gname}, hkl"

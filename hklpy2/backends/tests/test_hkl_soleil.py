@@ -10,8 +10,8 @@ def test_version():
     assert "HklSolver" in dir(hkl_soleil)
 
     solver = hkl_soleil.HklSolver()
-    assert isinstance(solver.__version__, str)
-    assert solver.__version__ == libhkl.VERSION
+    assert isinstance(solver.version, str)
+    assert solver.version == libhkl.VERSION
 
 
 @pytest.mark.parametrize(

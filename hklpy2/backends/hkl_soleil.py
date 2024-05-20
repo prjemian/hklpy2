@@ -63,17 +63,17 @@ class HklSolver(SolverBase):
         ~modes
     """
 
-    __name__ = "hkl_soleil"
-    __version__ = libhkl.VERSION
+    name = "hkl_soleil"
+    version = libhkl.VERSION
 
     def __init__(self, *args, **kwargs) -> None:
+        self._pseudo_axis_names = []
+        self._real_axis_names = []
         super().__init__(*args, **kwargs)
 
         self.detector = libhkl.Detector.factory_new(libhkl.DetectorType(0))
         self._engine = UNDEFINED
         self._factory = UNDEFINED
-        self._pseudo_axis_names = []
-        self._real_axis_names = []
         self.user_units = libhkl.UnitEnum.USER
 
     def __repr__(self) -> str:
@@ -181,7 +181,8 @@ class HklSolver(SolverBase):
 
     def inverse(self, reals: dict):
         """Compute tuple of pseudos from reals (angles -> hkl)."""
-        return tuple()  # TODO
+        print(f"{__name__=} inverse({reals=!r})")
+        return tuple(0, 0, 0)  # TODO
 
     @property
     def modes(self):

@@ -13,7 +13,7 @@ def test_solver():
 
     solver = ThTthSolver()
     assert isinstance(solver, SolverBase)
-    assert solver.__name__ == "th_tth"
+    assert solver.name == "th_tth"
     assert solver.geometries == ["TH TTH Q"]
 
     assert solver.geometry is None
