@@ -48,6 +48,11 @@ class DiffractometerBase(PseudoPositioner):
 
     .. rubric:: Python Methods
 
+    .. autosummary::
+
+        ~forward
+        ~inverse
+
     .. rubric:: Python Properties
 
     .. autosummary::
