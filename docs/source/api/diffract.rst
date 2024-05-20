@@ -12,8 +12,8 @@ Diffractometer
   :class:`~hklpy2.diffract.DiffractometerBase()`, adding a variety of
   positioners as ophyd Components.  In an instance of that subclass, user
   sets :attr:`~hklpy2.diffract.DiffractometerBase.backend_solver` by calling
-  :func:`~hklpy2.misc.get_solver`
-  and defines which Components are to be used as
+  :func:`~hklpy2.misc.solver_factory`.  In this call, the user specifies the solver,
+  the geometry, and defines which Components (of the diffractometer) are to be used as
   pseudos, reals, and extras.  The backend implements
   :meth:`~hklpy2.backends.base.SolverBase.forward`,
   :meth:`~hklpy2.backends.base.SolverBase.inverse`, and all related support, for

@@ -43,6 +43,7 @@ def get_solver(solver_name):
 
 def solver_factory(
     solver_name: str,
+    *,  # all kwargs must be specified by name
     geometry: str,
     pseudos: list = [],
     reals: list = [],
