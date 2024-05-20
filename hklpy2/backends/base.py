@@ -11,6 +11,7 @@ from abc import ABC
 from abc import abstractmethod
 
 from .. import __version__
+from ..misc import UNDEFINED
 
 logger = logging.getLogger(__name__)
 
@@ -62,6 +63,8 @@ class SolverBase(ABC):
         ~lattice
         ~mode
         ~modes
+        ~name
+        ~version
     """
 
     __name__ = "base"
@@ -72,7 +75,7 @@ class SolverBase(ABC):
 
     def __init__(
         self,
-        geometry: str = None,
+        geometry: str = UNDEFINED,
         pseudos: list = [],
         reals: list = [],
         extras: list = [],
@@ -96,10 +99,9 @@ class SolverBase(ABC):
     def __repr__(self) -> str:
         # fmt: off
         args = [
-            f"{s}={getattr(self, f'__{s}__')!r}"
-            for s in "name version".split()
+            f"{s}={getattr(self, s)!r}"
+            for s in "name version geometry".split()
         ]
-        args.append(f"geometry={self.geometry!r}")
         # fmt: on
         return f"{self.__class__.__name__}({', '.join(args)})"
 
@@ -174,12 +176,12 @@ class SolverBase(ABC):
         try:
             self._mode
         except AttributeError:
-            self._mode = None
+            self._mode = UNDEFINED
         return self._mode
 
     @mode.setter
     def mode(self, value):
-        if not isinstance(value, (type(None), str)):
+        if not isinstance(value, str):
             raise TypeError(f"Must supply str, received {value!r}")
         if value not in self.modes:
             raise KeyError(f"Mode {value} unknown. Pick one of: {self.modes!r}")
@@ -206,3 +208,13 @@ class SolverBase(ABC):
     @abstractmethod
     def refineLattice(self, reflections):
         """Refine the lattice parameters from a list of reflections."""
+
+    @property
+    def name(self):
+        """Name of this Solver."""
+        return self.__name__
+
+    @property
+    def version(self):
+        """Version of this Solver."""
+        return self.__version__

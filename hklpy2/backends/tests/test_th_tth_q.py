@@ -2,6 +2,7 @@ import numpy as np
 import pytest
 
 from ... import get_solver
+from ...misc import UNDEFINED
 from .. import SolverBase
 from ..th_tth_q import ThTthSolver
 
@@ -24,7 +25,7 @@ def test_solver():
     assert solver.pseudo_axis_names == ["q"]
     assert solver.real_axis_names == "th tth".split()
 
-    assert solver.mode is None
+    assert solver.mode == UNDEFINED
     solver.mode = "bisector"
     assert solver.mode == "bisector"
 

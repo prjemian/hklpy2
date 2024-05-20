@@ -129,9 +129,11 @@ class ThTthSolver(SolverBase):
 
     @geometry.setter
     def geometry(self, value):
+        from .. import UNDEFINED
+
         if not isinstance(value, (type(None), str)):
             raise TypeError(f"Must supply str, received {value!r}")
-        if value not in self.geometries and value is not None:
+        if value not in self.geometries and value != UNDEFINED:
             raise KeyError(
                 f"Geometry {value} unknown. Pick one of: {self.geometries!r}"
             )

@@ -8,6 +8,7 @@ Miscellaneous Support.
     ~get_solver
     ~solvers
     ~solver_factory
+    ~UNDEFINED
     ~unique_name
 """
 
@@ -21,6 +22,9 @@ logger = logging.getLogger(__name__)
 
 SOLVER_ENTRYPOINT_GROUP = "hklpy2.solver"
 """Name by which |hklpy2| backend |solver| classes are grouped."""
+
+UNDEFINED = str(object().__hash__())
+"""Undefined, constant, text."""
 
 
 class SolverError(Hklpy2Error):
@@ -37,6 +41,8 @@ def get_solver(solver_name):
         SolverClass = hklpy2.get_solver("hkl_soleil")
         libhkl_solver = SolverClass()
     """
+    if solver_name not in solvers():
+        raise SolverError(f"{solver_name=!r} unknown.  Pick one of: {solvers()!r}")
     entries = entry_points(group=SOLVER_ENTRYPOINT_GROUP)
     return entries[solver_name].load()
 

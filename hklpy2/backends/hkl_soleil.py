@@ -14,7 +14,9 @@ Example::
 
 import logging
 
-from .. import SolverError  # noqa: E402
+from .. import UNDEFINED
+from .. import SolverBase
+from .. import SolverError
 
 try:
     import gi
@@ -25,8 +27,6 @@ gi.require_version("Hkl", "5.0")
 
 from gi.repository import GLib  # noqa: E402, F401, W0611
 from gi.repository import Hkl as libhkl  # noqa: E402
-
-from .. import SolverBase  # noqa: E402
 
 logger = logging.getLogger(__name__)
 
@@ -70,10 +70,20 @@ class HklSolver(SolverBase):
         super().__init__(*args, **kwargs)
 
         self.detector = libhkl.Detector.factory_new(libhkl.DetectorType(0))
-        self._factory = None
-        self.user_units = libhkl.UnitEnum.USER
+        self._engine = UNDEFINED
+        self._factory = UNDEFINED
         self._pseudo_axis_names = []
         self._real_axis_names = []
+        self.user_units = libhkl.UnitEnum.USER
+
+    def __repr__(self) -> str:
+        # fmt: off
+        args = [
+            f"{s}={getattr(self, s)!r}"
+            for s in "name version geometry engine".split()
+        ]
+        # fmt: on
+        return f"{self.__class__.__name__}({', '.join(args)})"
 
     def addReflection(self, pseudos, reals, wavelength):  # TODO
         """Add coordinates of a diffraction condition (a reflection)."""
@@ -83,6 +93,12 @@ class HklSolver(SolverBase):
 
     def calculateOrientation(self, r1, r2):  # TODO
         """Calculate the UB (orientation) matrix from two reflections."""
+
+    @property
+    def engine(self):
+        if self._engine == UNDEFINED:
+            return ""
+        return self._engine.name_get()
 
     @property
     def extra_axis_names(self):
@@ -113,7 +129,6 @@ class HklSolver(SolverBase):
 
         So the geometry *names* include both the geometry and its computational
         engine, such as `"E4CV, hkl"`.
-
         """
         geometries = []
         for fname, factory in libhkl.factories().items():
@@ -140,27 +155,29 @@ class HklSolver(SolverBase):
 
     @geometry.setter
     def geometry(self, value):
-        if not isinstance(value, (type(None), str)):
+        if not isinstance(value, str):
             raise TypeError(f"Must supply str, received {value!r}")
-        if value not in self.geometries and value is not None:
+        if value not in self.geometries and value != UNDEFINED:
             raise KeyError(
                 f"Geometry {value} unknown. Pick one of: {self.geometries!r}"
             )
 
         self._geometry = value
-        if value is None:
-            self._factory = None
-            self._real_axis_names = None
-            self._pseudo_axis_names = None
+        if value == UNDEFINED:
+            self._factory = UNDEFINED
+            self._real_axis_names = []
+            self._pseudo_axis_names = []
         else:
-            gname, engine = [s.strip() for s in value.split(",")]
+            if "," not in value:
+                value += ", hkl"  # allow for default engine of 'hkl
+            gname, engine_name = [s.strip() for s in value.split(",")]
             self._factory = libhkl.factories()[gname]
             engines = self._factory.create_new_engine_list()
-            engine = engines.engine_get_by_name(engine)
+            self._engine = engines.engine_get_by_name(engine_name)
 
             g = self._factory.create_new_geometry()
             self._real_axis_names = g.axis_names_get()
-            self._pseudo_axis_names = engine.pseudo_axis_names_get()
+            self._pseudo_axis_names = self._engine.pseudo_axis_names_get()
 
     def inverse(self, reals: dict):
         """Compute tuple of pseudos from reals (angles -> hkl)."""

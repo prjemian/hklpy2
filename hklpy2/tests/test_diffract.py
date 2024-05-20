@@ -1,6 +1,7 @@
 """Test the hklpy2.diffract module."""
 
 import math
+from contextlib import nullcontext as does_not_raise
 
 import pytest
 from ophyd import Component as Cpt
@@ -9,6 +10,9 @@ from ophyd import PseudoSingle
 from ophyd import SoftPositioner
 
 from ..diffract import DiffractometerBase
+from ..diffract import DiffractometerError
+from ..misc import get_solver
+from ..misc import solver_factory
 from ..wavelength_support import DEFAULT_WAVELENGTH
 from ..wavelength_support import DEFAULT_WAVELENGTH_UNITS
 
@@ -26,6 +30,12 @@ class Fourc(DiffractometerBase):
     chi = Cpt(SoftPositioner, limits=(-180, 180), init_pos=0, kind=NORMAL_HINTED)
     phi = Cpt(SoftPositioner, limits=(-180, 180), init_pos=0, kind=NORMAL_HINTED)
     tth = Cpt(SoftPositioner, limits=(-170, 170), init_pos=0, kind=NORMAL_HINTED)
+
+    h2 = Cpt(PseudoSingle, "", kind=NORMAL_HINTED)  # noqa: E741
+    k2 = Cpt(PseudoSingle, "", kind=NORMAL_HINTED)  # noqa: E741
+    l2 = Cpt(PseudoSingle, "", kind=NORMAL_HINTED)  # noqa: E741
+
+    psi = Cpt(SoftPositioner, limits=(-170, 170), init_pos=0, kind=NORMAL_HINTED)
 
 
 class Th2Th(DiffractometerBase):
@@ -49,17 +59,22 @@ class TwoC(DiffractometerBase):
 
 
 def test_DiffractometerBase():
-    # TODO: Until more of the base class is developed, an exception
-    # will be raised if an object is created.  Test that situation.
-    with pytest.raises(ValueError) as reason:
+    with pytest.raises((DiffractometerError, ValueError)) as reason:
         DiffractometerBase("", name="dbase")
-    assert "Must have at least 1 positioner and pseudo-positioner" in str(reason)
+    if reason.type == "ValueError":
+        assert "Must have at least 1 positioner" in str(reason)
+    if reason.type == "DiffractometerError":
+        assert "Pick one of these" in str(reason), f"{reason.value=!r}"
 
 
 @pytest.mark.parametrize(
-    "geometry, npseudos, nreals", [[Fourc, 3, 4], [Th2Th, 1, 2], [TwoC, 2, 3]]
+    "geometry, npseudos, nreals", [[Fourc, 6, 5], [Th2Th, 1, 2], [TwoC, 2, 3]]
 )
-def test_goniometer(geometry, npseudos, nreals):
+@pytest.mark.parametrize(
+    "solver, gname",
+    [["no_op", ""], ["hkl_soleil", "E4CV, hkl"], ["th_tth", "TH TTH Q"]],
+)
+def test_goniometer(solver, gname, geometry, npseudos, nreals):
     goniometer = geometry("", name="goniometer")
     assert goniometer is not None
     assert len(goniometer.pseudo_positioners) == npseudos
@@ -67,13 +82,47 @@ def test_goniometer(geometry, npseudos, nreals):
     assert len(goniometer.real_positioners) == nreals
     assert len(goniometer._real) == nreals
     assert not goniometer.moving
+
+    # test the wavelength
     assert math.isclose(goniometer.wavelength.get(), DEFAULT_WAVELENGTH, abs_tol=0.001)
     assert goniometer.wavelength_units.get() == DEFAULT_WAVELENGTH_UNITS
-    assert goniometer.solver.get() is None
 
-    # TODO: position needs a solver
-    # assert goniometer.position == position, f"{goniometer.position=!r}"
+    # test the solver
+    assert hasattr(goniometer, "solver_name")
+    assert goniometer.solver_name == "", f"{goniometer.solver_name=!r}"
+    assert hasattr(goniometer, "solver")
+    with does_not_raise() as reason:
+        value = goniometer.solver.get()
+    assert reason is None
+    assert isinstance(value, str), f"{value=!r} {reason=!r}"
+    assert value == "", f"{value=!r} {solver=!r} {reason=!r}"
+
+    # position needs a solver
     with pytest.raises(NotImplementedError) as reason:
         goniometer.position
     assert "NotImplementedError" in str(reason), f"{reason=!r}"
-    # assert False, f"{goniometer.report}"  # calls .position
+    # report needs position
+    with pytest.raises(NotImplementedError) as reason:
+        goniometer.report
+    assert "NotImplementedError" in str(reason), f"{reason=!r}"
+
+    solver_object = solver_factory(solver, geometry=gname)
+    assert solver_object is not None
+    assert solver_object.__name__ == solver
+
+
+def test_extras():
+    solver_name = "hkl_soleil"
+    fourc = Fourc("", name="fourc", solver=solver_name, geometry="E4CV, hkl")
+    assert fourc is not None
+    assert fourc.solver_name == solver_name
+    assert fourc.solver.get() == solver_name
+
+    solver_klass = get_solver(solver_name)
+    solver = solver_klass(
+        "E4CV, hkl",
+        pseudos=[fourc.h, fourc.k, fourc.l],  # TODO: add to constructor
+        reals=[fourc.omega, fourc.chi, fourc.phi, fourc.tth],
+        extras=[fourc.h2, fourc.k2, fourc.l2, fourc.psi],
+    )
+    assert solver is not None
