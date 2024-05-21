@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
   <script src="../../../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script src="../../../_static/documentation_options.js?v=e1ddb97b"></script>
+    <script src="../../../_static/documentation_options.js?v=2d3cbd79"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/tabs.js?v=3030b3cb"></script>
@@ -324,10 +324,14 @@ document.write(`
 <span class="sd">    ~SolverBase</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
+<span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABC</span>
 <span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">abstractmethod</span>
 
 <span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">__version__</span>
+<span class="kn">from</span> <span class="nn">..misc</span> <span class="kn">import</span> <span class="n">SolverError</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="SolverBase">
@@ -362,6 +366,7 @@ document.write(`
 
 <span class="sd">        ~addReflection</span>
 <span class="sd">        ~addSample</span>
+<span class="sd">        ~auto_assign_axes</span>
 <span class="sd">        ~calculateOrientation</span>
 <span class="sd">        ~extra_axis_names</span>
 <span class="sd">        ~forward</span>
@@ -381,17 +386,45 @@ document.write(`
 <span class="sd">        ~modes</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="vm">__name__</span> <span class="o">=</span> <span class="s2">&quot;base&quot;</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;base&quot;</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Name of this Solver.&quot;&quot;&quot;</span>
 
-    <span class="n">__version__</span> <span class="o">=</span> <span class="n">__version__</span>
+    <span class="n">version</span> <span class="o">=</span> <span class="n">__version__</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Version of this Solver.&quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_geometry</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">geometry</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">mode</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>  <span class="c1"># &quot;&quot;: accept solver&#39;s default mode</span>
+        <span class="n">pseudos</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[],</span>
+        <span class="n">reals</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[],</span>
+        <span class="n">extras</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[],</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">geometry</span> <span class="o">=</span> <span class="n">geometry</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">=</span> <span class="n">mode</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">user_pseudos</span> <span class="o">=</span> <span class="n">pseudos</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">user_reals</span> <span class="o">=</span> <span class="n">reals</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">user_extras</span> <span class="o">=</span> <span class="n">extras</span>
+
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
+            <span class="s2">&quot;geometry=</span><span class="si">%s</span><span class="s2">, pseudos=</span><span class="si">%s</span><span class="s2">, reals=</span><span class="si">%s</span><span class="s2">, extras=</span><span class="si">%s</span><span class="s2">, kwargs=</span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="nb">repr</span><span class="p">(</span><span class="n">geometry</span><span class="p">),</span>
+            <span class="nb">repr</span><span class="p">(</span><span class="n">pseudos</span><span class="p">),</span>
+            <span class="nb">repr</span><span class="p">(</span><span class="n">reals</span><span class="p">),</span>
+            <span class="nb">repr</span><span class="p">(</span><span class="n">extras</span><span class="p">),</span>
+            <span class="nb">repr</span><span class="p">(</span><span class="n">kwargs</span><span class="p">),</span>
+        <span class="p">)</span>
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">(&quot;</span> <span class="sa">f</span><span class="s2">&quot;name=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__name__</span><span class="si">!r}</span><span class="s2">, &quot;</span> <span class="sa">f</span><span class="s2">&quot;version=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">__version__</span><span class="si">!r}</span><span class="s2">)&quot;</span>
+        <span class="c1"># fmt: off</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">s</span><span class="si">}</span><span class="s2">=</span><span class="si">{</span><span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="w"> </span><span class="n">s</span><span class="p">)</span><span class="si">!r}</span><span class="s2">&quot;</span>
+            <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="s2">&quot;name version geometry&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+        <span class="p">]</span>
+        <span class="c1"># fmt: on</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">(</span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">args</span><span class="p">)</span><span class="si">}</span><span class="s2">)&quot;</span>
 
 <div class="viewcode-block" id="SolverBase.addReflection">
 <a class="viewcode-back" href="../../../api/backends/base.html#hklpy2.backends.base.SolverBase.addReflection">[docs]</a>
@@ -407,6 +440,30 @@ document.write(`
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Add a sample.&quot;&quot;&quot;</span></div>
 
 
+<div class="viewcode-block" id="SolverBase.auto_assign_axes">
+<a class="viewcode-back" href="../../../api/backends/base.html#hklpy2.backends.base.SolverBase.auto_assign_axes">[docs]</a>
+    <span class="k">def</span> <span class="nf">auto_assign_axes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">diffractometer</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Automatically assign diffractometer axes to this solver.&quot;&quot;&quot;</span>
+        <span class="n">pnames</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pseudo_axis_names</span>
+        <span class="n">np</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">pnames</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">diffractometer</span><span class="o">.</span><span class="n">pseudo_positioners</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">np</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">SolverError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Need these pseudo axes: </span><span class="si">{</span><span class="n">pnames</span><span class="si">!r}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="n">rnames</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">real_axis_names</span>
+        <span class="n">nr</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">rnames</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">diffractometer</span><span class="o">.</span><span class="n">real_positioners</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">nr</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">SolverError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Need these real axes: </span><span class="si">{</span><span class="n">rnames</span><span class="si">!r}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">user_pseudos</span> <span class="o">=</span> <span class="n">diffractometer</span><span class="o">.</span><span class="n">pseudo_positioners</span><span class="p">[:</span><span class="n">np</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">user_reals</span> <span class="o">=</span> <span class="n">diffractometer</span><span class="o">.</span><span class="n">real_positioners</span><span class="p">[:</span><span class="n">nr</span><span class="p">]</span>
+
+        <span class="c1"># any (and all) remaining are assigned into extras</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">user_extras</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">diffractometer</span><span class="o">.</span><span class="n">pseudo_positioners</span><span class="p">[</span><span class="n">np</span><span class="p">:]</span>
+            <span class="o">+</span> <span class="n">diffractometer</span><span class="o">.</span><span class="n">real_positioners</span><span class="p">[</span><span class="n">nr</span><span class="p">:]</span>
+        <span class="p">)</span></div>
+
+
 <div class="viewcode-block" id="SolverBase.calculateOrientation">
 <a class="viewcode-back" href="../../../api/backends/base.html#hklpy2.backends.base.SolverBase.calculateOrientation">[docs]</a>
     <span class="nd">@abstractmethod</span>
@@ -418,6 +475,7 @@ document.write(`
     <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">extra_axis_names</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Ordered list of any extra axis names (such as x, y, z).&quot;&quot;&quot;</span>
+        <span class="c1"># Do NOT sort.</span>
         <span class="k">return</span> <span class="p">[]</span>
 
 <div class="viewcode-block" id="SolverBase.forward">
@@ -429,25 +487,29 @@ document.write(`
         <span class="k">return</span> <span class="p">[{}]</span></div>
 
 
-    <span class="nd">@property</span>
+<div class="viewcode-block" id="SolverBase.geometries">
+<a class="viewcode-back" href="../../../api/backends/base.html#hklpy2.backends.base.SolverBase.geometries">[docs]</a>
+    <span class="nd">@classmethod</span>
     <span class="nd">@abstractmethod</span>
-    <span class="k">def</span> <span class="nf">geometries</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">geometries</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Ordered list of the geometry names.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="p">[]</span>
+        <span class="k">return</span> <span class="p">[]</span></div>
+
 
     <span class="nd">@property</span>
     <span class="nd">@abstractmethod</span>
-    <span class="k">def</span> <span class="nf">geometry</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Selected diffractometer geometry.&quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">geometry</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Name of selected diffractometer geometry.</span>
+
+<span class="sd">        Cannot be changed once solver is created.  Instead, make a new solver</span>
+<span class="sd">        for each geometry.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_geometry</span>
 
     <span class="nd">@geometry</span><span class="o">.</span><span class="n">setter</span>
     <span class="nd">@abstractmethod</span>
-    <span class="k">def</span> <span class="nf">geometry</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="kc">None</span><span class="p">),</span> <span class="nb">str</span><span class="p">)):</span>
-            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Must supply str, received </span><span class="si">{</span><span class="n">value</span><span class="si">!r}</span><span class="s2">&quot;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">value</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">geometries</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Geometry </span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2"> unknown. Pick one of: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">geometries</span><span class="si">!r}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">geometry</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_geometry</span> <span class="o">=</span> <span class="n">value</span>
 
 <div class="viewcode-block" id="SolverBase.inverse">
@@ -483,15 +545,14 @@ document.write(`
         <span class="k">try</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_mode</span>
         <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_mode</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_mode</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mode</span>
 
     <span class="nd">@mode</span><span class="o">.</span><span class="n">setter</span>
     <span class="k">def</span> <span class="nf">mode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="kc">None</span><span class="p">),</span> <span class="nb">str</span><span class="p">)):</span>
-            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Must supply str, received </span><span class="si">{</span><span class="n">value</span><span class="si">!r}</span><span class="s2">&quot;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">value</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">modes</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Mode </span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2"> unknown. Pick one of: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">modes</span><span class="si">!r}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">check_value_in_list</span>  <span class="c1"># avoid circular import here</span>
+
+        <span class="n">check_value_in_list</span><span class="p">(</span><span class="s2">&quot;Mode&quot;</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">modes</span><span class="p">,</span> <span class="n">blank_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_mode</span> <span class="o">=</span> <span class="n">value</span>
 
     <span class="nd">@property</span>
@@ -504,12 +565,14 @@ document.write(`
     <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">pseudo_axis_names</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Ordered list of the pseudo axis names (such as h, k, l).&quot;&quot;&quot;</span>
+        <span class="c1"># Do NOT sort.</span>
         <span class="k">return</span> <span class="p">[]</span>
 
     <span class="nd">@property</span>
     <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">real_axis_names</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Ordered list of the real axis names (such as th, tth).&quot;&quot;&quot;</span>
+        <span class="c1"># Do NOT sort.</span>
         <span class="k">return</span> <span class="p">[]</span>
 
 <div class="viewcode-block" id="SolverBase.refineLattice">

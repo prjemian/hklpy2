@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
   <script src="../../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script src="../../_static/documentation_options.js?v=e1ddb97b"></script>
+    <script src="../../_static/documentation_options.js?v=2d3cbd79"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/tabs.js?v=3030b3cb"></script>
@@ -328,8 +328,12 @@ document.write(`
 
 <span class="kn">from</span> <span class="nn">ophyd</span> <span class="kn">import</span> <span class="n">Component</span> <span class="k">as</span> <span class="n">Cpt</span>
 <span class="kn">from</span> <span class="nn">ophyd</span> <span class="kn">import</span> <span class="n">PseudoPositioner</span>
+<span class="kn">from</span> <span class="nn">ophyd.pseudopos</span> <span class="kn">import</span> <span class="n">pseudo_position_argument</span>
+<span class="kn">from</span> <span class="nn">ophyd.pseudopos</span> <span class="kn">import</span> <span class="n">real_position_argument</span>
 <span class="kn">from</span> <span class="nn">ophyd.signal</span> <span class="kn">import</span> <span class="n">AttributeSignal</span>
 
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">Hklpy2Error</span>
+<span class="kn">from</span> <span class="nn">.misc</span> <span class="kn">import</span> <span class="n">solver_factory</span>
 <span class="kn">from</span> <span class="nn">.wavelength_support</span> <span class="kn">import</span> <span class="n">DEFAULT_WAVELENGTH</span>
 <span class="kn">from</span> <span class="nn">.wavelength_support</span> <span class="kn">import</span> <span class="n">ConstantMonochromaticWavelength</span>
 
@@ -337,6 +341,10 @@ document.write(`
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 <span class="n">DEFAULT_PHOTON_ENERGY_KEV</span> <span class="o">=</span> <span class="mf">8.0</span>
+
+
+<span class="k">class</span> <span class="nc">DiffractometerError</span><span class="p">(</span><span class="n">Hklpy2Error</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Custom exceptions from a :class:`~DiffractometerBase` subclass.&quot;&quot;&quot;</span>
 
 
 <div class="viewcode-block" id="DiffractometerBase">
@@ -347,41 +355,48 @@ document.write(`
 
 <span class="sd">    .. rubric:: (ophyd) Components</span>
 
+<span class="sd">    .. rubric :: (ophyd) Attribute Components</span>
+
 <span class="sd">    .. autosummary::</span>
 
-<span class="sd">        ~solver</span>
 <span class="sd">        ~wavelength</span>
+<span class="sd">        ~wavelength_units</span>
 
 <span class="sd">    .. rubric:: Python Methods</span>
+
+<span class="sd">    .. autosummary::</span>
+
+<span class="sd">        ~forward</span>
+<span class="sd">        ~inverse</span>
+<span class="sd">        ~set_solver</span>
 
 <span class="sd">    .. rubric:: Python Properties</span>
 
 <span class="sd">    .. autosummary::</span>
 
-<span class="sd">        ~backend_solver</span>
+<span class="sd">        ~geometry_name</span>
+<span class="sd">        ~solver_name</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="c1"># TODO: allow for extra pseudos and reals</span>
-    <span class="c1"># Allow the subclass to provide more axes than required.</span>
-    <span class="c1"># Also allow axes to be renamed.</span>
-    <span class="c1"># Needs a way to specify which ones used with particular solver.</span>
 
     <span class="c1"># These two attributes are used by the PseudoPositioner class.</span>
     <span class="c1"># _pseudo = []  # List of pseudo-space PseudoPositioner objects.</span>
     <span class="c1"># _real = []  # List of real-space positioner objects.</span>
 
-    <span class="c1"># ophyd Device Components</span>
-
-    <span class="c1"># ophyd Device Attribute Components</span>
-
-    <span class="c1"># TODO: need a solver object AND a solver name</span>
     <span class="n">solver</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span>
         <span class="n">AttributeSignal</span><span class="p">,</span>
-        <span class="n">attr</span><span class="o">=</span><span class="s2">&quot;backend_solver&quot;</span><span class="p">,</span>
+        <span class="n">attr</span><span class="o">=</span><span class="s2">&quot;solver_name&quot;</span><span class="p">,</span>
         <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Name of backend |solver| (library).&quot;</span><span class="p">,</span>
         <span class="n">write_access</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="p">)</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Name of backend |solver| (library).&quot;&quot;&quot;</span>
+
+    <span class="n">geometry</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span>
+        <span class="n">AttributeSignal</span><span class="p">,</span>
+        <span class="n">attr</span><span class="o">=</span><span class="s2">&quot;geometry_name&quot;</span><span class="p">,</span>
+        <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Name of backend |solver| geometry.&quot;</span><span class="p">,</span>
+        <span class="n">write_access</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Name of backend |solver| geometry.&quot;&quot;&quot;</span>
 
     <span class="n">wavelength</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span>
         <span class="n">AttributeSignal</span><span class="p">,</span>
@@ -399,27 +414,60 @@ document.write(`
     <span class="p">)</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Engineering units of the incident wavelength.&quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_backend_solver</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="o">*</span><span class="n">args</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_solver</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_wavelength</span> <span class="o">=</span> <span class="n">ConstantMonochromaticWavelength</span><span class="p">(</span><span class="n">DEFAULT_WAVELENGTH</span><span class="p">)</span>
 
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
+<div class="viewcode-block" id="DiffractometerBase.forward">
+<a class="viewcode-back" href="../../api/diffract.html#hklpy2.diffract.DiffractometerBase.forward">[docs]</a>
+    <span class="nd">@pseudo_position_argument</span>
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pseudos</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute tuple of reals from pseudos (hkl -&gt; angles).&quot;&quot;&quot;</span>
+        <span class="c1"># TODO: have the solver handle this, from the pseudos</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;forward(): </span><span class="si">{</span><span class="n">pseudos</span><span class="si">=!r}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">pos</span> <span class="o">=</span> <span class="p">{</span><span class="n">axis</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">axis</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_real_positioners</span><span class="p">()}</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">RealPosition</span><span class="p">(</span><span class="o">**</span><span class="n">pos</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="DiffractometerBase.inverse">
+<a class="viewcode-back" href="../../api/diffract.html#hklpy2.diffract.DiffractometerBase.inverse">[docs]</a>
+    <span class="nd">@real_position_argument</span>
+    <span class="k">def</span> <span class="nf">inverse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reals</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute tuple of pseudos from reals (angles -&gt; hkl).&quot;&quot;&quot;</span>
+        <span class="c1"># TODO: have the solver handle this, from the reals</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;inverse(): </span><span class="si">{</span><span class="n">reals</span><span class="si">=!r}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">pos</span> <span class="o">=</span> <span class="p">{</span><span class="n">axis</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">axis</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_pseudo_positioners</span><span class="p">()}</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">PseudoPosition</span><span class="p">(</span><span class="o">**</span><span class="n">pos</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="DiffractometerBase.set_solver">
+<a class="viewcode-back" href="../../api/diffract.html#hklpy2.diffract.DiffractometerBase.set_solver">[docs]</a>
+    <span class="k">def</span> <span class="nf">set_solver</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">solver</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">geometry</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the backend |solver| for this diffracometer.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_solver</span> <span class="o">=</span> <span class="n">solver_factory</span><span class="p">(</span><span class="n">solver</span><span class="p">,</span> <span class="n">geometry</span><span class="o">=</span><span class="n">geometry</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+
     <span class="c1"># ---- get/set properties</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">backend_solver</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Backend |solver|, transformations between pseudos and reals.&quot;&quot;&quot;</span>
-        <span class="c1"># TODO: self._backend_solver should be instance of a |solver| class.</span>
-        <span class="c1"># return its name (if it is not None)</span>
-        <span class="c1"># TODO: backend_solver v. backend_solver_name</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_backend_solver</span>
+    <span class="k">def</span> <span class="nf">geometry_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Backend |solver| geometry name.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_solver</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_solver</span><span class="o">.</span><span class="n">geometry</span>
+        <span class="k">return</span> <span class="s2">&quot;&quot;</span>
 
-    <span class="nd">@backend_solver</span><span class="o">.</span><span class="n">setter</span>
-    <span class="k">def</span> <span class="nf">backend_solver</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-        <span class="c1"># TODO: self._backend_solver should be instance of a |solver| class.</span>
-        <span class="c1"># TODO: backend_solver v. backend_solver_name</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_backend_solver</span> <span class="o">=</span> <span class="n">value</span></div>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">solver_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Backend |solver| library name.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_solver</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_solver</span><span class="o">.</span><span class="n">name</span>
+        <span class="k">return</span> <span class="s2">&quot;&quot;</span></div>
 
 </pre></div>
 

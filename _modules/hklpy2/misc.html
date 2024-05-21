@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
   <script src="../../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script src="../../_static/documentation_options.js?v=e1ddb97b"></script>
+    <script src="../../_static/documentation_options.js?v=2d3cbd79"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/tabs.js?v=3030b3cb"></script>
@@ -321,10 +321,12 @@ document.write(`
 
 <span class="sd">.. autosummary::</span>
 
+<span class="sd">    ~check_value_in_list</span>
 <span class="sd">    ~SOLVER_ENTRYPOINT_GROUP</span>
 <span class="sd">    ~SolverError</span>
 <span class="sd">    ~get_solver</span>
 <span class="sd">    ~solvers</span>
+<span class="sd">    ~solver_factory</span>
 <span class="sd">    ~unique_name</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
@@ -347,6 +349,18 @@ document.write(`
 
 
 
+<div class="viewcode-block" id="check_value_in_list">
+<a class="viewcode-back" href="../../api/z_misc.html#hklpy2.misc.check_value_in_list">[docs]</a>
+<span class="k">def</span> <span class="nf">check_value_in_list</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">examples</span><span class="p">,</span> <span class="n">blank_ok</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Raise KeyError exception if value is not in the list of examples.&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">blank_ok</span><span class="p">:</span>
+        <span class="n">examples</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">value</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">examples</span><span class="p">:</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">title</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">value</span><span class="si">!r}</span><span class="s2"> unknown. Pick one of: </span><span class="si">{</span><span class="n">examples</span><span class="si">!r}</span><span class="s2">&quot;</span>
+        <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span></div>
+
+
+
 <div class="viewcode-block" id="get_solver">
 <a class="viewcode-back" href="../../api/z_misc.html#hklpy2.misc.get_solver">[docs]</a>
 <span class="k">def</span> <span class="nf">get_solver</span><span class="p">(</span><span class="n">solver_name</span><span class="p">):</span>
@@ -359,8 +373,35 @@ document.write(`
 <span class="sd">        SolverClass = hklpy2.get_solver(&quot;hkl_soleil&quot;)</span>
 <span class="sd">        libhkl_solver = SolverClass()</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">solver_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">solvers</span><span class="p">():</span>
+        <span class="k">raise</span> <span class="n">SolverError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">solver_name</span><span class="si">=!r}</span><span class="s2"> unknown.  Pick one of: </span><span class="si">{</span><span class="n">solvers</span><span class="p">()</span><span class="si">!r}</span><span class="s2">&quot;</span><span class="p">)</span>
     <span class="n">entries</span> <span class="o">=</span> <span class="n">entry_points</span><span class="p">(</span><span class="n">group</span><span class="o">=</span><span class="n">SOLVER_ENTRYPOINT_GROUP</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">entries</span><span class="p">[</span><span class="n">solver_name</span><span class="p">]</span><span class="o">.</span><span class="n">load</span><span class="p">()</span></div>
+
+
+
+<div class="viewcode-block" id="solver_factory">
+<a class="viewcode-back" href="../../api/z_misc.html#hklpy2.misc.solver_factory">[docs]</a>
+<span class="k">def</span> <span class="nf">solver_factory</span><span class="p">(</span>
+    <span class="n">solver_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="o">*</span><span class="p">,</span>  <span class="c1"># all kwargs must be specified by name</span>
+    <span class="n">geometry</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">pseudos</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[],</span>
+    <span class="n">reals</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[],</span>
+    <span class="n">extras</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[],</span>
+    <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create a |solver| object with geometry and axes.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">solver_class</span> <span class="o">=</span> <span class="n">get_solver</span><span class="p">(</span><span class="n">solver_name</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">solver_class</span><span class="p">(</span>
+        <span class="n">geometry</span><span class="o">=</span><span class="n">geometry</span><span class="p">,</span>
+        <span class="n">pseudos</span><span class="o">=</span><span class="n">pseudos</span><span class="p">,</span>
+        <span class="n">reals</span><span class="o">=</span><span class="n">reals</span><span class="p">,</span>
+        <span class="n">extras</span><span class="o">=</span><span class="n">extras</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">)</span></div>
 
 
 

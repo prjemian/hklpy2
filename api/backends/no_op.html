@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
   <script src="../../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script src="../../_static/documentation_options.js?v=e1ddb97b"></script>
+    <script src="../../_static/documentation_options.js?v=2d3cbd79"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/design-tabs.js?v=36754332"></script>
@@ -363,14 +363,14 @@ document.write(`
 </div>
 <table class="autosummary longtable table autosummary">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.backends.no_op.NoOpSolver" title="hklpy2.backends.no_op.NoOpSolver"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NoOpSolver</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.backends.no_op.NoOpSolver" title="hklpy2.backends.no_op.NoOpSolver"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NoOpSolver</span></code></a>(*, geometry, **kwargs)</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">&quot;no_op&quot;</span></code> (any OS) no transformations.</p></td>
 </tr>
 </tbody>
 </table>
 <dl class="py class">
 <dt class="sig sig-object py" id="hklpy2.backends.no_op.NoOpSolver">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">hklpy2.backends.no_op.</span></span><span class="sig-name descname"><span class="pre">NoOpSolver</span></span><a class="reference internal" href="../../_modules/hklpy2/backends/no_op.html#NoOpSolver"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.backends.no_op.NoOpSolver" title="Link to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">hklpy2.backends.no_op.</span></span><span class="sig-name descname"><span class="pre">NoOpSolver</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">geometry</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hklpy2/backends/no_op.html#NoOpSolver"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.backends.no_op.NoOpSolver" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference internal" href="base.html#hklpy2.backends.base.SolverBase" title="hklpy2.backends.base.SolverBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">SolverBase</span></code></a></p>
 <p><code class="docutils literal notranslate"><span class="pre">&quot;no_op&quot;</span></code> (any OS) no transformations.</p>
 <p><strong>Solver</strong> that has no reciprocal space transformations.</p>
@@ -409,7 +409,7 @@ document.write(`
 <p class="rubric">Python Properties</p>
 <table class="autosummary longtable table autosummary">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.backends.no_op.NoOpSolver.geometries" title="hklpy2.backends.no_op.NoOpSolver.geometries"><code class="xref py py-obj docutils literal notranslate"><span class="pre">geometries</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.backends.no_op.NoOpSolver.geometries" title="hklpy2.backends.no_op.NoOpSolver.geometries"><code class="xref py py-obj docutils literal notranslate"><span class="pre">geometries</span></code></a>()</p></td>
 <td><p>Ordered list of the geometry names.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.backends.no_op.NoOpSolver.geometry" title="hklpy2.backends.no_op.NoOpSolver.geometry"><code class="xref py py-obj docutils literal notranslate"><span class="pre">geometry</span></code></a></p></td>
@@ -439,6 +439,12 @@ document.write(`
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="hklpy2.backends.no_op.NoOpSolver.auto_assign_axes">
+<span class="sig-name descname"><span class="pre">auto_assign_axes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">diffractometer</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#hklpy2.backends.no_op.NoOpSolver.auto_assign_axes" title="Link to this definition">#</a></dt>
+<dd><p>Automatically assign diffractometer axes to this solver.</p>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="hklpy2.backends.no_op.NoOpSolver.calculateOrientation">
 <span class="sig-name descname"><span class="pre">calculateOrientation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">r1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">r2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hklpy2/backends/no_op.html#NoOpSolver.calculateOrientation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.backends.no_op.NoOpSolver.calculateOrientation" title="Link to this definition">#</a></dt>
 <dd><p>Calculate the UB (orientation) matrix from two reflections.</p>
@@ -456,15 +462,15 @@ document.write(`
 <dd><p>Compute list of solutions(reals) from pseudos (hkl -&gt; [angles]).</p>
 </dd></dl>
 
-<dl class="py property">
+<dl class="py method">
 <dt class="sig sig-object py" id="hklpy2.backends.no_op.NoOpSolver.geometries">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">geometries</span></span><a class="headerlink" href="#hklpy2.backends.no_op.NoOpSolver.geometries" title="Link to this definition">#</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">geometries</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hklpy2/backends/no_op.html#NoOpSolver.geometries"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.backends.no_op.NoOpSolver.geometries" title="Link to this definition">#</a></dt>
 <dd><p>Ordered list of the geometry names.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="hklpy2.backends.no_op.NoOpSolver.geometry">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">geometry</span></span><a class="headerlink" href="#hklpy2.backends.no_op.NoOpSolver.geometry" title="Link to this definition">#</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">geometry</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a></em><a class="headerlink" href="#hklpy2.backends.no_op.NoOpSolver.geometry" title="Link to this definition">#</a></dt>
 <dd><p>Diffractometer geometry.</p>
 </dd></dl>
 
@@ -494,6 +500,12 @@ document.write(`
 <dd><p>List of the geometry operating modes.</p>
 </dd></dl>
 
+<dl class="py attribute">
+<dt class="sig sig-object py" id="hklpy2.backends.no_op.NoOpSolver.name">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'no_op'</span></em><a class="headerlink" href="#hklpy2.backends.no_op.NoOpSolver.name" title="Link to this definition">#</a></dt>
+<dd><p>Name of this Solver.</p>
+</dd></dl>
+
 <dl class="py property">
 <dt class="sig sig-object py" id="hklpy2.backends.no_op.NoOpSolver.pseudo_axis_names">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">pseudo_axis_names</span></span><a class="headerlink" href="#hklpy2.backends.no_op.NoOpSolver.pseudo_axis_names" title="Link to this definition">#</a></dt>
@@ -510,6 +522,12 @@ document.write(`
 <dt class="sig sig-object py" id="hklpy2.backends.no_op.NoOpSolver.refineLattice">
 <span class="sig-name descname"><span class="pre">refineLattice</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">reflections</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hklpy2/backends/no_op.html#NoOpSolver.refineLattice"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.backends.no_op.NoOpSolver.refineLattice" title="Link to this definition">#</a></dt>
 <dd><p>Refine the lattice parameters from a list of reflections.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="hklpy2.backends.no_op.NoOpSolver.version">
+<span class="sig-name descname"><span class="pre">version</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'0.0.10.dev38+g193d640'</span></em><a class="headerlink" href="#hklpy2.backends.no_op.NoOpSolver.version" title="Link to this definition">#</a></dt>
+<dd><p>Version of this Solver.</p>
 </dd></dl>
 
 </dd></dl>
@@ -565,18 +583,21 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.backends.no_op.NoOpSolver"><code class="docutils literal notranslate"><span class="pre">NoOpSolver</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.backends.no_op.NoOpSolver.addReflection"><code class="docutils literal notranslate"><span class="pre">NoOpSolver.addReflection()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.backends.no_op.NoOpSolver.addSample"><code class="docutils literal notranslate"><span class="pre">NoOpSolver.addSample()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.backends.no_op.NoOpSolver.auto_assign_axes"><code class="docutils literal notranslate"><span class="pre">NoOpSolver.auto_assign_axes()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.backends.no_op.NoOpSolver.calculateOrientation"><code class="docutils literal notranslate"><span class="pre">NoOpSolver.calculateOrientation()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.backends.no_op.NoOpSolver.extra_axis_names"><code class="docutils literal notranslate"><span class="pre">NoOpSolver.extra_axis_names</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.backends.no_op.NoOpSolver.forward"><code class="docutils literal notranslate"><span class="pre">NoOpSolver.forward()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.backends.no_op.NoOpSolver.geometries"><code class="docutils literal notranslate"><span class="pre">NoOpSolver.geometries</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.backends.no_op.NoOpSolver.geometries"><code class="docutils literal notranslate"><span class="pre">NoOpSolver.geometries()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.backends.no_op.NoOpSolver.geometry"><code class="docutils literal notranslate"><span class="pre">NoOpSolver.geometry</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.backends.no_op.NoOpSolver.inverse"><code class="docutils literal notranslate"><span class="pre">NoOpSolver.inverse()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.backends.no_op.NoOpSolver.lattice"><code class="docutils literal notranslate"><span class="pre">NoOpSolver.lattice</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.backends.no_op.NoOpSolver.mode"><code class="docutils literal notranslate"><span class="pre">NoOpSolver.mode</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.backends.no_op.NoOpSolver.modes"><code class="docutils literal notranslate"><span class="pre">NoOpSolver.modes</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.backends.no_op.NoOpSolver.name"><code class="docutils literal notranslate"><span class="pre">NoOpSolver.name</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.backends.no_op.NoOpSolver.pseudo_axis_names"><code class="docutils literal notranslate"><span class="pre">NoOpSolver.pseudo_axis_names</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.backends.no_op.NoOpSolver.real_axis_names"><code class="docutils literal notranslate"><span class="pre">NoOpSolver.real_axis_names</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.backends.no_op.NoOpSolver.refineLattice"><code class="docutils literal notranslate"><span class="pre">NoOpSolver.refineLattice()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.backends.no_op.NoOpSolver.version"><code class="docutils literal notranslate"><span class="pre">NoOpSolver.version</span></code></a></li>
 </ul>
 </li>
 </ul>

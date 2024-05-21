@@ -39,7 +39,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
   <script src="../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script src="../_static/documentation_options.js?v=e1ddb97b"></script>
+    <script src="../_static/documentation_options.js?v=2d3cbd79"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/design-tabs.js?v=36754332"></script>
@@ -337,6 +337,7 @@ document.write(`
                   
   <section id="Demonstrate-hklpy2's-API">
 <h1>Demonstrate <strong>hklpy2</strong>’s API<a class="headerlink" href="#Demonstrate-hklpy2's-API" title="Link to this heading">#</a></h1>
+<p>A working notebook as the package is being developed. <strong>Anything</strong> could change.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
@@ -354,46 +355,19 @@ document.write(`
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-2024-05-10 01:01:23.356334
-hklpy2.__version__=&#39;0.0.8.dev3+g7bbfe41.d20240510&#39;
+2024-05-20 18:20:04.393039
+hklpy2.__version__=&#39;0.0.10.dev27+g9d41cc4.d20240520&#39;
 hklpy2.solvers()={&#39;hkl_soleil&#39;: &#39;hklpy2.backends.hkl_soleil:HklSolver&#39;, &#39;no_op&#39;: &#39;hklpy2.backends.no_op:NoOpSolver&#39;, &#39;th_tth&#39;: &#39;hklpy2.backends.th_tth_q:ThTthSolver&#39;}
 </pre></div></div>
 </div>
-<div class="nbinput nblast docutils container">
+<p>TODO: Make it easier to specify the pseudos, reals, and extras for any geometry &amp; mode.</p>
+<p>Can a given geometry assume (as a default?) that the first <span class="math notranslate nohighlight">\(p\)</span> pseudos and the first <span class="math notranslate nohighlight">\(r\)</span> reals (defined in the <code class="docutils literal notranslate"><span class="pre">DiffractometerBase</span></code> subclass) are the ones to use for the given Solver? Here, <span class="math notranslate nohighlight">\(p\)</span> and <span class="math notranslate nohighlight">\(r\)</span> are the number of pseudos and reals, respectively, required by the geometry. The order is important. User could override.</p>
+<div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># solver_name = &quot;no_op&quot;</span>
-<span class="c1"># gname = &quot;anything&quot;</span>
-
-<span class="n">solver_name</span> <span class="o">=</span> <span class="s2">&quot;hkl_soleil&quot;</span>
-<span class="n">gname</span> <span class="o">=</span> <span class="s2">&quot;E4CV, hkl&quot;</span>
-</pre></div>
-</div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">SolverClass</span> <span class="o">=</span> <span class="n">hklpy2</span><span class="o">.</span><span class="n">get_solver</span><span class="p">(</span><span class="n">solver_name</span><span class="p">)</span>
-<span class="n">solver</span> <span class="o">=</span> <span class="n">SolverClass</span><span class="p">()</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">solver</span><span class="si">=!r}</span><span class="s2">&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-solver=HklSolver(name=&#39;hkl_soleil&#39;, version=&#39;v5.0.0.3434&#39;)
-</pre></div></div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">solver</span><span class="o">.</span><span class="n">geometry</span> <span class="o">=</span> <span class="n">gname</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># solver = hklpy2.solver_factory(&quot;no_op&quot;, &quot;NoOpSolver ignores the gname&quot;)</span>
+<span class="n">solver</span> <span class="o">=</span> <span class="n">hklpy2</span><span class="o">.</span><span class="n">solver_factory</span><span class="p">(</span><span class="s2">&quot;hkl_soleil&quot;</span><span class="p">,</span> <span class="n">geometry</span><span class="o">=</span><span class="s2">&quot;E4CV, hkl&quot;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">solver</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">solver</span><span class="o">.</span><span class="n">pseudo_axis_names</span><span class="si">=!r}</span><span class="s2">&quot;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">solver</span><span class="o">.</span><span class="n">real_axis_names</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -405,13 +379,144 @@ solver=HklSolver(name=&#39;hkl_soleil&#39;, version=&#39;v5.0.0.3434&#39;)
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-solver=HklSolver(name=&#39;hkl_soleil&#39;, version=&#39;v5.0.0.3434&#39;)
+solver=HklSolver(name=&#39;hkl_soleil&#39;, version=&#39;v5.0.0.3434&#39;, geometry=&#39;E4CV, hkl&#39;, engine=&#39;&#39;)
 solver.pseudo_axis_names=[&#39;h&#39;, &#39;k&#39;, &#39;l&#39;]
 solver.real_axis_names=[&#39;omega&#39;, &#39;chi&#39;, &#39;phi&#39;, &#39;tth&#39;]
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">hkl</span> <span class="kn">import</span> <span class="n">SimulatedE4CV</span>
+
+<span class="n">e4cv</span> <span class="o">=</span> <span class="n">SimulatedE4CV</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;e4cv&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e4cv</span><span class="si">=!r}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="n">solver</span><span class="o">.</span><span class="n">auto_assign_axes</span><span class="p">(</span><span class="n">e4cv</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">solver</span><span class="o">.</span><span class="n">user_pseudos</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">solver</span><span class="o">.</span><span class="n">user_reals</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">solver</span><span class="o">.</span><span class="n">user_extras</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+e4cv=SimulatedE4CV(prefix=&#39;&#39;, name=&#39;e4cv&#39;, settle_time=0.0, timeout=None, egu=&#39;&#39;, limits=(0, 0), source=&#39;computed&#39;, read_attrs=[&#39;h&#39;, &#39;h.readback&#39;, &#39;h.setpoint&#39;, &#39;k&#39;, &#39;k.readback&#39;, &#39;k.setpoint&#39;, &#39;l&#39;, &#39;l.readback&#39;, &#39;l.setpoint&#39;, &#39;omega&#39;, &#39;chi&#39;, &#39;phi&#39;, &#39;tth&#39;], configuration_attrs=[&#39;energy&#39;, &#39;energy_units&#39;, &#39;energy_offset&#39;, &#39;geometry_name&#39;, &#39;class_name&#39;, &#39;sample_name&#39;, &#39;lattice&#39;, &#39;lattice_reciprocal&#39;, &#39;U&#39;, &#39;UB&#39;, &#39;reflections_details&#39;, &#39;ux&#39;, &#39;uy&#39;, &#39;uz&#39;, &#39;diffractometer_name&#39;, &#39;_hklpy_version&#39;, &#39;_pseudos&#39;, &#39;_reals&#39;, &#39;_constraints&#39;, &#39;_mode&#39;, &#39;orientation_attrs&#39;, &#39;h&#39;, &#39;k&#39;, &#39;l&#39;], concurrent=True)
+solver.user_pseudos=(PseudoSingle(prefix=&#39;&#39;, name=&#39;e4cv_h&#39;, parent=&#39;e4cv&#39;, settle_time=0.0, timeout=None, egu=&#39;&#39;, limits=(0, 0), source=&#39;computed&#39;, read_attrs=[&#39;readback&#39;, &#39;setpoint&#39;], configuration_attrs=[], idx=0), PseudoSingle(prefix=&#39;&#39;, name=&#39;e4cv_k&#39;, parent=&#39;e4cv&#39;, settle_time=0.0, timeout=None, egu=&#39;&#39;, limits=(0, 0), source=&#39;computed&#39;, read_attrs=[&#39;readback&#39;, &#39;setpoint&#39;], configuration_attrs=[], idx=1), PseudoSingle(prefix=&#39;&#39;, name=&#39;e4cv_l&#39;, parent=&#39;e4cv&#39;, settle_time=0.0, timeout=None, egu=&#39;&#39;, limits=(0, 0), source=&#39;computed&#39;, read_attrs=[&#39;readback&#39;, &#39;setpoint&#39;], configuration_attrs=[], idx=2))
+solver.user_reals=(SoftPositioner(name=&#39;e4cv_omega&#39;, parent=&#39;e4cv&#39;, settle_time=0.0, timeout=None, egu=&#39;&#39;, limits=(-180, 180), source=&#39;computed&#39;), SoftPositioner(name=&#39;e4cv_chi&#39;, parent=&#39;e4cv&#39;, settle_time=0.0, timeout=None, egu=&#39;&#39;, limits=(-180, 180), source=&#39;computed&#39;), SoftPositioner(name=&#39;e4cv_phi&#39;, parent=&#39;e4cv&#39;, settle_time=0.0, timeout=None, egu=&#39;&#39;, limits=(-180, 180), source=&#39;computed&#39;), SoftPositioner(name=&#39;e4cv_tth&#39;, parent=&#39;e4cv&#39;, settle_time=0.0, timeout=None, egu=&#39;&#39;, limits=(-180, 180), source=&#39;computed&#39;))
+solver.user_extras=()
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">tuple</span><span class="p">([</span><span class="n">axis</span><span class="o">.</span><span class="n">position</span> <span class="k">for</span> <span class="n">axis</span> <span class="ow">in</span> <span class="n">e4cv</span><span class="o">.</span><span class="n">pseudo_positioners</span><span class="p">]),</span> <span class="nb">tuple</span><span class="p">([</span><span class="n">axis</span><span class="o">.</span><span class="n">position</span> <span class="k">for</span> <span class="n">axis</span> <span class="ow">in</span> <span class="n">e4cv</span><span class="o">.</span><span class="n">real_positioners</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+((0.0, 0.0, 0.0), (0, 0, 0, 0))
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ophyd</span> <span class="kn">import</span> <span class="n">Component</span> <span class="k">as</span> <span class="n">Cpt</span>
+<span class="kn">from</span> <span class="nn">ophyd</span> <span class="kn">import</span> <span class="n">Kind</span>
+<span class="kn">from</span> <span class="nn">ophyd</span> <span class="kn">import</span> <span class="n">PseudoSingle</span>
+<span class="kn">from</span> <span class="nn">ophyd</span> <span class="kn">import</span> <span class="n">SoftPositioner</span>
+
+<span class="n">NORMAL_HINTED</span> <span class="o">=</span> <span class="n">Kind</span><span class="o">.</span><span class="n">hinted</span> <span class="o">|</span> <span class="n">Kind</span><span class="o">.</span><span class="n">normal</span>
+
+<span class="k">class</span> <span class="nc">Fourc</span><span class="p">(</span><span class="n">hklpy2</span><span class="o">.</span><span class="n">DiffractometerBase</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test case.&quot;&quot;&quot;</span>
+
+    <span class="n">h</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">PseudoSingle</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">NORMAL_HINTED</span><span class="p">)</span>  <span class="c1"># noqa: E741</span>
+    <span class="n">k</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">PseudoSingle</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">NORMAL_HINTED</span><span class="p">)</span>  <span class="c1"># noqa: E741</span>
+    <span class="n">l</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">PseudoSingle</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">NORMAL_HINTED</span><span class="p">)</span>  <span class="c1"># noqa: E741</span>
+
+    <span class="n">omega</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">SoftPositioner</span><span class="p">,</span> <span class="n">limits</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">180</span><span class="p">,</span> <span class="mi">180</span><span class="p">),</span> <span class="n">init_pos</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">NORMAL_HINTED</span><span class="p">)</span>
+    <span class="n">chi</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">SoftPositioner</span><span class="p">,</span> <span class="n">limits</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">180</span><span class="p">,</span> <span class="mi">180</span><span class="p">),</span> <span class="n">init_pos</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">NORMAL_HINTED</span><span class="p">)</span>
+    <span class="n">phi</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">SoftPositioner</span><span class="p">,</span> <span class="n">limits</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">180</span><span class="p">,</span> <span class="mi">180</span><span class="p">),</span> <span class="n">init_pos</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">NORMAL_HINTED</span><span class="p">)</span>
+    <span class="n">tth</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">SoftPositioner</span><span class="p">,</span> <span class="n">limits</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">170</span><span class="p">,</span> <span class="mi">170</span><span class="p">),</span> <span class="n">init_pos</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">NORMAL_HINTED</span><span class="p">)</span>
+
+    <span class="n">h2</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">PseudoSingle</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">NORMAL_HINTED</span><span class="p">)</span>  <span class="c1"># noqa: E741</span>
+    <span class="n">k2</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">PseudoSingle</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">NORMAL_HINTED</span><span class="p">)</span>  <span class="c1"># noqa: E741</span>
+    <span class="n">l2</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">PseudoSingle</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">NORMAL_HINTED</span><span class="p">)</span>  <span class="c1"># noqa: E741</span>
+
+    <span class="n">psi</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">SoftPositioner</span><span class="p">,</span> <span class="n">limits</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">170</span><span class="p">,</span> <span class="mi">170</span><span class="p">),</span> <span class="n">init_pos</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">NORMAL_HINTED</span><span class="p">)</span>
+
+<span class="n">fourc</span> <span class="o">=</span> <span class="n">Fourc</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;fourc&quot;</span><span class="p">)</span>
+<span class="n">solver</span><span class="o">.</span><span class="n">auto_assign_axes</span><span class="p">(</span><span class="n">fourc</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">solver</span><span class="o">.</span><span class="n">user_pseudos</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">solver</span><span class="o">.</span><span class="n">user_reals</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">solver</span><span class="o">.</span><span class="n">user_extras</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+solver.user_pseudos=(PseudoSingle(prefix=&#39;&#39;, name=&#39;fourc_h&#39;, parent=&#39;fourc&#39;, settle_time=0.0, timeout=None, egu=&#39;&#39;, limits=(0, 0), source=&#39;computed&#39;, read_attrs=[&#39;readback&#39;, &#39;setpoint&#39;], configuration_attrs=[], idx=0), PseudoSingle(prefix=&#39;&#39;, name=&#39;fourc_k&#39;, parent=&#39;fourc&#39;, settle_time=0.0, timeout=None, egu=&#39;&#39;, limits=(0, 0), source=&#39;computed&#39;, read_attrs=[&#39;readback&#39;, &#39;setpoint&#39;], configuration_attrs=[], idx=1), PseudoSingle(prefix=&#39;&#39;, name=&#39;fourc_l&#39;, parent=&#39;fourc&#39;, settle_time=0.0, timeout=None, egu=&#39;&#39;, limits=(0, 0), source=&#39;computed&#39;, read_attrs=[&#39;readback&#39;, &#39;setpoint&#39;], configuration_attrs=[], idx=2))
+solver.user_reals=(SoftPositioner(name=&#39;fourc_omega&#39;, parent=&#39;fourc&#39;, settle_time=0.0, timeout=None, egu=&#39;&#39;, limits=(-180, 180), source=&#39;computed&#39;), SoftPositioner(name=&#39;fourc_chi&#39;, parent=&#39;fourc&#39;, settle_time=0.0, timeout=None, egu=&#39;&#39;, limits=(-180, 180), source=&#39;computed&#39;), SoftPositioner(name=&#39;fourc_phi&#39;, parent=&#39;fourc&#39;, settle_time=0.0, timeout=None, egu=&#39;&#39;, limits=(-180, 180), source=&#39;computed&#39;), SoftPositioner(name=&#39;fourc_tth&#39;, parent=&#39;fourc&#39;, settle_time=0.0, timeout=None, egu=&#39;&#39;, limits=(-170, 170), source=&#39;computed&#39;))
+solver.user_extras=(PseudoSingle(prefix=&#39;&#39;, name=&#39;fourc_h2&#39;, parent=&#39;fourc&#39;, settle_time=0.0, timeout=None, egu=&#39;&#39;, limits=(0, 0), source=&#39;computed&#39;, read_attrs=[&#39;readback&#39;, &#39;setpoint&#39;], configuration_attrs=[], idx=3), PseudoSingle(prefix=&#39;&#39;, name=&#39;fourc_k2&#39;, parent=&#39;fourc&#39;, settle_time=0.0, timeout=None, egu=&#39;&#39;, limits=(0, 0), source=&#39;computed&#39;, read_attrs=[&#39;readback&#39;, &#39;setpoint&#39;], configuration_attrs=[], idx=4), PseudoSingle(prefix=&#39;&#39;, name=&#39;fourc_l2&#39;, parent=&#39;fourc&#39;, settle_time=0.0, timeout=None, egu=&#39;&#39;, limits=(0, 0), source=&#39;computed&#39;, read_attrs=[&#39;readback&#39;, &#39;setpoint&#39;], configuration_attrs=[], idx=5), SoftPositioner(name=&#39;fourc_psi&#39;, parent=&#39;fourc&#39;, settle_time=0.0, timeout=None, egu=&#39;&#39;, limits=(-170, 170), source=&#39;computed&#39;))
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fourc</span><span class="o">.</span><span class="n">report</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;position&#39;: (0, 0, 0, 0, 0, 0, 0, 0, 0, 0)}
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fourc</span><span class="o">.</span><span class="n">solver_name</span> <span class="o">=</span> <span class="s2">&quot;hkl_soleil&quot;</span>
+<span class="n">fourc</span><span class="o">.</span><span class="n">_solver</span><span class="o">.</span><span class="n">geometry</span> <span class="o">=</span> <span class="s2">&quot;E4CV, hkl&quot;</span>
+<span class="n">fourc</span><span class="o">.</span><span class="n">_solver</span><span class="o">.</span><span class="n">auto_assign_axes</span><span class="p">(</span><span class="n">fourc</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">fourc</span><span class="o">.</span><span class="n">_solver</span><span class="o">.</span><span class="n">user_pseudos</span><span class="p">)</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">fourc</span><span class="o">.</span><span class="n">_solver</span><span class="o">.</span><span class="n">user_reals</span><span class="p">)</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">fourc</span><span class="o">.</span><span class="n">_solver</span><span class="o">.</span><span class="n">user_extras</span><span class="p">)</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+len(fourc._solver.user_pseudos)=3
+len(fourc._solver.user_reals)=4
+len(fourc._solver.user_extras)=4
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">math</span>
@@ -429,10 +534,10 @@ vibranium_lattice=Lattice(a=6.2832, b=6.2832, c=6.2832, alpha=90.0, beta=90.0, g
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">vibranium</span> <span class="o">=</span> <span class="n">hklpy2</span><span class="o">.</span><span class="n">Sample</span><span class="p">(</span><span class="n">solver</span><span class="p">,</span> <span class="n">vibranium_lattice</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;vibranium&quot;</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">vibranium</span> <span class="o">=</span> <span class="n">hklpy2</span><span class="o">.</span><span class="n">Sample</span><span class="p">(</span><span class="n">fourc</span><span class="o">.</span><span class="n">_solver</span><span class="p">,</span> <span class="n">vibranium_lattice</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;vibranium&quot;</span><span class="p">)</span>
 <span class="n">vibranium_lattice</span><span class="o">.</span><span class="n">digits</span> <span class="o">=</span> <span class="mi">2</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">vibranium</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
@@ -447,7 +552,7 @@ vibranium=Sample(name=&#39;vibranium&#39;, lattice=Lattice(a=6.28, b=6.28, c=6.2
 </pre></div></div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">vibranium</span><span class="o">.</span><span class="n">reflections</span><span class="o">.</span><span class="n">ordering</span> <span class="o">=</span> <span class="p">[]</span>
@@ -455,12 +560,12 @@ vibranium=Sample(name=&#39;vibranium&#39;, lattice=Lattice(a=6.28, b=6.28, c=6.2
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">vibranium</span><span class="o">.</span><span class="n">reflections</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
     <span class="n">hklpy2</span><span class="o">.</span><span class="n">Reflection</span><span class="p">(</span>
-        <span class="n">solver</span><span class="p">,</span>
+        <span class="n">fourc</span><span class="o">.</span><span class="n">_solver</span><span class="p">,</span>
         <span class="nb">dict</span><span class="p">(</span><span class="n">h</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">l</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
         <span class="nb">dict</span><span class="p">(</span><span class="n">omega</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">chi</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">phi</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">tth</span><span class="o">=</span><span class="mi">20</span><span class="p">),</span>
         <span class="n">wavelength</span><span class="o">=</span><span class="mf">1.00</span><span class="p">,</span>
@@ -469,7 +574,7 @@ vibranium=Sample(name=&#39;vibranium&#39;, lattice=Lattice(a=6.28, b=6.28, c=6.2
 <span class="p">)</span>
 <span class="n">vibranium</span><span class="o">.</span><span class="n">reflections</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
     <span class="n">hklpy2</span><span class="o">.</span><span class="n">Reflection</span><span class="p">(</span>
-        <span class="n">solver</span><span class="p">,</span>
+        <span class="n">fourc</span><span class="o">.</span><span class="n">_solver</span><span class="p">,</span>
         <span class="nb">dict</span><span class="p">(</span><span class="n">h</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">l</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
         <span class="nb">dict</span><span class="p">(</span><span class="n">omega</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">chi</span><span class="o">=-</span><span class="mi">90</span><span class="p">,</span> <span class="n">phi</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">tth</span><span class="o">=</span><span class="mi">20</span><span class="p">),</span>
         <span class="n">wavelength</span><span class="o">=</span><span class="mf">1.00</span><span class="p">,</span>
@@ -491,7 +596,7 @@ Reflection(name=&#39;r2&#39;, geometry=&#39;E4CV, hkl&#39;, pseudos={&#39;h&#39;
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">vibranium</span><span class="o">.</span><span class="n">reflections</span><span class="o">.</span><span class="n">swap</span><span class="p">()</span>
@@ -512,15 +617,15 @@ Reflection(name=&#39;r1&#39;, geometry=&#39;E4CV, hkl&#39;, pseudos={&#39;h&#39;
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">solver</span><span class="o">.</span><span class="n">geometries</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fourc</span><span class="o">.</span><span class="n">_solver</span><span class="o">.</span><span class="n">geometries</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
 <div class="output_area docutils container">

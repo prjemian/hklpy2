@@ -5,7 +5,10 @@
    "id": "687747a6-47b1-4d11-9d4c-64c071d735b3",
    "metadata": {},
    "source": [
-    "## Demonstrate **hklpy2**'s API"
+    "## Demonstrate **hklpy2**'s API\n",
+    "\n",
+    "A working notebook as the package is being developed.\n",
+    "***Anything*** could change."
    ]
   },
   {
@@ -18,8 +21,8 @@
      "name": "stdout",
      "output_type": "stream",
      "text": [
-      "2024-05-10 01:01:23.356334\n",
-      "hklpy2.__version__='0.0.8.dev3+g7bbfe41.d20240510'\n",
+      "2024-05-20 18:20:04.393039\n",
+      "hklpy2.__version__='0.0.10.dev27+g9d41cc4.d20240520'\n",
       "hklpy2.solvers()={'hkl_soleil': 'hklpy2.backends.hkl_soleil:HklSolver', 'no_op': 'hklpy2.backends.no_op:NoOpSolver', 'th_tth': 'hklpy2.backends.th_tth_q:ThTthSolver'}\n"
      ]
     }
@@ -33,22 +36,18 @@
    ]
   },
   {
-   "cell_type": "code",
-   "execution_count": 2,
-   "id": "4233356b-1d43-4b37-bafe-89678e3a1dde",
+   "cell_type": "markdown",
+   "id": "214ab8b9-3fb5-4c1b-bfe1-ac442e2e73a2",
    "metadata": {},
-   "outputs": [],
    "source": [
-    "# solver_name = \"no_op\"\n",
-    "# gname = \"anything\"\n",
+    "TODO: Make it easier to specify the pseudos, reals, and extras for any geometry & mode.\n",
     "\n",
-    "solver_name = \"hkl_soleil\"\n",
-    "gname = \"E4CV, hkl\""
+    "Can a given geometry assume (as a default?) that the first $p$ pseudos and the first $r$ reals (defined in the `DiffractometerBase` subclass) are the ones to use for the given Solver?  Here, $p$ and $r$ are the number of pseudos and reals, respectively, required by the geometry.  The order is important.  User could override."
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 3,
+   "execution_count": 2,
    "id": "3efedd0c-f9db-46f9-9dfa-960607960e9c",
    "metadata": {},
    "outputs": [
@@ -56,34 +55,15 @@
      "name": "stdout",
      "output_type": "stream",
      "text": [
-      "solver=HklSolver(name='hkl_soleil', version='v5.0.0.3434')\n"
-     ]
-    }
-   ],
-   "source": [
-    "SolverClass = hklpy2.get_solver(solver_name)\n",
-    "solver = SolverClass()\n",
-    "print(f\"{solver=!r}\")"
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": 4,
-   "id": "c3e63a54-b9ad-4a3b-abfe-ea1c0aaedc22",
-   "metadata": {},
-   "outputs": [
-    {
-     "name": "stdout",
-     "output_type": "stream",
-     "text": [
-      "solver=HklSolver(name='hkl_soleil', version='v5.0.0.3434')\n",
+      "solver=HklSolver(name='hkl_soleil', version='v5.0.0.3434', geometry='E4CV, hkl', engine='')\n",
       "solver.pseudo_axis_names=['h', 'k', 'l']\n",
       "solver.real_axis_names=['omega', 'chi', 'phi', 'tth']\n"
      ]
     }
    ],
    "source": [
-    "solver.geometry = gname\n",
+    "# solver = hklpy2.solver_factory(\"no_op\", \"NoOpSolver ignores the gname\")\n",
+    "solver = hklpy2.solver_factory(\"hkl_soleil\", geometry=\"E4CV, hkl\")\n",
     "print(f\"{solver=}\")\n",
     "print(f\"{solver.pseudo_axis_names=!r}\")\n",
     "print(f\"{solver.real_axis_names=}\")"
@@ -91,7 +71,154 @@
   },
   {
    "cell_type": "code",
+   "execution_count": 3,
+   "id": "e6d58aca-0fbf-4648-9959-d785b1c93e85",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "e4cv=SimulatedE4CV(prefix='', name='e4cv', settle_time=0.0, timeout=None, egu='', limits=(0, 0), source='computed', read_attrs=['h', 'h.readback', 'h.setpoint', 'k', 'k.readback', 'k.setpoint', 'l', 'l.readback', 'l.setpoint', 'omega', 'chi', 'phi', 'tth'], configuration_attrs=['energy', 'energy_units', 'energy_offset', 'geometry_name', 'class_name', 'sample_name', 'lattice', 'lattice_reciprocal', 'U', 'UB', 'reflections_details', 'ux', 'uy', 'uz', 'diffractometer_name', '_hklpy_version', '_pseudos', '_reals', '_constraints', '_mode', 'orientation_attrs', 'h', 'k', 'l'], concurrent=True)\n",
+      "solver.user_pseudos=(PseudoSingle(prefix='', name='e4cv_h', parent='e4cv', settle_time=0.0, timeout=None, egu='', limits=(0, 0), source='computed', read_attrs=['readback', 'setpoint'], configuration_attrs=[], idx=0), PseudoSingle(prefix='', name='e4cv_k', parent='e4cv', settle_time=0.0, timeout=None, egu='', limits=(0, 0), source='computed', read_attrs=['readback', 'setpoint'], configuration_attrs=[], idx=1), PseudoSingle(prefix='', name='e4cv_l', parent='e4cv', settle_time=0.0, timeout=None, egu='', limits=(0, 0), source='computed', read_attrs=['readback', 'setpoint'], configuration_attrs=[], idx=2))\n",
+      "solver.user_reals=(SoftPositioner(name='e4cv_omega', parent='e4cv', settle_time=0.0, timeout=None, egu='', limits=(-180, 180), source='computed'), SoftPositioner(name='e4cv_chi', parent='e4cv', settle_time=0.0, timeout=None, egu='', limits=(-180, 180), source='computed'), SoftPositioner(name='e4cv_phi', parent='e4cv', settle_time=0.0, timeout=None, egu='', limits=(-180, 180), source='computed'), SoftPositioner(name='e4cv_tth', parent='e4cv', settle_time=0.0, timeout=None, egu='', limits=(-180, 180), source='computed'))\n",
+      "solver.user_extras=()\n"
+     ]
+    }
+   ],
+   "source": [
+    "from hkl import SimulatedE4CV\n",
+    "\n",
+    "e4cv = SimulatedE4CV(\"\", name=\"e4cv\")\n",
+    "print(f\"{e4cv=!r}\")\n",
+    "\n",
+    "solver.auto_assign_axes(e4cv)\n",
+    "print(f\"{solver.user_pseudos=}\")\n",
+    "print(f\"{solver.user_reals=}\")\n",
+    "print(f\"{solver.user_extras=}\")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "id": "e6aca903-c484-4783-808b-8d571d4b91b2",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "((0.0, 0.0, 0.0), (0, 0, 0, 0))"
+      ]
+     },
+     "execution_count": 4,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "tuple([axis.position for axis in e4cv.pseudo_positioners]), tuple([axis.position for axis in e4cv.real_positioners])"
+   ]
+  },
+  {
+   "cell_type": "code",
    "execution_count": 5,
+   "id": "b6f15454-7d0d-418a-bef4-89be51a26cf1",
+   "metadata": {
+    "scrolled": true
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "solver.user_pseudos=(PseudoSingle(prefix='', name='fourc_h', parent='fourc', settle_time=0.0, timeout=None, egu='', limits=(0, 0), source='computed', read_attrs=['readback', 'setpoint'], configuration_attrs=[], idx=0), PseudoSingle(prefix='', name='fourc_k', parent='fourc', settle_time=0.0, timeout=None, egu='', limits=(0, 0), source='computed', read_attrs=['readback', 'setpoint'], configuration_attrs=[], idx=1), PseudoSingle(prefix='', name='fourc_l', parent='fourc', settle_time=0.0, timeout=None, egu='', limits=(0, 0), source='computed', read_attrs=['readback', 'setpoint'], configuration_attrs=[], idx=2))\n",
+      "solver.user_reals=(SoftPositioner(name='fourc_omega', parent='fourc', settle_time=0.0, timeout=None, egu='', limits=(-180, 180), source='computed'), SoftPositioner(name='fourc_chi', parent='fourc', settle_time=0.0, timeout=None, egu='', limits=(-180, 180), source='computed'), SoftPositioner(name='fourc_phi', parent='fourc', settle_time=0.0, timeout=None, egu='', limits=(-180, 180), source='computed'), SoftPositioner(name='fourc_tth', parent='fourc', settle_time=0.0, timeout=None, egu='', limits=(-170, 170), source='computed'))\n",
+      "solver.user_extras=(PseudoSingle(prefix='', name='fourc_h2', parent='fourc', settle_time=0.0, timeout=None, egu='', limits=(0, 0), source='computed', read_attrs=['readback', 'setpoint'], configuration_attrs=[], idx=3), PseudoSingle(prefix='', name='fourc_k2', parent='fourc', settle_time=0.0, timeout=None, egu='', limits=(0, 0), source='computed', read_attrs=['readback', 'setpoint'], configuration_attrs=[], idx=4), PseudoSingle(prefix='', name='fourc_l2', parent='fourc', settle_time=0.0, timeout=None, egu='', limits=(0, 0), source='computed', read_attrs=['readback', 'setpoint'], configuration_attrs=[], idx=5), SoftPositioner(name='fourc_psi', parent='fourc', settle_time=0.0, timeout=None, egu='', limits=(-170, 170), source='computed'))\n"
+     ]
+    }
+   ],
+   "source": [
+    "from ophyd import Component as Cpt\n",
+    "from ophyd import Kind\n",
+    "from ophyd import PseudoSingle\n",
+    "from ophyd import SoftPositioner\n",
+    "\n",
+    "NORMAL_HINTED = Kind.hinted | Kind.normal\n",
+    "\n",
+    "class Fourc(hklpy2.DiffractometerBase):\n",
+    "    \"\"\"Test case.\"\"\"\n",
+    "\n",
+    "    h = Cpt(PseudoSingle, \"\", kind=NORMAL_HINTED)  # noqa: E741\n",
+    "    k = Cpt(PseudoSingle, \"\", kind=NORMAL_HINTED)  # noqa: E741\n",
+    "    l = Cpt(PseudoSingle, \"\", kind=NORMAL_HINTED)  # noqa: E741\n",
+    "\n",
+    "    omega = Cpt(SoftPositioner, limits=(-180, 180), init_pos=0, kind=NORMAL_HINTED)\n",
+    "    chi = Cpt(SoftPositioner, limits=(-180, 180), init_pos=0, kind=NORMAL_HINTED)\n",
+    "    phi = Cpt(SoftPositioner, limits=(-180, 180), init_pos=0, kind=NORMAL_HINTED)\n",
+    "    tth = Cpt(SoftPositioner, limits=(-170, 170), init_pos=0, kind=NORMAL_HINTED)\n",
+    "\n",
+    "    h2 = Cpt(PseudoSingle, \"\", kind=NORMAL_HINTED)  # noqa: E741\n",
+    "    k2 = Cpt(PseudoSingle, \"\", kind=NORMAL_HINTED)  # noqa: E741\n",
+    "    l2 = Cpt(PseudoSingle, \"\", kind=NORMAL_HINTED)  # noqa: E741\n",
+    "\n",
+    "    psi = Cpt(SoftPositioner, limits=(-170, 170), init_pos=0, kind=NORMAL_HINTED)\n",
+    "\n",
+    "fourc = Fourc(\"\", name=\"fourc\")\n",
+    "solver.auto_assign_axes(fourc)\n",
+    "print(f\"{solver.user_pseudos=}\")\n",
+    "print(f\"{solver.user_reals=}\")\n",
+    "print(f\"{solver.user_extras=}\")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 13,
+   "id": "b0b0e47a-49f3-4416-95f8-6b2435ae20e3",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "{'position': (0, 0, 0, 0, 0, 0, 0, 0, 0, 0)}"
+      ]
+     },
+     "execution_count": 13,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "fourc.report"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 6,
+   "id": "6adf8aaa-9eb2-4926-8a6d-59a1f722db4f",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "len(fourc._solver.user_pseudos)=3\n",
+      "len(fourc._solver.user_reals)=4\n",
+      "len(fourc._solver.user_extras)=4\n"
+     ]
+    }
+   ],
+   "source": [
+    "fourc.solver_name = \"hkl_soleil\"\n",
+    "fourc._solver.geometry = \"E4CV, hkl\"\n",
+    "fourc._solver.auto_assign_axes(fourc)\n",
+    "print(f\"{len(fourc._solver.user_pseudos)=}\")\n",
+    "print(f\"{len(fourc._solver.user_reals)=}\")\n",
+    "print(f\"{len(fourc._solver.user_extras)=}\")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 7,
    "id": "71b53164-cd05-460e-aeee-34709d54afa4",
    "metadata": {},
    "outputs": [
@@ -111,7 +238,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 6,
+   "execution_count": 8,
    "id": "15c41d66-c141-4fd4-bff7-ab731fefe8b7",
    "metadata": {},
    "outputs": [
@@ -124,14 +251,14 @@
     }
    ],
    "source": [
-    "vibranium = hklpy2.Sample(solver, vibranium_lattice, name=\"vibranium\")\n",
+    "vibranium = hklpy2.Sample(fourc._solver, vibranium_lattice, name=\"vibranium\")\n",
     "vibranium_lattice.digits = 2\n",
     "print(f\"{vibranium=}\")"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 7,
+   "execution_count": 9,
    "id": "b1f545e2-ec28-4468-a6ac-43a807a586ad",
    "metadata": {},
    "outputs": [],
@@ -141,7 +268,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 8,
+   "execution_count": 10,
    "id": "d93281fe-ec11-4e6d-aad4-fc62987a6de5",
    "metadata": {},
    "outputs": [
@@ -157,7 +284,7 @@
    "source": [
     "vibranium.reflections.add(\n",
     "    hklpy2.Reflection(\n",
-    "        solver, \n",
+    "        fourc._solver, \n",
     "        dict(h=1, k=0, l=0), \n",
     "        dict(omega=10, chi=0, phi=0, tth=20), \n",
     "        wavelength=1.00, \n",
@@ -166,7 +293,7 @@
     ")\n",
     "vibranium.reflections.add(\n",
     "    hklpy2.Reflection(\n",
-    "        solver, \n",
+    "        fourc._solver, \n",
     "        dict(h=0, k=1, l=0), \n",
     "        dict(omega=10, chi=-90, phi=0, tth=20), \n",
     "        wavelength=1.00, \n",
@@ -179,7 +306,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 9,
+   "execution_count": 11,
    "id": "eb3391b0-1560-486d-b1d9-005e766063dd",
    "metadata": {},
    "outputs": [
@@ -202,7 +329,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 10,
+   "execution_count": 12,
    "id": "8f36ade3-dcb2-4f37-b566-11b88a3f6f92",
    "metadata": {},
    "outputs": [
@@ -307,13 +434,13 @@
        " 'ZAXIS, tth2']"
       ]
      },
-     "execution_count": 10,
+     "execution_count": 12,
      "metadata": {},
      "output_type": "execute_result"
     }
    ],
    "source": [
-    "solver.geometries"
+    "fourc._solver.geometries"
    ]
   }
  ],

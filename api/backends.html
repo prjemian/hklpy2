@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
   <script src="../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script src="../_static/documentation_options.js?v=e1ddb97b"></script>
+    <script src="../_static/documentation_options.js?v=2d3cbd79"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/design-tabs.js?v=36754332"></script>
@@ -387,15 +387,6 @@ using the <code class="docutils literal notranslate"><span class="pre">&quot;hkl
 </div>
 <section id="how-to-select-a-solver">
 <span id="api-backends-set"></span><h2>How to select a Solver<a class="headerlink" href="#how-to-select-a-solver" title="Link to this heading">#</a></h2>
-<p>To select a <strong>Solver</strong> class, call
-<a class="reference internal" href="z_misc.html#hklpy2.misc.get_solver" title="hklpy2.misc.get_solver"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_solver()</span></code></a>. This example
-selects the <strong>Hkl/Soleil</strong> <strong>Solver</strong> (using its entry point name: <code class="docutils literal notranslate"><span class="pre">&quot;hkl_soleil&quot;</span></code>):</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hklpy2</span> <span class="kn">import</span> <span class="n">get_solver</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">Solver</span> <span class="o">=</span> <span class="n">get_solver</span><span class="p">(</span><span class="s2">&quot;hkl_soleil&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">Solver</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="go">Solver=&lt;class &#39;hklpy2.backends.hkl_soleil.HklSolver&#39;&gt;</span>
-</pre></div>
-</div>
 <p>To list all available <strong>Solver</strong> classes (by their entry point name),
 call <code class="xref py py-func docutils literal notranslate"><span class="pre">solvers()</span></code>.
 This example shows the <strong>Solver</strong> classes supplied with <strong>hklpy2</strong>:</p>
@@ -403,6 +394,26 @@ This example shows the <strong>Solver</strong> classes supplied with <strong>hkl
 <span class="gp">&gt;&gt;&gt; </span><span class="n">solvers</span><span class="p">()</span>
 <span class="go">{&#39;hkl_soleil&#39;: &#39;hklpy2.backends.hkl_soleil:HklSolver&#39;,</span>
 <span class="go"> &#39;no_op&#39;: &#39;hklpy2.backends.no_op:NoOpSolver&#39;}</span>
+</pre></div>
+</div>
+<p>This is a dictionary, keyed by the solver names.  To create an instance
+of a specific <strong>Solver</strong> class, use <a class="reference internal" href="z_misc.html#hklpy2.misc.solver_factory" title="hklpy2.misc.solver_factory"><code class="xref py py-func docutils literal notranslate"><span class="pre">solver_factory()</span></code></a>.
+In the next example (Linux-only), the first argument, <cite>hkl_soleil</cite>, picks the
+<a class="reference internal" href="backends/hkl_soleil.html#hklpy2.backends.hkl_soleil.HklSolver" title="hklpy2.backends.hkl_soleil.HklSolver"><code class="xref py py-class docutils literal notranslate"><span class="pre">HklSolver</span></code></a>, the <cite>geometry</cite> keyword
+picks the Eulerian 4-circle geometry with the <em>hkl</em> engine:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hklpy2</span> <span class="kn">import</span> <span class="n">solver_factory</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">solver</span> <span class="o">=</span> <span class="n">solver_factory</span><span class="p">(</span><span class="s2">&quot;hkl_soleil&quot;</span><span class="p">,</span> <span class="n">geometry</span><span class="o">=</span><span class="s2">&quot;E4CV, hkl&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">solver</span><span class="p">)</span>
+<span class="go">HklSolver(name=&#39;hkl_soleil&#39;, version=&#39;v5.0.0.3434&#39;, geometry=&#39;E4CV, hkl&#39;)</span>
+</pre></div>
+</div>
+<p>To select a <strong>Solver</strong> class without creating an instance, call
+<a class="reference internal" href="z_misc.html#hklpy2.misc.get_solver" title="hklpy2.misc.get_solver"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_solver()</span></code></a>. This example
+selects the <strong>Hkl/Soleil</strong> <strong>Solver</strong> (using its entry point name: <code class="docutils literal notranslate"><span class="pre">&quot;hkl_soleil&quot;</span></code>):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hklpy2</span> <span class="kn">import</span> <span class="n">get_solver</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Solver</span> <span class="o">=</span> <span class="n">get_solver</span><span class="p">(</span><span class="s2">&quot;hkl_soleil&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">Solver</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="go">Solver=&lt;class &#39;hklpy2.backends.hkl_soleil.HklSolver&#39;&gt;</span>
 </pre></div>
 </div>
 </section>
@@ -432,13 +443,13 @@ See the API documentation for details.</p>
 <p class="rubric">Built-in Solvers</p>
 <table class="autosummary longtable table autosummary">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="backends/hkl_soleil.html#hklpy2.backends.hkl_soleil.HklSolver" title="hklpy2.backends.hkl_soleil.HklSolver"><code class="xref py py-obj docutils literal notranslate"><span class="pre">HklSolver</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="backends/hkl_soleil.html#hklpy2.backends.hkl_soleil.HklSolver" title="hklpy2.backends.hkl_soleil.HklSolver"><code class="xref py py-obj docutils literal notranslate"><span class="pre">HklSolver</span></code></a>(*, geometry[, engine, mode])</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">&quot;hkl_soleil&quot;</span></code> (Linux x86_64 only) <strong>Hkl/Soleil</strong>.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="backends/no_op.html#hklpy2.backends.no_op.NoOpSolver" title="hklpy2.backends.no_op.NoOpSolver"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NoOpSolver</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="backends/no_op.html#hklpy2.backends.no_op.NoOpSolver" title="hklpy2.backends.no_op.NoOpSolver"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NoOpSolver</span></code></a>(*, geometry, **kwargs)</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">&quot;no_op&quot;</span></code> (any OS) no transformations.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="backends/th_tth_q.html#hklpy2.backends.th_tth_q.ThTthSolver" title="hklpy2.backends.th_tth_q.ThTthSolver"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ThTthSolver</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="backends/th_tth_q.html#hklpy2.backends.th_tth_q.ThTthSolver" title="hklpy2.backends.th_tth_q.ThTthSolver"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ThTthSolver</span></code></a>(*, geometry, **kwargs)</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">&quot;th_tth&quot;</span></code> (any OS) <span class="math notranslate nohighlight">\(\theta,2\theta\)</span> and <span class="math notranslate nohighlight">\(Q\)</span>.</p></td>
 </tr>
 </tbody>
@@ -446,7 +457,7 @@ See the API documentation for details.</p>
 <p class="rubric">Base class for all solvers</p>
 <table class="autosummary longtable table autosummary">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="backends/base.html#hklpy2.backends.base.SolverBase" title="hklpy2.backends.base.SolverBase"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SolverBase</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="backends/base.html#hklpy2.backends.base.SolverBase" title="hklpy2.backends.base.SolverBase"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SolverBase</span></code></a>(*, geometry[, mode, pseudos, ...])</p></td>
 <td><p>Base class for all <strong>hklpy2</strong> <strong>Solver</strong> classes.</p></td>
 </tr>
 </tbody>
