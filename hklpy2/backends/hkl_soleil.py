@@ -3,9 +3,11 @@ Backend: Hkl (``"hkl_soleil"``)
 
 Example::
 
-    import hklpy2
-    SolverClass = hklpy2.get_solver("hkl_soleil")
-    libhkl_solver = SolverClass()
+    >>> import hklpy2
+    >>> SolverClass = hklpy2.get_solver("hkl_soleil")
+    >>> libhkl_solver = SolverClass(geometry="E4CV")
+    >>> solver
+    HklSolver(name='hkl_soleil', version='v5.0.0.3434', geometry='E4CV', engine='hkl', mode='bissector')
 
 .. autosummary::
 
@@ -14,9 +16,9 @@ Example::
 
 import logging
 
-from .. import UNDEFINED
 from .. import SolverBase
 from .. import SolverError
+from .. import check_value_in_list
 
 try:
     import gi
@@ -45,164 +47,174 @@ class HklSolver(SolverBase):
         ~addReflection
         ~addSample
         ~calculateOrientation
-        ~extra_axis_names
         ~forward
         ~inverse
-        ~pseudo_axis_names
-        ~real_axis_names
         ~refineLattice
 
     .. rubric:: Python Properties
 
     .. autosummary::
 
+        ~engine
+        ~engines
+        ~extra_axis_names
         ~geometries
         ~geometry
+        ~geometry_engine
         ~lattice
         ~mode
         ~modes
+        ~pseudo_axis_names
+        ~real_axis_names
     """
 
     name = "hkl_soleil"
     version = libhkl.VERSION
 
-    def __init__(self, *args, **kwargs) -> None:
-        self._pseudo_axis_names = []
-        self._real_axis_names = []
+    def __init__(self, *args, engine="hkl", mode="", **kwargs) -> None:
+        self._engine = None
+
         super().__init__(*args, **kwargs)
+        self.geometry_engine = kwargs["geometry"], engine
 
-        self.detector = libhkl.Detector.factory_new(libhkl.DetectorType(0))
-        self._engine = UNDEFINED
-        self._factory = UNDEFINED
-        self.user_units = libhkl.UnitEnum.USER
+        self.print_info_DEVELOPER()
 
-    def __repr__(self) -> str:
-        # fmt: off
+    def print_info_DEVELOPER(self):
+        print(f"{self=!r}")
+        print(f"{self.name=!r}")
+        print(f"{self.__class__.__name__=!r}")
+        print(f"{self.version=!r}")
+        print(f"{self._factory=!r}")
+        print(f"{self._geometry=!r}")
+        print(f"{self.geometry=!r}")
+        print(f"{self.engines=!r}")
+        print(f"{self._engines=!r}")
+        print(f"{self._engine=!r}")
+        print(f"{self.engine=!r}")
+        print(f"{self.modes=!r}")
+        print(f"{self.mode=!r}")
+        print(f"{self.pseudo_axis_names=!r}")
+        print(f"{self.real_axis_names=!r}")
+        print(f"{self.extra_axis_names=!r}")
+        print(f"{self.user_pseudos=!r}")
+        print(f"{self.user_reals=!r}")
+        print(f"{self.user_extras=!r}")
+
+    def __repr__(self):
         args = [
             f"{s}={getattr(self, s)!r}"
-            for s in "name version geometry engine".split()
+            for s in "name version geometry engine mode".split()
         ]
-        # fmt: on
         return f"{self.__class__.__name__}({', '.join(args)})"
 
     def addReflection(self, pseudos, reals, wavelength):  # TODO
         """Add coordinates of a diffraction condition (a reflection)."""
+        raise NotImplementedError()
 
     def addSample(self, sample):  # TODO
         """Add a sample."""
+        raise NotImplementedError()
 
     def calculateOrientation(self, r1, r2):  # TODO
         """Calculate the UB (orientation) matrix from two reflections."""
+        raise NotImplementedError()
 
     @property
     def engine(self):
-        if self._engine == UNDEFINED:
+        """Selected computational engine for this geometry."""
+        if self._engine is None:
             return ""
         return self._engine.name_get()
 
     @property
-    def extra_axis_names(self):
-        """Ordered list of any extra axis names (such as x, y, z)."""
-        return []  # TODO
+    def engines(self):
+        """List of the computational engines available in this geometry."""
+        if self._engines is None:
+            return []
+        return [engine.name_get() for engine in self._engines.engines_get()]
 
-    def forward(self):
+    @property
+    def extra_axis_names(self):
+        """
+        Ordered list of any extra axis names (such as x, y, z).
+
+        Depends on selected geometry, engine, and mode.
+        """
+        # Do NOT sort.
+        return self._engine.parameters_names_get()
+
+    def forward(self):  # TODO:
         """Compute list of solutions(reals) from pseudos (hkl -> [angles])."""
+        print(f"{__name__=} forward()")
         return [{}]
 
     @property
     def geometries(self):
-        """
-        Ordered list of the geometry names.
-
-        .. sidebar:: compare with E4CV
-
-            TODO: confirm with the |libhkl| docs
-
-            .. seealso::
-
-                * `E4CV <https://blueskyproject.io/hklpy/geometry_tables.html#geometry-e4cv>`_
-                * `Hkl <https://people.debian.org/~picca/hkl/hkl.html>`_
-
-        For |libhkl|, each geometry may have zero or more computational
-        *engines*. Each engine has its own set of pseudos and reals.  Some of
-        the engines have additional (optional) axes.
-
-        So the geometry *names* include both the geometry and its computational
-        engine, such as `"E4CV, hkl"`.
-        """
-        geometries = []
-        for fname, factory in libhkl.factories().items():
-            # Underlying library raises error for the merged call:
-            #   factory.create_new_engine_list().engines_get()
-            # MUST do this in two parts here (and elsewhere).
-            engines = factory.create_new_engine_list()
-            for engine in engines.engines_get():
-                # "geometry, engine"
-                geometries.append(f"{fname}, {engine.name_get()}")
-        return sorted(set(geometries))
+        return sorted(libhkl.factories())
 
     @property
-    def geometry(self):
-        """
-        Diffractometer geometry and engine, such as `"E4CV, hkl"`.
-
-        To select (set) which combination of geometry and computational
-        engine, specify both such as::
-
-            solver.geometry = "E4CV, hkl"
-        """
-        return self._geometry
+    def geometry(self) -> str:
+        return self._gname
 
     @geometry.setter
-    def geometry(self, value):
-        if not isinstance(value, str):
-            raise TypeError(f"Must supply str, received {value!r}")
-        if value not in self.geometries and value != UNDEFINED:
-            raise KeyError(
-                f"Geometry {value} unknown. Pick one of: {self.geometries!r}"
-            )
+    def geometry(self, value: str):
+        check_value_in_list("Geometry", value, self.geometries)
+        self._gname = value
 
-        self._geometry = value
-        if value == UNDEFINED:
-            self._factory = UNDEFINED
-            self._real_axis_names = []
-            self._pseudo_axis_names = []
-        else:
-            if "," not in value:
-                value += ", hkl"  # allow for default engine of 'hkl
-            gname, engine_name = [s.strip() for s in value.split(",")]
-            self._factory = libhkl.factories()[gname]
-            engines = self._factory.create_new_engine_list()
-            self._engine = engines.engine_get_by_name(engine_name)
+    @property
+    def geometry_engine(self):
+        """Library objects for geometry & computation engine."""
+        return self._geometry, self._engine
 
-            g = self._factory.create_new_geometry()
-            self._real_axis_names = g.axis_names_get()
-            self._pseudo_axis_names = self._engine.pseudo_axis_names_get()
+    @geometry_engine.setter
+    def geometry_engine(self, values):
+        # note: must keep the 'engines' object as class attribute or
+        # random core dumps, usually when accessing 'engine.name_get()'.
 
-    def inverse(self, reals: dict):
+        gname, ename = values
+        self._factory = libhkl.factories()[gname]
+        self._engines = self._factory.create_new_engine_list()  # note!
+        self._engine = self._engines.engine_get_by_name(ename)
+        self._geometry = self._factory.create_new_geometry()
+
+    def inverse(self, reals: dict):  # TODO
         """Compute tuple of pseudos from reals (angles -> hkl)."""
         print(f"{__name__=} inverse({reals=!r})")
-        return tuple(0, 0, 0)  # TODO
+        return tuple(0, 0, 0)
 
     @property
     def modes(self):
         """List of the geometry operating modes."""
-        return []  # TODO
+        if self._engine is None:
+            return []
+        return self._engine.modes_names_get()
+
+    @property
+    def mode(self):
+        """Name of the current geometry operating mode."""
+        if self._engine is None:
+            return []
+        return self._engine.current_mode_get()
+
+    @mode.setter
+    def mode(self, value):
+        check_value_in_list("Mode", value, self.modes, blank_ok=True)
+        if value == "":
+            return  # keep current mode
+        self._engine.current_mode_set(value)
 
     @property
     def pseudo_axis_names(self):
         """Ordered list of the pseudo axis names (such as h, k, l)."""
-        return self._pseudo_axis_names
+        # Do NOT sort.
+        return self._engine.pseudo_axis_names_get()
 
     @property
     def real_axis_names(self):
         """Ordered list of the real axis names (such as th, tth)."""
-        return self._real_axis_names
+        # Do NOT sort.
+        return self._geometry.axis_names_get()
 
-    def refineLattice(self, reflections):
+    def refineLattice(self, reflections):  # TODO
         """Refine the lattice parameters from a list of reflections."""
-        pass  # TODO
-
-    def setLattice(self, lattice):
-        """Define the sample's lattice parameters."""
-        pass  # TODO
+        raise NotImplementedError()
