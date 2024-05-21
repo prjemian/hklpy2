@@ -20,6 +20,7 @@ import math
 from .. import Reflection
 from .. import SolverError
 from .. import __version__
+from .. import check_value_in_list
 from .base import SolverBase
 
 logger = logging.getLogger(__name__)
@@ -71,9 +72,8 @@ class ThTthSolver(SolverBase):
     name = "th_tth"
     version = __version__
 
-    def __init__(self, *args, **kwargs) -> None:
-        super().__init__(*args, **kwargs)
-        self._geometry = None
+    def __init__(self, *, geometry: str, **kwargs) -> None:
+        super().__init__(geometry=geometry, **kwargs)
         self._reflections = []
         self._wavelength = None
 
@@ -118,25 +118,18 @@ class ThTthSolver(SolverBase):
     def extra_axis_names(self):
         return []
 
-    @property
-    def geometries(self):
+    @classmethod
+    def geometries(cls):
         return [TH_TTH_Q_GEOMETRY]  # only one geometry
 
     @property
-    def geometry(self):
+    def geometry(self) -> str:
         """Diffractometer geometry."""
         return self._geometry
 
     @geometry.setter
-    def geometry(self, value):
-        from .. import UNDEFINED
-
-        if not isinstance(value, (type(None), str)):
-            raise TypeError(f"Must supply str, received {value!r}")
-        if value not in self.geometries and value != UNDEFINED:
-            raise KeyError(
-                f"Geometry {value} unknown. Pick one of: {self.geometries!r}"
-            )
+    def geometry(self, value: str):
+        check_value_in_list("Geometry", value, self.geometries())
         self._geometry = value
 
     def inverse(self, reals: dict):

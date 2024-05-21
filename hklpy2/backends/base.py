@@ -11,7 +11,6 @@ from abc import ABC
 from abc import abstractmethod
 
 from .. import __version__
-from ..misc import UNDEFINED
 from ..misc import SolverError
 
 logger = logging.getLogger(__name__)
@@ -75,14 +74,16 @@ class SolverBase(ABC):
 
     def __init__(
         self,
-        geometry: str = UNDEFINED,
+        *,
+        geometry: str,
+        mode: str = "",  # "": accept solver's default mode
         pseudos: list = [],
         reals: list = [],
         extras: list = [],
         **kwargs,
     ) -> None:
         self.geometry = geometry
-
+        self.mode = mode
         self.user_pseudos = pseudos
         self.user_reals = reals
         self.user_extras = extras
@@ -142,6 +143,7 @@ class SolverBase(ABC):
     @abstractmethod
     def extra_axis_names(self):
         """Ordered list of any extra axis names (such as x, y, z)."""
+        # Do NOT sort.
         return []
 
     @abstractmethod
@@ -150,21 +152,26 @@ class SolverBase(ABC):
         # based on geometry and mode
         return [{}]
 
-    @property
+    @classmethod
     @abstractmethod
-    def geometries(self):
+    def geometries(cls):
         """Ordered list of the geometry names."""
         return []
 
     @property
     @abstractmethod
-    def geometry(self):
-        """Selected diffractometer geometry."""
+    def geometry(self) -> str:
+        """
+        Name of selected diffractometer geometry.
+
+        Cannot be changed once solver is created.  Instead, make a new solver
+        for each geometry.
+        """
         return self._geometry
 
     @geometry.setter
     @abstractmethod
-    def geometry(self, value):
+    def geometry(self, value: str):
         self._geometry = value
 
     @abstractmethod
@@ -197,15 +204,14 @@ class SolverBase(ABC):
         try:
             self._mode
         except AttributeError:
-            self._mode = UNDEFINED
+            self._mode = ""
         return self._mode
 
     @mode.setter
     def mode(self, value):
-        if not isinstance(value, str):
-            raise TypeError(f"Must supply str, received {value!r}")
-        if value not in self.modes:
-            raise KeyError(f"Mode {value} unknown. Pick one of: {self.modes!r}")
+        from .. import check_value_in_list  # avoid circular import here
+
+        check_value_in_list("Mode", value, self.modes, blank_ok=True)
         self._mode = value
 
     @property
@@ -218,12 +224,14 @@ class SolverBase(ABC):
     @abstractmethod
     def pseudo_axis_names(self):
         """Ordered list of the pseudo axis names (such as h, k, l)."""
+        # Do NOT sort.
         return []
 
     @property
     @abstractmethod
     def real_axis_names(self):
         """Ordered list of the real axis names (such as th, tth)."""
+        # Do NOT sort.
         return []
 
     @abstractmethod

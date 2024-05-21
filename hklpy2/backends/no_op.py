@@ -56,9 +56,8 @@ class NoOpSolver(SolverBase):
     name = "no_op"
     version = __version__
 
-    def __init__(self, *args, **kwargs) -> None:
-        super().__init__(*args, **kwargs)
-        self._geometry = None
+    def __init__(self, *, geometry: str, **kwargs) -> None:
+        super().__init__(geometry=geometry, **kwargs)
 
     def addReflection(self, pseudos, reals, wavelength):
         pass
@@ -76,17 +75,17 @@ class NoOpSolver(SolverBase):
     def forward(self):
         return [{}]
 
-    @property
-    def geometries(self):
+    @classmethod
+    def geometries(cls):
         return []
 
     @property
-    def geometry(self):
+    def geometry(self) -> str:
         """Diffractometer geometry."""
         return self._geometry
 
     @geometry.setter
-    def geometry(self, value):
+    def geometry(self, value: str):
         self._geometry = value
 
     def inverse(self, reals: dict):
