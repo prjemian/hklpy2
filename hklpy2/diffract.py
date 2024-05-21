@@ -123,12 +123,12 @@ class DiffractometerBase(PseudoPositioner):
     @pseudo_position_argument
     def forward(self, pseudos: dict):
         """Compute tuple of reals from pseudos (hkl -> angles)."""
-        return tuple((0, 0, 0, 0, 0, 0, 0, 0, 0, 0))  # FIXME
+        return tuple([axis[0] for axis in self._get_real_positioners()])  # FIXME
 
     @real_position_argument
     def inverse(self, reals: dict):
         """Compute tuple of pseudos from reals (angles -> hkl)."""
-        return tuple((0, 0, 0, 0, 0, 0, 0, 0, 0, 0))  # FIXME
+        return tuple([axis[0] for axis, cpt in self._get_pseudo_positioners()])  # FIXME
 
     # ---- get/set properties
 
