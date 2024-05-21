@@ -15,9 +15,11 @@ from ophyd.pseudopos import real_position_argument
 from ophyd.signal import AttributeSignal
 
 from . import Hklpy2Error
-from .misc import UNDEFINED
-from .misc import solver_factory
-from .misc import solvers
+
+# from .misc import check_value_in_list
+# from .misc import get_solver
+# from .misc import solver_factory
+# from .misc import solvers
 from .wavelength_support import DEFAULT_WAVELENGTH
 from .wavelength_support import ConstantMonochromaticWavelength
 
@@ -41,8 +43,6 @@ class DiffractometerBase(PseudoPositioner):
 
     .. autosummary::
 
-        ~solver
-        ~geometry
         ~wavelength
         ~wavelength_units
 
@@ -54,11 +54,6 @@ class DiffractometerBase(PseudoPositioner):
         ~inverse
 
     .. rubric:: Python Properties
-
-    .. autosummary::
-
-        ~geometry_name
-        ~solver_name
     """
 
     # TODO: allow for extra pseudos and reals
@@ -106,16 +101,13 @@ class DiffractometerBase(PseudoPositioner):
     def __init__(
         self,
         *args,
-        solver: str = None,
-        geometry: str = None,
+        # solver: str = "",
+        # geometry: str = "",
+        # engine: str = "",
         **kwargs,
     ):
-        if solver is None:
-            self._solver = UNDEFINED
-        else:
-            self.solver_name = solver
-        if geometry is not None:
-            self.geometry_name = geometry
+        # self.solver_name = solver
+        # self.geometry_name = geometry
         self._wavelength = ConstantMonochromaticWavelength(DEFAULT_WAVELENGTH)
 
         super().__init__(*args, **kwargs)
@@ -138,30 +130,36 @@ class DiffractometerBase(PseudoPositioner):
 
     # ---- get/set properties
 
-    @property
-    def geometry_name(self):
-        """Backend |solver| geometry name."""
-        if self.solver_name == "":
-            return ""
-        return self._solver.geometry
+    # @property
+    # def engine_name(self):
+    #     """Backend |solver| geometry name."""
+    #     return self._engine_name
 
-    @geometry_name.setter
-    def geometry_name(self, value: str):
-        if self.solver_name == "":
-            raise DiffractometerError("First, define the solver.")
-        self._solver.geometry = value
+    # @engine_name.setter
+    # def engine_name(self, value: str):
+    #     if self.solver_name != "" and self.geometry_name != "":
+    #         solver = solver_factory(self.solver_name, geometry=self.geometry_name)
+    #         check_value_in_list("Engine", value, list(solver.engines()))
+    #     self._engine_name = value
 
-    @property
-    def solver_name(self):
-        """Backend |solver| library name."""
-        if self._solver == UNDEFINED:
-            return ""
-        return self._solver.name
+    # @property
+    # def geometry_name(self):
+    #     """Backend |solver| geometry name."""
+    #     return self._geometry_name
 
-    @solver_name.setter
-    def solver_name(self, value: str):
-        if value == UNDEFINED:
-            raise DiffractometerError(
-                f"Pick one of these solver names: {list(solvers())!r}"
-            )
-        self._solver = solver_factory(value, geometry=UNDEFINED)
+    # @geometry_name.setter
+    # def geometry_name(self, value: str):
+    #     if self.solver_name != "":
+    #         sclass = get_solver(self.solver_name)
+    #         check_value_in_list("Geometry", value, list(sclass.geometries()))
+    #     self._geometry_name = value
+
+    # @property
+    # def solver_name(self):
+    #     """Backend |solver| library name."""
+    #     return self._solver_name
+
+    # @solver_name.setter
+    # def solver_name(self, value: str):
+    #     check_value_in_list("Solver", value, list(solvers()), blank_ok=True)
+    #     self._solver_name = value

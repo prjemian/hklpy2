@@ -3,23 +3,21 @@ from contextlib import nullcontext as does_not_raise
 import pytest
 
 from .. import SolverBase
-from .. import get_solver
+from .. import solver_factory
 from ..misc import unique_name
 from ..reflection import Reflection
 from ..reflection import ReflectionsDict
 
-no_op_solver = get_solver("no_op")()
+no_op_solver = solver_factory("no_op", geometry="")
 
 
 def test_reflection_no_op():
     """Test with the NoOpSolver"""
     from ..backends.no_op import NoOpSolver
 
-    solver = NoOpSolver()
-    assert solver is not None
-
     gname = "test geometry"
-    solver.geometry = gname
+    solver = NoOpSolver(geometry=gname)
+    assert solver is not None
     assert solver.geometry == gname, f"{solver.geometry=!r}"
 
     ref1 = Reflection(solver, {}, {}, 1.0, name="r1")
@@ -38,19 +36,19 @@ def test_reflection_hkl_soleil():
     """Test with the HklSolver"""
     from ..backends.hkl_soleil import HklSolver
 
-    solver = HklSolver()
+    gname = "E4CV"
+    solver = HklSolver(geometry=gname)
     assert solver is not None
 
-    gname = "E4CV"
-    solver.geometry = f"{gname}, hkl"
-    assert solver.geometry == f"{gname}, hkl"
+    assert solver.geometry == gname
+    assert solver.engine == "hkl"
 
     reals = dict(omega=10, chi=0, phi=0, tth=20)
     pseudos = dict(h=1, k=0, l=0)
     ref1 = Reflection(solver, pseudos, reals, 1.0, name="r1")
     assert ref1.name == "r1"
     expected = (
-        f"Reflection(name='r1', geometry={gname+', hkl'!r}, "
+        f"Reflection(name='r1', geometry={gname!r}, "
         "pseudos={'h': 1, 'k': 0, 'l': 0}, "
         "angles={'omega': 10, 'chi': 0, 'phi': 0, 'tth': 20}, "
         "wavelength=1.0)"

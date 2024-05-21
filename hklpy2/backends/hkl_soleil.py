@@ -71,13 +71,14 @@ class HklSolver(SolverBase):
     name = "hkl_soleil"
     version = libhkl.VERSION
 
-    def __init__(self, *args, engine="hkl", mode="", **kwargs) -> None:
+    def __init__(self, *, geometry: str, engine="hkl", mode="", **kwargs) -> None:
         self._engine = None
+        self._gname_locked = False  # can't chanmge after setting once
 
-        super().__init__(*args, **kwargs)
-        self.geometry_engine = kwargs["geometry"], engine
+        super().__init__(geometry=geometry, **kwargs)
+        self.geometry_engine = geometry, engine
 
-        self.print_info_DEVELOPER()
+        # self.print_info_DEVELOPER()
 
     def print_info_DEVELOPER(self):
         print(f"{self=!r}")
@@ -148,8 +149,8 @@ class HklSolver(SolverBase):
         print(f"{__name__=} forward()")
         return [{}]
 
-    @property
-    def geometries(self):
+    @classmethod
+    def geometries(cls):
         return sorted(libhkl.factories())
 
     @property
@@ -158,8 +159,11 @@ class HklSolver(SolverBase):
 
     @geometry.setter
     def geometry(self, value: str):
-        check_value_in_list("Geometry", value, self.geometries)
+        if self._gname_locked:
+            raise SolverError(f"Geometry {self._gname} cannot be changed.")
+        check_value_in_list("Geometry", value, self.geometries())
         self._gname = value
+        self._gname_locked = True
 
     @property
     def geometry_engine(self):

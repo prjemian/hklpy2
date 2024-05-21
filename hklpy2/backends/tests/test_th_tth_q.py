@@ -2,7 +2,6 @@ import numpy as np
 import pytest
 
 from ... import get_solver
-from ...misc import UNDEFINED
 from .. import SolverBase
 from ..th_tth_q import ThTthSolver
 
@@ -11,21 +10,17 @@ def test_solver():
     assert issubclass(ThTthSolver, SolverBase)
     assert get_solver("th_tth") == ThTthSolver
 
-    solver = ThTthSolver()
+    gname = "TH TTH Q"
+    solver = ThTthSolver(geometry=gname)
     assert isinstance(solver, SolverBase)
     assert solver.name == "th_tth"
-    assert solver.geometries == ["TH TTH Q"]
+    assert solver.geometries() == [gname]
 
-    assert solver.geometry is None
-    assert solver.pseudo_axis_names == []
-    assert solver.real_axis_names == []
-
-    solver.geometry = "TH TTH Q"
-    assert solver.geometry == "TH TTH Q"
+    assert solver.geometry == gname
     assert solver.pseudo_axis_names == ["q"]
     assert solver.real_axis_names == "th tth".split()
 
-    assert solver.mode == UNDEFINED
+    assert solver.mode == "", f"{solver.mode=!r}"
     solver.mode = "bisector"
     assert solver.mode == "bisector"
 
@@ -48,8 +43,7 @@ def test_solver():
     ],
 )
 def test_transforms(transform, wavelength, inputs, outputs, tol):
-    solver = get_solver("th_tth")()
-    solver.geometry = "TH TTH Q"
+    solver = get_solver("th_tth")(geometry="TH TTH Q")
     solver.mode = "bisector"
     solver.wavelength = wavelength
     if transform == "forward":
