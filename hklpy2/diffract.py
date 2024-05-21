@@ -15,11 +15,7 @@ from ophyd.pseudopos import real_position_argument
 from ophyd.signal import AttributeSignal
 
 from . import Hklpy2Error
-
-# from .misc import check_value_in_list
-# from .misc import get_solver
-# from .misc import solver_factory
-# from .misc import solvers
+from .misc import solver_factory
 from .wavelength_support import DEFAULT_WAVELENGTH
 from .wavelength_support import ConstantMonochromaticWavelength
 
@@ -52,20 +48,20 @@ class DiffractometerBase(PseudoPositioner):
 
         ~forward
         ~inverse
+        ~set_solver
 
     .. rubric:: Python Properties
-    """
 
-    # TODO: allow for extra pseudos and reals
-    # Allow the subclass to provide more axes than required.
-    # Also allow axes to be renamed.
-    # Needs a way to specify which ones used with particular solver.
+    .. autosummary::
+
+        ~geometry_name
+        ~solver_name
+    """
 
     # These two attributes are used by the PseudoPositioner class.
     # _pseudo = []  # List of pseudo-space PseudoPositioner objects.
     # _real = []  # List of real-space positioner objects.
 
-    # TODO: need a solver object AND a solver name
     solver = Cpt(
         AttributeSignal,
         attr="solver_name",
@@ -101,13 +97,9 @@ class DiffractometerBase(PseudoPositioner):
     def __init__(
         self,
         *args,
-        # solver: str = "",
-        # geometry: str = "",
-        # engine: str = "",
         **kwargs,
     ):
-        # self.solver_name = solver
-        # self.geometry_name = geometry
+        self._solver = None
         self._wavelength = ConstantMonochromaticWavelength(DEFAULT_WAVELENGTH)
 
         super().__init__(*args, **kwargs)
@@ -128,38 +120,22 @@ class DiffractometerBase(PseudoPositioner):
         pos = {axis[0]: 0 for axis in self._get_pseudo_positioners()}
         return self.PseudoPosition(**pos)
 
+    def set_solver(self, solver: str, geometry: str, **kwargs):
+        """Set the backend |solver| for this diffracometer."""
+        self._solver = solver_factory(solver, geometry=geometry, **kwargs)
+
     # ---- get/set properties
 
-    # @property
-    # def engine_name(self):
-    #     """Backend |solver| geometry name."""
-    #     return self._engine_name
+    @property
+    def geometry_name(self):
+        """Backend |solver| geometry name."""
+        if self._solver is not None:
+            return self._solver.geometry
+        return ""
 
-    # @engine_name.setter
-    # def engine_name(self, value: str):
-    #     if self.solver_name != "" and self.geometry_name != "":
-    #         solver = solver_factory(self.solver_name, geometry=self.geometry_name)
-    #         check_value_in_list("Engine", value, list(solver.engines()))
-    #     self._engine_name = value
-
-    # @property
-    # def geometry_name(self):
-    #     """Backend |solver| geometry name."""
-    #     return self._geometry_name
-
-    # @geometry_name.setter
-    # def geometry_name(self, value: str):
-    #     if self.solver_name != "":
-    #         sclass = get_solver(self.solver_name)
-    #         check_value_in_list("Geometry", value, list(sclass.geometries()))
-    #     self._geometry_name = value
-
-    # @property
-    # def solver_name(self):
-    #     """Backend |solver| library name."""
-    #     return self._solver_name
-
-    # @solver_name.setter
-    # def solver_name(self, value: str):
-    #     check_value_in_list("Solver", value, list(solvers()), blank_ok=True)
-    #     self._solver_name = value
+    @property
+    def solver_name(self):
+        """Backend |solver| library name."""
+        if self._solver is not None:
+            return self._solver.name
+        return ""
