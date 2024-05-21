@@ -54,6 +54,7 @@ def solver_factory(
     pseudos: list = [],
     reals: list = [],
     extras: list = [],
+    **kwargs,
 ):
     """
     Create a |solver| object with geometry and axes.
@@ -64,6 +65,7 @@ def solver_factory(
         pseudos=pseudos,
         reals=reals,
         extras=extras,
+        **kwargs,
     )
 
 
