@@ -3,6 +3,7 @@ Miscellaneous Support.
 
 .. autosummary::
 
+    ~check_value_in_list
     ~SOLVER_ENTRYPOINT_GROUP
     ~SolverError
     ~get_solver
@@ -29,6 +30,15 @@ UNDEFINED = str(object().__hash__())
 
 class SolverError(Hklpy2Error):
     """Custom exceptions from a |solver|."""
+
+
+def check_value_in_list(title, value, examples, blank_ok=False):
+    """Raise KeyError exception if value is not in the list of examples."""
+    if blank_ok:
+        examples.append("")
+    if value not in examples:
+        msg = f"{title} {value!r} unknown. Pick one of: {examples!r}"
+        raise KeyError(msg)
 
 
 def get_solver(solver_name):
