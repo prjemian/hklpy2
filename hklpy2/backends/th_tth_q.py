@@ -53,6 +53,7 @@ class ThTthSolver(SolverBase):
         ~calculateOrientation
         ~extra_axis_names
         ~forward
+        ~geometries
         ~inverse
         ~pseudo_axis_names
         ~real_axis_names
@@ -62,7 +63,6 @@ class ThTthSolver(SolverBase):
 
     .. autosummary::
 
-        ~geometries
         ~geometry
         ~lattice
         ~mode

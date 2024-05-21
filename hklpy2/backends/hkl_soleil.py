@@ -48,6 +48,7 @@ class HklSolver(SolverBase):
         ~addSample
         ~calculateOrientation
         ~forward
+        ~geometries
         ~inverse
         ~refineLattice
 
@@ -58,7 +59,6 @@ class HklSolver(SolverBase):
         ~engine
         ~engines
         ~extra_axis_names
-        ~geometries
         ~geometry
         ~geometry_engine
         ~lattice

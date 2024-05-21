@@ -50,6 +50,7 @@ class SolverBase(ABC):
         ~calculateOrientation
         ~extra_axis_names
         ~forward
+        ~geometries
         ~inverse
         ~pseudo_axis_names
         ~real_axis_names
@@ -59,7 +60,6 @@ class SolverBase(ABC):
 
     .. autosummary::
 
-        ~geometries
         ~geometry
         ~lattice
         ~mode
