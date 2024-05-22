@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
   <script src="../../../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script src="../../../_static/documentation_options.js?v=0c446633"></script>
+    <script src="../../../_static/documentation_options.js?v=cfadcac5"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/tabs.js?v=3030b3cb"></script>
@@ -350,6 +350,9 @@ document.write(`
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
+<span class="n">AXES_READ</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">AXES_WRITTEN</span> <span class="o">=</span> <span class="mi">1</span>
+
 
 <div class="viewcode-block" id="HklSolver">
 <a class="viewcode-back" href="../../../api/backends/hkl_soleil.html#hklpy2.backends.hkl_soleil.HklSolver">[docs]</a>
@@ -357,8 +360,25 @@ document.write(`
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    ``&quot;hkl_soleil&quot;`` (Linux x86_64 only) |libhkl|.</span>
 
-<span class="sd">    |solver| with support for many common diffractometer geoemtries.</span>
-<span class="sd">    Wraps the |libhkl| library from Frédéric-Emmanuel PICCA (Soleil).</span>
+<span class="sd">    Wraps the |libhkl| library, written by Frédéric-Emmanuel PICCA (Soleil),</span>
+<span class="sd">    with support for many common diffractometer geometries.</span>
+
+<span class="sd">    Parameters</span>
+
+<span class="sd">    - geometry: (*str*) Name of geometry.</span>
+<span class="sd">    - engine: (*str*) Name of computation engine.  (default: ``&quot;hkl&quot;``)</span>
+<span class="sd">    - mode: (*str*) Name of operating mode.  (default: current mode)</span>
+<span class="sd">    - pseudos: (*[PseudoPositioner]*) List of pseudo positioners.</span>
+<span class="sd">      (default: ``[]``)</span>
+<span class="sd">    - reals: (*[PositionerBase]*) List of real positioners.</span>
+<span class="sd">      (default: ``[]``)</span>
+<span class="sd">    - extra: (*[PseudoPositioner]+[PositionerBase*) List of extra positioners.</span>
+<span class="sd">      (default: ``[]``)</span>
+
+<span class="sd">    .. note:: The lists of ``pseudos``, ``reals``, and ``extras`` are the</span>
+<span class="sd">       corresponding axes of the diffractometer, in the order expected by</span>
+<span class="sd">       the |solver| geometry.  The names can be different between the</span>
+<span class="sd">       supplied and expected axes.  They are matched by order in the list.</span>
 
 <span class="sd">    .. rubric:: Python Methods</span>
 
@@ -376,6 +396,9 @@ document.write(`
 
 <span class="sd">    .. autosummary::</span>
 
+<span class="sd">        ~axes_c</span>
+<span class="sd">        ~axes_r</span>
+<span class="sd">        ~axes_w</span>
 <span class="sd">        ~engine</span>
 <span class="sd">        ~engines</span>
 <span class="sd">        ~extra_axis_names</span>
@@ -391,11 +414,18 @@ document.write(`
     <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;hkl_soleil&quot;</span>
     <span class="n">version</span> <span class="o">=</span> <span class="n">libhkl</span><span class="o">.</span><span class="n">VERSION</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">geometry</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">engine</span><span class="o">=</span><span class="s2">&quot;hkl&quot;</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">geometry</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">engine</span><span class="o">=</span><span class="s2">&quot;hkl&quot;</span><span class="p">,</span>
+        <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_engine</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_gname_locked</span> <span class="o">=</span> <span class="kc">False</span>  <span class="c1"># can&#39;t chanmge after setting once</span>
 
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">geometry</span><span class="o">=</span><span class="n">geometry</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">geometry</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">geometry_engine</span> <span class="o">=</span> <span class="n">geometry</span><span class="p">,</span> <span class="n">engine</span>
 
         <span class="c1"># self.print_info_DEVELOPER()</span>
@@ -441,6 +471,32 @@ document.write(`
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Add a sample.&quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span></div>
 
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">axes_c</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        HKL real axis names.</span>
+
+<span class="sd">        Held constant during &#39;forward()&#39; computation.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Do NOT sort.</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">axis</span> <span class="k">for</span> <span class="n">axis</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">axes_r</span> <span class="k">if</span> <span class="n">axis</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">axes_w</span><span class="p">]</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">axes_r</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;HKL real axis names (read-only).&quot;&quot;&quot;</span>
+        <span class="c1"># Do NOT sort.</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_engine</span><span class="o">.</span><span class="n">axis_names_get</span><span class="p">(</span><span class="n">AXES_READ</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">axes_w</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        HKL real axis names.</span>
+
+<span class="sd">                Updated by &#39;forward()&#39; computation.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Do NOT sort.</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_engine</span><span class="o">.</span><span class="n">axis_names_get</span><span class="p">(</span><span class="n">AXES_WRITTEN</span><span class="p">)</span>
 
 <div class="viewcode-block" id="HklSolver.calculateOrientation">
 <a class="viewcode-back" href="../../../api/backends/hkl_soleil.html#hklpy2.backends.hkl_soleil.HklSolver.calculateOrientation">[docs]</a>

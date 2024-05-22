@@ -61,9 +61,9 @@ In the next example (Linux-only), the first argument, `hkl_soleil`, picks the
 picks the Eulerian 4-circle geometry with the *hkl* engine::
 
     >>> from hklpy2 import solver_factory
-    >>> solver = solver_factory("hkl_soleil", geometry="E4CV, hkl")
+    >>> solver = solver_factory("hkl_soleil", "E4CV")
     >>> print(solver)
-    HklSolver(name='hkl_soleil', version='v5.0.0.3434', geometry='E4CV, hkl')
+    HklSolver(name='hkl_soleil', version='v5.0.0.3434', geometry='E4CV', engine='hkl')
 
 To select a |solver| class without creating an instance, call
 :func:`~hklpy2.misc.get_solver`. This example

@@ -21,8 +21,8 @@
      "name": "stdout",
      "output_type": "stream",
      "text": [
-      "2024-05-21 18:45:16.764074\n",
-      "hklpy2.__version__='0.0.10.dev38+g193d640.d20240521'\n",
+      "2024-05-22 00:23:44.218915\n",
+      "hklpy2.__version__='0.0.12.dev0+g97da355.d20240522'\n",
       "hklpy2.solvers()={'hkl_soleil': 'hklpy2.backends.hkl_soleil:HklSolver', 'no_op': 'hklpy2.backends.no_op:NoOpSolver', 'th_tth': 'hklpy2.backends.th_tth_q:ThTthSolver'}\n"
      ]
     }
@@ -47,7 +47,6 @@
      "name": "stdout",
      "output_type": "stream",
      "text": [
-      "inverse(): reals=FourcRealPos(theta=0, chi=0, phi=0, ttheta=0, psi=0)\n",
       "fourc._solver=HklSolver(name='hkl_soleil', version='v5.0.0.3434', geometry='E4CV', engine='hkl', mode='bissector')\n",
       "fourc._solver.pseudo_axis_names=['h', 'k', 'l']\n",
       "fourc._solver.real_axis_names=['omega', 'chi', 'phi', 'tth']\n",
@@ -86,7 +85,7 @@
     "\n",
     "    def __init__(self, *args, **kwargs):\n",
     "        super().__init__(*args, **kwargs)\n",
-    "        self.set_solver(\"hkl_soleil\", geometry=\"E4CV\", engine=\"hkl\")\n",
+    "        self.set_solver(\"hkl_soleil\", \"E4CV\", engine=\"hkl\")\n",
     "        self._solver.auto_assign_axes(self)\n",
     "\n",
     "fourc = Fourc(\"\", name=\"fourc\")\n",
@@ -105,13 +104,6 @@
    "id": "b0b0e47a-49f3-4416-95f8-6b2435ae20e3",
    "metadata": {},
    "outputs": [
-    {
-     "name": "stdout",
-     "output_type": "stream",
-     "text": [
-      "inverse(): reals=FourcRealPos(theta=0, chi=0, phi=0, ttheta=0, psi=0)\n"
-     ]
-    },
     {
      "data": {
       "text/plain": [
@@ -137,18 +129,6 @@
      "name": "stdout",
      "output_type": "stream",
      "text": [
-      "inverse(): reals=FourcRealPos(theta=0, chi=0, phi=0, ttheta=0, psi=0)\n",
-      "inverse(): reals=FourcRealPos(theta=0, chi=0, phi=0, ttheta=0, psi=0)\n",
-      "inverse(): reals=FourcRealPos(theta=0, chi=0, phi=0, ttheta=0, psi=0)\n",
-      "inverse(): reals=FourcRealPos(theta=0, chi=0, phi=0, ttheta=0, psi=0)\n",
-      "inverse(): reals=FourcRealPos(theta=0, chi=0, phi=0, ttheta=0, psi=0)\n",
-      "inverse(): reals=FourcRealPos(theta=0, chi=0, phi=0, ttheta=0, psi=0)\n",
-      "inverse(): reals=FourcRealPos(theta=0, chi=0, phi=0, ttheta=0, psi=0)\n",
-      "inverse(): reals=FourcRealPos(theta=0, chi=0, phi=0, ttheta=0, psi=0)\n",
-      "inverse(): reals=FourcRealPos(theta=0, chi=0, phi=0, ttheta=0, psi=0)\n",
-      "inverse(): reals=FourcRealPos(theta=0, chi=0, phi=0, ttheta=0, psi=0)\n",
-      "inverse(): reals=FourcRealPos(theta=0, chi=0, phi=0, ttheta=0, psi=0)\n",
-      "inverse(): reals=FourcRealPos(theta=0, chi=0, phi=0, ttheta=0, psi=0)\n",
       "data keys (* hints)\n",
       "-------------------\n",
       "*fourc_chi\n",

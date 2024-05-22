@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
   <script src="../../../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script src="../../../_static/documentation_options.js?v=0c446633"></script>
+    <script src="../../../_static/documentation_options.js?v=cfadcac5"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/tabs.js?v=3030b3cb"></script>
@@ -340,7 +340,20 @@ document.write(`
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Base class for all |hklpy2| |solver| classes.</span>
 
-<span class="sd">    ::</span>
+<span class="sd">    Parameters</span>
+
+<span class="sd">    - geometry: (*str*) Name of geometry.</span>
+<span class="sd">    - mode: (*str*) Name of operating mode.  (default: current mode)</span>
+<span class="sd">    - pseudos: (*[PseudoPositioner]*) List of pseudo positioners.  (default: ``[]``)</span>
+<span class="sd">    - reals: (*[PositionerBase]*) List of real positioners.  (default: ``[]``)</span>
+<span class="sd">    - extra: (*[PseudoPositioner]+[PositionerBase*) List of extra positioners.  (default: ``[]``)</span>
+
+<span class="sd">    .. note:: The lists of ``pseudos``, ``reals``, and ``extras`` are the</span>
+<span class="sd">       corresponding axes of the diffractometer, in the order expected by</span>
+<span class="sd">       the |solver| geometry.  The names can be different between the</span>
+<span class="sd">       supplied and expected axes.  They are matched by order in the list.</span>
+
+<span class="sd">    Example::</span>
 
 <span class="sd">        import hklpy2</span>
 
@@ -394,8 +407,8 @@ document.write(`
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="o">*</span><span class="p">,</span>
         <span class="n">geometry</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
         <span class="n">mode</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>  <span class="c1"># &quot;&quot;: accept solver&#39;s default mode</span>
         <span class="n">pseudos</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[],</span>
         <span class="n">reals</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[],</span>
@@ -492,7 +505,19 @@ document.write(`
     <span class="nd">@classmethod</span>
     <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">geometries</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Ordered list of the geometry names.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Ordered list of the geometry names.</span>
+
+<span class="sd">        EXAMPLES::</span>
+
+<span class="sd">            &gt;&gt;&gt; from hklpy2 import get_solver</span>
+<span class="sd">            &gt;&gt;&gt; Solver = get_solver(&quot;no_op&quot;)</span>
+<span class="sd">            &gt;&gt;&gt; Solver.geometries()</span>
+<span class="sd">            []</span>
+<span class="sd">            &gt;&gt;&gt; solver = Solver(&quot;TH TTH Q&quot;)</span>
+<span class="sd">            &gt;&gt;&gt; solver.geometries()</span>
+<span class="sd">            []</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="p">[]</span></div>
 
 

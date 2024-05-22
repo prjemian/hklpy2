@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
   <script src="../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script src="../_static/documentation_options.js?v=0c446633"></script>
+    <script src="../_static/documentation_options.js?v=cfadcac5"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/design-tabs.js?v=36754332"></script>
@@ -417,7 +417,7 @@ and <a class="reference internal" href="backends/base.html#hklpy2.backends.base.
 </div>
 </div>
 <p>Regarding user-defined axis names, the
-<code class="xref py py-class docutils literal notranslate"><span class="pre">DiffractometerBase`</span></code> subclass is defined
+<a class="reference internal" href="#hklpy2.diffract.DiffractometerBase" title="hklpy2.diffract.DiffractometerBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">DiffractometerBase</span></code></a> subclass is defined
 with the user names.  Consider this example for a two-circle
 class (with some extra axes):</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">MyTwoC</span><span class="p">(</span><span class="n">DiffractometerBase</span><span class="p">):</span>
@@ -435,10 +435,10 @@ class (with some extra axes):</p>
 <p>When creating the <strong>Solver</strong> instance, the caller specifies the required axes in
 the order expected by the <strong>Solver</strong>. The <code class="docutils literal notranslate"><span class="pre">&quot;TH</span> <span class="pre">TTH</span> <span class="pre">Q&quot;</span></code> geometry expects <code class="docutils literal notranslate"><span class="pre">q</span></code> as
 the only pseudo axis and <code class="docutils literal notranslate"><span class="pre">th</span></code> and <code class="docutils literal notranslate"><span class="pre">tth</span></code> as the two real axes (no extra axes).
-Connect the user-defined axes of the diffractometer with the axes in the order
-expected by the solver like this:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">hklpy2</span> <span class="kn">import</span> <span class="n">solver_factory</span>
-<span class="n">twoc</span><span class="o">.</span><span class="n">backend_solver</span> <span class="o">=</span> <span class="n">solver_factory</span><span class="p">(</span>
+Using the diffractometer’s <a class="reference internal" href="#hklpy2.diffract.DiffractometerBase.set_solver" title="hklpy2.diffract.DiffractometerBase.set_solver"><code class="xref py py-meth docutils literal notranslate"><span class="pre">set_solver()</span></code></a>
+method, connect the user-defined axes of the diffractometer with the axes in the
+order expected by the solver like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">twoc</span><span class="o">.</span><span class="n">set_solver</span><span class="p">(</span>
     <span class="s2">&quot;th_tth&quot;</span><span class="p">,</span>
     <span class="s2">&quot;TH TTH Q&quot;</span><span class="p">,</span>
     <span class="n">pseudos</span><span class="o">=</span><span class="p">[</span><span class="n">twoc</span><span class="o">.</span><span class="n">q</span><span class="p">],</span>
@@ -477,28 +477,46 @@ expected by the solver like this:</p>
 <p class="rubric">Python Methods</p>
 <table class="autosummary longtable table autosummary">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.diffract.DiffractometerBase.forward" title="hklpy2.diffract.DiffractometerBase.forward"><code class="xref py py-obj docutils literal notranslate"><span class="pre">forward</span></code></a>(pseudos)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.diffract.DiffractometerBase.check_solver_defined" title="hklpy2.diffract.DiffractometerBase.check_solver_defined"><code class="xref py py-obj docutils literal notranslate"><span class="pre">check_solver_defined</span></code></a>()</p></td>
+<td><p>Raise DiffractometerError if solver is not defined.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.diffract.DiffractometerBase.forward" title="hklpy2.diffract.DiffractometerBase.forward"><code class="xref py py-obj docutils literal notranslate"><span class="pre">forward</span></code></a>(pseudos)</p></td>
 <td><p>Compute tuple of reals from pseudos (hkl -&gt; angles).</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.diffract.DiffractometerBase.inverse" title="hklpy2.diffract.DiffractometerBase.inverse"><code class="xref py py-obj docutils literal notranslate"><span class="pre">inverse</span></code></a>(reals)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.diffract.DiffractometerBase.inverse" title="hklpy2.diffract.DiffractometerBase.inverse"><code class="xref py py-obj docutils literal notranslate"><span class="pre">inverse</span></code></a>(reals)</p></td>
 <td><p>Compute tuple of pseudos from reals (angles -&gt; hkl).</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.diffract.DiffractometerBase.set_solver" title="hklpy2.diffract.DiffractometerBase.set_solver"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_solver</span></code></a>(solver, geometry, **kwargs)</p></td>
-<td><p>Set the backend <strong>Solver</strong> for this diffracometer.</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.diffract.DiffractometerBase.set_solver" title="hklpy2.diffract.DiffractometerBase.set_solver"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_solver</span></code></a>(solver, geometry, **kwargs)</p></td>
+<td><p>Set the backend <strong>Solver</strong> for this diffractometer.</p></td>
 </tr>
 </tbody>
 </table>
 <p class="rubric">Python Properties</p>
 <table class="autosummary longtable table autosummary">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.diffract.DiffractometerBase.geometry_name" title="hklpy2.diffract.DiffractometerBase.geometry_name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">geometry_name</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.diffract.DiffractometerBase.backend" title="hklpy2.diffract.DiffractometerBase.backend"><code class="xref py py-obj docutils literal notranslate"><span class="pre">backend</span></code></a></p></td>
+<td><p>Backend <strong>Solver</strong> object.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.diffract.DiffractometerBase.geometry_name" title="hklpy2.diffract.DiffractometerBase.geometry_name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">geometry_name</span></code></a></p></td>
 <td><p>Backend <strong>Solver</strong> geometry name.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.diffract.DiffractometerBase.solver_name" title="hklpy2.diffract.DiffractometerBase.solver_name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">solver_name</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.diffract.DiffractometerBase.solver_name" title="hklpy2.diffract.DiffractometerBase.solver_name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">solver_name</span></code></a></p></td>
 <td><p>Backend <strong>Solver</strong> library name.</p></td>
 </tr>
 </tbody>
 </table>
+<dl class="py property">
+<dt class="sig sig-object py" id="hklpy2.diffract.DiffractometerBase.backend">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">backend</span></span><a class="headerlink" href="#hklpy2.diffract.DiffractometerBase.backend" title="Link to this definition">#</a></dt>
+<dd><p>Backend <strong>Solver</strong> object.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="hklpy2.diffract.DiffractometerBase.check_solver_defined">
+<span class="sig-name descname"><span class="pre">check_solver_defined</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hklpy2/diffract.html#DiffractometerBase.check_solver_defined"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.diffract.DiffractometerBase.check_solver_defined" title="Link to this definition">#</a></dt>
+<dd><p>Raise DiffractometerError if solver is not defined.</p>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="hklpy2.diffract.DiffractometerBase.forward">
 <span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pseudos</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.12)"><span class="pre">dict</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hklpy2/diffract.html#DiffractometerBase.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.diffract.DiffractometerBase.forward" title="Link to this definition">#</a></dt>
@@ -526,7 +544,7 @@ expected by the solver like this:</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="hklpy2.diffract.DiffractometerBase.set_solver">
 <span class="sig-name descname"><span class="pre">set_solver</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">solver</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">geometry</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hklpy2/diffract.html#DiffractometerBase.set_solver"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.diffract.DiffractometerBase.set_solver" title="Link to this definition">#</a></dt>
-<dd><p>Set the backend <strong>Solver</strong> for this diffracometer.</p>
+<dd><p>Set the backend <strong>Solver</strong> for this diffractometer.</p>
 </dd></dl>
 
 <dl class="py attribute">
@@ -584,24 +602,30 @@ expected by the solver like this:</p>
 <p class="rubric">Python Methods</p>
 <table class="autosummary longtable table autosummary">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.diffract.DiffractometerBase.forward" title="hklpy2.diffract.DiffractometerBase.forward"><code class="xref py py-obj docutils literal notranslate"><span class="pre">forward</span></code></a>(pseudos)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.diffract.DiffractometerBase.check_solver_defined" title="hklpy2.diffract.DiffractometerBase.check_solver_defined"><code class="xref py py-obj docutils literal notranslate"><span class="pre">check_solver_defined</span></code></a>()</p></td>
+<td><p>Raise DiffractometerError if solver is not defined.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.diffract.DiffractometerBase.forward" title="hklpy2.diffract.DiffractometerBase.forward"><code class="xref py py-obj docutils literal notranslate"><span class="pre">forward</span></code></a>(pseudos)</p></td>
 <td><p>Compute tuple of reals from pseudos (hkl -&gt; angles).</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.diffract.DiffractometerBase.inverse" title="hklpy2.diffract.DiffractometerBase.inverse"><code class="xref py py-obj docutils literal notranslate"><span class="pre">inverse</span></code></a>(reals)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.diffract.DiffractometerBase.inverse" title="hklpy2.diffract.DiffractometerBase.inverse"><code class="xref py py-obj docutils literal notranslate"><span class="pre">inverse</span></code></a>(reals)</p></td>
 <td><p>Compute tuple of pseudos from reals (angles -&gt; hkl).</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.diffract.DiffractometerBase.set_solver" title="hklpy2.diffract.DiffractometerBase.set_solver"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_solver</span></code></a>(solver, geometry, **kwargs)</p></td>
-<td><p>Set the backend <strong>Solver</strong> for this diffracometer.</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.diffract.DiffractometerBase.set_solver" title="hklpy2.diffract.DiffractometerBase.set_solver"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_solver</span></code></a>(solver, geometry, **kwargs)</p></td>
+<td><p>Set the backend <strong>Solver</strong> for this diffractometer.</p></td>
 </tr>
 </tbody>
 </table>
 <p class="rubric">Python Properties</p>
 <table class="autosummary longtable table autosummary">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.diffract.DiffractometerBase.geometry_name" title="hklpy2.diffract.DiffractometerBase.geometry_name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">geometry_name</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.diffract.DiffractometerBase.backend" title="hklpy2.diffract.DiffractometerBase.backend"><code class="xref py py-obj docutils literal notranslate"><span class="pre">backend</span></code></a></p></td>
+<td><p>Backend <strong>Solver</strong> object.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.diffract.DiffractometerBase.geometry_name" title="hklpy2.diffract.DiffractometerBase.geometry_name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">geometry_name</span></code></a></p></td>
 <td><p>Backend <strong>Solver</strong> geometry name.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.diffract.DiffractometerBase.solver_name" title="hklpy2.diffract.DiffractometerBase.solver_name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">solver_name</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.diffract.DiffractometerBase.solver_name" title="hklpy2.diffract.DiffractometerBase.solver_name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">solver_name</span></code></a></p></td>
 <td><p>Backend <strong>Solver</strong> library name.</p></td>
 </tr>
 </tbody>
@@ -879,10 +903,22 @@ be “missed” by this registry. False by default.</p></li>
 </dl>
 </dd></dl>
 
+<dl class="py property">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">backend</span></span></dt>
+<dd><p>Backend <strong>Solver</strong> object.</p>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py">
 <span class="sig-name descname"><span class="pre">check_single</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pseudo_single</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">single_pos</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Check if a new position for a single pseudo positioner is valid</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">check_solver_defined</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hklpy2/diffract.html#DiffractometerBase.check_solver_defined"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Raise DiffractometerError if solver is not defined.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -1317,7 +1353,7 @@ defined in (i.e., in series)</p>
 <dl class="py method">
 <dt class="sig sig-object py">
 <span class="sig-name descname"><span class="pre">set_solver</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">solver</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">geometry</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hklpy2/diffract.html#DiffractometerBase.set_solver"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><p>Set the backend <strong>Solver</strong> for this diffracometer.</p>
+<dd><p>Set the backend <strong>Solver</strong> for this diffractometer.</p>
 </dd></dl>
 
 <dl class="py property">
@@ -1640,6 +1676,8 @@ plans to change its API in a way that may not be backward-compatible.</p>
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-hklpy2.diffract">Source Code Documentation</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.diffract.DiffractometerBase"><code class="docutils literal notranslate"><span class="pre">DiffractometerBase</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.diffract.DiffractometerBase.backend"><code class="docutils literal notranslate"><span class="pre">DiffractometerBase.backend</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.diffract.DiffractometerBase.check_solver_defined"><code class="docutils literal notranslate"><span class="pre">DiffractometerBase.check_solver_defined()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.diffract.DiffractometerBase.forward"><code class="docutils literal notranslate"><span class="pre">DiffractometerBase.forward()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.diffract.DiffractometerBase.geometry"><code class="docutils literal notranslate"><span class="pre">DiffractometerBase.geometry</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.diffract.DiffractometerBase.geometry_name"><code class="docutils literal notranslate"><span class="pre">DiffractometerBase.geometry_name</span></code></a></li>
