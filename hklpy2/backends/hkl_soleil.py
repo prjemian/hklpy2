@@ -83,7 +83,6 @@ class HklSolver(SolverBase):
         ~engines
         ~extra_axis_names
         ~geometry
-        ~geometry_engine
         ~lattice
         ~mode
         ~modes
