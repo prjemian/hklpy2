@@ -62,6 +62,7 @@ jobs:
         environment-file: environment.yml
         environment-name: anaconda-test-env-py-${{ matrix.python-version }}
         create-args: >-
+          git
           pytest
           python=${{ matrix.python-version }}
           pyyaml
@@ -91,13 +92,14 @@ jobs:
       run: |
         coverage run --concurrency=thread --parallel-mode -m pytest -vvv .
         coverage combine
-        coverage report --precision 3
+        coverage report --precision 3 -m
 
     - name: Upload to coveralls
       # https://github.com/TheKevJames/coveralls-python
       shell: bash -l {0}
       run: |
         micromamba list cover
+        micromamba list git
         which coveralls
         coveralls debug
         coveralls --service=github
