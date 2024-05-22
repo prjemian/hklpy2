@@ -62,7 +62,6 @@ jobs:
         environment-file: environment.yml
         environment-name: anaconda-test-env-py-${{ matrix.python-version }}
         create-args: >-
-          git
           pytest
           python=${{ matrix.python-version }}
           pyyaml
@@ -120,6 +119,10 @@ jobs:
         run: |
           echo "Finally!"
           pip3 install --upgrade coveralls
+          pip3 list
+          echo "-----------"
+          echo "pwd=$(pwd)"
+          echo "-----------"
           # debug mode: output prepared json and reported files list to stdout
           # https://coveralls-python.readthedocs.io/en/latest/troubleshooting.html
           coveralls debug
