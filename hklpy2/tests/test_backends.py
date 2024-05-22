@@ -26,7 +26,7 @@ def test_solvers(solver_class, base_class, geometry):
     assert "Can't instantiate abstract class" in str(reason)
 
     # test an object created from the Solver class
-    solver = solver_class(geometry=geometry)
+    solver = solver_class(geometry)
     assert solver is not None
     assert isinstance(solver, solver_class)
     assert isinstance(solver, base_class)

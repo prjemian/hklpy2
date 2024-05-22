@@ -8,7 +8,7 @@ from ..misc import unique_name
 from ..reflection import Reflection
 from ..reflection import ReflectionsDict
 
-no_op_solver = solver_factory("no_op", geometry="")
+no_op_solver = solver_factory("no_op", "")
 
 
 def test_reflection_no_op():
@@ -16,14 +16,19 @@ def test_reflection_no_op():
     from ..backends.no_op import NoOpSolver
 
     gname = "test geometry"
-    solver = NoOpSolver(geometry=gname)
+    solver = NoOpSolver(gname)
     assert solver is not None
     assert solver.geometry == gname, f"{solver.geometry=!r}"
 
     ref1 = Reflection(solver, {}, {}, 1.0, name="r1")
     assert ref1 is not None
     assert ref1.name == "r1"
-    expected = f"Reflection(name='r1', geometry={gname!r}, " "pseudos={}, angles={}, wavelength=1.0)"
+    # fmt: off
+    expected = (
+        f"Reflection(name='r1', geometry={gname!r},"
+        " pseudos={}, angles={}, wavelength=1.0)"
+    )
+    # fmt: on
     assert str(ref1) == expected, f"{ref1}"
 
     ref2 = Reflection(solver, {}, {}, 1.01)
@@ -37,7 +42,7 @@ def test_reflection_hkl_soleil():
     from ..backends.hkl_soleil import HklSolver
 
     gname = "E4CV"
-    solver = HklSolver(geometry=gname)
+    solver = HklSolver(gname)
     assert solver is not None
 
     assert solver.geometry == gname

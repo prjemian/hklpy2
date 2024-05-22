@@ -20,7 +20,20 @@ class SolverBase(ABC):
     """
     Base class for all |hklpy2| |solver| classes.
 
-    ::
+    Parameters
+
+    - geometry: (*str*) Name of geometry.
+    - mode: (*str*) Name of operating mode.  (default: current mode)
+    - pseudos: (*[PseudoPositioner]*) List of pseudo positioners.  (default: ``[]``)
+    - reals: (*[PositionerBase]*) List of real positioners.  (default: ``[]``)
+    - extra: (*[PseudoPositioner]+[PositionerBase*) List of extra positioners.  (default: ``[]``)
+
+    .. note:: The lists of ``pseudos``, ``reals``, and ``extras`` are the
+       corresponding axes of the diffractometer, in the order expected by
+       the |solver| geometry.  The names can be different between the
+       supplied and expected axes.  They are matched by order in the list.
+
+    Example::
 
         import hklpy2
 
@@ -74,8 +87,8 @@ class SolverBase(ABC):
 
     def __init__(
         self,
-        *,
         geometry: str,
+        *,
         mode: str = "",  # "": accept solver's default mode
         pseudos: list = [],
         reals: list = [],
@@ -155,7 +168,19 @@ class SolverBase(ABC):
     @classmethod
     @abstractmethod
     def geometries(cls):
-        """Ordered list of the geometry names."""
+        """
+        Ordered list of the geometry names.
+
+        EXAMPLES::
+
+            >>> from hklpy2 import get_solver
+            >>> Solver = get_solver("no_op")
+            >>> Solver.geometries()
+            []
+            >>> solver = Solver("TH TTH Q")
+            >>> solver.geometries()
+            []
+        """
         return []
 
     @property

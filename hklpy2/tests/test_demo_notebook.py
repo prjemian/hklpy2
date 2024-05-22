@@ -17,7 +17,7 @@ def test_as_in_demo_notebook():
     assert SolverClass.__class__.__name__ == "ABCMeta"  # abstract base metaclass
 
     gname = "anything"
-    solver = SolverClass(geometry=gname)
+    solver = SolverClass(gname)
     expected = (
         f"NoOpSolver(name='no_op', version='{solver.version}', geometry={gname!r})"
     )

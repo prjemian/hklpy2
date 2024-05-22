@@ -32,13 +32,30 @@ from gi.repository import Hkl as libhkl  # noqa: E402
 
 logger = logging.getLogger(__name__)
 
+AXES_READ = 0
+AXES_WRITTEN = 1
+
 
 class HklSolver(SolverBase):
     """
     ``"hkl_soleil"`` (Linux x86_64 only) |libhkl|.
 
-    |solver| with support for many common diffractometer geoemtries.
-    Wraps the |libhkl| library from Frédéric-Emmanuel PICCA (Soleil).
+    Wraps the |libhkl| library, Frédéric-Emmanuel PICCA (Soleil),
+    with support for many common diffractometer geometries.
+
+    Parameters
+
+    - geometry: (*str*) Name of geometry.
+    - engine: (*str*) Name of computation engine.  (default: ``"hkl"``)
+    - mode: (*str*) Name of operating mode.  (default: current mode)
+    - pseudos: (*[PseudoPositioner]*) List of pseudo positioners.  (default: ``[]``)
+    - reals: (*[PositionerBase]*) List of real positioners.  (default: ``[]``)
+    - extra: (*[PseudoPositioner]+[PositionerBase*) List of extra positioners.  (default: ``[]``)
+
+    .. note:: The lists of ``pseudos``, ``reals``, and ``extras`` are the
+       corresponding axes of the diffractometer, in the order expected by
+       the |solver| geometry.  The names can be different between the
+       supplied and expected axes.  They are matched by order in the list.
 
     .. rubric:: Python Methods
 
@@ -56,6 +73,9 @@ class HklSolver(SolverBase):
 
     .. autosummary::
 
+        ~axes_c
+        ~axes_r
+        ~axes_w
         ~engine
         ~engines
         ~extra_axis_names
@@ -71,11 +91,18 @@ class HklSolver(SolverBase):
     name = "hkl_soleil"
     version = libhkl.VERSION
 
-    def __init__(self, *, geometry: str, engine="hkl", mode="", **kwargs) -> None:
+    def __init__(
+        self,
+        geometry: str,
+        *,
+        engine="hkl",
+        mode="",
+        **kwargs,
+    ) -> None:
         self._engine = None
         self._gname_locked = False  # can't chanmge after setting once
 
-        super().__init__(geometry=geometry, **kwargs)
+        super().__init__(geometry, **kwargs)
         self.geometry_engine = geometry, engine
 
         # self.print_info_DEVELOPER()
@@ -115,6 +142,32 @@ class HklSolver(SolverBase):
     def addSample(self, sample):  # TODO
         """Add a sample."""
         raise NotImplementedError()
+
+    @property
+    def axes_c(self):
+        """
+        HKL real axis names.
+
+        Held constant during 'forward()' computation.
+        """
+        # Do NOT sort.
+        return [axis for axis in self.axes_r if axis not in self.axes_w]
+
+    @property
+    def axes_r(self):
+        """HKL real axis names (read-only)."""
+        # Do NOT sort.
+        return self._engine.axis_names_get(AXES_READ)
+
+    @property
+    def axes_w(self):
+        """
+        HKL real axis names.
+
+                Updated by 'forward()' computation.
+        """
+        # Do NOT sort.
+        return self._engine.axis_names_get(AXES_WRITTEN)
 
     def calculateOrientation(self, r1, r2):  # TODO
         """Calculate the UB (orientation) matrix from two reflections."""

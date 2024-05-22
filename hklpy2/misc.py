@@ -55,8 +55,8 @@ def get_solver(solver_name):
 
 def solver_factory(
     solver_name: str,
-    *,  # all kwargs must be specified by name
     geometry: str,
+    *,  # all kwargs must be specified by name
     pseudos: list = [],
     reals: list = [],
     extras: list = [],
@@ -67,7 +67,7 @@ def solver_factory(
     """
     solver_class = get_solver(solver_name)
     return solver_class(
-        geometry=geometry,
+        geometry,
         pseudos=pseudos,
         reals=reals,
         extras=extras,

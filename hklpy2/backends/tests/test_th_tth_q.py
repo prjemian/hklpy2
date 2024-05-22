@@ -2,6 +2,7 @@ import numpy as np
 import pytest
 
 from ... import get_solver
+from ... import solver_factory
 from .. import SolverBase
 from ..th_tth_q import ThTthSolver
 
@@ -11,7 +12,7 @@ def test_solver():
     assert get_solver("th_tth") == ThTthSolver
 
     gname = "TH TTH Q"
-    solver = ThTthSolver(geometry=gname)
+    solver = ThTthSolver(gname)
     assert isinstance(solver, SolverBase)
     assert solver.name == "th_tth"
     assert solver.geometries() == [gname]
@@ -43,7 +44,7 @@ def test_solver():
     ],
 )
 def test_transforms(transform, wavelength, inputs, outputs, tol):
-    solver = get_solver("th_tth")(geometry="TH TTH Q")
+    solver = solver_factory("th_tth", "TH TTH Q")
     solver.mode = "bisector"
     solver.wavelength = wavelength
     if transform == "forward":

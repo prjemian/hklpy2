@@ -9,7 +9,7 @@ from .. import SolverBase
 from .. import solver_factory
 from ..misc import unique_name
 
-no_op_solver = solver_factory("no_op", geometry="")
+no_op_solver = solver_factory("no_op", "")
 
 
 def test_with_solver_base():

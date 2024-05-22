@@ -100,7 +100,7 @@ def test_goniometer(solver, gname, dclass, npseudos, nreals):
     assert diffractometer.wavelength_units.get() == DEFAULT_WAVELENGTH_UNITS
 
     # test the solver
-    diffractometer.set_solver(solver, geometry=gname)
+    diffractometer.set_solver(solver, gname)
     assert hasattr(diffractometer, "solver_name")
     assert hasattr(diffractometer, "_solver")
     assert diffractometer._solver is not None
@@ -121,7 +121,7 @@ def test_goniometer(solver, gname, dclass, npseudos, nreals):
         diffractometer.report
     assert reason is None
 
-    solver_object = solver_factory(solver, geometry=gname)
+    solver_object = solver_factory(solver, gname)
     assert solver_object is not None
     assert solver_object.name == solver
 
@@ -134,7 +134,7 @@ def test_extras():
 
     fourc.set_solver(
         solver_name,
-        geometry=gname,
+        gname,
         pseudos=[fourc.h, fourc.k, fourc.l],
         reals=[fourc.theta, fourc.chi, fourc.phi, fourc.ttheta],
         extras=[fourc.h2, fourc.k2, fourc.l2, fourc.psi],

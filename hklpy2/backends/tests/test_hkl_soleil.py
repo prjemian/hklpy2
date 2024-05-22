@@ -9,7 +9,7 @@ def test_version():
     assert isinstance(libhkl.VERSION, str)
     assert "HklSolver" in dir(hkl_soleil)
 
-    solver = hkl_soleil.HklSolver(geometry="E4CV")
+    solver = hkl_soleil.HklSolver("E4CV")
     assert isinstance(solver.version, str)
     assert solver.version == libhkl.VERSION
 
@@ -63,7 +63,7 @@ def test_engine(gname, ename, reals):
 
 
 def test_geometries():
-    solver = hkl_soleil.HklSolver(geometry="E4CV")  # to get the geometries
+    solver = hkl_soleil.HklSolver("E4CV")  # to get the geometries
     assert solver is not None
 
     glist = solver.geometries()

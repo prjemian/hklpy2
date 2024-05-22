@@ -108,7 +108,7 @@ class DiffractometerBase(PseudoPositioner):
     def forward(self, pseudos: dict):
         """Compute tuple of reals from pseudos (hkl -> angles)."""
         # TODO: have the solver handle this, from the pseudos
-        print(f"forward(): {pseudos=!r}")
+        logger.debug("forward(): pseudos=%r", pseudos)
         pos = {axis[0]: 0 for axis in self._get_real_positioners()}
         return self.RealPosition(**pos)
 
@@ -116,13 +116,13 @@ class DiffractometerBase(PseudoPositioner):
     def inverse(self, reals: dict):
         """Compute tuple of pseudos from reals (angles -> hkl)."""
         # TODO: have the solver handle this, from the reals
-        print(f"inverse(): {reals=!r}")
+        logger.debug("inverse(): reals=%r", reals)
         pos = {axis[0]: 0 for axis in self._get_pseudo_positioners()}
         return self.PseudoPosition(**pos)
 
     def set_solver(self, solver: str, geometry: str, **kwargs):
         """Set the backend |solver| for this diffracometer."""
-        self._solver = solver_factory(solver, geometry=geometry, **kwargs)
+        self._solver = solver_factory(solver, geometry, **kwargs)
 
     # ---- get/set properties
 

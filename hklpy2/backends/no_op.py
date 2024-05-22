@@ -56,8 +56,8 @@ class NoOpSolver(SolverBase):
     name = "no_op"
     version = __version__
 
-    def __init__(self, *, geometry: str, **kwargs) -> None:
-        super().__init__(geometry=geometry, **kwargs)
+    def __init__(self, geometry: str, **kwargs) -> None:
+        super().__init__(geometry, **kwargs)
 
     def addReflection(self, pseudos, reals, wavelength):
         pass

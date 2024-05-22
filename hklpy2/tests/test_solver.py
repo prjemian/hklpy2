@@ -22,7 +22,7 @@ def test_solvers(solver_name, geometry):
     solver_class = entrypoint.load()
     assert inspect.isclass(solver_class)
 
-    solver = solver_class(geometry=geometry)
+    solver = solver_class(geometry)
     assert isinstance(solver.version, str)
     assert len(solver.version) > 0, f"{solver.version=}"
 
@@ -31,7 +31,7 @@ def test_HklSolver():
     Solver = get_solver("hkl_soleil")
     assert Solver is not None
 
-    solver = Solver(geometry="E4CV")
+    solver = Solver("E4CV")
     assert solver is not None
     assert isinstance(solver.version, str)
 
@@ -49,7 +49,7 @@ def test_HklSolver():
     pseudos = solver.pseudo_axis_names
     assert pseudos == "h k l".split()
 
-    solver = Solver(geometry=gname)
+    solver = Solver(gname)
     assert solver.geometry == gname  # did not change
     assert solver.engine == "hkl"
 
