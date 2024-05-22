@@ -35,7 +35,7 @@ Diffractometer
     .. grid-item-card:: :material-outlined:`rule;3em` A |solver| is needed to:
 
       - list available |solver| :attr:`~hklpy2.backends.base.SolverBase.geometries`
-      - list a |solver| geometry's required 
+      - list a |solver| geometry's required
         :attr:`~hklpy2.backends.base.SolverBase.pseudo_axis_names`,
         :attr:`~hklpy2.backends.base.SolverBase.real_axis_names`,
         :attr:`~hklpy2.backends.base.SolverBase.extra_axis_names`,
@@ -51,8 +51,8 @@ Diffractometer
 
       .. note:: Add ``@needs_solver`` decorator for these actions.
 
-Regarding user-defined axis names, the 
-:class:`~hklpy2.diffract.DiffractometerBase`` subclass is defined
+Regarding user-defined axis names, the
+:class:`~hklpy2.diffract.DiffractometerBase` subclass is defined
 with the user names.  Consider this example for a two-circle
 class (with some extra axes)::
 
@@ -70,11 +70,11 @@ class (with some extra axes)::
 When creating the |solver| instance, the caller specifies the required axes in
 the order expected by the |solver|. The ``"TH TTH Q"`` geometry expects ``q`` as
 the only pseudo axis and ``th`` and ``tth`` as the two real axes (no extra axes).
-Connect the user-defined axes of the diffractometer with the axes in the order
-expected by the solver like this::
+Using the diffractometer's :meth:`~hklpy2.diffract.DiffractometerBase.set_solver`
+method, connect the user-defined axes of the diffractometer with the axes in the
+order expected by the solver like this::
 
-    from hklpy2 import solver_factory
-    twoc.backend_solver = solver_factory(
+    twoc.set_solver(
         "th_tth",
         "TH TTH Q",
         pseudos=[twoc.q],

@@ -40,7 +40,7 @@ class HklSolver(SolverBase):
     """
     ``"hkl_soleil"`` (Linux x86_64 only) |libhkl|.
 
-    Wraps the |libhkl| library, Frédéric-Emmanuel PICCA (Soleil),
+    Wraps the |libhkl| library, written by Frédéric-Emmanuel PICCA (Soleil),
     with support for many common diffractometer geometries.
 
     Parameters
@@ -48,9 +48,12 @@ class HklSolver(SolverBase):
     - geometry: (*str*) Name of geometry.
     - engine: (*str*) Name of computation engine.  (default: ``"hkl"``)
     - mode: (*str*) Name of operating mode.  (default: current mode)
-    - pseudos: (*[PseudoPositioner]*) List of pseudo positioners.  (default: ``[]``)
-    - reals: (*[PositionerBase]*) List of real positioners.  (default: ``[]``)
-    - extra: (*[PseudoPositioner]+[PositionerBase*) List of extra positioners.  (default: ``[]``)
+    - pseudos: (*[PseudoPositioner]*) List of pseudo positioners.
+      (default: ``[]``)
+    - reals: (*[PositionerBase]*) List of real positioners.
+      (default: ``[]``)
+    - extra: (*[PseudoPositioner]+[PositionerBase*) List of extra positioners.
+      (default: ``[]``)
 
     .. note:: The lists of ``pseudos``, ``reals``, and ``extras`` are the
        corresponding axes of the diffractometer, in the order expected by

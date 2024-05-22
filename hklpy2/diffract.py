@@ -46,6 +46,7 @@ class DiffractometerBase(PseudoPositioner):
 
     .. autosummary::
 
+        ~check_solver_defined
         ~forward
         ~inverse
         ~set_solver
@@ -105,10 +106,16 @@ class DiffractometerBase(PseudoPositioner):
 
         super().__init__(*args, **kwargs)
 
+    def check_solver_defined(self):
+        """Raise DiffractometerError if solver is not defined."""
+        if self.backend is None:
+            raise DiffractometerError("Call 'set_solver()' first.")
+
     @pseudo_position_argument
     def forward(self, pseudos: dict):
         """Compute tuple of reals from pseudos (hkl -> angles)."""
         # TODO: have the solver handle this, from the pseudos
+        self.check_solver_defined()
         logger.debug("forward(): pseudos=%r", pseudos)
         pos = {axis[0]: 0 for axis in self._get_real_positioners()}
         return self.RealPosition(**pos)
@@ -117,12 +124,13 @@ class DiffractometerBase(PseudoPositioner):
     def inverse(self, reals: dict):
         """Compute tuple of pseudos from reals (angles -> hkl)."""
         # TODO: have the solver handle this, from the reals
+        self.check_solver_defined()
         logger.debug("inverse(): reals=%r", reals)
         pos = {axis[0]: 0 for axis in self._get_pseudo_positioners()}
         return self.PseudoPosition(**pos)
 
     def set_solver(self, solver: str, geometry: str, **kwargs):
-        """Set the backend |solver| for this diffracometer."""
+        """Set the backend |solver| for this diffractometer."""
         self._backend = solver_factory(solver, geometry, **kwargs)
 
     # ---- get/set properties
