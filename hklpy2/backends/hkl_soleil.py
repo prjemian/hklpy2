@@ -106,7 +106,13 @@ class HklSolver(SolverBase):
         self._gname_locked = False  # can't chanmge after setting once
 
         super().__init__(geometry, **kwargs)
-        self.geometry_engine = geometry, engine
+
+        # note: must keep the 'engines' object as class attribute or
+        # random core dumps, usually when accessing 'engine.name_get()'.
+        self._factory = libhkl.factories()[geometry]
+        self._engines = self._factory.create_new_engine_list()  # note!
+        self._engine = self._engines.engine_get_by_name(engine)
+        self._geometry = self._factory.create_new_geometry()
 
         # self.print_info_DEVELOPER()
 
@@ -159,8 +165,7 @@ class HklSolver(SolverBase):
     @property
     def axes_r(self):
         """HKL real axis names (read-only)."""
-        # Do NOT sort.
-        return self._engine.axis_names_get(AXES_READ)
+        return self._engine.axis_names_get(AXES_READ)  # Do NOT sort.
 
     @property
     def axes_w(self):
@@ -169,8 +174,7 @@ class HklSolver(SolverBase):
 
                 Updated by 'forward()' computation.
         """
-        # Do NOT sort.
-        return self._engine.axis_names_get(AXES_WRITTEN)
+        return self._engine.axis_names_get(AXES_WRITTEN)  # Do NOT sort.
 
     def calculateOrientation(self, r1, r2):  # TODO
         """Calculate the UB (orientation) matrix from two reflections."""
@@ -179,15 +183,11 @@ class HklSolver(SolverBase):
     @property
     def engine(self):
         """Selected computational engine for this geometry."""
-        if self._engine is None:
-            return ""
         return self._engine.name_get()
 
     @property
     def engines(self):
         """List of the computational engines available in this geometry."""
-        if self._engines is None:
-            return []
         return [engine.name_get() for engine in self._engines.engines_get()]
 
     @property
@@ -197,12 +197,11 @@ class HklSolver(SolverBase):
 
         Depends on selected geometry, engine, and mode.
         """
-        # Do NOT sort.
-        return self._engine.parameters_names_get()
+        return self._engine.parameters_names_get()  # Do NOT sort.
 
     def forward(self):  # TODO:
         """Compute list of solutions(reals) from pseudos (hkl -> [angles])."""
-        print(f"{__name__=} forward()")
+        logger.debug("(%r) forward()", __name__)
         return [{}]
 
     @classmethod
@@ -221,25 +220,9 @@ class HklSolver(SolverBase):
         self._gname = value
         self._gname_locked = True
 
-    @property
-    def geometry_engine(self):
-        """Library objects for geometry & computation engine."""
-        return self._geometry, self._engine
-
-    @geometry_engine.setter
-    def geometry_engine(self, values):
-        # note: must keep the 'engines' object as class attribute or
-        # random core dumps, usually when accessing 'engine.name_get()'.
-
-        gname, ename = values
-        self._factory = libhkl.factories()[gname]
-        self._engines = self._factory.create_new_engine_list()  # note!
-        self._engine = self._engines.engine_get_by_name(ename)
-        self._geometry = self._factory.create_new_geometry()
-
     def inverse(self, reals: dict):  # TODO
         """Compute tuple of pseudos from reals (angles -> hkl)."""
-        print(f"{__name__=} inverse({reals=!r})")
+        logger.debug("{__name__=} inverse(reals=%r)", reals)
         return tuple(0, 0, 0)
 
     @property
@@ -252,8 +235,6 @@ class HklSolver(SolverBase):
     @property
     def mode(self):
         """Name of the current geometry operating mode."""
-        if self._engine is None:
-            return []
         return self._engine.current_mode_get()
 
     @mode.setter
@@ -266,14 +247,12 @@ class HklSolver(SolverBase):
     @property
     def pseudo_axis_names(self):
         """Ordered list of the pseudo axis names (such as h, k, l)."""
-        # Do NOT sort.
-        return self._engine.pseudo_axis_names_get()
+        return self._engine.pseudo_axis_names_get()  # Do NOT sort.
 
     @property
     def real_axis_names(self):
         """Ordered list of the real axis names (such as th, tth)."""
-        # Do NOT sort.
-        return self._geometry.axis_names_get()
+        return self._geometry.axis_names_get()  # Do NOT sort.
 
     def refineLattice(self, reflections):  # TODO
         """Refine the lattice parameters from a list of reflections."""
