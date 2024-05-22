@@ -54,6 +54,7 @@ class DiffractometerBase(PseudoPositioner):
 
     .. autosummary::
 
+        ~backend
         ~geometry_name
         ~solver_name
     """
@@ -99,7 +100,7 @@ class DiffractometerBase(PseudoPositioner):
         *args,
         **kwargs,
     ):
-        self._solver = None
+        self._backend = None
         self._wavelength = ConstantMonochromaticWavelength(DEFAULT_WAVELENGTH)
 
         super().__init__(*args, **kwargs)
@@ -122,20 +123,25 @@ class DiffractometerBase(PseudoPositioner):
 
     def set_solver(self, solver: str, geometry: str, **kwargs):
         """Set the backend |solver| for this diffracometer."""
-        self._solver = solver_factory(solver, geometry, **kwargs)
+        self._backend = solver_factory(solver, geometry, **kwargs)
 
     # ---- get/set properties
 
     @property
+    def backend(self):
+        """Backend |solver| object."""
+        return self._backend
+
+    @property
     def geometry_name(self):
         """Backend |solver| geometry name."""
-        if self._solver is not None:
-            return self._solver.geometry
+        if self.backend is not None:
+            return self.backend.geometry
         return ""
 
     @property
     def solver_name(self):
         """Backend |solver| library name."""
-        if self._solver is not None:
-            return self._solver.name
+        if self.backend is not None:
+            return self.backend.name
         return ""

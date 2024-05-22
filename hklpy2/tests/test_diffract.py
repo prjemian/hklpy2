@@ -102,10 +102,10 @@ def test_goniometer(solver, gname, dclass, npseudos, nreals):
     # test the solver
     diffractometer.set_solver(solver, gname)
     assert hasattr(diffractometer, "solver_name")
-    assert hasattr(diffractometer, "_solver")
-    assert diffractometer._solver is not None
-    assert isinstance(diffractometer._solver, SolverBase)
-    assert isinstance(diffractometer._solver.name, str)
+    assert hasattr(diffractometer, "backend")
+    assert diffractometer.backend is not None
+    assert isinstance(diffractometer.backend, SolverBase)
+    assert isinstance(diffractometer.backend.name, str)
     assert diffractometer.solver_name == solver, f"{diffractometer.solver_name=!r}"
     assert hasattr(diffractometer, "solver")
     with does_not_raise() as reason:
@@ -143,9 +143,9 @@ def test_extras():
     assert fourc.solver_name == solver_name, f"{fourc!r}"
     assert fourc.solver.get() == solver_name
 
-    fourc._solver.mode = "psi_constant"
-    assert fourc._solver.pseudo_axis_names == "h k l".split()
-    assert fourc._solver.real_axis_names == "omega chi phi tth".split()
-    assert fourc._solver.extra_axis_names == "h2 k2 l2 psi".split()
+    fourc.backend.mode = "psi_constant"
+    assert fourc.backend.pseudo_axis_names == "h k l".split()
+    assert fourc.backend.real_axis_names == "omega chi phi tth".split()
+    assert fourc.backend.extra_axis_names == "h2 k2 l2 psi".split()
 
     # TODO:
