@@ -119,14 +119,6 @@ jobs:
         run: |
           echo "Finally!"
           pip3 install --upgrade coveralls
-          pip3 list
-          apt-get update
-          apt-get -y install git
-          echo "-----------"
-          echo "pwd=$(pwd)"
-          echo "ls=$(ls -lAFgh)"
-          echo "git='$(which git)'"
-          echo "-----------"
           # debug mode: output prepared json and reported files list to stdout
           # https://coveralls-python.readthedocs.io/en/latest/troubleshooting.html
           coveralls debug
