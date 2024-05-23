@@ -13,10 +13,10 @@ A Crystalline Sample.
 import logging
 
 from . import Hklpy2Error
-from . import Lattice
-from . import ReflectionsDict
 from . import SolverBase
+from .lattice import Lattice
 from .misc import unique_name
+from .reflection import ReflectionsDict
 
 logger = logging.getLogger(__name__)
 
@@ -29,39 +29,41 @@ class Sample:
     """
     A crystalline sample mounted on a diffractometer.
 
+    .. rubric:: Python Methods
+
     .. autosummary::
 
-        ~name
         ~refine_lattice
+
+    .. rubric:: Python Properties
+
+    .. autosummary::
+
+        ~lattice
+        ~name
+        ~reflections
+        ~solver
         ~U
         ~UB
     """
 
-    def __init__(self, solver: SolverBase, lattice: Lattice, name: str = None) -> None:
+    def __init__(
+        self,
+        name: str,
+        lattice: Lattice,
+        solver: SolverBase = None,
+    ) -> None:
         self.name = name or unique_name()
-        self.solver = solver
         self.lattice = lattice
+        if solver is None:
+            self._solver = None  # bypass setter's validations
+        else:
+            self.solver = solver
         # TODO: reciprocal_lattice
-        self.reflections = ReflectionsDict()
+        self.reflections = ReflectionsDict()  # TODO: can refactor as dict?  (ordering)
 
     def __repr__(self):
         return f"Sample(name={self.name!r}, lattice={self.lattice!r})"
-
-    @property
-    def U(self):
-        """Return the matrix, U, crystal orientation on the diffractometer."""
-        return None  # TODO
-
-    @property
-    def UB(self):
-        """
-        Return the crystal orientation matrix, UB.
-
-        * :math:`UB` - orientation matrix
-        * :math:`B` - crystal lattice on the diffractometer
-        * :math:`U` - rotation matrix, relative orientation of crystal on diffractometer
-        """
-        # self.solver.calculateOrientation()  # TODO
 
     def refine_lattice(self):
         """Refine the lattice parameters from 3 or more reflections."""
@@ -117,3 +119,19 @@ class Sample:
         # note: calling SolverBase() will always generate a TypeError
         # "Can't instantiate abstract class SolverBase with abstract methods" ...
         self._solver = value
+
+    @property
+    def U(self):
+        """Return the matrix, U, crystal orientation on the diffractometer."""
+        return None  # TODO
+
+    @property
+    def UB(self):
+        """
+        Return the crystal orientation matrix, UB.
+
+        * :math:`UB` - orientation matrix
+        * :math:`B` - crystal lattice on the diffractometer
+        * :math:`U` - rotation matrix, relative orientation of crystal on diffractometer
+        """
+        # self.solver.calculateOrientation()  # TODO

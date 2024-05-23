@@ -15,7 +15,7 @@ from ophyd.pseudopos import real_position_argument
 from ophyd.signal import AttributeSignal
 
 from . import Hklpy2Error
-from .misc import solver_factory
+from .ops import SolverOperator
 from .wavelength_support import DEFAULT_WAVELENGTH
 from .wavelength_support import ConstantMonochromaticWavelength
 
@@ -39,14 +39,16 @@ class DiffractometerBase(PseudoPositioner):
 
     .. autosummary::
 
+        ~geometry
+        ~solver
         ~wavelength
-        ~wavelength_units
 
     .. rubric:: Python Methods
 
     .. autosummary::
 
-        ~check_solver_defined
+        ~add_sample
+        ~choose_first_forward_solution
         ~forward
         ~inverse
         ~set_solver
@@ -55,8 +57,8 @@ class DiffractometerBase(PseudoPositioner):
 
     .. autosummary::
 
-        ~backend
-        ~geometry_name
+        ~sample
+        ~samples
         ~solver_name
     """
 
@@ -64,37 +66,32 @@ class DiffractometerBase(PseudoPositioner):
     # _pseudo = []  # List of pseudo-space PseudoPositioner objects.
     # _real = []  # List of real-space positioner objects.
 
+    geometry = Cpt(
+        AttributeSignal,
+        attr="operator.geometry",
+        doc="Name of backend |solver| geometry.",
+        write_access=False,
+        kind="config",
+    )
+    """Name of backend |solver| geometry."""
+
     solver = Cpt(
         AttributeSignal,
         attr="solver_name",
         doc="Name of backend |solver| (library).",
-        write_access=True,
+        write_access=False,
+        kind="config",
     )
     """Name of backend |solver| (library)."""
-
-    geometry = Cpt(
-        AttributeSignal,
-        attr="geometry_name",
-        doc="Name of backend |solver| geometry.",
-        write_access=True,
-    )
-    """Name of backend |solver| geometry."""
 
     wavelength = Cpt(
         AttributeSignal,
         attr="_wavelength.wavelength",
-        doc="incident wavelength, (angstrom)",
-        write_access=False,
+        doc="Wavelength of incident radiation.",
+        write_access=True,
+        kind="config",
     )
-    """Incident wavelength."""
-
-    wavelength_units = Cpt(
-        AttributeSignal,
-        attr="_wavelength.wavelength_units",
-        doc="engineering units of the incident wavelength",
-        write_access=False,
-    )
-    """Engineering units of the incident wavelength."""
+    """Wavelength of incident radiation."""
 
     def __init__(
         self,
@@ -103,53 +100,74 @@ class DiffractometerBase(PseudoPositioner):
     ):
         self._backend = None
         self._wavelength = ConstantMonochromaticWavelength(DEFAULT_WAVELENGTH)
+        self.operator = SolverOperator(self)
+        self._forward_solution = self.choose_first_forward_solution
 
         super().__init__(*args, **kwargs)
 
-    def check_solver_defined(self):
-        """Raise DiffractometerError if solver is not defined."""
-        if self.backend is None:
-            raise DiffractometerError("Call 'set_solver()' first.")
+    def add_sample(
+        self,
+        name: str,
+        a: float,
+        b: float = None,
+        c: float = None,
+        alpha: float = 90.0,  # degrees
+        beta: float = None,  # degrees
+        gamma: float = None,  # degrees
+        digits: int = 4,
+    ):
+        """Add a new sample."""
+        self.operator.add_sample(name, a, b, c, alpha, beta, gamma, digits)
+
+    def choose_first_forward_solution(self, solutions: list):
+        """
+        Choose first solution from list returned by '.forward()'.
+
+        User can provide an alternative function and assign to
+        'self._forward_solution'.
+        """
+        return solutions[0]
 
     @pseudo_position_argument
-    def forward(self, pseudos: dict):
-        """Compute tuple of reals from pseudos (hkl -> angles)."""
-        # TODO: have the solver handle this, from the pseudos
-        self.check_solver_defined()
-        logger.debug("forward(): pseudos=%r", pseudos)
-        pos = {axis[0]: 0 for axis in self._get_real_positioners()}
-        return self.RealPosition(**pos)
+    def forward(self, pseudos: dict) -> tuple:
+        """Compute real-space coordinates from pseudos (hkl -> angles)."""
+        solutions = self.operator.forward(pseudos)
+        pos = self._forward_solution(solutions)
+        return self.RealPosition(**pos)  # as created by namedtuple
 
     @real_position_argument
-    def inverse(self, reals: dict):
-        """Compute tuple of pseudos from reals (angles -> hkl)."""
-        # TODO: have the solver handle this, from the reals
-        self.check_solver_defined()
-        logger.debug("inverse(): reals=%r", reals)
-        pos = {axis[0]: 0 for axis in self._get_pseudo_positioners()}
-        return self.PseudoPosition(**pos)
+    def inverse(self, reals: dict) -> tuple:
+        """Compute pseudo-space coordinates from reals (angles -> hkl)."""
+        pos = self.operator.inverse(reals)
+        return self.PseudoPosition(**pos)  # as created by namedtuple
 
-    def set_solver(self, solver: str, geometry: str, **kwargs):
+    def set_solver(self, solver: str, geometry: str, **kwargs: dict):
         """Set the backend |solver| for this diffractometer."""
-        self._backend = solver_factory(solver, geometry, **kwargs)
+        self.operator.set_solver(solver, geometry, **kwargs)
 
     # ---- get/set properties
 
     @property
-    def backend(self):
-        """Backend |solver| object."""
-        return self._backend
+    def samples(self):
+        """Dictionary of samples."""
+        if self.operator is None:
+            return {}
+        return self.operator.samples
 
     @property
-    def geometry_name(self):
-        """Backend |solver| geometry name."""
-        if self.backend is not None:
-            return self.backend.geometry
-        return ""
+    def sample(self):
+        """Current sample object."""
+        if self.operator is None:
+            return None
+        return self.operator.sample
+
+    @sample.setter
+    def sample(self, value: str) -> None:
+        self.operator.sample = value
 
     @property
     def solver_name(self):
         """Backend |solver| library name."""
-        if self.backend is not None:
-            return self.backend.name
+        if self.operator is not None and self.operator.solver is not None:
+            return self.operator.solver.name
         return ""

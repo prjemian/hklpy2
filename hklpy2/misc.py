@@ -93,6 +93,8 @@ def solvers():
     return entries
 
 
-def unique_name(prefix=""):
-    """Short, unique name, first 7 characters of a unique, random uuid."""
-    return prefix + str(uuid.uuid4())[:7]
+def unique_name(prefix="", length=7):
+    """
+    Short, unique name, first 7 (at most) characters of a unique, random uuid.
+    """
+    return prefix + str(uuid.uuid4())[: max(1, min(length, 7))]

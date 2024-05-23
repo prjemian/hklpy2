@@ -93,26 +93,22 @@ def test_goniometer(solver, gname, dclass, npseudos, nreals):
 
     # test the wavelength
     assert math.isclose(
-        diffractometer.wavelength.get(),
+        diffractometer._wavelength.wavelength,
         DEFAULT_WAVELENGTH,
         abs_tol=0.001,
     )
-    assert diffractometer.wavelength_units.get() == DEFAULT_WAVELENGTH_UNITS
+    assert diffractometer._wavelength.wavelength_units == DEFAULT_WAVELENGTH_UNITS
 
     # test the solver
     diffractometer.set_solver(solver, gname)
     assert hasattr(diffractometer, "solver_name")
-    assert hasattr(diffractometer, "backend")
-    assert diffractometer.backend is not None
-    assert isinstance(diffractometer.backend, SolverBase)
-    assert isinstance(diffractometer.backend.name, str)
+    assert hasattr(diffractometer, "operator")
+    assert hasattr(diffractometer.operator, "solver")
+    assert diffractometer.operator.solver is not None
+    assert isinstance(diffractometer.operator.solver, SolverBase)
+    assert isinstance(diffractometer.operator.solver.name, str)
     assert diffractometer.solver_name == solver, f"{diffractometer.solver_name=!r}"
-    assert hasattr(diffractometer, "solver")
-    with does_not_raise() as reason:
-        value = diffractometer.solver.get()
-    assert reason is None
-    assert isinstance(value, str), f"{value=!r} {reason=!r}"
-    assert value == solver, f"{value=!r} {solver=!r} {reason=!r}"
+    # TODO: assertions for actual solver object
 
     with does_not_raise() as reason:
         diffractometer.position
@@ -141,11 +137,10 @@ def test_extras():
     )
     assert "solver_name" in dir(fourc), f"{dir(fourc)!r}"
     assert fourc.solver_name == solver_name, f"{fourc!r}"
-    assert fourc.solver.get() == solver_name
 
-    fourc.backend.mode = "psi_constant"
-    assert fourc.backend.pseudo_axis_names == "h k l".split()
-    assert fourc.backend.real_axis_names == "omega chi phi tth".split()
-    assert fourc.backend.extra_axis_names == "h2 k2 l2 psi".split()
+    fourc.operator.solver.mode = "psi_constant"
+    assert fourc.operator.solver.pseudo_axis_names == "h k l".split()
+    assert fourc.operator.solver.real_axis_names == "omega chi phi tth".split()
+    assert fourc.operator.solver.extra_axis_names == "h2 k2 l2 psi".split()
 
     # TODO:

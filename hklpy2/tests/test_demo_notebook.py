@@ -36,7 +36,7 @@ def test_as_in_demo_notebook():
     assert vibranium_lattice.alpha == vibranium_lattice.beta
     assert vibranium_lattice.alpha == vibranium_lattice.gamma
 
-    vibranium = Sample(solver, vibranium_lattice, name="vibranium")
+    vibranium = Sample("vibranium", vibranium_lattice, solver)
     assert vibranium is not None
     assert vibranium.name == "vibranium"
     assert "a=6.2832, b=6.2832, c=6.2832," in str(vibranium)

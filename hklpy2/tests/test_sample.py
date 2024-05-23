@@ -16,22 +16,16 @@ def test_with_solver_base():
     """Special case that does not fit constructor test."""
     reason = "Can't instantiate abstract class SolverBase"
     with pytest.raises(TypeError) as excuse:
-        Sample(SolverBase(), Lattice(4), name="solver")
+        Sample("solver", Lattice(4), SolverBase())
     assert reason in str(excuse.value), f"{excuse=}"
 
 
 @pytest.mark.parametrize(
-    "solver, lattice, sname, outcome, reason",
+    "solver, lattice, sname, outcome, expect",
     [
         [no_op_solver, Lattice(4), "sample name", does_not_raise(), None],
         [no_op_solver, Lattice(4), None, does_not_raise(), None],
-        [
-            None,  # <-- not a subclass of SolverBase
-            None,
-            None,
-            pytest.raises(TypeError),
-            "Must supply SolverBase() object,",
-        ],
+        [None, None, None, pytest.raises(TypeError), "Must supply Lattice"],
         [
             no_op_solver,
             None,  # <-- not a Lattice
@@ -62,9 +56,9 @@ def test_with_solver_base():
         ],
     ],
 )
-def test_constructor(solver, lattice, sname, outcome, reason):
+def test_constructor(solver, lattice, sname, outcome, expect):
     with outcome as excuse:
-        sample = Sample(solver, lattice, name=sname)
+        sample = Sample(sname, lattice, solver)
         assert sample is not None
         if sname is None:
             assert isinstance(sample.name, str)
@@ -74,5 +68,5 @@ def test_constructor(solver, lattice, sname, outcome, reason):
         assert isinstance(sample.lattice, Lattice), f"{sample.lattice=}"
         assert isinstance(sample.reflections, ReflectionsDict)
 
-    if reason is not None:
-        assert reason in str(excuse.value), f"{excuse=}"
+    if expect is not None:
+        assert expect in str(excuse), f"{excuse=} {expect=}"

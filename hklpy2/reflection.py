@@ -11,6 +11,8 @@ Associates diffractometer angles (real-space) with crystalline reciprocal-space
     ~ReflectionsDict
 """
 
+# TODO: refactor how to order the reflections
+
 import logging
 
 from . import Hklpy2Error
