@@ -112,3 +112,7 @@ class SimulatedE6C(E4CV, HklMixin):
     phi = Cpt(SoftPositioner, limits=(-180, 180), init_pos=0, kind=H_OR_N)
     gamma = Cpt(SoftPositioner, limits=(-180, 180), init_pos=0, kind=H_OR_N)
     delta = Cpt(SoftPositioner, limits=(-180, 180), init_pos=0, kind=H_OR_N)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.operator.auto_assign_axes()
