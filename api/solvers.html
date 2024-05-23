@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Backend Solvers &#8212; hklpy2 0.0</title>
+    <title>Solvers &#8212; hklpy2 0.0</title>
   
   
   
@@ -38,18 +38,18 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
   <script src="../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script src="../_static/documentation_options.js?v=9fc46840"></script>
+    <script src="../_static/documentation_options.js?v=544df88d"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'api/backends';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'api/solvers';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="SolverBase" href="backends/base.html" />
-    <link rel="prev" title="API" href="../api.html" />
+    <link rel="prev" title="Crystalline Sample" href="sample.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -275,18 +275,19 @@ document.write(`
      aria-label="Section Navigation">
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
   <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
-<li class="toctree-l1 current active has-children"><a class="current reference internal" href="#">Backend Solvers</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1"><a class="reference internal" href="diffract.html">Diffractometer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="geom.html">Diffractometer Geometries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lattice.html">Crystal Lattice</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ops.html">Operations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reflection.html">Orientation Reflection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sample.html">Crystalline Sample</a></li>
+<li class="toctree-l1 current active has-children"><a class="current reference internal" href="#">Solvers</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="backends/base.html">SolverBase</a></li>
 <li class="toctree-l2"><a class="reference internal" href="backends/hkl_soleil.html">hkl_soleil (HklSolver)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="backends/no_op.html">no_op (NoOpSolver)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="backends/th_tth_q.html">th_tth (ThTthSolver)</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="diffract.html">Diffractometer</a></li>
-<li class="toctree-l1"><a class="reference internal" href="lattice.html">Crystal Lattice</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ops.html">Operations</a></li>
-<li class="toctree-l1"><a class="reference internal" href="reflection.html">Orientation Reflection</a></li>
-<li class="toctree-l1"><a class="reference internal" href="sample.html">Crystalline Sample</a></li>
 <li class="toctree-l1"><a class="reference internal" href="wavelength_support.html">Wavelength</a></li>
 <li class="toctree-l1"><a class="reference internal" href="z_misc.html">Miscellaneous Support</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
@@ -330,7 +331,7 @@ document.write(`
     
     <li class="breadcrumb-item"><a href="../api.html" class="nav-link">API</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page">Backend Solvers</li>
+    <li class="breadcrumb-item active" aria-current="page">Solvers</li>
   </ul>
 </nav>
 </div>
@@ -347,8 +348,8 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="backend-solvers">
-<span id="api-backends"></span><h1>Backend Solvers<a class="headerlink" href="#backend-solvers" title="Link to this heading">#</a></h1>
+  <section id="solvers">
+<span id="api-solvers"></span><h1>Solvers<a class="headerlink" href="#solvers" title="Link to this heading">#</a></h1>
 <p>A <strong>Solver</strong> is a Python class that connects <strong>hklpy2</strong> with a (backend) library
 that provides diffractometer capabilities, including:</p>
 <ul class="simple">
@@ -387,7 +388,7 @@ using the <code class="docutils literal notranslate"><span class="pre">&quot;hkl
 </pre></div>
 </div>
 <section id="how-to-select-a-solver">
-<span id="api-backends-set"></span><h2>How to select a Solver<a class="headerlink" href="#how-to-select-a-solver" title="Link to this heading">#</a></h2>
+<span id="api-solvers-set"></span><h2>How to select a Solver<a class="headerlink" href="#how-to-select-a-solver" title="Link to this heading">#</a></h2>
 <p>To list all available <strong>Solver</strong> classes (by their entry point name),
 call <code class="xref py py-func docutils literal notranslate"><span class="pre">solvers()</span></code>.
 This example shows the <strong>Solver</strong> classes supplied with <strong>hklpy2</strong>:</p>
@@ -419,7 +420,7 @@ selects the <strong>Hkl/Soleil</strong> <strong>Solver</strong> (using its entry
 </div>
 </section>
 <section id="how-to-write-a-new-solver">
-<span id="api-backends-howto"></span><h2>How to write a new Solver<a class="headerlink" href="#how-to-write-a-new-solver" title="Link to this heading">#</a></h2>
+<span id="api-solvers-howto"></span><h2>How to write a new Solver<a class="headerlink" href="#how-to-write-a-new-solver" title="Link to this heading">#</a></h2>
 <div class="admonition caution">
 <p class="admonition-title">Caution</p>
 <p>TODO:: work-in-progress</p>
@@ -458,7 +459,7 @@ See the API documentation for details.</p>
 <p class="rubric">Base class for all solvers</p>
 <table class="autosummary longtable table autosummary">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="backends/base.html#hklpy2.backends.base.SolverBase" title="hklpy2.backends.base.SolverBase"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SolverBase</span></code></a>(geometry, *[, mode, pseudos, ...])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="backends/base.html#hklpy2.backends.base.SolverBase" title="hklpy2.backends.base.SolverBase"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SolverBase</span></code></a>(geometry, *[, mode])</p></td>
 <td><p>Base class for all <strong>hklpy2</strong> <strong>Solver</strong> classes.</p></td>
 </tr>
 </tbody>
@@ -477,12 +478,12 @@ See the API documentation for details.</p>
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="../api.html"
+       href="sample.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">API</p>
+        <p class="prev-next-title">Crystalline Sample</p>
       </div>
     </a>
     <a class="right-next"
@@ -521,7 +522,7 @@ See the API documentation for details.</p>
   <div class="sidebar-secondary-item">
 
   <div class="tocsection sourcelink">
-    <a href="../_sources/api/backends.rst.txt">
+    <a href="../_sources/api/solvers.rst.txt">
       <i class="fa-solid fa-file-lines"></i> Show Source
     </a>
   </div>

@@ -82,6 +82,28 @@ order expected by the solver like this::
         extras=[],
     )
 
+.. rubric:: Operations-related methods and properties
+.. autosummary::
+
+    ~hklpy2.diffract.DiffractometerBase.add_sample
+    ~hklpy2.diffract.DiffractometerBase.set_solver
+    ~hklpy2.ops.SolverOperator.auto_assign_axes
+
+.. rubric:: Sample-related methods and properties
+.. autosummary::
+
+    ~hklpy2.diffract.DiffractometerBase.add_sample
+    ~hklpy2.diffract.DiffractometerBase.sample
+    ~hklpy2.diffract.DiffractometerBase.samples
+
+.. rubric:: Solver-related methods and properties
+.. autosummary::
+
+    ~hklpy2.diffract.DiffractometerBase.geometry
+    ~hklpy2.diffract.DiffractometerBase.set_solver
+    ~hklpy2.diffract.DiffractometerBase.solver
+    ~hklpy2.diffract.DiffractometerBase.solver_name
+
 Source Code Documentation
 -------------------------
 

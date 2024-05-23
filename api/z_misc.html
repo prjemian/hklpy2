@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
   <script src="../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script src="../_static/documentation_options.js?v=9fc46840"></script>
+    <script src="../_static/documentation_options.js?v=544df88d"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
@@ -273,18 +273,19 @@ document.write(`
      aria-label="Section Navigation">
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
   <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
-<li class="toctree-l1 has-children"><a class="reference internal" href="backends.html">Backend Solvers</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1"><a class="reference internal" href="diffract.html">Diffractometer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="geom.html">Diffractometer Geometries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lattice.html">Crystal Lattice</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ops.html">Operations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reflection.html">Orientation Reflection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sample.html">Crystalline Sample</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="solvers.html">Solvers</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="backends/base.html">SolverBase</a></li>
 <li class="toctree-l2"><a class="reference internal" href="backends/hkl_soleil.html">hkl_soleil (HklSolver)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="backends/no_op.html">no_op (NoOpSolver)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="backends/th_tth_q.html">th_tth (ThTthSolver)</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="diffract.html">Diffractometer</a></li>
-<li class="toctree-l1"><a class="reference internal" href="lattice.html">Crystal Lattice</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ops.html">Operations</a></li>
-<li class="toctree-l1"><a class="reference internal" href="reflection.html">Orientation Reflection</a></li>
-<li class="toctree-l1"><a class="reference internal" href="sample.html">Crystalline Sample</a></li>
 <li class="toctree-l1"><a class="reference internal" href="wavelength_support.html">Wavelength</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Miscellaneous Support</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
@@ -367,7 +368,7 @@ document.write(`
 <tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.misc.solvers" title="hklpy2.misc.solvers"><code class="xref py py-obj docutils literal notranslate"><span class="pre">solvers</span></code></a>()</p></td>
 <td><p>Dictionary of available Solver classes, mapped by entry point name.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.misc.solver_factory" title="hklpy2.misc.solver_factory"><code class="xref py py-obj docutils literal notranslate"><span class="pre">solver_factory</span></code></a>(solver_name, geometry, *[, ...])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.misc.solver_factory" title="hklpy2.misc.solver_factory"><code class="xref py py-obj docutils literal notranslate"><span class="pre">solver_factory</span></code></a>(solver_name, geometry, **kwargs)</p></td>
 <td><p>Create a <strong>Solver</strong> object with geometry and axes.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.misc.unique_name" title="hklpy2.misc.unique_name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">unique_name</span></code></a>([prefix, length])</p></td>
@@ -421,7 +422,7 @@ set self.__traceback__ to tb and return self.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="hklpy2.misc.solver_factory">
-<span class="sig-prename descclassname"><span class="pre">hklpy2.misc.</span></span><span class="sig-name descname"><span class="pre">solver_factory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">solver_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">geometry</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pseudos</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.12)"><span class="pre">list</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reals</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.12)"><span class="pre">list</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extras</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.12)"><span class="pre">list</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hklpy2/misc.html#solver_factory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.misc.solver_factory" title="Link to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">hklpy2.misc.</span></span><span class="sig-name descname"><span class="pre">solver_factory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">solver_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">geometry</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hklpy2/misc.html#solver_factory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.misc.solver_factory" title="Link to this definition">#</a></dt>
 <dd><p>Create a <strong>Solver</strong> object with geometry and axes.</p>
 </dd></dl>
 

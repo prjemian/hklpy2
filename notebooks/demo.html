@@ -39,7 +39,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
   <script src="../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script src="../_static/documentation_options.js?v=9fc46840"></script>
+    <script src="../_static/documentation_options.js?v=544df88d"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
@@ -357,8 +357,8 @@ document.write(`
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-2024-05-23 16:10:24.264484
-hklpy2.__version__=&#39;0.0.13.dev0+gecef31d.d20240523&#39;
+2024-05-23 18:02:11.038338
+hklpy2.__version__=&#39;0.0.14.dev0+g96622ed.d20240523&#39;
 hklpy2.solvers()={&#39;hkl_soleil&#39;: &#39;hklpy2.backends.hkl_soleil:HklSolver&#39;, &#39;no_op&#39;: &#39;hklpy2.backends.no_op:NoOpSolver&#39;, &#39;th_tth&#39;: &#39;hklpy2.backends.th_tth_q:ThTthSolver&#39;}
 </pre></div></div>
 </div>
@@ -376,20 +376,28 @@ hklpy2.solvers()={&#39;hkl_soleil&#39;: &#39;hklpy2.backends.hkl_soleil:HklSolve
 <span class="k">class</span> <span class="nc">Fourc</span><span class="p">(</span><span class="n">hklpy2</span><span class="o">.</span><span class="n">DiffractometerBase</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Test case.&quot;&quot;&quot;</span>
 
+    <span class="c1"># pseudo-space axes, in order expected by hkl_soleil E4CV, engine=&quot;hkl&quot;</span>
     <span class="n">h</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">PseudoSingle</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">NORMAL_HINTED</span><span class="p">)</span>  <span class="c1"># noqa: E741</span>
     <span class="n">k</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">PseudoSingle</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">NORMAL_HINTED</span><span class="p">)</span>  <span class="c1"># noqa: E741</span>
     <span class="n">l</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">PseudoSingle</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">NORMAL_HINTED</span><span class="p">)</span>  <span class="c1"># noqa: E741</span>
 
+    <span class="c1"># real-space axes, in order expected by hkl_soleil E4CV</span>
+    <span class="c1"># using different names</span>
     <span class="n">theta</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">SoftPositioner</span><span class="p">,</span> <span class="n">limits</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">180</span><span class="p">,</span> <span class="mi">180</span><span class="p">),</span> <span class="n">init_pos</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">NORMAL_HINTED</span><span class="p">)</span>
     <span class="n">chi</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">SoftPositioner</span><span class="p">,</span> <span class="n">limits</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">180</span><span class="p">,</span> <span class="mi">180</span><span class="p">),</span> <span class="n">init_pos</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">NORMAL_HINTED</span><span class="p">)</span>
     <span class="n">phi</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">SoftPositioner</span><span class="p">,</span> <span class="n">limits</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">180</span><span class="p">,</span> <span class="mi">180</span><span class="p">),</span> <span class="n">init_pos</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">NORMAL_HINTED</span><span class="p">)</span>
     <span class="n">ttheta</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">SoftPositioner</span><span class="p">,</span> <span class="n">limits</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">170</span><span class="p">,</span> <span class="mi">170</span><span class="p">),</span> <span class="n">init_pos</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">NORMAL_HINTED</span><span class="p">)</span>
 
+    <span class="c1"># pseudo-space extra axes used in a couple modes</span>
     <span class="n">h2</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">PseudoSingle</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">NORMAL_HINTED</span><span class="p">)</span>  <span class="c1"># noqa: E741</span>
     <span class="n">k2</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">PseudoSingle</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">NORMAL_HINTED</span><span class="p">)</span>  <span class="c1"># noqa: E741</span>
     <span class="n">l2</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">PseudoSingle</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">NORMAL_HINTED</span><span class="p">)</span>  <span class="c1"># noqa: E741</span>
 
+    <span class="c1"># real-space extra axis used in a couple modes</span>
     <span class="n">psi</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">SoftPositioner</span><span class="p">,</span> <span class="n">limits</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">170</span><span class="p">,</span> <span class="mi">170</span><span class="p">),</span> <span class="n">init_pos</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">NORMAL_HINTED</span><span class="p">)</span>
+
+    <span class="c1"># another Component, not used (yet)</span>
+    <span class="n">energy</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">SoftPositioner</span><span class="p">,</span> <span class="n">limits</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">35</span><span class="p">),</span> <span class="n">init_pos</span><span class="o">=</span><span class="mf">12.4</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">NORMAL_HINTED</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
@@ -406,26 +414,32 @@ hklpy2.solvers()={&#39;hkl_soleil&#39;: &#39;hklpy2.backends.hkl_soleil:HklSolve
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-fourc=Fourc(prefix=&#39;&#39;, name=&#39;fourc&#39;, settle_time=0.0, timeout=None, egu=&#39;&#39;, limits=(0, 0), source=&#39;computed&#39;, read_attrs=[&#39;h&#39;, &#39;h.readback&#39;, &#39;h.setpoint&#39;, &#39;k&#39;, &#39;k.readback&#39;, &#39;k.setpoint&#39;, &#39;l&#39;, &#39;l.readback&#39;, &#39;l.setpoint&#39;, &#39;theta&#39;, &#39;chi&#39;, &#39;phi&#39;, &#39;ttheta&#39;, &#39;h2&#39;, &#39;h2.readback&#39;, &#39;h2.setpoint&#39;, &#39;k2&#39;, &#39;k2.readback&#39;, &#39;k2.setpoint&#39;, &#39;l2&#39;, &#39;l2.readback&#39;, &#39;l2.setpoint&#39;, &#39;psi&#39;], configuration_attrs=[&#39;geometry&#39;, &#39;solver&#39;, &#39;wavelength&#39;, &#39;h&#39;, &#39;k&#39;, &#39;l&#39;, &#39;h2&#39;, &#39;k2&#39;, &#39;l2&#39;], concurrent=True)
+fourc=Fourc(prefix=&#39;&#39;, name=&#39;fourc&#39;, settle_time=0.0, timeout=None, egu=&#39;&#39;, limits=(0, 0), source=&#39;computed&#39;, read_attrs=[&#39;h&#39;, &#39;h.readback&#39;, &#39;h.setpoint&#39;, &#39;k&#39;, &#39;k.readback&#39;, &#39;k.setpoint&#39;, &#39;l&#39;, &#39;l.readback&#39;, &#39;l.setpoint&#39;, &#39;theta&#39;, &#39;chi&#39;, &#39;phi&#39;, &#39;ttheta&#39;, &#39;h2&#39;, &#39;h2.readback&#39;, &#39;h2.setpoint&#39;, &#39;k2&#39;, &#39;k2.readback&#39;, &#39;k2.setpoint&#39;, &#39;l2&#39;, &#39;l2.readback&#39;, &#39;l2.setpoint&#39;, &#39;psi&#39;, &#39;energy&#39;], configuration_attrs=[&#39;geometry&#39;, &#39;solver&#39;, &#39;wavelength&#39;, &#39;h&#39;, &#39;k&#39;, &#39;l&#39;, &#39;h2&#39;, &#39;k2&#39;, &#39;l2&#39;], concurrent=True)
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">fourc</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">geometries</span><span class="p">()</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+fourc.operator.solver.geometries()=[&#39;E4CH&#39;, &#39;E4CV&#39;, &#39;E6C&#39;, &#39;ESRF ID01 PSIC&#39;, &#39;K4CV&#39;, &#39;K6C&#39;, &#39;PETRA3 P09 EH2&#39;, &#39;PETRA3 P23 4C&#39;, &#39;PETRA3 P23 6C&#39;, &#39;SOLEIL MARS&#39;, &#39;SOLEIL NANOSCOPIUM ROBOT&#39;, &#39;SOLEIL SIRIUS KAPPA&#39;, &#39;SOLEIL SIRIUS TURRET&#39;, &#39;SOLEIL SIXS MED1+2&#39;, &#39;SOLEIL SIXS MED2+2&#39;, &#39;SOLEIL SIXS MED2+3&#39;, &#39;SOLEIL SIXS MED2+3 v2&#39;, &#39;TwoC&#39;, &#39;ZAXIS&#39;]
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">fourc</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">fourc</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">fourc</span><span class="o">.</span><span class="n">wavelength</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">fourc</span><span class="o">.</span><span class="n">solver_name</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">fourc</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">solver</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">fourc</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">pseudo_axis_names</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">fourc</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">real_axis_names</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">fourc</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">extra_axis_names</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="p">[</span><span class="n">axis</span><span class="o">.</span><span class="n">name</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">axis</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">fourc</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">user_pseudos</span><span class="p">]</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="p">[</span><span class="n">axis</span><span class="o">.</span><span class="n">name</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">axis</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">fourc</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">user_reals</span><span class="p">]</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="p">[</span><span class="n">axis</span><span class="o">.</span><span class="n">name</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">axis</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">fourc</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">user_extras</span><span class="p">]</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">fourc</span><span class="o">.</span><span class="n">samples</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">fourc</span><span class="o">.</span><span class="n">sample</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -437,43 +451,49 @@ fourc=Fourc(prefix=&#39;&#39;, name=&#39;fourc&#39;, settle_time=0.0, timeout=No
 fourc.solver.get()=&#39;hkl_soleil&#39;
 fourc.geometry.get()=&#39;E4CV&#39;
 fourc.wavelength.get()=1.0
-fourc.solver_name=&#39;hkl_soleil&#39;
-fourc.operator.solver=HklSolver(name=&#39;hkl_soleil&#39;, version=&#39;v5.0.0.3434&#39;, geometry=&#39;E4CV&#39;, engine=&#39;hkl&#39;, mode=&#39;bissector&#39;)
-fourc.operator.solver.pseudo_axis_names=[&#39;h&#39;, &#39;k&#39;, &#39;l&#39;]
-fourc.operator.solver.real_axis_names=[&#39;omega&#39;, &#39;chi&#39;, &#39;phi&#39;, &#39;tth&#39;]
-fourc.operator.solver.extra_axis_names=[]
-[axis.name for axis in fourc.operator.solver.user_pseudos]=[]
-[axis.name for axis in fourc.operator.solver.user_reals]=[]
-[axis.name for axis in fourc.operator.solver.user_extras]=[]
-fourc.samples={&#39;cubic&#39;: Sample(name=&#39;cubic&#39;, lattice=Lattice(a=1, b=1, c=1, alpha=90.0, beta=90.0, gamma=90.0))}
-fourc.sample=Sample(name=&#39;cubic&#39;, lattice=Lattice(a=1, b=1, c=1, alpha=90.0, beta=90.0, gamma=90.0))
-</pre></div></div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">fourc</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">axes_xref</span><span class="si">=!r}</span><span class="s2">&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-fourc.operator.axes_xref={&#39;h&#39;: &#39;h&#39;, &#39;k&#39;: &#39;k&#39;, &#39;l&#39;: &#39;l&#39;, &#39;theta&#39;: &#39;omega&#39;, &#39;chi&#39;: &#39;chi&#39;, &#39;phi&#39;: &#39;phi&#39;, &#39;ttheta&#39;: &#39;tth&#39;}
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fourc</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">remove_sample</span><span class="p">(</span><span class="s2">&quot;vibranium&quot;</span><span class="p">,)</span>
-<span class="n">fourc</span><span class="o">.</span><span class="n">add_sample</span><span class="p">(</span><span class="s2">&quot;vibranium&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">digits</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">fourc</span><span class="o">.</span><span class="n">solver_name</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">fourc</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">solver</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">fourc</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">axes_xref</span><span class="si">=!r}</span><span class="s2">&quot;</span><span class="p">)</span>  <span class="c1"># our names to solver&#39;s names</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">fourc</span><span class="o">.</span><span class="n">pseudo_axis_names</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>  <span class="c1"># our full ordered lists of names</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">fourc</span><span class="o">.</span><span class="n">real_axis_names</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">fourc</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">pseudo_axis_names</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>  <span class="c1"># solver&#39;s ordered lists of names</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">fourc</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">real_axis_names</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">fourc</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">extra_axis_names</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+fourc.solver_name=&#39;hkl_soleil&#39;
+fourc.operator.solver=HklSolver(name=&#39;hkl_soleil&#39;, version=&#39;v5.0.0.3434&#39;, geometry=&#39;E4CV&#39;, engine=&#39;hkl&#39;, mode=&#39;bissector&#39;)
+fourc.operator.axes_xref={&#39;h&#39;: &#39;h&#39;, &#39;k&#39;: &#39;k&#39;, &#39;l&#39;: &#39;l&#39;, &#39;theta&#39;: &#39;omega&#39;, &#39;chi&#39;: &#39;chi&#39;, &#39;phi&#39;: &#39;phi&#39;, &#39;ttheta&#39;: &#39;tth&#39;}
+fourc.pseudo_axis_names=[&#39;h&#39;, &#39;k&#39;, &#39;l&#39;, &#39;h2&#39;, &#39;k2&#39;, &#39;l2&#39;]
+fourc.real_axis_names=[&#39;theta&#39;, &#39;chi&#39;, &#39;phi&#39;, &#39;ttheta&#39;, &#39;psi&#39;, &#39;energy&#39;]
+fourc.operator.solver.pseudo_axis_names=[&#39;h&#39;, &#39;k&#39;, &#39;l&#39;]
+fourc.operator.solver.real_axis_names=[&#39;omega&#39;, &#39;chi&#39;, &#39;phi&#39;, &#39;tth&#39;]
+fourc.operator.solver.extra_axis_names=[]
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">fourc</span><span class="o">.</span><span class="n">samples</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">fourc</span><span class="o">.</span><span class="n">sample</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">fourc</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">remove_sample</span><span class="p">(</span><span class="s2">&quot;vibranium&quot;</span><span class="p">,)</span>  <span class="c1"># just in case it was defined previously</span>
+<span class="n">fourc</span><span class="o">.</span><span class="n">add_sample</span><span class="p">(</span><span class="s2">&quot;vibranium&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">digits</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># or force a replacement</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">fourc</span><span class="o">.</span><span class="n">sample</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">fourc</span><span class="o">.</span><span class="n">samples</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="n">fourc</span><span class="o">.</span><span class="n">sample</span> <span class="o">=</span> <span class="s2">&quot;cubic&quot;</span>
+<span class="n">fourc</span><span class="o">.</span><span class="n">sample</span> <span class="o">=</span> <span class="s2">&quot;cubic&quot;</span>  <span class="c1"># switch back to the &quot;cubic&quot; sample</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">fourc</span><span class="o">.</span><span class="n">sample</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -483,21 +503,23 @@ fourc.operator.axes_xref={&#39;h&#39;: &#39;h&#39;, &#39;k&#39;: &#39;k&#39;, &#
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
+fourc.samples={&#39;cubic&#39;: Sample(name=&#39;cubic&#39;, lattice=Lattice(a=1, b=1, c=1, alpha=90.0, beta=90.0, gamma=90.0))}
+fourc.sample=Sample(name=&#39;cubic&#39;, lattice=Lattice(a=1, b=1, c=1, alpha=90.0, beta=90.0, gamma=90.0))
 fourc.sample=Sample(name=&#39;vibranium&#39;, lattice=Lattice(a=6.283, b=6.283, c=6.283, alpha=90.0, beta=90.0, gamma=90.0))
 fourc.samples={&#39;cubic&#39;: Sample(name=&#39;cubic&#39;, lattice=Lattice(a=1, b=1, c=1, alpha=90.0, beta=90.0, gamma=90.0)), &#39;vibranium&#39;: Sample(name=&#39;vibranium&#39;, lattice=Lattice(a=6.283, b=6.283, c=6.283, alpha=90.0, beta=90.0, gamma=90.0))}
 fourc.sample=Sample(name=&#39;cubic&#39;, lattice=Lattice(a=1, b=1, c=1, alpha=90.0, beta=90.0, gamma=90.0))
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fourc</span><span class="o">.</span><span class="n">report</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fourc</span><span class="o">.</span><span class="n">report</span>  <span class="c1"># FIXME: not yet implemented.  These are fake values.</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -505,8 +527,76 @@ fourc.sample=Sample(name=&#39;cubic&#39;, lattice=Lattice(a=1, b=1, c=1, alpha=9
 {&#39;position&#39;: FourcPseudoPos(h=0, k=0, l=0, h2=0, k2=0, l2=0)}
 </pre></div></div>
 </div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fourc</span><span class="o">.</span><span class="n">sample</span> <span class="o">=</span> <span class="s2">&quot;vibranium&quot;</span>
+<span class="n">fourc</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">reflections</span><span class="o">.</span><span class="n">ordering</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># TODO: list of reflections could be made easier, still</span>
+</pre></div>
+</div>
+</div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fourc</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">reflections</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>  <span class="c1"># FIXME: not yet implemented.  Content ignored at this time.</span>
+    <span class="n">hklpy2</span><span class="o">.</span><span class="n">Reflection</span><span class="p">(</span>
+        <span class="n">fourc</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">solver</span><span class="p">,</span>
+        <span class="nb">dict</span><span class="p">(</span><span class="n">h</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">l</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>   <span class="c1"># TODO: be more flexible for input types here</span>
+        <span class="nb">dict</span><span class="p">(</span><span class="n">omega</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">chi</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">phi</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">tth</span><span class="o">=</span><span class="mi">20</span><span class="p">),</span>  <span class="c1"># TODO: be more flexible for input types here</span>
+        <span class="n">wavelength</span><span class="o">=</span><span class="mf">1.00</span><span class="p">,</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;r1&quot;</span>
+    <span class="p">),</span>
+    <span class="n">replace</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
+<span class="n">fourc</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">reflections</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>  <span class="c1"># FIXME: not yet implemented.  Content ignored at this time.</span>
+    <span class="n">hklpy2</span><span class="o">.</span><span class="n">Reflection</span><span class="p">(</span>
+        <span class="n">fourc</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">solver</span><span class="p">,</span>
+        <span class="nb">dict</span><span class="p">(</span><span class="n">h</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">l</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
+        <span class="nb">dict</span><span class="p">(</span><span class="n">omega</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">chi</span><span class="o">=-</span><span class="mi">90</span><span class="p">,</span> <span class="n">phi</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">tth</span><span class="o">=</span><span class="mi">20</span><span class="p">),</span>  <span class="c1"># TODO: such as get from current positioners</span>
+        <span class="n">wavelength</span><span class="o">=</span><span class="mf">1.00</span><span class="p">,</span>  <span class="c1"># TODO: same here</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;r2&quot;</span>
+    <span class="p">),</span>
+    <span class="n">replace</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
+<span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">fourc</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">reflections</span><span class="o">.</span><span class="n">ordering</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">fourc</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">reflections</span><span class="p">[</span><span class="n">r</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Reflection(name=&#39;r1&#39;, geometry=&#39;E4CV&#39;, pseudos={&#39;h&#39;: 1, &#39;k&#39;: 0, &#39;l&#39;: 0}, angles={&#39;omega&#39;: 10, &#39;chi&#39;: 0, &#39;phi&#39;: 0, &#39;tth&#39;: 20}, wavelength=1.0)
+Reflection(name=&#39;r2&#39;, geometry=&#39;E4CV&#39;, pseudos={&#39;h&#39;: 0, &#39;k&#39;: 1, &#39;l&#39;: 0}, angles={&#39;omega&#39;: 10, &#39;chi&#39;: -90, &#39;phi&#39;: 0, &#39;tth&#39;: 20}, wavelength=1.0)
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fourc</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">reflections</span><span class="o">.</span><span class="n">swap</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">fourc</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">reflections</span><span class="o">.</span><span class="n">ordering</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">fourc</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">reflections</span><span class="o">.</span><span class="n">ordering</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">fourc</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">reflections</span><span class="p">[</span><span class="n">r</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+fourc.sample.reflections.ordering=[&#39;r2&#39;, &#39;r1&#39;]
+Reflection(name=&#39;r2&#39;, geometry=&#39;E4CV&#39;, pseudos={&#39;h&#39;: 0, &#39;k&#39;: 1, &#39;l&#39;: 0}, angles={&#39;omega&#39;: 10, &#39;chi&#39;: -90, &#39;phi&#39;: 0, &#39;tth&#39;: 20}, wavelength=1.0)
+Reflection(name=&#39;r1&#39;, geometry=&#39;E4CV&#39;, pseudos={&#39;h&#39;: 1, &#39;k&#39;: 0, &#39;l&#39;: 0}, angles={&#39;omega&#39;: 10, &#39;chi&#39;: 0, &#39;phi&#39;: 0, &#39;tth&#39;: 20}, wavelength=1.0)
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fourc</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
@@ -521,6 +611,7 @@ fourc.sample=Sample(name=&#39;cubic&#39;, lattice=Lattice(a=1, b=1, c=1, alpha=9
 data keys (* hints)
 -------------------
 *fourc_chi
+*fourc_energy
 *fourc_h
 *fourc_h2
  fourc_h2_setpoint
@@ -563,6 +654,7 @@ l2                   PseudoSingle        (&#39;fourc_l2&#39;)
 l2.readback          AttributeSignal     (&#39;fourc_l2&#39;)
 l2.setpoint          AttributeSignal     (&#39;fourc_l2_setpoint&#39;)
 psi                  SoftPositioner      (&#39;fourc_psi&#39;)
+energy               SoftPositioner      (&#39;fourc_energy&#39;)
 
 config keys
 -----------
@@ -588,72 +680,15 @@ unused attrs
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fourc</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">geometries</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
-</pre></div>
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-[&#39;E4CH&#39;,
- &#39;E4CV&#39;,
- &#39;E6C&#39;,
- &#39;ESRF ID01 PSIC&#39;,
- &#39;K4CV&#39;,
- &#39;K6C&#39;,
- &#39;PETRA3 P09 EH2&#39;,
- &#39;PETRA3 P23 4C&#39;,
- &#39;PETRA3 P23 6C&#39;,
- &#39;SOLEIL MARS&#39;,
- &#39;SOLEIL NANOSCOPIUM ROBOT&#39;,
- &#39;SOLEIL SIRIUS KAPPA&#39;,
- &#39;SOLEIL SIRIUS TURRET&#39;,
- &#39;SOLEIL SIXS MED1+2&#39;,
- &#39;SOLEIL SIXS MED2+2&#39;,
- &#39;SOLEIL SIXS MED2+3&#39;,
- &#39;SOLEIL SIXS MED2+3 v2&#39;,
- &#39;TwoC&#39;,
- &#39;ZAXIS&#39;]
-</pre></div></div>
-</div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fourc</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">reflections</span><span class="o">.</span><span class="n">ordering</span> <span class="o">=</span> <span class="p">[]</span>
-</pre></div>
-</div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fourc</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">reflections</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
-    <span class="n">hklpy2</span><span class="o">.</span><span class="n">Reflection</span><span class="p">(</span>
-        <span class="n">fourc</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">solver</span><span class="p">,</span>
-        <span class="nb">dict</span><span class="p">(</span><span class="n">h</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">l</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
-        <span class="nb">dict</span><span class="p">(</span><span class="n">omega</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">chi</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">phi</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">tth</span><span class="o">=</span><span class="mi">20</span><span class="p">),</span>
-        <span class="n">wavelength</span><span class="o">=</span><span class="mf">1.00</span><span class="p">,</span>
-        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;r1&quot;</span>
-    <span class="p">)</span>
-<span class="p">)</span>
-<span class="n">fourc</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">reflections</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
-    <span class="n">hklpy2</span><span class="o">.</span><span class="n">Reflection</span><span class="p">(</span>
-        <span class="n">fourc</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">solver</span><span class="p">,</span>
-        <span class="nb">dict</span><span class="p">(</span><span class="n">h</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">l</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
-        <span class="nb">dict</span><span class="p">(</span><span class="n">omega</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">chi</span><span class="o">=-</span><span class="mi">90</span><span class="p">,</span> <span class="n">phi</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">tth</span><span class="o">=</span><span class="mi">20</span><span class="p">),</span>
-        <span class="n">wavelength</span><span class="o">=</span><span class="mf">1.00</span><span class="p">,</span>
-        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;r2&quot;</span>
-    <span class="p">)</span>
-<span class="p">)</span>
-<span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">fourc</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">reflections</span><span class="o">.</span><span class="n">ordering</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">fourc</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">reflections</span><span class="p">[</span><span class="n">r</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">hklpy2</span> <span class="kn">import</span> <span class="n">SimulatedE4CV</span>
+
+<span class="n">sim4c</span> <span class="o">=</span> <span class="n">SimulatedE4CV</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;sim4c&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">sim4c</span><span class="o">.</span><span class="n">sample</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">sim4c</span><span class="o">.</span><span class="n">solver</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">sim4c</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">axes_xref</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -662,29 +697,9 @@ unused attrs
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Reflection(name=&#39;r1&#39;, geometry=&#39;E4CV&#39;, pseudos={&#39;h&#39;: 1, &#39;k&#39;: 0, &#39;l&#39;: 0}, angles={&#39;omega&#39;: 10, &#39;chi&#39;: 0, &#39;phi&#39;: 0, &#39;tth&#39;: 20}, wavelength=1.0)
-Reflection(name=&#39;r2&#39;, geometry=&#39;E4CV&#39;, pseudos={&#39;h&#39;: 0, &#39;k&#39;: 1, &#39;l&#39;: 0}, angles={&#39;omega&#39;: 10, &#39;chi&#39;: -90, &#39;phi&#39;: 0, &#39;tth&#39;: 20}, wavelength=1.0)
-</pre></div></div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fourc</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">reflections</span><span class="o">.</span><span class="n">swap</span><span class="p">()</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">fourc</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">reflections</span><span class="o">.</span><span class="n">ordering</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">fourc</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">reflections</span><span class="o">.</span><span class="n">ordering</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">fourc</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">reflections</span><span class="p">[</span><span class="n">r</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-fourc.sample.reflections.ordering=[&#39;r2&#39;, &#39;r1&#39;]
-Reflection(name=&#39;r2&#39;, geometry=&#39;E4CV&#39;, pseudos={&#39;h&#39;: 0, &#39;k&#39;: 1, &#39;l&#39;: 0}, angles={&#39;omega&#39;: 10, &#39;chi&#39;: -90, &#39;phi&#39;: 0, &#39;tth&#39;: 20}, wavelength=1.0)
-Reflection(name=&#39;r1&#39;, geometry=&#39;E4CV&#39;, pseudos={&#39;h&#39;: 1, &#39;k&#39;: 0, &#39;l&#39;: 0}, angles={&#39;omega&#39;: 10, &#39;chi&#39;: 0, &#39;phi&#39;: 0, &#39;tth&#39;: 20}, wavelength=1.0)
+sim4c.sample=Sample(name=&#39;cubic&#39;, lattice=Lattice(a=1, b=1, c=1, alpha=90.0, beta=90.0, gamma=90.0))
+sim4c.solver=AttributeSignal(name=&#39;sim4c_solver&#39;, parent=&#39;sim4c&#39;, value=0.0, timestamp=1716505471.408135)
+sim4c.operator.axes_xref={&#39;h&#39;: &#39;h&#39;, &#39;k&#39;: &#39;k&#39;, &#39;l&#39;: &#39;l&#39;, &#39;omega&#39;: &#39;omega&#39;, &#39;chi&#39;: &#39;chi&#39;, &#39;phi&#39;: &#39;phi&#39;, &#39;tth&#39;: &#39;tth&#39;}
 </pre></div></div>
 </div>
 </section>

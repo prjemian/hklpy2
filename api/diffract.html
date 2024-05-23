@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
   <script src="../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script src="../_static/documentation_options.js?v=9fc46840"></script>
+    <script src="../_static/documentation_options.js?v=544df88d"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
@@ -48,8 +48,8 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'api/diffract';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Crystal Lattice" href="lattice.html" />
-    <link rel="prev" title="th_tth (ThTthSolver)" href="backends/th_tth_q.html" />
+    <link rel="next" title="Diffractometer Geometries" href="geom.html" />
+    <link rel="prev" title="API" href="../api.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -275,18 +275,19 @@ document.write(`
      aria-label="Section Navigation">
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
   <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
-<li class="toctree-l1 has-children"><a class="reference internal" href="backends.html">Backend Solvers</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Diffractometer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="geom.html">Diffractometer Geometries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lattice.html">Crystal Lattice</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ops.html">Operations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reflection.html">Orientation Reflection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sample.html">Crystalline Sample</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="solvers.html">Solvers</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="backends/base.html">SolverBase</a></li>
 <li class="toctree-l2"><a class="reference internal" href="backends/hkl_soleil.html">hkl_soleil (HklSolver)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="backends/no_op.html">no_op (NoOpSolver)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="backends/th_tth_q.html">th_tth (ThTthSolver)</a></li>
 </ul>
 </li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Diffractometer</a></li>
-<li class="toctree-l1"><a class="reference internal" href="lattice.html">Crystal Lattice</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ops.html">Operations</a></li>
-<li class="toctree-l1"><a class="reference internal" href="reflection.html">Orientation Reflection</a></li>
-<li class="toctree-l1"><a class="reference internal" href="sample.html">Crystalline Sample</a></li>
 <li class="toctree-l1"><a class="reference internal" href="wavelength_support.html">Wavelength</a></li>
 <li class="toctree-l1"><a class="reference internal" href="z_misc.html">Miscellaneous Support</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
@@ -448,6 +449,51 @@ order expected by the solver like this:</p>
 <span class="p">)</span>
 </pre></div>
 </div>
+<p class="rubric">Operations-related methods and properties</p>
+<table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.diffract.DiffractometerBase.add_sample" title="hklpy2.diffract.DiffractometerBase.add_sample"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_sample</span></code></a>(name, a[, b, c, alpha, beta, ...])</p></td>
+<td><p>Add a new sample.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.diffract.DiffractometerBase.set_solver" title="hklpy2.diffract.DiffractometerBase.set_solver"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_solver</span></code></a>(solver, geometry, **kwargs)</p></td>
+<td><p>Set the backend <strong>Solver</strong> for this diffractometer.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="ops.html#hklpy2.ops.SolverOperator.auto_assign_axes" title="hklpy2.ops.SolverOperator.auto_assign_axes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">auto_assign_axes</span></code></a>()</p></td>
+<td><p>Automatically assign diffractometer axes to this solver.</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Sample-related methods and properties</p>
+<table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.diffract.DiffractometerBase.add_sample" title="hklpy2.diffract.DiffractometerBase.add_sample"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_sample</span></code></a>(name, a[, b, c, alpha, beta, ...])</p></td>
+<td><p>Add a new sample.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.diffract.DiffractometerBase.sample" title="hklpy2.diffract.DiffractometerBase.sample"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sample</span></code></a></p></td>
+<td><p>Current sample object.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.diffract.DiffractometerBase.samples" title="hklpy2.diffract.DiffractometerBase.samples"><code class="xref py py-obj docutils literal notranslate"><span class="pre">samples</span></code></a></p></td>
+<td><p>Dictionary of samples.</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Solver-related methods and properties</p>
+<table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.diffract.DiffractometerBase.geometry" title="hklpy2.diffract.DiffractometerBase.geometry"><code class="xref py py-obj docutils literal notranslate"><span class="pre">geometry</span></code></a></p></td>
+<td><p>Name of backend <strong>Solver</strong> geometry.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.diffract.DiffractometerBase.set_solver" title="hklpy2.diffract.DiffractometerBase.set_solver"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_solver</span></code></a>(solver, geometry, **kwargs)</p></td>
+<td><p>Set the backend <strong>Solver</strong> for this diffractometer.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.diffract.DiffractometerBase.solver" title="hklpy2.diffract.DiffractometerBase.solver"><code class="xref py py-obj docutils literal notranslate"><span class="pre">solver</span></code></a></p></td>
+<td><p>Name of backend <strong>Solver</strong> (library).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.diffract.DiffractometerBase.solver_name" title="hklpy2.diffract.DiffractometerBase.solver_name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">solver_name</span></code></a></p></td>
+<td><p>Backend <strong>Solver</strong> library name.</p></td>
+</tr>
+</tbody>
+</table>
 <section id="module-hklpy2.diffract">
 <span id="source-code-documentation"></span><h2>Source Code Documentation<a class="headerlink" href="#module-hklpy2.diffract" title="Link to this heading">#</a></h2>
 <p>Base class for all diffractometers</p>
@@ -501,6 +547,12 @@ order expected by the solver like this:</p>
 <p class="rubric">Python Properties</p>
 <table class="autosummary longtable table autosummary">
 <tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.diffract.DiffractometerBase.pseudo_axis_names" title="hklpy2.diffract.DiffractometerBase.pseudo_axis_names"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pseudo_axis_names</span></code></a></p></td>
+<td><p>Names of all the pseudo axes, in order of appearance.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.diffract.DiffractometerBase.real_axis_names" title="hklpy2.diffract.DiffractometerBase.real_axis_names"><code class="xref py py-obj docutils literal notranslate"><span class="pre">real_axis_names</span></code></a></p></td>
+<td><p>Names of all the real axes, in order of appearance.</p></td>
+</tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.diffract.DiffractometerBase.sample" title="hklpy2.diffract.DiffractometerBase.sample"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sample</span></code></a></p></td>
 <td><p>Current sample object.</p></td>
 </tr>
@@ -514,7 +566,7 @@ order expected by the solver like this:</p>
 </table>
 <dl class="py method">
 <dt class="sig sig-object py" id="hklpy2.diffract.DiffractometerBase.add_sample">
-<span class="sig-name descname"><span class="pre">add_sample</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">a</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><span class="pre">float</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">90.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gamma</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">digits</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">4</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="sample.html#hklpy2.sample.Sample" title="hklpy2.sample.Sample"><span class="pre">Sample</span></a></span></span><a class="reference internal" href="../_modules/hklpy2/diffract.html#DiffractometerBase.add_sample"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.diffract.DiffractometerBase.add_sample" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">add_sample</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">a</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><span class="pre">float</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">90.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gamma</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">digits</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">4</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">replace</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="sample.html#hklpy2.sample.Sample" title="hklpy2.sample.Sample"><span class="pre">Sample</span></a></span></span><a class="reference internal" href="../_modules/hklpy2/diffract.html#DiffractometerBase.add_sample"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.diffract.DiffractometerBase.add_sample" title="Link to this definition">#</a></dt>
 <dd><p>Add a new sample.</p>
 </dd></dl>
 
@@ -542,6 +594,28 @@ order expected by the solver like this:</p>
 <dt class="sig sig-object py" id="hklpy2.diffract.DiffractometerBase.inverse">
 <span class="sig-name descname"><span class="pre">inverse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">reals</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.12)"><span class="pre">dict</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.12)"><span class="pre">tuple</span></a></span></span><a class="reference internal" href="../_modules/hklpy2/diffract.html#DiffractometerBase.inverse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.diffract.DiffractometerBase.inverse" title="Link to this definition">#</a></dt>
 <dd><p>Compute pseudo-space coordinates from reals (angles -&gt; hkl).</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="hklpy2.diffract.DiffractometerBase.pseudo_axis_names">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">pseudo_axis_names</span></span><a class="headerlink" href="#hklpy2.diffract.DiffractometerBase.pseudo_axis_names" title="Link to this definition">#</a></dt>
+<dd><p>Names of all the pseudo axes, in order of appearance.</p>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">fourc</span><span class="o">.</span><span class="n">pseudo_axis_names</span>
+<span class="go">[&#39;h&#39;, &#39;k&#39;, &#39;l&#39;]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="hklpy2.diffract.DiffractometerBase.real_axis_names">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">real_axis_names</span></span><a class="headerlink" href="#hklpy2.diffract.DiffractometerBase.real_axis_names" title="Link to this definition">#</a></dt>
+<dd><p>Names of all the real axes, in order of appearance.</p>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">fourc</span><span class="o">.</span><span class="n">real_axis_names</span>
+<span class="go">[&#39;omega&#39;, &#39;chi, &#39;phi&#39;, &#39;tth&#39;]</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="py property">
@@ -634,6 +708,12 @@ order expected by the solver like this:</p>
 <p class="rubric">Python Properties</p>
 <table class="autosummary longtable table autosummary">
 <tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.diffract.DiffractometerBase.pseudo_axis_names" title="hklpy2.diffract.DiffractometerBase.pseudo_axis_names"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pseudo_axis_names</span></code></a></p></td>
+<td><p>Names of all the pseudo axes, in order of appearance.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.diffract.DiffractometerBase.real_axis_names" title="hklpy2.diffract.DiffractometerBase.real_axis_names"><code class="xref py py-obj docutils literal notranslate"><span class="pre">real_axis_names</span></code></a></p></td>
+<td><p>Names of all the real axes, in order of appearance.</p></td>
+</tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.diffract.DiffractometerBase.sample" title="hklpy2.diffract.DiffractometerBase.sample"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sample</span></code></a></p></td>
 <td><p>Current sample object.</p></td>
 </tr>
@@ -920,7 +1000,7 @@ be “missed” by this registry. False by default.</p></li>
 
 <dl class="py method">
 <dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">add_sample</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">a</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><span class="pre">float</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">90.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gamma</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">digits</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">4</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="sample.html#hklpy2.sample.Sample" title="hklpy2.sample.Sample"><span class="pre">Sample</span></a></span></span><a class="reference internal" href="../_modules/hklpy2/diffract.html#DiffractometerBase.add_sample"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<span class="sig-name descname"><span class="pre">add_sample</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">a</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><span class="pre">float</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">90.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gamma</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">digits</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">4</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">replace</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="sample.html#hklpy2.sample.Sample" title="hklpy2.sample.Sample"><span class="pre">Sample</span></a></span></span><a class="reference internal" href="../_modules/hklpy2/diffract.html#DiffractometerBase.add_sample"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><p>Add a new sample.</p>
 </dd></dl>
 
@@ -1238,6 +1318,17 @@ the plan can not be rewound.</p>
 
 <dl class="py property">
 <dt class="sig sig-object py">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">pseudo_axis_names</span></span></dt>
+<dd><p>Names of all the pseudo axes, in order of appearance.</p>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">fourc</span><span class="o">.</span><span class="n">pseudo_axis_names</span>
+<span class="go">[&#39;h&#39;, &#39;k&#39;, &#39;l&#39;]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">pseudo_positioners</span></span></dt>
 <dd><p>Pseudo positioners instances in a namedtuple</p>
 <dl class="field-list simple">
@@ -1294,6 +1385,17 @@ with the keys <code class="docutils literal notranslate"><span class="pre">{'val
 <dd><p>Dictionary mapping names to value dicts with keys: value, timestamp</p>
 <p>To control which fields are included, change the Component kinds on the
 device, or modify the <code class="docutils literal notranslate"><span class="pre">configuration_attrs</span></code> list.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">real_axis_names</span></span></dt>
+<dd><p>Names of all the real axes, in order of appearance.</p>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">fourc</span><span class="o">.</span><span class="n">real_axis_names</span>
+<span class="go">[&#39;omega&#39;, &#39;chi, &#39;phi&#39;, &#39;tth&#39;]</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="py property">
@@ -1656,20 +1758,20 @@ plans to change its API in a way that may not be backward-compatible.</p>
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="backends/th_tth_q.html"
+       href="../api.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">th_tth (ThTthSolver)</p>
+        <p class="prev-next-title">API</p>
       </div>
     </a>
     <a class="right-next"
-       href="lattice.html"
+       href="geom.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Crystal Lattice</p>
+        <p class="prev-next-title">Diffractometer Geometries</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -1698,6 +1800,8 @@ plans to change its API in a way that may not be backward-compatible.</p>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.diffract.DiffractometerBase.forward"><code class="docutils literal notranslate"><span class="pre">DiffractometerBase.forward()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.diffract.DiffractometerBase.geometry"><code class="docutils literal notranslate"><span class="pre">DiffractometerBase.geometry</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.diffract.DiffractometerBase.inverse"><code class="docutils literal notranslate"><span class="pre">DiffractometerBase.inverse()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.diffract.DiffractometerBase.pseudo_axis_names"><code class="docutils literal notranslate"><span class="pre">DiffractometerBase.pseudo_axis_names</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.diffract.DiffractometerBase.real_axis_names"><code class="docutils literal notranslate"><span class="pre">DiffractometerBase.real_axis_names</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.diffract.DiffractometerBase.sample"><code class="docutils literal notranslate"><span class="pre">DiffractometerBase.sample</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.diffract.DiffractometerBase.samples"><code class="docutils literal notranslate"><span class="pre">DiffractometerBase.samples</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.diffract.DiffractometerBase.set_solver"><code class="docutils literal notranslate"><span class="pre">DiffractometerBase.set_solver()</span></code></a></li>
