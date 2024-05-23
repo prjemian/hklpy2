@@ -132,9 +132,6 @@ class HklSolver(SolverBase):
         print(f"{self.pseudo_axis_names=!r}")
         print(f"{self.real_axis_names=!r}")
         print(f"{self.extra_axis_names=!r}")
-        print(f"{self.user_pseudos=!r}")
-        print(f"{self.user_reals=!r}")
-        print(f"{self.user_extras=!r}")
 
     def __repr__(self):
         args = [

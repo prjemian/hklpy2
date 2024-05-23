@@ -53,26 +53,12 @@ def get_solver(solver_name):
     return entries[solver_name].load()
 
 
-def solver_factory(
-    solver_name: str,
-    geometry: str,
-    *,  # all kwargs must be specified by name
-    pseudos: list = [],
-    reals: list = [],
-    extras: list = [],
-    **kwargs,
-):
+def solver_factory(solver_name: str, geometry: str, **kwargs):
     """
     Create a |solver| object with geometry and axes.
     """
     solver_class = get_solver(solver_name)
-    return solver_class(
-        geometry,
-        pseudos=pseudos,
-        reals=reals,
-        extras=extras,
-        **kwargs,
-    )
+    return solver_class(geometry, **kwargs)
 
 
 def solvers():

@@ -31,8 +31,8 @@ class SolverOperator:
 
     Parameters
 
-    - solver str: Name of the backend |solver| library.
-    - geometry str: Name of the backend |solver| geometry.
+    - ``solver`` str: Name of the backend |solver| library.
+    - ``geometry`` str: Name of the backend |solver| geometry.
 
     .. rubric:: Python Methods
 
@@ -76,10 +76,12 @@ class SolverOperator:
         beta: float = None,  # degrees
         gamma: float = None,  # degrees
         digits: int = 4,
+        replace: bool = False,
     ) -> Sample:
         """Add a new sample."""
         if name in self.samples:
-            raise SolverOperatorError(f"Sample {name=!r} already defined.")
+            if not replace:
+                raise SolverOperatorError(f"Sample {name=!r} already defined.")
         lattice = Lattice(a, b, c, alpha, beta, gamma, digits)
         self._samples[name] = Sample(name, lattice)
         self.sample = name
@@ -110,12 +112,16 @@ class SolverOperator:
             >>> fourc.operator.axes_xref
             {'h': 'h', 'k': 'k', 'l': 'l', 'theta': 'omega', 'chi': 'chi', 'phi': 'phi', 'ttheta': 'tth'}
         """
-        pp = [o.attr_name for o in self.diffractometer.pseudo_positioners]
-        rp = [o.attr_name for o in self.diffractometer.real_positioners]
-        dpositioners = {"pseudo": pp, "real": rp, "extra": pp + rp}
-        for space in dpositioners.keys():
+        self.axes_xref = {}
+        for space in "pseudo real extra".split():
+            if space == "extra":
+                dnames = (
+                    self.diffractometer.pseudo_axis_names
+                    + self.diffractometer.real_axis_names
+                )
+            else:
+                dnames = getattr(self.diffractometer, f"{space}_axis_names")
             pnames = getattr(self.solver, f"{space}_axis_names")
-            dnames = dpositioners[space]
             np = len(pnames)
             if len(dnames) < np:
                 raise SolverOperatorError(f"Need these {space} axes: {pnames!r}")
@@ -161,6 +167,9 @@ class SolverOperator:
         self,
         name: str,
         geometry: str,
+        pseudos: list = [],  # TODO:
+        reals: list = [],  # TODO:
+        extras: list = [],  # TODO:
         **kwargs: dict,
     ) -> SolverBase:
         """
@@ -168,15 +177,18 @@ class SolverOperator:
 
         Parameters
 
-        - solver str: Name of the backend |solver| library.
-        - geometry str: Name of the backend |solver| geometry.
-        - kwargs dict: Keyword arguments, as needed by the chosen |solver|.
+        - ``solver`` str: Name of the backend |solver| library.
+        - ``geometry`` str: Name of the backend |solver| geometry.
+        - ``kwargs`` dict: Keyword arguments, as needed by the chosen |solver|.
         """
         logger.debug(
-            "(%s) solver=%r, geometry=%r, kwargs=%r",
+            "(%s) solver=%r, geometry=%r, pseudos=%r, reals=%r, extras=%r, kwargs=%r",
             self.__class__.__name__,
             name,
             geometry,
+            pseudos,
+            reals,
+            extras,
             kwargs,
         )
         self._solver = solver_factory(name, geometry, **kwargs)

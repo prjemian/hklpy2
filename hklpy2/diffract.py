@@ -16,9 +16,9 @@ from ophyd.signal import AttributeSignal
 
 from . import Hklpy2Error
 from .ops import SolverOperator
+from .sample import Sample
 from .wavelength_support import DEFAULT_WAVELENGTH
 from .wavelength_support import ConstantMonochromaticWavelength
-from .sample import Sample
 
 __all__ = ["DiffractometerBase"]
 logger = logging.getLogger(__name__)
@@ -58,6 +58,8 @@ class DiffractometerBase(PseudoPositioner):
 
     .. autosummary::
 
+        ~pseudo_axis_names
+        ~real_axis_names
         ~sample
         ~samples
         ~solver_name
@@ -116,6 +118,7 @@ class DiffractometerBase(PseudoPositioner):
         beta: float = None,  # degrees
         gamma: float = None,  # degrees
         digits: int = 4,
+        replace: bool = False,
     ) -> Sample:
         """Add a new sample."""
         return self.operator.add_sample(
@@ -127,6 +130,7 @@ class DiffractometerBase(PseudoPositioner):
             beta,
             gamma,
             digits,
+            replace,
         )
 
     def choose_first_forward_solution(self, solutions: list):
@@ -156,6 +160,30 @@ class DiffractometerBase(PseudoPositioner):
         self.operator.set_solver(solver, geometry, **kwargs)
 
     # ---- get/set properties
+
+    @property
+    def pseudo_axis_names(self):
+        """
+        Names of all the pseudo axes, in order of appearance.
+
+        Example::
+
+            >>> fourc.pseudo_axis_names
+            ['h', 'k', 'l']
+        """
+        return [o.attr_name for o in self.pseudo_positioners]
+
+    @property
+    def real_axis_names(self):
+        """
+        Names of all the real axes, in order of appearance.
+
+        Example::
+
+            >>> fourc.real_axis_names
+            ['omega', 'chi, 'phi', 'tth']
+        """
+        return [o.attr_name for o in self.real_positioners]
 
     @property
     def samples(self):

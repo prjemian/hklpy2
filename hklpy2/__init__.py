@@ -32,6 +32,9 @@ class Hklpy2Error(Exception):
 
 from .backends import SolverBase  # noqa: E402, F401
 from .diffract import DiffractometerBase  # noqa: E402, F401
+from .geom import E4CV  # noqa: E402, F401
+from .geom import HklMixin  # noqa: E402, F401
+from .geom import SimulatedE4CV  # noqa: E402, F401
 from .lattice import SI_LATTICE_PARAMETER  # noqa: E402, F401
 from .lattice import Lattice  # noqa: E402, F401
 from .misc import SOLVER_ENTRYPOINT_GROUP  # noqa: E402, F401

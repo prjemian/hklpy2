@@ -1,7 +1,7 @@
 .. include:: /substitutions.txt
 
 .. index:: Solver; ThTthSolver
-.. _api.backends.th_tth:
+.. _api.solvers.th_tth:
 
 ========================
 th_tth (ThTthSolver)

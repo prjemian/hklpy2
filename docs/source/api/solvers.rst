@@ -2,10 +2,10 @@
 
 .. index::!Solver class
 
-.. _api.backends:
+.. _api.solvers:
 
 ==================
-Backend Solvers
+Solvers
 ==================
 
 A |solver| is a Python class that connects |hklpy2| with a (backend) library
@@ -40,7 +40,7 @@ using the ``"hklpy2.solver"`` group.  Here's an example from |hklpy2|'s
     no_op = "hklpy2.backends.no_op:NoOpSolver"
     hkl_soleil = "hklpy2.backends.hkl_soleil:HklSolver"
 
-.. _api.backends.set:
+.. _api.solvers.set:
 
 How to select a Solver
 ----------------------  
@@ -74,7 +74,7 @@ selects the |libhkl| |solver| (using its entry point name: ``"hkl_soleil"``)::
     >>> print(f"{Solver=}")
     Solver=<class 'hklpy2.backends.hkl_soleil.HklSolver'>  
 
-.. _api.backends.howto:
+.. _api.solvers.howto:
 
 How to write a new Solver
 -------------------------

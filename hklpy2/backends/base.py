@@ -21,16 +21,8 @@ class SolverBase(ABC):
 
     Parameters
 
-    - geometry: (*str*) Name of geometry.
-    - mode: (*str*) Name of operating mode.  (default: current mode)
-    - pseudos: (*[PseudoPositioner]*) List of pseudo positioners.  (default: ``[]``)
-    - reals: (*[PositionerBase]*) List of real positioners.  (default: ``[]``)
-    - extra: (*[PseudoPositioner]+[PositionerBase*) List of extra positioners.  (default: ``[]``)
-
-    .. note:: The lists of ``pseudos``, ``reals``, and ``extras`` are the
-       corresponding axes of the diffractometer, in the order expected by
-       the |solver| geometry.  The names can be different between the
-       supplied and expected axes.  They are matched by order in the list.
+    - ``geometry``: (*str*) Name of geometry.
+    - ``mode``: (*str*) Name of operating mode.  (default: current mode)
 
     Example::
 
@@ -50,7 +42,7 @@ class SolverBase(ABC):
     using them.  Subclasses should implement each of these methods
     as best fits the underlying support library.
 
-    .. seealso:: :ref:`api.backends.hkl_soleil` & :ref:`api.backends.no_op`
+    .. seealso:: :ref:`api.solvers.hkl_soleil` & :ref:`api.solvers.no_op`
 
     .. rubric:: Python Methods
 
@@ -88,25 +80,12 @@ class SolverBase(ABC):
         geometry: str,
         *,
         mode: str = "",  # "": accept solver's default mode
-        pseudos: list = [],
-        reals: list = [],
-        extras: list = [],
         **kwargs,
     ) -> None:
         self.geometry = geometry
         self.mode = mode
-        self.user_pseudos = pseudos
-        self.user_reals = reals
-        self.user_extras = extras
 
-        logger.debug(
-            "geometry=%s, pseudos=%s, reals=%s, extras=%s, kwargs=%s",
-            repr(geometry),
-            repr(pseudos),
-            repr(reals),
-            repr(extras),
-            repr(kwargs),
-        )
+        logger.debug("geometry=%s, kwargs=%s", repr(geometry), repr(kwargs))
 
     def __repr__(self) -> str:
         # fmt: off
