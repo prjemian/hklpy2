@@ -18,6 +18,7 @@ from . import Hklpy2Error
 from .ops import SolverOperator
 from .wavelength_support import DEFAULT_WAVELENGTH
 from .wavelength_support import ConstantMonochromaticWavelength
+from .sample import Sample
 
 __all__ = ["DiffractometerBase"]
 logger = logging.getLogger(__name__)
@@ -115,9 +116,18 @@ class DiffractometerBase(PseudoPositioner):
         beta: float = None,  # degrees
         gamma: float = None,  # degrees
         digits: int = 4,
-    ):
+    ) -> Sample:
         """Add a new sample."""
-        self.operator.add_sample(name, a, b, c, alpha, beta, gamma, digits)
+        return self.operator.add_sample(
+            name,
+            a,
+            b,
+            c,
+            alpha,
+            beta,
+            gamma,
+            digits,
+        )
 
     def choose_first_forward_solution(self, solutions: list):
         """

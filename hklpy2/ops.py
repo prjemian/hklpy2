@@ -76,13 +76,14 @@ class SolverOperator:
         beta: float = None,  # degrees
         gamma: float = None,  # degrees
         digits: int = 4,
-    ):
+    ) -> Sample:
         """Add a new sample."""
         if name in self.samples:
             raise SolverOperatorError(f"Sample {name=!r} already defined.")
         lattice = Lattice(a, b, c, alpha, beta, gamma, digits)
         self._samples[name] = Sample(name, lattice)
         self.sample = name
+        return self._samples[name]
 
     def auto_assign_axes(self):
         """
