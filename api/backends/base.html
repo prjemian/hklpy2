@@ -31,17 +31,17 @@
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=fd3f3429" />
     <link rel="stylesheet" type="text/css" href="../../_static/tabs.css?v=a5c4661c" />
-    <link rel="stylesheet" type="text/css" href="../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=87e54e7c" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
   <script src="../../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script src="../../_static/documentation_options.js?v=3bbcec59"></script>
+    <script src="../../_static/documentation_options.js?v=9fc46840"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
-    <script src="../../_static/design-tabs.js?v=36754332"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'api/backends/base';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
@@ -282,6 +282,7 @@ document.write(`
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../diffract.html">Diffractometer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../lattice.html">Crystal Lattice</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ops.html">Operations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../reflection.html">Orientation Reflection</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../sample.html">Crystalline Sample</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../wavelength_support.html">Wavelength</a></li>
@@ -413,31 +414,28 @@ as best fits the underlying support library.</p>
 <tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.backends.base.SolverBase.addSample" title="hklpy2.backends.base.SolverBase.addSample"><code class="xref py py-obj docutils literal notranslate"><span class="pre">addSample</span></code></a>(sample)</p></td>
 <td><p>Add a sample.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.backends.base.SolverBase.auto_assign_axes" title="hklpy2.backends.base.SolverBase.auto_assign_axes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">auto_assign_axes</span></code></a>(diffractometer)</p></td>
-<td><p>Automatically assign diffractometer axes to this solver.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.backends.base.SolverBase.calculateOrientation" title="hklpy2.backends.base.SolverBase.calculateOrientation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">calculateOrientation</span></code></a>(r1, r2)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.backends.base.SolverBase.calculateOrientation" title="hklpy2.backends.base.SolverBase.calculateOrientation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">calculateOrientation</span></code></a>(r1, r2)</p></td>
 <td><p>Calculate the UB (orientation) matrix from two reflections.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.backends.base.SolverBase.extra_axis_names" title="hklpy2.backends.base.SolverBase.extra_axis_names"><code class="xref py py-obj docutils literal notranslate"><span class="pre">extra_axis_names</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.backends.base.SolverBase.extra_axis_names" title="hklpy2.backends.base.SolverBase.extra_axis_names"><code class="xref py py-obj docutils literal notranslate"><span class="pre">extra_axis_names</span></code></a></p></td>
 <td><p>Ordered list of any extra axis names (such as x, y, z).</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.backends.base.SolverBase.forward" title="hklpy2.backends.base.SolverBase.forward"><code class="xref py py-obj docutils literal notranslate"><span class="pre">forward</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.backends.base.SolverBase.forward" title="hklpy2.backends.base.SolverBase.forward"><code class="xref py py-obj docutils literal notranslate"><span class="pre">forward</span></code></a>()</p></td>
 <td><p>Compute list of solutions(reals) from pseudos (hkl -&gt; [angles]).</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.backends.base.SolverBase.geometries" title="hklpy2.backends.base.SolverBase.geometries"><code class="xref py py-obj docutils literal notranslate"><span class="pre">geometries</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.backends.base.SolverBase.geometries" title="hklpy2.backends.base.SolverBase.geometries"><code class="xref py py-obj docutils literal notranslate"><span class="pre">geometries</span></code></a>()</p></td>
 <td><p>Ordered list of the geometry names.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.backends.base.SolverBase.inverse" title="hklpy2.backends.base.SolverBase.inverse"><code class="xref py py-obj docutils literal notranslate"><span class="pre">inverse</span></code></a>(reals)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.backends.base.SolverBase.inverse" title="hklpy2.backends.base.SolverBase.inverse"><code class="xref py py-obj docutils literal notranslate"><span class="pre">inverse</span></code></a>(reals)</p></td>
 <td><p>Compute tuple of pseudos from reals (angles -&gt; hkl).</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.backends.base.SolverBase.pseudo_axis_names" title="hklpy2.backends.base.SolverBase.pseudo_axis_names"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pseudo_axis_names</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.backends.base.SolverBase.pseudo_axis_names" title="hklpy2.backends.base.SolverBase.pseudo_axis_names"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pseudo_axis_names</span></code></a></p></td>
 <td><p>Ordered list of the pseudo axis names (such as h, k, l).</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.backends.base.SolverBase.real_axis_names" title="hklpy2.backends.base.SolverBase.real_axis_names"><code class="xref py py-obj docutils literal notranslate"><span class="pre">real_axis_names</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.backends.base.SolverBase.real_axis_names" title="hklpy2.backends.base.SolverBase.real_axis_names"><code class="xref py py-obj docutils literal notranslate"><span class="pre">real_axis_names</span></code></a></p></td>
 <td><p>Ordered list of the real axis names (such as th, tth).</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.backends.base.SolverBase.refineLattice" title="hklpy2.backends.base.SolverBase.refineLattice"><code class="xref py py-obj docutils literal notranslate"><span class="pre">refineLattice</span></code></a>(reflections)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.backends.base.SolverBase.refineLattice" title="hklpy2.backends.base.SolverBase.refineLattice"><code class="xref py py-obj docutils literal notranslate"><span class="pre">refineLattice</span></code></a>(reflections)</p></td>
 <td><p>Refine the lattice parameters from a list of reflections.</p></td>
 </tr>
 </tbody>
@@ -469,12 +467,6 @@ as best fits the underlying support library.</p>
 <dt class="sig sig-object py" id="hklpy2.backends.base.SolverBase.addSample">
 <em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">addSample</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sample</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hklpy2/backends/base.html#SolverBase.addSample"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.backends.base.SolverBase.addSample" title="Link to this definition">#</a></dt>
 <dd><p>Add a sample.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="hklpy2.backends.base.SolverBase.auto_assign_axes">
-<span class="sig-name descname"><span class="pre">auto_assign_axes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">diffractometer</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hklpy2/backends/base.html#SolverBase.auto_assign_axes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.backends.base.SolverBase.auto_assign_axes" title="Link to this definition">#</a></dt>
-<dd><p>Automatically assign diffractometer axes to this solver.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -571,7 +563,7 @@ for each geometry.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="hklpy2.backends.base.SolverBase.version">
-<span class="sig-name descname"><span class="pre">version</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'0.0.12'</span></em><a class="headerlink" href="#hklpy2.backends.base.SolverBase.version" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">version</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'0.0.13'</span></em><a class="headerlink" href="#hklpy2.backends.base.SolverBase.version" title="Link to this definition">#</a></dt>
 <dd><p>Version of this Solver.</p>
 </dd></dl>
 
@@ -628,7 +620,6 @@ for each geometry.</p>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.backends.base.SolverBase"><code class="docutils literal notranslate"><span class="pre">SolverBase</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.backends.base.SolverBase.addReflection"><code class="docutils literal notranslate"><span class="pre">SolverBase.addReflection()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.backends.base.SolverBase.addSample"><code class="docutils literal notranslate"><span class="pre">SolverBase.addSample()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.backends.base.SolverBase.auto_assign_axes"><code class="docutils literal notranslate"><span class="pre">SolverBase.auto_assign_axes()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.backends.base.SolverBase.calculateOrientation"><code class="docutils literal notranslate"><span class="pre">SolverBase.calculateOrientation()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.backends.base.SolverBase.extra_axis_names"><code class="docutils literal notranslate"><span class="pre">SolverBase.extra_axis_names</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.backends.base.SolverBase.forward"><code class="docutils literal notranslate"><span class="pre">SolverBase.forward()</span></code></a></li>

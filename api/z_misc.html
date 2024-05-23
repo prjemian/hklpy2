@@ -31,17 +31,17 @@
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=fd3f3429" />
     <link rel="stylesheet" type="text/css" href="../_static/tabs.css?v=a5c4661c" />
-    <link rel="stylesheet" type="text/css" href="../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=87e54e7c" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
   <script src="../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script src="../_static/documentation_options.js?v=3bbcec59"></script>
+    <script src="../_static/documentation_options.js?v=9fc46840"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
-    <script src="../_static/design-tabs.js?v=36754332"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'api/z_misc';</script>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -282,6 +282,7 @@ document.write(`
 </li>
 <li class="toctree-l1"><a class="reference internal" href="diffract.html">Diffractometer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lattice.html">Crystal Lattice</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ops.html">Operations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="reflection.html">Orientation Reflection</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sample.html">Crystalline Sample</a></li>
 <li class="toctree-l1"><a class="reference internal" href="wavelength_support.html">Wavelength</a></li>
@@ -369,8 +370,8 @@ document.write(`
 <tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.misc.solver_factory" title="hklpy2.misc.solver_factory"><code class="xref py py-obj docutils literal notranslate"><span class="pre">solver_factory</span></code></a>(solver_name, geometry, *[, ...])</p></td>
 <td><p>Create a <strong>Solver</strong> object with geometry and axes.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.misc.unique_name" title="hklpy2.misc.unique_name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">unique_name</span></code></a>([prefix])</p></td>
-<td><p>Short, unique name, first 7 characters of a unique, random uuid.</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.misc.unique_name" title="hklpy2.misc.unique_name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">unique_name</span></code></a>([prefix, length])</p></td>
+<td><p>Short, unique name, first 7 (at most) characters of a unique, random uuid.</p></td>
 </tr>
 </tbody>
 </table>
@@ -436,8 +437,8 @@ set self.__traceback__ to tb and return self.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="hklpy2.misc.unique_name">
-<span class="sig-prename descclassname"><span class="pre">hklpy2.misc.</span></span><span class="sig-name descname"><span class="pre">unique_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prefix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hklpy2/misc.html#unique_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.misc.unique_name" title="Link to this definition">#</a></dt>
-<dd><p>Short, unique name, first 7 characters of a unique, random uuid.</p>
+<span class="sig-prename descclassname"><span class="pre">hklpy2.misc.</span></span><span class="sig-name descname"><span class="pre">unique_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prefix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">7</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hklpy2/misc.html#unique_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.misc.unique_name" title="Link to this definition">#</a></dt>
+<dd><p>Short, unique name, first 7 (at most) characters of a unique, random uuid.</p>
 </dd></dl>
 
 </section>

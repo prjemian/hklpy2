@@ -30,18 +30,18 @@
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=fd3f3429" />
     <link rel="stylesheet" type="text/css" href="../../../_static/tabs.css?v=a5c4661c" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=87e54e7c" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
   <script src="../../../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script src="../../../_static/documentation_options.js?v=3bbcec59"></script>
+    <script src="../../../_static/documentation_options.js?v=9fc46840"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/tabs.js?v=3030b3cb"></script>
-    <script src="../../../_static/design-tabs.js?v=36754332"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/hklpy2/backends/base';</script>
     <link rel="index" title="Index" href="../../../genindex.html" />
@@ -329,7 +329,6 @@ document.write(`
 <span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">abstractmethod</span>
 
 <span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">__version__</span>
-<span class="kn">from</span> <span class="nn">..misc</span> <span class="kn">import</span> <span class="n">SolverError</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
@@ -379,7 +378,6 @@ document.write(`
 
 <span class="sd">        ~addReflection</span>
 <span class="sd">        ~addSample</span>
-<span class="sd">        ~auto_assign_axes</span>
 <span class="sd">        ~calculateOrientation</span>
 <span class="sd">        ~extra_axis_names</span>
 <span class="sd">        ~forward</span>
@@ -451,30 +449,6 @@ document.write(`
     <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">addSample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sample</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Add a sample.&quot;&quot;&quot;</span></div>
-
-
-<div class="viewcode-block" id="SolverBase.auto_assign_axes">
-<a class="viewcode-back" href="../../../api/backends/base.html#hklpy2.backends.base.SolverBase.auto_assign_axes">[docs]</a>
-    <span class="k">def</span> <span class="nf">auto_assign_axes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">diffractometer</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Automatically assign diffractometer axes to this solver.&quot;&quot;&quot;</span>
-        <span class="n">pnames</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pseudo_axis_names</span>
-        <span class="n">np</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">pnames</span><span class="p">)</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">diffractometer</span><span class="o">.</span><span class="n">pseudo_positioners</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">np</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">SolverError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Need these pseudo axes: </span><span class="si">{</span><span class="n">pnames</span><span class="si">!r}</span><span class="s2">&quot;</span><span class="p">)</span>
-
-        <span class="n">rnames</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">real_axis_names</span>
-        <span class="n">nr</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">rnames</span><span class="p">)</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">diffractometer</span><span class="o">.</span><span class="n">real_positioners</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">nr</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">SolverError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Need these real axes: </span><span class="si">{</span><span class="n">rnames</span><span class="si">!r}</span><span class="s2">&quot;</span><span class="p">)</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">user_pseudos</span> <span class="o">=</span> <span class="n">diffractometer</span><span class="o">.</span><span class="n">pseudo_positioners</span><span class="p">[:</span><span class="n">np</span><span class="p">]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">user_reals</span> <span class="o">=</span> <span class="n">diffractometer</span><span class="o">.</span><span class="n">real_positioners</span><span class="p">[:</span><span class="n">nr</span><span class="p">]</span>
-
-        <span class="c1"># any (and all) remaining are assigned into extras</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">user_extras</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="n">diffractometer</span><span class="o">.</span><span class="n">pseudo_positioners</span><span class="p">[</span><span class="n">np</span><span class="p">:]</span>
-            <span class="o">+</span> <span class="n">diffractometer</span><span class="o">.</span><span class="n">real_positioners</span><span class="p">[</span><span class="n">nr</span><span class="p">:]</span>
-        <span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="SolverBase.calculateOrientation">

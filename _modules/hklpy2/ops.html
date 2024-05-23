@@ -1,0 +1,630 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>hklpy2.ops &#8212; hklpy2 0.0</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.1/css/all.min.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.1/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=fd3f3429" />
+    <link rel="stylesheet" type="text/css" href="../../_static/tabs.css?v=a5c4661c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=87e54e7c" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
+  <script src="../../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
+
+    <script src="../../_static/documentation_options.js?v=9fc46840"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/tabs.js?v=3030b3cb"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/hklpy2/ops';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a id="pst-skip-link" class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">hklpy2 0.0</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav class="navbar-nav">
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../guide.html">
+                        User Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../api.html">
+                        API
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item">
+<nav class="navbar-nav">
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../guide.html">
+                        User Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../api.html">
+                        API
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">Module code</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">hklpy2.ops</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Source code for hklpy2.ops</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Operate the diffractometer using a |solver| library and geometry.</span>
+
+<span class="sd">Intermediate layer between DiffractometerBase Device and backend |solver|</span>
+<span class="sd">library.</span>
+
+<span class="sd">.. autosummary::</span>
+
+<span class="sd">    ~SolverOperator</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">logging</span>
+
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">Hklpy2Error</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">SolverBase</span>
+<span class="kn">from</span> <span class="nn">.lattice</span> <span class="kn">import</span> <span class="n">Lattice</span>
+<span class="kn">from</span> <span class="nn">.misc</span> <span class="kn">import</span> <span class="n">solver_factory</span>
+<span class="kn">from</span> <span class="nn">.sample</span> <span class="kn">import</span> <span class="n">Sample</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="s2">&quot;SolverOperator SolverOperatorError&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="SolverOperatorError">
+<a class="viewcode-back" href="../../api/ops.html#hklpy2.ops.SolverOperatorError">[docs]</a>
+<span class="k">class</span> <span class="nc">SolverOperatorError</span><span class="p">(</span><span class="n">Hklpy2Error</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Custom exceptions from :class:`~SolverOperator`.&quot;&quot;&quot;</span></div>
+
+
+
+<div class="viewcode-block" id="SolverOperator">
+<a class="viewcode-back" href="../../api/ops.html#hklpy2.ops.SolverOperator">[docs]</a>
+<span class="k">class</span> <span class="nc">SolverOperator</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Operate the diffractometer using a |solver|.</span>
+
+<span class="sd">    Parameters</span>
+
+<span class="sd">    - solver str: Name of the backend |solver| library.</span>
+<span class="sd">    - geometry str: Name of the backend |solver| geometry.</span>
+
+<span class="sd">    .. rubric:: Python Methods</span>
+
+<span class="sd">    .. autosummary::</span>
+
+<span class="sd">        ~add_sample</span>
+<span class="sd">        ~auto_assign_axes</span>
+<span class="sd">        ~check_solver_defined</span>
+<span class="sd">        ~forward</span>
+<span class="sd">        ~inverse</span>
+<span class="sd">        ~remove_sample</span>
+<span class="sd">        ~set_solver</span>
+
+<span class="sd">    .. rubric:: Python Properties</span>
+
+<span class="sd">    .. autosummary::</span>
+
+<span class="sd">        ~geometry</span>
+<span class="sd">        ~sample</span>
+<span class="sd">        ~solver</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">diffractometer</span><span class="p">,</span> <span class="n">default_sample</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">diffractometer</span> <span class="o">=</span> <span class="n">diffractometer</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_sample_name</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_samples</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_solver</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">axes_xref</span> <span class="o">=</span> <span class="p">{}</span>  <span class="c1"># axes names cross-reference: diffractometer: solver</span>
+
+        <span class="k">if</span> <span class="n">default_sample</span><span class="p">:</span>
+            <span class="c1"># first sample is cubic, no reflections</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">add_sample</span><span class="p">(</span><span class="s2">&quot;cubic&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+<div class="viewcode-block" id="SolverOperator.add_sample">
+<a class="viewcode-back" href="../../api/ops.html#hklpy2.ops.SolverOperator.add_sample">[docs]</a>
+    <span class="k">def</span> <span class="nf">add_sample</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">a</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">b</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">c</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">alpha</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">90.0</span><span class="p">,</span>  <span class="c1"># degrees</span>
+        <span class="n">beta</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>  <span class="c1"># degrees</span>
+        <span class="n">gamma</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>  <span class="c1"># degrees</span>
+        <span class="n">digits</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Sample</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add a new sample.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">samples</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">SolverOperatorError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Sample </span><span class="si">{</span><span class="n">name</span><span class="si">=!r}</span><span class="s2"> already defined.&quot;</span><span class="p">)</span>
+        <span class="n">lattice</span> <span class="o">=</span> <span class="n">Lattice</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">gamma</span><span class="p">,</span> <span class="n">digits</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_samples</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">Sample</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">lattice</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sample</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_samples</span><span class="p">[</span><span class="n">name</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="SolverOperator.auto_assign_axes">
+<a class="viewcode-back" href="../../api/ops.html#hklpy2.ops.SolverOperator.auto_assign_axes">[docs]</a>
+    <span class="k">def</span> <span class="nf">auto_assign_axes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Automatically assign diffractometer axes to this solver.</span>
+
+<span class="sd">        .. note:: The ordered lists of axes names **could change**</span>
+<span class="sd">           when the |solver|, or any of its settings, such as `mode`,</span>
+<span class="sd">           are changed.  The lists are defined by the |solver| library.</span>
+
+<span class="sd">           .. seealso:: Each |solver| provides ordered lists of the</span>
+<span class="sd">              names it expects:</span>
+
+<span class="sd">              * :attr:`~hklpy2.backends.base.SolverBase.extra_axis_names`</span>
+<span class="sd">              * :attr:`~hklpy2.backends.base.SolverBase.pseudo_axis_names`</span>
+<span class="sd">              * :attr:`~hklpy2.backends.base.SolverBase.real_axis_names`</span>
+
+<span class="sd">        Example::</span>
+
+<span class="sd">            &gt;&gt;&gt; fourc.operator.solver</span>
+<span class="sd">            HklSolver(name=&#39;hkl_soleil&#39;, version=&#39;v5.0.0.3434&#39;, geometry=&#39;E4CV&#39;, engine=&#39;hkl&#39;, mode=&#39;bissector&#39;)</span>
+<span class="sd">            &gt;&gt;&gt; fourc.operator.real_axis_names</span>
+<span class="sd">            [&#39;omega&#39;, &#39;chi&#39;, &#39;phi&#39;, &#39;tth&#39;]</span>
+<span class="sd">            &gt;&gt;&gt; fourc.operator.auto_assign_axes()</span>
+<span class="sd">            &gt;&gt;&gt; fourc.operator.axes_xref</span>
+<span class="sd">            {&#39;h&#39;: &#39;h&#39;, &#39;k&#39;: &#39;k&#39;, &#39;l&#39;: &#39;l&#39;, &#39;theta&#39;: &#39;omega&#39;, &#39;chi&#39;: &#39;chi&#39;, &#39;phi&#39;: &#39;phi&#39;, &#39;ttheta&#39;: &#39;tth&#39;}</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">pp</span> <span class="o">=</span> <span class="p">[</span><span class="n">o</span><span class="o">.</span><span class="n">attr_name</span> <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">diffractometer</span><span class="o">.</span><span class="n">pseudo_positioners</span><span class="p">]</span>
+        <span class="n">rp</span> <span class="o">=</span> <span class="p">[</span><span class="n">o</span><span class="o">.</span><span class="n">attr_name</span> <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">diffractometer</span><span class="o">.</span><span class="n">real_positioners</span><span class="p">]</span>
+        <span class="n">dpositioners</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;pseudo&quot;</span><span class="p">:</span> <span class="n">pp</span><span class="p">,</span> <span class="s2">&quot;real&quot;</span><span class="p">:</span> <span class="n">rp</span><span class="p">,</span> <span class="s2">&quot;extra&quot;</span><span class="p">:</span> <span class="n">pp</span> <span class="o">+</span> <span class="n">rp</span><span class="p">}</span>
+        <span class="k">for</span> <span class="n">space</span> <span class="ow">in</span> <span class="n">dpositioners</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">pnames</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">space</span><span class="si">}</span><span class="s2">_axis_names&quot;</span><span class="p">)</span>
+            <span class="n">dnames</span> <span class="o">=</span> <span class="n">dpositioners</span><span class="p">[</span><span class="n">space</span><span class="p">]</span>
+            <span class="n">np</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">pnames</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">dnames</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">np</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">SolverOperatorError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Need these </span><span class="si">{</span><span class="n">space</span><span class="si">}</span><span class="s2"> axes: </span><span class="si">{</span><span class="n">pnames</span><span class="si">!r}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">dname</span><span class="p">,</span> <span class="n">pname</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">dnames</span><span class="p">,</span> <span class="n">pnames</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">axes_xref</span><span class="p">[</span><span class="n">dname</span><span class="p">]</span> <span class="o">=</span> <span class="n">pname</span></div>
+
+
+<div class="viewcode-block" id="SolverOperator.check_solver_defined">
+<a class="viewcode-back" href="../../api/ops.html#hklpy2.ops.SolverOperator.check_solver_defined">[docs]</a>
+    <span class="k">def</span> <span class="nf">check_solver_defined</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Raise DiffractometerError if solver is not defined.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">solver</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># TODO: First try to create a new solver.</span>
+            <span class="k">raise</span> <span class="n">SolverOperatorError</span><span class="p">(</span><span class="s2">&quot;Call &#39;set_solver()&#39; first.&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SolverOperator.forward">
+<a class="viewcode-back" href="../../api/ops.html#hklpy2.ops.SolverOperator.forward">[docs]</a>
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pseudos</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute [{names:reals}] from {names: pseudos} (hkl -&gt; angles).&quot;&quot;&quot;</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
+            <span class="s2">&quot;(</span><span class="si">%s</span><span class="s2">) forward(): pseudos=</span><span class="si">%r</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span>
+            <span class="n">pseudos</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="c1"># TODO: self.check_solver_defined()</span>
+        <span class="n">axes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">diffractometer</span><span class="o">.</span><span class="n">_get_real_positioners</span><span class="p">()</span>  <span class="c1"># TODO:</span>
+        <span class="n">reals</span> <span class="o">=</span> <span class="p">{</span><span class="n">axis</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">axis</span> <span class="ow">in</span> <span class="n">axes</span><span class="p">}</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">reals</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="SolverOperator.inverse">
+<a class="viewcode-back" href="../../api/ops.html#hklpy2.ops.SolverOperator.inverse">[docs]</a>
+    <span class="k">def</span> <span class="nf">inverse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reals</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute (pseudos) from {names: reals} (angles -&gt; hkl).&quot;&quot;&quot;</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
+            <span class="s2">&quot;(</span><span class="si">%s</span><span class="s2">) inverse(): reals=</span><span class="si">%r</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span>
+            <span class="n">reals</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="c1"># TODO: self.check_solver_defined()</span>
+        <span class="n">axes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">diffractometer</span><span class="o">.</span><span class="n">_get_pseudo_positioners</span><span class="p">()</span>  <span class="c1"># TODO:</span>
+        <span class="n">pseudos</span> <span class="o">=</span> <span class="p">{</span><span class="n">axis</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">axis</span> <span class="ow">in</span> <span class="n">axes</span><span class="p">}</span>
+        <span class="k">return</span> <span class="n">pseudos</span></div>
+
+
+<div class="viewcode-block" id="SolverOperator.remove_sample">
+<a class="viewcode-back" href="../../api/ops.html#hklpy2.ops.SolverOperator.remove_sample">[docs]</a>
+    <span class="k">def</span> <span class="nf">remove_sample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Remove the named sample.  No error if name is not known.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">samples</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_samples</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">name</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SolverOperator.set_solver">
+<a class="viewcode-back" href="../../api/ops.html#hklpy2.ops.SolverOperator.set_solver">[docs]</a>
+    <span class="k">def</span> <span class="nf">set_solver</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">geometry</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SolverBase</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create an instance of the |solver| and geometry.</span>
+
+<span class="sd">        Parameters</span>
+
+<span class="sd">        - solver str: Name of the backend |solver| library.</span>
+<span class="sd">        - geometry str: Name of the backend |solver| geometry.</span>
+<span class="sd">        - kwargs dict: Keyword arguments, as needed by the chosen |solver|.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
+            <span class="s2">&quot;(</span><span class="si">%s</span><span class="s2">) solver=</span><span class="si">%r</span><span class="s2">, geometry=</span><span class="si">%r</span><span class="s2">, kwargs=</span><span class="si">%r</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span>
+            <span class="n">name</span><span class="p">,</span>
+            <span class="n">geometry</span><span class="p">,</span>
+            <span class="n">kwargs</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_solver</span> <span class="o">=</span> <span class="n">solver_factory</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">geometry</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_solver</span></div>
+
+
+    <span class="c1"># ---- get/set properties</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">geometry</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Backend |solver| geometry name.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">check_solver_defined</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">geometry</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">sample</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Sample</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Current Sample (Python object).&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">samples</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_sample_name</span><span class="p">]</span>
+
+    <span class="nd">@sample</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">sample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_sample_name</span> <span class="o">=</span> <span class="n">value</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">samples</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sample dictionary.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_samples</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">solver</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SolverBase</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Backend |solver| object.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_solver</span></div>
+
+</pre></div>
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2023-2024, Argonne National Laboratory.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.3.7.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.15.2.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

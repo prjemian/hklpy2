@@ -31,17 +31,17 @@
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=fd3f3429" />
     <link rel="stylesheet" type="text/css" href="../_static/tabs.css?v=a5c4661c" />
-    <link rel="stylesheet" type="text/css" href="../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=87e54e7c" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
   <script src="../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script src="../_static/documentation_options.js?v=3bbcec59"></script>
+    <script src="../_static/documentation_options.js?v=9fc46840"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
-    <script src="../_static/design-tabs.js?v=36754332"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -284,6 +284,7 @@ document.write(`
 </li>
 <li class="toctree-l1"><a class="reference internal" href="diffract.html">Diffractometer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lattice.html">Crystal Lattice</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ops.html">Operations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="reflection.html">Orientation Reflection</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Crystalline Sample</a></li>
 <li class="toctree-l1"><a class="reference internal" href="wavelength_support.html">Wavelength</a></li>
@@ -353,7 +354,7 @@ document.write(`
 <p>A Crystalline Sample.</p>
 <table class="autosummary longtable table autosummary">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.sample.Sample" title="hklpy2.sample.Sample"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Sample</span></code></a>(solver, lattice[, name])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.sample.Sample" title="hklpy2.sample.Sample"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Sample</span></code></a>(name, lattice[, solver])</p></td>
 <td><p>A crystalline sample mounted on a diffractometer.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.sample.SampleError" title="hklpy2.sample.SampleError"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SampleError</span></code></a></p></td>
@@ -363,16 +364,31 @@ document.write(`
 </table>
 <dl class="py class">
 <dt class="sig sig-object py" id="hklpy2.sample.Sample">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">hklpy2.sample.</span></span><span class="sig-name descname"><span class="pre">Sample</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">solver</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="backends/base.html#hklpy2.backends.base.SolverBase" title="hklpy2.backends.base.SolverBase"><span class="pre">SolverBase</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">lattice</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="lattice.html#hklpy2.lattice.Lattice" title="hklpy2.lattice.Lattice"><span class="pre">Lattice</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hklpy2/sample.html#Sample"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.sample.Sample" title="Link to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">hklpy2.sample.</span></span><span class="sig-name descname"><span class="pre">Sample</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">lattice</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="lattice.html#hklpy2.lattice.Lattice" title="hklpy2.lattice.Lattice"><span class="pre">Lattice</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">solver</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="backends/base.html#hklpy2.backends.base.SolverBase" title="hklpy2.backends.base.SolverBase"><span class="pre">SolverBase</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hklpy2/sample.html#Sample"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.sample.Sample" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>A crystalline sample mounted on a diffractometer.</p>
+<p class="rubric">Python Methods</p>
 <table class="autosummary longtable table autosummary">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.sample.Sample.name" title="hklpy2.sample.Sample.name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.sample.Sample.refine_lattice" title="hklpy2.sample.Sample.refine_lattice"><code class="xref py py-obj docutils literal notranslate"><span class="pre">refine_lattice</span></code></a>()</p></td>
+<td><p>Refine the lattice parameters from 3 or more reflections.</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Python Properties</p>
+<table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.sample.Sample.lattice" title="hklpy2.sample.Sample.lattice"><code class="xref py py-obj docutils literal notranslate"><span class="pre">lattice</span></code></a></p></td>
+<td><p>Sample crystal lattice.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.sample.Sample.name" title="hklpy2.sample.Sample.name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></a></p></td>
 <td><p>Sample name.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.sample.Sample.refine_lattice" title="hklpy2.sample.Sample.refine_lattice"><code class="xref py py-obj docutils literal notranslate"><span class="pre">refine_lattice</span></code></a>()</p></td>
-<td><p>Refine the lattice parameters from 3 or more reflections.</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.sample.Sample.reflections" title="hklpy2.sample.Sample.reflections"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reflections</span></code></a></p></td>
+<td><p>Ordered dictionary of orientation reflections.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.sample.Sample.solver" title="hklpy2.sample.Sample.solver"><code class="xref py py-obj docutils literal notranslate"><span class="pre">solver</span></code></a></p></td>
+<td><p>Diffractometer <strong>Solver</strong>.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.sample.Sample.U" title="hklpy2.sample.Sample.U"><code class="xref py py-obj docutils literal notranslate"><span class="pre">U</span></code></a></p></td>
 <td><p>Return the matrix, U, crystal orientation on the diffractometer.</p></td>
