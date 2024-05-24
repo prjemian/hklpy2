@@ -29,10 +29,10 @@ class SolverOperator:
     """
     Operate the diffractometer using a |solver|.
 
-    Parameters
+    .. rubric:: Parameters
 
-    - ``solver`` str: Name of the backend |solver| library.
-    - ``geometry`` str: Name of the backend |solver| geometry.
+    * ``solver`` (str): Name of the backend |solver| library.
+    * ``geometry`` (str): Name of the backend |solver| geometry.
 
     .. rubric:: Python Methods
 
@@ -175,11 +175,11 @@ class SolverOperator:
         """
         Create an instance of the |solver| and geometry.
 
-        Parameters
+        .. rubric:: Parameters
 
-        - ``solver`` str: Name of the backend |solver| library.
-        - ``geometry`` str: Name of the backend |solver| geometry.
-        - ``kwargs`` dict: Keyword arguments, as needed by the chosen |solver|.
+        * ``solver`` (str): Name of the backend |solver| library.
+        * ``geometry`` (str): Name of the backend |solver| geometry.
+        * ``kwargs`` (dict): Keyword arguments, as needed by the chosen |solver|.
         """
         logger.debug(
             "(%s) solver=%r, geometry=%r, pseudos=%r, reals=%r, extras=%r, kwargs=%r",

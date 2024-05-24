@@ -19,10 +19,10 @@ class SolverBase(ABC):
     """
     Base class for all |hklpy2| |solver| classes.
 
-    Parameters
+    .. rubric:: Parameters
 
-    - ``geometry``: (*str*) Name of geometry.
-    - ``mode``: (*str*) Name of operating mode.  (default: current mode)
+    * ``geometry``: (str) Name of geometry.
+    * ``mode``: (str) Name of operating mode.  (default: current mode)
 
     Example::
 
