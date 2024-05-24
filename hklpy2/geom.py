@@ -36,7 +36,8 @@ from .diffract import DiffractometerBase
 __all__ = """
     E4CV
     E6C
-    HklMixin
+    MixinHkl
+    MixinQ
     SimulatedE4CV
     SimulatedE6C
     SimulatedTheta2Theta
@@ -47,11 +48,11 @@ logger = logging.getLogger(__name__)
 H_OR_N = Kind.hinted | Kind.normal
 
 
-class HklMixin(Device):
+class MixinHkl(Device):
     """
     Defines `h`, `k`, & `l` pseudo-positioners.
 
-    .. caution:: These comments need to be upfdaupdated to |hklpy2|.
+    .. caution:: These comments need to be updated to |hklpy2|.
 
     Use this mixin class with any of the diffractometer geometries to create
     your own simulator.  Follow one of the simulators below, such as
@@ -65,12 +66,20 @@ class HklMixin(Device):
     l = Cpt(PseudoSingle, "", kind="hinted")  # noqa: E741
 
 
+class MixinQ(Device):
+    """
+    Defines `q` pseudo-positioner.
+    """
+
+    q = Cpt(PseudoSingle, "", kind="hinted")  # noqa: E741
+
+
 # TODO: Create a factory to make these hkl_soleil classes.
 # "E4CV", (DiffractometerBase, HklMixin), ("hkl_soleil", "E4CV", engine="hkl")
 # "E6C", (DiffractometerBase, HklMixin), ("hkl_soleil", "E6C", engine="hkl")
 
 
-class E4CV(DiffractometerBase, HklMixin):
+class E4CV(DiffractometerBase, MixinHkl):
     """
     4-circle, hkl_soleil, E4CV, engine="hkl".
 
@@ -82,7 +91,7 @@ class E4CV(DiffractometerBase, HklMixin):
         self.set_solver("hkl_soleil", "E4CV", engine="hkl")
 
 
-class E6C(DiffractometerBase, HklMixin):
+class E6C(DiffractometerBase, MixinHkl):
     """
     6-circle, hkl_soleil, E6C, engine="hkl".
 
@@ -106,7 +115,7 @@ class Theta2Theta(DiffractometerBase):
         self.set_solver("th_tth", "TH TTH Q")
 
 
-class SimulatedE4CV(E4CV, HklMixin):
+class SimulatedE4CV(E4CV, MixinHkl):
     """
     4-circle, hkl_soleil, E4CV, engine="hkl", simulated rotary axes.
 
@@ -123,7 +132,7 @@ class SimulatedE4CV(E4CV, HklMixin):
         self.operator.auto_assign_axes()
 
 
-class SimulatedE6C(E4CV, HklMixin):
+class SimulatedE6C(E4CV, MixinHkl):
     """
     6-circle, *hkl_soleil*, E6C, engine="hkl", simulated rotary axes.
 
@@ -142,14 +151,13 @@ class SimulatedE6C(E4CV, HklMixin):
         self.operator.auto_assign_axes()
 
 
-class SimulatedTheta2Theta(Theta2Theta):
+class SimulatedTheta2Theta(Theta2Theta, MixinQ):
     """
     2-circle, *th_tth*, TH TTH Q, simulated rotary axes.
 
     :class:`~hklpy2.backends.th_tth_q.ThTthSolver`
     """
 
-    q = Cpt(PseudoSingle, "", kind="hinted")
     theta = Cpt(SoftPositioner, limits=(-100, 100), init_pos=0, kind=H_OR_N)
     ttheta = Cpt(SoftPositioner, limits=(-15, 150), init_pos=0, kind=H_OR_N)
 

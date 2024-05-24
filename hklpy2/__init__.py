@@ -33,7 +33,8 @@ class Hklpy2Error(Exception):
 from .backends import SolverBase  # noqa: E402, F401
 from .diffract import DiffractometerBase  # noqa: E402, F401
 from .geom import E4CV  # noqa: E402, F401
-from .geom import HklMixin  # noqa: E402, F401
+from .geom import MixinHkl  # noqa: E402, F401
+from .geom import MixinQ  # noqa: E402, F401
 from .geom import SimulatedE4CV  # noqa: E402, F401
 from .geom import SimulatedTheta2Theta  # noqa: E402, F401
 from .geom import Theta2Theta  # noqa: E402, F401
