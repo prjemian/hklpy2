@@ -18,7 +18,8 @@ Diffractometer Geometries.
 .. rubric:: Support
 .. autosummary::
 
-    ~HklMixin
+    ~MixinHkl
+    ~MixinQ
 
 .. rubric:: Special-Use Diffractometer Geometries
 """
