@@ -6,12 +6,14 @@ Diffractometer Geometries.
 
     ~E4CV
     ~E6C
+    ~Theta2Theta
 
 .. rubric:: Simulators
 .. autosummary::
 
     ~SimulatedE4CV
     ~SimulatedE6C
+    ~SimulatedTheta2Theta
 
 .. rubric:: Support
 .. autosummary::
@@ -37,6 +39,8 @@ __all__ = """
     HklMixin
     SimulatedE4CV
     SimulatedE6C
+    SimulatedTheta2Theta
+    Theta2Theta
 """.split()
 
 logger = logging.getLogger(__name__)
@@ -69,6 +73,8 @@ class HklMixin(Device):
 class E4CV(DiffractometerBase, HklMixin):
     """
     4-circle, hkl_soleil, E4CV, engine="hkl".
+
+    :class:`~hklpy2.backends.hkl_soleil.HklSolver`
     """
 
     def __init__(self, *args, **kwargs):
@@ -79,6 +85,8 @@ class E4CV(DiffractometerBase, HklMixin):
 class E6C(DiffractometerBase, HklMixin):
     """
     6-circle, hkl_soleil, E6C, engine="hkl".
+
+    :class:`~hklpy2.backends.hkl_soleil.HklSolver`
     """
 
     def __init__(self, *args, **kwargs):
@@ -86,9 +94,23 @@ class E6C(DiffractometerBase, HklMixin):
         self.set_solver("hkl_soleil", "E6C", engine="hkl")
 
 
+class Theta2Theta(DiffractometerBase):
+    """
+    2-circle, th_tth, TH TTH Q.
+
+    :class:`~hklpy2.backends.th_tth_q.ThTthSolver`
+    """
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.set_solver("th_tth", "TH TTH Q")
+
+
 class SimulatedE4CV(E4CV, HklMixin):
     """
     4-circle, hkl_soleil, E4CV, engine="hkl", simulated rotary axes.
+
+    :class:`~hklpy2.backends.hkl_soleil.HklSolver`
     """
 
     omega = Cpt(SoftPositioner, limits=(-180, 180), init_pos=0, kind=H_OR_N)
@@ -103,7 +125,9 @@ class SimulatedE4CV(E4CV, HklMixin):
 
 class SimulatedE6C(E4CV, HklMixin):
     """
-    6-circle, hkl_soleil, E6C, engine="hkl", simulated rotary axes.
+    6-circle, *hkl_soleil*, E6C, engine="hkl", simulated rotary axes.
+
+    :class:`~hklpy2.backends.hkl_soleil.HklSolver`
     """
 
     mu = Cpt(SoftPositioner, limits=(-180, 180), init_pos=0, kind=H_OR_N)
@@ -112,6 +136,22 @@ class SimulatedE6C(E4CV, HklMixin):
     phi = Cpt(SoftPositioner, limits=(-180, 180), init_pos=0, kind=H_OR_N)
     gamma = Cpt(SoftPositioner, limits=(-180, 180), init_pos=0, kind=H_OR_N)
     delta = Cpt(SoftPositioner, limits=(-180, 180), init_pos=0, kind=H_OR_N)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.operator.auto_assign_axes()
+
+
+class SimulatedTheta2Theta(Theta2Theta):
+    """
+    2-circle, *th_tth*, TH TTH Q, simulated rotary axes.
+
+    :class:`~hklpy2.backends.th_tth_q.ThTthSolver`
+    """
+
+    q = Cpt(PseudoSingle, "", kind="hinted")
+    theta = Cpt(SoftPositioner, limits=(-100, 100), init_pos=0, kind=H_OR_N)
+    ttheta = Cpt(SoftPositioner, limits=(-15, 150), init_pos=0, kind=H_OR_N)
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
