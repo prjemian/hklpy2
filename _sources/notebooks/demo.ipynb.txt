@@ -12,6 +12,14 @@
    ]
   },
   {
+   "cell_type": "markdown",
+   "id": "8583c12b-a219-4ab1-a40e-67b9ac0d985c",
+   "metadata": {},
+   "source": [
+    "Load the **hklpy2** package and show basic information about it."
+   ]
+  },
+  {
    "cell_type": "code",
    "execution_count": 1,
    "id": "61d5927e-d2d3-4fae-9b47-eb5fdb6117c1",
@@ -21,8 +29,8 @@
      "name": "stdout",
      "output_type": "stream",
      "text": [
-      "2024-05-23 19:01:32.393626\n",
-      "hklpy2.__version__='0.0.15.dev1+g1a29618.d20240524'\n",
+      "2024-05-24 11:42:36.958660\n",
+      "hklpy2.__version__='0.0.15.dev4+gea953a0.d20240524'\n",
       "hklpy2.solvers()={'hkl_soleil': 'hklpy2.backends.hkl_soleil:HklSolver', 'no_op': 'hklpy2.backends.no_op:NoOpSolver', 'th_tth': 'hklpy2.backends.th_tth_q:ThTthSolver'}\n"
      ]
     }
@@ -38,8 +46,93 @@
    ]
   },
   {
+   "cell_type": "markdown",
+   "id": "9a32e292-376f-4506-ae33-69e74a6f3468",
+   "metadata": {},
+   "source": [
+    "Create the familar [E4CV](https://prjemian.github.io/hklpy2/api/geom.html#hklpy2.geom.SimulatedE4CV)\n",
+    "(4-circle) diffractometer from the `\"hkl_soleil\"` [solver](https://prjemian.github.io/hklpy2/api/solvers.html).\n"
+   ]
+  },
+  {
    "cell_type": "code",
    "execution_count": 2,
+   "id": "84d9c8f5-46c9-4fd0-8d5a-9fb048b99474",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "sim4c.solver.get()='hkl_soleil'\n",
+      "sim4c.geometry.get()='E4CV'\n",
+      "sim4c.sample=Sample(name='cubic', lattice=Lattice(a=1, b=1, c=1, alpha=90.0, beta=90.0, gamma=90.0))\n",
+      "sim4c.operator.axes_xref={'h': 'h', 'k': 'k', 'l': 'l', 'omega': 'omega', 'chi': 'chi', 'phi': 'phi', 'tth': 'tth'}\n"
+     ]
+    }
+   ],
+   "source": [
+    "from hklpy2 import SimulatedE4CV\n",
+    "\n",
+    "sim4c = SimulatedE4CV(\"\", name=\"sim4c\")\n",
+    "print(f\"{sim4c.solver.get()=}\")\n",
+    "print(f\"{sim4c.geometry.get()=}\")\n",
+    "print(f\"{sim4c.sample=}\")\n",
+    "print(f\"{sim4c.operator.axes_xref=}\")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "4bc75398-701e-4069-9acc-b58d2578d2a0",
+   "metadata": {},
+   "source": [
+    "Create a $\\theta-2\\theta$ 2-circle \n",
+    "[diffractometer](https://prjemian.github.io/hklpy2/api/geom.html#hklpy2.geom.SimulatedTheta2Theta)\n",
+    "using `\"th_tth\"`, a different backend solver.  This demonstrates the ability to choose between\n",
+    "different backend solvers.\n",
+    "\n",
+    "The `\"th_tth\"` [solver](https://prjemian.github.io/hklpy2/api/backends/th_tth_q.html)\n",
+    "was written in Python to demonstrate this new capability as a design goal for **hklpy2**."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "id": "c7d3119b-c0f3-41fb-8456-cf740df94657",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "powder.solver.get()='th_tth'\n",
+      "powder.geometry.get()='TH TTH Q'\n",
+      "powder.sample=Sample(name='cubic', lattice=Lattice(a=1, b=1, c=1, alpha=90.0, beta=90.0, gamma=90.0))\n",
+      "powder.operator.axes_xref={'q': 'q', 'theta': 'th', 'ttheta': 'tth'}\n"
+     ]
+    }
+   ],
+   "source": [
+    "from hklpy2 import SimulatedTheta2Theta\n",
+    "\n",
+    "powder = SimulatedTheta2Theta(\"\", name=\"powder\")\n",
+    "print(f\"{powder.solver.get()=}\")\n",
+    "print(f\"{powder.geometry.get()=}\")\n",
+    "print(f\"{powder.sample=}\")\n",
+    "print(f\"{powder.operator.axes_xref=}\")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "89ae8342-d7e0-465e-885e-3e56082f8575",
+   "metadata": {},
+   "source": [
+    "Construct a 4-circle diffractometer with many additional axes, both in real (rotation angle) space and in reciprocal (pseudo) space."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
    "id": "b6f15454-7d0d-418a-bef4-89be51a26cf1",
    "metadata": {
     "scrolled": true
@@ -97,8 +190,27 @@
    ]
   },
   {
+   "cell_type": "markdown",
+   "id": "53bbbf38-c24e-4898-adf9-75f33db39894",
+   "metadata": {},
+   "source": [
+    "Next steps demonstrate some additional design goals:\n",
+    "\n",
+    "- Easy to add additional axes, such as $\\psi$, $h_2$, $k_2$, & $l_2$.\n",
+    "- Even axes, such as *energy*, that are not used directly but may be interesting to include.\n",
+    "- Support for axes used as extra parameters in various diffractometer modes.\n",
+    "- User can specify which axes are to be used by the solver.\n",
+    "- Automatic selection of pseudo and real axes (based on order of appearance).\n",
+    "- User can choose any names for their axes.\n",
+    "- Solver class provides some introspection:\n",
+    "  - name and version\n",
+    "  - geometries supported\n",
+    "  - axes and parameters used by a geometry and mode"
+   ]
+  },
+  {
    "cell_type": "code",
-   "execution_count": 3,
+   "execution_count": 5,
    "id": "42e286ed-f07a-4815-9708-d8ff40978a4e",
    "metadata": {},
    "outputs": [
@@ -116,7 +228,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 4,
+   "execution_count": 6,
    "id": "c3d78dda-a773-4ed1-a388-212b54f4ea85",
    "metadata": {},
    "outputs": [
@@ -138,7 +250,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 5,
+   "execution_count": 7,
    "id": "8ceb97f6-6235-41b1-8b5c-474469f1a428",
    "metadata": {},
    "outputs": [
@@ -169,8 +281,16 @@
    ]
   },
   {
+   "cell_type": "markdown",
+   "id": "36879d88-7e12-4979-a22f-083530f91fa1",
+   "metadata": {},
+   "source": [
+    "Add a sample, as in **hklpy**."
+   ]
+  },
+  {
    "cell_type": "code",
-   "execution_count": 6,
+   "execution_count": 8,
    "id": "32eba399-8101-4f1a-8f2a-f81d9a3945b1",
    "metadata": {},
    "outputs": [
@@ -199,7 +319,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 7,
+   "execution_count": 9,
    "id": "b0b0e47a-49f3-4416-95f8-6b2435ae20e3",
    "metadata": {},
    "outputs": [
@@ -209,7 +329,7 @@
        "{'position': FourcPseudoPos(h=0, k=0, l=0, h2=0, k2=0, l2=0)}"
       ]
      },
-     "execution_count": 7,
+     "execution_count": 9,
      "metadata": {},
      "output_type": "execute_result"
     }
@@ -220,7 +340,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 8,
+   "execution_count": 10,
    "id": "b1f545e2-ec28-4468-a6ac-43a807a586ad",
    "metadata": {},
    "outputs": [],
@@ -230,8 +350,16 @@
    ]
   },
   {
+   "cell_type": "markdown",
+   "id": "8ae85feb-2558-4052-ab1b-f3d298267017",
+   "metadata": {},
+   "source": [
+    "Add a couple reflections (with the eventual goal of calculating the $UB$ matrix)."
+   ]
+  },
+  {
    "cell_type": "code",
-   "execution_count": 9,
+   "execution_count": 11,
    "id": "d93281fe-ec11-4e6d-aad4-fc62987a6de5",
    "metadata": {},
    "outputs": [
@@ -270,8 +398,16 @@
    ]
   },
   {
+   "cell_type": "markdown",
+   "id": "20d4e69c-0bc0-46c3-adac-613b53845918",
+   "metadata": {},
+   "source": [
+    "Swap the first two reflections."
+   ]
+  },
+  {
    "cell_type": "code",
-   "execution_count": 10,
+   "execution_count": 12,
    "id": "eb3391b0-1560-486d-b1d9-005e766063dd",
    "metadata": {},
    "outputs": [
@@ -293,10 +429,20 @@
    ]
   },
   {
-   "cell_type": "code",
-   "execution_count": 11,
-   "id": "c7be3657-7b17-42ba-9746-0bdfbc7e0bb4",
+   "cell_type": "markdown",
+   "id": "dfb28fbc-6b9d-48ea-88ab-4d91e2e65ad0",
    "metadata": {},
+   "source": [
+    "Show ophyd's description of the diffractometer object."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 13,
+   "id": "c7be3657-7b17-42ba-9746-0bdfbc7e0bb4",
+   "metadata": {
+    "scrolled": true
+   },
    "outputs": [
     {
      "name": "stdout",
@@ -376,60 +522,6 @@
    ],
    "source": [
     "fourc.summary()"
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": 12,
-   "id": "84d9c8f5-46c9-4fd0-8d5a-9fb048b99474",
-   "metadata": {},
-   "outputs": [
-    {
-     "name": "stdout",
-     "output_type": "stream",
-     "text": [
-      "sim4c.solver.get()='hkl_soleil'\n",
-      "sim4c.geometry.get()='E4CV'\n",
-      "sim4c.sample=Sample(name='cubic', lattice=Lattice(a=1, b=1, c=1, alpha=90.0, beta=90.0, gamma=90.0))\n",
-      "sim4c.operator.axes_xref={'h': 'h', 'k': 'k', 'l': 'l', 'omega': 'omega', 'chi': 'chi', 'phi': 'phi', 'tth': 'tth'}\n"
-     ]
-    }
-   ],
-   "source": [
-    "from hklpy2 import SimulatedE4CV\n",
-    "\n",
-    "sim4c = SimulatedE4CV(\"\", name=\"sim4c\")\n",
-    "print(f\"{sim4c.solver.get()=}\")\n",
-    "print(f\"{sim4c.geometry.get()=}\")\n",
-    "print(f\"{sim4c.sample=}\")\n",
-    "print(f\"{sim4c.operator.axes_xref=}\")"
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": 13,
-   "id": "c7d3119b-c0f3-41fb-8456-cf740df94657",
-   "metadata": {},
-   "outputs": [
-    {
-     "name": "stdout",
-     "output_type": "stream",
-     "text": [
-      "powder.solver.get()='th_tth'\n",
-      "powder.geometry.get()='TH TTH Q'\n",
-      "powder.sample=Sample(name='cubic', lattice=Lattice(a=1, b=1, c=1, alpha=90.0, beta=90.0, gamma=90.0))\n",
-      "powder.operator.axes_xref={'q': 'q', 'theta': 'th', 'ttheta': 'tth'}\n"
-     ]
-    }
-   ],
-   "source": [
-    "from hklpy2 import SimulatedTheta2Theta\n",
-    "\n",
-    "powder = SimulatedTheta2Theta(\"\", name=\"powder\")\n",
-    "print(f\"{powder.solver.get()=}\")\n",
-    "print(f\"{powder.geometry.get()=}\")\n",
-    "print(f\"{powder.sample=}\")\n",
-    "print(f\"{powder.operator.axes_xref=}\")"
    ]
   }
  ],

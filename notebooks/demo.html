@@ -39,7 +39,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
   <script src="../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script src="../_static/documentation_options.js?v=caea6ea4"></script>
+    <script src="../_static/documentation_options.js?v=d085b9d3"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
@@ -338,6 +338,7 @@ document.write(`
   <section id="Demonstrate-hklpy2's-API">
 <h1>Demonstrate <strong>hklpy2</strong>’s API<a class="headerlink" href="#Demonstrate-hklpy2's-API" title="Link to this heading">#</a></h1>
 <p>A working notebook as the package is being developed. <strong>Anything</strong> could change.</p>
+<p>Load the <strong>hklpy2</strong> package and show basic information about it.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
@@ -357,13 +358,67 @@ document.write(`
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-2024-05-23 19:01:32.393626
-hklpy2.__version__=&#39;0.0.15.dev1+g1a29618.d20240524&#39;
+2024-05-24 11:42:36.958660
+hklpy2.__version__=&#39;0.0.15.dev4+gea953a0.d20240524&#39;
 hklpy2.solvers()={&#39;hkl_soleil&#39;: &#39;hklpy2.backends.hkl_soleil:HklSolver&#39;, &#39;no_op&#39;: &#39;hklpy2.backends.no_op:NoOpSolver&#39;, &#39;th_tth&#39;: &#39;hklpy2.backends.th_tth_q:ThTthSolver&#39;}
 </pre></div></div>
 </div>
+<p>Create the familar <a class="reference external" href="https://prjemian.github.io/hklpy2/api/geom.html#hklpy2.geom.SimulatedE4CV">E4CV</a> (4-circle) diffractometer from the <code class="docutils literal notranslate"><span class="pre">&quot;hkl_soleil&quot;</span></code> <a class="reference external" href="https://prjemian.github.io/hklpy2/api/solvers.html">solver</a>.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">hklpy2</span> <span class="kn">import</span> <span class="n">SimulatedE4CV</span>
+
+<span class="n">sim4c</span> <span class="o">=</span> <span class="n">SimulatedE4CV</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;sim4c&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">sim4c</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">sim4c</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">sim4c</span><span class="o">.</span><span class="n">sample</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">sim4c</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">axes_xref</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+sim4c.solver.get()=&#39;hkl_soleil&#39;
+sim4c.geometry.get()=&#39;E4CV&#39;
+sim4c.sample=Sample(name=&#39;cubic&#39;, lattice=Lattice(a=1, b=1, c=1, alpha=90.0, beta=90.0, gamma=90.0))
+sim4c.operator.axes_xref={&#39;h&#39;: &#39;h&#39;, &#39;k&#39;: &#39;k&#39;, &#39;l&#39;: &#39;l&#39;, &#39;omega&#39;: &#39;omega&#39;, &#39;chi&#39;: &#39;chi&#39;, &#39;phi&#39;: &#39;phi&#39;, &#39;tth&#39;: &#39;tth&#39;}
+</pre></div></div>
+</div>
+<p>Create a <span class="math notranslate nohighlight">\(\theta-2\theta\)</span> 2-circle <a class="reference external" href="https://prjemian.github.io/hklpy2/api/geom.html#hklpy2.geom.SimulatedTheta2Theta">diffractometer</a> using <code class="docutils literal notranslate"><span class="pre">&quot;th_tth&quot;</span></code>, a different backend solver. This demonstrates the ability to choose between different backend solvers.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">&quot;th_tth&quot;</span></code> <a class="reference external" href="https://prjemian.github.io/hklpy2/api/backends/th_tth_q.html">solver</a> was written in Python to demonstrate this new capability as a design goal for <strong>hklpy2</strong>.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">hklpy2</span> <span class="kn">import</span> <span class="n">SimulatedTheta2Theta</span>
+
+<span class="n">powder</span> <span class="o">=</span> <span class="n">SimulatedTheta2Theta</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;powder&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">powder</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">powder</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">powder</span><span class="o">.</span><span class="n">sample</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">powder</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">axes_xref</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+powder.solver.get()=&#39;th_tth&#39;
+powder.geometry.get()=&#39;TH TTH Q&#39;
+powder.sample=Sample(name=&#39;cubic&#39;, lattice=Lattice(a=1, b=1, c=1, alpha=90.0, beta=90.0, gamma=90.0))
+powder.operator.axes_xref={&#39;q&#39;: &#39;q&#39;, &#39;theta&#39;: &#39;th&#39;, &#39;ttheta&#39;: &#39;tth&#39;}
+</pre></div></div>
+</div>
+<p>Construct a 4-circle diffractometer with many additional axes, both in real (rotation angle) space and in reciprocal (pseudo) space.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ophyd</span> <span class="kn">import</span> <span class="n">Component</span> <span class="k">as</span> <span class="n">Cpt</span>
@@ -417,8 +472,24 @@ hklpy2.solvers()={&#39;hkl_soleil&#39;: &#39;hklpy2.backends.hkl_soleil:HklSolve
 fourc=Fourc(prefix=&#39;&#39;, name=&#39;fourc&#39;, settle_time=0.0, timeout=None, egu=&#39;&#39;, limits=(0, 0), source=&#39;computed&#39;, read_attrs=[&#39;h&#39;, &#39;h.readback&#39;, &#39;h.setpoint&#39;, &#39;k&#39;, &#39;k.readback&#39;, &#39;k.setpoint&#39;, &#39;l&#39;, &#39;l.readback&#39;, &#39;l.setpoint&#39;, &#39;theta&#39;, &#39;chi&#39;, &#39;phi&#39;, &#39;ttheta&#39;, &#39;h2&#39;, &#39;h2.readback&#39;, &#39;h2.setpoint&#39;, &#39;k2&#39;, &#39;k2.readback&#39;, &#39;k2.setpoint&#39;, &#39;l2&#39;, &#39;l2.readback&#39;, &#39;l2.setpoint&#39;, &#39;psi&#39;, &#39;energy&#39;], configuration_attrs=[&#39;geometry&#39;, &#39;solver&#39;, &#39;wavelength&#39;, &#39;h&#39;, &#39;k&#39;, &#39;l&#39;, &#39;h2&#39;, &#39;k2&#39;, &#39;l2&#39;], concurrent=True)
 </pre></div></div>
 </div>
+<p>Next steps demonstrate some additional design goals:</p>
+<ul class="simple">
+<li><p>Easy to add additional axes, such as <span class="math notranslate nohighlight">\(\psi\)</span>, <span class="math notranslate nohighlight">\(h_2\)</span>, <span class="math notranslate nohighlight">\(k_2\)</span>, &amp; <span class="math notranslate nohighlight">\(l_2\)</span>.</p></li>
+<li><p>Even axes, such as <em>energy</em>, that are not used directly but may be interesting to include.</p></li>
+<li><p>Support for axes used as extra parameters in various diffractometer modes.</p></li>
+<li><p>User can specify which axes are to be used by the solver.</p></li>
+<li><p>Automatic selection of pseudo and real axes (based on order of appearance).</p></li>
+<li><p>User can choose any names for their axes.</p></li>
+<li><p>Solver class provides some introspection:</p>
+<ul>
+<li><p>name and version</p></li>
+<li><p>geometries supported</p></li>
+<li><p>axes and parameters used by a geometry and mode</p></li>
+</ul>
+</li>
+</ul>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">fourc</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">geometries</span><span class="p">()</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -434,7 +505,7 @@ fourc.operator.solver.geometries()=[&#39;E4CH&#39;, &#39;E4CV&#39;, &#39;E6C&#39
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">fourc</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -454,7 +525,7 @@ fourc.wavelength.get()=1.0
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">fourc</span><span class="o">.</span><span class="n">solver_name</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -483,8 +554,9 @@ fourc.operator.solver.real_axis_names=[&#39;omega&#39;, &#39;chi&#39;, &#39;phi&
 fourc.operator.solver.extra_axis_names=[]
 </pre></div></div>
 </div>
+<p>Add a sample, as in <strong>hklpy</strong>.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">fourc</span><span class="o">.</span><span class="n">samples</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -511,7 +583,7 @@ fourc.sample=Sample(name=&#39;cubic&#39;, lattice=Lattice(a=1, b=1, c=1, alpha=9
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fourc</span><span class="o">.</span><span class="n">report</span>  <span class="c1"># FIXME: not yet implemented.  These are fake values.</span>
@@ -519,7 +591,7 @@ fourc.sample=Sample(name=&#39;cubic&#39;, lattice=Lattice(a=1, b=1, c=1, alpha=9
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -528,7 +600,7 @@ fourc.sample=Sample(name=&#39;cubic&#39;, lattice=Lattice(a=1, b=1, c=1, alpha=9
 </pre></div></div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fourc</span><span class="o">.</span><span class="n">sample</span> <span class="o">=</span> <span class="s2">&quot;vibranium&quot;</span>
@@ -536,8 +608,9 @@ fourc.sample=Sample(name=&#39;cubic&#39;, lattice=Lattice(a=1, b=1, c=1, alpha=9
 </pre></div>
 </div>
 </div>
+<p>Add a couple reflections (with the eventual goal of calculating the <span class="math notranslate nohighlight">\(UB\)</span> matrix).</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fourc</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">reflections</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>  <span class="c1"># FIXME: not yet implemented.  Content ignored at this time.</span>
@@ -574,8 +647,9 @@ Reflection(name=&#39;r1&#39;, geometry=&#39;E4CV&#39;, pseudos={&#39;h&#39;: 1, 
 Reflection(name=&#39;r2&#39;, geometry=&#39;E4CV&#39;, pseudos={&#39;h&#39;: 0, &#39;k&#39;: 1, &#39;l&#39;: 0}, angles={&#39;omega&#39;: 10, &#39;chi&#39;: -90, &#39;phi&#39;: 0, &#39;tth&#39;: 20}, wavelength=1.0)
 </pre></div></div>
 </div>
+<p>Swap the first two reflections.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fourc</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">reflections</span><span class="o">.</span><span class="n">swap</span><span class="p">()</span>
@@ -595,8 +669,9 @@ Reflection(name=&#39;r2&#39;, geometry=&#39;E4CV&#39;, pseudos={&#39;h&#39;: 0, 
 Reflection(name=&#39;r1&#39;, geometry=&#39;E4CV&#39;, pseudos={&#39;h&#39;: 1, &#39;k&#39;: 0, &#39;l&#39;: 0}, angles={&#39;omega&#39;: 10, &#39;chi&#39;: 0, &#39;phi&#39;: 0, &#39;tth&#39;: 20}, wavelength=1.0)
 </pre></div></div>
 </div>
+<p>Show ophyd’s description of the diffractometer object.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fourc</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
@@ -677,56 +752,6 @@ l2                   PseudoSingle        (&#39;fourc_l2&#39;)
 unused attrs
 ------------
 
-</pre></div></div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">hklpy2</span> <span class="kn">import</span> <span class="n">SimulatedE4CV</span>
-
-<span class="n">sim4c</span> <span class="o">=</span> <span class="n">SimulatedE4CV</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;sim4c&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">sim4c</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">sim4c</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">sim4c</span><span class="o">.</span><span class="n">sample</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">sim4c</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">axes_xref</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-sim4c.solver.get()=&#39;hkl_soleil&#39;
-sim4c.geometry.get()=&#39;E4CV&#39;
-sim4c.sample=Sample(name=&#39;cubic&#39;, lattice=Lattice(a=1, b=1, c=1, alpha=90.0, beta=90.0, gamma=90.0))
-sim4c.operator.axes_xref={&#39;h&#39;: &#39;h&#39;, &#39;k&#39;: &#39;k&#39;, &#39;l&#39;: &#39;l&#39;, &#39;omega&#39;: &#39;omega&#39;, &#39;chi&#39;: &#39;chi&#39;, &#39;phi&#39;: &#39;phi&#39;, &#39;tth&#39;: &#39;tth&#39;}
-</pre></div></div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">hklpy2</span> <span class="kn">import</span> <span class="n">SimulatedTheta2Theta</span>
-
-<span class="n">powder</span> <span class="o">=</span> <span class="n">SimulatedTheta2Theta</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;powder&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">powder</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">powder</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">powder</span><span class="o">.</span><span class="n">sample</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">powder</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">axes_xref</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-powder.solver.get()=&#39;th_tth&#39;
-powder.geometry.get()=&#39;TH TTH Q&#39;
-powder.sample=Sample(name=&#39;cubic&#39;, lattice=Lattice(a=1, b=1, c=1, alpha=90.0, beta=90.0, gamma=90.0))
-powder.operator.axes_xref={&#39;q&#39;: &#39;q&#39;, &#39;theta&#39;: &#39;th&#39;, &#39;ttheta&#39;: &#39;tth&#39;}
 </pre></div></div>
 </div>
 </section>
