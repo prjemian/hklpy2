@@ -15,13 +15,18 @@ Diffractometer Geometries.
     ~SimulatedE6C
     ~SimulatedTheta2Theta
 
+.. rubric:: Special-Use Diffractometer Geometries
+.. autosummary::
+
+    ~Petra3_p09_eh2
+    ~Petra3_p23_4c
+    ~Petra3_p23_6c
+
 .. rubric:: Support
 .. autosummary::
 
     ~MixinHkl
     ~MixinQ
-
-.. rubric:: Special-Use Diffractometer Geometries
 """
 
 import logging
@@ -39,6 +44,9 @@ __all__ = """
     E6C
     MixinHkl
     MixinQ
+    Petra3_p09_eh2
+    Petra3_p23_4c
+    Petra3_p23_6c
     SimulatedE4CV
     SimulatedE6C
     SimulatedTheta2Theta
@@ -75,11 +83,6 @@ class MixinQ(Device):
     q = Cpt(PseudoSingle, "", kind="hinted")  # noqa: E741
 
 
-# TODO: Create a factory to make these hkl_soleil classes.
-# "E4CV", (DiffractometerBase, HklMixin), ("hkl_soleil", "E4CV", engine="hkl")
-# "E6C", (DiffractometerBase, HklMixin), ("hkl_soleil", "E6C", engine="hkl")
-
-
 class E4CV(DiffractometerBase, MixinHkl):
     """
     4-circle, hkl_soleil, E4CV, engine="hkl".
@@ -102,6 +105,42 @@ class E6C(DiffractometerBase, MixinHkl):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.set_solver("hkl_soleil", "E6C", engine="hkl")
+
+
+class Petra3_p09_eh2(DiffractometerBase, MixinHkl):
+    """
+    6-circle, hkl_soleil, PETRA3 P09 EH2, engine="hkl".
+
+    :class:`~hklpy2.backends.hkl_soleil.HklSolver`
+    """
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.set_solver("hkl_soleil", "PETRA3 P09 EH2", engine="hkl")
+
+
+class Petra3_p23_4c(DiffractometerBase, MixinHkl):
+    """
+    4-circle, hkl_soleil, PETRA3 P23 4C, engine="hkl".
+
+    :class:`~hklpy2.backends.hkl_soleil.HklSolver`
+    """
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.set_solver("hkl_soleil", "PETRA3 P23 4C", engine="hkl")
+
+
+class Petra3_p23_6c(DiffractometerBase, MixinHkl):
+    """
+    7-circle, hkl_soleil, PETRA3 P23 6C, engine="hkl".
+
+    :class:`~hklpy2.backends.hkl_soleil.HklSolver`
+    """
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.set_solver("hkl_soleil", "PETRA3 P23 6C", engine="hkl")
 
 
 class Theta2Theta(DiffractometerBase):
