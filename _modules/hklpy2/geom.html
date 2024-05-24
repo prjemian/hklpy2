@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
   <script src="../../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script src="../../_static/documentation_options.js?v=544df88d"></script>
+    <script src="../../_static/documentation_options.js?v=da2c44d9"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/tabs.js?v=3030b3cb"></script>
@@ -324,12 +324,14 @@ document.write(`
 
 <span class="sd">    ~E4CV</span>
 <span class="sd">    ~E6C</span>
+<span class="sd">    ~Theta2Theta</span>
 
 <span class="sd">.. rubric:: Simulators</span>
 <span class="sd">.. autosummary::</span>
 
 <span class="sd">    ~SimulatedE4CV</span>
 <span class="sd">    ~SimulatedE6C</span>
+<span class="sd">    ~SimulatedTheta2Theta</span>
 
 <span class="sd">.. rubric:: Support</span>
 <span class="sd">.. autosummary::</span>
@@ -355,6 +357,8 @@ document.write(`
 <span class="s2">    HklMixin</span>
 <span class="s2">    SimulatedE4CV</span>
 <span class="s2">    SimulatedE6C</span>
+<span class="s2">    SimulatedTheta2Theta</span>
+<span class="s2">    Theta2Theta</span>
 <span class="s2">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
@@ -392,6 +396,8 @@ document.write(`
 <span class="k">class</span> <span class="nc">E4CV</span><span class="p">(</span><span class="n">DiffractometerBase</span><span class="p">,</span> <span class="n">HklMixin</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    4-circle, hkl_soleil, E4CV, engine=&quot;hkl&quot;.</span>
+
+<span class="sd">    :class:`~hklpy2.backends.hkl_soleil.HklSolver`</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
@@ -405,6 +411,8 @@ document.write(`
 <span class="k">class</span> <span class="nc">E6C</span><span class="p">(</span><span class="n">DiffractometerBase</span><span class="p">,</span> <span class="n">HklMixin</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    6-circle, hkl_soleil, E6C, engine=&quot;hkl&quot;.</span>
+
+<span class="sd">    :class:`~hklpy2.backends.hkl_soleil.HklSolver`</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
@@ -413,11 +421,28 @@ document.write(`
 
 
 
+<div class="viewcode-block" id="Theta2Theta">
+<a class="viewcode-back" href="../../api/geom.html#hklpy2.geom.Theta2Theta">[docs]</a>
+<span class="k">class</span> <span class="nc">Theta2Theta</span><span class="p">(</span><span class="n">DiffractometerBase</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    2-circle, th_tth, TH TTH Q.</span>
+
+<span class="sd">    :class:`~hklpy2.backends.th_tth_q.ThTthSolver`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_solver</span><span class="p">(</span><span class="s2">&quot;th_tth&quot;</span><span class="p">,</span> <span class="s2">&quot;TH TTH Q&quot;</span><span class="p">)</span></div>
+
+
+
 <div class="viewcode-block" id="SimulatedE4CV">
 <a class="viewcode-back" href="../../api/geom.html#hklpy2.geom.SimulatedE4CV">[docs]</a>
 <span class="k">class</span> <span class="nc">SimulatedE4CV</span><span class="p">(</span><span class="n">E4CV</span><span class="p">,</span> <span class="n">HklMixin</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    4-circle, hkl_soleil, E4CV, engine=&quot;hkl&quot;, simulated rotary axes.</span>
+
+<span class="sd">    :class:`~hklpy2.backends.hkl_soleil.HklSolver`</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">omega</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">SoftPositioner</span><span class="p">,</span> <span class="n">limits</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">180</span><span class="p">,</span> <span class="mi">180</span><span class="p">),</span> <span class="n">init_pos</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">H_OR_N</span><span class="p">)</span>
@@ -435,7 +460,9 @@ document.write(`
 <a class="viewcode-back" href="../../api/geom.html#hklpy2.geom.SimulatedE6C">[docs]</a>
 <span class="k">class</span> <span class="nc">SimulatedE6C</span><span class="p">(</span><span class="n">E4CV</span><span class="p">,</span> <span class="n">HklMixin</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    6-circle, hkl_soleil, E6C, engine=&quot;hkl&quot;, simulated rotary axes.</span>
+<span class="sd">    6-circle, *hkl_soleil*, E6C, engine=&quot;hkl&quot;, simulated rotary axes.</span>
+
+<span class="sd">    :class:`~hklpy2.backends.hkl_soleil.HklSolver`</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">mu</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">SoftPositioner</span><span class="p">,</span> <span class="n">limits</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">180</span><span class="p">,</span> <span class="mi">180</span><span class="p">),</span> <span class="n">init_pos</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">H_OR_N</span><span class="p">)</span>
@@ -443,7 +470,30 @@ document.write(`
     <span class="n">chi</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">SoftPositioner</span><span class="p">,</span> <span class="n">limits</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">180</span><span class="p">,</span> <span class="mi">180</span><span class="p">),</span> <span class="n">init_pos</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">H_OR_N</span><span class="p">)</span>
     <span class="n">phi</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">SoftPositioner</span><span class="p">,</span> <span class="n">limits</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">180</span><span class="p">,</span> <span class="mi">180</span><span class="p">),</span> <span class="n">init_pos</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">H_OR_N</span><span class="p">)</span>
     <span class="n">gamma</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">SoftPositioner</span><span class="p">,</span> <span class="n">limits</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">180</span><span class="p">,</span> <span class="mi">180</span><span class="p">),</span> <span class="n">init_pos</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">H_OR_N</span><span class="p">)</span>
-    <span class="n">delta</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">SoftPositioner</span><span class="p">,</span> <span class="n">limits</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">180</span><span class="p">,</span> <span class="mi">180</span><span class="p">),</span> <span class="n">init_pos</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">H_OR_N</span><span class="p">)</span></div>
+    <span class="n">delta</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">SoftPositioner</span><span class="p">,</span> <span class="n">limits</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">180</span><span class="p">,</span> <span class="mi">180</span><span class="p">),</span> <span class="n">init_pos</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">H_OR_N</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">auto_assign_axes</span><span class="p">()</span></div>
+
+
+
+<div class="viewcode-block" id="SimulatedTheta2Theta">
+<a class="viewcode-back" href="../../api/geom.html#hklpy2.geom.SimulatedTheta2Theta">[docs]</a>
+<span class="k">class</span> <span class="nc">SimulatedTheta2Theta</span><span class="p">(</span><span class="n">Theta2Theta</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    2-circle, *th_tth*, TH TTH Q, simulated rotary axes.</span>
+
+<span class="sd">    :class:`~hklpy2.backends.th_tth_q.ThTthSolver`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">q</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">PseudoSingle</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;hinted&quot;</span><span class="p">)</span>
+    <span class="n">theta</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">SoftPositioner</span><span class="p">,</span> <span class="n">limits</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">),</span> <span class="n">init_pos</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">H_OR_N</span><span class="p">)</span>
+    <span class="n">ttheta</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">SoftPositioner</span><span class="p">,</span> <span class="n">limits</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">15</span><span class="p">,</span> <span class="mi">150</span><span class="p">),</span> <span class="n">init_pos</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">H_OR_N</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">auto_assign_axes</span><span class="p">()</span></div>
 
 </pre></div>
 
