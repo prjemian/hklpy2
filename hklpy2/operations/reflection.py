@@ -53,7 +53,7 @@ class Reflection:
     .. autosummary::
 
         ~_asdict
-        ~_valdate_pseudos
+        ~_validate_pseudos
         ~_validate_reals
         ~_validate_wavelength
         ~pseudos

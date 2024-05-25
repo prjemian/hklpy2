@@ -9,7 +9,6 @@ A Crystalline Sample.
     ~SampleError
 """
 
-# TODO: When solver is needed, set it up first.
 import logging
 
 from .. import Hklpy2Error
@@ -28,6 +27,8 @@ class SampleError(Hklpy2Error):
 class Sample:
     """
     A crystalline sample mounted on a diffractometer.
+
+    .. note:: Internal use only.
 
     .. rubric:: Python Methods
 
@@ -51,7 +52,7 @@ class Sample:
         self,
         name: str,
         lattice: Lattice,
-        solver: SolverBase = None,
+        solver: SolverBase = None,  # TODO: refactor to use operator
     ) -> None:
         self.name = name or unique_name()
         self.lattice = lattice
@@ -60,7 +61,7 @@ class Sample:
         else:
             self.solver = solver
         # TODO: reciprocal_lattice
-        self.reflections = ReflectionsDict()  # TODO: can refactor as dict?  (ordering)
+        self.reflections = ReflectionsDict()
 
     def __repr__(self):
         return f"Sample(name={self.name!r}, lattice={self.lattice!r})"
