@@ -14,6 +14,7 @@ import logging
 from . import Hklpy2Error
 from . import SolverBase
 from .lattice import Lattice
+from .misc import unique_name
 from .misc import solver_factory
 from .sample import Sample
 
@@ -91,22 +92,35 @@ class SolverOperator:
         rnames = self.diffractometer.real_axis_names
         pdict = self.standardize_pseudos(pseudos, pnames)
         rdict = self.standardize_reals(reals, rnames)
-        # fmt: off
         logger.debug(
-            "pdict=%r, rdict=%r, wavelength=%r, name=%r",
-            pdict, rdict, wavelength, name
+            "name=%r, geometry=%r, wavelength=%r",
+            name,
+            self.solver.geometry,
+            wavelength,
         )
-        # fmt: on
-        refl = Reflection(self.solver, pdict, rdict, wavelength, name)
+        logger.debug(
+            "pdict=%r, rdict=%r, pnames=%r, rnames=%r",
+            pdict,
+            rdict,
+            pnames,
+            rnames,
+        )
+        refl = Reflection(
+            self.solver,
+            pdict,
+            rdict,
+            wavelength,
+            name or unique_name(),
+        )
         # TODO: Why is a solver needed here?  Refactor to:
         # refl = Reflection(
+        #     name or unique_name(),
         #     self.solver.geometry,
         #     pdict,
         #     rdict,
         #     wavelength,
         #     pnames,
         #     rnames,
-        #     name,
         # )
         self.sample.reflections.add(refl)
 
