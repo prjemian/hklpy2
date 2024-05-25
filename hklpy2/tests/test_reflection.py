@@ -138,7 +138,7 @@ def test_reflection_constructor(solver, pseudos, angles, wavelength, rname, outc
         else:
             assert reflection.name == rname
         assert reflection.pseudos == pseudos
-        assert reflection.angles == angles
+        assert reflection.reals == angles
         assert reflection.wavelength == wavelength
 
     if reason is not None:

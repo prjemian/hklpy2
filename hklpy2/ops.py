@@ -38,6 +38,7 @@ class SolverOperator:
 
     .. autosummary::
 
+        ~add_reflection
         ~add_sample
         ~auto_assign_axes
         ~check_solver_defined
@@ -45,6 +46,8 @@ class SolverOperator:
         ~inverse
         ~remove_sample
         ~set_solver
+        ~standardize_pseudos
+        ~standardize_reals
 
     .. rubric:: Python Properties
 
@@ -65,6 +68,29 @@ class SolverOperator:
         if default_sample:
             # first sample is cubic, no reflections
             self.add_sample("cubic", 1)
+
+    def add_reflection(self, pseudos, reals=None, wavelength=None, name=None):
+        """
+        Add a new reflection.
+
+        .. rubric:: Parameters
+
+        * ``pseudos`` (various): pseudo-space axes and values.
+        * ``reals`` (various): dictionary of real-space axes and values.
+        * ``wavelength`` (float): Wavelength of incident radiation.
+          If ``None``, diffractometer's current wavelength will be assigned.
+        * ``name`` (str): Reference name for this reflection.
+          If ``None``, a random name will be assigned.
+        """
+        from .reflection import Reflection
+
+        pdict = self.standardize_pseudos(pseudos, self.diffractometer.pseudo_axis_names)
+        rdict = self.standardize_reals(reals, self.diffractometer.real_axis_names)
+        wavelength = wavelength or self.diffractometer.wavelength
+        print(f"TODO :{pdict=!r} {rdict=!r} {wavelength=!r} {name=!r}")
+        # TODO: Why is a solver needed here?
+        refl = Reflection(self.solver, pdict, rdict, wavelength, name)
+        self.sample.reflections.add(refl)
 
     def add_sample(
         self,
@@ -193,6 +219,68 @@ class SolverOperator:
         )
         self._solver = solver_factory(name, geometry, **kwargs)
         return self._solver
+
+    def standardize_pseudos(self, pseudos, expected) -> dict:
+        """
+        Convert user-supplied pseudos into dictionary.
+
+        User could provide pseudos in several forms:
+
+        * dict: {"h": 0, "k": 1, "l": -1}
+        * namedtuple: (h=0.0, k=1.0, l=-1.0)
+        * ordered list: [0, 1, -1]  (for h, k, l)
+        * ordered tuple: (0, 1, -1)  (for h, k, l)
+        """
+        if isinstance(pseudos, dict):  # convert dict to ordered dict
+            pdict = {}
+            for k in expected:
+                if k not in pseudos:
+                    raise SolverOperatorError(
+                        f"Missing axis {k!r}. Expected: {expected!r}"
+                    )
+                pdict[k] = pseudos[k]
+        elif isinstance(pseudos, (list, tuple)):  # convert to ordered dict
+            pdict = self.diffractometer.PseudoPosition(*pseudos)._asdict()
+        else:
+            raise SolverOperatorError(
+                f"Unexpected type: {pseudos!r}.  Expected dict, list, or tuple."
+            )
+        return pdict
+
+    def standardize_reals(self, reals, expected) -> dict:
+        """
+        Convert user-supplied reals into dictionary.
+
+        User could provide reals in several forms:
+
+        * dict: {"omega": 120, "chi": 35.3, "phi": 45, "tth": -120}
+        * namedtuple: (omega=120, chi=35.3, phi=45, tth=-120)
+        * None: current positions
+        * ordered list: [120, 35.3, 45, -120]  (for omega, chi, phi, tth)
+        * ordered tuple: (120, 35.3, 45, -120)  (for omega, chi, phi, tth)
+        """
+        # fmt: off
+        if reals is None:  # write ordered dict
+            rdict = {
+                k: getattr(self.diffractometer, k).position
+                for k in expected
+            }
+        # fmt: on
+        elif isinstance(reals, dict):  # convert dict to ordered dict
+            rdict = {}
+            for k in expected:
+                if k not in reals:
+                    raise SolverOperatorError(
+                        f"Missing axis {k!r}. Expected: {expected!r}"
+                    )
+                rdict[k] = reals[k]
+        elif isinstance(reals, (list, tuple)):  # convert to ordered dict
+            rdict = self.diffractometer.RealPosition(*reals)._asdict()
+        else:
+            raise SolverOperatorError(
+                f"Unexpected type: {reals!r}.  Expected None, dict, list, or tuple."
+            )
+        return rdict
 
     # ---- get/set properties
 

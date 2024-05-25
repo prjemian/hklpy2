@@ -48,6 +48,7 @@ class DiffractometerBase(PseudoPositioner):
 
     .. autosummary::
 
+        ~add_reflection
         ~add_sample
         ~choose_first_forward_solution
         ~forward
@@ -107,6 +108,14 @@ class DiffractometerBase(PseudoPositioner):
         self._forward_solution = self.choose_first_forward_solution
 
         super().__init__(*args, **kwargs)
+
+    def add_reflection(self, pseudos, reals=None, wavelength=None, name=None):
+        """
+        Add a new reflection.
+
+        pseudos, [reals], [wavelength], [name]
+        """
+        self.operator.add_reflection(pseudos, reals, wavelength, name)
 
     def add_sample(
         self,

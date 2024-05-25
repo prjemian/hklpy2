@@ -17,6 +17,7 @@ import logging
 
 from . import Hklpy2Error
 from . import SolverBase
+from .misc import check_value_in_list
 from .misc import unique_name
 
 logger = logging.getLogger(__name__)
@@ -30,10 +31,30 @@ class Reflection:
     """
     Coordinates real and pseudo axes.
 
+    .. note:: It is expected this internal routine is called
+       from a :class:`~hklpy2.ops.SolverOperator` method,
+       not directly by the user.
+
+    .. rubric:: Parameters
+
+    * ``solver`` (:class:`~hklpy2.backends.base.SolverBase`): Backend |solver|.
+    * ``pseudos`` (dict): dictionary of pseudo-space axes and values.
+    * ``reals`` (dict): dictionary of real-space axes and values.
+    * ``wavelength`` (float): Wavelength (:math:`\\lambda`) of incident
+      radiation.
+    * ``name`` (str): Reference name for this reflection.  If ``None``,
+      a random name will be assigned.
+
     EXAMPLE::
 
         import hklpy2
-        r1 = hklpy2.Reflection(...)  # TODO
+        r100 = hklpy2.Reflection(
+            solver,
+            dict(h=1, k=0, l=0),
+            dict(omega=10, chi=0, phi=0, tth=20),
+            wavelength=1.00,
+            name="r100"
+        )
 
     .. autosummary::
 
@@ -41,13 +62,18 @@ class Reflection:
         ~name
     """
 
-    def __init__(self, solver, pseudos: dict, angles: dict, wavelength: float, name=None) -> None:
+    # TODO: refactor to remove solver
+    # pseudos, reals, wavelength, name, gname, pseudo_names, real_names
+    def __init__(
+        self, solver, pseudos: dict, reals: dict, wavelength: float, name=None
+    ) -> None:
         self.name = name or unique_name()
         self.solver = solver
         self.pseudos = pseudos
-        self.angles = angles
+        self.reals = reals
         self.wavelength = wavelength
-        # TODO: what about optional items (azimuth, h1, h2, zones, ...)
+        # Optional items are not part of a "reflection".
+        # Such as azimuth, h1, h2, zones, ...
 
     def _asdict(self):
         """Describe the reflection as a dictionary."""
@@ -55,7 +81,7 @@ class Reflection:
             "name": repr(self.name),
             "geometry": repr(self.solver.geometry),
             "pseudos": self.pseudos,
-            "angles": self.angles,
+            "reals": self.reals,
             "wavelength": self.wavelength,
         }
 
@@ -67,18 +93,6 @@ class Reflection:
         return "Reflection(" + ", ".join(parameters) + ")"
 
     # --------- get/set properties
-
-    @property
-    def angles(self):  # TODO: rename as reals?
-        """Ordered dictionary of diffractometer's real-space axes."""
-        return self._angles
-
-    @angles.setter
-    def angles(self, value):
-        if not isinstance(value, dict):
-            raise TypeError(f"Must supply dict, received angles={value!r}")
-        # TODO: validate against self.solver.real_axis_names
-        self._angles = value
 
     @property
     def name(self):
@@ -93,15 +107,59 @@ class Reflection:
 
     @property
     def pseudos(self):
-        """Ordered dictionary of diffractometer's reciprocal-space axes."""
+        """
+        Ordered dictionary of diffractometer's reciprocal-space axes.
+
+        Dictionary keys are the axis names, as defined by the diffractometer.
+        """
         return self._pseudos
 
     @pseudos.setter
-    def pseudos(self, value):
-        if not isinstance(value, dict):
-            raise TypeError(f"Must supply dict, received pseudos={value!r}")
-        # TODO: validate against self.solver.pseudo_axis_names
-        self._pseudos = value
+    def pseudos(self, values):
+        if not isinstance(values, dict):
+            raise TypeError(f"Must supply dict, received pseudos={values!r}")
+        # TODO: Caller should validate.
+        for key in values:
+            check_value_in_list(
+                "Unexpected pseudo axis", key, self.solver.pseudo_axis_names
+            )
+        for key in self.solver.pseudo_axis_names:
+            if key not in values:
+                # fmt: off
+                raise ReflectionError(
+                    f"Missing pseudo axis {key!r}."
+                    f" Required names: {self.solver.pseudo_axis_names!r}"
+                )
+            # fmt: on
+        self._pseudos = values
+
+    @property
+    def reals(self):
+        """
+        Ordered dictionary of diffractometer's real-space axes.
+
+        Dictionary keys are the axis names, as defined by the diffractometer.
+        """
+        return self._reals
+
+    @reals.setter
+    def reals(self, values):
+        if not isinstance(values, dict):
+            raise TypeError(f"Must supply dict, received angles={values!r}")
+        # TODO: Caller should validate.
+        for key in values:
+            check_value_in_list(
+                "Unexpected real axis", key, self.solver.real_axis_names
+            )
+        for key in self.solver.real_axis_names:
+            if key not in values:
+                # fmt: off
+                raise ReflectionError(
+                    f"Missing real axis {key!r}."
+                    f" Required names: {self.solver.real_axis_names!r}"
+                )
+            # fmt: on
+        self._reals = values
 
     @property
     def solver(self):
@@ -113,7 +171,7 @@ class Reflection:
         if not (isinstance(value, SolverBase) or issubclass(type(value), SolverBase)):
             raise TypeError(f"Must supply SolverBase() object, received solver={value!r}")
         # note: calling SolverBase() will always generate a TypeError
-        # "Can't instantiate abstract class SolverBase with abstract methods" ...
+        # "Can't instantiate abstract class SolverBase with abstract methods"
         self._solver = value
 
     @property
@@ -153,7 +211,7 @@ class ReflectionsDict(dict):
     setor = set_orientation_reflections
     """Common alias for :meth:`~set_orientation_reflections`."""
 
-    def add(self, reflection: Reflection, replace: bool = False):
+    def add(self, reflection: Reflection, replace: bool = False) -> None:
         """Add an orientation reflection."""
         if reflection.name in self and not replace:
             raise ReflectionError(
