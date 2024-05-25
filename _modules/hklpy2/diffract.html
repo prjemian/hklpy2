@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
   <script src="../../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script src="../../_static/documentation_options.js?v=27ece6a4"></script>
+    <script src="../../_static/documentation_options.js?v=e4127da3"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/tabs.js?v=3030b3cb"></script>
@@ -333,8 +333,8 @@ document.write(`
 <span class="kn">from</span> <span class="nn">ophyd.signal</span> <span class="kn">import</span> <span class="n">AttributeSignal</span>
 
 <span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">Hklpy2Error</span>
+<span class="kn">from</span> <span class="nn">.operations.sample</span> <span class="kn">import</span> <span class="n">Sample</span>
 <span class="kn">from</span> <span class="nn">.ops</span> <span class="kn">import</span> <span class="n">SolverOperator</span>
-<span class="kn">from</span> <span class="nn">.sample</span> <span class="kn">import</span> <span class="n">Sample</span>
 <span class="kn">from</span> <span class="nn">.wavelength_support</span> <span class="kn">import</span> <span class="n">DEFAULT_WAVELENGTH</span>
 <span class="kn">from</span> <span class="nn">.wavelength_support</span> <span class="kn">import</span> <span class="n">ConstantMonochromaticWavelength</span>
 
@@ -435,9 +435,19 @@ document.write(`
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Add a new reflection.</span>
 
-<span class="sd">        pseudos, [reals], [wavelength], [name]</span>
+<span class="sd">        .. rubric:: Parameters</span>
+
+<span class="sd">        * ``pseudos`` (various): pseudo-space axes and values.</span>
+<span class="sd">        * ``reals`` (various): dictionary of real-space axes and values.</span>
+<span class="sd">        * ``wavelength`` (float): Wavelength of incident radiation.</span>
+<span class="sd">          If ``None``, diffractometer&#39;s current wavelength will be assigned.</span>
+<span class="sd">        * ``name`` (str): Reference name for this reflection.</span>
+<span class="sd">          If ``None``, a random name will be assigned.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">add_reflection</span><span class="p">(</span><span class="n">pseudos</span><span class="p">,</span> <span class="n">reals</span><span class="p">,</span> <span class="n">wavelength</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span></div>
+        <span class="c1"># TODO: Reflections belong to a specific sample and geometry.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">add_reflection</span><span class="p">(</span>
+            <span class="n">pseudos</span><span class="p">,</span> <span class="n">reals</span><span class="p">,</span> <span class="n">wavelength</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">wavelength</span><span class="o">.</span><span class="n">get</span><span class="p">(),</span> <span class="n">name</span>
+        <span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="DiffractometerBase.add_sample">

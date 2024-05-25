@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
   <script src="../../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script src="../../_static/documentation_options.js?v=27ece6a4"></script>
+    <script src="../../_static/documentation_options.js?v=e4127da3"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/tabs.js?v=3030b3cb"></script>
@@ -331,9 +331,10 @@ document.write(`
 
 <span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">Hklpy2Error</span>
 <span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">SolverBase</span>
-<span class="kn">from</span> <span class="nn">.lattice</span> <span class="kn">import</span> <span class="n">Lattice</span>
-<span class="kn">from</span> <span class="nn">.misc</span> <span class="kn">import</span> <span class="n">solver_factory</span>
-<span class="kn">from</span> <span class="nn">.sample</span> <span class="kn">import</span> <span class="n">Sample</span>
+<span class="kn">from</span> <span class="nn">.operations.lattice</span> <span class="kn">import</span> <span class="n">Lattice</span>
+<span class="kn">from</span> <span class="nn">.operations.misc</span> <span class="kn">import</span> <span class="n">solver_factory</span>
+<span class="kn">from</span> <span class="nn">.operations.misc</span> <span class="kn">import</span> <span class="n">unique_name</span>
+<span class="kn">from</span> <span class="nn">.operations.sample</span> <span class="kn">import</span> <span class="n">Sample</span>
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="s2">&quot;SolverOperator SolverOperatorError&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
@@ -386,7 +387,11 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">_sample_name</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_samples</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_solver</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">axes_xref</span> <span class="o">=</span> <span class="p">{}</span>  <span class="c1"># axes names cross-reference: diffractometer: solver</span>
+
+        <span class="c1"># axes names cross-reference</span>
+        <span class="c1"># keys: diffractometer axis names</span>
+        <span class="c1"># values: solver axis names</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">axes_xref</span> <span class="o">=</span> <span class="p">{}</span>
 
         <span class="k">if</span> <span class="n">default_sample</span><span class="p">:</span>
             <span class="c1"># first sample is cubic, no reflections</span>
@@ -403,18 +408,37 @@ document.write(`
 <span class="sd">        * ``pseudos`` (various): pseudo-space axes and values.</span>
 <span class="sd">        * ``reals`` (various): dictionary of real-space axes and values.</span>
 <span class="sd">        * ``wavelength`` (float): Wavelength of incident radiation.</span>
-<span class="sd">          If ``None``, diffractometer&#39;s current wavelength will be assigned.</span>
 <span class="sd">        * ``name`` (str): Reference name for this reflection.</span>
 <span class="sd">          If ``None``, a random name will be assigned.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="kn">from</span> <span class="nn">.reflection</span> <span class="kn">import</span> <span class="n">Reflection</span>
+        <span class="kn">from</span> <span class="nn">.operations.reflection</span> <span class="kn">import</span> <span class="n">Reflection</span>
 
-        <span class="n">pdict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">standardize_pseudos</span><span class="p">(</span><span class="n">pseudos</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">diffractometer</span><span class="o">.</span><span class="n">pseudo_axis_names</span><span class="p">)</span>
-        <span class="n">rdict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">standardize_reals</span><span class="p">(</span><span class="n">reals</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">diffractometer</span><span class="o">.</span><span class="n">real_axis_names</span><span class="p">)</span>
-        <span class="n">wavelength</span> <span class="o">=</span> <span class="n">wavelength</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">diffractometer</span><span class="o">.</span><span class="n">wavelength</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;TODO :</span><span class="si">{</span><span class="n">pdict</span><span class="si">=!r}</span><span class="s2"> </span><span class="si">{</span><span class="n">rdict</span><span class="si">=!r}</span><span class="s2"> </span><span class="si">{</span><span class="n">wavelength</span><span class="si">=!r}</span><span class="s2"> </span><span class="si">{</span><span class="n">name</span><span class="si">=!r}</span><span class="s2">&quot;</span><span class="p">)</span>
-        <span class="c1"># TODO: Why is a solver needed here?</span>
-        <span class="n">refl</span> <span class="o">=</span> <span class="n">Reflection</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="p">,</span> <span class="n">pdict</span><span class="p">,</span> <span class="n">rdict</span><span class="p">,</span> <span class="n">wavelength</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+        <span class="n">pnames</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">diffractometer</span><span class="o">.</span><span class="n">pseudo_axis_names</span>
+        <span class="n">rnames</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">diffractometer</span><span class="o">.</span><span class="n">real_axis_names</span>
+        <span class="n">pdict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">standardize_pseudos</span><span class="p">(</span><span class="n">pseudos</span><span class="p">,</span> <span class="n">pnames</span><span class="p">)</span>
+        <span class="n">rdict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">standardize_reals</span><span class="p">(</span><span class="n">reals</span><span class="p">,</span> <span class="n">rnames</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
+            <span class="s2">&quot;name=</span><span class="si">%r</span><span class="s2">, geometry=</span><span class="si">%r</span><span class="s2">, wavelength=</span><span class="si">%r</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="n">name</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">geometry</span><span class="p">,</span>
+            <span class="n">wavelength</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
+            <span class="s2">&quot;pdict=</span><span class="si">%r</span><span class="s2">, rdict=</span><span class="si">%r</span><span class="s2">, pnames=</span><span class="si">%r</span><span class="s2">, rnames=</span><span class="si">%r</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="n">pdict</span><span class="p">,</span>
+            <span class="n">rdict</span><span class="p">,</span>
+            <span class="n">pnames</span><span class="p">,</span>
+            <span class="n">rnames</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">refl</span> <span class="o">=</span> <span class="n">Reflection</span><span class="p">(</span>
+            <span class="n">name</span> <span class="ow">or</span> <span class="n">unique_name</span><span class="p">(),</span>
+            <span class="n">pdict</span><span class="p">,</span>
+            <span class="n">rdict</span><span class="p">,</span>
+            <span class="n">wavelength</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">geometry</span><span class="p">,</span>
+            <span class="n">pnames</span><span class="p">,</span>
+            <span class="n">rnames</span><span class="p">,</span>
+        <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">reflections</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">refl</span><span class="p">)</span></div>
 
 

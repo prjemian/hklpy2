@@ -9,7 +9,7 @@ Miscellaneous Support
 Source Code Documentation
 -------------------------
 
-.. automodule:: hklpy2.misc
+.. automodule:: hklpy2.operations.misc
     :members:
     :private-members:
     :show-inheritance:

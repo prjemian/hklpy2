@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
   <script src="../../../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script src="../../../_static/documentation_options.js?v=27ece6a4"></script>
+    <script src="../../../_static/documentation_options.js?v=e4127da3"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/tabs.js?v=3030b3cb"></script>
@@ -335,7 +335,6 @@ document.write(`
 <span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">import</span> <span class="nn">math</span>
 
-<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">Reflection</span>
 <span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">SolverError</span>
 <span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">__version__</span>
 <span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">check_value_in_list</span>
@@ -359,7 +358,8 @@ document.write(`
 <span class="sd">    ============== =================</span>
 
 <span class="sd">    Wavelength is specified either directly (``solver.wavelength = 1.0``) or</span>
-<span class="sd">    by adding at least one :index:`reflection` (see :class:`Reflection`).  All</span>
+<span class="sd">    by adding at least one :index:`reflection` (see</span>
+<span class="sd">    :class:`~hklpy2.operations.reflection.Reflection`).  All</span>
 <span class="sd">    reflections must have the same :index:`wavelength`.</span>
 
 <span class="sd">    No orientation matrix is used in this geometry.</span>
@@ -399,11 +399,12 @@ document.write(`
 
 <div class="viewcode-block" id="ThTthSolver.addReflection">
 <a class="viewcode-back" href="../../../api/backends/th_tth_q.html#hklpy2.backends.th_tth_q.ThTthSolver.addReflection">[docs]</a>
-    <span class="k">def</span> <span class="nf">addReflection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Reflection</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">addReflection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Add coordinates of a diffraction condition (a reflection).&quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">Reflection</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Must supply Reflection object, received </span><span class="si">{</span><span class="n">value</span><span class="si">!r}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Must supply dict object, received </span><span class="si">{</span><span class="n">value</span><span class="si">!r}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_reflections</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+        <span class="c1"># FIXME: value is a dict now</span>
 
         <span class="c1"># validate: all reflections must have same wavelength</span>
         <span class="n">wavelengths</span> <span class="o">=</span> <span class="p">[</span><span class="n">r</span><span class="o">.</span><span class="n">wavelength</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reflections</span><span class="p">]</span>

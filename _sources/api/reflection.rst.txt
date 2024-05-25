@@ -30,7 +30,7 @@ in *degrees*.
 Source Code Documentation
 -------------------------
 
-.. automodule:: hklpy2.reflection
+.. automodule:: hklpy2.operations.reflection
     :members:
     :private-members:
     :show-inheritance:
