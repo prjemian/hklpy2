@@ -58,7 +58,7 @@ triclinic       Lattice(4, 5, 3, 75., 85., 95.) 4 5 3 75    85   95
 Source Code Documentation
 -------------------------
 
-.. automodule:: hklpy2.lattice
+.. automodule:: hklpy2.operations.lattice
     :members:
     :private-members:
     :show-inheritance:
