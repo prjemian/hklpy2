@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
   <script src="../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script src="../_static/documentation_options.js?v=d085b9d3"></script>
+    <script src="../_static/documentation_options.js?v=27ece6a4"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
@@ -375,7 +375,7 @@ in <em>degrees</em>.</p>
 (pseudo) coordinates.</p>
 <table class="autosummary longtable table autosummary">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.reflection.Reflection" title="hklpy2.reflection.Reflection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Reflection</span></code></a>(solver, pseudos, angles, wavelength)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.reflection.Reflection" title="hklpy2.reflection.Reflection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Reflection</span></code></a>(solver, pseudos, reals, wavelength)</p></td>
 <td><p>Coordinates real and pseudo axes.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.reflection.ReflectionError" title="hklpy2.reflection.ReflectionError"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ReflectionError</span></code></a></p></td>
@@ -388,12 +388,34 @@ in <em>degrees</em>.</p>
 </table>
 <dl class="py class">
 <dt class="sig sig-object py" id="hklpy2.reflection.Reflection">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">hklpy2.reflection.</span></span><span class="sig-name descname"><span class="pre">Reflection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">solver</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pseudos</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.12)"><span class="pre">dict</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">angles</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.12)"><span class="pre">dict</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">wavelength</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><span class="pre">float</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hklpy2/reflection.html#Reflection"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.reflection.Reflection" title="Link to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">hklpy2.reflection.</span></span><span class="sig-name descname"><span class="pre">Reflection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">solver</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pseudos</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.12)"><span class="pre">dict</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">reals</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.12)"><span class="pre">dict</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">wavelength</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><span class="pre">float</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hklpy2/reflection.html#Reflection"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.reflection.Reflection" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Coordinates real and pseudo axes.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>It is expected this internal routine is called
+from a <a class="reference internal" href="ops.html#hklpy2.ops.SolverOperator" title="hklpy2.ops.SolverOperator"><code class="xref py py-class docutils literal notranslate"><span class="pre">SolverOperator</span></code></a> method,
+not directly by the user.</p>
+</div>
+<p class="rubric">Parameters</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">solver</span></code> (<a class="reference internal" href="backends/base.html#hklpy2.backends.base.SolverBase" title="hklpy2.backends.base.SolverBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">SolverBase</span></code></a>): Backend <strong>Solver</strong>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pseudos</span></code> (dict): dictionary of pseudo-space axes and values.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">reals</span></code> (dict): dictionary of real-space axes and values.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">wavelength</span></code> (float): Wavelength (<span class="math notranslate nohighlight">\(\lambda\)</span>) of incident
+radiation.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">name</span></code> (str): Reference name for this reflection.  If <code class="docutils literal notranslate"><span class="pre">None</span></code>,
+a random name will be assigned.</p></li>
+</ul>
 <p>EXAMPLE:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">hklpy2</span>
-<span class="n">r1</span> <span class="o">=</span> <span class="n">hklpy2</span><span class="o">.</span><span class="n">Reflection</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>  <span class="c1"># TODO</span>
+<span class="n">r100</span> <span class="o">=</span> <span class="n">hklpy2</span><span class="o">.</span><span class="n">Reflection</span><span class="p">(</span>
+    <span class="n">solver</span><span class="p">,</span>
+    <span class="nb">dict</span><span class="p">(</span><span class="n">h</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">l</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
+    <span class="nb">dict</span><span class="p">(</span><span class="n">omega</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">chi</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">phi</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">tth</span><span class="o">=</span><span class="mi">20</span><span class="p">),</span>
+    <span class="n">wavelength</span><span class="o">=</span><span class="mf">1.00</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;r100&quot;</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 <table class="autosummary longtable table autosummary">
@@ -413,12 +435,6 @@ in <em>degrees</em>.</p>
 </dd></dl>
 
 <dl class="py property">
-<dt class="sig sig-object py" id="hklpy2.reflection.Reflection.angles">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">angles</span></span><a class="headerlink" href="#hklpy2.reflection.Reflection.angles" title="Link to this definition">#</a></dt>
-<dd><p>Ordered dictionary of diffractometer’s real-space axes.</p>
-</dd></dl>
-
-<dl class="py property">
 <dt class="sig sig-object py" id="hklpy2.reflection.Reflection.name">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#hklpy2.reflection.Reflection.name" title="Link to this definition">#</a></dt>
 <dd><p>Sample name.</p>
@@ -428,6 +444,14 @@ in <em>degrees</em>.</p>
 <dt class="sig sig-object py" id="hklpy2.reflection.Reflection.pseudos">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">pseudos</span></span><a class="headerlink" href="#hklpy2.reflection.Reflection.pseudos" title="Link to this definition">#</a></dt>
 <dd><p>Ordered dictionary of diffractometer’s reciprocal-space axes.</p>
+<p>Dictionary keys are the axis names, as defined by the diffractometer.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="hklpy2.reflection.Reflection.reals">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">reals</span></span><a class="headerlink" href="#hklpy2.reflection.Reflection.reals" title="Link to this definition">#</a></dt>
+<dd><p>Ordered dictionary of diffractometer’s real-space axes.</p>
+<p>Dictionary keys are the axis names, as defined by the diffractometer.</p>
 </dd></dl>
 
 <dl class="py property">
@@ -488,7 +512,7 @@ set self.__traceback__ to tb and return self.</p>
 </table>
 <dl class="py method">
 <dt class="sig sig-object py" id="hklpy2.reflection.ReflectionsDict.add">
-<span class="sig-name descname"><span class="pre">add</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">reflection</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#hklpy2.reflection.Reflection" title="hklpy2.reflection.Reflection"><span class="pre">Reflection</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">replace</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hklpy2/reflection.html#ReflectionsDict.add"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.reflection.ReflectionsDict.add" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">add</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">reflection</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#hklpy2.reflection.Reflection" title="hklpy2.reflection.Reflection"><span class="pre">Reflection</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">replace</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/hklpy2/reflection.html#ReflectionsDict.add"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.reflection.ReflectionsDict.add" title="Link to this definition">#</a></dt>
 <dd><p>Add an orientation reflection.</p>
 </dd></dl>
 
@@ -637,9 +661,9 @@ In either case, this is followed by: for k in F:  D[k] = F[k]</p>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-hklpy2.reflection">Source Code Documentation</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.reflection.Reflection"><code class="docutils literal notranslate"><span class="pre">Reflection</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.reflection.Reflection._asdict"><code class="docutils literal notranslate"><span class="pre">Reflection._asdict()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.reflection.Reflection.angles"><code class="docutils literal notranslate"><span class="pre">Reflection.angles</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.reflection.Reflection.name"><code class="docutils literal notranslate"><span class="pre">Reflection.name</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.reflection.Reflection.pseudos"><code class="docutils literal notranslate"><span class="pre">Reflection.pseudos</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.reflection.Reflection.reals"><code class="docutils literal notranslate"><span class="pre">Reflection.reals</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.reflection.Reflection.solver"><code class="docutils literal notranslate"><span class="pre">Reflection.solver</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.reflection.Reflection.wavelength"><code class="docutils literal notranslate"><span class="pre">Reflection.wavelength</span></code></a></li>
 </ul>

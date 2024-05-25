@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
   <script src="../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script src="../_static/documentation_options.js?v=d085b9d3"></script>
+    <script src="../_static/documentation_options.js?v=27ece6a4"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
@@ -527,19 +527,22 @@ order expected by the solver like this:</p>
 <p class="rubric">Python Methods</p>
 <table class="autosummary longtable table autosummary">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.diffract.DiffractometerBase.add_sample" title="hklpy2.diffract.DiffractometerBase.add_sample"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_sample</span></code></a>(name, a[, b, c, alpha, beta, ...])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.diffract.DiffractometerBase.add_reflection" title="hklpy2.diffract.DiffractometerBase.add_reflection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_reflection</span></code></a>(pseudos[, reals, wavelength, ...])</p></td>
+<td><p>Add a new reflection.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.diffract.DiffractometerBase.add_sample" title="hklpy2.diffract.DiffractometerBase.add_sample"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_sample</span></code></a>(name, a[, b, c, alpha, beta, ...])</p></td>
 <td><p>Add a new sample.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.diffract.DiffractometerBase.choose_first_forward_solution" title="hklpy2.diffract.DiffractometerBase.choose_first_forward_solution"><code class="xref py py-obj docutils literal notranslate"><span class="pre">choose_first_forward_solution</span></code></a>(solutions)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.diffract.DiffractometerBase.choose_first_forward_solution" title="hklpy2.diffract.DiffractometerBase.choose_first_forward_solution"><code class="xref py py-obj docutils literal notranslate"><span class="pre">choose_first_forward_solution</span></code></a>(solutions)</p></td>
 <td><p>Choose first solution from list returned by '.forward()'.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.diffract.DiffractometerBase.forward" title="hklpy2.diffract.DiffractometerBase.forward"><code class="xref py py-obj docutils literal notranslate"><span class="pre">forward</span></code></a>(pseudos)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.diffract.DiffractometerBase.forward" title="hklpy2.diffract.DiffractometerBase.forward"><code class="xref py py-obj docutils literal notranslate"><span class="pre">forward</span></code></a>(pseudos)</p></td>
 <td><p>Compute real-space coordinates from pseudos (hkl -&gt; angles).</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.diffract.DiffractometerBase.inverse" title="hklpy2.diffract.DiffractometerBase.inverse"><code class="xref py py-obj docutils literal notranslate"><span class="pre">inverse</span></code></a>(reals)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.diffract.DiffractometerBase.inverse" title="hklpy2.diffract.DiffractometerBase.inverse"><code class="xref py py-obj docutils literal notranslate"><span class="pre">inverse</span></code></a>(reals)</p></td>
 <td><p>Compute pseudo-space coordinates from reals (angles -&gt; hkl).</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.diffract.DiffractometerBase.set_solver" title="hklpy2.diffract.DiffractometerBase.set_solver"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_solver</span></code></a>(solver, geometry, **kwargs)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.diffract.DiffractometerBase.set_solver" title="hklpy2.diffract.DiffractometerBase.set_solver"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_solver</span></code></a>(solver, geometry, **kwargs)</p></td>
 <td><p>Set the backend <strong>Solver</strong> for this diffractometer.</p></td>
 </tr>
 </tbody>
@@ -564,6 +567,13 @@ order expected by the solver like this:</p>
 </tr>
 </tbody>
 </table>
+<dl class="py method">
+<dt class="sig sig-object py" id="hklpy2.diffract.DiffractometerBase.add_reflection">
+<span class="sig-name descname"><span class="pre">add_reflection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pseudos</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reals</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wavelength</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hklpy2/diffract.html#DiffractometerBase.add_reflection"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.diffract.DiffractometerBase.add_reflection" title="Link to this definition">#</a></dt>
+<dd><p>Add a new reflection.</p>
+<p>pseudos, [reals], [wavelength], [name]</p>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="hklpy2.diffract.DiffractometerBase.add_sample">
 <span class="sig-name descname"><span class="pre">add_sample</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">a</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><span class="pre">float</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">90.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gamma</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">digits</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">4</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">replace</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="sample.html#hklpy2.sample.Sample" title="hklpy2.sample.Sample"><span class="pre">Sample</span></a></span></span><a class="reference internal" href="../_modules/hklpy2/diffract.html#DiffractometerBase.add_sample"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.diffract.DiffractometerBase.add_sample" title="Link to this definition">#</a></dt>
@@ -688,19 +698,22 @@ order expected by the solver like this:</p>
 <p class="rubric">Python Methods</p>
 <table class="autosummary longtable table autosummary">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.diffract.DiffractometerBase.add_sample" title="hklpy2.diffract.DiffractometerBase.add_sample"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_sample</span></code></a>(name, a[, b, c, alpha, beta, ...])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.diffract.DiffractometerBase.add_reflection" title="hklpy2.diffract.DiffractometerBase.add_reflection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_reflection</span></code></a>(pseudos[, reals, wavelength, ...])</p></td>
+<td><p>Add a new reflection.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.diffract.DiffractometerBase.add_sample" title="hklpy2.diffract.DiffractometerBase.add_sample"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_sample</span></code></a>(name, a[, b, c, alpha, beta, ...])</p></td>
 <td><p>Add a new sample.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.diffract.DiffractometerBase.choose_first_forward_solution" title="hklpy2.diffract.DiffractometerBase.choose_first_forward_solution"><code class="xref py py-obj docutils literal notranslate"><span class="pre">choose_first_forward_solution</span></code></a>(solutions)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.diffract.DiffractometerBase.choose_first_forward_solution" title="hklpy2.diffract.DiffractometerBase.choose_first_forward_solution"><code class="xref py py-obj docutils literal notranslate"><span class="pre">choose_first_forward_solution</span></code></a>(solutions)</p></td>
 <td><p>Choose first solution from list returned by '.forward()'.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.diffract.DiffractometerBase.forward" title="hklpy2.diffract.DiffractometerBase.forward"><code class="xref py py-obj docutils literal notranslate"><span class="pre">forward</span></code></a>(pseudos)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.diffract.DiffractometerBase.forward" title="hklpy2.diffract.DiffractometerBase.forward"><code class="xref py py-obj docutils literal notranslate"><span class="pre">forward</span></code></a>(pseudos)</p></td>
 <td><p>Compute real-space coordinates from pseudos (hkl -&gt; angles).</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.diffract.DiffractometerBase.inverse" title="hklpy2.diffract.DiffractometerBase.inverse"><code class="xref py py-obj docutils literal notranslate"><span class="pre">inverse</span></code></a>(reals)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.diffract.DiffractometerBase.inverse" title="hklpy2.diffract.DiffractometerBase.inverse"><code class="xref py py-obj docutils literal notranslate"><span class="pre">inverse</span></code></a>(reals)</p></td>
 <td><p>Compute pseudo-space coordinates from reals (angles -&gt; hkl).</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.diffract.DiffractometerBase.set_solver" title="hklpy2.diffract.DiffractometerBase.set_solver"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_solver</span></code></a>(solver, geometry, **kwargs)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.diffract.DiffractometerBase.set_solver" title="hklpy2.diffract.DiffractometerBase.set_solver"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_solver</span></code></a>(solver, geometry, **kwargs)</p></td>
 <td><p>Set the backend <strong>Solver</strong> for this diffractometer.</p></td>
 </tr>
 </tbody>
@@ -996,6 +1009,13 @@ be “missed” by this registry. False by default.</p></li>
 </ul>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">add_reflection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pseudos</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reals</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wavelength</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hklpy2/diffract.html#DiffractometerBase.add_reflection"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Add a new reflection.</p>
+<p>pseudos, [reals], [wavelength], [name]</p>
 </dd></dl>
 
 <dl class="py method">
@@ -1795,6 +1815,7 @@ plans to change its API in a way that may not be backward-compatible.</p>
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-hklpy2.diffract">Source Code Documentation</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.diffract.DiffractometerBase"><code class="docutils literal notranslate"><span class="pre">DiffractometerBase</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.diffract.DiffractometerBase.add_reflection"><code class="docutils literal notranslate"><span class="pre">DiffractometerBase.add_reflection()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.diffract.DiffractometerBase.add_sample"><code class="docutils literal notranslate"><span class="pre">DiffractometerBase.add_sample()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.diffract.DiffractometerBase.choose_first_forward_solution"><code class="docutils literal notranslate"><span class="pre">DiffractometerBase.choose_first_forward_solution()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.diffract.DiffractometerBase.forward"><code class="docutils literal notranslate"><span class="pre">DiffractometerBase.forward()</span></code></a></li>

@@ -14,3 +14,4 @@ TODO
 
    design-discussion
    notebooks/*
+   glossary

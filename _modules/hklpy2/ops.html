@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
   <script src="../../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script src="../../_static/documentation_options.js?v=d085b9d3"></script>
+    <script src="../../_static/documentation_options.js?v=27ece6a4"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/tabs.js?v=3030b3cb"></script>
@@ -352,15 +352,16 @@ document.write(`
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Operate the diffractometer using a |solver|.</span>
 
-<span class="sd">    Parameters</span>
+<span class="sd">    .. rubric:: Parameters</span>
 
-<span class="sd">    - ``solver`` str: Name of the backend |solver| library.</span>
-<span class="sd">    - ``geometry`` str: Name of the backend |solver| geometry.</span>
+<span class="sd">    * ``solver`` (str): Name of the backend |solver| library.</span>
+<span class="sd">    * ``geometry`` (str): Name of the backend |solver| geometry.</span>
 
 <span class="sd">    .. rubric:: Python Methods</span>
 
 <span class="sd">    .. autosummary::</span>
 
+<span class="sd">        ~add_reflection</span>
 <span class="sd">        ~add_sample</span>
 <span class="sd">        ~auto_assign_axes</span>
 <span class="sd">        ~check_solver_defined</span>
@@ -368,6 +369,8 @@ document.write(`
 <span class="sd">        ~inverse</span>
 <span class="sd">        ~remove_sample</span>
 <span class="sd">        ~set_solver</span>
+<span class="sd">        ~standardize_pseudos</span>
+<span class="sd">        ~standardize_reals</span>
 
 <span class="sd">    .. rubric:: Python Properties</span>
 
@@ -388,6 +391,32 @@ document.write(`
         <span class="k">if</span> <span class="n">default_sample</span><span class="p">:</span>
             <span class="c1"># first sample is cubic, no reflections</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">add_sample</span><span class="p">(</span><span class="s2">&quot;cubic&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+<div class="viewcode-block" id="SolverOperator.add_reflection">
+<a class="viewcode-back" href="../../api/ops.html#hklpy2.ops.SolverOperator.add_reflection">[docs]</a>
+    <span class="k">def</span> <span class="nf">add_reflection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pseudos</span><span class="p">,</span> <span class="n">reals</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">wavelength</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add a new reflection.</span>
+
+<span class="sd">        .. rubric:: Parameters</span>
+
+<span class="sd">        * ``pseudos`` (various): pseudo-space axes and values.</span>
+<span class="sd">        * ``reals`` (various): dictionary of real-space axes and values.</span>
+<span class="sd">        * ``wavelength`` (float): Wavelength of incident radiation.</span>
+<span class="sd">          If ``None``, diffractometer&#39;s current wavelength will be assigned.</span>
+<span class="sd">        * ``name`` (str): Reference name for this reflection.</span>
+<span class="sd">          If ``None``, a random name will be assigned.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">.reflection</span> <span class="kn">import</span> <span class="n">Reflection</span>
+
+        <span class="n">pdict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">standardize_pseudos</span><span class="p">(</span><span class="n">pseudos</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">diffractometer</span><span class="o">.</span><span class="n">pseudo_axis_names</span><span class="p">)</span>
+        <span class="n">rdict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">standardize_reals</span><span class="p">(</span><span class="n">reals</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">diffractometer</span><span class="o">.</span><span class="n">real_axis_names</span><span class="p">)</span>
+        <span class="n">wavelength</span> <span class="o">=</span> <span class="n">wavelength</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">diffractometer</span><span class="o">.</span><span class="n">wavelength</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;TODO :</span><span class="si">{</span><span class="n">pdict</span><span class="si">=!r}</span><span class="s2"> </span><span class="si">{</span><span class="n">rdict</span><span class="si">=!r}</span><span class="s2"> </span><span class="si">{</span><span class="n">wavelength</span><span class="si">=!r}</span><span class="s2"> </span><span class="si">{</span><span class="n">name</span><span class="si">=!r}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="c1"># TODO: Why is a solver needed here?</span>
+        <span class="n">refl</span> <span class="o">=</span> <span class="n">Reflection</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="p">,</span> <span class="n">pdict</span><span class="p">,</span> <span class="n">rdict</span><span class="p">,</span> <span class="n">wavelength</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">reflections</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">refl</span><span class="p">)</span></div>
+
 
 <div class="viewcode-block" id="SolverOperator.add_sample">
 <a class="viewcode-back" href="../../api/ops.html#hklpy2.ops.SolverOperator.add_sample">[docs]</a>
@@ -518,11 +547,11 @@ document.write(`
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Create an instance of the |solver| and geometry.</span>
 
-<span class="sd">        Parameters</span>
+<span class="sd">        .. rubric:: Parameters</span>
 
-<span class="sd">        - ``solver`` str: Name of the backend |solver| library.</span>
-<span class="sd">        - ``geometry`` str: Name of the backend |solver| geometry.</span>
-<span class="sd">        - ``kwargs`` dict: Keyword arguments, as needed by the chosen |solver|.</span>
+<span class="sd">        * ``solver`` (str): Name of the backend |solver| library.</span>
+<span class="sd">        * ``geometry`` (str): Name of the backend |solver| geometry.</span>
+<span class="sd">        * ``kwargs`` (dict): Keyword arguments, as needed by the chosen |solver|.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
             <span class="s2">&quot;(</span><span class="si">%s</span><span class="s2">) solver=</span><span class="si">%r</span><span class="s2">, geometry=</span><span class="si">%r</span><span class="s2">, pseudos=</span><span class="si">%r</span><span class="s2">, reals=</span><span class="si">%r</span><span class="s2">, extras=</span><span class="si">%r</span><span class="s2">, kwargs=</span><span class="si">%r</span><span class="s2">&quot;</span><span class="p">,</span>
@@ -536,6 +565,74 @@ document.write(`
         <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_solver</span> <span class="o">=</span> <span class="n">solver_factory</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">geometry</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_solver</span></div>
+
+
+<div class="viewcode-block" id="SolverOperator.standardize_pseudos">
+<a class="viewcode-back" href="../../api/ops.html#hklpy2.ops.SolverOperator.standardize_pseudos">[docs]</a>
+    <span class="k">def</span> <span class="nf">standardize_pseudos</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pseudos</span><span class="p">,</span> <span class="n">expected</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Convert user-supplied pseudos into dictionary.</span>
+
+<span class="sd">        User could provide pseudos in several forms:</span>
+
+<span class="sd">        * dict: {&quot;h&quot;: 0, &quot;k&quot;: 1, &quot;l&quot;: -1}</span>
+<span class="sd">        * namedtuple: (h=0.0, k=1.0, l=-1.0)</span>
+<span class="sd">        * ordered list: [0, 1, -1]  (for h, k, l)</span>
+<span class="sd">        * ordered tuple: (0, 1, -1)  (for h, k, l)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">pseudos</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>  <span class="c1"># convert dict to ordered dict</span>
+            <span class="n">pdict</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">expected</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">k</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">pseudos</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="n">SolverOperatorError</span><span class="p">(</span>
+                        <span class="sa">f</span><span class="s2">&quot;Missing axis </span><span class="si">{</span><span class="n">k</span><span class="si">!r}</span><span class="s2">. Expected: </span><span class="si">{</span><span class="n">expected</span><span class="si">!r}</span><span class="s2">&quot;</span>
+                    <span class="p">)</span>
+                <span class="n">pdict</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">pseudos</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">pseudos</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>  <span class="c1"># convert to ordered dict</span>
+            <span class="n">pdict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">diffractometer</span><span class="o">.</span><span class="n">PseudoPosition</span><span class="p">(</span><span class="o">*</span><span class="n">pseudos</span><span class="p">)</span><span class="o">.</span><span class="n">_asdict</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">SolverOperatorError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Unexpected type: </span><span class="si">{</span><span class="n">pseudos</span><span class="si">!r}</span><span class="s2">.  Expected dict, list, or tuple.&quot;</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="n">pdict</span></div>
+
+
+<div class="viewcode-block" id="SolverOperator.standardize_reals">
+<a class="viewcode-back" href="../../api/ops.html#hklpy2.ops.SolverOperator.standardize_reals">[docs]</a>
+    <span class="k">def</span> <span class="nf">standardize_reals</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reals</span><span class="p">,</span> <span class="n">expected</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Convert user-supplied reals into dictionary.</span>
+
+<span class="sd">        User could provide reals in several forms:</span>
+
+<span class="sd">        * dict: {&quot;omega&quot;: 120, &quot;chi&quot;: 35.3, &quot;phi&quot;: 45, &quot;tth&quot;: -120}</span>
+<span class="sd">        * namedtuple: (omega=120, chi=35.3, phi=45, tth=-120)</span>
+<span class="sd">        * None: current positions</span>
+<span class="sd">        * ordered list: [120, 35.3, 45, -120]  (for omega, chi, phi, tth)</span>
+<span class="sd">        * ordered tuple: (120, 35.3, 45, -120)  (for omega, chi, phi, tth)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># fmt: off</span>
+        <span class="k">if</span> <span class="n">reals</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># write ordered dict</span>
+            <span class="n">rdict</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="n">k</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">diffractometer</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span><span class="o">.</span><span class="n">position</span>
+                <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">expected</span>
+            <span class="p">}</span>
+        <span class="c1"># fmt: on</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">reals</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>  <span class="c1"># convert dict to ordered dict</span>
+            <span class="n">rdict</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">expected</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">k</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">reals</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="n">SolverOperatorError</span><span class="p">(</span>
+                        <span class="sa">f</span><span class="s2">&quot;Missing axis </span><span class="si">{</span><span class="n">k</span><span class="si">!r}</span><span class="s2">. Expected: </span><span class="si">{</span><span class="n">expected</span><span class="si">!r}</span><span class="s2">&quot;</span>
+                    <span class="p">)</span>
+                <span class="n">rdict</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">reals</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">reals</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>  <span class="c1"># convert to ordered dict</span>
+            <span class="n">rdict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">diffractometer</span><span class="o">.</span><span class="n">RealPosition</span><span class="p">(</span><span class="o">*</span><span class="n">reals</span><span class="p">)</span><span class="o">.</span><span class="n">_asdict</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">SolverOperatorError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Unexpected type: </span><span class="si">{</span><span class="n">reals</span><span class="si">!r}</span><span class="s2">.  Expected None, dict, list, or tuple.&quot;</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="n">rdict</span></div>
 
 
     <span class="c1"># ---- get/set properties</span>

@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
   <script src="../../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script src="../../_static/documentation_options.js?v=d085b9d3"></script>
+    <script src="../../_static/documentation_options.js?v=27ece6a4"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/tabs.js?v=3030b3cb"></script>
@@ -333,13 +333,18 @@ document.write(`
 <span class="sd">    ~SimulatedE6C</span>
 <span class="sd">    ~SimulatedTheta2Theta</span>
 
+<span class="sd">.. rubric:: Special-Use Diffractometer Geometries</span>
+<span class="sd">.. autosummary::</span>
+
+<span class="sd">    ~Petra3_p09_eh2</span>
+<span class="sd">    ~Petra3_p23_4c</span>
+<span class="sd">    ~Petra3_p23_6c</span>
+
 <span class="sd">.. rubric:: Support</span>
 <span class="sd">.. autosummary::</span>
 
 <span class="sd">    ~MixinHkl</span>
 <span class="sd">    ~MixinQ</span>
-
-<span class="sd">.. rubric:: Special-Use Diffractometer Geometries</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">import</span> <span class="nn">logging</span>
@@ -357,6 +362,9 @@ document.write(`
 <span class="s2">    E6C</span>
 <span class="s2">    MixinHkl</span>
 <span class="s2">    MixinQ</span>
+<span class="s2">    Petra3_p09_eh2</span>
+<span class="s2">    Petra3_p23_4c</span>
+<span class="s2">    Petra3_p23_6c</span>
 <span class="s2">    SimulatedE4CV</span>
 <span class="s2">    SimulatedE6C</span>
 <span class="s2">    SimulatedTheta2Theta</span>
@@ -399,11 +407,6 @@ document.write(`
 
 
 
-<span class="c1"># TODO: Create a factory to make these hkl_soleil classes.</span>
-<span class="c1"># &quot;E4CV&quot;, (DiffractometerBase, HklMixin), (&quot;hkl_soleil&quot;, &quot;E4CV&quot;, engine=&quot;hkl&quot;)</span>
-<span class="c1"># &quot;E6C&quot;, (DiffractometerBase, HklMixin), (&quot;hkl_soleil&quot;, &quot;E6C&quot;, engine=&quot;hkl&quot;)</span>
-
-
 <div class="viewcode-block" id="E4CV">
 <a class="viewcode-back" href="../../api/geom.html#hklpy2.geom.E4CV">[docs]</a>
 <span class="k">class</span> <span class="nc">E4CV</span><span class="p">(</span><span class="n">DiffractometerBase</span><span class="p">,</span> <span class="n">MixinHkl</span><span class="p">):</span>
@@ -431,6 +434,51 @@ document.write(`
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">set_solver</span><span class="p">(</span><span class="s2">&quot;hkl_soleil&quot;</span><span class="p">,</span> <span class="s2">&quot;E6C&quot;</span><span class="p">,</span> <span class="n">engine</span><span class="o">=</span><span class="s2">&quot;hkl&quot;</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="Petra3_p09_eh2">
+<a class="viewcode-back" href="../../api/geom.html#hklpy2.geom.Petra3_p09_eh2">[docs]</a>
+<span class="k">class</span> <span class="nc">Petra3_p09_eh2</span><span class="p">(</span><span class="n">DiffractometerBase</span><span class="p">,</span> <span class="n">MixinHkl</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    6-circle, hkl_soleil, PETRA3 P09 EH2, engine=&quot;hkl&quot;.</span>
+
+<span class="sd">    :class:`~hklpy2.backends.hkl_soleil.HklSolver`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_solver</span><span class="p">(</span><span class="s2">&quot;hkl_soleil&quot;</span><span class="p">,</span> <span class="s2">&quot;PETRA3 P09 EH2&quot;</span><span class="p">,</span> <span class="n">engine</span><span class="o">=</span><span class="s2">&quot;hkl&quot;</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="Petra3_p23_4c">
+<a class="viewcode-back" href="../../api/geom.html#hklpy2.geom.Petra3_p23_4c">[docs]</a>
+<span class="k">class</span> <span class="nc">Petra3_p23_4c</span><span class="p">(</span><span class="n">DiffractometerBase</span><span class="p">,</span> <span class="n">MixinHkl</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    4-circle, hkl_soleil, PETRA3 P23 4C, engine=&quot;hkl&quot;.</span>
+
+<span class="sd">    :class:`~hklpy2.backends.hkl_soleil.HklSolver`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_solver</span><span class="p">(</span><span class="s2">&quot;hkl_soleil&quot;</span><span class="p">,</span> <span class="s2">&quot;PETRA3 P23 4C&quot;</span><span class="p">,</span> <span class="n">engine</span><span class="o">=</span><span class="s2">&quot;hkl&quot;</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="Petra3_p23_6c">
+<a class="viewcode-back" href="../../api/geom.html#hklpy2.geom.Petra3_p23_6c">[docs]</a>
+<span class="k">class</span> <span class="nc">Petra3_p23_6c</span><span class="p">(</span><span class="n">DiffractometerBase</span><span class="p">,</span> <span class="n">MixinHkl</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    7-circle, hkl_soleil, PETRA3 P23 6C, engine=&quot;hkl&quot;.</span>
+
+<span class="sd">    :class:`~hklpy2.backends.hkl_soleil.HklSolver`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_solver</span><span class="p">(</span><span class="s2">&quot;hkl_soleil&quot;</span><span class="p">,</span> <span class="s2">&quot;PETRA3 P23 6C&quot;</span><span class="p">,</span> <span class="n">engine</span><span class="o">=</span><span class="s2">&quot;hkl&quot;</span><span class="p">)</span></div>
 
 
 

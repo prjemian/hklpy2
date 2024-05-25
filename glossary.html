@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Design for hklpy2 &#8212; hklpy2 0.0</title>
+    <title>Glossary &#8212; hklpy2 0.0</title>
   
   
   
@@ -43,11 +43,13 @@
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/design-tabs.js?v=f930bc37"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'design-discussion';</script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'glossary';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Demonstrate hklpy2’s API" href="notebooks/demo.html" />
-    <link rel="prev" title="User Guide" href="guide.html" />
+    <link rel="next" title="API" href="api.html" />
+    <link rel="prev" title="Demonstrate hklpy2’s API" href="notebooks/demo.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -273,9 +275,9 @@ document.write(`
      aria-label="Section Navigation">
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
   <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Design for hklpy2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="design-discussion.html">Design for hklpy2</a></li>
 <li class="toctree-l1"><a class="reference internal" href="notebooks/demo.html">Demonstrate <strong>hklpy2</strong>’s API</a></li>
-<li class="toctree-l1"><a class="reference internal" href="glossary.html">Glossary</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Glossary</a></li>
 </ul>
 </div>
 </nav></div>
@@ -316,7 +318,7 @@ document.write(`
     
     <li class="breadcrumb-item"><a href="guide.html" class="nav-link">User Guide</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page">Design for hklpy2</li>
+    <li class="breadcrumb-item active" aria-current="page">Glossary</li>
   </ul>
 </nav>
 </div>
@@ -333,141 +335,85 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="design-for-hklpy2">
-<h1>Design for hklpy2<a class="headerlink" href="#design-for-hklpy2" title="Link to this heading">#</a></h1>
-<p>Gather the discussion points, thoughts, issues, etc. for development of
-<a class="reference external" href="https://github.com/prjemian/hklpy2"><em>hklpy2</em></a>, the second generation of
-the <a class="reference external" href="https://github.com/bluesky/hklpy"><em>hklpy</em></a> package.</p>
-<p>Here’s a block diagram of the new API:</p>
-<p><img alt="Block Diagram" src="_images/hklpy2-block-diagram.png" /></p>
-<section id="hklpy-release-v2-0-project">
-<h2>hklpy release v2.0 project<a class="headerlink" href="#hklpy-release-v2-0-project" title="Link to this heading">#</a></h2>
-<p>As stated in the <a class="reference external" href="https://github.com/orgs/bluesky/projects/4/settings">project</a>:</p>
-<p>Redesign of the Diffractometer object.</p>
-<ul class="simple">
-<li><p>user-requested changes</p></li>
-<li><p>move libhkl to be a replaceable back-end computation library</p></li>
-<li><p>easy to save/restore configuration</p></li>
-<li><p>easy to use different <em>engines</em> (such as <code class="docutils literal notranslate"><span class="pre">hkl</span></code>, <code class="docutils literal notranslate"><span class="pre">qper_qpar</span></code>, <code class="docutils literal notranslate"><span class="pre">emergence</span></code>, …)</p></li>
-<li><p>user can choose different names for any of the diffractometer axes</p></li>
-</ul>
-</section>
-<section id="design-ideas">
-<h2>Design ideas<a class="headerlink" href="#design-ideas" title="Link to this heading">#</a></h2>
-<p>This is a starting format for suggestions, but it may become clear that a different format to describe our requirements is necessary.</p>
-<ol class="arabic simple">
-<li><p>Default diffractometer geometries</p></li>
-<li><p>Bragg Peak optimization tools</p></li>
-<li><p>Defining orientation matrix or matrices</p></li>
-<li><p>Simulating diffraction and diffractometer modes</p></li>
-<li><p>Built in reciprocal space plans (or scans)</p></li>
-<li><p>Choice of calculation engines other than the hkl C package</p></li>
-</ol>
-</section>
-<section id="review-of-terminology-coordinate-systems">
-<h2>Review of terminology coordinate systems<a class="headerlink" href="#review-of-terminology-coordinate-systems" title="Link to this heading">#</a></h2>
-<ul class="simple">
-<li><p>$B$ goes from <em>hkl</em> to an orthonormal basis in the crystal reference frame</p></li>
-<li><p>$U$ goes from the crystal reference frame to the reciprocal lab frame (expressing how the crystal is stuck onto the diffractometer)</p></li>
-<li><p>Solving the diffractometer equation goes from the reciprocal lab frame to diffractometer angles. (Some people loosely call this “real space” but perhaps they shouldn’t. It’s angles.)</p></li>
-</ul>
-</section>
-<section id="desired-api">
-<h2>Desired API<a class="headerlink" href="#desired-api" title="Link to this heading">#</a></h2>
-<p>The desired “solver API” into the HKL computation code should be transformations
-from reciprocal space to diffractometer angle space and vice versa, each taking
-three arguments:</p>
-<ul class="simple">
-<li><p>a structure (dict or struct) describing a geometry (motors, reference positions, and constraints)</p></li>
-<li><p>observed mapping between real and reciprocal space to give you the “U” of the UB matrix</p></li>
-<li><p>the crystallography to give you the “B”</p></li>
-</ul>
-<p>Underneath this API could be many different solvers:</p>
-<ul class="simple">
-<li><p>custom project</p></li>
-<li><p>pybind-wrapped components from <code class="docutils literal notranslate"><span class="pre">libhkl</span></code></p></li>
-<li><p>SPEC</p></li>
-</ul>
-<p>It should be easy to switch between solvers at run time so that new things can be validated.</p>
-</section>
-<section id="support-for-additions">
-<h2>Support for Additions<a class="headerlink" href="#support-for-additions" title="Link to this heading">#</a></h2>
-<ul>
-<li><p><a class="reference external" href="https://github.com/bluesky/hklpy/issues/92">analyzers and polarizers</a></p>
-<p>Perhaps everything is already in place to support these items as stand alone
-ophyd objects. Here is what’s needed:</p>
-<ul class="simple">
-<li><p>[ ] Identify if we are missing items to support analyzers or polarizers</p></li>
-<li><p>[ ] Make sure we don’t over specify requirements to cause problems for analyzers or polarizers</p></li>
-<li><p>[ ] Do we need to tie these new ophyd objects together with diffractometer object?<br />
-What is the best way to do that?</p></li>
-</ul>
-</li>
-<li><p>Make it easy to provide additional axes, such as for:</p>
-<ul class="simple">
-<li><p>rotation about arbitrary vector</p></li>
-<li><p>Solvers with different reciprocal-space axes</p></li>
-<li><p>extra parameters, as required by solver
-(For example, see <code class="docutils literal notranslate"><span class="pre">emergence</span></code> mode in
-<a class="reference external" href="https://blueskyproject.io/hklpy/geometry_tables.html#geometry-e4cv">E4CV</a>)</p></li>
-</ul>
-</li>
-</ul>
-</section>
-<section id="reflections">
-<h2>Reflections<a class="headerlink" href="#reflections" title="Link to this heading">#</a></h2>
-<ul class="simple">
-<li><p><a class="reference external" href="https://github.com/bluesky/hklpy/issues/158">write orientation reflections with scan</a>,
-<a class="reference external" href="https://github.com/bluesky/hklpy/issues/247">also</a></p></li>
-<li><p><a class="reference external" href="https://github.com/bluesky/hklpy/issues/176">identify orientation reflections</a></p></li>
-<li><p><a class="reference external" href="https://github.com/bluesky/hklpy/issues/178"><code class="docutils literal notranslate"><span class="pre">cahkl()</span></code> should make nice report when reflection can’t be reached</a></p></li>
-<li><p><a class="reference external" href="https://github.com/bluesky/hklpy/issues/189">reflection is a Python class</a></p></li>
-<li><p><a class="reference external" href="https://github.com/bluesky/hklpy/issues/219"><code class="docutils literal notranslate"><span class="pre">addReflection()</span></code>, when to use current positions</a></p></li>
-<li><p><a class="reference external" href="https://github.com/bluesky/hklpy/issues/248">avoid duplications</a></p></li>
-<li><p><a class="reference external" href="https://github.com/bluesky/hklpy/issues/293">label each reflection</a></p></li>
-</ul>
-</section>
-<section id="other">
-<h2>Other<a class="headerlink" href="#other" title="Link to this heading">#</a></h2>
-<ul class="simple">
-<li><p><a class="reference external" href="https://github.com/bluesky/hklpy/issues/157">modify existing sample</a></p></li>
-<li><p><a class="reference external" href="https://github.com/bluesky/hklpy/issues/179">control display precision in <code class="docutils literal notranslate"><span class="pre">wh()</span></code> and <code class="docutils literal notranslate"><span class="pre">pa()</span></code></a></p></li>
-<li><p><a class="reference external" href="https://github.com/bluesky/hklpy/issues/291">crystallographic <em>zones</em></a></p></li>
-</ul>
-</section>
-<section id="sources">
-<h2>Sources<a class="headerlink" href="#sources" title="Link to this heading">#</a></h2>
-<p>As listed in <em>hklpy</em> issues:</p>
-<ul class="simple">
-<li><p><a class="reference external" href="https://github.com/bluesky/hklpy/issues/14">design conversation for an hkl solver API</a></p></li>
-<li><p><a class="reference external" href="https://github.com/bluesky/hklpy/issues/47">requirements RFP</a></p></li>
-<li><p><a class="reference external" href="https://docs.google.com/document/d/1QHNc1usAH3DoIHvtqVJTmHI0Q5lbwC4zimRLurOGiWE/edit">requirements</a></p></li>
-</ul>
-</section>
-<section id="additional-solvers">
-<h2>Additional Solvers<a class="headerlink" href="#additional-solvers" title="Link to this heading">#</a></h2>
-<p>As listed in <em>hklpy</em> issues.</p>
-<ul class="simple">
-<li><p><a class="reference external" href="https://github.com/bluesky/hklpy/issues/244"><em>ad-hoc</em> geometries</a></p></li>
-<li><p><a class="reference external" href="https://github.com/bluesky/hklpy/issues/163">diffcalc</a></p></li>
-<li><p><a class="reference external" href="https://github.com/bluesky/hklpy/issues/165">TwoC unknown</a></p></li>
-<li><p><a class="reference external" href="https://github.com/bluesky/hklpy/issues/162">xrayutilities</a></p></li>
-<li><p>SPEC server</p></li>
-</ul>
-</section>
-<section id="python-entrypoints">
-<h2>Python entrypoints<a class="headerlink" href="#python-entrypoints" title="Link to this heading">#</a></h2>
-<p>Could be used for <a class="reference external" href="https://github.com/bluesky/hklpy/issues/161">backend solvers</a></p>
-<blockquote>
-<div><p>It provides an useful tool for pluggable Python software development.</p>
-</div></blockquote>
-<ul class="simple">
-<li><p><a class="reference external" href="https://stackoverflow.com/a/9615473/1046449">Article with example</a> about entrypoints.</p></li>
-<li><p><a class="reference external" href="https://github.com/RichardBronosky/entrypoint_demo">Demo</a> (9 years old)</p></li>
-</ul>
-<p>See the docs in setuptools regarding <a class="reference external" href="https://setuptools.pypa.io/en/latest/userguide/entry_point.html#entry-points-for-plugins"><em>Entry Points for
-Plugins</em></a>.</p>
-</section>
+  <section id="glossary">
+<span id="id1"></span><h1>Glossary<a class="headerlink" href="#glossary" title="Link to this heading">#</a></h1>
+<dl class="field-list">
+<dt class="field-odd">detector<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Measures the intensity of diffracted radiation from the sample.</p>
+</dd>
+<dt class="field-even">diffractometer<span class="colon">:</span></dt>
+<dd class="field-even"><p>A <em>goniometer</em>.
+The mechanical system of stacked rotation axes used to control a
+sample’s crystalline <em>orientation</em> and a detector position for
+scientific measurements.</p>
+<p>Generally, there are two stacks, one which controls the <em>sample</em> position,
+the other for the <em>detector</em> position.</p>
+</dd>
+<dt class="field-odd">engine<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Some <strong>Solver</strong> libraries provide coordinate transformations
+between <em>reals</em> and different types of <em>pseudos</em>, such as for
+reflectometry or surface scattering.  The <strong>Solver</strong> may provide
+an engine for each separate type of transformation (and related
+<em>pseudos</em>).</p>
+</dd>
+<dt class="field-even">geometry<span class="colon">:</span></dt>
+<dd class="field-even"><p>The set of <em>reals</em> (stacked rotation angles) which
+define a specific <em>diffractometer</em>.
+A common distinguishing feature is the number of axes in each stack.
+For example, the <a class="reference internal" href="api/geom.html#hklpy2.geom.E4CV" title="hklpy2.geom.E4CV"><code class="xref py py-class docutils literal notranslate"><span class="pre">E4CV</span></code></a> geometry as 3 sample axes
+(<code class="docutils literal notranslate"><span class="pre">omega</span></code>, <code class="docutils literal notranslate"><span class="pre">chi</span></code>, <code class="docutils literal notranslate"><span class="pre">phi</span></code>) and 1 detector axis (<code class="docutils literal notranslate"><span class="pre">tth</span></code>).
+In some shorthand reference, this is called “S3D1”.</p>
+</dd>
+<dt class="field-odd">goniometer<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Instrument which allows an object to be rotated to a precise angular position.</p>
+</dd>
+<dt class="field-even">lattice<span class="colon">:</span></dt>
+<dd class="field-even"><p>Lattice parameters of a crystalline <em>sample</em>.</p>
+</dd>
+<dt class="field-odd">monochromatic<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Radiation of a single wavelength.  Or sufficiently narrow
+range, such that it may be characterized by a single floating point value.</p>
+</dd>
+<dt class="field-even">operator<span class="colon">:</span></dt>
+<dd class="field-even"><p>The intermediate software adapter layer between
+<a class="reference internal" href="api/diffract.html#hklpy2.diffract.DiffractometerBase" title="hklpy2.diffract.DiffractometerBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">DiffractometerBase</span></code></a> (user-facing code) and a
+<a class="reference internal" href="api/backends/base.html#hklpy2.backends.base.SolverBase" title="hklpy2.backends.base.SolverBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">SolverBase</span></code></a>.</p>
+<p>Connects a <em>diffractometer</em> with  a <strong>Solver</strong> library and one of its <em>geometries</em>.</p>
+</dd>
+<dt class="field-odd">orientation<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Positioning of a crystalline sample’s atomic planes
+(identified by a set of <em>pseudos</em>) within the laboratory reference
+frame (described by the <em>reals</em>).</p>
+</dd>
+<dt class="field-even">pseudo<span class="colon">:</span></dt>
+<dd class="field-even"><p>Reciprocal-space axis, such as <span class="math notranslate nohighlight">\(h\)</span>, <span class="math notranslate nohighlight">\(k\)</span>, and <span class="math notranslate nohighlight">\(l\)</span>.
+The engineering units (rarely examined for crystalline work) are reciprocal
+of the <em>wavelength</em> units.</p>
+</dd>
+<dt class="field-odd">real<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Real-space axis, such as <code class="docutils literal notranslate"><span class="pre">omega</span></code> (<span class="math notranslate nohighlight">\(\omega\)</span>).
+The engineering units are expected to be in <strong>degrees</strong>.</p>
+</dd>
+<dt class="field-even">reflection<span class="colon">:</span></dt>
+<dd class="field-even"><p>User-identified coordinates: (<em>pseudos</em>, <em>reals</em>, <em>wavelength</em>).
+Used to orient a <em>sample</em> with a specific <em>diffractometer</em> geometry.</p>
+</dd>
+<dt class="field-odd">sample<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The substance to be explored with the <em>diffractometer</em>.
+Has a <em>lattice</em> and list of <em>reflections</em>.</p>
+</dd>
+<dt class="field-even">solver<span class="colon">:</span></dt>
+<dd class="field-even"><p>Backend <strong>Solver</strong> library.  Provides computations to transform
+between <em>pseudo</em> and <em>real</em> coordinates for a defined
+<em>diffractometer</em> <em>geometry</em>.</p>
+</dd>
+<dt class="field-odd">wavelength<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The numerical value of the wavelength of the incident radiation.
+The radiation is expected to be <em>monochromatic</em> neutrons or X-rays.
+The engineering units of wavelength must be identical to those of the
+crystalline lattice length parameters: <span class="math notranslate nohighlight">\(a\)</span>, <span class="math notranslate nohighlight">\(b\)</span>, &amp; <span class="math notranslate nohighlight">\(c\)</span>.</p>
+</dd>
+</dl>
 </section>
 
 
@@ -481,20 +427,20 @@ Plugins</em></a>.</p>
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="guide.html"
+       href="notebooks/demo.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">User Guide</p>
+        <p class="prev-next-title">Demonstrate <strong>hklpy2</strong>’s API</p>
       </div>
     </a>
     <a class="right-next"
-       href="notebooks/demo.html"
+       href="api.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Demonstrate <strong>hklpy2</strong>’s API</p>
+        <p class="prev-next-title">API</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -509,30 +455,9 @@ Plugins</em></a>.</p>
 
 
   <div class="sidebar-secondary-item">
-<div
-    id="pst-page-navigation-heading-2"
-    class="page-toc tocsection onthispage">
-    <i class="fa-solid fa-list"></i> On this page
-  </div>
-  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
-    <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy-release-v2-0-project">hklpy release v2.0 project</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#design-ideas">Design ideas</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#review-of-terminology-coordinate-systems">Review of terminology coordinate systems</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#desired-api">Desired API</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#support-for-additions">Support for Additions</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reflections">Reflections</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#other">Other</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sources">Sources</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#additional-solvers">Additional Solvers</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#python-entrypoints">Python entrypoints</a></li>
-</ul>
-  </nav></div>
-
-  <div class="sidebar-secondary-item">
 
   <div class="tocsection sourcelink">
-    <a href="_sources/design-discussion.md.txt">
+    <a href="_sources/glossary.rst.txt">
       <i class="fa-solid fa-file-lines"></i> Show Source
     </a>
   </div>

@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
   <script src="../../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script src="../../_static/documentation_options.js?v=d085b9d3"></script>
+    <script src="../../_static/documentation_options.js?v=27ece6a4"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/tabs.js?v=3030b3cb"></script>
@@ -368,6 +368,7 @@ document.write(`
 
 <span class="sd">    .. autosummary::</span>
 
+<span class="sd">        ~add_reflection</span>
 <span class="sd">        ~add_sample</span>
 <span class="sd">        ~choose_first_forward_solution</span>
 <span class="sd">        ~forward</span>
@@ -427,6 +428,17 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">_forward_solution</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">choose_first_forward_solution</span>
 
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<div class="viewcode-block" id="DiffractometerBase.add_reflection">
+<a class="viewcode-back" href="../../api/diffract.html#hklpy2.diffract.DiffractometerBase.add_reflection">[docs]</a>
+    <span class="k">def</span> <span class="nf">add_reflection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pseudos</span><span class="p">,</span> <span class="n">reals</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">wavelength</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add a new reflection.</span>
+
+<span class="sd">        pseudos, [reals], [wavelength], [name]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">add_reflection</span><span class="p">(</span><span class="n">pseudos</span><span class="p">,</span> <span class="n">reals</span><span class="p">,</span> <span class="n">wavelength</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span></div>
+
 
 <div class="viewcode-block" id="DiffractometerBase.add_sample">
 <a class="viewcode-back" href="../../api/diffract.html#hklpy2.diffract.DiffractometerBase.add_sample">[docs]</a>
