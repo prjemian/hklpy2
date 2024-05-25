@@ -10,7 +10,7 @@ Glossary
 :diffractometer:
   A *goniometer*.
   The mechanical system of stacked rotation axes used to control a
-  sample's crystalline orientation and a detector position for
+  sample's crystalline *orientation* and a detector position for
   scientific measurements.
 
   Generally, there are two stacks, one which controls the *sample* position,
@@ -39,6 +39,9 @@ Glossary
 
   Connects a *diffractometer* with  a |solver| library and one of its *geometries*.
 
+:orientation: Positioning of a crystalline sample's atomic planes 
+  (identified by a set of *pseudos*) within the laboratory reference
+  frame (described by the *reals*).
 :pseudo: Reciprocal-space axis, such as :math:`h`, :math:`k`, and :math:`l`.
   The engineering units (rarely examined for crystalline work) are reciprocal
   of the *wavelength* units.
