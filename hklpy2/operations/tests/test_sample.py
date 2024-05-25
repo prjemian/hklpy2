@@ -2,12 +2,12 @@ from contextlib import nullcontext as does_not_raise
 
 import pytest
 
-from .. import Lattice
-from .. import ReflectionsDict
-from .. import Sample
-from .. import SolverBase
-from .. import solver_factory
+from ..lattice import Lattice
+from ...backends.base import SolverBase
+from ..misc import solver_factory
 from ..misc import unique_name
+from ..reflection import ReflectionsDict
+from ..sample import Sample
 
 no_op_solver = solver_factory("no_op", "")
 
