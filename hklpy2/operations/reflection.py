@@ -1,0 +1,293 @@
+"""
+Coordinates of a crystalline reflection.
+
+Associates diffractometer angles (real-space) with crystalline reciprocal-space
+(pseudo) coordinates.
+
+.. autosummary::
+
+    ~Reflection
+    ~ReflectionError
+    ~ReflectionsDict
+    ~UNUSED_REFLECTION
+"""
+
+import logging
+
+from .. import Hklpy2Error
+from .misc import check_value_in_list
+
+logger = logging.getLogger(__name__)
+
+UNUSED_REFLECTION = "unused"
+"""Identifies an unused reflection in the ReflectionsList."""
+
+
+class ReflectionError(Hklpy2Error):
+    """Custom exceptions from the :mod:`hklpy2.reflection` module."""
+
+
+class Reflection:
+    """
+    Coordinates real and pseudo axes.
+
+    .. note:: Internal use only.
+
+       It is expected this internal routine is called
+       from a :class:`~hklpy2.ops.SolverOperator` method,
+       not directly by the user.
+
+    .. rubric:: Parameters
+
+    * ``name`` (str): Reference name for this reflection.
+    * ``pseudos`` (dict): Unordered dictionary of pseudo-space axes and values.
+    * ``reals`` (dict): Unordered dictionary of real-space axes and values.
+    * ``wavelength`` (float): Wavelength of incident radiation.
+    * ``geometry`` (str): Geometry name for this reflection.
+    * ``pseudo_names`` ([str]): Ordered list of pseudo names for this geometry.
+    * ``rnames`` ([str]): Ordered list of real names for this geometry.
+
+    Optional items (such as 'azimuth', 'h1', 'h2', zones, ...) are not
+    part of a "reflection".
+
+    .. autosummary::
+
+        ~_asdict
+        ~pseudos
+        ~reals
+        ~validate_pseudos
+        ~validate_reals
+        ~validate_wavelength
+        ~wavelength
+    """
+
+    def __init__(
+        self,
+        name: str,
+        pseudos: dict,
+        reals: dict,
+        wavelength: float,
+        geometry: str,
+        pseudo_axis_names: list,
+        real_axis_names: list,
+    ) -> None:
+        self.geometry = geometry
+        self.name = name
+        self.pseudo_axis_names = pseudo_axis_names
+        self.real_axis_names = real_axis_names
+
+        # property setters
+        self.pseudos = pseudos
+        self.reals = reals
+        self.wavelength = wavelength
+
+    def _asdict(self):
+        """Describe the reflection as a dictionary."""
+        return {
+            "name": repr(self.name),
+            "geometry": repr(self.geometry),
+            "pseudos": self.pseudos,
+            "reals": self.reals,
+            "wavelength": self.wavelength,
+        }
+
+    def __repr__(self):
+        """
+        Standard representation of reflection.
+        """
+        parameters = [f"{k}={v!r}" for k, v in self._asdict().items()]
+        return "Reflection(" + ", ".join(parameters) + ")"
+
+    def validate_pseudos(self, value):
+        """Raise Exception if pseudos do not match expectations."""
+        if not isinstance(value, dict):
+            raise TypeError(f"Must supply dict, received pseudos={value!r}")
+        for key in value:
+            check_value_in_list("Unexpected pseudo", key, self.pseudo_axis_names)
+        for key in self.pseudo_axis_names:
+            if key not in value:
+                # fmt: off
+                raise KeyError(
+                    f"Missing pseudo axis {key!r}."
+                    f" Required names: {self.pseudo_axis_names!r}"
+                )
+            # fmt: on
+
+    def validate_reals(self, value):
+        """Raise Exception if reals do not match expectations."""
+        if not isinstance(value, dict):
+            raise TypeError(f"Must supply dict, received reals={value!r}")
+        for key in value:
+            check_value_in_list("Unexpected real", key, self.real_axis_names)
+        for key in self.real_axis_names:
+            if key not in value:
+                # fmt: off
+                raise KeyError(
+                    f"Missing real axis {key!r}."
+                    f" Required names: {self.real_axis_names!r}"
+                )
+            # fmt: on
+
+    def validate_wavelength(self, value):
+        """Raise ReflectionError if pseudos do not match expectations."""
+        if not isinstance(value, (int, float)):
+            raise TypeError(f"Must supply number, received wavelength={value!r}")
+        if value < 0:
+            raise ValueError(f"Must be >=0, received wavelength={value}")
+
+    # --------- get/set properties
+
+    @property
+    def name(self):
+        """Sample name."""
+        return self._name
+
+    @name.setter
+    def name(self, value):
+        if not isinstance(value, (type(None), str)):
+            raise TypeError(f"Must supply str, received name={value!r}")
+        self._name = value
+
+    @property
+    def pseudos(self):
+        """
+        Ordered dictionary of diffractometer's reciprocal-space axes.
+
+        Dictionary keys are the axis names, as defined by the diffractometer.
+        """
+        return self._pseudos
+
+    @pseudos.setter
+    def pseudos(self, values):
+        self.validate_pseudos(values)
+        self._pseudos = values
+
+    @property
+    def reals(self):
+        """
+        Ordered dictionary of diffractometer's real-space axes.
+
+        Dictionary keys are the axis names, as defined by the diffractometer.
+        """
+        return self._reals
+
+    @reals.setter
+    def reals(self, values):
+        self.validate_reals(values)
+        self._reals = values
+
+    @property
+    def wavelength(self):
+        """Wavelength of reflection."""
+        return self._wavelength
+
+    @wavelength.setter
+    def wavelength(self, value):
+        self.validate_wavelength(value)
+        self._wavelength = value
+
+
+class ReflectionsDict(dict):
+    """
+    Dictionary of Reflections.
+
+    .. autosummary::
+
+        ~_asdict
+        ~add
+        ~order
+        ~prune
+        ~setor
+        ~set_orientation_reflections
+        ~swap
+    """
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self._order = []
+
+    def __repr__(self):
+        """
+        Standard representation of reflections list.
+
+        Order numbers start from zero.
+        """
+        return repr(self._asdict())
+
+    def _asdict(self):
+        """
+        Describe the reflections list as an ordered dictionary.
+
+        Order by reflections order.
+        """
+        self.prune()
+        result = {}
+        # Ordered reflections first, numbers start from zero.
+        for i, k in enumerate(self.order):
+            refl = self[k]._asdict()
+            refl["order"] = i
+            result[self[k].name] = refl
+        # Then, any unused reflections.
+        for k in self.keys():
+            if k not in self.order:
+                refl = self[k]._asdict()
+                refl["order"] = UNUSED_REFLECTION
+                result[self[k].name] = refl
+        return result
+
+    def set_orientation_reflections(
+        self,
+        reflections: [Reflection],
+    ) -> None:
+        """
+        Designate the order of the reflections to be used.
+
+        .. note:: Raises ``KeyError`` if any
+           ``reflections`` are not already defined.
+
+           This method does not *add* any new reflections.
+
+        .. rubric:: Parameters
+
+        * ``reflections`` ([Reflection]) : List of
+        :class:`hklpy2.reflection.Reflection` objects.
+        """
+        self.order = [r.name for r in reflections]
+
+    setor = set_orientation_reflections
+    """Common alias for :meth:`~set_orientation_reflections`."""
+
+    def add(self, reflection: Reflection, replace: bool = False) -> None:
+        """Add a a single orientation reflection."""
+        if reflection.name in self and not replace:
+            raise ReflectionError(
+                f"Reflection {reflection.name!r} already defined. "
+                "Set `replace=True` to replace it."
+            )
+        self[reflection.name] = reflection
+        if reflection.name not in self.order:
+            self.order.append(reflection.name)
+        self.prune()
+
+    def prune(self):
+        """Remove any undefined reflections from order list."""
+        self.order = [refl for refl in self.order if refl in self]
+
+    def swap(self):
+        """Swap the two named orientation reflections."""
+        if len(self.order) < 2:
+            raise ReflectionError("Need at least two reflections to swap.")
+        rname1, rname2 = self.order[:2]
+        self._order[0] = rname2
+        self._order[1] = rname1
+
+    # ---- get/set properties
+
+    @property
+    def order(self):
+        """Ordered list of reflection names used for orientation."""
+        return self._order
+
+    @order.setter
+    def order(self, value):
+        self._order = value

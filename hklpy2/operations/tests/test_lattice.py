@@ -1,6 +1,6 @@
 import pytest
 
-from ..lattice import Lattice
+from ..operations.lattice import Lattice
 
 
 @pytest.mark.parametrize(

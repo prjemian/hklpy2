@@ -12,8 +12,8 @@ A Crystalline Sample.
 # TODO: When solver is needed, set it up first.
 import logging
 
-from . import Hklpy2Error
-from . import SolverBase
+from .. import Hklpy2Error
+from .. import SolverBase
 from .lattice import Lattice
 from .misc import unique_name
 from .reflection import ReflectionsDict

@@ -33,17 +33,13 @@ class Hklpy2Error(Exception):
 from .backends import SolverBase  # noqa: E402, F401
 from .diffract import DiffractometerBase  # noqa: E402, F401
 from .geom import *  # noqa: E402, F401, F403
-from .lattice import SI_LATTICE_PARAMETER  # noqa: E402, F401
-from .lattice import Lattice  # noqa: E402, F401
-from .misc import SOLVER_ENTRYPOINT_GROUP  # noqa: E402, F401
-from .misc import SolverError  # noqa: E402, F401
-from .misc import check_value_in_list  # noqa: E402, F401
-from .misc import get_solver  # noqa: E402, F401
-from .misc import solver_factory  # noqa: E402, F401
-from .misc import solvers  # noqa: E402, F401
-from .reflection import Reflection  # noqa: E402, F401
-from .reflection import ReflectionsDict  # noqa: E402, F401
-from .sample import Sample  # noqa: E402, F401
+from .operations.lattice import SI_LATTICE_PARAMETER  # noqa: E402, F401
+from .operations.misc import SOLVER_ENTRYPOINT_GROUP  # noqa: E402, F401
+from .operations.misc import SolverError  # noqa: E402, F401
+from .operations.misc import check_value_in_list  # noqa: E402, F401
+from .operations.misc import get_solver  # noqa: E402, F401
+from .operations.misc import solver_factory  # noqa: E402, F401
+from .operations.misc import solvers  # noqa: E402, F401
 from .wavelength_support import A_KEV  # noqa: E402, F401
 from .wavelength_support import ConstantMonochromaticWavelength  # noqa: E402, F401
 from .wavelength_support import MonochromaticXrayWavelength  # noqa: E402, F401

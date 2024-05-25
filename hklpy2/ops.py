@@ -13,10 +13,10 @@ import logging
 
 from . import Hklpy2Error
 from . import SolverBase
-from .lattice import Lattice
-from .misc import unique_name
-from .misc import solver_factory
-from .sample import Sample
+from .operations.lattice import Lattice
+from .operations.misc import solver_factory
+from .operations.misc import unique_name
+from .operations.sample import Sample
 
 __all__ = "SolverOperator SolverOperatorError".split()
 logger = logging.getLogger(__name__)
@@ -86,7 +86,7 @@ class SolverOperator:
         * ``name`` (str): Reference name for this reflection.
           If ``None``, a random name will be assigned.
         """
-        from .reflection import Reflection
+        from .operations.reflection import Reflection
 
         pnames = self.diffractometer.pseudo_axis_names
         rnames = self.diffractometer.real_axis_names
@@ -106,22 +106,14 @@ class SolverOperator:
             rnames,
         )
         refl = Reflection(
-            self.solver,
+            name or unique_name(),
             pdict,
             rdict,
             wavelength,
-            name or unique_name(),
+            self.solver.geometry,
+            pnames,
+            rnames,
         )
-        # TODO: Why is a solver needed here?  Refactor to:
-        # refl = Reflection(
-        #     name or unique_name(),
-        #     self.solver.geometry,
-        #     pdict,
-        #     rdict,
-        #     wavelength,
-        #     pnames,
-        #     rnames,
-        # )
         self.sample.reflections.add(refl)
 
     def add_sample(

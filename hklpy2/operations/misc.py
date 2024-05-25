@@ -16,7 +16,7 @@ import logging
 import uuid
 from importlib.metadata import entry_points
 
-from . import Hklpy2Error
+from .. import Hklpy2Error
 
 logger = logging.getLogger(__name__)
 

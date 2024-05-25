@@ -15,8 +15,8 @@ from ophyd.pseudopos import real_position_argument
 from ophyd.signal import AttributeSignal
 
 from . import Hklpy2Error
+from .operations.sample import Sample
 from .ops import SolverOperator
-from .sample import Sample
 from .wavelength_support import DEFAULT_WAVELENGTH
 from .wavelength_support import ConstantMonochromaticWavelength
 
@@ -122,8 +122,9 @@ class DiffractometerBase(PseudoPositioner):
         * ``name`` (str): Reference name for this reflection.
           If ``None``, a random name will be assigned.
         """
+        # TODO: Reflections belong to a specific sample and geometry.
         self.operator.add_reflection(
-            pseudos, reals, wavelength or self.wavelength, name
+            pseudos, reals, wavelength or self.wavelength.get(), name
         )
 
     def add_sample(

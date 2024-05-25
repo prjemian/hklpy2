@@ -5,8 +5,8 @@ import pytest
 from .. import SolverBase
 from .. import solver_factory
 from ..misc import unique_name
-from ..reflection import Reflection
-from ..reflection import ReflectionsDict
+from ..operations.reflection import Reflection
+from ..operations.reflection import ReflectionsDict
 
 no_op_solver = solver_factory("no_op", "")
 
@@ -153,7 +153,7 @@ def test_reflectionsdict_constructor(outcome, reason):
     with outcome as excuse:
         rdict = ReflectionsDict()
         assert rdict is not None
-        assert rdict.ordering == [], f"{rdict.ordering=!r}"
+        assert rdict.order == [], f"{rdict.order=!r}"
         assert rdict.setor == rdict.set_orientation_reflections
 
     if reason is not None:
@@ -163,10 +163,10 @@ def test_reflectionsdict_constructor(outcome, reason):
 def test_reflectionsdict_swap():
     rdict = ReflectionsDict()
     assert rdict is not None
-    assert rdict.ordering == [], f"{rdict.ordering=!r}"
+    assert rdict.order == [], f"{rdict.order=!r}"
 
-    rdict.ordering = "one two".split()
+    rdict.order = "one two".split()
     rdict.swap()
-    assert rdict.ordering == "two one".split()
+    assert rdict.order == "two one".split()
     rdict.swap()
-    assert rdict.ordering == "one two".split()
+    assert rdict.order == "one two".split()

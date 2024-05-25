@@ -12,7 +12,7 @@ from ophyd import SoftPositioner
 from .. import SolverBase
 from ..diffract import DiffractometerBase
 from ..diffract import DiffractometerError
-from ..misc import solver_factory
+from ..operations.misc import solver_factory
 from ..wavelength_support import DEFAULT_WAVELENGTH
 from ..wavelength_support import DEFAULT_WAVELENGTH_UNITS
 
