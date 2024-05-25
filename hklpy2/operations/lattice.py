@@ -30,7 +30,7 @@ SI_LATTICE_PARAMETER_UNCERTAINTY = 0.000000089
 
 
 class LatticeError(Hklpy2Error):
-    """Custom exceptions from the :mod:`hklpy2.lattice` module."""
+    """Custom exceptions from the :mod:`hklpy2.operations.lattice` module."""
 
 
 class Lattice:

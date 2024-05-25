@@ -168,10 +168,8 @@ class SolverBase(ABC):
 
     @lattice.setter
     def lattice(self, value):
-        from .. import Lattice
-
-        if not isinstance(value, Lattice):
-            raise TypeError(f"Must supply Lattice object, received {value!r}")
+        if not isinstance(value, dict):
+            raise TypeError(f"Must supply dict object, received {value!r}")
         self._lattice = value
 
     @property

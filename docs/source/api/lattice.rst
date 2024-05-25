@@ -8,7 +8,7 @@ Crystal Lattice
 
 Record a sample's crystalline :index:`!lattice` parameters: 
 :math:`a, b, c, \alpha, \beta, \gamma`.  The 
-:class:`~hklpy2.lattice.Lattice()` interface is 
+:class:`~hklpy2.operations.lattice.Lattice()` interface is 
 simplified; it is not necessary to enter all parameters 
 for high-symmetry crystal systems.
 

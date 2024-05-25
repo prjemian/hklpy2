@@ -252,7 +252,7 @@ class ReflectionsDict(dict):
         .. rubric:: Parameters
 
         * ``reflections`` ([Reflection]) : List of
-          :class:`hklpy2.reflection.Reflection` objects.
+          :class:`hklpy2.operations.reflection.Reflection` objects.
         """
         self.order = [r.name for r in reflections]
 

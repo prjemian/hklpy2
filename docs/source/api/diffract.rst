@@ -12,7 +12,7 @@ Diffractometer
   :class:`~hklpy2.diffract.DiffractometerBase()`, adding a variety of
   positioners as ophyd Components.  In an instance of that subclass, user
   sets :attr:`~hklpy2.diffract.DiffractometerBase.backend_solver` by calling
-  :func:`~hklpy2.misc.solver_factory`.  In this call, the user specifies the solver,
+  :func:`~hklpy2.operations.misc.solver_factory`.  In this call, the user specifies the solver,
   the geometry, and defines which Components (of the diffractometer) are to be used as
   pseudos, reals, and extras.  The backend implements
   :meth:`~hklpy2.backends.base.SolverBase.forward`,
@@ -24,12 +24,12 @@ Diffractometer
     .. grid-item-card:: :material-outlined:`check_box;3em` A |solver| is not needed to:
 
       - define subclass of :class:`~hklpy2.diffract.DiffractometerBase()` and create instance
-      - create instance of :class:`~hklpy2.sample.Sample()`
-      - create instance of :class:`~hklpy2.lattice.Lattice()`
+      - create instance of :class:`~hklpy2.operations.sample.Sample()`
+      - create instance of :class:`~hklpy2.operations.lattice.Lattice()`
       - create instance of :class:`~hklpy2.wavelength_support.WavelengthBase()` subclass
       - create instance of :class:`~hklpy2.backends.base.SolverBase()` subclass
       - set :attr:`~hklpy2.wavelength_support.WavelengthBase.wavelength`
-      - list *available* solvers: (:func:`~hklpy2.misc.solvers`)
+      - list *available* solvers: (:func:`~hklpy2.operations.misc.solvers`)
       - review saved orientation details
 
     .. grid-item-card:: :material-outlined:`rule;3em` A |solver| is needed to:
@@ -40,7 +40,7 @@ Diffractometer
         :attr:`~hklpy2.backends.base.SolverBase.real_axis_names`,
         :attr:`~hklpy2.backends.base.SolverBase.extra_axis_names`,
         :attr:`~hklpy2.backends.base.SolverBase.modes`
-      - create instance of :class:`~hklpy2.reflection.Reflection()`
+      - create instance of :class:`~hklpy2.operations.reflection.Reflection()`
       - define or compute a :math:`UB` matrix
         (:meth:`~hklpy2.backends.base.SolverBase.calculateOrientation`)
       - :meth:`~hklpy2.backends.base.SolverBase.forward`

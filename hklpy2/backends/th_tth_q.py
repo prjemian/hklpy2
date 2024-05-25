@@ -17,7 +17,6 @@ Example::
 import logging
 import math
 
-from .. import Reflection
 from .. import SolverError
 from .. import __version__
 from .. import check_value_in_list
@@ -78,11 +77,12 @@ class ThTthSolver(SolverBase):
         self._reflections = []
         self._wavelength = None
 
-    def addReflection(self, value: Reflection):  # FIXME: value is a dict now
+    def addReflection(self, value: dict):
         """Add coordinates of a diffraction condition (a reflection)."""
-        if not isinstance(value, Reflection):
-            raise TypeError(f"Must supply Reflection object, received {value!r}")
+        if not isinstance(value, dict):
+            raise TypeError(f"Must supply dict object, received {value!r}")
         self._reflections.append(value)
+        # FIXME: value is a dict now
 
         # validate: all reflections must have same wavelength
         wavelengths = [r.wavelength for r in self._reflections]

@@ -22,7 +22,7 @@ logger = logging.getLogger(__name__)
 
 
 class SampleError(Hklpy2Error):
-    """Custom exceptions from the :mod:`hklpy2.sample` module."""
+    """Custom exceptions from the :mod:`hklpy2.operations.sample` module."""
 
 
 class Sample:
