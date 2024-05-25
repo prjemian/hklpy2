@@ -11,6 +11,8 @@ from abc import ABC
 from abc import abstractmethod
 
 from .. import __version__
+from ..operations.lattice import Lattice
+from ..operations.reflection import Reflection
 
 logger = logging.getLogger(__name__)
 
@@ -168,8 +170,8 @@ class SolverBase(ABC):
 
     @lattice.setter
     def lattice(self, value):
-        if not isinstance(value, dict):
-            raise TypeError(f"Must supply dict object, received {value!r}")
+        if not isinstance(value, Lattice):
+            raise TypeError(f"Must supply Lattice object, received {value!r}")
         self._lattice = value
 
     @property
@@ -214,5 +216,5 @@ class SolverBase(ABC):
         return []
 
     @abstractmethod
-    def refineLattice(self, reflections):
+    def refineLattice(self, reflections: list[Reflection]) -> Lattice:
         """Refine the lattice parameters from a list of reflections."""

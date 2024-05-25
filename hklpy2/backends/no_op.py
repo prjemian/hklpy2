@@ -17,6 +17,8 @@ Example::
 import logging
 
 from .. import __version__
+from ..operations.lattice import Lattice
+from ..operations.reflection import Reflection
 from .base import SolverBase
 
 logger = logging.getLogger(__name__)
@@ -103,8 +105,6 @@ class NoOpSolver(SolverBase):
     def real_axis_names(self):
         return []  # no axes
 
-    def refineLattice(self, reflections):
+    def refineLattice(self, reflections: list[Reflection]) -> None:
+        """No refinement."""
         return None
-
-    def setLattice(self, lattice):
-        pass

@@ -20,6 +20,8 @@ import math
 from .. import SolverError
 from .. import __version__
 from .. import check_value_in_list
+from ..operations.lattice import Lattice
+from ..operations.reflection import Reflection
 from .base import SolverBase
 
 logger = logging.getLogger(__name__)
@@ -77,12 +79,11 @@ class ThTthSolver(SolverBase):
         self._reflections = []
         self._wavelength = None
 
-    def addReflection(self, value: dict):
+    def addReflection(self, value: Reflection):
         """Add coordinates of a diffraction condition (a reflection)."""
-        if not isinstance(value, dict):
-            raise TypeError(f"Must supply dict object, received {value!r}")
+        if not isinstance(value, Reflection):
+            raise TypeError(f"Must supply Reflection object, received {value!r}")
         self._reflections.append(value)
-        # FIXME: value is a dict now
 
         # validate: all reflections must have same wavelength
         wavelengths = [r.wavelength for r in self._reflections]
@@ -166,9 +167,9 @@ class ThTthSolver(SolverBase):
         axes = {TH_TTH_Q_GEOMETRY: "th tth".split()}
         return axes.get(self.geometry, [])
 
-    def refineLattice(self, reflections): ...  # ignored
-
-    def setLattice(self, lattice): ...  # ignored
+    def refineLattice(self, reflections: list[Reflection]) -> None:
+        """No lattice refinement in this |solver|."""
+        return None
 
     @property
     def wavelength(self):

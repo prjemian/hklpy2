@@ -19,6 +19,8 @@ import logging
 from .. import SolverBase
 from .. import SolverError
 from .. import check_value_in_list
+from ..operations.lattice import Lattice
+from ..operations.reflection import Reflection
 
 try:
     import gi
@@ -251,6 +253,6 @@ class HklSolver(SolverBase):
         """Ordered list of the real axis names (such as th, tth)."""
         return self._geometry.axis_names_get()  # Do NOT sort.
 
-    def refineLattice(self, reflections):  # TODO
+    def refineLattice(self, reflections: list[Reflection]) -> Lattice:
         """Refine the lattice parameters from a list of reflections."""
-        raise NotImplementedError()
+        raise NotImplementedError()  # TODO:
