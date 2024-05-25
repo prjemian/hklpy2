@@ -113,9 +113,18 @@ class DiffractometerBase(PseudoPositioner):
         """
         Add a new reflection.
 
-        pseudos, [reals], [wavelength], [name]
+        .. rubric:: Parameters
+
+        * ``pseudos`` (various): pseudo-space axes and values.
+        * ``reals`` (various): dictionary of real-space axes and values.
+        * ``wavelength`` (float): Wavelength of incident radiation.
+          If ``None``, diffractometer's current wavelength will be assigned.
+        * ``name`` (str): Reference name for this reflection.
+          If ``None``, a random name will be assigned.
         """
-        self.operator.add_reflection(pseudos, reals, wavelength, name)
+        self.operator.add_reflection(
+            pseudos, reals, wavelength or self.wavelength, name
+        )
 
     def add_sample(
         self,

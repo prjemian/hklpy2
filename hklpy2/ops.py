@@ -63,7 +63,11 @@ class SolverOperator:
         self._sample_name = None
         self._samples = {}
         self._solver = None
-        self.axes_xref = {}  # axes names cross-reference: diffractometer: solver
+
+        # axes names cross-reference
+        # keys: diffractometer axis names
+        # values: solver axis names
+        self.axes_xref = {}
 
         if default_sample:
             # first sample is cubic, no reflections
@@ -78,18 +82,32 @@ class SolverOperator:
         * ``pseudos`` (various): pseudo-space axes and values.
         * ``reals`` (various): dictionary of real-space axes and values.
         * ``wavelength`` (float): Wavelength of incident radiation.
-          If ``None``, diffractometer's current wavelength will be assigned.
         * ``name`` (str): Reference name for this reflection.
           If ``None``, a random name will be assigned.
         """
         from .reflection import Reflection
 
-        pdict = self.standardize_pseudos(pseudos, self.diffractometer.pseudo_axis_names)
-        rdict = self.standardize_reals(reals, self.diffractometer.real_axis_names)
-        wavelength = wavelength or self.diffractometer.wavelength
-        print(f"TODO :{pdict=!r} {rdict=!r} {wavelength=!r} {name=!r}")
-        # TODO: Why is a solver needed here?
+        pnames = self.diffractometer.pseudo_axis_names
+        rnames = self.diffractometer.real_axis_names
+        pdict = self.standardize_pseudos(pseudos, pnames)
+        rdict = self.standardize_reals(reals, rnames)
+        # fmt: off
+        logger.debug(
+            "pdict=%r, rdict=%r, wavelength=%r, name=%r",
+            pdict, rdict, wavelength, name
+        )
+        # fmt: on
         refl = Reflection(self.solver, pdict, rdict, wavelength, name)
+        # TODO: Why is a solver needed here?  Refactor to:
+        # refl = Reflection(
+        #     self.solver.geometry,
+        #     pdict,
+        #     rdict,
+        #     wavelength,
+        #     pnames,
+        #     rnames,
+        #     name,
+        # )
         self.sample.reflections.add(refl)
 
     def add_sample(
