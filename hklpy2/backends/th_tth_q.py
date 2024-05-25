@@ -39,7 +39,8 @@ class ThTthSolver(SolverBase):
     ============== =================
 
     Wavelength is specified either directly (``solver.wavelength = 1.0``) or
-    by adding at least one :index:`reflection` (see :class:`Reflection`).  All
+    by adding at least one :index:`reflection` (see
+    :class:`~hklpy2.operations.reflection.Reflection`).  All
     reflections must have the same :index:`wavelength`.
 
     No orientation matrix is used in this geometry.
@@ -77,7 +78,7 @@ class ThTthSolver(SolverBase):
         self._reflections = []
         self._wavelength = None
 
-    def addReflection(self, value: Reflection):
+    def addReflection(self, value: Reflection):  # FIXME: value is a dict now
         """Add coordinates of a diffraction condition (a reflection)."""
         if not isinstance(value, Reflection):
             raise TypeError(f"Must supply Reflection object, received {value!r}")

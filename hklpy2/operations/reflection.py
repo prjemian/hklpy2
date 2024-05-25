@@ -24,7 +24,7 @@ UNUSED_REFLECTION = "unused"
 
 
 class ReflectionError(Hklpy2Error):
-    """Custom exceptions from the :mod:`hklpy2.reflection` module."""
+    """Custom exceptions from the :mod:`hklpy2.operations.reflection` module."""
 
 
 class Reflection:
@@ -53,11 +53,11 @@ class Reflection:
     .. autosummary::
 
         ~_asdict
+        ~_valdate_pseudos
+        ~_validate_reals
+        ~_validate_wavelength
         ~pseudos
         ~reals
-        ~validate_pseudos
-        ~validate_reals
-        ~validate_wavelength
         ~wavelength
     """
 
@@ -84,8 +84,8 @@ class Reflection:
     def _asdict(self):
         """Describe the reflection as a dictionary."""
         return {
-            "name": repr(self.name),
-            "geometry": repr(self.geometry),
+            "name": self.name,
+            "geometry": self.geometry,
             "pseudos": self.pseudos,
             "reals": self.reals,
             "wavelength": self.wavelength,
@@ -98,12 +98,12 @@ class Reflection:
         parameters = [f"{k}={v!r}" for k, v in self._asdict().items()]
         return "Reflection(" + ", ".join(parameters) + ")"
 
-    def validate_pseudos(self, value):
+    def _validate_pseudos(self, value):
         """Raise Exception if pseudos do not match expectations."""
         if not isinstance(value, dict):
             raise TypeError(f"Must supply dict, received pseudos={value!r}")
         for key in value:
-            check_value_in_list("Unexpected pseudo", key, self.pseudo_axis_names)
+            check_value_in_list("pseudo axis", key, self.pseudo_axis_names)
         for key in self.pseudo_axis_names:
             if key not in value:
                 # fmt: off
@@ -113,12 +113,12 @@ class Reflection:
                 )
             # fmt: on
 
-    def validate_reals(self, value):
+    def _validate_reals(self, value):
         """Raise Exception if reals do not match expectations."""
         if not isinstance(value, dict):
             raise TypeError(f"Must supply dict, received reals={value!r}")
         for key in value:
-            check_value_in_list("Unexpected real", key, self.real_axis_names)
+            check_value_in_list("real axis", key, self.real_axis_names)
         for key in self.real_axis_names:
             if key not in value:
                 # fmt: off
@@ -128,11 +128,11 @@ class Reflection:
                 )
             # fmt: on
 
-    def validate_wavelength(self, value):
-        """Raise ReflectionError if pseudos do not match expectations."""
+    def _validate_wavelength(self, value):
+        """Raise exception if pseudos do not match expectations."""
         if not isinstance(value, (int, float)):
             raise TypeError(f"Must supply number, received wavelength={value!r}")
-        if value < 0:
+        if value <= 0:
             raise ValueError(f"Must be >=0, received wavelength={value}")
 
     # --------- get/set properties
@@ -144,7 +144,7 @@ class Reflection:
 
     @name.setter
     def name(self, value):
-        if not isinstance(value, (type(None), str)):
+        if not isinstance(value, str):
             raise TypeError(f"Must supply str, received name={value!r}")
         self._name = value
 
@@ -159,7 +159,7 @@ class Reflection:
 
     @pseudos.setter
     def pseudos(self, values):
-        self.validate_pseudos(values)
+        self._validate_pseudos(values)
         self._pseudos = values
 
     @property
@@ -173,7 +173,7 @@ class Reflection:
 
     @reals.setter
     def reals(self, values):
-        self.validate_reals(values)
+        self._validate_reals(values)
         self._reals = values
 
     @property
@@ -183,7 +183,7 @@ class Reflection:
 
     @wavelength.setter
     def wavelength(self, value):
-        self.validate_wavelength(value)
+        self._validate_wavelength(value)
         self._wavelength = value
 
 
@@ -194,17 +194,19 @@ class ReflectionsDict(dict):
     .. autosummary::
 
         ~_asdict
+        ~_validate_reflection
         ~add
         ~order
         ~prune
-        ~setor
         ~set_orientation_reflections
+        ~setor
         ~swap
     """
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self._order = []
+        self.geometry = None
 
     def __repr__(self):
         """
@@ -237,7 +239,7 @@ class ReflectionsDict(dict):
 
     def set_orientation_reflections(
         self,
-        reflections: [Reflection],
+        reflections: [Reflection],  # type: ignore  # FIXME:
     ) -> None:
         """
         Designate the order of the reflections to be used.
@@ -250,7 +252,7 @@ class ReflectionsDict(dict):
         .. rubric:: Parameters
 
         * ``reflections`` ([Reflection]) : List of
-        :class:`hklpy2.reflection.Reflection` objects.
+          :class:`hklpy2.reflection.Reflection` objects.
         """
         self.order = [r.name for r in reflections]
 
@@ -258,12 +260,8 @@ class ReflectionsDict(dict):
     """Common alias for :meth:`~set_orientation_reflections`."""
 
     def add(self, reflection: Reflection, replace: bool = False) -> None:
-        """Add a a single orientation reflection."""
-        if reflection.name in self and not replace:
-            raise ReflectionError(
-                f"Reflection {reflection.name!r} already defined. "
-                "Set `replace=True` to replace it."
-            )
+        """Add a single orientation reflection."""
+        self._validate_reflection(reflection, replace)
         self[reflection.name] = reflection
         if reflection.name not in self.order:
             self.order.append(reflection.name)
@@ -280,6 +278,28 @@ class ReflectionsDict(dict):
         rname1, rname2 = self.order[:2]
         self._order[0] = rname2
         self._order[1] = rname1
+
+    def _validate_reflection(self, reflection, replace):
+        """Validate the new reflection."""
+        if not isinstance(reflection, Reflection):
+            raise TypeError(
+                f"Unexpected {reflection=!r}.  Must be a 'Reflection' type."
+            )
+        if reflection.name in self and not replace:
+            raise ReflectionError(
+                f"Reflection {reflection.name!r} already defined. "
+                "Set `replace=True` to replace it."
+            )
+        if self.geometry is None or len(self) == 0:
+            self.geometry = reflection.geometry
+        if reflection.geometry != self.geometry:
+            # fmt: off
+            raise ValueError(
+                "geometry does not match previous reflections:"
+                f" received {reflection.geometry!r}"
+                f" previous: {self.geometry!r}."
+            )
+            # fmt: on
 
     # ---- get/set properties
 

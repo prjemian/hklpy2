@@ -2,171 +2,285 @@ from contextlib import nullcontext as does_not_raise
 
 import pytest
 
-from .. import SolverBase
-from .. import solver_factory
-from ..misc import unique_name
-from ..operations.reflection import Reflection
-from ..operations.reflection import ReflectionsDict
+from ..reflection import Reflection
+from ..reflection import ReflectionsDict
 
-no_op_solver = solver_factory("no_op", "")
-
-
-def test_reflection_no_op():
-    """Test with the NoOpSolver"""
-    from ..backends.no_op import NoOpSolver
-
-    gname = "test geometry"
-    solver = NoOpSolver(gname)
-    assert solver is not None
-    assert solver.geometry == gname, f"{solver.geometry=!r}"
-
-    ref1 = Reflection(solver, {}, {}, 1.0, name="r1")
-    assert ref1 is not None
-    assert ref1.name == "r1"
-    # fmt: off
-    expected = (
-        f"Reflection(name='r1', geometry={gname!r},"
-        " pseudos={}, angles={}, wavelength=1.0)"
-    )
-    # fmt: on
-    assert str(ref1) == expected, f"{ref1}"
-
-    ref2 = Reflection(solver, {}, {}, 1.01)
-    assert ref2 is not None
-    assert ref2.name != "r2"
-    assert len(ref2.name) == len(unique_name())
-
-
-def test_reflection_hkl_soleil():
-    """Test with the HklSolver"""
-    from ..backends.hkl_soleil import HklSolver
-
-    gname = "E4CV"
-    solver = HklSolver(gname)
-    assert solver is not None
-
-    assert solver.geometry == gname
-    assert solver.engine == "hkl"
-
-    reals = dict(omega=10, chi=0, phi=0, tth=20)
-    pseudos = dict(h=1, k=0, l=0)
-    ref1 = Reflection(solver, pseudos, reals, 1.0, name="r1")
-    assert ref1.name == "r1"
-    expected = (
-        f"Reflection(name='r1', geometry={gname!r}, "
-        "pseudos={'h': 1, 'k': 0, 'l': 0}, "
-        "angles={'omega': 10, 'chi': 0, 'phi': 0, 'tth': 20}, "
-        "wavelength=1.0)"
-    )
-    assert str(ref1) == expected, f"{ref1}"
-
-
-def test_with_solver_base():
-    """Special case that does not fit constructor test."""
-    reason = "Can't instantiate abstract class SolverBase"
-    with pytest.raises(TypeError) as excuse:
-        Reflection(SolverBase(), None, None, None, name="solver")
-    assert reason in str(excuse.value), f"{excuse=}"
+r100_parms = [
+    "(100)",
+    dict(h=1, k=0, l=0),
+    dict(omega=10, chi=0, phi=0, tth=20),
+    1.0,
+    "E4CV",
+    "h k l".split(),
+    "omega chi phi tth".split(),
+]
+r010_parms = [
+    "(010)",
+    dict(h=0, k=1, l=0),
+    dict(omega=10, chi=-90, phi=0, tth=20),
+    1.0,
+    "E4CV",
+    "h k l".split(),
+    "omega chi phi tth".split(),
+]
+# These two are the same reflection (in content)
+r_1 = ["r1", {"a": 1, "b": 2}, dict(c=1, d=2), 1, "abcd", ["a", "b"], ["c", "d"]]
+r_2 = ["r2", {"a": 1, "b": 2}, dict(c=1, d=2), 1, "abcd", ["a", "b"], ["c", "d"]]
 
 
 @pytest.mark.parametrize(
-    "solver, pseudos, angles, wavelength, rname, outcome, reason",
+    "name, pseudos, reals, wavelength, geometry, pseudo_axis_names, real_axis_names, probe, expect",
     [
+        r100_parms + [does_not_raise(), None],  # good case
+        r010_parms + [does_not_raise(), None],  # good case
         [
-            no_op_solver,
-            None,
-            None,
-            None,
-            None,
+            1,  # wrong type
+            dict(h=1, k=0, l=0),
+            dict(omega=10, chi=0, phi=0, tth=20),
+            1.0,
+            "E4CV",
+            "h k l".split(),
+            "omega chi phi tth".split(),
             pytest.raises(TypeError),
-            "Must supply dict, received pseudos=",
+            "Must supply str",
         ],
         [
-            no_op_solver,
-            {},
-            None,
-            None,
-            None,
+            None,  # wrong type
+            dict(h=1, k=0, l=0),
+            dict(omega=10, chi=0, phi=0, tth=20),
+            1.0,
+            "E4CV",
+            "h k l".split(),
+            "omega chi phi tth".split(),
             pytest.raises(TypeError),
-            "Must supply dict, received angles=",
+            "Must supply str",
         ],
         [
-            no_op_solver,
-            {},
-            {},
-            None,
-            None,
+            "one",
+            [1, 0, 0],  # wrong type
+            dict(omega=10, chi=0, phi=0, tth=20),
+            1.0,
+            "E4CV",
+            "h k l".split(),
+            "omega chi phi tth".split(),
             pytest.raises(TypeError),
-            "Must supply number, received wavelength=",
+            "Must supply dict",
         ],
         [
-            no_op_solver,
-            {},
-            {},
-            -1,
-            None,
+            "one",
+            dict(hh=1, kk=0, ll=0),  # wrong keys
+            dict(omega=10, chi=0, phi=0, tth=20),
+            1.0,
+            "E4CV",
+            "h k l".split(),
+            "omega chi phi tth".split(),
+            pytest.raises(KeyError),
+            "pseudo axis 'hh' unknown",
+        ],
+        [
+            "one",
+            dict(h=1, k=0, l=0, m=0),  # extra key
+            dict(omega=10, chi=0, phi=0, tth=20),
+            1.0,
+            "E4CV",
+            "h k l".split(),
+            "omega chi phi tth".split(),
+            pytest.raises(KeyError),
+            "pseudo axis 'm' unknown",
+        ],
+        [
+            "one",
+            dict(h=1, k=0, l=0),
+            [10, 0, 0, 20],  # wrong type
+            1.0,
+            "E4CV",
+            "h k l".split(),
+            "omega chi phi tth".split(),
+            pytest.raises(TypeError),
+            "Must supply dict,",
+        ],
+        [
+            "one",
+            dict(h=1, k=0, l=0),
+            dict(theta=10, chi=0, phi=0, tth=20),  # wrong key
+            1.0,
+            "E4CV",
+            "h k l".split(),
+            "omega chi phi tth".split(),
+            pytest.raises(KeyError),
+            "real axis 'theta' unknown",
+        ],
+        [
+            "one",
+            dict(h=1, k=0, l=0),
+            dict(omega=10, chi=0, phi=0, tth=20),
+            "1.0",  # wrong type
+            "E4CV",
+            "h k l".split(),
+            "omega chi phi tth".split(),
+            pytest.raises(TypeError),
+            "Must supply number,",
+        ],
+        [
+            "one",
+            dict(h=1, k=0, l=0),
+            dict(omega=10, chi=0, phi=0, tth=20),
+            None,  # wrong type
+            "E4CV",
+            "h k l".split(),
+            "omega chi phi tth".split(),
+            pytest.raises(TypeError),
+            "Must supply number,",
+        ],
+        [
+            "one",
+            dict(h=1, k=0, l=0),
+            dict(omega=10, chi=0, phi=0, tth=20),
+            -1,  # not allowed
+            "E4CV",
+            "h k l".split(),
+            "omega chi phi tth".split(),
             pytest.raises(ValueError),
-            "Must be >=0, received wavelength=",
+            "Must be >=0,",
         ],
         [
-            no_op_solver,
-            {},
-            {},
-            0,
-            None,
+            "one",
+            dict(h=1, k=0, l=0),
+            dict(omega=10, chi=0, phi=0, tth=20),
+            0,  # not allowed: will cause DivideByZero later
+            "E4CV",
+            "h k l".split(),
+            "omega chi phi tth".split(),
+            pytest.raises(ValueError),
+            "Must be >=0,",
+        ],
+        [
+            "one",
+            dict(h=1, k=0, l=0),
+            dict(omega=10, chi=0, phi=0, tth=20),
+            1,
+            None,  # allowed
+            "h k l".split(),
+            "omega chi phi tth".split(),
             does_not_raise(),
             None,
         ],
         [
-            no_op_solver,
-            {},
-            {},
-            0,
-            "reflection",
+            "one",
+            dict(a=1, b=2),
+            dict(c=10, d=0, e=20),
+            1,
+            "test",  # allowed
+            "a b".split(),
+            "c d e".split(),
             does_not_raise(),
             None,
         ],
     ],
 )
-def test_reflection_constructor(solver, pseudos, angles, wavelength, rname, outcome, reason):
-    with outcome as excuse:
-        reflection = Reflection(solver, pseudos, angles, wavelength, name=rname)
-        assert reflection is not None
-        if rname is None:
-            assert isinstance(reflection.name, str)
-            assert len(reflection.name) == len(unique_name())
-        else:
-            assert reflection.name == rname
-        assert reflection.pseudos == pseudos
-        assert reflection.reals == angles
-        assert reflection.wavelength == wavelength
+def test_Reflection(
+    name,
+    pseudos,
+    reals,
+    wavelength,
+    geometry,
+    pseudo_axis_names,
+    real_axis_names,
+    probe,
+    expect,
+):
+    with probe as reason:
+        refl = Reflection(
+            name,
+            pseudos,
+            reals,
+            wavelength,
+            geometry,
+            pseudo_axis_names,
+            real_axis_names,
+        )
+    if expect is not None:
+        assert expect in str(reason), f"{reason}"
+    else:
+        refl_dict = refl._asdict()
+        for k in "name pseudos reals wavelength geometry".split():
+            assert k in refl_dict, f"{k=}"
 
-    if reason is not None:
-        assert reason in str(excuse.value), f"{excuse=}"
+        rep = repr(refl)
+        assert rep.startswith("Reflection(")
+        assert f"{name=!r}" in rep, f"{rep}"
+        assert f"{pseudos=!r}" in rep, f"{rep}"
+        assert f"{reals=!r}" in rep, f"{rep}"
+        assert f"{wavelength=!r}" in rep, f"{rep}"
+        assert f"{geometry=!r}" in rep, f"{rep}"
+        assert rep.endswith(")")
 
 
 @pytest.mark.parametrize(
-    "outcome, reason",
-    [[does_not_raise(), None]],
+    "parms",
+    [
+        [r100_parms],
+        [r010_parms],
+        [r100_parms, r010_parms],
+        [r_1],
+        [r_2],
+        [r_1, r_2],
+    ],
 )
-def test_reflectionsdict_constructor(outcome, reason):
-    with outcome as excuse:
-        rdict = ReflectionsDict()
-        assert rdict is not None
-        assert rdict.order == [], f"{rdict.order=!r}"
-        assert rdict.setor == rdict.set_orientation_reflections
+def test_ReflectionsDict(parms):
+    db = ReflectionsDict()
+    assert len(db._asdict()) == 0
 
-    if reason is not None:
-        assert reason in str(excuse.value), f"{excuse=}"
+    for i, refl in enumerate(parms, start=1):
+        with pytest.raises(TypeError) as reason:
+            db.add(refl)
+        assert "Unexpected reflection=" in str(reason)
+
+        db.add(Reflection(*refl))
+        assert len(db._asdict()) == i
+        assert len(db.order) == i
+
+        r1 = list(db.values())[0]
+        db.setor([r1])
+        assert len(db._asdict()) == i  # unchanged
+        assert len(db.order) == 1
+
+        db.set_orientation_reflections([r1])
+        assert len(db._asdict()) == i  # unchanged
+        assert len(db.order) == 1
+
+        db.order = [r1.name]
+        assert len(db._asdict()) == i  # unchanged
+        assert len(db.order) == 1
 
 
-def test_reflectionsdict_swap():
-    rdict = ReflectionsDict()
-    assert rdict is not None
-    assert rdict.order == [], f"{rdict.order=!r}"
+@pytest.mark.parametrize(
+    "parms, probe, expect",
+    [
+        [[r100_parms], does_not_raise(), None],
+        [[r010_parms], does_not_raise(), None],
+        [[r100_parms, r010_parms], does_not_raise(), None],
+        [[r_1], does_not_raise(), None],
+        [[r_2], does_not_raise(), None],
+        [[r_1, r_2], does_not_raise(), None],
+        [
+            [r100_parms, r010_parms, r_1, r_2],
+            pytest.raises(ValueError),
+            "geometry does not match previous reflections",
+        ],
+        [
+            [r100_parms, r_2],
+            pytest.raises(ValueError),
+            "geometry does not match previous reflections",
+        ],
+    ],
+)
+def test_IncompatibleReflectionsDict(parms, probe, expect):
+    db = ReflectionsDict()
+    assert len(db._asdict()) == 0
 
-    rdict.order = "one two".split()
-    rdict.swap()
-    assert rdict.order == "two one".split()
-    rdict.swap()
-    assert rdict.order == "one two".split()
+    with probe as reason:
+        for i, refl in enumerate(parms, start=1):
+            db.add(Reflection(*refl))
+    if expect is not None:
+        assert expect in str(reason), f"{reason=!r}"
