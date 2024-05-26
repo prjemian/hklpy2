@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
   <script src="../../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script src="../../_static/documentation_options.js?v=04164bd8"></script>
+    <script src="../../_static/documentation_options.js?v=c6ba4e71"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/tabs.js?v=3030b3cb"></script>
@@ -415,8 +415,10 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="kn">from</span> <span class="nn">.operations.reflection</span> <span class="kn">import</span> <span class="n">Reflection</span>
 
-        <span class="n">pnames</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">diffractometer</span><span class="o">.</span><span class="n">pseudo_axis_names</span>
-        <span class="n">rnames</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">diffractometer</span><span class="o">.</span><span class="n">real_axis_names</span>
+        <span class="c1"># reverse xref: solver -&gt; diffractometer</span>
+        <span class="n">reverse</span> <span class="o">=</span> <span class="p">{</span><span class="n">v</span><span class="p">:</span> <span class="n">k</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">axes_xref</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+        <span class="n">pnames</span> <span class="o">=</span> <span class="p">[</span><span class="n">reverse</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">pseudo_axis_names</span><span class="p">]</span>
+        <span class="n">rnames</span> <span class="o">=</span> <span class="p">[</span><span class="n">reverse</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">real_axis_names</span><span class="p">]</span>
         <span class="n">pdict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">standardize_pseudos</span><span class="p">(</span><span class="n">pseudos</span><span class="p">,</span> <span class="n">pnames</span><span class="p">)</span>
         <span class="n">rdict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">standardize_reals</span><span class="p">(</span><span class="n">reals</span><span class="p">,</span> <span class="n">rnames</span><span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
@@ -511,6 +513,7 @@ document.write(`
             <span class="k">for</span> <span class="n">dname</span><span class="p">,</span> <span class="n">pname</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">dnames</span><span class="p">,</span> <span class="n">pnames</span><span class="p">):</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">axes_xref</span><span class="p">[</span><span class="n">dname</span><span class="p">]</span> <span class="o">=</span> <span class="n">pname</span></div>
 
+        <span class="c1"># TODO: What about _pseudos &amp; _reals?</span>
 
 <div class="viewcode-block" id="SolverOperator.check_solver_defined">
 <a class="viewcode-back" href="../../api/ops.html#hklpy2.ops.SolverOperator.check_solver_defined">[docs]</a>

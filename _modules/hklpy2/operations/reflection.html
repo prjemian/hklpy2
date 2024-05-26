@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
   <script src="../../../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script src="../../../_static/documentation_options.js?v=04164bd8"></script>
+    <script src="../../../_static/documentation_options.js?v=c6ba4e71"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/tabs.js?v=3030b3cb"></script>
@@ -316,7 +316,8 @@ document.write(`
                 <article class="bd-article">
                   
   <h1>Source code for hklpy2.operations.reflection</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span></span><span class="c1"># pylint: disable=too-many-arguments</span>
+<span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">Coordinates of a crystalline reflection.</span>
 
 <span class="sd">Associates diffractometer angles (real-space) with crystalline reciprocal-space</span>
@@ -334,6 +335,7 @@ document.write(`
 
 <span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">Hklpy2Error</span>
 <span class="kn">from</span> <span class="nn">.misc</span> <span class="kn">import</span> <span class="n">check_value_in_list</span>
+<span class="kn">from</span> <span class="nn">.misc</span> <span class="kn">import</span> <span class="n">compare_float_dicts</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
@@ -375,6 +377,7 @@ document.write(`
 
 <span class="sd">    .. autosummary::</span>
 
+<span class="sd">        ~__eq__</span>
 <span class="sd">        ~_asdict</span>
 <span class="sd">        ~_validate_pseudos</span>
 <span class="sd">        ~_validate_reals</span>
@@ -393,7 +396,9 @@ document.write(`
         <span class="n">geometry</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">pseudo_axis_names</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span>
         <span class="n">real_axis_names</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span>
+        <span class="n">digits</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">digits</span> <span class="o">=</span> <span class="n">digits</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">geometry</span> <span class="o">=</span> <span class="n">geometry</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">pseudo_axis_names</span> <span class="o">=</span> <span class="n">pseudo_axis_names</span>
@@ -421,8 +426,26 @@ document.write(`
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Standard representation of reflection.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">parameters</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">=</span><span class="si">{</span><span class="n">v</span><span class="si">!r}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_asdict</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">()]</span>
+        <span class="n">parameters</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_asdict</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">float</span><span class="p">):</span>
+                <span class="n">v</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">digits</span><span class="p">)</span>
+            <span class="n">parameters</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">=</span><span class="si">{</span><span class="n">v</span><span class="si">!r}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="s2">&quot;Reflection(&quot;</span> <span class="o">+</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">parameters</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;)&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">r2</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compare this reflection with another for equality.</span>
+
+<span class="sd">        Precision is controlled by rounding to smallest number of digits</span>
+<span class="sd">        between the reflections.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">digits</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">digits</span><span class="p">,</span> <span class="n">r2</span><span class="o">.</span><span class="n">digits</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="n">compare_float_dicts</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pseudos</span><span class="p">,</span> <span class="n">r2</span><span class="o">.</span><span class="n">pseudos</span><span class="p">,</span> <span class="n">digits</span><span class="p">)</span>
+            <span class="ow">and</span> <span class="n">compare_float_dicts</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">reals</span><span class="p">,</span> <span class="n">r2</span><span class="o">.</span><span class="n">reals</span><span class="p">,</span> <span class="n">digits</span><span class="p">)</span>
+            <span class="ow">and</span> <span class="nb">round</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">wavelength</span><span class="p">,</span> <span class="n">digits</span><span class="p">)</span> <span class="o">==</span> <span class="nb">round</span><span class="p">(</span><span class="n">r2</span><span class="o">.</span><span class="n">wavelength</span><span class="p">,</span> <span class="n">digits</span><span class="p">)</span>
+        <span class="p">)</span>
 
 <div class="viewcode-block" id="Reflection._validate_pseudos">
 <a class="viewcode-back" href="../../../api/reflection.html#hklpy2.operations.reflection.Reflection._validate_pseudos">[docs]</a>
@@ -465,9 +488,9 @@ document.write(`
     <span class="k">def</span> <span class="nf">_validate_wavelength</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Raise exception if pseudos do not match expectations.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
-            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Must supply number, received wavelength=</span><span class="si">{</span><span class="n">value</span><span class="si">!r}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Must supply number, received </span><span class="si">{</span><span class="n">value</span><span class="si">=!r}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">value</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Must be &gt;=0, received wavelength=</span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Must be &gt;=0, received </span><span class="si">{</span><span class="n">value</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
 
     <span class="c1"># --------- get/set properties</span>
@@ -582,7 +605,7 @@ document.write(`
 <a class="viewcode-back" href="../../../api/reflection.html#hklpy2.operations.reflection.ReflectionsDict.set_orientation_reflections">[docs]</a>
     <span class="k">def</span> <span class="nf">set_orientation_reflections</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="n">reflections</span><span class="p">:</span> <span class="p">[</span><span class="n">Reflection</span><span class="p">],</span>  <span class="c1"># type: ignore  # FIXME:</span>
+        <span class="n">reflections</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Reflection</span><span class="p">],</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Designate the order of the reflections to be used.</span>
@@ -642,7 +665,7 @@ document.write(`
             <span class="p">)</span>
         <span class="k">if</span> <span class="n">reflection</span><span class="o">.</span><span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">replace</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">ReflectionError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;Reflection </span><span class="si">{</span><span class="n">reflection</span><span class="o">.</span><span class="n">name</span><span class="si">!r}</span><span class="s2"> already defined. &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;Reflection name </span><span class="si">{</span><span class="n">reflection</span><span class="o">.</span><span class="n">name</span><span class="si">!r}</span><span class="s2"> already defined. &quot;</span>
                 <span class="s2">&quot;Set `replace=True` to replace it.&quot;</span>
             <span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">geometry</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
@@ -653,9 +676,20 @@ document.write(`
                 <span class="s2">&quot;geometry does not match previous reflections:&quot;</span>
                 <span class="sa">f</span><span class="s2">&quot; received </span><span class="si">{</span><span class="n">reflection</span><span class="o">.</span><span class="n">geometry</span><span class="si">!r}</span><span class="s2">&quot;</span>
                 <span class="sa">f</span><span class="s2">&quot; previous: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">geometry</span><span class="si">!r}</span><span class="s2">.&quot;</span>
-            <span class="p">)</span></div>
-
+            <span class="p">)</span>
             <span class="c1"># fmt: on</span>
+
+        <span class="c1"># Compare with all existing reflections for duplicate contents.</span>
+        <span class="n">this</span> <span class="o">=</span> <span class="n">reflection</span><span class="o">.</span><span class="n">_asdict</span><span class="p">()</span>
+        <span class="n">this</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">)</span>  <span class="c1"># might use a different name</span>
+        <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+            <span class="n">existing</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">_asdict</span><span class="p">()</span>
+            <span class="n">existing</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">compare_float_dicts</span><span class="p">(</span><span class="n">this</span><span class="p">,</span> <span class="n">existing</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="n">ReflectionError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;Reflection </span><span class="si">{</span><span class="n">reflection</span><span class="si">!r}</span><span class="s2"> matches existing </span><span class="si">{</span><span class="n">v</span><span class="o">.</span><span class="n">name</span><span class="si">!r}</span><span class="s2">&quot;</span>
+                <span class="p">)</span></div>
+
 
     <span class="c1"># ---- get/set properties</span>
 
