@@ -95,7 +95,7 @@ class E4CV(DiffractometerBase, MixinHkl):
             *args,
             solver="hkl_soleil",
             geometry="E4CV",
-            solver_kwargs=dict(engine="hkl"),
+            solver_kwargs={"engine": "hkl"},
             **kwargs,
         )
 
@@ -108,8 +108,13 @@ class E6C(DiffractometerBase, MixinHkl):
     """
 
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.set_solver("hkl_soleil", "E6C", engine="hkl")
+        super().__init__(
+            *args,
+            solver="hkl_soleil",
+            geometry="E6C",
+            solver_kwargs={"engine": "hkl"},
+            **kwargs,
+        )
 
 
 class Petra3_p09_eh2(DiffractometerBase, MixinHkl):
@@ -120,8 +125,13 @@ class Petra3_p09_eh2(DiffractometerBase, MixinHkl):
     """
 
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.set_solver("hkl_soleil", "PETRA3 P09 EH2", engine="hkl")
+        super().__init__(
+            *args,
+            solver="hkl_soleil",
+            geometry="PETRA3 P09 EH2",
+            solver_kwargs={"engine": "hkl"},
+            **kwargs,
+        )
 
 
 class Petra3_p23_4c(DiffractometerBase, MixinHkl):
@@ -132,8 +142,13 @@ class Petra3_p23_4c(DiffractometerBase, MixinHkl):
     """
 
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.set_solver("hkl_soleil", "PETRA3 P23 4C", engine="hkl")
+        super().__init__(
+            *args,
+            solver="hkl_soleil",
+            geometry="PETRA3 P23 4C",
+            solver_kwargs={"engine": "hkl"},
+            **kwargs,
+        )
 
 
 class Petra3_p23_6c(DiffractometerBase, MixinHkl):
@@ -144,8 +159,13 @@ class Petra3_p23_6c(DiffractometerBase, MixinHkl):
     """
 
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.set_solver("hkl_soleil", "PETRA3 P23 6C", engine="hkl")
+        super().__init__(
+            *args,
+            solver="hkl_soleil",
+            geometry="PETRA3 P23 6C",
+            solver_kwargs={"engine": "hkl"},
+            **kwargs,
+        )
 
 
 class Theta2Theta(DiffractometerBase):
@@ -156,8 +176,12 @@ class Theta2Theta(DiffractometerBase):
     """
 
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.set_solver("th_tth", "TH TTH Q")
+        super().__init__(
+            *args,
+            solver="th_tth",
+            geometry="TH TTH Q",
+            **kwargs,
+        )
 
 
 class SimulatedE4CV(E4CV, MixinHkl):

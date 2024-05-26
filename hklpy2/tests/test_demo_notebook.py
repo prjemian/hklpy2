@@ -40,8 +40,13 @@ def fourc():
         energy = Cpt(SoftPositioner, limits=(5, 35), init_pos=12.4, kind=NORMAL_HINTED)
 
         def __init__(self, *args, **kwargs):
-            super().__init__(*args, **kwargs)
-            self.set_solver("hkl_soleil", "E4CV", engine="hkl")
+            super().__init__(
+                *args,
+                solver="hkl_soleil",
+                geometry="E4CV",
+                solver_kwargs={"engine": "hkl"},
+                **kwargs,
+            )
             self.operator.auto_assign_axes()
 
     fourc = Fourc("", name="fourc")

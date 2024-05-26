@@ -18,8 +18,12 @@ def sim():
         orange = Cpt(SoftPositioner, init_pos=0)
 
         def __init__(self, *args, **kwargs):
-            super().__init__(*args, **kwargs)
-            self.set_solver("th_tth", TH_TTH_Q_GEOMETRY)
+            super().__init__(
+                *args,
+                solver="th_tth",
+                geometry=TH_TTH_Q_GEOMETRY,
+                **kwargs,
+            )
             self.operator.auto_assign_axes()
 
     sim = Simulator("", name="sim")

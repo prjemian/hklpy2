@@ -45,8 +45,17 @@ class Fourc(DiffractometerBase):
     nu = Cpt(SoftPositioner, limits=(-170, 170), init_pos=0, kind=NORMAL_HINTED)
     omicron = Cpt(SoftPositioner, limits=(-170, 170), init_pos=0, kind=NORMAL_HINTED)
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(
+            *args,
+            solver="hkl_soleil",
+            geometry="E4CV",
+            solver_kwargs={"engine": "hkl"},
+            **kwargs,
+        )
 
-class Th2Th(DiffractometerBase):
+
+class NoOpTh2Th(DiffractometerBase):
     """Test case."""
 
     q = Cpt(PseudoSingle, "", kind=NORMAL_HINTED)  # noqa: E741
@@ -54,16 +63,35 @@ class Th2Th(DiffractometerBase):
     th = Cpt(SoftPositioner, limits=(-90, 90), init_pos=0, kind=NORMAL_HINTED)
     tth = Cpt(SoftPositioner, limits=(-170, 170), init_pos=0, kind=NORMAL_HINTED)
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(
+            *args,
+            solver="no_op",
+            geometry="TH TTH Q",
+            **kwargs,
+        )
+
 
 class TwoC(DiffractometerBase):
     """Test case with custom names and additional axes."""
 
     # sorted alphabetically
-    d_spacing = Cpt(PseudoSingle, "", kind=NORMAL_HINTED)  # noqa: E741
+    another = Cpt(PseudoSingle, "", kind=NORMAL_HINTED)  # noqa: E741
     q = Cpt(PseudoSingle, "", kind=NORMAL_HINTED)  # noqa: E741
+    horizontal = Cpt(SoftPositioner, limits=(-10, 855), init_pos=0, kind=NORMAL_HINTED)
     theta = Cpt(SoftPositioner, limits=(-90, 90), init_pos=0, kind=NORMAL_HINTED)
     ttheta = Cpt(SoftPositioner, limits=(-170, 170), init_pos=0, kind=NORMAL_HINTED)
-    x = Cpt(SoftPositioner, limits=(-10, 855), init_pos=0, kind=NORMAL_HINTED)
+    vertical = Cpt(SoftPositioner, limits=(-10, 855), init_pos=0, kind=NORMAL_HINTED)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(
+            *args,
+            solver="th_tth",
+            geometry="TH TTH Q",
+            pseudos=["q"],
+            reals="theta ttheta".split(),
+            **kwargs,
+        )
 
 
 def test_DiffractometerBase():
@@ -76,7 +104,7 @@ def test_DiffractometerBase():
 
 
 @pytest.mark.parametrize(
-    "dclass, npseudos, nreals", [[Fourc, 7, 8], [Th2Th, 1, 2], [TwoC, 2, 3]]
+    "dclass, npseudos, nreals", [[Fourc, 7, 8], [NoOpTh2Th, 1, 2], [TwoC, 2, 4]]
 )
 @pytest.mark.parametrize(
     "solver, gname",
@@ -147,7 +175,7 @@ def test_extras():
 
 
 def test_remove_sample():
-    sim = Th2Th("", name="sim")
+    sim = NoOpTh2Th("", name="sim")
     assert len(sim.samples) == 1
     sim.operator.remove_sample("cubic")
     assert len(sim.samples) == 0
