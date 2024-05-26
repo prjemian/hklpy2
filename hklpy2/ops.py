@@ -41,6 +41,7 @@ class SolverOperator:
 
         ~add_reflection
         ~add_sample
+        ~assign_axes
         ~auto_assign_axes
         ~check_solver_defined
         ~forward
@@ -141,6 +142,46 @@ class SolverOperator:
         self.sample = name
         return self._samples[name]
 
+    def assign_axes(
+        self, pseudos: list[str], reals: list[str], extras: list[str]
+    ) -> None:
+        """
+        Designate attributes for use by the PseudoPositioner class.
+
+        Result is re-definition of 'self.axes_xref'.
+        """
+        pseudos = pseudos or []
+        reals = reals or []
+        extras = extras or []
+
+        def itemize(label, select, full):
+            keys = [name for name, _obj in full]
+            for attr in select:
+                if attr not in keys:
+                    raise KeyError(f"Unknown {label}={attr!r}.  Known: {keys!r}")
+            return keys
+
+        def reference(dnames, snames):
+            for dname, sname in zip(dnames, snames):
+                self.axes_xref[dname] = sname
+                both_p_r.remove(dname)
+
+        # check for duplicates
+        if len(set(pseudos + reals + extras)) != len(pseudos + reals + extras):
+            raise ValueError("Axis name cannot be in more than list.")
+
+        dfrct = self.diffractometer
+        all_pseudos = itemize("pseudo", pseudos, dfrct._get_pseudo_positioners())
+        all_reals = itemize("real", reals, dfrct._get_real_positioners())
+        both_p_r = all_pseudos + all_reals
+
+        self.axes_xref = {}
+        solver = dfrct.operator.solver
+        reference(pseudos, solver.pseudo_axis_names)
+        reference(reals, solver.real_axis_names)
+        reference(extras, solver.extra_axis_names)
+        logger.debug("axes_xref=%r", self.axes_xref)
+
     def auto_assign_axes(self):
         """
         Automatically assign diffractometer axes to this solver.
@@ -155,33 +196,29 @@ class SolverOperator:
               * :attr:`~hklpy2.backends.base.SolverBase.extra_axis_names`
               * :attr:`~hklpy2.backends.base.SolverBase.pseudo_axis_names`
               * :attr:`~hklpy2.backends.base.SolverBase.real_axis_names`
-
-        Example::
-
-            >>> fourc.operator.solver
-            HklSolver(name='hkl_soleil', version='v5.0.0.3434', geometry='E4CV', engine='hkl', mode='bissector')
-            >>> fourc.operator.real_axis_names
-            ['omega', 'chi', 'phi', 'tth']
-            >>> fourc.operator.auto_assign_axes()
-            >>> fourc.operator.axes_xref
-            {'h': 'h', 'k': 'k', 'l': 'l', 'theta': 'omega', 'chi': 'chi', 'phi': 'phi', 'ttheta': 'tth'}
         """
-        self.axes_xref = {}
-        for space in "pseudo real extra".split():
-            if space == "extra":
-                dnames = (
-                    self.diffractometer.pseudo_axis_names
-                    + self.diffractometer.real_axis_names
-                )
-            else:
-                dnames = getattr(self.diffractometer, f"{space}_axis_names")
-            pnames = getattr(self.solver, f"{space}_axis_names")
-            np = len(pnames)
-            if len(dnames) < np:
-                raise SolverOperatorError(f"Need these {space} axes: {pnames!r}")
-            for dname, pname in zip(dnames, pnames):
-                self.axes_xref[dname] = pname
-        # TODO: What about _pseudos & _reals?
+
+        def get_keys(getter):
+            return [name for name, _obj in getter]
+
+        def lister(dnames, snames):
+            items = dnames[: len(snames)]  # first ones expected by the solver
+            for dname in items:
+                both_p_r.remove(dname)
+            return items
+
+        all_pseudos = get_keys(self.diffractometer._get_pseudo_positioners())
+        all_reals = get_keys(self.diffractometer._get_real_positioners())
+        both_p_r = all_pseudos + all_reals
+
+        solver = self.diffractometer.operator.solver
+        pseudos = lister(all_pseudos, solver.pseudo_axis_names)
+        reals = lister(all_reals, solver.real_axis_names)
+        extras = lister(both_p_r, solver.extra_axis_names)
+
+        self.assign_axes(pseudos, reals, extras)
+
+        logger.debug("axes_xref=%r", self.axes_xref)
 
     def check_solver_defined(self):
         """Raise DiffractometerError if solver is not defined."""
@@ -222,28 +259,22 @@ class SolverOperator:
         self,
         name: str,
         geometry: str,
-        pseudos: list = [],  # TODO:
-        reals: list = [],  # TODO:
-        extras: list = [],  # TODO:
         **kwargs: dict,
     ) -> SolverBase:
         """
-        Create an instance of the |solver| and geometry.
+        Create an instance of the backend |solver| library and geometry.
 
         .. rubric:: Parameters
 
-        * ``solver`` (str): Name of the backend |solver| library.
-        * ``geometry`` (str): Name of the backend |solver| geometry.
-        * ``kwargs`` (dict): Keyword arguments, as needed by the chosen |solver|.
+        * ``solver`` (str): Name of the |solver| library.
+        * ``geometry`` (str): Name of the |solver| geometry.
+        * ``kwargs`` (dict): Any keyword arguments needed by the |solver|.
         """
         logger.debug(
-            "(%s) solver=%r, geometry=%r, pseudos=%r, reals=%r, extras=%r, kwargs=%r",
+            "(%s) solver=%r, geometry=%r, kwargs=%r",
             self.__class__.__name__,
             name,
             geometry,
-            pseudos,
-            reals,
-            extras,
             kwargs,
         )
         self._solver = solver_factory(name, geometry, **kwargs)
