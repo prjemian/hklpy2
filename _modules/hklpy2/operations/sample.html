@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
   <script src="../../../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script src="../../../_static/documentation_options.js?v=e4127da3"></script>
+    <script src="../../../_static/documentation_options.js?v=7321b80f"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/tabs.js?v=3030b3cb"></script>
@@ -327,11 +327,9 @@ document.write(`
 <span class="sd">    ~SampleError</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="c1"># TODO: When solver is needed, set it up first.</span>
 <span class="kn">import</span> <span class="nn">logging</span>
 
 <span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">Hklpy2Error</span>
-<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">SolverBase</span>
 <span class="kn">from</span> <span class="nn">.lattice</span> <span class="kn">import</span> <span class="n">Lattice</span>
 <span class="kn">from</span> <span class="nn">.misc</span> <span class="kn">import</span> <span class="n">unique_name</span>
 <span class="kn">from</span> <span class="nn">.reflection</span> <span class="kn">import</span> <span class="n">ReflectionsDict</span>
@@ -352,6 +350,8 @@ document.write(`
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A crystalline sample mounted on a diffractometer.</span>
 
+<span class="sd">    .. note:: Internal use only.</span>
+
 <span class="sd">    .. rubric:: Python Methods</span>
 
 <span class="sd">    .. autosummary::</span>
@@ -365,25 +365,25 @@ document.write(`
 <span class="sd">        ~lattice</span>
 <span class="sd">        ~name</span>
 <span class="sd">        ~reflections</span>
-<span class="sd">        ~solver</span>
 <span class="sd">        ~U</span>
 <span class="sd">        ~UB</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
+        <span class="n">operator</span><span class="p">,</span>
         <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">lattice</span><span class="p">:</span> <span class="n">Lattice</span><span class="p">,</span>
-        <span class="n">solver</span><span class="p">:</span> <span class="n">SolverBase</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="kn">from</span> <span class="nn">..ops</span> <span class="kn">import</span> <span class="n">SolverOperator</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">operator</span><span class="p">,</span> <span class="n">SolverOperator</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unexpected type </span><span class="si">{</span><span class="n">operator</span><span class="si">=!r}</span><span class="s2">, expected SolverOperator&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span> <span class="ow">or</span> <span class="n">unique_name</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">operator</span> <span class="o">=</span> <span class="n">operator</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">lattice</span> <span class="o">=</span> <span class="n">lattice</span>
-        <span class="k">if</span> <span class="n">solver</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_solver</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># bypass setter&#39;s validations</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">solver</span> <span class="o">=</span> <span class="n">solver</span>
         <span class="c1"># TODO: reciprocal_lattice</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">reflections</span> <span class="o">=</span> <span class="n">ReflectionsDict</span><span class="p">()</span>  <span class="c1"># TODO: can refactor as dict?  (ordering)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reflections</span> <span class="o">=</span> <span class="n">ReflectionsDict</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Sample(name=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">!r}</span><span class="s2">, lattice=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">lattice</span><span class="si">!r}</span><span class="s2">)&quot;</span>
@@ -392,11 +392,11 @@ document.write(`
 <a class="viewcode-back" href="../../../api/sample.html#hklpy2.operations.sample.Sample.refine_lattice">[docs]</a>
     <span class="k">def</span> <span class="nf">refine_lattice</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Refine the lattice parameters from 3 or more reflections.&quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">self</span><span class="o">.</span><span class="n">reflections</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">reflections</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">SampleError</span><span class="p">(</span><span class="s2">&quot;Need 3 or more reflections to refine lattice.&quot;</span><span class="p">)</span></div>
 
 
-        <span class="c1"># self.solver.refineLattice()  # TODO</span>
+        <span class="c1"># self.operator.refineLattice()  # TODO</span>
 
     <span class="c1"># --------- get/set properties</span>
 
@@ -434,19 +434,6 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">_reflections</span> <span class="o">=</span> <span class="n">value</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">solver</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Diffractometer |solver|.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_solver</span>
-
-    <span class="nd">@solver</span><span class="o">.</span><span class="n">setter</span>
-    <span class="k">def</span> <span class="nf">solver</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">SolverBase</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">issubclass</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">value</span><span class="p">),</span> <span class="n">SolverBase</span><span class="p">)):</span>
-            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Must supply SolverBase() object, received </span><span class="si">{</span><span class="n">value</span><span class="si">!r}</span><span class="s2">&quot;</span><span class="p">)</span>
-        <span class="c1"># note: calling SolverBase() will always generate a TypeError</span>
-        <span class="c1"># &quot;Can&#39;t instantiate abstract class SolverBase with abstract methods&quot; ...</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_solver</span> <span class="o">=</span> <span class="n">value</span>
-
-    <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">U</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the matrix, U, crystal orientation on the diffractometer.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="kc">None</span>  <span class="c1"># TODO</span>
@@ -461,7 +448,7 @@ document.write(`
 <span class="sd">        * :math:`U` - rotation matrix, relative orientation of crystal on diffractometer</span>
 <span class="sd">        &quot;&quot;&quot;</span></div>
 
-        <span class="c1"># self.solver.calculateOrientation()  # TODO</span>
+        <span class="c1"># self.operator.calculateOrientation()  # TODO</span>
 </pre></div>
 
                 </article>

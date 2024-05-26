@@ -38,11 +38,13 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
   <script src="../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script src="../_static/documentation_options.js?v=e4127da3"></script>
+    <script src="../_static/documentation_options.js?v=7321b80f"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'api/ops';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -422,6 +424,86 @@ library.</p>
 </tr>
 </tbody>
 </table>
+<dl class="py class">
+<dt class="sig sig-object py" id="hklpy2.ops.SolverOperator.Sample">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Sample</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">operator</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">lattice</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="lattice.html#hklpy2.operations.lattice.Lattice" title="hklpy2.operations.lattice.Lattice"><span class="pre">Lattice</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#hklpy2.ops.SolverOperator.Sample" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>A crystalline sample mounted on a diffractometer.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Internal use only.</p>
+</div>
+<p class="rubric">Python Methods</p>
+<table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.ops.SolverOperator.Sample.refine_lattice" title="hklpy2.ops.SolverOperator.Sample.refine_lattice"><code class="xref py py-obj docutils literal notranslate"><span class="pre">refine_lattice</span></code></a>()</p></td>
+<td><p>Refine the lattice parameters from 3 or more reflections.</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Python Properties</p>
+<table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.ops.SolverOperator.Sample.lattice" title="hklpy2.ops.SolverOperator.Sample.lattice"><code class="xref py py-obj docutils literal notranslate"><span class="pre">lattice</span></code></a></p></td>
+<td><p>Sample crystal lattice.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.ops.SolverOperator.Sample.name" title="hklpy2.ops.SolverOperator.Sample.name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></a></p></td>
+<td><p>Sample name.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.ops.SolverOperator.Sample.reflections" title="hklpy2.ops.SolverOperator.Sample.reflections"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reflections</span></code></a></p></td>
+<td><p>Ordered dictionary of orientation reflections.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.ops.SolverOperator.Sample.U" title="hklpy2.ops.SolverOperator.Sample.U"><code class="xref py py-obj docutils literal notranslate"><span class="pre">U</span></code></a></p></td>
+<td><p>Return the matrix, U, crystal orientation on the diffractometer.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.ops.SolverOperator.Sample.UB" title="hklpy2.ops.SolverOperator.Sample.UB"><code class="xref py py-obj docutils literal notranslate"><span class="pre">UB</span></code></a></p></td>
+<td><p>Return the crystal orientation matrix, UB.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py property">
+<dt class="sig sig-object py" id="hklpy2.ops.SolverOperator.Sample.U">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">U</span></span><a class="headerlink" href="#hklpy2.ops.SolverOperator.Sample.U" title="Link to this definition">#</a></dt>
+<dd><p>Return the matrix, U, crystal orientation on the diffractometer.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="hklpy2.ops.SolverOperator.Sample.UB">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">UB</span></span><a class="headerlink" href="#hklpy2.ops.SolverOperator.Sample.UB" title="Link to this definition">#</a></dt>
+<dd><p>Return the crystal orientation matrix, UB.</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(UB\)</span> - orientation matrix</p></li>
+<li><p><span class="math notranslate nohighlight">\(B\)</span> - crystal lattice on the diffractometer</p></li>
+<li><p><span class="math notranslate nohighlight">\(U\)</span> - rotation matrix, relative orientation of crystal on diffractometer</p></li>
+</ul>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="hklpy2.ops.SolverOperator.Sample.lattice">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">lattice</span></span><a class="headerlink" href="#hklpy2.ops.SolverOperator.Sample.lattice" title="Link to this definition">#</a></dt>
+<dd><p>Sample crystal lattice.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="hklpy2.ops.SolverOperator.Sample.name">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#hklpy2.ops.SolverOperator.Sample.name" title="Link to this definition">#</a></dt>
+<dd><p>Sample name.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="hklpy2.ops.SolverOperator.Sample.refine_lattice">
+<span class="sig-name descname"><span class="pre">refine_lattice</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#hklpy2.ops.SolverOperator.Sample.refine_lattice" title="Link to this definition">#</a></dt>
+<dd><p>Refine the lattice parameters from 3 or more reflections.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="hklpy2.ops.SolverOperator.Sample.reflections">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">reflections</span></span><a class="headerlink" href="#hklpy2.ops.SolverOperator.Sample.reflections" title="Link to this definition">#</a></dt>
+<dd><p>Ordered dictionary of orientation reflections.</p>
+</dd></dl>
+
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="hklpy2.ops.SolverOperator.add_reflection">
 <span class="sig-name descname"><span class="pre">add_reflection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pseudos</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reals</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wavelength</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hklpy2/ops.html#SolverOperator.add_reflection"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.ops.SolverOperator.add_reflection" title="Link to this definition">#</a></dt>
@@ -635,6 +717,15 @@ set self.__traceback__ to tb and return self.</p>
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-hklpy2.ops">Source Code Documentation</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.ops.SolverOperator"><code class="docutils literal notranslate"><span class="pre">SolverOperator</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.ops.SolverOperator.Sample"><code class="docutils literal notranslate"><span class="pre">SolverOperator.Sample</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.ops.SolverOperator.Sample.U"><code class="docutils literal notranslate"><span class="pre">SolverOperator.Sample.U</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.ops.SolverOperator.Sample.UB"><code class="docutils literal notranslate"><span class="pre">SolverOperator.Sample.UB</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.ops.SolverOperator.Sample.lattice"><code class="docutils literal notranslate"><span class="pre">SolverOperator.Sample.lattice</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.ops.SolverOperator.Sample.name"><code class="docutils literal notranslate"><span class="pre">SolverOperator.Sample.name</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.ops.SolverOperator.Sample.refine_lattice"><code class="docutils literal notranslate"><span class="pre">SolverOperator.Sample.refine_lattice()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.ops.SolverOperator.Sample.reflections"><code class="docutils literal notranslate"><span class="pre">SolverOperator.Sample.reflections</span></code></a></li>
+</ul>
+</li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.ops.SolverOperator.add_reflection"><code class="docutils literal notranslate"><span class="pre">SolverOperator.add_reflection()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.ops.SolverOperator.add_sample"><code class="docutils literal notranslate"><span class="pre">SolverOperator.add_sample()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.ops.SolverOperator.auto_assign_axes"><code class="docutils literal notranslate"><span class="pre">SolverOperator.auto_assign_axes()</span></code></a></li>
