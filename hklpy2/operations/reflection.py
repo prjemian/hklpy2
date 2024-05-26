@@ -13,9 +13,11 @@ Associates diffractometer angles (real-space) with crystalline reciprocal-space
 """
 
 import logging
+import math
 
 from .. import Hklpy2Error
 from .misc import check_value_in_list
+from .misc import compare_float_dicts
 
 logger = logging.getLogger(__name__)
 
@@ -52,6 +54,7 @@ class Reflection:
 
     .. autosummary::
 
+        ~__eq__
         ~_asdict
         ~_validate_pseudos
         ~_validate_reals
@@ -70,7 +73,9 @@ class Reflection:
         geometry: str,
         pseudo_axis_names: list,
         real_axis_names: list,
+        digits: int = 4,
     ) -> None:
+        self.digits = digits
         self.geometry = geometry
         self.name = name
         self.pseudo_axis_names = pseudo_axis_names
@@ -95,8 +100,21 @@ class Reflection:
         """
         Standard representation of reflection.
         """
-        parameters = [f"{k}={v!r}" for k, v in self._asdict().items()]
+        parameters = []
+        for k, v in self._asdict().items():
+            if isinstance(v, float):
+                v = round(v, self.digits)
+            parameters.append(f"{k}={v!r}")
         return "Reflection(" + ", ".join(parameters) + ")"
+
+    def __eq__(self, r2):
+        """Compare this reflection with another for equality, within tolerance."""
+        digits = min(self.digits, r2.digits)
+        return (
+            compare_float_dicts(self.pseudos, r2.pseudos, digits)
+            and compare_float_dicts(self.reals, r2.reals, digits)
+            and round(self.wavelength, digits) == round(r2.wavelength, digits)
+        )
 
     def _validate_pseudos(self, value):
         """Raise Exception if pseudos do not match expectations."""
@@ -287,7 +305,7 @@ class ReflectionsDict(dict):
             )
         if reflection.name in self and not replace:
             raise ReflectionError(
-                f"Reflection {reflection.name!r} already defined. "
+                f"Reflection name {reflection.name!r} already defined. "
                 "Set `replace=True` to replace it."
             )
         if self.geometry is None or len(self) == 0:
@@ -300,6 +318,17 @@ class ReflectionsDict(dict):
                 f" previous: {self.geometry!r}."
             )
             # fmt: on
+
+        # Compare with all existing reflections for duplicate contents.
+        this = reflection._asdict()
+        this.pop("name")  # might use a different name
+        for v in self.values():
+            existing = v._asdict()
+            existing.pop("name")
+            if compare_float_dicts(this, existing):
+                raise ReflectionError(
+                    f"New reflection {reflection!r} matches existing {v.name!r}"
+                )
 
     # ---- get/set properties
 

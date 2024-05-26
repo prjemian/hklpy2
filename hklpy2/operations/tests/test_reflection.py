@@ -28,6 +28,9 @@ r010_parms = [
 r_1 = ["r1", {"a": 1, "b": 2}, dict(c=1, d=2), 1, "abcd", ["a", "b"], ["c", "d"]]
 r_2 = ["r2", {"a": 1, "b": 2}, dict(c=1, d=2), 1, "abcd", ["a", "b"], ["c", "d"]]
 r_3 = ["r3", {"a": 1, "b": 2}, dict(c=1, d=2), 1, "abcd", ["a", "b"], ["c", "d"]]
+# different ones
+r_4 = ["r4", {"a": 1, "b": 3}, dict(c=1, d=2), 1, "abcd", ["a", "b"], ["c", "d"]]
+r_5 = ["r5", {"a": 1, "b": 4}, dict(c=1, d=2), 1, "abcd", ["a", "b"], ["c", "d"]]
 
 
 @pytest.mark.parametrize(
@@ -248,7 +251,7 @@ def test_Reflection(
         [r100_parms, r010_parms],
         [r_1],
         [r_2],
-        [r_1, r_2],
+        [r_1, r_4],
     ],
 )
 def test_ReflectionsDict(parms):
@@ -286,9 +289,10 @@ def test_ReflectionsDict(parms):
         [[r100_parms, r010_parms], does_not_raise(), None],
         [[r_1], does_not_raise(), None],
         [[r_2], does_not_raise(), None],
-        [[r_1, r_2], does_not_raise(), None],
+        [[r_1, r_2], pytest.raises(ReflectionError), "matches existing"],
+        [[r_1, r_4], does_not_raise(), None],
         [
-            [r100_parms, r010_parms, r_1, r_2],
+            [r100_parms, r010_parms, r_1, r_4],
             pytest.raises(ValueError),
             "geometry does not match previous reflections",
         ],
@@ -310,27 +314,31 @@ def test_IncompatibleReflectionsDict(parms, probe, expect):
         assert expect in str(reason), f"{reason=!r}"
 
 
-def test_duplicate():
+def test_duplicate_reflection():
     db = ReflectionsDict()
     db.add(Reflection(*r_1))
     with pytest.raises(ReflectionError) as reason:
         db.add(Reflection(*r_1))
     assert "already defined." in str(reason), f"{reason=!r}"
 
+    with pytest.raises(ReflectionError) as reason:
+        db.add(Reflection(*r_2))
+    assert "matches existing" in str(reason), f"{reason=!r}"
+
 
 def test_swap():
     db = ReflectionsDict()
     db.add(Reflection(*r_1))
-    db.add(Reflection(*r_2))
-    db.add(Reflection(*r_3))
-    assert db.order == "r1 r2 r3".split()
+    db.add(Reflection(*r_4))
+    db.add(Reflection(*r_5))
+    assert db.order == "r1 r4 r5".split()
 
-    db.order = ["r1", "r3"]
-    assert db.order == "r1 r3".split(), f"{db.order=!r}"
+    db.order = ["r1", "r4"]
+    assert db.order == "r1 r4".split(), f"{db.order=!r}"
     db.swap()
-    assert db.order == "r3 r1".split(), f"{db.order=!r}"
+    assert db.order == "r4 r1".split(), f"{db.order=!r}"
 
-    db.order = "r2", "r3"  # repeat as tuple
-    assert db.order == "r2 r3".split(), f"{db.order=!r}"
+    db.order = "r5", "r4"  # repeat as tuple
+    assert db.order == "r5 r4".split(), f"{db.order=!r}"
     db.swap()
-    assert db.order == "r3 r2".split(), f"{db.order=!r}"
+    assert db.order == "r4 r5".split(), f"{db.order=!r}"
