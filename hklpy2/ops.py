@@ -59,6 +59,8 @@ class SolverOperator:
         ~solver
     """
 
+    from .operations.sample import Sample
+
     def __init__(self, diffractometer, default_sample: bool = True) -> None:
         self.diffractometer = diffractometer
         self._sample_name = None
@@ -133,7 +135,7 @@ class SolverOperator:
             if not replace:
                 raise SolverOperatorError(f"Sample {name=!r} already defined.")
         lattice = Lattice(a, b, c, alpha, beta, gamma, digits)
-        self._samples[name] = Sample(name, lattice)
+        self._samples[name] = Sample(self, name, lattice)
         self.sample = name
         return self._samples[name]
 

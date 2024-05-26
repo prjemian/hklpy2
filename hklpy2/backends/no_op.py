@@ -17,7 +17,6 @@ Example::
 import logging
 
 from .. import __version__
-from ..operations.lattice import Lattice
 from ..operations.reflection import Reflection
 from .base import SolverBase
 

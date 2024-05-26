@@ -20,7 +20,6 @@ import math
 from .. import SolverError
 from .. import __version__
 from .. import check_value_in_list
-from ..operations.lattice import Lattice
 from ..operations.reflection import Reflection
 from .base import SolverBase
 
