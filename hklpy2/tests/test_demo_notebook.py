@@ -105,3 +105,14 @@ def test_as_in_demo_notebook(fourc):
 
     # fourc.sample.reflections.swap()
     # assert fourc.sample.reflections.order == "r2 r1".split()
+
+
+def test_add_reflections_simple():
+    fourc = hklpy2.SimulatedE4CV("", name="fourc")
+    fourc.add_reflection((1, 0, 0), (10, 0, 0, 20), name="r1")
+    fourc.add_reflection((0, 1, 0), (10, -90, 0, 20), name="r2")
+    assert len(fourc.sample.reflections.order) == 2
+    assert fourc.sample.reflections.order == "r1 r2".split()
+
+    fourc.sample.reflections.swap()
+    assert fourc.sample.reflections.order == "r2 r1".split()
