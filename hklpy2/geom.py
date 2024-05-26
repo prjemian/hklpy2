@@ -91,8 +91,13 @@ class E4CV(DiffractometerBase, MixinHkl):
     """
 
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.set_solver("hkl_soleil", "E4CV", engine="hkl")
+        super().__init__(
+            *args,
+            solver="hkl_soleil",
+            geometry="E4CV",
+            solver_kwargs=dict(engine="hkl"),
+            **kwargs,
+        )
 
 
 class E6C(DiffractometerBase, MixinHkl):

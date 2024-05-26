@@ -49,45 +49,88 @@ Diffractometer
       - save or restore orientation details
       - refine lattice parameters
 
-      .. note:: Add ``@needs_solver`` decorator for these actions.
-
 Regarding user-defined axis names, the
 :class:`~hklpy2.diffract.DiffractometerBase` subclass is defined
 with the user names.  Consider this example for a two-circle
-class (with some extra axes)::
+class (with some extra axes).
+The ``"TH TTH Q"`` |solver| geometry expects ``q`` as
+the only pseudo axis and ``th`` and ``tth`` as the two real axes
+(no extra axes).
 
-    class MyTwoC(DiffractometerBase):
-        """Test case."""
+::
 
-        d_spacing = Component(PseudoSingle)
-        q = Component(PseudoSingle, "")
-        theta = Component(SoftPositioner)
-        ttheta = Component(SoftPositioner)
-        x = Component(SoftPositioner, "")
+    from ophyd import Component, PseudoSingle, SoftPositioner
+    import hklpy2
+
+    class MyTwoC(hklpy2.DiffractometerBase):
+
+        # sorted alphabetically for this example
+        another = Component(PseudoSingle)
+        horizontal = Component(SoftPositioner, init_pos=0)
+        q = Component(PseudoSingle)
+        theta = Component(SoftPositioner, init_pos=0)
+        ttheta = Component(SoftPositioner, init_pos=0)
+        vertical = Component(SoftPositioner, init_pos=0)
+
+        def __init__(self, *args, **kwargs):
+            super().__init__(
+              *args,
+              solver="th_tth",
+              geometry="TH TTH Q",
+              pseudos=["q"],
+              reals=["theta", "ttheta"],
+              **kwargs
+              )
+
+Create the diffractometer::
 
     twoc = MyTwoC("", name="twoc")
 
-When creating the |solver| instance, the caller specifies the required axes in
-the order expected by the |solver|. The ``"TH TTH Q"`` geometry expects ``q`` as
-the only pseudo axis and ``th`` and ``tth`` as the two real axes (no extra axes).
-Using the diffractometer's :meth:`~hklpy2.diffract.DiffractometerBase.set_solver`
-method, connect the user-defined axes of the diffractometer with the axes in the
-order expected by the solver like this::
+What are the axes names used by this diffractometer?::
 
-    twoc.set_solver(
-        "th_tth",
-        "TH TTH Q",
-        pseudos=[twoc.q],
-        reals=[twoc.theta, twoc.ttheta],
-        extras=[],
-    )
+    >>> twoc.pseudo_axis_names
+    ['another', 'q']
+    >>> twoc.real_axis_names
+    ['horizontal', 'theta', 'ttheta', 'vertical']
+
+Show the ``twoc`` diffractometer's |solver|::
+
+    >>> twoc.operator.solver
+    ThTthSolver(name='th_tth', version='0.0.14', geometry='TH TTH Q')
+
+What are the axes expected by this |solver|?::
+
+    >>> twoc.operator.solver.pseudo_axis_names
+    ['q']
+    >>> twoc.operator.solver.real_axis_names
+    ['th', 'tth']
+    >>> twoc.operator.solver.extra_axis_names
+    []
+
+Show the cross-reference mapping from diffractometer
+to |solver| axis names (as defined in our MyTwoC class above)::
+
+    >>> twoc.operator.axes_xref
+    {'q': 'q', 'theta': 'th', 'ttheta': 'tth'}
+
+Auto-assignment assigns the first pseudo(s), real(s), and extra(s)
+defined by the diffractometer as needed by the |solver|.
+In our diffractometer class (MyTwoC), the axes are sorted alphabetically.
+Auto-assignment of axes would not have been correct, because we did not
+define the ``q`` axis Component as the first pseudo and ``theta`` & ``ttheta``
+as the first real axis Components.  Let's show what auto-assignment
+chooses in this case::
+
+    >>> twoc.auto_assign_axes()
+    >>> twoc.operator.axes_xref
+    {'another': 'q', 'horizontal': 'th', 'theta': 'tth'}
 
 .. rubric:: Operations-related methods and properties
 .. autosummary::
 
     ~hklpy2.diffract.DiffractometerBase.add_sample
     ~hklpy2.diffract.DiffractometerBase.set_solver
-    ~hklpy2.ops.SolverOperator.auto_assign_axes
+    ~hklpy2.diffract.DiffractometerBase.auto_assign_axes
 
 .. rubric:: Sample-related methods and properties
 .. autosummary::
