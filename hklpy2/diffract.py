@@ -34,6 +34,21 @@ class DiffractometerBase(PseudoPositioner):
     """
     Base class for all diffractometers.
 
+    .. rubric:: Parameters
+
+    *   ``solver`` (*str*) : Name of |solver| library.
+        (default: unspecified)
+    *   ``geometry``: (*str*) : Name of |solver| geometry.
+        (default: unspecified)
+    *   ``solver_kwargs`` (*dict*) : Any additional keyword arguments needed
+        by |solver| library. (default: empty)
+    *   ``pseudos`` ([str]) : List of diffractometer axis names to be used
+        as pseudo axes. (default: unspecified)
+    *   ``reals`` ([str]) : List of diffractometer axis names to be used as
+        real axes. (default: unspecified)
+    *   ``extras`` ([str]) : List of diffractometer axis names to be used as
+        extra axes. (default: unspecified)
+
     .. rubric:: (ophyd) Components
 
     .. rubric :: (ophyd) Attribute Components
@@ -50,6 +65,7 @@ class DiffractometerBase(PseudoPositioner):
 
         ~add_reflection
         ~add_sample
+        ~auto_assign_axes
         ~choose_first_forward_solution
         ~forward
         ~inverse
@@ -100,6 +116,12 @@ class DiffractometerBase(PseudoPositioner):
     def __init__(
         self,
         *args,
+        solver: str = None,
+        geometry: str = None,
+        solver_kwargs: dict = {},
+        pseudos: list[str] = None,
+        reals: list[str] = None,
+        extras: list[str] = None,
         **kwargs,
     ):
         self._backend = None
@@ -108,6 +130,11 @@ class DiffractometerBase(PseudoPositioner):
         self._forward_solution = self.choose_first_forward_solution
 
         super().__init__(*args, **kwargs)
+
+        if isinstance(solver, str) and isinstance(geometry, str):
+            self.set_solver(solver, geometry, **solver_kwargs)
+
+        self.operator.assign_axes(pseudos, reals, extras)
 
     def add_reflection(self, pseudos, reals=None, wavelength=None, name=None):
         """
@@ -151,6 +178,30 @@ class DiffractometerBase(PseudoPositioner):
             replace,
         )
 
+    def auto_assign_axes(self):
+        """
+        Automatically assign diffractometer axes to this solver.
+
+        .. seealso:: :meth:`hklpy2.ops.SolverOperator.auto_assign_axes`
+
+        A |solver| geometry specifies expected pseudo, real, and extra axes
+        for its ``.forward()`` and ``.inverse()`` coordinate transformations.
+
+        This method assigns this diffractometer's:
+
+        *   first PseudoSingle axes
+            to the pseudo axes expected by the selected |solver|.
+        *   first Positioner axes (or subclass,
+            such as EpicsMotor or SoftPositioner) to the real axes expected
+            by the selected |solver|.
+        *   any remaining PseudoSingle and Positioner axes to the
+            extra axes expected by the selected |solver|.
+
+        Any diffractometer axes not expected by the |solver| will
+        not be assigned.
+        """
+        self.operator.auto_assign_axes()
+
     def choose_first_forward_solution(self, solutions: list):
         """
         Choose first solution from list returned by '.forward()'.
@@ -174,7 +225,15 @@ class DiffractometerBase(PseudoPositioner):
         return self.PseudoPosition(**pos)  # as created by namedtuple
 
     def set_solver(self, solver: str, geometry: str, **kwargs: dict):
-        """Set the backend |solver| for this diffractometer."""
+        """
+        Set the backend |solver| for this diffractometer.
+
+        .. rubric:: Parameters
+
+        * ``solver`` (str): Name of the |solver| library.
+        * ``geometry`` (str): Name of the |solver| geometry.
+        * ``kwargs`` (dict): Any keyword arguments needed by the |solver|.
+        """
         self.operator.set_solver(solver, geometry, **kwargs)
 
     # ---- get/set properties
