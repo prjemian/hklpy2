@@ -13,6 +13,7 @@ import logging
 import math
 
 from .. import Hklpy2Error
+from .misc import compare_float_dicts
 
 logger = logging.getLogger(__name__)
 
@@ -46,7 +47,6 @@ class Lattice:
 
     .. autosummary::
 
-        ~equal
         ~_asdict
         ~__eq__
         ~__repr__
@@ -70,27 +70,6 @@ class Lattice:
         self.gamma = gamma or alpha
         self.digits = digits
 
-    def equal(self, latt, tolerance=1e-6):
-        """
-        Compare two lattices for equality, within given tolerance.
-
-        EXAMPLE::
-
-            lattice1.equal(lattice2)
-        """
-
-        def equivalent(us: float, them: float):
-            return math.isclose(us, them, abs_tol=tolerance)
-
-        return (
-            equivalent(self.a, latt.a)
-            and equivalent(self.b, latt.b)
-            and equivalent(self.c, latt.c)
-            and equivalent(self.alpha, latt.alpha)
-            and equivalent(self.beta, latt.beta)
-            and equivalent(self.gamma, latt.gamma)
-        )
-
     def _asdict(self):
         """Return a new dict which maps lattice constant names and values."""
         # note: name is identical to namedtuple._asdict method
@@ -105,13 +84,16 @@ class Lattice:
 
     def __eq__(self, latt):
         """
-        Compare two lattices for equality, within default tolerance.
+        Compare two lattices for equality.
 
         EXAMPLE::
 
             lattice1 == lattice2
         """
-        return self.equal(self, latt)  # FIXME:
+        digits = min(self.digits, latt.digits)
+        return compare_float_dicts(
+            self._asdict(), latt._asdict(), min(self.digits, digits)
+        )
 
     def __repr__(self):
         """

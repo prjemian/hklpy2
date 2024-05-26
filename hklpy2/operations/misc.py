@@ -4,6 +4,7 @@ Miscellaneous Support.
 .. autosummary::
 
     ~check_value_in_list
+    ~compare_float_dicts
     ~SOLVER_ENTRYPOINT_GROUP
     ~SolverError
     ~get_solver
@@ -13,6 +14,7 @@ Miscellaneous Support.
 """
 
 import logging
+import math
 import uuid
 from importlib.metadata import entry_points
 
@@ -35,6 +37,26 @@ def check_value_in_list(title, value, examples, blank_ok=False):
     if value not in examples:
         msg = f"{title} {value!r} unknown. Pick one of: {examples!r}"
         raise KeyError(msg)
+
+def compare_float_dicts(a1, a2, tol=1e-4):
+    """
+    Compare two dictionaries.  Values are all floats.
+    """
+    if tol <= 0:
+        raise ValueError("received {tol=}, should be tol >0")
+    tests = [True]
+    for k, v in a1.items():
+        if isinstance(v, float):
+            if tol < 1:
+                test = math.isclose(a1[k], a2[k], abs_tol=tol)
+            else:
+                test = round(a1[k], tol) == round(a2[k], tol)
+        else:
+            test = a1[k] == a2[k]
+        if not test:
+            return False  # no need to go further
+    tests.append(sorted(a1.keys()) == sorted(a2.keys()))
+    return False not in tests
 
 
 def get_solver(solver_name):
