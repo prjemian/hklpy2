@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
   <script src="../../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script src="../../_static/documentation_options.js?v=db9af4cc"></script>
+    <script src="../../_static/documentation_options.js?v=33ff018d"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/tabs.js?v=3030b3cb"></script>
@@ -354,6 +354,21 @@ document.write(`
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Base class for all diffractometers.</span>
 
+<span class="sd">    .. rubric:: Parameters</span>
+
+<span class="sd">    *   ``solver`` (*str*) : Name of |solver| library.</span>
+<span class="sd">        (default: unspecified)</span>
+<span class="sd">    *   ``geometry``: (*str*) : Name of |solver| geometry.</span>
+<span class="sd">        (default: unspecified)</span>
+<span class="sd">    *   ``solver_kwargs`` (*dict*) : Any additional keyword arguments needed</span>
+<span class="sd">        by |solver| library. (default: empty)</span>
+<span class="sd">    *   ``pseudos`` ([str]) : List of diffractometer axis names to be used</span>
+<span class="sd">        as pseudo axes. (default: unspecified)</span>
+<span class="sd">    *   ``reals`` ([str]) : List of diffractometer axis names to be used as</span>
+<span class="sd">        real axes. (default: unspecified)</span>
+<span class="sd">    *   ``extras`` ([str]) : List of diffractometer axis names to be used as</span>
+<span class="sd">        extra axes. (default: unspecified)</span>
+
 <span class="sd">    .. rubric:: (ophyd) Components</span>
 
 <span class="sd">    .. rubric :: (ophyd) Attribute Components</span>
@@ -370,6 +385,7 @@ document.write(`
 
 <span class="sd">        ~add_reflection</span>
 <span class="sd">        ~add_sample</span>
+<span class="sd">        ~auto_assign_axes</span>
 <span class="sd">        ~choose_first_forward_solution</span>
 <span class="sd">        ~forward</span>
 <span class="sd">        ~inverse</span>
@@ -420,6 +436,12 @@ document.write(`
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="o">*</span><span class="n">args</span><span class="p">,</span>
+        <span class="n">solver</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">geometry</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">solver_kwargs</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{},</span>
+        <span class="n">pseudos</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">reals</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">extras</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
     <span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_backend</span> <span class="o">=</span> <span class="kc">None</span>
@@ -428,6 +450,11 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">_forward_solution</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">choose_first_forward_solution</span>
 
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">solver</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">geometry</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">set_solver</span><span class="p">(</span><span class="n">solver</span><span class="p">,</span> <span class="n">geometry</span><span class="p">,</span> <span class="o">**</span><span class="n">solver_kwargs</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">assign_axes</span><span class="p">(</span><span class="n">pseudos</span><span class="p">,</span> <span class="n">reals</span><span class="p">,</span> <span class="n">extras</span><span class="p">)</span>
 
 <div class="viewcode-block" id="DiffractometerBase.add_reflection">
 <a class="viewcode-back" href="../../api/diffract.html#hklpy2.diffract.DiffractometerBase.add_reflection">[docs]</a>
@@ -477,6 +504,33 @@ document.write(`
         <span class="p">)</span></div>
 
 
+<div class="viewcode-block" id="DiffractometerBase.auto_assign_axes">
+<a class="viewcode-back" href="../../api/diffract.html#hklpy2.diffract.DiffractometerBase.auto_assign_axes">[docs]</a>
+    <span class="k">def</span> <span class="nf">auto_assign_axes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Automatically assign diffractometer axes to this solver.</span>
+
+<span class="sd">        .. seealso:: :meth:`hklpy2.ops.SolverOperator.auto_assign_axes`</span>
+
+<span class="sd">        A |solver| geometry specifies expected pseudo, real, and extra axes</span>
+<span class="sd">        for its ``.forward()`` and ``.inverse()`` coordinate transformations.</span>
+
+<span class="sd">        This method assigns this diffractometer&#39;s:</span>
+
+<span class="sd">        *   first PseudoSingle axes</span>
+<span class="sd">            to the pseudo axes expected by the selected |solver|.</span>
+<span class="sd">        *   first Positioner axes (or subclass,</span>
+<span class="sd">            such as EpicsMotor or SoftPositioner) to the real axes expected</span>
+<span class="sd">            by the selected |solver|.</span>
+<span class="sd">        *   any remaining PseudoSingle and Positioner axes to the</span>
+<span class="sd">            extra axes expected by the selected |solver|.</span>
+
+<span class="sd">        Any diffractometer axes not expected by the |solver| will</span>
+<span class="sd">        not be assigned.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">auto_assign_axes</span><span class="p">()</span></div>
+
+
 <div class="viewcode-block" id="DiffractometerBase.choose_first_forward_solution">
 <a class="viewcode-back" href="../../api/diffract.html#hklpy2.diffract.DiffractometerBase.choose_first_forward_solution">[docs]</a>
     <span class="k">def</span> <span class="nf">choose_first_forward_solution</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">solutions</span><span class="p">:</span> <span class="nb">list</span><span class="p">):</span>
@@ -511,7 +565,15 @@ document.write(`
 <div class="viewcode-block" id="DiffractometerBase.set_solver">
 <a class="viewcode-back" href="../../api/diffract.html#hklpy2.diffract.DiffractometerBase.set_solver">[docs]</a>
     <span class="k">def</span> <span class="nf">set_solver</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">solver</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">geometry</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the backend |solver| for this diffractometer.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set the backend |solver| for this diffractometer.</span>
+
+<span class="sd">        .. rubric:: Parameters</span>
+
+<span class="sd">        * ``solver`` (str): Name of the |solver| library.</span>
+<span class="sd">        * ``geometry`` (str): Name of the |solver| geometry.</span>
+<span class="sd">        * ``kwargs`` (dict): Any keyword arguments needed by the |solver|.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">set_solver</span><span class="p">(</span><span class="n">solver</span><span class="p">,</span> <span class="n">geometry</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 

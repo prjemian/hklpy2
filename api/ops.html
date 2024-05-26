@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
   <script src="../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script src="../_static/documentation_options.js?v=db9af4cc"></script>
+    <script src="../_static/documentation_options.js?v=33ff018d"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
@@ -384,28 +384,31 @@ library.</p>
 <tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.ops.SolverOperator.add_sample" title="hklpy2.ops.SolverOperator.add_sample"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_sample</span></code></a>(name, a[, b, c, alpha, beta, ...])</p></td>
 <td><p>Add a new sample.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.ops.SolverOperator.auto_assign_axes" title="hklpy2.ops.SolverOperator.auto_assign_axes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">auto_assign_axes</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.ops.SolverOperator.assign_axes" title="hklpy2.ops.SolverOperator.assign_axes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">assign_axes</span></code></a>(pseudos, reals, extras)</p></td>
+<td><p>Designate attributes for use by the PseudoPositioner class.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.ops.SolverOperator.auto_assign_axes" title="hklpy2.ops.SolverOperator.auto_assign_axes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">auto_assign_axes</span></code></a>()</p></td>
 <td><p>Automatically assign diffractometer axes to this solver.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.ops.SolverOperator.check_solver_defined" title="hklpy2.ops.SolverOperator.check_solver_defined"><code class="xref py py-obj docutils literal notranslate"><span class="pre">check_solver_defined</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.ops.SolverOperator.check_solver_defined" title="hklpy2.ops.SolverOperator.check_solver_defined"><code class="xref py py-obj docutils literal notranslate"><span class="pre">check_solver_defined</span></code></a>()</p></td>
 <td><p>Raise DiffractometerError if solver is not defined.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.ops.SolverOperator.forward" title="hklpy2.ops.SolverOperator.forward"><code class="xref py py-obj docutils literal notranslate"><span class="pre">forward</span></code></a>(pseudos)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.ops.SolverOperator.forward" title="hklpy2.ops.SolverOperator.forward"><code class="xref py py-obj docutils literal notranslate"><span class="pre">forward</span></code></a>(pseudos)</p></td>
 <td><p>Compute [{names:reals}] from {names: pseudos} (hkl -&gt; angles).</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.ops.SolverOperator.inverse" title="hklpy2.ops.SolverOperator.inverse"><code class="xref py py-obj docutils literal notranslate"><span class="pre">inverse</span></code></a>(reals)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.ops.SolverOperator.inverse" title="hklpy2.ops.SolverOperator.inverse"><code class="xref py py-obj docutils literal notranslate"><span class="pre">inverse</span></code></a>(reals)</p></td>
 <td><p>Compute (pseudos) from {names: reals} (angles -&gt; hkl).</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.ops.SolverOperator.remove_sample" title="hklpy2.ops.SolverOperator.remove_sample"><code class="xref py py-obj docutils literal notranslate"><span class="pre">remove_sample</span></code></a>(name)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.ops.SolverOperator.remove_sample" title="hklpy2.ops.SolverOperator.remove_sample"><code class="xref py py-obj docutils literal notranslate"><span class="pre">remove_sample</span></code></a>(name)</p></td>
 <td><p>Remove the named sample.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.ops.SolverOperator.set_solver" title="hklpy2.ops.SolverOperator.set_solver"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_solver</span></code></a>(name, geometry[, pseudos, reals, ...])</p></td>
-<td><p>Create an instance of the <strong>Solver</strong> and geometry.</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.ops.SolverOperator.set_solver" title="hklpy2.ops.SolverOperator.set_solver"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_solver</span></code></a>(name, geometry, **kwargs)</p></td>
+<td><p>Create an instance of the backend <strong>Solver</strong> library and geometry.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.ops.SolverOperator.standardize_pseudos" title="hklpy2.ops.SolverOperator.standardize_pseudos"><code class="xref py py-obj docutils literal notranslate"><span class="pre">standardize_pseudos</span></code></a>(pseudos, expected)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.ops.SolverOperator.standardize_pseudos" title="hklpy2.ops.SolverOperator.standardize_pseudos"><code class="xref py py-obj docutils literal notranslate"><span class="pre">standardize_pseudos</span></code></a>(pseudos, expected)</p></td>
 <td><p>Convert user-supplied pseudos into dictionary.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.ops.SolverOperator.standardize_reals" title="hklpy2.ops.SolverOperator.standardize_reals"><code class="xref py py-obj docutils literal notranslate"><span class="pre">standardize_reals</span></code></a>(reals, expected)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.ops.SolverOperator.standardize_reals" title="hklpy2.ops.SolverOperator.standardize_reals"><code class="xref py py-obj docutils literal notranslate"><span class="pre">standardize_reals</span></code></a>(reals, expected)</p></td>
 <td><p>Convert user-supplied reals into dictionary.</p></td>
 </tr>
 </tbody>
@@ -525,6 +528,13 @@ If <code class="docutils literal notranslate"><span class="pre">None</span></cod
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="hklpy2.ops.SolverOperator.assign_axes">
+<span class="sig-name descname"><span class="pre">assign_axes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pseudos</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.12)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reals</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.12)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extras</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.12)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/hklpy2/ops.html#SolverOperator.assign_axes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.ops.SolverOperator.assign_axes" title="Link to this definition">#</a></dt>
+<dd><p>Designate attributes for use by the PseudoPositioner class.</p>
+<p>Result is re-definition of ‘self.axes_xref’.</p>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="hklpy2.ops.SolverOperator.auto_assign_axes">
 <span class="sig-name descname"><span class="pre">auto_assign_axes</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hklpy2/ops.html#SolverOperator.auto_assign_axes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.ops.SolverOperator.auto_assign_axes" title="Link to this definition">#</a></dt>
 <dd><p>Automatically assign diffractometer axes to this solver.</p>
@@ -543,16 +553,6 @@ names it expects:</p>
 <li><p><a class="reference internal" href="backends/base.html#hklpy2.backends.base.SolverBase.real_axis_names" title="hklpy2.backends.base.SolverBase.real_axis_names"><code class="xref py py-attr docutils literal notranslate"><span class="pre">real_axis_names</span></code></a></p></li>
 </ul>
 </div>
-</div>
-<p>Example:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">fourc</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">solver</span>
-<span class="go">HklSolver(name=&#39;hkl_soleil&#39;, version=&#39;v5.0.0.3434&#39;, geometry=&#39;E4CV&#39;, engine=&#39;hkl&#39;, mode=&#39;bissector&#39;)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">fourc</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">real_axis_names</span>
-<span class="go">[&#39;omega&#39;, &#39;chi&#39;, &#39;phi&#39;, &#39;tth&#39;]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">fourc</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">auto_assign_axes</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">fourc</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">axes_xref</span>
-<span class="go">{&#39;h&#39;: &#39;h&#39;, &#39;k&#39;: &#39;k&#39;, &#39;l&#39;: &#39;l&#39;, &#39;theta&#39;: &#39;omega&#39;, &#39;chi&#39;: &#39;chi&#39;, &#39;phi&#39;: &#39;phi&#39;, &#39;ttheta&#39;: &#39;tth&#39;}</span>
-</pre></div>
 </div>
 </dd></dl>
 
@@ -600,13 +600,13 @@ names it expects:</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="hklpy2.ops.SolverOperator.set_solver">
-<span class="sig-name descname"><span class="pre">set_solver</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">geometry</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">pseudos</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.12)"><span class="pre">list</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reals</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.12)"><span class="pre">list</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extras</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.12)"><span class="pre">list</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.12)"><span class="pre">dict</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="backends/base.html#hklpy2.backends.base.SolverBase" title="hklpy2.backends.base.SolverBase"><span class="pre">SolverBase</span></a></span></span><a class="reference internal" href="../_modules/hklpy2/ops.html#SolverOperator.set_solver"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.ops.SolverOperator.set_solver" title="Link to this definition">#</a></dt>
-<dd><p>Create an instance of the <strong>Solver</strong> and geometry.</p>
+<span class="sig-name descname"><span class="pre">set_solver</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">geometry</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.12)"><span class="pre">dict</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="backends/base.html#hklpy2.backends.base.SolverBase" title="hklpy2.backends.base.SolverBase"><span class="pre">SolverBase</span></a></span></span><a class="reference internal" href="../_modules/hklpy2/ops.html#SolverOperator.set_solver"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.ops.SolverOperator.set_solver" title="Link to this definition">#</a></dt>
+<dd><p>Create an instance of the backend <strong>Solver</strong> library and geometry.</p>
 <p class="rubric">Parameters</p>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">solver</span></code> (str): Name of the backend <strong>Solver</strong> library.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">geometry</span></code> (str): Name of the backend <strong>Solver</strong> geometry.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">kwargs</span></code> (dict): Keyword arguments, as needed by the chosen <strong>Solver</strong>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">solver</span></code> (str): Name of the <strong>Solver</strong> library.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">geometry</span></code> (str): Name of the <strong>Solver</strong> geometry.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">kwargs</span></code> (dict): Any keyword arguments needed by the <strong>Solver</strong>.</p></li>
 </ul>
 </dd></dl>
 
@@ -728,6 +728,7 @@ set self.__traceback__ to tb and return self.</p>
 </li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.ops.SolverOperator.add_reflection"><code class="docutils literal notranslate"><span class="pre">SolverOperator.add_reflection()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.ops.SolverOperator.add_sample"><code class="docutils literal notranslate"><span class="pre">SolverOperator.add_sample()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.ops.SolverOperator.assign_axes"><code class="docutils literal notranslate"><span class="pre">SolverOperator.assign_axes()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.ops.SolverOperator.auto_assign_axes"><code class="docutils literal notranslate"><span class="pre">SolverOperator.auto_assign_axes()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.ops.SolverOperator.check_solver_defined"><code class="docutils literal notranslate"><span class="pre">SolverOperator.check_solver_defined()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.ops.SolverOperator.forward"><code class="docutils literal notranslate"><span class="pre">SolverOperator.forward()</span></code></a></li>

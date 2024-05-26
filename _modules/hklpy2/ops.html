@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
   <script src="../../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script src="../../_static/documentation_options.js?v=db9af4cc"></script>
+    <script src="../../_static/documentation_options.js?v=33ff018d"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/tabs.js?v=3030b3cb"></script>
@@ -364,6 +364,7 @@ document.write(`
 
 <span class="sd">        ~add_reflection</span>
 <span class="sd">        ~add_sample</span>
+<span class="sd">        ~assign_axes</span>
 <span class="sd">        ~auto_assign_axes</span>
 <span class="sd">        ~check_solver_defined</span>
 <span class="sd">        ~forward</span>
@@ -470,6 +471,49 @@ document.write(`
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_samples</span><span class="p">[</span><span class="n">name</span><span class="p">]</span></div>
 
 
+<div class="viewcode-block" id="SolverOperator.assign_axes">
+<a class="viewcode-back" href="../../api/ops.html#hklpy2.ops.SolverOperator.assign_axes">[docs]</a>
+    <span class="k">def</span> <span class="nf">assign_axes</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">pseudos</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">reals</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">extras</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Designate attributes for use by the PseudoPositioner class.</span>
+
+<span class="sd">        Result is re-definition of &#39;self.axes_xref&#39;.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">pseudos</span> <span class="o">=</span> <span class="n">pseudos</span> <span class="ow">or</span> <span class="p">[]</span>
+        <span class="n">reals</span> <span class="o">=</span> <span class="n">reals</span> <span class="ow">or</span> <span class="p">[]</span>
+        <span class="n">extras</span> <span class="o">=</span> <span class="n">extras</span> <span class="ow">or</span> <span class="p">[]</span>
+
+        <span class="k">def</span> <span class="nf">itemize</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">select</span><span class="p">,</span> <span class="n">full</span><span class="p">):</span>
+            <span class="n">keys</span> <span class="o">=</span> <span class="p">[</span><span class="n">name</span> <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">_obj</span> <span class="ow">in</span> <span class="n">full</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">attr</span> <span class="ow">in</span> <span class="n">select</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">attr</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown </span><span class="si">{</span><span class="n">label</span><span class="si">}</span><span class="s2">=</span><span class="si">{</span><span class="n">attr</span><span class="si">!r}</span><span class="s2">.  Known: </span><span class="si">{</span><span class="n">keys</span><span class="si">!r}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">keys</span>
+
+        <span class="k">def</span> <span class="nf">reference</span><span class="p">(</span><span class="n">dnames</span><span class="p">,</span> <span class="n">snames</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">dname</span><span class="p">,</span> <span class="n">sname</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">dnames</span><span class="p">,</span> <span class="n">snames</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">axes_xref</span><span class="p">[</span><span class="n">dname</span><span class="p">]</span> <span class="o">=</span> <span class="n">sname</span>
+                <span class="n">both_p_r</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">dname</span><span class="p">)</span>
+
+        <span class="c1"># check for duplicates</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">pseudos</span> <span class="o">+</span> <span class="n">reals</span> <span class="o">+</span> <span class="n">extras</span><span class="p">))</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">pseudos</span> <span class="o">+</span> <span class="n">reals</span> <span class="o">+</span> <span class="n">extras</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Axis name cannot be in more than list.&quot;</span><span class="p">)</span>
+
+        <span class="n">dfrct</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">diffractometer</span>
+        <span class="n">all_pseudos</span> <span class="o">=</span> <span class="n">itemize</span><span class="p">(</span><span class="s2">&quot;pseudo&quot;</span><span class="p">,</span> <span class="n">pseudos</span><span class="p">,</span> <span class="n">dfrct</span><span class="o">.</span><span class="n">_get_pseudo_positioners</span><span class="p">())</span>
+        <span class="n">all_reals</span> <span class="o">=</span> <span class="n">itemize</span><span class="p">(</span><span class="s2">&quot;real&quot;</span><span class="p">,</span> <span class="n">reals</span><span class="p">,</span> <span class="n">dfrct</span><span class="o">.</span><span class="n">_get_real_positioners</span><span class="p">())</span>
+        <span class="n">both_p_r</span> <span class="o">=</span> <span class="n">all_pseudos</span> <span class="o">+</span> <span class="n">all_reals</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">axes_xref</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">solver</span> <span class="o">=</span> <span class="n">dfrct</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">solver</span>
+        <span class="n">reference</span><span class="p">(</span><span class="n">pseudos</span><span class="p">,</span> <span class="n">solver</span><span class="o">.</span><span class="n">pseudo_axis_names</span><span class="p">)</span>
+        <span class="n">reference</span><span class="p">(</span><span class="n">reals</span><span class="p">,</span> <span class="n">solver</span><span class="o">.</span><span class="n">real_axis_names</span><span class="p">)</span>
+        <span class="n">reference</span><span class="p">(</span><span class="n">extras</span><span class="p">,</span> <span class="n">solver</span><span class="o">.</span><span class="n">extra_axis_names</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;axes_xref=</span><span class="si">%r</span><span class="s2">&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">axes_xref</span><span class="p">)</span></div>
+
+
 <div class="viewcode-block" id="SolverOperator.auto_assign_axes">
 <a class="viewcode-back" href="../../api/ops.html#hklpy2.ops.SolverOperator.auto_assign_axes">[docs]</a>
     <span class="k">def</span> <span class="nf">auto_assign_axes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -486,34 +530,30 @@ document.write(`
 <span class="sd">              * :attr:`~hklpy2.backends.base.SolverBase.extra_axis_names`</span>
 <span class="sd">              * :attr:`~hklpy2.backends.base.SolverBase.pseudo_axis_names`</span>
 <span class="sd">              * :attr:`~hklpy2.backends.base.SolverBase.real_axis_names`</span>
-
-<span class="sd">        Example::</span>
-
-<span class="sd">            &gt;&gt;&gt; fourc.operator.solver</span>
-<span class="sd">            HklSolver(name=&#39;hkl_soleil&#39;, version=&#39;v5.0.0.3434&#39;, geometry=&#39;E4CV&#39;, engine=&#39;hkl&#39;, mode=&#39;bissector&#39;)</span>
-<span class="sd">            &gt;&gt;&gt; fourc.operator.real_axis_names</span>
-<span class="sd">            [&#39;omega&#39;, &#39;chi&#39;, &#39;phi&#39;, &#39;tth&#39;]</span>
-<span class="sd">            &gt;&gt;&gt; fourc.operator.auto_assign_axes()</span>
-<span class="sd">            &gt;&gt;&gt; fourc.operator.axes_xref</span>
-<span class="sd">            {&#39;h&#39;: &#39;h&#39;, &#39;k&#39;: &#39;k&#39;, &#39;l&#39;: &#39;l&#39;, &#39;theta&#39;: &#39;omega&#39;, &#39;chi&#39;: &#39;chi&#39;, &#39;phi&#39;: &#39;phi&#39;, &#39;ttheta&#39;: &#39;tth&#39;}</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">axes_xref</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="k">for</span> <span class="n">space</span> <span class="ow">in</span> <span class="s2">&quot;pseudo real extra&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">():</span>
-            <span class="k">if</span> <span class="n">space</span> <span class="o">==</span> <span class="s2">&quot;extra&quot;</span><span class="p">:</span>
-                <span class="n">dnames</span> <span class="o">=</span> <span class="p">(</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">diffractometer</span><span class="o">.</span><span class="n">pseudo_axis_names</span>
-                    <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">diffractometer</span><span class="o">.</span><span class="n">real_axis_names</span>
-                <span class="p">)</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">dnames</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">diffractometer</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">space</span><span class="si">}</span><span class="s2">_axis_names&quot;</span><span class="p">)</span>
-            <span class="n">pnames</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">space</span><span class="si">}</span><span class="s2">_axis_names&quot;</span><span class="p">)</span>
-            <span class="n">np</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">pnames</span><span class="p">)</span>
-            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">dnames</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">np</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="n">SolverOperatorError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Need these </span><span class="si">{</span><span class="n">space</span><span class="si">}</span><span class="s2"> axes: </span><span class="si">{</span><span class="n">pnames</span><span class="si">!r}</span><span class="s2">&quot;</span><span class="p">)</span>
-            <span class="k">for</span> <span class="n">dname</span><span class="p">,</span> <span class="n">pname</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">dnames</span><span class="p">,</span> <span class="n">pnames</span><span class="p">):</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">axes_xref</span><span class="p">[</span><span class="n">dname</span><span class="p">]</span> <span class="o">=</span> <span class="n">pname</span></div>
 
-        <span class="c1"># TODO: What about _pseudos &amp; _reals?</span>
+        <span class="k">def</span> <span class="nf">get_keys</span><span class="p">(</span><span class="n">getter</span><span class="p">):</span>
+            <span class="k">return</span> <span class="p">[</span><span class="n">name</span> <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">_obj</span> <span class="ow">in</span> <span class="n">getter</span><span class="p">]</span>
+
+        <span class="k">def</span> <span class="nf">lister</span><span class="p">(</span><span class="n">dnames</span><span class="p">,</span> <span class="n">snames</span><span class="p">):</span>
+            <span class="n">items</span> <span class="o">=</span> <span class="n">dnames</span><span class="p">[:</span> <span class="nb">len</span><span class="p">(</span><span class="n">snames</span><span class="p">)]</span>  <span class="c1"># first ones expected by the solver</span>
+            <span class="k">for</span> <span class="n">dname</span> <span class="ow">in</span> <span class="n">items</span><span class="p">:</span>
+                <span class="n">both_p_r</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">dname</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">items</span>
+
+        <span class="n">all_pseudos</span> <span class="o">=</span> <span class="n">get_keys</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">diffractometer</span><span class="o">.</span><span class="n">_get_pseudo_positioners</span><span class="p">())</span>
+        <span class="n">all_reals</span> <span class="o">=</span> <span class="n">get_keys</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">diffractometer</span><span class="o">.</span><span class="n">_get_real_positioners</span><span class="p">())</span>
+        <span class="n">both_p_r</span> <span class="o">=</span> <span class="n">all_pseudos</span> <span class="o">+</span> <span class="n">all_reals</span>
+
+        <span class="n">solver</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">diffractometer</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">solver</span>
+        <span class="n">pseudos</span> <span class="o">=</span> <span class="n">lister</span><span class="p">(</span><span class="n">all_pseudos</span><span class="p">,</span> <span class="n">solver</span><span class="o">.</span><span class="n">pseudo_axis_names</span><span class="p">)</span>
+        <span class="n">reals</span> <span class="o">=</span> <span class="n">lister</span><span class="p">(</span><span class="n">all_reals</span><span class="p">,</span> <span class="n">solver</span><span class="o">.</span><span class="n">real_axis_names</span><span class="p">)</span>
+        <span class="n">extras</span> <span class="o">=</span> <span class="n">lister</span><span class="p">(</span><span class="n">both_p_r</span><span class="p">,</span> <span class="n">solver</span><span class="o">.</span><span class="n">extra_axis_names</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">assign_axes</span><span class="p">(</span><span class="n">pseudos</span><span class="p">,</span> <span class="n">reals</span><span class="p">,</span> <span class="n">extras</span><span class="p">)</span>
+
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;axes_xref=</span><span class="si">%r</span><span class="s2">&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">axes_xref</span><span class="p">)</span></div>
+
 
 <div class="viewcode-block" id="SolverOperator.check_solver_defined">
 <a class="viewcode-back" href="../../api/ops.html#hklpy2.ops.SolverOperator.check_solver_defined">[docs]</a>
@@ -568,28 +608,22 @@ document.write(`
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">geometry</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-        <span class="n">pseudos</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[],</span>  <span class="c1"># TODO:</span>
-        <span class="n">reals</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[],</span>  <span class="c1"># TODO:</span>
-        <span class="n">extras</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[],</span>  <span class="c1"># TODO:</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SolverBase</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Create an instance of the |solver| and geometry.</span>
+<span class="sd">        Create an instance of the backend |solver| library and geometry.</span>
 
 <span class="sd">        .. rubric:: Parameters</span>
 
-<span class="sd">        * ``solver`` (str): Name of the backend |solver| library.</span>
-<span class="sd">        * ``geometry`` (str): Name of the backend |solver| geometry.</span>
-<span class="sd">        * ``kwargs`` (dict): Keyword arguments, as needed by the chosen |solver|.</span>
+<span class="sd">        * ``solver`` (str): Name of the |solver| library.</span>
+<span class="sd">        * ``geometry`` (str): Name of the |solver| geometry.</span>
+<span class="sd">        * ``kwargs`` (dict): Any keyword arguments needed by the |solver|.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
-            <span class="s2">&quot;(</span><span class="si">%s</span><span class="s2">) solver=</span><span class="si">%r</span><span class="s2">, geometry=</span><span class="si">%r</span><span class="s2">, pseudos=</span><span class="si">%r</span><span class="s2">, reals=</span><span class="si">%r</span><span class="s2">, extras=</span><span class="si">%r</span><span class="s2">, kwargs=</span><span class="si">%r</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;(</span><span class="si">%s</span><span class="s2">) solver=</span><span class="si">%r</span><span class="s2">, geometry=</span><span class="si">%r</span><span class="s2">, kwargs=</span><span class="si">%r</span><span class="s2">&quot;</span><span class="p">,</span>
             <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span>
             <span class="n">name</span><span class="p">,</span>
             <span class="n">geometry</span><span class="p">,</span>
-            <span class="n">pseudos</span><span class="p">,</span>
-            <span class="n">reals</span><span class="p">,</span>
-            <span class="n">extras</span><span class="p">,</span>
             <span class="n">kwargs</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_solver</span> <span class="o">=</span> <span class="n">solver_factory</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">geometry</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
