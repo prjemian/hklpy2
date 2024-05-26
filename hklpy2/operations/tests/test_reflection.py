@@ -3,8 +3,8 @@ from contextlib import nullcontext as does_not_raise
 import pytest
 
 from ..reflection import Reflection
-from ..reflection import ReflectionsDict
 from ..reflection import ReflectionError
+from ..reflection import ReflectionsDict
 
 r100_parms = [
     "(100)",

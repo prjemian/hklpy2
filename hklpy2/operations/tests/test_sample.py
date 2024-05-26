@@ -3,9 +3,9 @@ from contextlib import nullcontext as does_not_raise
 import pytest
 
 from ..lattice import Lattice
-from ..sample import Sample
-from ..reflection import ReflectionsDict
 from ..misc import unique_name
+from ..reflection import ReflectionsDict
+from ..sample import Sample
 
 
 def test_sample_constructor_no_operator():
