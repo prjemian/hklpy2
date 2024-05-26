@@ -13,7 +13,6 @@ Associates diffractometer angles (real-space) with crystalline reciprocal-space
 """
 
 import logging
-import math
 
 from .. import Hklpy2Error
 from .misc import check_value_in_list

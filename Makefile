@@ -7,7 +7,7 @@ coverage:
 	coverage combine
 	coverage report --precision 3 -m
 
-docs:
+docs ::
 	make -C docs html
 
 isort:

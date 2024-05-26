@@ -10,7 +10,6 @@ Lattice parameters for a single crystal.
 """
 
 import logging
-import math
 
 from .. import Hklpy2Error
 from .misc import compare_float_dicts
