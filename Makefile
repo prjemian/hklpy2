@@ -10,6 +10,8 @@ coverage:
 docs ::
 	make -C docs html
 
+doc :: docs
+
 isort:
 	isort --sl ./hklpy2
 
