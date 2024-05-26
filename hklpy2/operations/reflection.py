@@ -1,3 +1,4 @@
+# pylint: disable=too-many-arguments
 """
 Coordinates of a crystalline reflection.
 
@@ -107,7 +108,12 @@ class Reflection:
         return "Reflection(" + ", ".join(parameters) + ")"
 
     def __eq__(self, r2):
-        """Compare this reflection with another for equality, within tolerance."""
+        """
+        Compare this reflection with another for equality.
+
+        Precision is controlled by rounding to smallest number of digits
+        between the reflections.
+        """
         digits = min(self.digits, r2.digits)
         return (
             compare_float_dicts(self.pseudos, r2.pseudos, digits)
@@ -148,9 +154,9 @@ class Reflection:
     def _validate_wavelength(self, value):
         """Raise exception if pseudos do not match expectations."""
         if not isinstance(value, (int, float)):
-            raise TypeError(f"Must supply number, received wavelength={value!r}")
+            raise TypeError(f"Must supply number, received {value=!r}")
         if value <= 0:
-            raise ValueError(f"Must be >=0, received wavelength={value}")
+            raise ValueError(f"Must be >=0, received {value=}")
 
     # --------- get/set properties
 
@@ -256,7 +262,7 @@ class ReflectionsDict(dict):
 
     def set_orientation_reflections(
         self,
-        reflections: [Reflection],  # type: ignore  # FIXME:
+        reflections: list[Reflection],
     ) -> None:
         """
         Designate the order of the reflections to be used.
@@ -326,7 +332,7 @@ class ReflectionsDict(dict):
             existing.pop("name")
             if compare_float_dicts(this, existing):
                 raise ReflectionError(
-                    f"New reflection {reflection!r} matches existing {v.name!r}"
+                    f"Reflection {reflection!r} matches existing {v.name!r}"
                 )
 
     # ---- get/set properties

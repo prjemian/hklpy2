@@ -144,3 +144,10 @@ def test_extras():
     assert fourc.operator.solver.extra_axis_names == "h2 k2 l2 psi".split()
 
     # TODO:
+
+
+def test_remove_sample():
+    sim = Th2Th("", name="sim")
+    assert len(sim.samples) == 1
+    sim.operator.remove_sample("cubic")
+    assert len(sim.samples) == 0

@@ -90,8 +90,10 @@ class SolverOperator:
         """
         from .operations.reflection import Reflection
 
-        pnames = self.diffractometer.pseudo_axis_names
-        rnames = self.diffractometer.real_axis_names
+        # reverse xref: solver -> diffractometer
+        reverse = {v: k for k, v in self.axes_xref.items()}
+        pnames = [reverse[k] for k in self.solver.pseudo_axis_names]
+        rnames = [reverse[k] for k in self.solver.real_axis_names]
         pdict = self.standardize_pseudos(pseudos, pnames)
         rdict = self.standardize_reals(reals, rnames)
         logger.debug(
@@ -179,6 +181,7 @@ class SolverOperator:
                 raise SolverOperatorError(f"Need these {space} axes: {pnames!r}")
             for dname, pname in zip(dnames, pnames):
                 self.axes_xref[dname] = pname
+        # TODO: What about _pseudos & _reals?
 
     def check_solver_defined(self):
         """Raise DiffractometerError if solver is not defined."""

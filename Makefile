@@ -17,4 +17,4 @@ ruff:
 	ruff check
 
 test:
-	pytest -vvv --lf
+	pytest -vvv
