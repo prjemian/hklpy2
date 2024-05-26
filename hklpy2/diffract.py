@@ -111,7 +111,7 @@ class DiffractometerBase(PseudoPositioner):
 
     def add_reflection(self, pseudos, reals=None, wavelength=None, name=None):
         """
-        Add a new reflection.
+        Add a new reflection with this geometry to the selected sample.
 
         .. rubric:: Parameters
 
@@ -122,7 +122,6 @@ class DiffractometerBase(PseudoPositioner):
         * ``name`` (str): Reference name for this reflection.
           If ``None``, a random name will be assigned.
         """
-        # TODO: Reflections belong to a specific sample and geometry.
         self.operator.add_reflection(
             pseudos, reals, wavelength or self.wavelength.get(), name
         )
