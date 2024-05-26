@@ -4,6 +4,7 @@ import pytest
 
 from ..reflection import Reflection
 from ..reflection import ReflectionsDict
+from ..reflection import ReflectionError
 
 r100_parms = [
     "(100)",
@@ -23,9 +24,10 @@ r010_parms = [
     "h k l".split(),
     "omega chi phi tth".split(),
 ]
-# These two are the same reflection (in content)
+# These are the same reflection (in content)
 r_1 = ["r1", {"a": 1, "b": 2}, dict(c=1, d=2), 1, "abcd", ["a", "b"], ["c", "d"]]
 r_2 = ["r2", {"a": 1, "b": 2}, dict(c=1, d=2), 1, "abcd", ["a", "b"], ["c", "d"]]
+r_3 = ["r3", {"a": 1, "b": 2}, dict(c=1, d=2), 1, "abcd", ["a", "b"], ["c", "d"]]
 
 
 @pytest.mark.parametrize(
@@ -176,6 +178,28 @@ r_2 = ["r2", {"a": 1, "b": 2}, dict(c=1, d=2), 1, "abcd", ["a", "b"], ["c", "d"]
             does_not_raise(),
             None,
         ],
+        [
+            "one",
+            dict(h=1, l=0),  # missing pseudo
+            dict(omega=10, chi=0, phi=0, tth=20),
+            1.0,
+            "E4CV",
+            "h k l".split(),
+            "omega chi phi tth".split(),
+            pytest.raises(KeyError),
+            "Missing pseudo axis",
+        ],
+        [
+            "one",
+            dict(h=1, k=0, l=0),
+            dict(omega=10, chi=0, tth=20),  # missing real
+            1.0,
+            "E4CV",
+            "h k l".split(),
+            "omega chi phi tth".split(),
+            pytest.raises(KeyError),
+            "Missing real axis",
+        ],
     ],
 )
 def test_Reflection(
@@ -284,3 +308,29 @@ def test_IncompatibleReflectionsDict(parms, probe, expect):
             db.add(Reflection(*refl))
     if expect is not None:
         assert expect in str(reason), f"{reason=!r}"
+
+
+def test_duplicate():
+    db = ReflectionsDict()
+    db.add(Reflection(*r_1))
+    with pytest.raises(ReflectionError) as reason:
+        db.add(Reflection(*r_1))
+    assert "already defined." in str(reason), f"{reason=!r}"
+
+
+def test_swap():
+    db = ReflectionsDict()
+    db.add(Reflection(*r_1))
+    db.add(Reflection(*r_2))
+    db.add(Reflection(*r_3))
+    assert db.order == "r1 r2 r3".split()
+
+    db.order = ["r1", "r3"]
+    assert db.order == "r1 r3".split(), f"{db.order=!r}"
+    db.swap()
+    assert db.order == "r3 r1".split(), f"{db.order=!r}"
+
+    db.order = "r2", "r3"  # repeat as tuple
+    assert db.order == "r2 r3".split(), f"{db.order=!r}"
+    db.swap()
+    assert db.order == "r3 r2".split(), f"{db.order=!r}"

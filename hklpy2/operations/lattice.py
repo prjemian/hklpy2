@@ -111,7 +111,7 @@ class Lattice:
 
             lattice1 == lattice2
         """
-        return self.equal(self, latt)
+        return self.equal(self, latt)  # FIXME:
 
     def __repr__(self):
         """

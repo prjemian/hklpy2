@@ -3,52 +3,42 @@ from contextlib import nullcontext as does_not_raise
 import pytest
 
 from ..lattice import Lattice
-from ...backends.base import SolverBase
-from ..misc import solver_factory
-from ..misc import unique_name
-from ..reflection import ReflectionsDict
 from ..sample import Sample
+from ..reflection import ReflectionsDict
+from ..misc import unique_name
 
-no_op_solver = solver_factory("no_op", "")
 
-
-def test_with_solver_base():
-    """Special case that does not fit constructor test."""
-    reason = "Can't instantiate abstract class SolverBase"
-    with pytest.raises(TypeError) as excuse:
-        Sample("solver", Lattice(4), SolverBase())
-    assert reason in str(excuse.value), f"{excuse=}"
+def test_sample_constructor_no_operator():
+    with pytest.raises(TypeError) as reason:
+        Sample(None, "test", Lattice(4))
+    assert "expected SolverOperator" in str(reason), f"{reason=!r}"
 
 
 @pytest.mark.parametrize(
-    "solver, lattice, sname, outcome, expect",
+    "lattice, sname, outcome, expect",
     [
-        [no_op_solver, Lattice(4), "sample name", does_not_raise(), None],
-        [no_op_solver, Lattice(4), None, does_not_raise(), None],
-        [None, None, None, pytest.raises(TypeError), "Must supply Lattice"],
+        [Lattice(4), "sample name", does_not_raise(), None],
+        [Lattice(4), None, does_not_raise(), None],
+        [None, None, pytest.raises(TypeError), "Must supply Lattice"],
         [
-            no_op_solver,
             None,  # <-- not a Lattice
             None,
             pytest.raises(TypeError),
             "Must supply Lattice() object,",
         ],
         [
-            no_op_solver,
             (1, 2),  # <-- not a Lattice
             None,
             pytest.raises(TypeError),
             "Must supply Lattice() object,",
         ],
         [
-            no_op_solver,
             dict(a=1, b=2, c=3, alpha=4, beta=5, gamma=6),  # <-- not a Lattice
             None,
             pytest.raises(TypeError),
             "Must supply Lattice() object,",
         ],
         [
-            no_op_solver,
             Lattice(4),
             12345,  # <-- not a str
             pytest.raises(TypeError),
@@ -56,10 +46,11 @@ def test_with_solver_base():
         ],
     ],
 )
-def test_constructor(solver, lattice, sname, outcome, expect):
+def test_sample_constructor(lattice, sname, outcome, expect, sim):
     with outcome as excuse:
-        sample = Sample(sname, lattice, solver)
+        sample = Sample(sim.operator, sname, lattice)
         assert sample is not None
+
         if sname is None:
             assert isinstance(sample.name, str)
             assert len(sample.name) == len(unique_name())
@@ -70,3 +61,17 @@ def test_constructor(solver, lattice, sname, outcome, expect):
 
     if expect is not None:
         assert expect in str(excuse), f"{excuse=} {expect=}"
+
+
+def test_repr(sim):
+    rep = repr(sim.sample)
+    assert rep.startswith("Sample(")
+    assert "name=" in rep
+    assert "lattice=" in rep
+    assert rep.endswith(")")
+
+
+def test_reflections_fail(sim):
+    with pytest.raises(TypeError) as reason:
+        sim.sample.reflections = None
+    assert "Must supply ReflectionsDict" in str(reason)

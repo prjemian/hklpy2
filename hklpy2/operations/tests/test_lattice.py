@@ -25,3 +25,18 @@ def test_crystal_classes(args, kwargs, expected):
     latt = Lattice(*args, **kwargs)
     assert isinstance(latt, Lattice)
     assert list(latt._asdict().values()) == list(expected), f"{latt=}"
+
+def test_equal():
+    l1 = Lattice(4.000_1)
+    l2 = Lattice(4.000_0)
+    assert l1.equal(l2, tolerance=0.001)
+    assert not l1.equal(l2)
+
+    # # FIXME:
+    # l1.digits = 3
+    # l2.digits = 3
+    # assert l1 == l2
+
+    # l1.digits = 4
+    # l2.digits = 3
+    # assert l1 != l2

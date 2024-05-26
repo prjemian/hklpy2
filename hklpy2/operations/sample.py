@@ -12,7 +12,6 @@ A Crystalline Sample.
 import logging
 
 from .. import Hklpy2Error
-from .. import SolverBase
 from .lattice import Lattice
 from .misc import unique_name
 from .reflection import ReflectionsDict
@@ -43,23 +42,23 @@ class Sample:
         ~lattice
         ~name
         ~reflections
-        ~solver
         ~U
         ~UB
     """
 
     def __init__(
         self,
+        operator,
         name: str,
         lattice: Lattice,
-        solver: SolverBase = None,  # TODO: refactor to use operator
     ) -> None:
+        from ..ops import SolverOperator
+
+        if not isinstance(operator, SolverOperator):
+            raise TypeError(f"Unexpected type {operator=!r}, expected SolverOperator")
         self.name = name or unique_name()
+        self.operator = operator
         self.lattice = lattice
-        if solver is None:
-            self._solver = None  # bypass setter's validations
-        else:
-            self.solver = solver
         # TODO: reciprocal_lattice
         self.reflections = ReflectionsDict()
 
@@ -68,10 +67,10 @@ class Sample:
 
     def refine_lattice(self):
         """Refine the lattice parameters from 3 or more reflections."""
-        if len(self.self.reflections) < 3:
+        if len(self.reflections) < 3:
             raise SampleError("Need 3 or more reflections to refine lattice.")
 
-        # self.solver.refineLattice()  # TODO
+        # self.operator.refineLattice()  # TODO
 
     # --------- get/set properties
 
@@ -109,19 +108,6 @@ class Sample:
         self._reflections = value
 
     @property
-    def solver(self):
-        """Diffractometer |solver|."""
-        return self._solver
-
-    @solver.setter
-    def solver(self, value):
-        if not (isinstance(value, SolverBase) or issubclass(type(value), SolverBase)):
-            raise TypeError(f"Must supply SolverBase() object, received {value!r}")
-        # note: calling SolverBase() will always generate a TypeError
-        # "Can't instantiate abstract class SolverBase with abstract methods" ...
-        self._solver = value
-
-    @property
     def U(self):
         """Return the matrix, U, crystal orientation on the diffractometer."""
         return None  # TODO
@@ -135,4 +121,4 @@ class Sample:
         * :math:`B` - crystal lattice on the diffractometer
         * :math:`U` - rotation matrix, relative orientation of crystal on diffractometer
         """
-        # self.solver.calculateOrientation()  # TODO
+        # self.operator.calculateOrientation()  # TODO

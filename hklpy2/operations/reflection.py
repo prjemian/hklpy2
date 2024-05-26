@@ -310,4 +310,4 @@ class ReflectionsDict(dict):
 
     @order.setter
     def order(self, value):
-        self._order = value
+        self._order = list(value)
