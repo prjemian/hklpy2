@@ -6,12 +6,24 @@
 User Guide
 ==========
 
-TODO
+.. caution:: work-in-progress
 
 .. toctree::
    :glob:
    :hidden:
 
    design-discussion
-   notebooks/*
+   examples/*
    glossary
+
+.. icons: https://fonts.google.com/icons
+
+.. grid:: 2
+
+    .. grid-item-card:: :material-outlined:`architecture;3em` :doc:`design-discussion`
+    .. grid-item-card:: :material-outlined:`list;3em` :ref:`glossary`
+
+    .. grid-item-card:: :material-outlined:`school;3em` Examples
+
+      * :doc:`examples/demo`
+      * :doc:`examples/diffract`
