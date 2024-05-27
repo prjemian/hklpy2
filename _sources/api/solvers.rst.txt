@@ -8,6 +8,8 @@
 Solvers
 ==================
 
+.. index:: !design; solver
+
 A |solver| is a Python class that connects |hklpy2| with a (backend) library
 that provides diffractometer capabilities, including:
 
