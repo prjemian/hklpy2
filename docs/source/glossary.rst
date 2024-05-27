@@ -113,8 +113,13 @@ Glossary
 
 ..  index:: !sample, definition; sample
 
-:sample: The substance to be explored with the *diffractometer*.
-  Has a *lattice* and list of *reflections*.
+:sample: The named substance to be explored with the *diffractometer*.
+  In |hklpy2|, a sample has a *lattice* and list of *reflections*.
+  
+  The *axes* in a sample's *reflections* are specific to the *diffractometer*
+  *geometry*.
+  Consequently, the sample is defined for a specific |solver| and
+  *geometry*.  The same sample cannot be used for other geometries.
 
 ..  index:: !solver, definition; solver
 
