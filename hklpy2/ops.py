@@ -291,20 +291,35 @@ class SolverOperator:
         * ordered list: [0, 1, -1]  (for h, k, l)
         * ordered tuple: (0, 1, -1)  (for h, k, l)
         """
+        if len(pseudos) != len(self.solver.pseudo_axis_names):
+            raise ValueError(
+                f"Expected {len(self.solver.pseudo_axis_names)} pseudos,"
+                f" received {len(pseudos)}."
+            )
+
+        pdict = {}
         if isinstance(pseudos, dict):  # convert dict to ordered dict
-            pdict = {}
             for k in expected:
                 if k not in pseudos:
                     raise SolverOperatorError(
                         f"Missing axis {k!r}. Expected: {expected!r}"
                     )
                 pdict[k] = pseudos[k]
+
         elif isinstance(pseudos, (list, tuple)):  # convert to ordered dict
-            pdict = self.diffractometer.PseudoPosition(*pseudos)._asdict()
+            dnames = [
+                dname
+                for dname in self.axes_xref.keys()
+                if dname in self.diffractometer.pseudo_axis_names
+            ]
+            for dname, value in zip(dnames, pseudos):
+                pdict[dname] = value
+
         else:
             raise SolverOperatorError(
                 f"Unexpected type: {pseudos!r}.  Expected dict, list, or tuple."
             )
+
         return pdict
 
     def standardize_reals(self, reals, expected) -> dict:
@@ -319,27 +334,43 @@ class SolverOperator:
         * ordered list: [120, 35.3, 45, -120]  (for omega, chi, phi, tth)
         * ordered tuple: (120, 35.3, 45, -120)  (for omega, chi, phi, tth)
         """
-        # fmt: off
+        if len(reals) != len(self.solver.real_axis_names):
+            raise ValueError(
+                f"Expected {len(self.solver.real_axis_names)} reals,"
+                f" received {len(reals)}."
+            )
+
+        rdict = {}
         if reals is None:  # write ordered dict
+            # fmt: off
             rdict = {
                 k: getattr(self.diffractometer, k).position
                 for k in expected
             }
-        # fmt: on
+            # fmt: on
+
         elif isinstance(reals, dict):  # convert dict to ordered dict
-            rdict = {}
             for k in expected:
                 if k not in reals:
                     raise SolverOperatorError(
                         f"Missing axis {k!r}. Expected: {expected!r}"
                     )
                 rdict[k] = reals[k]
+
         elif isinstance(reals, (list, tuple)):  # convert to ordered dict
-            rdict = self.diffractometer.RealPosition(*reals)._asdict()
+            dnames = [
+                dname
+                for dname in self.axes_xref.keys()
+                if dname in self.diffractometer.real_axis_names
+            ]
+            for dname, value in zip(dnames, reals):
+                rdict[dname] = value
+
         else:
             raise SolverOperatorError(
                 f"Unexpected type: {reals!r}.  Expected None, dict, list, or tuple."
             )
+
         return rdict
 
     # ---- get/set properties
