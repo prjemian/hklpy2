@@ -25,6 +25,7 @@ from .base import SolverBase
 
 logger = logging.getLogger(__name__)
 TH_TTH_Q_GEOMETRY = "TH TTH Q"
+TH_Q_GEOMETRY = "TH Q"  # TODO: Second geometry?
 
 
 class ThTthSolver(SolverBase):
@@ -50,7 +51,6 @@ class ThTthSolver(SolverBase):
     .. autosummary::
 
         ~addReflection
-        ~addSample
         ~calculateOrientation
         ~extra_axis_names
         ~forward
@@ -59,6 +59,7 @@ class ThTthSolver(SolverBase):
         ~pseudo_axis_names
         ~real_axis_names
         ~refineLattice
+        ~removeReflection
 
     .. rubric:: Python Properties
 
@@ -68,6 +69,7 @@ class ThTthSolver(SolverBase):
         ~lattice
         ~mode
         ~modes
+        ~sample
     """
 
     name = "th_tth"
@@ -90,9 +92,6 @@ class ThTthSolver(SolverBase):
             self._reflections.pop(-1)
             raise SolverError(f"All reflections must have same wavelength. Received: {wavelengths!r}")
         self.wavelength = wavelengths[0]
-
-    def addSample(self, sample):
-        pass  # ignored
 
     def calculateOrientation(self, r1, r2):
         return []
@@ -169,6 +168,10 @@ class ThTthSolver(SolverBase):
     def refineLattice(self, reflections: list[Reflection]) -> None:
         """No lattice refinement in this |solver|."""
         return None
+
+    def removeReflection(self, sample, reflection):
+        """Remove a reflection."""
+        raise NotImplementedError()  # TODO:
 
     @property
     def wavelength(self):

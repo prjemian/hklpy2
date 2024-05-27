@@ -34,7 +34,6 @@ class NoOpSolver(SolverBase):
     .. autosummary::
 
         ~addReflection
-        ~addSample
         ~calculateOrientation
         ~extra_axis_names
         ~forward
@@ -43,6 +42,7 @@ class NoOpSolver(SolverBase):
         ~pseudo_axis_names
         ~real_axis_names
         ~refineLattice
+        ~removeReflection
 
     .. rubric:: Python Properties
 
@@ -52,6 +52,7 @@ class NoOpSolver(SolverBase):
         ~lattice
         ~mode
         ~modes
+        ~sample
     """
 
     name = "no_op"
@@ -61,9 +62,6 @@ class NoOpSolver(SolverBase):
         super().__init__(geometry, **kwargs)
 
     def addReflection(self, pseudos, reals, wavelength):
-        pass
-
-    def addSample(self, sample):
         pass
 
     def calculateOrientation(self, r1, r2):
@@ -107,3 +105,7 @@ class NoOpSolver(SolverBase):
     def refineLattice(self, reflections: list[Reflection]) -> None:
         """No refinement."""
         return None
+
+    def removeReflection(self, sample, reflection):
+        """Remove a reflection."""
+        pass

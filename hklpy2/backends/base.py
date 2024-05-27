@@ -13,6 +13,7 @@ from abc import abstractmethod
 from .. import __version__
 from ..operations.lattice import Lattice
 from ..operations.reflection import Reflection
+from ..operations.sample import Sample
 
 logger = logging.getLogger(__name__)
 
@@ -51,7 +52,6 @@ class SolverBase(ABC):
     .. autosummary::
 
         ~addReflection
-        ~addSample
         ~calculateOrientation
         ~extra_axis_names
         ~forward
@@ -60,6 +60,7 @@ class SolverBase(ABC):
         ~pseudo_axis_names
         ~real_axis_names
         ~refineLattice
+        ~removeReflection
 
     .. rubric:: Python Properties
 
@@ -69,6 +70,7 @@ class SolverBase(ABC):
         ~lattice
         ~mode
         ~modes
+        ~sample
     """
 
     name = "base"
@@ -101,10 +103,6 @@ class SolverBase(ABC):
     @abstractmethod
     def addReflection(self, pseudos, reals, wavelength):
         """Add coordinates of a diffraction condition (a reflection)."""
-
-    @abstractmethod
-    def addSample(self, sample):
-        """Add a sample."""
 
     @abstractmethod
     def calculateOrientation(self, r1, r2):
@@ -218,3 +216,20 @@ class SolverBase(ABC):
     @abstractmethod
     def refineLattice(self, reflections: list[Reflection]) -> Lattice:
         """Refine the lattice parameters from a list of reflections."""
+
+    @abstractmethod
+    def removeReflection(self, sample, reflection):
+        """Remove a reflection."""
+
+    @property
+    def sample(self):
+        """
+        Crystalline sample.
+        """
+        return self._sample
+
+    @sample.setter
+    def sample(self, value):
+        if not isinstance(value, Sample):
+            raise TypeError(f"Must supply Sample object, received {value!r}")
+        self._sample = value

@@ -68,12 +68,12 @@ class HklSolver(SolverBase):
     .. autosummary::
 
         ~addReflection
-        ~addSample
         ~calculateOrientation
         ~forward
         ~geometries
         ~inverse
         ~refineLattice
+        ~removeReflection
 
     .. rubric:: Python Properties
 
@@ -91,6 +91,7 @@ class HklSolver(SolverBase):
         ~modes
         ~pseudo_axis_names
         ~real_axis_names
+        ~sample
     """
 
     name = "hkl_soleil"
@@ -145,10 +146,6 @@ class HklSolver(SolverBase):
 
     def addReflection(self, pseudos, reals, wavelength):  # TODO
         """Add coordinates of a diffraction condition (a reflection)."""
-        raise NotImplementedError()
-
-    def addSample(self, sample):  # TODO
-        """Add a sample."""
         raise NotImplementedError()
 
     @property
@@ -255,4 +252,14 @@ class HklSolver(SolverBase):
 
     def refineLattice(self, reflections: list[Reflection]) -> Lattice:
         """Refine the lattice parameters from a list of reflections."""
+        raise NotImplementedError()  # TODO:
+
+    def removeReflection(self, sample, reflection):
+        """Remove a reflection."""
+        # from hklpy
+        # if not isinstance(refl, libhkl.SampleReflection):
+        #     index = self.reflections.index(refl)
+        #     refl = self._sample.reflections_get()[index]
+
+        # return self._sample.del_reflection(refl)
         raise NotImplementedError()  # TODO:
