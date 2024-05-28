@@ -6,7 +6,7 @@ library.
 
 .. autosummary::
 
-    ~SolverOperator
+    ~Operator
 """
 
 import logging
@@ -18,15 +18,15 @@ from .operations.misc import solver_factory
 from .operations.misc import unique_name
 from .operations.sample import Sample
 
-__all__ = "SolverOperator SolverOperatorError".split()
+__all__ = "Operator OperatorError".split()
 logger = logging.getLogger(__name__)
 
 
-class SolverOperatorError(Hklpy2Error):
-    """Custom exceptions from :class:`~SolverOperator`."""
+class OperatorError(Hklpy2Error):
+    """Custom exceptions from :class:`~Operator`."""
 
 
-class SolverOperator:
+class Operator:
     """
     Operate the diffractometer using a |solver|.
 
@@ -136,7 +136,7 @@ class SolverOperator:
         """Add a new sample."""
         if name in self.samples:
             if not replace:
-                raise SolverOperatorError(f"Sample {name=!r} already defined.")
+                raise OperatorError(f"Sample {name=!r} already defined.")
         lattice = Lattice(a, b, c, alpha, beta, gamma, digits)
         self._samples[name] = Sample(self, name, lattice)
         self.sample = name
@@ -224,7 +224,7 @@ class SolverOperator:
         """Raise DiffractometerError if solver is not defined."""
         if self.solver is None:
             # TODO: First try to create a new solver.
-            raise SolverOperatorError("Call 'set_solver()' first.")
+            raise OperatorError("Call 'set_solver()' first.")
 
     def forward(self, pseudos) -> list:
         """Compute [{names:reals}] from {names: pseudos} (hkl -> angles)."""
@@ -301,9 +301,7 @@ class SolverOperator:
         if isinstance(pseudos, dict):  # convert dict to ordered dict
             for k in expected:
                 if k not in pseudos:
-                    raise SolverOperatorError(
-                        f"Missing axis {k!r}. Expected: {expected!r}"
-                    )
+                    raise OperatorError(f"Missing axis {k!r}. Expected: {expected!r}")
                 pdict[k] = pseudos[k]
 
         elif isinstance(pseudos, (list, tuple)):  # convert to ordered dict
@@ -316,7 +314,7 @@ class SolverOperator:
                 pdict[dname] = value
 
         else:
-            raise SolverOperatorError(
+            raise OperatorError(
                 f"Unexpected type: {pseudos!r}.  Expected dict, list, or tuple."
             )
 
@@ -352,9 +350,7 @@ class SolverOperator:
         elif isinstance(reals, dict):  # convert dict to ordered dict
             for k in expected:
                 if k not in reals:
-                    raise SolverOperatorError(
-                        f"Missing axis {k!r}. Expected: {expected!r}"
-                    )
+                    raise OperatorError(f"Missing axis {k!r}. Expected: {expected!r}")
                 rdict[k] = reals[k]
 
         elif isinstance(reals, (list, tuple)):  # convert to ordered dict
@@ -367,7 +363,7 @@ class SolverOperator:
                 rdict[dname] = value
 
         else:
-            raise SolverOperatorError(
+            raise OperatorError(
                 f"Unexpected type: {reals!r}.  Expected None, dict, list, or tuple."
             )
 

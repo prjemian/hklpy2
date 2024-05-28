@@ -52,10 +52,10 @@ class Sample:
         name: str,
         lattice: Lattice,
     ) -> None:
-        from ..ops import SolverOperator
+        from ..ops import Operator
 
-        if not isinstance(operator, SolverOperator):
-            raise TypeError(f"Unexpected type {operator=!r}, expected SolverOperator")
+        if not isinstance(operator, Operator):
+            raise TypeError(f"Unexpected type {operator=!r}, expected Operator")
         self.name = name or unique_name()
         self.operator = operator
         self.lattice = lattice

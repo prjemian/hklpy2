@@ -16,7 +16,7 @@ from ophyd.signal import AttributeSignal
 
 from . import Hklpy2Error
 from .operations.sample import Sample
-from .ops import SolverOperator
+from .ops import Operator
 from .wavelength_support import DEFAULT_WAVELENGTH
 from .wavelength_support import ConstantMonochromaticWavelength
 
@@ -126,7 +126,7 @@ class DiffractometerBase(PseudoPositioner):
     ):
         self._backend = None
         self._wavelength = ConstantMonochromaticWavelength(DEFAULT_WAVELENGTH)
-        self.operator = SolverOperator(self)
+        self.operator = Operator(self)
         self._forward_solution = self.choose_first_forward_solution
 
         super().__init__(*args, **kwargs)
@@ -182,7 +182,7 @@ class DiffractometerBase(PseudoPositioner):
         """
         Automatically assign diffractometer axes to this solver.
 
-        .. seealso:: :meth:`hklpy2.ops.SolverOperator.auto_assign_axes`
+        .. seealso:: :meth:`hklpy2.ops.Operator.auto_assign_axes`
 
         A |solver| geometry specifies expected pseudo, real, and extra axes
         for its ``.forward()`` and ``.inverse()`` coordinate transformations.
