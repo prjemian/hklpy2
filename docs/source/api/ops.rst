@@ -6,7 +6,7 @@
 Operations
 ==================
 
-:class:`~Operator` simplifies the code in
+:class:`~Operations` simplifies the code in
 :class:`~hklpy2.diffract.DiffractometerBase` as the
 interface with :class:`~hklpy2.backends.base.SolverBase`.
 

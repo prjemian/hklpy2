@@ -139,8 +139,8 @@ Plugins*](https://setuptools.pypa.io/en/latest/userguide/entry_point.html#entry-
 
 - Samples, lattices, & reflections stored in Python.
 - Separate the roles of operator and solver.
-  - Operator makes *transactions* with the selected *solver*.
+  - Operations makes *transactions* with the selected *solver*.
   - For specific operations, *solver* is setup and then *operated*.
 - Refactor use of **libhkl** as a backend *solver* library.
-- Support additional backend *solver* libraries.
+- Support additional backend *solver* libraries (installed as entry-points).
 - Simpler design.

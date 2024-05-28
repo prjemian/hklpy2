@@ -53,9 +53,9 @@ Diffractometer
 
 The :class:`~hklpy2.diffract.DiffractometerBase()` class should
 be a thin interface. Most real diffractometer capability should be
-provided in the :class:`~hklpy2.ops.Operator()` class (or one of
-its attributes, such as :attr:`~hklpy2.ops.Operator.solver`
-and :attr:`~hklpy2.ops.Operator.sample`)
+provided in the :class:`~hklpy2.ops.Operations()` class (or one of
+its attributes, such as :attr:`~hklpy2.ops.Operations.solver`
+and :attr:`~hklpy2.ops.Operations.sample`)
 
 .. rubric:: Operations-related methods and properties
 .. autosummary::
