@@ -11,7 +11,7 @@ from ..sample import Sample
 def test_sample_constructor_no_operator():
     with pytest.raises(TypeError) as reason:
         Sample(None, "test", Lattice(4))
-    assert "expected Operator" in str(reason), f"{reason=!r}"
+    assert "expected Operations" in str(reason), f"{reason=!r}"
 
 
 @pytest.mark.parametrize(

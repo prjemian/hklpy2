@@ -36,7 +36,7 @@ class Reflection:
     .. note:: Internal use only.
 
        It is expected this internal routine is called
-       from a :class:`~hklpy2.ops.Operator` method,
+       from a method of :class:`~hklpy2.ops.Operations`,
        not directly by the user.
 
     .. rubric:: Parameters

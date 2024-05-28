@@ -6,7 +6,7 @@ library.
 
 .. autosummary::
 
-    ~Operator
+    ~Operations
 """
 
 import logging
@@ -16,17 +16,18 @@ from . import SolverBase
 from .operations.lattice import Lattice
 from .operations.misc import solver_factory
 from .operations.misc import unique_name
+from .operations.reflection import Reflection
 from .operations.sample import Sample
 
-__all__ = "Operator OperatorError".split()
+__all__ = "Operations OperationsError".split()
 logger = logging.getLogger(__name__)
 
 
-class OperatorError(Hklpy2Error):
-    """Custom exceptions from :class:`~Operator`."""
+class OperationsError(Hklpy2Error):
+    """Custom exceptions from :class:`~Operations`."""
 
 
-class Operator:
+class Operations:
     """
     Operate the diffractometer using a |solver|.
 
@@ -43,6 +44,7 @@ class Operator:
         ~add_sample
         ~assign_axes
         ~auto_assign_axes
+        ~calcUB
         ~check_solver_defined
         ~forward
         ~inverse
@@ -136,7 +138,7 @@ class Operator:
         """Add a new sample."""
         if name in self.samples:
             if not replace:
-                raise OperatorError(f"Sample {name=!r} already defined.")
+                raise OperationsError(f"Sample {name=!r} already defined.")
         lattice = Lattice(a, b, c, alpha, beta, gamma, digits)
         self._samples[name] = Sample(self, name, lattice)
         self.sample = name
@@ -220,11 +222,32 @@ class Operator:
 
         logger.debug("axes_xref=%r", self.axes_xref)
 
+    def calcUB(self, r1: [Reflection, str], r2: [Reflection, str]):
+        """
+        Calculate the UB matrix with two reflections.
+
+        The method of Busing & Levy.
+        """
+
+        def get_reflection(r):
+            if isinstance(r, Reflection):
+                return r
+            reflection = self.sample.reflections.get(r)
+            if reflection is None:
+                raise KeyError(
+                    f"Reflection {reflection!r} unknown."
+                    f"  Knowns: {list(self.sample.reflections)!r}"
+                )
+            return reflection
+
+        self.solver.calculateOrientation(get_reflection(r1), get_reflection(r2))
+        print(f"=========> {self.solver.UB=!r}")
+
     def check_solver_defined(self):
         """Raise DiffractometerError if solver is not defined."""
         if self.solver is None:
             # TODO: First try to create a new solver.
-            raise OperatorError("Call 'set_solver()' first.")
+            raise OperationsError("Call 'set_solver()' first.")
 
     def forward(self, pseudos) -> list:
         """Compute [{names:reals}] from {names: pseudos} (hkl -> angles)."""
@@ -280,6 +303,10 @@ class Operator:
         self._solver = solver_factory(name, geometry, **kwargs)
         return self._solver
 
+    def _solver_setup(self):
+        """Setup the backend |solver| for a transaction."""
+        self.solver.sample = self.sample
+
     def standardize_pseudos(self, pseudos, expected) -> dict:
         """
         Convert user-supplied pseudos into dictionary.
@@ -301,7 +328,7 @@ class Operator:
         if isinstance(pseudos, dict):  # convert dict to ordered dict
             for k in expected:
                 if k not in pseudos:
-                    raise OperatorError(f"Missing axis {k!r}. Expected: {expected!r}")
+                    raise OperationsError(f"Missing axis {k!r}. Expected: {expected!r}")
                 pdict[k] = pseudos[k]
 
         elif isinstance(pseudos, (list, tuple)):  # convert to ordered dict
@@ -314,7 +341,7 @@ class Operator:
                 pdict[dname] = value
 
         else:
-            raise OperatorError(
+            raise OperationsError(
                 f"Unexpected type: {pseudos!r}.  Expected dict, list, or tuple."
             )
 
@@ -332,6 +359,14 @@ class Operator:
         * ordered list: [120, 35.3, 45, -120]  (for omega, chi, phi, tth)
         * ordered tuple: (120, 35.3, 45, -120)  (for omega, chi, phi, tth)
         """
+        if reals is None:  # write ordered dict
+            # fmt: off
+            reals = [
+                getattr(self.diffractometer, k).position
+                for k in expected
+            ]
+            # fmt: on
+
         if len(reals) != len(self.solver.real_axis_names):
             raise ValueError(
                 f"Expected {len(self.solver.real_axis_names)} reals,"
@@ -339,18 +374,10 @@ class Operator:
             )
 
         rdict = {}
-        if reals is None:  # write ordered dict
-            # fmt: off
-            rdict = {
-                k: getattr(self.diffractometer, k).position
-                for k in expected
-            }
-            # fmt: on
-
-        elif isinstance(reals, dict):  # convert dict to ordered dict
+        if isinstance(reals, dict):  # convert dict to ordered dict
             for k in expected:
                 if k not in reals:
-                    raise OperatorError(f"Missing axis {k!r}. Expected: {expected!r}")
+                    raise OperationsError(f"Missing axis {k!r}. Expected: {expected!r}")
                 rdict[k] = reals[k]
 
         elif isinstance(reals, (list, tuple)):  # convert to ordered dict
@@ -363,7 +390,7 @@ class Operator:
                 rdict[dname] = value
 
         else:
-            raise OperatorError(
+            raise OperationsError(
                 f"Unexpected type: {reals!r}.  Expected None, dict, list, or tuple."
             )
 

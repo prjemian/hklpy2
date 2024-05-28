@@ -60,7 +60,7 @@ class SolverBase(ABC):
         ~pseudo_axis_names
         ~real_axis_names
         ~refineLattice
-        ~removeReflection
+        ~removeAllReflections
 
     .. rubric:: Python Properties
 
@@ -71,6 +71,7 @@ class SolverBase(ABC):
         ~mode
         ~modes
         ~sample
+        ~UB
     """
 
     name = "base"
@@ -101,7 +102,7 @@ class SolverBase(ABC):
         return f"{self.__class__.__name__}({', '.join(args)})"
 
     @abstractmethod
-    def addReflection(self, pseudos, reals, wavelength):
+    def addReflection(self, reflection: Reflection):
         """Add coordinates of a diffraction condition (a reflection)."""
 
     @abstractmethod
@@ -218,8 +219,8 @@ class SolverBase(ABC):
         """Refine the lattice parameters from a list of reflections."""
 
     @abstractmethod
-    def removeReflection(self, sample, reflection):
-        """Remove a reflection."""
+    def removeAllReflections(self):
+        """Remove all reflections."""
 
     @property
     def sample(self):
@@ -233,3 +234,9 @@ class SolverBase(ABC):
         if not isinstance(value, Sample):
             raise TypeError(f"Must supply Sample object, received {value!r}")
         self._sample = value
+
+    @property
+    def UB(self):
+        """Orientation matrix."""
+        # identity matrix
+        return [[1.0, -0.0, -0.0], [0.0, 1.0, -0.0], [0.0, 0.0, 1.0]]

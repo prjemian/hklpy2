@@ -59,7 +59,7 @@ class ThTthSolver(SolverBase):
         ~pseudo_axis_names
         ~real_axis_names
         ~refineLattice
-        ~removeReflection
+        ~removeAllReflections
 
     .. rubric:: Python Properties
 
@@ -169,8 +169,8 @@ class ThTthSolver(SolverBase):
         """No lattice refinement in this |solver|."""
         return None
 
-    def removeReflection(self, sample, reflection):
-        """Remove a reflection."""
+    def removeAllReflections(self):
+        """Remove all reflections."""
         raise NotImplementedError()  # TODO:
 
     @property
