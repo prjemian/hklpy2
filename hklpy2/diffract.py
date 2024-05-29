@@ -4,6 +4,7 @@ Base class for all diffractometers
 .. autosummary::
 
     ~DiffractometerBase
+    ~forward_choice_function__first
 """
 
 import logging
@@ -25,6 +26,16 @@ __all__ = ["DiffractometerBase"]
 logger = logging.getLogger(__name__)
 
 DEFAULT_PHOTON_ENERGY_KEV = 8.0
+
+
+def forward_choice_function__first(solutions: list):
+    """
+    Choose first solution from list returned by '.forward()'.
+
+    User can provide an alternative function and assign to diffractometer's
+    :meth:`~hklpy2.diffract.DiffractometerBase._forward_solution` method.
+    """
+    return solutions[0]
 
 
 class DiffractometerError(Hklpy2Error):
@@ -67,7 +78,6 @@ class DiffractometerBase(PseudoPositioner):
         ~add_reflection
         ~add_sample
         ~auto_assign_axes
-        ~choose_first_forward_solution
         ~forward
         ~inverse
         ~set_solver
@@ -126,7 +136,7 @@ class DiffractometerBase(PseudoPositioner):
         **kwargs,
     ):
         self._backend = None
-        self._forward_solution = self.choose_first_forward_solution
+        self._forward_solution = forward_choice_function__first
         self._wavelength = ConstantMonochromaticWavelength(DEFAULT_WAVELENGTH)
 
         self.operator = Operations(self)
@@ -209,15 +219,6 @@ class DiffractometerBase(PseudoPositioner):
         not be assigned.
         """
         self.operator.auto_assign_axes()
-
-    def choose_first_forward_solution(self, solutions: list):
-        """
-        Choose first solution from list returned by '.forward()'.
-
-        User can provide an alternative function and assign to
-        'self._forward_solution'.
-        """
-        return solutions[0]
 
     @pseudo_position_argument
     def forward(self, pseudos: dict) -> tuple:

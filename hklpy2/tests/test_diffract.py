@@ -1,14 +1,12 @@
 """Test the hklpy2.diffract module."""
 
 import math
-from contextlib import nullcontext as does_not_raise
 
 import pytest
 
-from .. import SolverBase
 from ..diffract import DiffractometerBase
 from ..diffract import DiffractometerError
-from ..operations.misc import solver_factory
+from ..diffract import forward_choice_function__first
 from ..operations.sample import Sample
 from ..ops import Operations
 from ..wavelength_support import DEFAULT_WAVELENGTH
@@ -17,6 +15,11 @@ from .diffractometers import Fourc
 from .diffractometers import MultiAxis99
 from .diffractometers import NoOpTh2Th
 from .diffractometers import TwoC
+
+
+def test_choice_function():
+    choice = forward_choice_function__first("a b c".split())
+    assert choice == "a"
 
 
 def test_DiffractometerBase():
