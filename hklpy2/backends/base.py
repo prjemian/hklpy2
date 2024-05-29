@@ -17,6 +17,8 @@ from ..operations.sample import Sample
 
 logger = logging.getLogger(__name__)
 
+IDENTITY_MATRIX_3X3 = [[1.0, -0.0, -0.0], [0.0, 1.0, -0.0], [0.0, 0.0, 1.0]]
+
 
 class SolverBase(ABC):
     """
@@ -89,6 +91,7 @@ class SolverBase(ABC):
     ) -> None:
         self.geometry = geometry
         self.mode = mode
+        self._sample = None
 
         logger.debug("geometry=%s, kwargs=%s", repr(geometry), repr(kwargs))
 
@@ -102,16 +105,21 @@ class SolverBase(ABC):
         return f"{self.__class__.__name__}({', '.join(args)})"
 
     @abstractmethod
-    def addReflection(self, reflection: Reflection):
+    def addReflection(self, reflection: Reflection) -> None:
         """Add coordinates of a diffraction condition (a reflection)."""
 
     @abstractmethod
-    def calculateOrientation(self, r1, r2):
+    def calculateOrientation(
+        self,
+        r1: Reflection,
+        r2: Reflection,
+    ) -> list[list[float]]:
         """Calculate the UB (orientation) matrix from two reflections."""
+        return self.UB
 
     @property
     @abstractmethod
-    def extra_axis_names(self):
+    def extra_axis_names(self) -> list[str]:
         """Ordered list of any extra axis names (such as x, y, z)."""
         # Do NOT sort.
         return []
@@ -124,7 +132,7 @@ class SolverBase(ABC):
 
     @classmethod
     @abstractmethod
-    def geometries(cls):
+    def geometries(cls) -> list[str]:
         """
         Ordered list of the geometry names.
 
@@ -157,24 +165,24 @@ class SolverBase(ABC):
         self._geometry = value
 
     @abstractmethod
-    def inverse(self, reals: dict):
+    def inverse(self, reals: dict) -> dict[str, float]:
         """Compute tuple of pseudos from reals (angles -> hkl)."""
 
     @property
-    def lattice(self):
+    def lattice(self) -> object:
         """
         Crystal lattice parameters.  (Not used by this |solver|.)
         """
         return self._lattice
 
     @lattice.setter
-    def lattice(self, value):
+    def lattice(self, value: Lattice):
         if not isinstance(value, Lattice):
             raise TypeError(f"Must supply Lattice object, received {value!r}")
         self._lattice = value
 
     @property
-    def mode(self):
+    def mode(self) -> str:
         """
         Diffractometer geometry operation mode for :meth:`forward()`.
 
@@ -188,7 +196,7 @@ class SolverBase(ABC):
         return self._mode
 
     @mode.setter
-    def mode(self, value):
+    def mode(self, value: str):
         from .. import check_value_in_list  # avoid circular import here
 
         check_value_in_list("Mode", value, self.modes, blank_ok=True)
@@ -196,20 +204,20 @@ class SolverBase(ABC):
 
     @property
     @abstractmethod
-    def modes(self):
+    def modes(self) -> list[str]:
         """List of the geometry operating modes."""
         return []
 
     @property
     @abstractmethod
-    def pseudo_axis_names(self):
+    def pseudo_axis_names(self) -> list[str]:
         """Ordered list of the pseudo axis names (such as h, k, l)."""
         # Do NOT sort.
         return []
 
     @property
     @abstractmethod
-    def real_axis_names(self):
+    def real_axis_names(self) -> list[str]:
         """Ordered list of the real axis names (such as th, tth)."""
         # Do NOT sort.
         return []
@@ -219,24 +227,23 @@ class SolverBase(ABC):
         """Refine the lattice parameters from a list of reflections."""
 
     @abstractmethod
-    def removeAllReflections(self):
+    def removeAllReflections(self) -> None:
         """Remove all reflections."""
 
     @property
-    def sample(self):
+    def sample(self) -> object:
         """
         Crystalline sample.
         """
         return self._sample
 
     @sample.setter
-    def sample(self, value):
+    def sample(self, value: Sample):
         if not isinstance(value, Sample):
             raise TypeError(f"Must supply Sample object, received {value!r}")
         self._sample = value
 
     @property
     def UB(self):
-        """Orientation matrix."""
-        # identity matrix
-        return [[1.0, -0.0, -0.0], [0.0, 1.0, -0.0], [0.0, 0.0, 1.0]]
+        """Orientation matrix (3x3)."""
+        return IDENTITY_MATRIX_3X3
