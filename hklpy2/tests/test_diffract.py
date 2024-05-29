@@ -11,10 +11,11 @@ from ..operations.sample import Sample
 from ..ops import Operations
 from ..wavelength_support import DEFAULT_WAVELENGTH
 from ..wavelength_support import DEFAULT_WAVELENGTH_UNITS
-from .diffractometers import Fourc
-from .diffractometers import MultiAxis99
-from .diffractometers import NoOpTh2Th
-from .diffractometers import TwoC
+from .models import AugmentedFourc
+from .models import Fourc
+from .models import MultiAxis99
+from .models import NoOpTh2Th
+from .models import TwoC
 
 
 def test_choice_function():
@@ -34,7 +35,8 @@ def test_DiffractometerBase():
 @pytest.mark.parametrize(
     "dclass, np, nr, solver, gname, solver_kwargs, pseudos, reals, extras",
     [
-        [Fourc, 7, 8, None, None, {}, [], [], []],
+        [Fourc, 3, 4, None, None, {}, [], [], []],
+        [AugmentedFourc, 7, 8, None, None, {}, [], [], []],
         [MultiAxis99, 9, 9, "hkl_soleil", "E4CV", {}, None, [], []],
         [
             MultiAxis99,
@@ -117,7 +119,7 @@ def test_diffractometer_class(
 def test_extras():
     solver_name = "hkl_soleil"
     gname = "E4CV"
-    fourc = Fourc("", name="fourc")
+    fourc = AugmentedFourc("", name="fourc")
     assert fourc is not None
 
     fourc.set_solver(

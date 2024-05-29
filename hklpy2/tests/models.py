@@ -24,6 +24,19 @@ class Fourc(DiffractometerBase):
     phi = Cpt(SoftPositioner, limits=(-180, 180), init_pos=0, kind=HN)
     ttheta = Cpt(SoftPositioner, limits=(-170, 170), init_pos=0, kind=HN)
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(
+            *args,
+            solver="hkl_soleil",
+            geometry="E4CV",
+            solver_kwargs={"engine": "hkl"},
+            **kwargs,
+        )
+
+
+class AugmentedFourc(Fourc):
+    """Test case."""
+
     # define a few more axes,
     # extra parameters for some geometries/engines/modes
 
@@ -38,15 +51,6 @@ class Fourc(DiffractometerBase):
     mu = Cpt(SoftPositioner, limits=(-170, 170), init_pos=0, kind=HN)
     nu = Cpt(SoftPositioner, limits=(-170, 170), init_pos=0, kind=HN)
     omicron = Cpt(SoftPositioner, limits=(-170, 170), init_pos=0, kind=HN)
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(
-            *args,
-            solver="hkl_soleil",
-            geometry="E4CV",
-            solver_kwargs={"engine": "hkl"},
-            **kwargs,
-        )
 
 
 class MultiAxis99(DiffractometerBase):
