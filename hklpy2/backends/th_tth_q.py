@@ -96,7 +96,7 @@ class ThTthSolver(SolverBase):
     def calculateOrientation(self, r1, r2):
         return []
 
-    def forward(self, pseudos):
+    def forward(self, pseudos: dict) -> list[dict[str, float]]:
         """Transform pseudos to list of reals."""
         if not isinstance(pseudos, dict):
             raise TypeError(f"Must supply dict, received {pseudos!r}")

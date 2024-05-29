@@ -45,7 +45,7 @@ LIBHKL_UNITS = {
     "user": libhkl.UnitEnum.USER,
 }
 LIBHKL_USER_UNITS = LIBHKL_UNITS["user"]
-ROUNDOFF_DIGITS = 12
+ROUNDOFF_DIGITS = 14
 
 
 class HklSolver(SolverBase):
@@ -121,14 +121,14 @@ class HklSolver(SolverBase):
 
         super().__init__(geometry, **kwargs)
 
-        # note: must keep the 'engines' object as class attribute or
+        # note: must keep the '_engine_list' object as class attribute or
         # random core dumps, usually when accessing 'engine.name_get()'.
         self._detector = libhkl.Detector.factory_new(
             libhkl.DetectorType(LIBHKL_DETECTOR_TYPE)
         )
         self._factory = libhkl.factories()[geometry]
-        self._engines = self._factory.create_new_engine_list()  # note!
-        self._engine = self._engines.engine_get_by_name(engine)
+        self._engine_list = self._factory.create_new_engine_list()  # note!
+        self._engine = self._engine_list.engine_get_by_name(engine)
         self._geometry = self._factory.create_new_geometry()
 
     def __repr__(self):
@@ -192,7 +192,7 @@ class HklSolver(SolverBase):
     @property
     def engines(self) -> list[str]:
         """List of the computational engines available in this geometry."""
-        return [engine.name_get() for engine in self._engines.engines_get()]
+        return [engine.name_get() for engine in self._engine_list.engines_get()]
 
     @property
     def extra_axis_names(self) -> list[str]:
@@ -203,9 +203,11 @@ class HklSolver(SolverBase):
         """
         return self._engine.parameters_names_get()  # Do NOT sort.
 
-    def forward(self) -> list[dict[str, float]]:  # TODO:
+    def forward(self, pseudos: dict) -> list[dict[str, float]]:
         """Compute list of solutions(reals) from pseudos (hkl -> [angles])."""
         logger.debug("(%r) forward()", __name__)
+        # geometry_list = self._engine.pseudo_axis_values_set(values, LIBHKL_USER_UNITS)
+        # something = list(geometry_list.items())
         return [{}]
 
     @classmethod
@@ -227,7 +229,27 @@ class HklSolver(SolverBase):
     def inverse(self, reals: dict) -> dict[str, float]:  # TODO
         """Compute tuple of pseudos from reals (angles -> hkl)."""
         logger.debug("{__name__=} inverse(reals=%r)", reals)
-        return tuple(0, 0, 0)
+
+        # print(f"{reals=!r}")
+        # print(f"{self._engine.pseudo_axis_values_get(LIBHKL_USER_UNITS)=!r}")
+        reals = list(reals.values())
+        # print(f"{reals=!r}")
+        self._geometry.axis_values_set(reals, LIBHKL_USER_UNITS)
+        # print(f"{self._geometry.axis_values_get(LIBHKL_USER_UNITS)=!r}")
+
+        self._engine_list.get()  # reals -> pseudos  (Odd name for this call!)
+
+        # print(f"{self._geometry.axis_values_get(LIBHKL_USER_UNITS)=!r}")
+        pdict = dict(
+            zip(
+                self._engine.pseudo_axis_names_get(),
+                [
+                    round(v, ROUNDOFF_DIGITS)
+                    for v in self._engine.pseudo_axis_values_get(LIBHKL_USER_UNITS)
+                ],
+            )
+        )
+        return pdict
 
     @property
     def lattice(self) -> libhkl.Lattice:
@@ -318,6 +340,7 @@ class HklSolver(SolverBase):
         # Doesn't matter what name is used by libhkl. Use a unique name.
         sample = libhkl.Sample.new(unique_name())  # new sample each time
         self._sample = sample
+        self._engine_list.init(self._geometry, self._detector, sample)
         logger.debug(
             "sample name=%r, libhkl name=%r",
             value.name,

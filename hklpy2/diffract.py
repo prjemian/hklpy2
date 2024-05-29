@@ -15,6 +15,7 @@ from ophyd.pseudopos import real_position_argument
 from ophyd.signal import AttributeSignal
 
 from . import Hklpy2Error
+from .operations.reflection import Reflection
 from .operations.sample import Sample
 from .ops import Operations
 from .wavelength_support import DEFAULT_WAVELENGTH
@@ -125,9 +126,10 @@ class DiffractometerBase(PseudoPositioner):
         **kwargs,
     ):
         self._backend = None
-        self._wavelength = ConstantMonochromaticWavelength(DEFAULT_WAVELENGTH)
-        self.operator = Operations(self)
         self._forward_solution = self.choose_first_forward_solution
+        self._wavelength = ConstantMonochromaticWavelength(DEFAULT_WAVELENGTH)
+
+        self.operator = Operations(self)
 
         super().__init__(*args, **kwargs)
 
@@ -136,7 +138,13 @@ class DiffractometerBase(PseudoPositioner):
 
         self.operator.assign_axes(pseudos, reals, extras)
 
-    def add_reflection(self, pseudos, reals=None, wavelength=None, name=None):
+    def add_reflection(
+        self,
+        pseudos,
+        reals=None,
+        wavelength=None,
+        name=None,
+    ) -> Reflection:
         """
         Add a new reflection with this geometry to the selected sample.
 
@@ -149,7 +157,7 @@ class DiffractometerBase(PseudoPositioner):
         * ``name`` (str): Reference name for this reflection.
           If ``None``, a random name will be assigned.
         """
-        self.operator.add_reflection(
+        return self.operator.add_reflection(
             pseudos, reals, wavelength or self.wavelength.get(), name
         )
 

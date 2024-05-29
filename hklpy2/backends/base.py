@@ -117,7 +117,7 @@ class SolverBase(ABC):
         return []
 
     @abstractmethod
-    def forward(self):
+    def forward(self, pseudos: dict) -> list[dict[str, float]]:
         """Compute list of solutions(reals) from pseudos (hkl -> [angles])."""
         # based on geometry and mode
         return [{}]

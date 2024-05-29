@@ -71,7 +71,7 @@ class NoOpSolver(SolverBase):
     def extra_axis_names(self):
         return []
 
-    def forward(self):
+    def forward(self, pseudos: dict) -> list[dict[str, float]]:
         return [{}]
 
     @classmethod

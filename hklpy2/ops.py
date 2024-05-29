@@ -65,21 +65,26 @@ class Operations:
     from .operations.sample import Sample
 
     def __init__(self, diffractometer, default_sample: bool = True) -> None:
+        # axes names cross-reference
+        # keys: diffractometer axis names
+        # values: solver axis names
+        self.axes_xref = {}
         self.diffractometer = diffractometer
         self._sample_name = None
         self._samples = {}
         self._solver = None
 
-        # axes names cross-reference
-        # keys: diffractometer axis names
-        # values: solver axis names
-        self.axes_xref = {}
-
         if default_sample:
             # first sample is cubic, no reflections
             self.add_sample("cubic", 1)
 
-    def add_reflection(self, pseudos, reals=None, wavelength=None, name=None):
+    def add_reflection(
+        self,
+        pseudos,
+        reals=None,
+        wavelength=None,
+        name=None,
+    ) -> Reflection:
         """
         Add a new reflection.
 
@@ -93,7 +98,6 @@ class Operations:
         """
         from .operations.reflection import Reflection
 
-        # reverse xref: solver -> diffractometer
         reverse = {v: k for k, v in self.axes_xref.items()}
         pnames = [reverse[k] for k in self.solver.pseudo_axis_names]
         rnames = [reverse[k] for k in self.solver.real_axis_names]
@@ -122,6 +126,7 @@ class Operations:
             rnames,
         )
         self.sample.reflections.add(refl)
+        return refl
 
     def add_sample(
         self,
@@ -228,7 +233,7 @@ class Operations:
         """
         Calculate the UB matrix with two reflections.
 
-        The method of Busing & Levy.
+        The method of Busing & Levy, Acta Cryst 22 (1967) 457.
         """
 
         def get_reflection(r):
@@ -258,7 +263,7 @@ class Operations:
             self.__class__.__name__,
             pseudos,
         )
-        # TODO: self.check_solver_defined()
+        # self.check_solver_defined()
         axes = self.diffractometer._get_real_positioners()  # TODO:
         reals = {axis[0]: 0 for axis in axes}
         return [reals]
@@ -270,10 +275,17 @@ class Operations:
             self.__class__.__name__,
             reals,
         )
-        # TODO: self.check_solver_defined()
-        axes = self.diffractometer._get_pseudo_positioners()  # TODO:
-        pseudos = {axis[0]: 0 for axis in axes}
-        return pseudos
+        # self.check_solver_defined()
+        if self.solver is None:  # called from the constructor before solver is defined
+            axes = self.diffractometer._get_pseudo_positioners()
+            pseudos = {axis[0]: 0 for axis in axes}
+            return pseudos  # current values of pseudos
+        reverse = {v: k for k, v in self.axes_xref.items()}
+        rnames = [reverse[k] for k in self.solver.real_axis_names]
+        spdict = self.solver.inverse(self.standardize_reals(reals, rnames))
+        pdict = {reverse[k]: v for k, v in spdict.items()}
+        # TODO: fill in unused pseudos?
+        return pdict
 
     def remove_sample(self, name):
         """Remove the named sample.  No error if name is not known."""
@@ -309,7 +321,11 @@ class Operations:
         """Setup the backend |solver| for a transaction."""
         self.solver.sample = self.sample
 
-    def standardize_pseudos(self, pseudos, expected) -> dict:
+    def standardize_pseudos(
+        self,
+        pseudos: list[str],
+        expected: list[str] = None,
+    ) -> dict[str, str]:
         """
         Convert user-supplied pseudos into dictionary.
 
@@ -320,10 +336,10 @@ class Operations:
         * ordered list: [0, 1, -1]  (for h, k, l)
         * ordered tuple: (0, 1, -1)  (for h, k, l)
         """
-        if len(pseudos) != len(self.solver.pseudo_axis_names):
+        expected = expected or self.solver.pseudo_axis_names
+        if len(pseudos) != len(expected):
             raise ValueError(
-                f"Expected {len(self.solver.pseudo_axis_names)} pseudos,"
-                f" received {len(pseudos)}."
+                f"Expected {len(expected)} pseudos, received {len(pseudos)}."
             )
 
         pdict = {}
@@ -349,7 +365,11 @@ class Operations:
 
         return pdict
 
-    def standardize_reals(self, reals, expected) -> dict:
+    def standardize_reals(
+        self,
+        reals: list[str],
+        expected: list[str] = None,
+    ) -> dict:
         """
         Convert user-supplied reals into dictionary.
 
@@ -369,11 +389,9 @@ class Operations:
             ]
             # fmt: on
 
-        if len(reals) != len(self.solver.real_axis_names):
-            raise ValueError(
-                f"Expected {len(self.solver.real_axis_names)} reals,"
-                f" received {len(reals)}."
-            )
+        expected = expected or self.solver.real_axis_names
+        if len(reals) != len(expected):
+            raise ValueError(f"Expected {len(expected)} reals, received {len(reals)}.")
 
         rdict = {}
         if isinstance(reals, dict):  # convert dict to ordered dict
