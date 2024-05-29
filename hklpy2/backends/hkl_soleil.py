@@ -131,26 +131,6 @@ class HklSolver(SolverBase):
         self._engine = self._engines.engine_get_by_name(engine)
         self._geometry = self._factory.create_new_geometry()
 
-        # self.print_info_DEVELOPER()
-
-    def print_info_DEVELOPER(self):
-        print(f"{self=!r}")
-        print(f"{self.name=!r}")
-        print(f"{self.__class__.__name__=!r}")
-        print(f"{self.version=!r}")
-        print(f"{self._factory=!r}")
-        print(f"{self._geometry=!r}")
-        print(f"{self.geometry=!r}")
-        print(f"{self.engines=!r}")
-        print(f"{self._engines=!r}")
-        print(f"{self._engine=!r}")
-        print(f"{self.engine=!r}")
-        print(f"{self.modes=!r}")
-        print(f"{self.mode=!r}")
-        print(f"{self.pseudo_axis_names=!r}")
-        print(f"{self.real_axis_names=!r}")
-        print(f"{self.extra_axis_names=!r}")
-
     def __repr__(self):
         args = [
             f"{s}={getattr(self, s)!r}"
@@ -172,7 +152,7 @@ class HklSolver(SolverBase):
         self.sample.add_reflection(self._geometry, self._detector, *pseudos)
 
     @property
-    def axes_c(self):
+    def axes_c(self) -> list[str]:
         """
         HKL real axis names.
 
@@ -182,12 +162,12 @@ class HklSolver(SolverBase):
         return [axis for axis in self.axes_r if axis not in self.axes_w]
 
     @property
-    def axes_r(self):
+    def axes_r(self) -> list[str]:
         """HKL real axis names (read-only)."""
         return self._engine.axis_names_get(AXES_READ)  # Do NOT sort.
 
     @property
-    def axes_w(self):
+    def axes_w(self) -> list[str]:
         """
         HKL real axis names.
 
@@ -205,17 +185,17 @@ class HklSolver(SolverBase):
         logger.debug("%r reflections", len(self.sample.reflections_get()))
 
     @property
-    def engine(self):
+    def engine(self) -> libhkl.Engine:
         """Selected computational engine for this geometry."""
         return self._engine.name_get()
 
     @property
-    def engines(self):
+    def engines(self) -> list[str]:
         """List of the computational engines available in this geometry."""
         return [engine.name_get() for engine in self._engines.engines_get()]
 
     @property
-    def extra_axis_names(self):
+    def extra_axis_names(self) -> list[str]:
         """
         Ordered list of any extra axis names (such as x, y, z).
 
@@ -223,13 +203,13 @@ class HklSolver(SolverBase):
         """
         return self._engine.parameters_names_get()  # Do NOT sort.
 
-    def forward(self):  # TODO:
+    def forward(self) -> list[dict[str, float]]:  # TODO:
         """Compute list of solutions(reals) from pseudos (hkl -> [angles])."""
         logger.debug("(%r) forward()", __name__)
         return [{}]
 
     @classmethod
-    def geometries(cls):
+    def geometries(cls) -> list[str]:
         return sorted(libhkl.factories())
 
     @property
@@ -244,13 +224,13 @@ class HklSolver(SolverBase):
         self._gname = value
         self._gname_locked = True
 
-    def inverse(self, reals: dict):  # TODO
+    def inverse(self, reals: dict) -> dict[str, float]:  # TODO
         """Compute tuple of pseudos from reals (angles -> hkl)."""
         logger.debug("{__name__=} inverse(reals=%r)", reals)
         return tuple(0, 0, 0)
 
     @property
-    def lattice(self):
+    def lattice(self) -> libhkl.Lattice:
         """
         Crystal lattice parameters.  (Not used by this |solver|.)
         """
@@ -277,14 +257,14 @@ class HklSolver(SolverBase):
         )
 
     @property
-    def modes(self):
+    def modes(self) -> list[str]:
         """List of the geometry operating modes."""
         if self._engine is None:
             return []
         return self._engine.modes_names_get()
 
     @property
-    def mode(self):
+    def mode(self) -> str:
         """Name of the current geometry operating mode."""
         return self._engine.current_mode_get()
 
@@ -296,27 +276,33 @@ class HklSolver(SolverBase):
         self._engine.current_mode_set(value)
 
     @property
-    def pseudo_axis_names(self):
+    def pseudo_axis_names(self) -> list[str]:
         """Ordered list of the pseudo axis names (such as h, k, l)."""
         return self._engine.pseudo_axis_names_get()  # Do NOT sort.
 
     @property
-    def real_axis_names(self):
+    def real_axis_names(self) -> list[str]:
         """Ordered list of the real axis names (such as th, tth)."""
         return self._geometry.axis_names_get()  # Do NOT sort.
 
     def refineLattice(self, reflections: list[Reflection]) -> Lattice:
         """Refine the lattice parameters from a list of reflections."""
-        raise NotImplementedError()  # TODO:
+        self.removeAllReflections()
+        for r in reflections:
+            self.addReflection(r)
+        # TODO:
+        # self.sample.affine(*self.sample.reflections_get())
+        # get the refined lattice
+        # return Lattice()
 
-    def removeAllReflections(self):
+    def removeAllReflections(self) -> None:
         """Remove all reflections."""
         refs = self.sample.reflections_get()
         for ref in refs:
             self.sample.del_reflection(ref)
 
     @property
-    def sample(self):
+    def sample(self) -> libhkl.Sample:
         """
         Crystalline sample.  libhkl's sample object.
         """
@@ -346,7 +332,7 @@ class HklSolver(SolverBase):
         print(f"{sample.reflections_get()=!r}")
 
     @property
-    def UB(self):
+    def UB(self) -> list[list[float]]:
         """Orientation matrix."""
         matrix = self.sample.UB_get()
         return [
