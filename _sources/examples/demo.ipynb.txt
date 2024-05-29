@@ -29,8 +29,8 @@
      "name": "stdout",
      "output_type": "stream",
      "text": [
-      "2024-05-26 22:18:56.387279\n",
-      "hklpy2.__version__='0.0.15.dev40+gc4c81e3.d20240527'\n",
+      "2024-05-29 18:13:11.922462\n",
+      "hklpy2.__version__='0.0.16.dev16+g7f25ebb.d20240529'\n",
       "hklpy2.solvers()={'hkl_soleil': 'hklpy2.backends.hkl_soleil:HklSolver', 'no_op': 'hklpy2.backends.no_op:NoOpSolver', 'th_tth': 'hklpy2.backends.th_tth_q:ThTthSolver'}\n"
      ]
     }
@@ -68,7 +68,7 @@
       "sim4c.geometry.get()='E4CV'\n",
       "sim4c.sample=Sample(name='cubic', lattice=Lattice(a=1, b=1, c=1, alpha=90.0, beta=90.0, gamma=90.0))\n",
       "sim4c.operator.axes_xref={'h': 'h', 'k': 'k', 'l': 'l', 'omega': 'omega', 'chi': 'chi', 'phi': 'phi', 'tth': 'tth'}\n",
-      "sim4c.position=SimulatedE4CVPseudoPos(h=0, k=0, l=0)\n"
+      "sim4c.position=SimulatedE4CVPseudoPos(h=0.0, k=0.0, l=0.0)\n"
      ]
     }
    ],
@@ -110,8 +110,7 @@
       "powder.solver.get()='th_tth'\n",
       "powder.geometry.get()='TH TTH Q'\n",
       "powder.sample=Sample(name='cubic', lattice=Lattice(a=1, b=1, c=1, alpha=90.0, beta=90.0, gamma=90.0))\n",
-      "powder.operator.axes_xref={'q': 'q', 'theta': 'th', 'ttheta': 'tth'}\n",
-      "powder.position=SimulatedTheta2ThetaPseudoPos(q=0)\n"
+      "powder.operator.axes_xref={'q': 'q', 'theta': 'th', 'ttheta': 'tth'}\n"
      ]
     }
    ],
@@ -123,7 +122,7 @@
     "print(f\"{powder.geometry.get()=}\")\n",
     "print(f\"{powder.sample=}\")\n",
     "print(f\"{powder.operator.axes_xref=}\")\n",
-    "print(f\"{powder.position=}\")"
+    "# print(f\"{powder.position=}\")  # SolverError('Wavelength is not set. Add a reflection.')"
    ]
   },
   {
@@ -164,6 +163,7 @@
      "text": [
       "fourc.samples={'cubic': Sample(name='cubic', lattice=Lattice(a=1, b=1, c=1, alpha=90.0, beta=90.0, gamma=90.0))}\n",
       "fourc.sample=Sample(name='cubic', lattice=Lattice(a=1, b=1, c=1, alpha=90.0, beta=90.0, gamma=90.0))\n",
+      "sample.reflections_get()=[]\n",
       "fourc.sample=Sample(name='vibranium', lattice=Lattice(a=6.283, b=6.283, c=6.283, alpha=90.0, beta=90.0, gamma=90.0))\n",
       "fourc.samples={'cubic': Sample(name='cubic', lattice=Lattice(a=1, b=1, c=1, alpha=90.0, beta=90.0, gamma=90.0)), 'vibranium': Sample(name='vibranium', lattice=Lattice(a=6.283, b=6.283, c=6.283, alpha=90.0, beta=90.0, gamma=90.0))}\n",
       "fourc.sample=Sample(name='cubic', lattice=Lattice(a=1, b=1, c=1, alpha=90.0, beta=90.0, gamma=90.0))\n"
@@ -190,7 +190,7 @@
     {
      "data": {
       "text/plain": [
-       "{'position': SimulatedE4CVPseudoPos(h=0, k=0, l=0)}"
+       "{'position': SimulatedE4CVPseudoPos(h=0.0, k=0.0, l=0.0)}"
       ]
      },
      "execution_count": 6,
@@ -240,7 +240,9 @@
     "fourc.add_reflection((1, 0, 0), (10, 0, 0, 20), name=\"r1\")\n",
     "fourc.add_reflection((0, 1, 0), (10, -90, 0, 20), name=\"r2\")\n",
     "for r in fourc.sample.reflections.order:\n",
-    "    print(f\"{fourc.sample.reflections[r]}\")"
+    "    print(f\"{fourc.sample.reflections[r]}\")\n",
+    "# fourc.operator.calcUB(*fourc.sample.reflections.order)  # WIP\n",
+    "# print(f\"{fourc.inverse(10, 0, 0, 20)=!r}\")"
    ]
   },
   {

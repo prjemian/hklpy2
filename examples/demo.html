@@ -39,7 +39,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=3ee479438cf8b5e0d341" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=3ee479438cf8b5e0d341"></script>
 
-    <script src="../_static/documentation_options.js?v=d8bd26a9"></script>
+    <script src="../_static/documentation_options.js?v=c9163b9e"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
@@ -366,8 +366,8 @@ document.write(`
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-2024-05-26 22:18:56.387279
-hklpy2.__version__=&#39;0.0.15.dev40+gc4c81e3.d20240527&#39;
+2024-05-29 18:13:11.922462
+hklpy2.__version__=&#39;0.0.16.dev16+g7f25ebb.d20240529&#39;
 hklpy2.solvers()={&#39;hkl_soleil&#39;: &#39;hklpy2.backends.hkl_soleil:HklSolver&#39;, &#39;no_op&#39;: &#39;hklpy2.backends.no_op:NoOpSolver&#39;, &#39;th_tth&#39;: &#39;hklpy2.backends.th_tth_q:ThTthSolver&#39;}
 </pre></div></div>
 </div>
@@ -396,7 +396,7 @@ sim4c.solver.get()=&#39;hkl_soleil&#39;
 sim4c.geometry.get()=&#39;E4CV&#39;
 sim4c.sample=Sample(name=&#39;cubic&#39;, lattice=Lattice(a=1, b=1, c=1, alpha=90.0, beta=90.0, gamma=90.0))
 sim4c.operator.axes_xref={&#39;h&#39;: &#39;h&#39;, &#39;k&#39;: &#39;k&#39;, &#39;l&#39;: &#39;l&#39;, &#39;omega&#39;: &#39;omega&#39;, &#39;chi&#39;: &#39;chi&#39;, &#39;phi&#39;: &#39;phi&#39;, &#39;tth&#39;: &#39;tth&#39;}
-sim4c.position=SimulatedE4CVPseudoPos(h=0, k=0, l=0)
+sim4c.position=SimulatedE4CVPseudoPos(h=0.0, k=0.0, l=0.0)
 </pre></div></div>
 </div>
 <p>Create a <span class="math notranslate nohighlight">\(\theta-2\theta\)</span> 2-circle <a class="reference external" href="https://prjemian.github.io/hklpy2/api/geom.html#hklpy2.geom.SimulatedTheta2Theta">diffractometer</a> using <code class="docutils literal notranslate"><span class="pre">&quot;th_tth&quot;</span></code>, a different backend solver. This demonstrates the ability to choose between different backend solvers.</p>
@@ -412,7 +412,7 @@ sim4c.position=SimulatedE4CVPseudoPos(h=0, k=0, l=0)
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">powder</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">powder</span><span class="o">.</span><span class="n">sample</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">powder</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">axes_xref</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">powder</span><span class="o">.</span><span class="n">position</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="c1"># print(f&quot;{powder.position=}&quot;)  # SolverError(&#39;Wavelength is not set. Add a reflection.&#39;)</span>
 </pre></div>
 </div>
 </div>
@@ -425,7 +425,6 @@ powder.solver.get()=&#39;th_tth&#39;
 powder.geometry.get()=&#39;TH TTH Q&#39;
 powder.sample=Sample(name=&#39;cubic&#39;, lattice=Lattice(a=1, b=1, c=1, alpha=90.0, beta=90.0, gamma=90.0))
 powder.operator.axes_xref={&#39;q&#39;: &#39;q&#39;, &#39;theta&#39;: &#39;th&#39;, &#39;ttheta&#39;: &#39;tth&#39;}
-powder.position=SimulatedTheta2ThetaPseudoPos(q=0)
 </pre></div></div>
 </div>
 </section>
@@ -462,6 +461,7 @@ powder.position=SimulatedTheta2ThetaPseudoPos(q=0)
 <div class="highlight"><pre>
 fourc.samples={&#39;cubic&#39;: Sample(name=&#39;cubic&#39;, lattice=Lattice(a=1, b=1, c=1, alpha=90.0, beta=90.0, gamma=90.0))}
 fourc.sample=Sample(name=&#39;cubic&#39;, lattice=Lattice(a=1, b=1, c=1, alpha=90.0, beta=90.0, gamma=90.0))
+sample.reflections_get()=[]
 fourc.sample=Sample(name=&#39;vibranium&#39;, lattice=Lattice(a=6.283, b=6.283, c=6.283, alpha=90.0, beta=90.0, gamma=90.0))
 fourc.samples={&#39;cubic&#39;: Sample(name=&#39;cubic&#39;, lattice=Lattice(a=1, b=1, c=1, alpha=90.0, beta=90.0, gamma=90.0)), &#39;vibranium&#39;: Sample(name=&#39;vibranium&#39;, lattice=Lattice(a=6.283, b=6.283, c=6.283, alpha=90.0, beta=90.0, gamma=90.0))}
 fourc.sample=Sample(name=&#39;cubic&#39;, lattice=Lattice(a=1, b=1, c=1, alpha=90.0, beta=90.0, gamma=90.0))
@@ -481,7 +481,7 @@ fourc.sample=Sample(name=&#39;cubic&#39;, lattice=Lattice(a=1, b=1, c=1, alpha=9
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-{&#39;position&#39;: SimulatedE4CVPseudoPos(h=0, k=0, l=0)}
+{&#39;position&#39;: SimulatedE4CVPseudoPos(h=0.0, k=0.0, l=0.0)}
 </pre></div></div>
 </div>
 <div class="nbinput nblast docutils container">
@@ -502,6 +502,8 @@ fourc.sample=Sample(name=&#39;cubic&#39;, lattice=Lattice(a=1, b=1, c=1, alpha=9
 <span class="n">fourc</span><span class="o">.</span><span class="n">add_reflection</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="o">-</span><span class="mi">90</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">20</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;r2&quot;</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">fourc</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">reflections</span><span class="o">.</span><span class="n">order</span><span class="p">:</span>
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">fourc</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">reflections</span><span class="p">[</span><span class="n">r</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="c1"># fourc.operator.calcUB(*fourc.sample.reflections.order)  # WIP</span>
+<span class="c1"># print(f&quot;{fourc.inverse(10, 0, 0, 20)=!r}&quot;)</span>
 </pre></div>
 </div>
 </div>
