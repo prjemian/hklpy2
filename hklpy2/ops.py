@@ -142,6 +142,8 @@ class Operations:
         lattice = Lattice(a, b, c, alpha, beta, gamma, digits)
         self._samples[name] = Sample(self, name, lattice)
         self.sample = name
+        if self.solver is not None:
+            self.solver.sample = self._samples[name]
         return self._samples[name]
 
     def assign_axes(
