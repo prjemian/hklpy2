@@ -24,6 +24,7 @@ from ..operations.lattice import Lattice
 from ..operations.misc import unique_name
 from ..operations.reflection import Reflection
 from ..operations.sample import Sample
+from .base import IDENTITY_MATRIX_3X3
 
 try:
     import gi
@@ -112,12 +113,13 @@ class HklSolver(SolverBase):
         self,
         geometry: str,
         *,
-        engine="hkl",
-        mode="",
+        engine: str = "hkl",
+        mode: str = "",
         **kwargs,
     ) -> None:
         self._engine = None
-        self._gname_locked = False  # can't chanmge after setting once
+        self._gname_locked = False  # Can't change after setting once.
+        self._sample = None
 
         super().__init__(geometry, **kwargs)
 
@@ -131,14 +133,14 @@ class HklSolver(SolverBase):
         self._engine = self._engine_list.engine_get_by_name(engine)
         self._geometry = self._factory.create_new_geometry()
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         args = [
             f"{s}={getattr(self, s)!r}"
             for s in "name version geometry engine mode".split()
         ]
         return f"{self.__class__.__name__}({', '.join(args)})"
 
-    def addReflection(self, reflection: Reflection):
+    def addReflection(self, reflection: Reflection) -> None:
         """Add coordinates of a diffraction condition (a reflection)."""
         if not isinstance(reflection, Reflection):
             raise TypeError(f"Must supply Reflection object, received {reflection!r}")
@@ -175,14 +177,21 @@ class HklSolver(SolverBase):
         """
         return self._engine.axis_names_get(AXES_WRITTEN)  # Do NOT sort.
 
-    def calculateOrientation(self, r1: Reflection, r2: Reflection):
+    def calculateOrientation(
+        self,
+        r1: Reflection,
+        r2: Reflection,
+    ) -> list[list[float]]:
         """Calculate the UB (orientation) matrix from two reflections."""
+        if self.sample is None:
+            return
         # Remove all reflections first
         self.removeAllReflections()
         self.addReflection(r1)
         self.addReflection(r2)
         self.sample.compute_UB_busing_levy(*self.sample.reflections_get())
         logger.debug("%r reflections", len(self.sample.reflections_get()))
+        return self.UB
 
     @property
     def engine(self) -> libhkl.Engine:
@@ -226,9 +235,21 @@ class HklSolver(SolverBase):
         self._gname = value
         self._gname_locked = True
 
-    def inverse(self, reals: dict) -> dict[str, float]:  # TODO
+    def inverse(self, reals: dict[str, float]) -> dict[str, float]:
         """Compute tuple of pseudos from reals (angles -> hkl)."""
         logger.debug("{__name__=} inverse(reals=%r)", reals)
+        if list(reals) != self.real_axis_names:
+            raise ValueError(
+                f"Wrong dictionary keys received: {list(reals)!r}"
+                f" Expected: {self.real_axis_names!r}"
+            )
+        if False in [isinstance(v, (float, int)) for v in reals.values()]:
+            # fmt: off
+            raise TypeError(
+                "All dictionary must be numbers."
+                f"  Received: {reals!r}"
+            )
+            # fmt: on
 
         # print(f"{reals=!r}")
         # print(f"{self._engine.pseudo_axis_values_get(LIBHKL_USER_UNITS)=!r}")
@@ -279,23 +300,23 @@ class HklSolver(SolverBase):
         )
 
     @property
-    def modes(self) -> list[str]:
-        """List of the geometry operating modes."""
-        if self._engine is None:
-            return []
-        return self._engine.modes_names_get()
-
-    @property
     def mode(self) -> str:
         """Name of the current geometry operating mode."""
         return self._engine.current_mode_get()
 
     @mode.setter
-    def mode(self, value):
+    def mode(self, value: str):
         check_value_in_list("Mode", value, self.modes, blank_ok=True)
         if value == "":
             return  # keep current mode
         self._engine.current_mode_set(value)
+
+    @property
+    def modes(self) -> list[str]:
+        """List of the geometry operating modes."""
+        if self._engine is None:
+            return []
+        return self._engine.modes_names_get()
 
     @property
     def pseudo_axis_names(self) -> list[str]:
@@ -331,7 +352,7 @@ class HklSolver(SolverBase):
         return self._sample
 
     @sample.setter
-    def sample(self, value):
+    def sample(self, value: Sample):
         if not isinstance(value, Sample):
             raise TypeError(f"Must supply Sample object, received {value!r}")
 
@@ -356,7 +377,9 @@ class HklSolver(SolverBase):
 
     @property
     def UB(self) -> list[list[float]]:
-        """Orientation matrix."""
+        """Orientation matrix (3x3)."""
+        if self.sample is None:
+            return IDENTITY_MATRIX_3X3
         matrix = self.sample.UB_get()
         return [
             [round(matrix.get(i, j), ROUNDOFF_DIGITS) for j in range(3)]

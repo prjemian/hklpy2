@@ -98,7 +98,7 @@ class Operations:
         """
         from .operations.reflection import Reflection
 
-        reverse = {v: k for k, v in self.axes_xref.items()}
+        reverse = self.axes_xref_reversed
         pnames = [reverse[k] for k in self.solver.pseudo_axis_names]
         rnames = [reverse[k] for k in self.solver.real_axis_names]
         pdict = self.standardize_pseudos(pseudos, pnames)
@@ -180,16 +180,33 @@ class Operations:
             raise ValueError("Axis name cannot be in more than list.")
 
         dfrct = self.diffractometer
+        solver = dfrct.operator.solver
+        if solver is None:
+            return  # such as initialization
+
         all_pseudos = itemize("pseudo", pseudos, dfrct._get_pseudo_positioners())
         all_reals = itemize("real", reals, dfrct._get_real_positioners())
         both_p_r = all_pseudos + all_reals
 
         self.axes_xref = {}
-        solver = dfrct.operator.solver
         reference(pseudos, solver.pseudo_axis_names)
         reference(reals, solver.real_axis_names)
         reference(extras, solver.extra_axis_names)
         logger.debug("axes_xref=%r", self.axes_xref)
+
+    def _axes_names_s2d(self, axis_dict: dict[str, float]) -> dict[str, float]:
+        """Convert keys of axis dictionary from solver to diffractometer."""
+        reverse = self.axes_xref_reversed
+        return {reverse[k]: v for k, v in axis_dict.items()}
+
+    def _axes_names_d2s(self, axis_dict: dict[str, float]) -> dict[str, float]:
+        """Convert keys of axis dictionary from diffractometer to solver."""
+        return {self.axes_xref[k]: v for k, v in axis_dict.items()}
+
+    @property
+    def axes_xref_reversed(self):
+        """Map axis names from solver to diffractometer."""
+        return {v: k for k, v in self.axes_xref.items()}
 
     def auto_assign_axes(self):
         """
@@ -275,17 +292,31 @@ class Operations:
             self.__class__.__name__,
             reals,
         )
-        # self.check_solver_defined()
-        if self.solver is None:  # called from the constructor before solver is defined
-            axes = self.diffractometer._get_pseudo_positioners()
-            pseudos = {axis[0]: 0 for axis in axes}
+        # fmt: off
+        pseudos = {  # Original values.
+                axis[0]: 0 
+                for axis in self.diffractometer._get_pseudo_positioners()
+        }
+        # fmt: on
+        if self.solver is None:
+            # Called from the constructor before solver is defined.
             return pseudos  # current values of pseudos
-        reverse = {v: k for k, v in self.axes_xref.items()}
-        rnames = [reverse[k] for k in self.solver.real_axis_names]
-        spdict = self.solver.inverse(self.standardize_reals(reals, rnames))
-        pdict = {reverse[k]: v for k, v in spdict.items()}
-        # TODO: fill in unused pseudos?
-        return pdict
+
+        # Remove reals not used by the solver
+        # and write dictionary in order expected by the solver.
+        reals = self.standardize_reals(
+            reals,
+            self.diffractometer.real_axis_names,
+        )
+
+        try:
+            spdict = self.solver.inverse(self._axes_names_d2s(reals))  # transform
+        except Exception as excuse:
+            print(f"{excuse=!r}")
+            raise excuse
+
+        pseudos.update(self._axes_names_s2d(spdict))  # Update with new values.
+        return pseudos
 
     def remove_sample(self, name):
         """Remove the named sample.  No error if name is not known."""
@@ -397,7 +428,7 @@ class Operations:
         if isinstance(reals, dict):  # convert dict to ordered dict
             for k in expected:
                 if k not in reals:
-                    raise OperationsError(f"Missing axis {k!r}. Expected: {expected!r}")
+                    raise OperationsError(f"Missing axis {k!r}. Expected: {reals!r}")
                 rdict[k] = reals[k]
 
         elif isinstance(reals, (list, tuple)):  # convert to ordered dict
