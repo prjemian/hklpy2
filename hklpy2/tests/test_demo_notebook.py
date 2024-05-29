@@ -74,7 +74,7 @@ def test_as_in_demo_notebook(fourc):
     assert fourc.operator.solver.real_axis_names == ["omega", "chi", "phi", "tth"]
     assert fourc.operator.solver.extra_axis_names == []
 
-    expected = "{'position': FourcPseudoPos(h=0, k=0, l=0, h2=0, k2=0, l2=0)}"
+    expected = "{'position': FourcPseudoPos(h=0.0, k=0.0, l=0.0, h2=0, k2=0, l2=0)}"
     assert str(fourc.report) == expected, f"{fourc.report=!r}"
 
     assert len(fourc.samples) == 1

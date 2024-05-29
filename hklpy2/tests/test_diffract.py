@@ -4,94 +4,19 @@ import math
 from contextlib import nullcontext as does_not_raise
 
 import pytest
-from ophyd import Component as Cpt
-from ophyd import Kind
-from ophyd import PseudoSingle
-from ophyd import SoftPositioner
 
 from .. import SolverBase
 from ..diffract import DiffractometerBase
 from ..diffract import DiffractometerError
 from ..operations.misc import solver_factory
+from ..operations.sample import Sample
+from ..ops import Operations
 from ..wavelength_support import DEFAULT_WAVELENGTH
 from ..wavelength_support import DEFAULT_WAVELENGTH_UNITS
-
-NORMAL_HINTED = Kind.hinted | Kind.normal
-
-
-class Fourc(DiffractometerBase):
-    """Test case."""
-
-    h = Cpt(PseudoSingle, "", kind=NORMAL_HINTED)  # noqa: E741
-    k = Cpt(PseudoSingle, "", kind=NORMAL_HINTED)  # noqa: E741
-    l = Cpt(PseudoSingle, "", kind=NORMAL_HINTED)  # noqa: E741
-
-    theta = Cpt(SoftPositioner, limits=(-180, 180), init_pos=0, kind=NORMAL_HINTED)
-    chi = Cpt(SoftPositioner, limits=(-180, 180), init_pos=0, kind=NORMAL_HINTED)
-    phi = Cpt(SoftPositioner, limits=(-180, 180), init_pos=0, kind=NORMAL_HINTED)
-    ttheta = Cpt(SoftPositioner, limits=(-170, 170), init_pos=0, kind=NORMAL_HINTED)
-
-    # define a few more axes, extra parameters for some geometries/engines/modes
-
-    h2 = Cpt(PseudoSingle, "", kind=NORMAL_HINTED)  # noqa: E741
-    k2 = Cpt(PseudoSingle, "", kind=NORMAL_HINTED)  # noqa: E741
-    l2 = Cpt(PseudoSingle, "", kind=NORMAL_HINTED)  # noqa: E741
-    psi = Cpt(SoftPositioner, limits=(-170, 170), init_pos=0, kind=NORMAL_HINTED)
-
-    # and a few more axes not used by 4-circle code
-
-    q = Cpt(PseudoSingle, "", kind=NORMAL_HINTED)  # noqa: E741
-    mu = Cpt(SoftPositioner, limits=(-170, 170), init_pos=0, kind=NORMAL_HINTED)
-    nu = Cpt(SoftPositioner, limits=(-170, 170), init_pos=0, kind=NORMAL_HINTED)
-    omicron = Cpt(SoftPositioner, limits=(-170, 170), init_pos=0, kind=NORMAL_HINTED)
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(
-            *args,
-            solver="hkl_soleil",
-            geometry="E4CV",
-            solver_kwargs={"engine": "hkl"},
-            **kwargs,
-        )
-
-
-class NoOpTh2Th(DiffractometerBase):
-    """Test case."""
-
-    q = Cpt(PseudoSingle, "", kind=NORMAL_HINTED)  # noqa: E741
-
-    th = Cpt(SoftPositioner, limits=(-90, 90), init_pos=0, kind=NORMAL_HINTED)
-    tth = Cpt(SoftPositioner, limits=(-170, 170), init_pos=0, kind=NORMAL_HINTED)
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(
-            *args,
-            solver="no_op",
-            geometry="TH TTH Q",
-            **kwargs,
-        )
-
-
-class TwoC(DiffractometerBase):
-    """Test case with custom names and additional axes."""
-
-    # sorted alphabetically
-    another = Cpt(PseudoSingle, "", kind=NORMAL_HINTED)  # noqa: E741
-    q = Cpt(PseudoSingle, "", kind=NORMAL_HINTED)  # noqa: E741
-    horizontal = Cpt(SoftPositioner, limits=(-10, 855), init_pos=0, kind=NORMAL_HINTED)
-    theta = Cpt(SoftPositioner, limits=(-90, 90), init_pos=0, kind=NORMAL_HINTED)
-    ttheta = Cpt(SoftPositioner, limits=(-170, 170), init_pos=0, kind=NORMAL_HINTED)
-    vertical = Cpt(SoftPositioner, limits=(-10, 855), init_pos=0, kind=NORMAL_HINTED)
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(
-            *args,
-            solver="th_tth",
-            geometry="TH TTH Q",
-            pseudos=["q"],
-            reals="theta ttheta".split(),
-            **kwargs,
-        )
+from .diffractometers import Fourc
+from .diffractometers import MultiAxis99
+from .diffractometers import NoOpTh2Th
+from .diffractometers import TwoC
 
 
 def test_DiffractometerBase():
@@ -104,50 +29,86 @@ def test_DiffractometerBase():
 
 
 @pytest.mark.parametrize(
-    "dclass, npseudos, nreals", [[Fourc, 7, 8], [NoOpTh2Th, 1, 2], [TwoC, 2, 4]]
+    "dclass, np, nr, solver, gname, solver_kwargs, pseudos, reals, extras",
+    [
+        [Fourc, 7, 8, None, None, {}, [], [], []],
+        [MultiAxis99, 9, 9, "hkl_soleil", "E4CV", {}, None, [], []],
+        [
+            MultiAxis99,
+            9,
+            9,
+            "hkl_soleil",
+            "E4CV",
+            {},
+            "p1 p2 p3 p4".split(),
+            "r1 r2 r3 r4".split(),
+            [],
+        ],
+        [MultiAxis99, 9, 9, "no_op", "test", {}, None, [], []],
+        [MultiAxis99, 9, 9, "th_tth", "TH TTH Q", {}, None, [], []],
+        [NoOpTh2Th, 1, 2, None, None, {}, [], [], []],
+        [TwoC, 2, 4, None, None, {}, [], [], []],
+    ],
 )
-@pytest.mark.parametrize(
-    "solver, gname",
-    [["no_op", "th_tth"], ["hkl_soleil", "E4CV"], ["th_tth", "TH TTH Q"]],
-)
-def test_goniometer(solver, gname, dclass, npseudos, nreals):
-    diffractometer = dclass("", name="goniometer")
-    assert diffractometer is not None
-    assert len(diffractometer.pseudo_positioners) == npseudos
-    assert len(diffractometer._pseudo) == npseudos
-    assert len(diffractometer.real_positioners) == nreals
-    assert len(diffractometer._real) == nreals
-    assert not diffractometer.moving
+def test_diffractometer_class(
+    dclass,
+    np,
+    nr,
+    solver,
+    gname,
+    solver_kwargs,
+    pseudos,
+    reals,
+    extras,
+):
+    """Test each diffractometer class."""
+    dmeter = dclass("", name="goniometer")
+    assert dmeter is not None
+    if solver is not None:
+        dmeter.set_solver(solver, gname, **solver_kwargs)
+        if pseudos is None:
+            dmeter.auto_assign_axes()
+        else:
+            dmeter.operator.assign_axes(pseudos, reals, extras)
+
+    # ophyd components
+    assert isinstance(dmeter.geometry.get(), str)
+    assert isinstance(dmeter.solver.get(), str)
+    assert isinstance(dmeter.wavelength.get(), (float, int))
+
+    assert len(dmeter.pseudo_positioners) == np
+    assert len(dmeter._pseudo) == np
+    assert len(dmeter.real_positioners) == nr
+    assert len(dmeter._real) == nr
+    assert not dmeter.moving
 
     # test the wavelength
     assert math.isclose(
-        diffractometer._wavelength.wavelength,
+        dmeter._wavelength.wavelength,
+        dmeter.wavelength.get(),
+        abs_tol=0.001,
+    )
+    assert math.isclose(
+        dmeter._wavelength.wavelength,
         DEFAULT_WAVELENGTH,
         abs_tol=0.001,
     )
-    assert diffractometer._wavelength.wavelength_units == DEFAULT_WAVELENGTH_UNITS
+    assert dmeter._wavelength.wavelength_units == DEFAULT_WAVELENGTH_UNITS
 
-    # test the solver
-    diffractometer.set_solver(solver, gname)
-    assert hasattr(diffractometer, "solver_name")
-    assert hasattr(diffractometer, "operator")
-    assert hasattr(diffractometer.operator, "solver")
-    assert diffractometer.operator.solver is not None
-    assert isinstance(diffractometer.operator.solver, SolverBase)
-    assert isinstance(diffractometer.operator.solver.name, str)
-    assert diffractometer.solver_name == solver, f"{diffractometer.solver_name=!r}"
-    # TODO: assertions for actual solver object
+    assert len(dmeter.samples) == 1
+    assert isinstance(dmeter.sample, Sample)
 
-    with does_not_raise() as reason:
-        diffractometer.position
-    assert reason is None
-    with does_not_raise() as reason:
-        diffractometer.report
-    assert reason is None
+    assert isinstance(dmeter.operator, Operations)
+    assert isinstance(dmeter.pseudo_axis_names, list)
+    assert isinstance(dmeter.real_axis_names, list)
 
-    solver_object = solver_factory(solver, gname)
-    assert solver_object is not None
-    assert solver_object.name == solver
+    dmeter.operator.add_sample("test", 5)
+    assert len(dmeter.samples) == 2
+    assert dmeter.sample.name == "test"
+
+    assert dmeter.solver is not None
+    assert isinstance(dmeter.solver_name, str)
+    assert len(dmeter.solver_name) > 0
 
 
 def test_extras():
