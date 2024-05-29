@@ -6,7 +6,7 @@
 Orientation Reflection
 ======================
 
-An orientation :index:`!reflection` is a peak intensity (typically an
+An orientation :index:`reflection` is a peak intensity (typically an
 observation) due to diffraction from a specific orientation of a crystalline
 sample with respect to the incident radiation. The reflection occurs for a
 precise alignment of the sample's crystalline planes and diffractometer axes

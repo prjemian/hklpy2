@@ -13,19 +13,19 @@
   
   <script data-cfasync="false">
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
-    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../../_static/styles/theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
-<link href="../../../_static/styles/bootstrap.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
-<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+  <link href="../../../_static/styles/theme.css?digest=3ee479438cf8b5e0d341" rel="stylesheet" />
+<link href="../../../_static/styles/bootstrap.css?digest=3ee479438cf8b5e0d341" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=3ee479438cf8b5e0d341" rel="stylesheet" />
 
   
-  <link href="../../../_static/vendor/fontawesome/6.5.1/css/all.min.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.1/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
+  <link href="../../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=3ee479438cf8b5e0d341" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=fd3f3429" />
@@ -33,11 +33,11 @@
     <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=87e54e7c" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae" />
-<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
-  <script src="../../../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=3ee479438cf8b5e0d341" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=3ee479438cf8b5e0d341" />
+  <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=3ee479438cf8b5e0d341"></script>
 
-    <script src="../../../_static/documentation_options.js?v=f0357c94"></script>
+    <script src="../../../_static/documentation_options.js?v=d8bd26a9"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/tabs.js?v=3030b3cb"></script>
@@ -55,27 +55,23 @@
 
   
   
-  <a id="pst-skip-link" class="skip-link" href="#main-content">Skip to main content</a>
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
   
   <div id="pst-scroll-pixel-helper"></div>
   
   <button type="button" class="btn rounded-pill" id="pst-back-to-top">
-    <i class="fa-solid fa-arrow-up"></i>
-    Back to top
-  </button>
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
 
   
   <input type="checkbox"
           class="sidebar-toggle"
-          name="__primary"
-          id="__primary"/>
-  <label class="overlay overlay-primary" for="__primary"></label>
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
   
   <input type="checkbox"
           class="sidebar-toggle"
-          name="__secondary"
-          id="__secondary"/>
-  <label class="overlay overlay-secondary" for="__secondary"></label>
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
   
   <div class="search-button__wrapper">
     <div class="search-button__overlay"></div>
@@ -97,12 +93,17 @@
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
 </form></div>
   </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
   
-    <header class="bd-header navbar navbar-expand-lg bd-navbar">
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
 <div class="bd-header__inner bd-page-width">
-  <label class="sidebar-toggle primary-toggle" for="__primary">
+  <button class="sidebar-toggle primary-toggle" aria-label="Site navigation">
     <span class="fa-solid fa-bars"></span>
-  </label>
+  </button>
   
   
   <div class="col-lg-3 navbar-header-items__start">
@@ -132,19 +133,19 @@
 <nav class="navbar-nav">
   <ul class="bd-navbar-elements navbar-nav">
     
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../guide.html">
-                        User Guide
-                      </a>
-                    </li>
-                
+<li class="nav-item pst-header-nav-item">
+  <a class="nav-link nav-internal" href="../../../guide.html">
+    User Guide
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../api.html">
-                        API
-                      </a>
-                    </li>
-                
+
+<li class="nav-item pst-header-nav-item">
+  <a class="nav-link nav-internal" href="../../../api.html">
+    API
+  </a>
+</li>
+
   </ul>
 </nav></div>
       
@@ -221,25 +222,28 @@ document.write(`
     
       <div class="sidebar-header-items__center">
         
-          <div class="navbar-item">
+          
+          
+            <div class="navbar-item">
 <nav class="navbar-nav">
   <ul class="bd-navbar-elements navbar-nav">
     
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../guide.html">
-                        User Guide
-                      </a>
-                    </li>
-                
+<li class="nav-item pst-header-nav-item">
+  <a class="nav-link nav-internal" href="../../../guide.html">
+    User Guide
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../api.html">
-                        API
-                      </a>
-                    </li>
-                
+
+<li class="nav-item pst-header-nav-item">
+  <a class="nav-link nav-internal" href="../../../api.html">
+    API
+  </a>
+</li>
+
   </ul>
 </nav></div>
+          
         
       </div>
     
@@ -272,13 +276,13 @@ document.write(`
 
       </div>
       
-      <main id="main-content" class="bd-main">
+      <main id="main-content" class="bd-main" role="main">
         
         
           <div class="bd-content">
             <div class="bd-article-container">
               
-              <div class="bd-header-article">
+              <div class="bd-header-article d-print-none">
 <div class="header-article-items header-article__inner">
   
     <div class="header-article-items__start">
@@ -287,7 +291,7 @@ document.write(`
 
 
 
-<nav aria-label="Breadcrumb">
+<nav aria-label="Breadcrumb" class="d-print-none">
   <ul class="bd-breadcrumbs">
     
     <li class="breadcrumb-item breadcrumb-home">
@@ -333,12 +337,16 @@ document.write(`
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">math</span>
 
 <span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">SolverBase</span>
 <span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">SolverError</span>
 <span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">check_value_in_list</span>
 <span class="kn">from</span> <span class="nn">..operations.lattice</span> <span class="kn">import</span> <span class="n">Lattice</span>
+<span class="kn">from</span> <span class="nn">..operations.misc</span> <span class="kn">import</span> <span class="n">unique_name</span>
 <span class="kn">from</span> <span class="nn">..operations.reflection</span> <span class="kn">import</span> <span class="n">Reflection</span>
+<span class="kn">from</span> <span class="nn">..operations.sample</span> <span class="kn">import</span> <span class="n">Sample</span>
+<span class="kn">from</span> <span class="nn">.base</span> <span class="kn">import</span> <span class="n">IDENTITY_MATRIX_3X3</span>
 
 <span class="k">try</span><span class="p">:</span>
     <span class="kn">import</span> <span class="nn">gi</span>
@@ -354,6 +362,13 @@ document.write(`
 
 <span class="n">AXES_READ</span> <span class="o">=</span> <span class="mi">0</span>
 <span class="n">AXES_WRITTEN</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">LIBHKL_DETECTOR_TYPE</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">LIBHKL_UNITS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="n">libhkl</span><span class="o">.</span><span class="n">UnitEnum</span><span class="o">.</span><span class="n">DEFAULT</span><span class="p">,</span>
+    <span class="s2">&quot;user&quot;</span><span class="p">:</span> <span class="n">libhkl</span><span class="o">.</span><span class="n">UnitEnum</span><span class="o">.</span><span class="n">USER</span><span class="p">,</span>
+<span class="p">}</span>
+<span class="n">LIBHKL_USER_UNITS</span> <span class="o">=</span> <span class="n">LIBHKL_UNITS</span><span class="p">[</span><span class="s2">&quot;user&quot;</span><span class="p">]</span>
+<span class="n">ROUNDOFF_DIGITS</span> <span class="o">=</span> <span class="mi">14</span>
 
 
 <div class="viewcode-block" id="HklSolver">
@@ -388,12 +403,12 @@ document.write(`
 <span class="sd">    .. autosummary::</span>
 
 <span class="sd">        ~addReflection</span>
-<span class="sd">        ~addSample</span>
 <span class="sd">        ~calculateOrientation</span>
 <span class="sd">        ~forward</span>
 <span class="sd">        ~geometries</span>
 <span class="sd">        ~inverse</span>
 <span class="sd">        ~refineLattice</span>
+<span class="sd">        ~removeAllReflections</span>
 
 <span class="sd">    .. rubric:: Python Properties</span>
 
@@ -411,6 +426,8 @@ document.write(`
 <span class="sd">        ~modes</span>
 <span class="sd">        ~pseudo_axis_names</span>
 <span class="sd">        ~real_axis_names</span>
+<span class="sd">        ~sample</span>
+<span class="sd">        ~UB</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;hkl_soleil&quot;</span>
@@ -420,43 +437,27 @@ document.write(`
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">geometry</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="o">*</span><span class="p">,</span>
-        <span class="n">engine</span><span class="o">=</span><span class="s2">&quot;hkl&quot;</span><span class="p">,</span>
-        <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="n">engine</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;hkl&quot;</span><span class="p">,</span>
+        <span class="n">mode</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_engine</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_gname_locked</span> <span class="o">=</span> <span class="kc">False</span>  <span class="c1"># can&#39;t chanmge after setting once</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_gname_locked</span> <span class="o">=</span> <span class="kc">False</span>  <span class="c1"># Can&#39;t change after setting once.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_sample</span> <span class="o">=</span> <span class="kc">None</span>
 
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">geometry</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
-        <span class="c1"># note: must keep the &#39;engines&#39; object as class attribute or</span>
+        <span class="c1"># note: must keep the &#39;_engine_list&#39; object as class attribute or</span>
         <span class="c1"># random core dumps, usually when accessing &#39;engine.name_get()&#39;.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_detector</span> <span class="o">=</span> <span class="n">libhkl</span><span class="o">.</span><span class="n">Detector</span><span class="o">.</span><span class="n">factory_new</span><span class="p">(</span>
+            <span class="n">libhkl</span><span class="o">.</span><span class="n">DetectorType</span><span class="p">(</span><span class="n">LIBHKL_DETECTOR_TYPE</span><span class="p">)</span>
+        <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_factory</span> <span class="o">=</span> <span class="n">libhkl</span><span class="o">.</span><span class="n">factories</span><span class="p">()[</span><span class="n">geometry</span><span class="p">]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_engines</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_factory</span><span class="o">.</span><span class="n">create_new_engine_list</span><span class="p">()</span>  <span class="c1"># note!</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_engine</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_engines</span><span class="o">.</span><span class="n">engine_get_by_name</span><span class="p">(</span><span class="n">engine</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_engine_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_factory</span><span class="o">.</span><span class="n">create_new_engine_list</span><span class="p">()</span>  <span class="c1"># note!</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_engine</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_engine_list</span><span class="o">.</span><span class="n">engine_get_by_name</span><span class="p">(</span><span class="n">engine</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_geometry</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_factory</span><span class="o">.</span><span class="n">create_new_geometry</span><span class="p">()</span>
 
-        <span class="c1"># self.print_info_DEVELOPER()</span>
-
-    <span class="k">def</span> <span class="nf">print_info_DEVELOPER</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="si">=!r}</span><span class="s2">&quot;</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">=!r}</span><span class="s2">&quot;</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">=!r}</span><span class="s2">&quot;</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">version</span><span class="si">=!r}</span><span class="s2">&quot;</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_factory</span><span class="si">=!r}</span><span class="s2">&quot;</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_geometry</span><span class="si">=!r}</span><span class="s2">&quot;</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">geometry</span><span class="si">=!r}</span><span class="s2">&quot;</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">engines</span><span class="si">=!r}</span><span class="s2">&quot;</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_engines</span><span class="si">=!r}</span><span class="s2">&quot;</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_engine</span><span class="si">=!r}</span><span class="s2">&quot;</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">engine</span><span class="si">=!r}</span><span class="s2">&quot;</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">modes</span><span class="si">=!r}</span><span class="s2">&quot;</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">mode</span><span class="si">=!r}</span><span class="s2">&quot;</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">pseudo_axis_names</span><span class="si">=!r}</span><span class="s2">&quot;</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">real_axis_names</span><span class="si">=!r}</span><span class="s2">&quot;</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">extra_axis_names</span><span class="si">=!r}</span><span class="s2">&quot;</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="n">args</span> <span class="o">=</span> <span class="p">[</span>
             <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">s</span><span class="si">}</span><span class="s2">=</span><span class="si">{</span><span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="w"> </span><span class="n">s</span><span class="p">)</span><span class="si">!r}</span><span class="s2">&quot;</span>
             <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="s2">&quot;name version geometry engine mode&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
@@ -465,20 +466,22 @@ document.write(`
 
 <div class="viewcode-block" id="HklSolver.addReflection">
 <a class="viewcode-back" href="../../../api/backends/hkl_soleil.html#hklpy2.backends.hkl_soleil.HklSolver.addReflection">[docs]</a>
-    <span class="k">def</span> <span class="nf">addReflection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pseudos</span><span class="p">,</span> <span class="n">reals</span><span class="p">,</span> <span class="n">wavelength</span><span class="p">):</span>  <span class="c1"># TODO</span>
+    <span class="k">def</span> <span class="nf">addReflection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reflection</span><span class="p">:</span> <span class="n">Reflection</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Add coordinates of a diffraction condition (a reflection).&quot;&quot;&quot;</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span></div>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">reflection</span><span class="p">,</span> <span class="n">Reflection</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Must supply Reflection object, received </span><span class="si">{</span><span class="n">reflection</span><span class="si">!r}</span><span class="s2">&quot;</span><span class="p">)</span>
 
-
-<div class="viewcode-block" id="HklSolver.addSample">
-<a class="viewcode-back" href="../../../api/backends/hkl_soleil.html#hklpy2.backends.hkl_soleil.HklSolver.addSample">[docs]</a>
-    <span class="k">def</span> <span class="nf">addSample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sample</span><span class="p">):</span>  <span class="c1"># TODO</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add a sample.&quot;&quot;&quot;</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span></div>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;reflection: </span><span class="si">%r</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">reflection</span><span class="p">)</span>
+        <span class="n">pseudos</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">reflection</span><span class="o">.</span><span class="n">pseudos</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+        <span class="n">reals</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">reflection</span><span class="o">.</span><span class="n">reals</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+        <span class="n">wavelength</span> <span class="o">=</span> <span class="n">reflection</span><span class="o">.</span><span class="n">wavelength</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_geometry</span><span class="o">.</span><span class="n">axis_values_set</span><span class="p">(</span><span class="n">reals</span><span class="p">,</span> <span class="n">LIBHKL_USER_UNITS</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_geometry</span><span class="o">.</span><span class="n">wavelength_set</span><span class="p">(</span><span class="n">wavelength</span><span class="p">,</span> <span class="n">LIBHKL_USER_UNITS</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">add_reflection</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_geometry</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_detector</span><span class="p">,</span> <span class="o">*</span><span class="n">pseudos</span><span class="p">)</span></div>
 
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">axes_c</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">axes_c</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        HKL real axis names.</span>
 
@@ -488,12 +491,12 @@ document.write(`
         <span class="k">return</span> <span class="p">[</span><span class="n">axis</span> <span class="k">for</span> <span class="n">axis</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">axes_r</span> <span class="k">if</span> <span class="n">axis</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">axes_w</span><span class="p">]</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">axes_r</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">axes_r</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;HKL real axis names (read-only).&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_engine</span><span class="o">.</span><span class="n">axis_names_get</span><span class="p">(</span><span class="n">AXES_READ</span><span class="p">)</span>  <span class="c1"># Do NOT sort.</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">axes_w</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">axes_w</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        HKL real axis names.</span>
 
@@ -503,23 +506,35 @@ document.write(`
 
 <div class="viewcode-block" id="HklSolver.calculateOrientation">
 <a class="viewcode-back" href="../../../api/backends/hkl_soleil.html#hklpy2.backends.hkl_soleil.HklSolver.calculateOrientation">[docs]</a>
-    <span class="k">def</span> <span class="nf">calculateOrientation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">r1</span><span class="p">,</span> <span class="n">r2</span><span class="p">):</span>  <span class="c1"># TODO</span>
+    <span class="k">def</span> <span class="nf">calculateOrientation</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">r1</span><span class="p">:</span> <span class="n">Reflection</span><span class="p">,</span>
+        <span class="n">r2</span><span class="p">:</span> <span class="n">Reflection</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculate the UB (orientation) matrix from two reflections.&quot;&quot;&quot;</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span></div>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">sample</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="c1"># Remove all reflections first</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">removeAllReflections</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">addReflection</span><span class="p">(</span><span class="n">r1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">addReflection</span><span class="p">(</span><span class="n">r2</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">compute_UB_busing_levy</span><span class="p">(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">reflections_get</span><span class="p">())</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%r</span><span class="s2"> reflections&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">reflections_get</span><span class="p">()))</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">UB</span></div>
 
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">engine</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">engine</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">libhkl</span><span class="o">.</span><span class="n">Engine</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Selected computational engine for this geometry.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_engine</span><span class="o">.</span><span class="n">name_get</span><span class="p">()</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">engines</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">engines</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;List of the computational engines available in this geometry.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="p">[</span><span class="n">engine</span><span class="o">.</span><span class="n">name_get</span><span class="p">()</span> <span class="k">for</span> <span class="n">engine</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_engines</span><span class="o">.</span><span class="n">engines_get</span><span class="p">()]</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">engine</span><span class="o">.</span><span class="n">name_get</span><span class="p">()</span> <span class="k">for</span> <span class="n">engine</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_engine_list</span><span class="o">.</span><span class="n">engines_get</span><span class="p">()]</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">extra_axis_names</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">extra_axis_names</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Ordered list of any extra axis names (such as x, y, z).</span>
 
@@ -529,16 +544,18 @@ document.write(`
 
 <div class="viewcode-block" id="HklSolver.forward">
 <a class="viewcode-back" href="../../../api/backends/hkl_soleil.html#hklpy2.backends.hkl_soleil.HklSolver.forward">[docs]</a>
-    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>  <span class="c1"># TODO:</span>
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pseudos</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute list of solutions(reals) from pseudos (hkl -&gt; [angles]).&quot;&quot;&quot;</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;(</span><span class="si">%r</span><span class="s2">) forward()&quot;</span><span class="p">,</span> <span class="vm">__name__</span><span class="p">)</span>
+        <span class="c1"># geometry_list = self._engine.pseudo_axis_values_set(values, LIBHKL_USER_UNITS)</span>
+        <span class="c1"># something = list(geometry_list.items())</span>
         <span class="k">return</span> <span class="p">[{}]</span></div>
 
 
 <div class="viewcode-block" id="HklSolver.geometries">
 <a class="viewcode-back" href="../../../api/backends/hkl_soleil.html#hklpy2.backends.hkl_soleil.HklSolver.geometries">[docs]</a>
     <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">geometries</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">geometries</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="k">return</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">libhkl</span><span class="o">.</span><span class="n">factories</span><span class="p">())</span></div>
 
 
@@ -556,38 +573,97 @@ document.write(`
 
 <div class="viewcode-block" id="HklSolver.inverse">
 <a class="viewcode-back" href="../../../api/backends/hkl_soleil.html#hklpy2.backends.hkl_soleil.HklSolver.inverse">[docs]</a>
-    <span class="k">def</span> <span class="nf">inverse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reals</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>  <span class="c1"># TODO</span>
+    <span class="k">def</span> <span class="nf">inverse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reals</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute tuple of pseudos from reals (angles -&gt; hkl).&quot;&quot;&quot;</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;{__name__=} inverse(reals=</span><span class="si">%r</span><span class="s2">)&quot;</span><span class="p">,</span> <span class="n">reals</span><span class="p">)</span>
-        <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span></div>
+        <span class="k">if</span> <span class="nb">list</span><span class="p">(</span><span class="n">reals</span><span class="p">)</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">real_axis_names</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Wrong dictionary keys received: </span><span class="si">{</span><span class="nb">list</span><span class="p">(</span><span class="n">reals</span><span class="p">)</span><span class="si">!r}</span><span class="s2">&quot;</span>
+                <span class="sa">f</span><span class="s2">&quot; Expected: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">real_axis_names</span><span class="si">!r}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="kc">False</span> <span class="ow">in</span> <span class="p">[</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">))</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">reals</span><span class="o">.</span><span class="n">values</span><span class="p">()]:</span>
+            <span class="c1"># fmt: off</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                <span class="s2">&quot;All dictionary must be numbers.&quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;  Received: </span><span class="si">{</span><span class="n">reals</span><span class="si">!r}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+            <span class="c1"># fmt: on</span>
+
+        <span class="c1"># print(f&quot;{reals=!r}&quot;)</span>
+        <span class="c1"># print(f&quot;{self._engine.pseudo_axis_values_get(LIBHKL_USER_UNITS)=!r}&quot;)</span>
+        <span class="n">reals</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">reals</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+        <span class="c1"># print(f&quot;{reals=!r}&quot;)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_geometry</span><span class="o">.</span><span class="n">axis_values_set</span><span class="p">(</span><span class="n">reals</span><span class="p">,</span> <span class="n">LIBHKL_USER_UNITS</span><span class="p">)</span>
+        <span class="c1"># print(f&quot;{self._geometry.axis_values_get(LIBHKL_USER_UNITS)=!r}&quot;)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_engine_list</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>  <span class="c1"># reals -&gt; pseudos  (Odd name for this call!)</span>
+
+        <span class="c1"># print(f&quot;{self._geometry.axis_values_get(LIBHKL_USER_UNITS)=!r}&quot;)</span>
+        <span class="n">pdict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+            <span class="nb">zip</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_engine</span><span class="o">.</span><span class="n">pseudo_axis_names_get</span><span class="p">(),</span>
+                <span class="p">[</span>
+                    <span class="nb">round</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">ROUNDOFF_DIGITS</span><span class="p">)</span>
+                    <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_engine</span><span class="o">.</span><span class="n">pseudo_axis_values_get</span><span class="p">(</span><span class="n">LIBHKL_USER_UNITS</span><span class="p">)</span>
+                <span class="p">],</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">pdict</span></div>
 
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">modes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;List of the geometry operating modes.&quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_engine</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">return</span> <span class="p">[]</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_engine</span><span class="o">.</span><span class="n">modes_names_get</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">lattice</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">libhkl</span><span class="o">.</span><span class="n">Lattice</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Crystal lattice parameters.  (Not used by this |solver|.)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">lattice_get</span><span class="p">()</span>
+
+    <span class="nd">@lattice</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">lattice</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">Lattice</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Must supply Lattice object, received </span><span class="si">{</span><span class="n">value</span><span class="si">!r}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">lattice_set</span><span class="p">(</span>
+            <span class="n">libhkl</span><span class="o">.</span><span class="n">Lattice</span><span class="o">.</span><span class="n">new</span><span class="p">(</span>
+                <span class="n">value</span><span class="o">.</span><span class="n">a</span><span class="p">,</span>
+                <span class="n">value</span><span class="o">.</span><span class="n">b</span><span class="p">,</span>
+                <span class="n">value</span><span class="o">.</span><span class="n">c</span><span class="p">,</span>
+                <span class="n">math</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">value</span><span class="o">.</span><span class="n">alpha</span><span class="p">),</span>
+                <span class="n">math</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">value</span><span class="o">.</span><span class="n">beta</span><span class="p">),</span>
+                <span class="n">math</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">value</span><span class="o">.</span><span class="n">gamma</span><span class="p">),</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
+            <span class="s2">&quot;sample lattice: </span><span class="si">%r</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">lattice_get</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">LIBHKL_USER_UNITS</span><span class="p">),</span>
+        <span class="p">)</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">mode</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">mode</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Name of the current geometry operating mode.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_engine</span><span class="o">.</span><span class="n">current_mode_get</span><span class="p">()</span>
 
     <span class="nd">@mode</span><span class="o">.</span><span class="n">setter</span>
-    <span class="k">def</span> <span class="nf">mode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">mode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
         <span class="n">check_value_in_list</span><span class="p">(</span><span class="s2">&quot;Mode&quot;</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">modes</span><span class="p">,</span> <span class="n">blank_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">value</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
             <span class="k">return</span>  <span class="c1"># keep current mode</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_engine</span><span class="o">.</span><span class="n">current_mode_set</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">pseudo_axis_names</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">modes</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;List of the geometry operating modes.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_engine</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">[]</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_engine</span><span class="o">.</span><span class="n">modes_names_get</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">pseudo_axis_names</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Ordered list of the pseudo axis names (such as h, k, l).&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_engine</span><span class="o">.</span><span class="n">pseudo_axis_names_get</span><span class="p">()</span>  <span class="c1"># Do NOT sort.</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">real_axis_names</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">real_axis_names</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Ordered list of the real axis names (such as th, tth).&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_geometry</span><span class="o">.</span><span class="n">axis_names_get</span><span class="p">()</span>  <span class="c1"># Do NOT sort.</span>
 
@@ -595,8 +671,65 @@ document.write(`
 <a class="viewcode-back" href="../../../api/backends/hkl_soleil.html#hklpy2.backends.hkl_soleil.HklSolver.refineLattice">[docs]</a>
     <span class="k">def</span> <span class="nf">refineLattice</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reflections</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Reflection</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Lattice</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Refine the lattice parameters from a list of reflections.&quot;&quot;&quot;</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span>  <span class="c1"># TODO:</span></div>
-</div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">removeAllReflections</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">reflections</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">addReflection</span><span class="p">(</span><span class="n">r</span><span class="p">)</span></div>
+
+        <span class="c1"># TODO:</span>
+        <span class="c1"># self.sample.affine(*self.sample.reflections_get())</span>
+        <span class="c1"># get the refined lattice</span>
+        <span class="c1"># return Lattice()</span>
+
+<div class="viewcode-block" id="HklSolver.removeAllReflections">
+<a class="viewcode-back" href="../../../api/backends/hkl_soleil.html#hklpy2.backends.hkl_soleil.HklSolver.removeAllReflections">[docs]</a>
+    <span class="k">def</span> <span class="nf">removeAllReflections</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Remove all reflections.&quot;&quot;&quot;</span>
+        <span class="n">refs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">reflections_get</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">ref</span> <span class="ow">in</span> <span class="n">refs</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">del_reflection</span><span class="p">(</span><span class="n">ref</span><span class="p">)</span></div>
+
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">sample</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">libhkl</span><span class="o">.</span><span class="n">Sample</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Crystalline sample.  libhkl&#39;s sample object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sample</span>
+
+    <span class="nd">@sample</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">sample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Sample</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">Sample</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Must supply Sample object, received </span><span class="si">{</span><span class="n">value</span><span class="si">!r}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Just drop the old sample and make a new one.</span>
+        <span class="c1"># Python knows its correct name.</span>
+        <span class="c1"># Doesn&#39;t matter what name is used by libhkl. Use a unique name.</span>
+        <span class="n">sample</span> <span class="o">=</span> <span class="n">libhkl</span><span class="o">.</span><span class="n">Sample</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">unique_name</span><span class="p">())</span>  <span class="c1"># new sample each time</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_sample</span> <span class="o">=</span> <span class="n">sample</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_engine_list</span><span class="o">.</span><span class="n">init</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_geometry</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_detector</span><span class="p">,</span> <span class="n">sample</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
+            <span class="s2">&quot;sample name=</span><span class="si">%r</span><span class="s2">, libhkl name=</span><span class="si">%r</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="n">value</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+            <span class="n">sample</span><span class="o">.</span><span class="n">name_get</span><span class="p">(),</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">lattice</span> <span class="o">=</span> <span class="n">value</span><span class="o">.</span><span class="n">lattice</span>
+
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%r</span><span class="s2"> ordering reflections: </span><span class="si">%r</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">value</span><span class="o">.</span><span class="n">reflections</span><span class="o">.</span><span class="n">order</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">value</span><span class="o">.</span><span class="n">reflections</span><span class="o">.</span><span class="n">order</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">addReflection</span><span class="p">(</span><span class="n">value</span><span class="o">.</span><span class="n">reflections</span><span class="p">[</span><span class="n">name</span><span class="p">])</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">sample</span><span class="o">.</span><span class="n">reflections_get</span><span class="p">()</span><span class="si">=!r}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">UB</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Orientation matrix (3x3).&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">sample</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">IDENTITY_MATRIX_3X3</span>
+        <span class="n">matrix</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">UB_get</span><span class="p">()</span>
+        <span class="k">return</span> <span class="p">[</span>
+            <span class="p">[</span><span class="nb">round</span><span class="p">(</span><span class="n">matrix</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">),</span> <span class="n">ROUNDOFF_DIGITS</span><span class="p">)</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">)]</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+        <span class="p">]</span></div>
 
 </pre></div>
 
@@ -606,7 +739,7 @@ document.write(`
               
               
               
-                <footer class="prev-next-footer">
+                <footer class="prev-next-footer d-print-none">
                   
 <div class="prev-next-area">
 </div>
@@ -615,8 +748,6 @@ document.write(`
             </div>
             
             
-              
-                <div class="bd-sidebar-secondary bd-toc"></div>
               
             
           </div>
@@ -629,8 +760,8 @@ document.write(`
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../../../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae"></script>
-<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae"></script>
+  <script src="../../../_static/scripts/bootstrap.js?digest=3ee479438cf8b5e0d341"></script>
+<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=3ee479438cf8b5e0d341"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
@@ -663,7 +794,7 @@ document.write(`
       
         <div class="footer-item">
 <p class="theme-version">
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.15.2.
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.15.3.
 </p></div>
       
     </div>

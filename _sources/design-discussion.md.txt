@@ -120,3 +120,27 @@ Could be used for [backend solvers](https://github.com/bluesky/hklpy/issues/161)
 
 See the docs in setuptools regarding [*Entry Points for
 Plugins*](https://setuptools.pypa.io/en/latest/userguide/entry_point.html#entry-points-for-plugins).
+
+## Differences between hklpy v1 & hklpy2 v2
+
+### hklpy v1
+
+- Depends on **libhkl**:
+  - Only compiled for linux-x86_64
+  - Difficult to modify existing (or add additional) diffractometer geometries.
+  - All samples, lattices, & reflections are stored by the **libhkl** library.
+  - Multiple layers (diffractometer, calc, engine, sample), based on **libhkl** design.
+    - Layer design is confusing as to where a feature is implemented.
+    - Users are often tempted to dig into lower layers for features.
+  - Difficult to use additional diffractometer axes and parameters.
+- Uses **libhkl** as the *defining reference* for diffractometer data and operations.
+
+### hklpy2 v2
+
+- Samples, lattices, & reflections stored in Python.
+- Separate the roles of operator and solver.
+  - Operations makes *transactions* with the selected *solver*.
+  - For specific operations, *solver* is setup and then *operated*.
+- Refactor use of **libhkl** as a backend *solver* library.
+- Support additional backend *solver* libraries (installed as entry-points).
+- Simpler design.

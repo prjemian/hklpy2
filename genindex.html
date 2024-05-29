@@ -13,19 +13,19 @@
   
   <script data-cfasync="false">
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
-    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="_static/styles/theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
-<link href="_static/styles/bootstrap.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
-<link href="_static/styles/pydata-sphinx-theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+  <link href="_static/styles/theme.css?digest=3ee479438cf8b5e0d341" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=3ee479438cf8b5e0d341" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=3ee479438cf8b5e0d341" rel="stylesheet" />
 
   
-  <link href="_static/vendor/fontawesome/6.5.1/css/all.min.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.1/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=3ee479438cf8b5e0d341" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=fd3f3429" />
@@ -33,11 +33,11 @@
     <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=87e54e7c" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae" />
-<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
-  <script src="_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=3ee479438cf8b5e0d341" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=3ee479438cf8b5e0d341" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=3ee479438cf8b5e0d341"></script>
 
-    <script src="_static/documentation_options.js?v=f0357c94"></script>
+    <script src="_static/documentation_options.js?v=d8bd26a9"></script>
     <script src="_static/doctools.js?v=9a2dae69"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/tabs.js?v=3030b3cb"></script>
@@ -55,27 +55,23 @@
 
   
   
-  <a id="pst-skip-link" class="skip-link" href="#main-content">Skip to main content</a>
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
   
   <div id="pst-scroll-pixel-helper"></div>
   
   <button type="button" class="btn rounded-pill" id="pst-back-to-top">
-    <i class="fa-solid fa-arrow-up"></i>
-    Back to top
-  </button>
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
 
   
   <input type="checkbox"
           class="sidebar-toggle"
-          name="__primary"
-          id="__primary"/>
-  <label class="overlay overlay-primary" for="__primary"></label>
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
   
   <input type="checkbox"
           class="sidebar-toggle"
-          name="__secondary"
-          id="__secondary"/>
-  <label class="overlay overlay-secondary" for="__secondary"></label>
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
   
   <div class="search-button__wrapper">
     <div class="search-button__overlay"></div>
@@ -97,12 +93,17 @@
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
 </form></div>
   </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
   
-    <header class="bd-header navbar navbar-expand-lg bd-navbar">
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
 <div class="bd-header__inner bd-page-width">
-  <label class="sidebar-toggle primary-toggle" for="__primary">
+  <button class="sidebar-toggle primary-toggle" aria-label="Site navigation">
     <span class="fa-solid fa-bars"></span>
-  </label>
+  </button>
   
   
   <div class="col-lg-3 navbar-header-items__start">
@@ -132,19 +133,19 @@
 <nav class="navbar-nav">
   <ul class="bd-navbar-elements navbar-nav">
     
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="guide.html">
-                        User Guide
-                      </a>
-                    </li>
-                
+<li class="nav-item pst-header-nav-item">
+  <a class="nav-link nav-internal" href="guide.html">
+    User Guide
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="api.html">
-                        API
-                      </a>
-                    </li>
-                
+
+<li class="nav-item pst-header-nav-item">
+  <a class="nav-link nav-internal" href="api.html">
+    API
+  </a>
+</li>
+
   </ul>
 </nav></div>
       
@@ -221,25 +222,28 @@ document.write(`
     
       <div class="sidebar-header-items__center">
         
-          <div class="navbar-item">
+          
+          
+            <div class="navbar-item">
 <nav class="navbar-nav">
   <ul class="bd-navbar-elements navbar-nav">
     
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="guide.html">
-                        User Guide
-                      </a>
-                    </li>
-                
+<li class="nav-item pst-header-nav-item">
+  <a class="nav-link nav-internal" href="guide.html">
+    User Guide
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="api.html">
-                        API
-                      </a>
-                    </li>
-                
+
+<li class="nav-item pst-header-nav-item">
+  <a class="nav-link nav-internal" href="api.html">
+    API
+  </a>
+</li>
+
   </ul>
 </nav></div>
+          
         
       </div>
     
@@ -272,13 +276,13 @@ document.write(`
 
       </div>
       
-      <main id="main-content" class="bd-main">
+      <main id="main-content" class="bd-main" role="main">
         
         
           <div class="bd-content">
             <div class="bd-article-container">
               
-              <div class="bd-header-article"></div>
+              <div class="bd-header-article d-print-none"></div>
               
               
               
@@ -325,8 +329,14 @@ document.write(`
         <li><a href="api/reflection.html#hklpy2.operations.reflection.ReflectionsDict._asdict">(hklpy2.operations.reflection.ReflectionsDict method)</a>
 </li>
       </ul></li>
+      <li><a href="api/ops.html#hklpy2.ops.Operations._axes_names_d2s">_axes_names_d2s() (hklpy2.ops.Operations method)</a>
+</li>
+      <li><a href="api/ops.html#hklpy2.ops.Operations._axes_names_s2d">_axes_names_s2d() (hklpy2.ops.Operations method)</a>
+</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/ops.html#hklpy2.ops.Operations._solver_setup">_solver_setup() (hklpy2.ops.Operations method)</a>
+</li>
       <li><a href="api/reflection.html#hklpy2.operations.reflection.Reflection._validate_pseudos">_validate_pseudos() (hklpy2.operations.reflection.Reflection method)</a>
 </li>
       <li><a href="api/reflection.html#hklpy2.operations.reflection.Reflection._validate_reals">_validate_reals() (hklpy2.operations.reflection.Reflection method)</a>
@@ -354,7 +364,7 @@ document.write(`
 </li>
         <li><a href="api/sample.html#hklpy2.operations.sample.SampleError.add_note">(hklpy2.operations.sample.SampleError method)</a>
 </li>
-        <li><a href="api/ops.html#hklpy2.ops.SolverOperatorError.add_note">(hklpy2.ops.SolverOperatorError method)</a>
+        <li><a href="api/ops.html#hklpy2.ops.OperationsError.add_note">(hklpy2.ops.OperationsError method)</a>
 </li>
         <li><a href="api/wavelength_support.html#hklpy2.wavelength_support.WavelengthError.add_note">(hklpy2.wavelength_support.WavelengthError method)</a>
 </li>
@@ -362,13 +372,13 @@ document.write(`
       <li><a href="api/diffract.html#hklpy2.diffract.DiffractometerBase.add_reflection">add_reflection() (hklpy2.diffract.DiffractometerBase method)</a>
 
       <ul>
-        <li><a href="api/ops.html#hklpy2.ops.SolverOperator.add_reflection">(hklpy2.ops.SolverOperator method)</a>
+        <li><a href="api/ops.html#hklpy2.ops.Operations.add_reflection">(hklpy2.ops.Operations method)</a>
 </li>
       </ul></li>
       <li><a href="api/diffract.html#hklpy2.diffract.DiffractometerBase.add_sample">add_sample() (hklpy2.diffract.DiffractometerBase method)</a>
 
       <ul>
-        <li><a href="api/ops.html#hklpy2.ops.SolverOperator.add_sample">(hklpy2.ops.SolverOperator method)</a>
+        <li><a href="api/ops.html#hklpy2.ops.Operations.add_sample">(hklpy2.ops.Operations method)</a>
 </li>
       </ul></li>
       <li><a href="api/backends/base.html#hklpy2.backends.base.SolverBase.addReflection">addReflection() (hklpy2.backends.base.SolverBase method)</a>
@@ -383,24 +393,14 @@ document.write(`
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/backends/base.html#hklpy2.backends.base.SolverBase.addSample">addSample() (hklpy2.backends.base.SolverBase method)</a>
-
-      <ul>
-        <li><a href="api/backends/hkl_soleil.html#hklpy2.backends.hkl_soleil.HklSolver.addSample">(hklpy2.backends.hkl_soleil.HklSolver method)</a>
-</li>
-        <li><a href="api/backends/no_op.html#hklpy2.backends.no_op.NoOpSolver.addSample">(hklpy2.backends.no_op.NoOpSolver method)</a>
-</li>
-        <li><a href="api/backends/th_tth_q.html#hklpy2.backends.th_tth_q.ThTthSolver.addSample">(hklpy2.backends.th_tth_q.ThTthSolver method)</a>
-</li>
-      </ul></li>
-      <li><a href="api/ops.html#hklpy2.ops.SolverOperator.assign_axes">assign_axes() (hklpy2.ops.SolverOperator method)</a>
+      <li><a href="api/ops.html#hklpy2.ops.Operations.assign_axes">assign_axes() (hklpy2.ops.Operations method)</a>
 </li>
       <li><a href="examples/diffract.html#index-0"><strong>auto-assign axes</strong></a>
 </li>
       <li><a href="api/diffract.html#hklpy2.diffract.DiffractometerBase.auto_assign_axes">auto_assign_axes() (hklpy2.diffract.DiffractometerBase method)</a>
 
       <ul>
-        <li><a href="api/ops.html#hklpy2.ops.SolverOperator.auto_assign_axes">(hklpy2.ops.SolverOperator method)</a>
+        <li><a href="api/ops.html#hklpy2.ops.Operations.auto_assign_axes">(hklpy2.ops.Operations method)</a>
 </li>
       </ul></li>
       <li><a href="api/backends/hkl_soleil.html#hklpy2.backends.hkl_soleil.HklSolver.axes_c">axes_c (hklpy2.backends.hkl_soleil.HklSolver property)</a>
@@ -408,6 +408,10 @@ document.write(`
       <li><a href="api/backends/hkl_soleil.html#hklpy2.backends.hkl_soleil.HklSolver.axes_r">axes_r (hklpy2.backends.hkl_soleil.HklSolver property)</a>
 </li>
       <li><a href="api/backends/hkl_soleil.html#hklpy2.backends.hkl_soleil.HklSolver.axes_w">axes_w (hklpy2.backends.hkl_soleil.HklSolver property)</a>
+</li>
+      <li><a href="api/ops.html#hklpy2.ops.Operations.axes_xref_reversed">axes_xref_reversed (hklpy2.ops.Operations property)</a>
+</li>
+      <li><a href="glossary.html#index-0"><strong>axis</strong></a>
 </li>
       <li><a href="examples/diffract.html#index-0"><strong>axis names</strong></a>
 </li>
@@ -417,6 +421,8 @@ document.write(`
 <h2 id="C">C</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/ops.html#hklpy2.ops.Operations.calcUB">calcUB() (hklpy2.ops.Operations method)</a>
+</li>
       <li><a href="api/backends/base.html#hklpy2.backends.base.SolverBase.calculateOrientation">calculateOrientation() (hklpy2.backends.base.SolverBase method)</a>
 
       <ul>
@@ -427,17 +433,17 @@ document.write(`
         <li><a href="api/backends/th_tth_q.html#hklpy2.backends.th_tth_q.ThTthSolver.calculateOrientation">(hklpy2.backends.th_tth_q.ThTthSolver method)</a>
 </li>
       </ul></li>
-      <li><a href="api/ops.html#hklpy2.ops.SolverOperator.check_solver_defined">check_solver_defined() (hklpy2.ops.SolverOperator method)</a>
+      <li><a href="api/ops.html#hklpy2.ops.Operations.check_solver_defined">check_solver_defined() (hklpy2.ops.Operations method)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/z_misc.html#hklpy2.operations.misc.check_value_in_list">check_value_in_list() (in module hklpy2.operations.misc)</a>
 </li>
-      <li><a href="api/diffract.html#hklpy2.diffract.DiffractometerBase.choose_first_forward_solution">choose_first_forward_solution() (hklpy2.diffract.DiffractometerBase method)</a>
-</li>
       <li><a href="api/reflection.html#hklpy2.operations.reflection.ReflectionsDict.clear">clear() (hklpy2.operations.reflection.ReflectionsDict method)</a>
 </li>
       <li><a href="api/z_misc.html#hklpy2.operations.misc.compare_float_dicts">compare_float_dicts() (in module hklpy2.operations.misc)</a>
+</li>
+      <li><a href="glossary.html#index-1"><strong>configuration</strong></a>
 </li>
       <li><a href="api/wavelength_support.html#hklpy2.wavelength_support.ConstantMonochromaticWavelength">ConstantMonochromaticWavelength (class in hklpy2.wavelength_support)</a>
 </li>
@@ -450,6 +456,51 @@ document.write(`
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li>
+    definition
+
+      <ul>
+        <li><a href="glossary.html#index-0">axis</a>
+</li>
+        <li><a href="glossary.html#index-1">configuration</a>
+</li>
+        <li><a href="glossary.html#index-2">detector</a>
+</li>
+        <li><a href="glossary.html#index-3">diffractometer</a>
+</li>
+        <li><a href="glossary.html#index-4">engine</a>
+</li>
+        <li><a href="glossary.html#index-5">extra</a>
+</li>
+        <li><a href="glossary.html#index-6">geometry</a>
+</li>
+        <li><a href="glossary.html#index-7">goniometer</a>
+</li>
+        <li><a href="glossary.html#index-8">lattice</a>
+</li>
+        <li><a href="glossary.html#index-9">monochromatic</a>
+</li>
+        <li><a href="glossary.html#index-10">operator</a>
+</li>
+        <li><a href="glossary.html#index-11">orientation</a>
+</li>
+        <li><a href="glossary.html#index-12">pseudo</a>
+</li>
+        <li><a href="glossary.html#index-13">real</a>
+</li>
+        <li><a href="glossary.html#index-14">reflection</a>
+</li>
+        <li><a href="glossary.html#index-15">sample</a>
+</li>
+        <li><a href="glossary.html#index-16">solver</a>
+</li>
+        <li><a href="glossary.html#index-17">UB</a>
+</li>
+        <li><a href="glossary.html#index-18">wavelength</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li>
     design
 
       <ul>
@@ -458,8 +509,10 @@ document.write(`
         <li><a href="api/solvers.html#index-0"><strong>solver</strong></a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="glossary.html#index-2"><strong>detector</strong></a>
+</li>
+      <li><a href="glossary.html#index-3"><strong>diffractometer</strong></a>
+</li>
       <li><a href="api/diffract.html#hklpy2.diffract.DiffractometerBase">DiffractometerBase (class in hklpy2.diffract)</a>
 </li>
       <li><a href="api/lattice.html#hklpy2.operations.lattice.Lattice.digits">digits (hklpy2.operations.lattice.Lattice property)</a>
@@ -478,11 +531,17 @@ document.write(`
 </li>
       <li><a href="api/wavelength_support.html#hklpy2.wavelength_support.MonochromaticXrayWavelength.energy_units">energy_units (hklpy2.wavelength_support.MonochromaticXrayWavelength property)</a>
 </li>
-      <li><a href="api/backends/hkl_soleil.html#hklpy2.backends.hkl_soleil.HklSolver.engine">engine (hklpy2.backends.hkl_soleil.HklSolver property)</a>
+      <li><a href="glossary.html#index-4"><strong>engine</strong></a>
+
+      <ul>
+        <li><a href="api/backends/hkl_soleil.html#hklpy2.backends.hkl_soleil.HklSolver.engine">(hklpy2.backends.hkl_soleil.HklSolver property)</a>
 </li>
+      </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/backends/hkl_soleil.html#hklpy2.backends.hkl_soleil.HklSolver.engines">engines (hklpy2.backends.hkl_soleil.HklSolver property)</a>
+</li>
+      <li><a href="glossary.html#index-5"><strong>extra</strong></a>
 </li>
       <li><a href="api/backends/base.html#hklpy2.backends.base.SolverBase.extra_axis_names">extra_axis_names (hklpy2.backends.base.SolverBase property)</a>
 
@@ -511,7 +570,7 @@ document.write(`
 </li>
         <li><a href="api/diffract.html#hklpy2.diffract.DiffractometerBase.forward">(hklpy2.diffract.DiffractometerBase method)</a>
 </li>
-        <li><a href="api/ops.html#hklpy2.ops.SolverOperator.forward">(hklpy2.ops.SolverOperator method)</a>
+        <li><a href="api/ops.html#hklpy2.ops.Operations.forward">(hklpy2.ops.Operations method)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -534,9 +593,11 @@ document.write(`
         <li><a href="api/backends/th_tth_q.html#hklpy2.backends.th_tth_q.ThTthSolver.geometries">(hklpy2.backends.th_tth_q.ThTthSolver class method)</a>
 </li>
       </ul></li>
-      <li><a href="api/backends/base.html#hklpy2.backends.base.SolverBase.geometry">geometry (hklpy2.backends.base.SolverBase property)</a>
+      <li><a href="glossary.html#index-6"><strong>geometry</strong></a>
 
       <ul>
+        <li><a href="api/backends/base.html#hklpy2.backends.base.SolverBase.geometry">(hklpy2.backends.base.SolverBase property)</a>
+</li>
         <li><a href="api/backends/hkl_soleil.html#hklpy2.backends.hkl_soleil.HklSolver.geometry">(hklpy2.backends.hkl_soleil.HklSolver property)</a>
 </li>
         <li><a href="api/backends/no_op.html#hklpy2.backends.no_op.NoOpSolver.geometry">(hklpy2.backends.no_op.NoOpSolver property)</a>
@@ -545,7 +606,7 @@ document.write(`
 </li>
         <li><a href="api/diffract.html#hklpy2.diffract.DiffractometerBase.geometry">(hklpy2.diffract.DiffractometerBase attribute)</a>
 </li>
-        <li><a href="api/ops.html#hklpy2.ops.SolverOperator.geometry">(hklpy2.ops.SolverOperator property)</a>
+        <li><a href="api/ops.html#hklpy2.ops.Operations.geometry">(hklpy2.ops.Operations property)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -553,6 +614,8 @@ document.write(`
       <li><a href="api/reflection.html#hklpy2.operations.reflection.ReflectionsDict.get">get() (hklpy2.operations.reflection.ReflectionsDict method)</a>
 </li>
       <li><a href="api/z_misc.html#hklpy2.operations.misc.get_solver">get_solver() (in module hklpy2.operations.misc)</a>
+</li>
+      <li><a href="glossary.html#index-7"><strong>goniometer</strong></a>
 </li>
   </ul></td>
 </tr></table>
@@ -674,7 +737,7 @@ document.write(`
 </li>
         <li><a href="api/diffract.html#hklpy2.diffract.DiffractometerBase.inverse">(hklpy2.diffract.DiffractometerBase method)</a>
 </li>
-        <li><a href="api/ops.html#hklpy2.ops.SolverOperator.inverse">(hklpy2.ops.SolverOperator method)</a>
+        <li><a href="api/ops.html#hklpy2.ops.Operations.inverse">(hklpy2.ops.Operations method)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -695,7 +758,7 @@ document.write(`
 <h2 id="L">L</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/lattice.html#index-0"><strong>lattice</strong></a>
+      <li><a href="glossary.html#index-8"><strong>lattice</strong></a>, <a href="api/lattice.html#index-0">[1]</a>
 </li>
       <li><a href="api/lattice.html#hklpy2.operations.lattice.Lattice">Lattice (class in hklpy2.operations.lattice)</a>
 </li>
@@ -710,7 +773,7 @@ document.write(`
 </li>
         <li><a href="api/sample.html#hklpy2.operations.sample.Sample.lattice">(hklpy2.operations.sample.Sample property)</a>
 </li>
-        <li><a href="api/ops.html#hklpy2.ops.SolverOperator.Sample.lattice">(hklpy2.ops.SolverOperator.Sample property)</a>
+        <li><a href="api/ops.html#hklpy2.ops.Operations.Sample.lattice">(hklpy2.ops.Operations.Sample property)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -780,6 +843,8 @@ document.write(`
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="glossary.html#index-9"><strong>monochromatic</strong></a>
+</li>
       <li><a href="api/wavelength_support.html#hklpy2.wavelength_support.MonochromaticXrayWavelength">MonochromaticXrayWavelength (class in hklpy2.wavelength_support)</a>
 </li>
   </ul></td>
@@ -801,7 +866,7 @@ document.write(`
 </li>
         <li><a href="api/sample.html#hklpy2.operations.sample.Sample.name">(hklpy2.operations.sample.Sample property)</a>
 </li>
-        <li><a href="api/ops.html#hklpy2.ops.SolverOperator.Sample.name">(hklpy2.ops.SolverOperator.Sample property)</a>
+        <li><a href="api/ops.html#hklpy2.ops.Operations.Sample.name">(hklpy2.ops.Operations.Sample property)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -814,10 +879,20 @@ document.write(`
 <h2 id="O">O</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/reflection.html#hklpy2.operations.reflection.ReflectionsDict.order">order (hklpy2.operations.reflection.ReflectionsDict property)</a>
+      <li><a href="api/ops.html#hklpy2.ops.Operations">Operations (class in hklpy2.ops)</a>
+</li>
+      <li><a href="api/ops.html#hklpy2.ops.Operations.Sample">Operations.Sample (class in hklpy2.ops)</a>
+</li>
+      <li><a href="api/ops.html#hklpy2.ops.OperationsError">OperationsError</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="glossary.html#index-10"><strong>operator</strong></a>
+</li>
+      <li><a href="api/reflection.html#hklpy2.operations.reflection.ReflectionsDict.order">order (hklpy2.operations.reflection.ReflectionsDict property)</a>
+</li>
+      <li><a href="glossary.html#index-11"><strong>orientation</strong></a>
+</li>
       <li><a href="api/reflection.html#index-1">orientation matrix</a>
 </li>
   </ul></td>
@@ -840,6 +915,8 @@ document.write(`
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="glossary.html#index-12"><strong>pseudo</strong></a>
+</li>
       <li><a href="api/backends/base.html#hklpy2.backends.base.SolverBase.pseudo_axis_names">pseudo_axis_names (hklpy2.backends.base.SolverBase property)</a>
 
       <ul>
@@ -860,6 +937,8 @@ document.write(`
 <h2 id="R">R</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="glossary.html#index-13"><strong>real</strong></a>
+</li>
       <li><a href="api/reflection.html#index-3">real-space</a>
 </li>
       <li><a href="api/backends/base.html#hklpy2.backends.base.SolverBase.real_axis_names">real_axis_names (hklpy2.backends.base.SolverBase property)</a>
@@ -881,11 +960,9 @@ document.write(`
       <li><a href="api/sample.html#hklpy2.operations.sample.Sample.refine_lattice">refine_lattice() (hklpy2.operations.sample.Sample method)</a>
 
       <ul>
-        <li><a href="api/ops.html#hklpy2.ops.SolverOperator.Sample.refine_lattice">(hklpy2.ops.SolverOperator.Sample method)</a>
+        <li><a href="api/ops.html#hklpy2.ops.Operations.Sample.refine_lattice">(hklpy2.ops.Operations.Sample method)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/backends/base.html#hklpy2.backends.base.SolverBase.refineLattice">refineLattice() (hklpy2.backends.base.SolverBase method)</a>
 
       <ul>
@@ -896,7 +973,9 @@ document.write(`
         <li><a href="api/backends/th_tth_q.html#hklpy2.backends.th_tth_q.ThTthSolver.refineLattice">(hklpy2.backends.th_tth_q.ThTthSolver method)</a>
 </li>
       </ul></li>
-      <li><a href="api/reflection.html#index-0"><strong>reflection</strong></a>, <a href="api/backends/th_tth_q.html#index-1">[1]</a>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="glossary.html#index-14"><strong>reflection</strong></a>, <a href="api/backends/th_tth_q.html#index-1">[1]</a>, <a href="api/reflection.html#index-0">[2]</a>
 </li>
       <li><a href="api/reflection.html#hklpy2.operations.reflection.Reflection">Reflection (class in hklpy2.operations.reflection)</a>
 </li>
@@ -905,25 +984,45 @@ document.write(`
       <li><a href="api/sample.html#hklpy2.operations.sample.Sample.reflections">reflections (hklpy2.operations.sample.Sample property)</a>
 
       <ul>
-        <li><a href="api/ops.html#hklpy2.ops.SolverOperator.Sample.reflections">(hklpy2.ops.SolverOperator.Sample property)</a>
+        <li><a href="api/ops.html#hklpy2.ops.Operations.Sample.reflections">(hklpy2.ops.Operations.Sample property)</a>
 </li>
       </ul></li>
       <li><a href="api/reflection.html#hklpy2.operations.reflection.ReflectionsDict">ReflectionsDict (class in hklpy2.operations.reflection)</a>
 </li>
-      <li><a href="api/ops.html#hklpy2.ops.SolverOperator.remove_sample">remove_sample() (hklpy2.ops.SolverOperator method)</a>
+      <li><a href="api/ops.html#hklpy2.ops.Operations.remove_sample">remove_sample() (hklpy2.ops.Operations method)</a>
 </li>
+      <li><a href="api/backends/base.html#hklpy2.backends.base.SolverBase.removeAllReflections">removeAllReflections() (hklpy2.backends.base.SolverBase method)</a>
+
+      <ul>
+        <li><a href="api/backends/hkl_soleil.html#hklpy2.backends.hkl_soleil.HklSolver.removeAllReflections">(hklpy2.backends.hkl_soleil.HklSolver method)</a>
+</li>
+        <li><a href="api/backends/no_op.html#hklpy2.backends.no_op.NoOpSolver.removeAllReflections">(hklpy2.backends.no_op.NoOpSolver method)</a>
+</li>
+        <li><a href="api/backends/th_tth_q.html#hklpy2.backends.th_tth_q.ThTthSolver.removeAllReflections">(hklpy2.backends.th_tth_q.ThTthSolver method)</a>
+</li>
+      </ul></li>
   </ul></td>
 </tr></table>
 
 <h2 id="S">S</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="glossary.html#index-15"><strong>sample</strong></a>
+</li>
       <li><a href="api/sample.html#hklpy2.operations.sample.Sample">Sample (class in hklpy2.operations.sample)</a>
 </li>
-      <li><a href="api/diffract.html#hklpy2.diffract.DiffractometerBase.sample">sample (hklpy2.diffract.DiffractometerBase property)</a>
+      <li><a href="api/backends/base.html#hklpy2.backends.base.SolverBase.sample">sample (hklpy2.backends.base.SolverBase property)</a>
 
       <ul>
-        <li><a href="api/ops.html#hklpy2.ops.SolverOperator.sample">(hklpy2.ops.SolverOperator property)</a>
+        <li><a href="api/backends/hkl_soleil.html#hklpy2.backends.hkl_soleil.HklSolver.sample">(hklpy2.backends.hkl_soleil.HklSolver property)</a>
+</li>
+        <li><a href="api/backends/no_op.html#hklpy2.backends.no_op.NoOpSolver.sample">(hklpy2.backends.no_op.NoOpSolver property)</a>
+</li>
+        <li><a href="api/backends/th_tth_q.html#hklpy2.backends.th_tth_q.ThTthSolver.sample">(hklpy2.backends.th_tth_q.ThTthSolver property)</a>
+</li>
+        <li><a href="api/diffract.html#hklpy2.diffract.DiffractometerBase.sample">(hklpy2.diffract.DiffractometerBase property)</a>
+</li>
+        <li><a href="api/ops.html#hklpy2.ops.Operations.sample">(hklpy2.ops.Operations property)</a>
 </li>
       </ul></li>
       <li><a href="api/sample.html#hklpy2.operations.sample.SampleError">SampleError</a>
@@ -931,7 +1030,7 @@ document.write(`
       <li><a href="api/diffract.html#hklpy2.diffract.DiffractometerBase.samples">samples (hklpy2.diffract.DiffractometerBase property)</a>
 
       <ul>
-        <li><a href="api/ops.html#hklpy2.ops.SolverOperator.samples">(hklpy2.ops.SolverOperator property)</a>
+        <li><a href="api/ops.html#hklpy2.ops.Operations.samples">(hklpy2.ops.Operations property)</a>
 </li>
       </ul></li>
       <li><a href="api/reflection.html#hklpy2.operations.reflection.ReflectionsDict.set_orientation_reflections">set_orientation_reflections() (hklpy2.operations.reflection.ReflectionsDict method)</a>
@@ -939,7 +1038,7 @@ document.write(`
       <li><a href="api/diffract.html#hklpy2.diffract.DiffractometerBase.set_solver">set_solver() (hklpy2.diffract.DiffractometerBase method)</a>
 
       <ul>
-        <li><a href="api/ops.html#hklpy2.ops.SolverOperator.set_solver">(hklpy2.ops.SolverOperator method)</a>
+        <li><a href="api/ops.html#hklpy2.ops.Operations.set_solver">(hklpy2.ops.Operations method)</a>
 </li>
       </ul></li>
       <li><a href="api/reflection.html#hklpy2.operations.reflection.ReflectionsDict.setdefault">setdefault() (hklpy2.operations.reflection.ReflectionsDict method)</a>
@@ -970,10 +1069,12 @@ document.write(`
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/diffract.html#hklpy2.diffract.DiffractometerBase.solver">solver (hklpy2.diffract.DiffractometerBase attribute)</a>
+      <li><a href="glossary.html#index-16"><strong>solver</strong></a>
 
       <ul>
-        <li><a href="api/ops.html#hklpy2.ops.SolverOperator.solver">(hklpy2.ops.SolverOperator property)</a>
+        <li><a href="api/diffract.html#hklpy2.diffract.DiffractometerBase.solver">(hklpy2.diffract.DiffractometerBase attribute)</a>
+</li>
+        <li><a href="api/ops.html#hklpy2.ops.Operations.solver">(hklpy2.ops.Operations property)</a>
 </li>
       </ul></li>
       <li><a href="api/z_misc.html#hklpy2.operations.misc.SOLVER_ENTRYPOINT_GROUP">SOLVER_ENTRYPOINT_GROUP (in module hklpy2.operations.misc)</a>
@@ -985,12 +1086,6 @@ document.write(`
       <li><a href="api/backends/base.html#hklpy2.backends.base.SolverBase">SolverBase (class in hklpy2.backends.base)</a>
 </li>
       <li><a href="api/z_misc.html#hklpy2.operations.misc.SolverError">SolverError</a>
-</li>
-      <li><a href="api/ops.html#hklpy2.ops.SolverOperator">SolverOperator (class in hklpy2.ops)</a>
-</li>
-      <li><a href="api/ops.html#hklpy2.ops.SolverOperator.Sample">SolverOperator.Sample (class in hklpy2.ops)</a>
-</li>
-      <li><a href="api/ops.html#hklpy2.ops.SolverOperatorError">SolverOperatorError</a>
 </li>
       <li><a href="api/z_misc.html#hklpy2.operations.misc.solvers">solvers() (in module hklpy2.operations.misc)</a>
 </li>
@@ -1010,9 +1105,9 @@ document.write(`
         <li><a href="api/wavelength_support.html#hklpy2.wavelength_support.WavelengthBase.spectrum_type">(hklpy2.wavelength_support.WavelengthBase attribute)</a>
 </li>
       </ul></li>
-      <li><a href="api/ops.html#hklpy2.ops.SolverOperator.standardize_pseudos">standardize_pseudos() (hklpy2.ops.SolverOperator method)</a>
+      <li><a href="api/ops.html#hklpy2.ops.Operations.standardize_pseudos">standardize_pseudos() (hklpy2.ops.Operations method)</a>
 </li>
-      <li><a href="api/ops.html#hklpy2.ops.SolverOperator.standardize_reals">standardize_reals() (hklpy2.ops.SolverOperator method)</a>
+      <li><a href="api/ops.html#hklpy2.ops.Operations.standardize_reals">standardize_reals() (hklpy2.ops.Operations method)</a>
 </li>
       <li><a href="api/reflection.html#hklpy2.operations.reflection.ReflectionsDict.swap">swap() (hklpy2.operations.reflection.ReflectionsDict method)</a>
 </li>
@@ -1037,13 +1132,23 @@ document.write(`
       <li><a href="api/sample.html#hklpy2.operations.sample.Sample.U">U (hklpy2.operations.sample.Sample property)</a>
 
       <ul>
-        <li><a href="api/ops.html#hklpy2.ops.SolverOperator.Sample.U">(hklpy2.ops.SolverOperator.Sample property)</a>
+        <li><a href="api/ops.html#hklpy2.ops.Operations.Sample.U">(hklpy2.ops.Operations.Sample property)</a>
 </li>
       </ul></li>
-      <li><a href="api/sample.html#hklpy2.operations.sample.Sample.UB">UB (hklpy2.operations.sample.Sample property)</a>
+      <li><a href="glossary.html#index-17"><strong>UB</strong></a>
 
       <ul>
-        <li><a href="api/ops.html#hklpy2.ops.SolverOperator.Sample.UB">(hklpy2.ops.SolverOperator.Sample property)</a>
+        <li><a href="api/backends/base.html#hklpy2.backends.base.SolverBase.UB">(hklpy2.backends.base.SolverBase property)</a>
+</li>
+        <li><a href="api/backends/hkl_soleil.html#hklpy2.backends.hkl_soleil.HklSolver.UB">(hklpy2.backends.hkl_soleil.HklSolver property)</a>
+</li>
+        <li><a href="api/backends/no_op.html#hklpy2.backends.no_op.NoOpSolver.UB">(hklpy2.backends.no_op.NoOpSolver property)</a>
+</li>
+        <li><a href="api/backends/th_tth_q.html#hklpy2.backends.th_tth_q.ThTthSolver.UB">(hklpy2.backends.th_tth_q.ThTthSolver property)</a>
+</li>
+        <li><a href="api/sample.html#hklpy2.operations.sample.Sample.UB">(hklpy2.operations.sample.Sample property)</a>
+</li>
+        <li><a href="api/ops.html#hklpy2.ops.Operations.Sample.UB">(hklpy2.ops.Operations.Sample property)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -1076,7 +1181,7 @@ document.write(`
 <h2 id="W">W</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/backends/th_tth_q.html#index-2">wavelength</a>
+      <li><a href="glossary.html#index-18"><strong>wavelength</strong></a>, <a href="api/backends/th_tth_q.html#index-2">[1]</a>
 
       <ul>
         <li><a href="api/backends/th_tth_q.html#hklpy2.backends.th_tth_q.ThTthSolver.wavelength">(hklpy2.backends.th_tth_q.ThTthSolver property)</a>
@@ -1115,7 +1220,7 @@ document.write(`
 </li>
         <li><a href="api/sample.html#hklpy2.operations.sample.SampleError.with_traceback">(hklpy2.operations.sample.SampleError method)</a>
 </li>
-        <li><a href="api/ops.html#hklpy2.ops.SolverOperatorError.with_traceback">(hklpy2.ops.SolverOperatorError method)</a>
+        <li><a href="api/ops.html#hklpy2.ops.OperationsError.with_traceback">(hklpy2.ops.OperationsError method)</a>
 </li>
         <li><a href="api/wavelength_support.html#hklpy2.wavelength_support.WavelengthError.with_traceback">(hklpy2.wavelength_support.WavelengthError method)</a>
 </li>
@@ -1139,7 +1244,7 @@ document.write(`
               
               
               
-                <footer class="prev-next-footer">
+                <footer class="prev-next-footer d-print-none">
                   
 <div class="prev-next-area">
 </div>
@@ -1148,8 +1253,6 @@ document.write(`
             </div>
             
             
-              
-                <div class="bd-sidebar-secondary bd-toc"></div>
               
             
           </div>
@@ -1162,8 +1265,8 @@ document.write(`
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae"></script>
-<script src="_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae"></script>
+  <script src="_static/scripts/bootstrap.js?digest=3ee479438cf8b5e0d341"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=3ee479438cf8b5e0d341"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
@@ -1196,7 +1299,7 @@ document.write(`
       
         <div class="footer-item">
 <p class="theme-version">
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.15.2.
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.15.3.
 </p></div>
       
     </div>
