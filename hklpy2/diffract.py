@@ -93,8 +93,9 @@ class DiffractometerBase(PseudoPositioner):
     """
 
     # These two attributes are used by the PseudoPositioner class.
-    # _pseudo = []  # List of pseudo-space PseudoPositioner objects.
-    # _real = []  # List of real-space positioner objects.
+    # _pseudo = []  # List of pseudo-space objects.
+    # _real = []  # List of real-space objects.
+    # This code does NOT redefine them.
 
     geometry = Cpt(
         AttributeSignal,

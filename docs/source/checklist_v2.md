@@ -36,7 +36,7 @@ It could be re-organized.
   * [x] [`addReflection()`, when to use current positions](https://github.com/bluesky/hklpy/issues/219)
   * [x] [avoid duplications](https://github.com/bluesky/hklpy/issues/248)
   * [x] [label each reflection](https://github.com/bluesky/hklpy/issues/293)
-  * [ ] [write orientation reflections with scan](https://github.com/bluesky/hklpy/issues/158), 
+  * [ ] [write orientation reflections with scan](https://github.com/bluesky/hklpy/issues/158),
     [also](https://github.com/bluesky/hklpy/issues/247)
   * [ ] [`cahkl()` should make nice report when reflection can't be reached](https://github.com/bluesky/hklpy/issues/178)
 * Other
@@ -55,12 +55,14 @@ It could be re-organized.
   * [ ] Choosing the default `forward()` solution.
   * [ ] How to migrate from hklpy v1.
 * Diffractometer-Operations API
-  * [ ] solver: 
+  * [x] solver:
   * [x] geometry:
   * [x] samples:
   * [x] lattice:
   * [x] reflections:
   * [ ] configuration:
+    * [ ] export
+    * [ ] restore
   * axes
     * pseudos
       * [x] dict
@@ -72,9 +74,8 @@ It could be re-organized.
       * [x] list
       * [x] tuple
       * [x] RealPosition
-  * [ ] transformation: forward (pseudos -> reals)
+  * [x] transformation: forward (pseudos -> reals)
   * [x] transformation: inverse (reals -> pseudos)
-  * [ ] ...
 * Operations-Solver interface transactions API
   * [ ] extra parameters
   * [x] axes: expected extras
