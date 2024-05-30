@@ -13,6 +13,7 @@ User Guide
    :hidden:
 
    design-discussion
+   checklist_v2
    examples/*
    install
    glossary
