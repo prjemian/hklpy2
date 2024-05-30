@@ -9,12 +9,14 @@ NOTE:  this project at initial development
 2nd generation controls for using diffractometers within the [Bluesky
 Framework](https://blueskyproject.io).
 
+![API diagram](/docs/source/_static/hklpy2-block-diagram.png)
+
 ## About
 
 - home: https://prjemian.github.io/hklpy2
 - source: https://github.com/prjemian/hklpy2
 - license: [Argonne Open Source License](/LICENSE)
-- design: [considerations](/docs/source//design-discussion.md)
+- design: [API](/docs/source/api.rst), [considerations](/docs/source//design-discussion.md), [checklist](/docs/source/checklist_v2.md)
 - **hklpy**, v1: [docs](https://blueskyproject.io/hklpy/), [source](https://github.com/bluesky/hklpy)
 - **libhkl**: [docs](https://people.debian.org/~picca/hkl/hkl.html),  [source](https://repo.or.cz/hkl.git)
 - acknowledgement: 
