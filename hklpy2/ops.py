@@ -301,8 +301,9 @@ class Operations:
             self.diffractometer.real_axis_names,
         )
 
+        # transform: reals -> pseudos
         try:
-            spdict = self.solver.inverse(self._axes_names_d2s(reals))  # transform
+            spdict = self.solver.inverse(self._axes_names_d2s(reals))
         except Exception as excuse:
             print(f"{excuse=!r}")
             raise excuse
@@ -338,6 +339,8 @@ class Operations:
             kwargs,
         )
         self._solver = solver_factory(name, geometry, **kwargs)
+        self._solver.sample = self.sample
+        self._solver.wavelength = self.diffractometer.wavelength.get()
         return self._solver
 
     def _solver_setup(self):
