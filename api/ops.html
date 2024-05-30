@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=3ee479438cf8b5e0d341" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=3ee479438cf8b5e0d341"></script>
 
-    <script src="../_static/documentation_options.js?v=ed52ead9"></script>
+    <script src="../_static/documentation_options.js?v=c9cc22d3"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
@@ -398,25 +398,22 @@ library.</p>
 <tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.ops.Operations.calcUB" title="hklpy2.ops.Operations.calcUB"><code class="xref py py-obj docutils literal notranslate"><span class="pre">calcUB</span></code></a>(r1, r2)</p></td>
 <td><p>Calculate the UB matrix with two reflections.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.ops.Operations.check_solver_defined" title="hklpy2.ops.Operations.check_solver_defined"><code class="xref py py-obj docutils literal notranslate"><span class="pre">check_solver_defined</span></code></a>()</p></td>
-<td><p>Raise DiffractometerError if solver is not defined.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.ops.Operations.forward" title="hklpy2.ops.Operations.forward"><code class="xref py py-obj docutils literal notranslate"><span class="pre">forward</span></code></a>(pseudos)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.ops.Operations.forward" title="hklpy2.ops.Operations.forward"><code class="xref py py-obj docutils literal notranslate"><span class="pre">forward</span></code></a>(pseudos)</p></td>
 <td><p>Compute [{names:reals}] from {names: pseudos} (hkl -&gt; angles).</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.ops.Operations.inverse" title="hklpy2.ops.Operations.inverse"><code class="xref py py-obj docutils literal notranslate"><span class="pre">inverse</span></code></a>(reals)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.ops.Operations.inverse" title="hklpy2.ops.Operations.inverse"><code class="xref py py-obj docutils literal notranslate"><span class="pre">inverse</span></code></a>(reals)</p></td>
 <td><p>Compute (pseudos) from {names: reals} (angles -&gt; hkl).</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.ops.Operations.remove_sample" title="hklpy2.ops.Operations.remove_sample"><code class="xref py py-obj docutils literal notranslate"><span class="pre">remove_sample</span></code></a>(name)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.ops.Operations.remove_sample" title="hklpy2.ops.Operations.remove_sample"><code class="xref py py-obj docutils literal notranslate"><span class="pre">remove_sample</span></code></a>(name)</p></td>
 <td><p>Remove the named sample.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.ops.Operations.set_solver" title="hklpy2.ops.Operations.set_solver"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_solver</span></code></a>(name, geometry, **kwargs)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.ops.Operations.set_solver" title="hklpy2.ops.Operations.set_solver"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_solver</span></code></a>(name, geometry, **kwargs)</p></td>
 <td><p>Create an instance of the backend <strong>Solver</strong> library and geometry.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.ops.Operations.standardize_pseudos" title="hklpy2.ops.Operations.standardize_pseudos"><code class="xref py py-obj docutils literal notranslate"><span class="pre">standardize_pseudos</span></code></a>(pseudos[, expected])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.ops.Operations.standardize_pseudos" title="hklpy2.ops.Operations.standardize_pseudos"><code class="xref py py-obj docutils literal notranslate"><span class="pre">standardize_pseudos</span></code></a>(pseudos[, expected])</p></td>
 <td><p>Convert user-supplied pseudos into dictionary.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.ops.Operations.standardize_reals" title="hklpy2.ops.Operations.standardize_reals"><code class="xref py py-obj docutils literal notranslate"><span class="pre">standardize_reals</span></code></a>(reals[, expected])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.ops.Operations.standardize_reals" title="hklpy2.ops.Operations.standardize_reals"><code class="xref py py-obj docutils literal notranslate"><span class="pre">standardize_reals</span></code></a>(reals[, expected])</p></td>
 <td><p>Convert user-supplied reals into dictionary.</p></td>
 </tr>
 </tbody>
@@ -600,12 +597,6 @@ names it expects:</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="hklpy2.ops.Operations.check_solver_defined">
-<span class="sig-name descname"><span class="pre">check_solver_defined</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hklpy2/ops.html#Operations.check_solver_defined"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.ops.Operations.check_solver_defined" title="Link to this definition">#</a></dt>
-<dd><p>Raise DiffractometerError if solver is not defined.</p>
-</dd></dl>
-
-<dl class="py method">
 <dt class="sig sig-object py" id="hklpy2.ops.Operations.forward">
 <span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pseudos</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.12)"><span class="pre">list</span></a></span></span><a class="reference internal" href="../_modules/hklpy2/ops.html#Operations.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.ops.Operations.forward" title="Link to this definition">#</a></dt>
 <dd><p>Compute [{names:reals}] from {names: pseudos} (hkl -&gt; angles).</p>
@@ -778,7 +769,6 @@ set self.__traceback__ to tb and return self.</p>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.ops.Operations.auto_assign_axes"><code class="docutils literal notranslate"><span class="pre">Operations.auto_assign_axes()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.ops.Operations.axes_xref_reversed"><code class="docutils literal notranslate"><span class="pre">Operations.axes_xref_reversed</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.ops.Operations.calcUB"><code class="docutils literal notranslate"><span class="pre">Operations.calcUB()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.ops.Operations.check_solver_defined"><code class="docutils literal notranslate"><span class="pre">Operations.check_solver_defined()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.ops.Operations.forward"><code class="docutils literal notranslate"><span class="pre">Operations.forward()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.ops.Operations.geometry"><code class="docutils literal notranslate"><span class="pre">Operations.geometry</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.ops.Operations.inverse"><code class="docutils literal notranslate"><span class="pre">Operations.inverse()</span></code></a></li>
