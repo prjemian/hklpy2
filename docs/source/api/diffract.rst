@@ -60,24 +60,24 @@ and :attr:`~hklpy2.ops.Operations.sample`)
 .. rubric:: Operations-related methods and properties
 .. autosummary::
 
-    ~hklpy2.diffract.DiffractometerBase.add_sample
-    ~hklpy2.diffract.DiffractometerBase.set_solver
-    ~hklpy2.diffract.DiffractometerBase.auto_assign_axes
+    ~hklpy2.diffract.DiffractometerBase.add_sample (method)
+    ~hklpy2.ops.Operations.set_solver (method)
+    ~hklpy2.diffract.DiffractometerBase.auto_assign_axes (method)
 
 .. rubric:: Sample-related methods and properties
 .. autosummary::
 
-    ~hklpy2.diffract.DiffractometerBase.add_sample
-    ~hklpy2.diffract.DiffractometerBase.sample
-    ~hklpy2.diffract.DiffractometerBase.samples
+    ~hklpy2.diffract.DiffractometerBase.add_sample (method)
+    ~hklpy2.diffract.DiffractometerBase.sample (property)
+    ~hklpy2.diffract.DiffractometerBase.samples (property)
 
 .. rubric:: Solver-related methods and properties
 .. autosummary::
 
-    ~hklpy2.diffract.DiffractometerBase.geometry
-    ~hklpy2.diffract.DiffractometerBase.set_solver
-    ~hklpy2.diffract.DiffractometerBase.solver
-    ~hklpy2.diffract.DiffractometerBase.solver_name
+    ~hklpy2.diffract.DiffractometerBase.geometry (ophyd Signal)
+    ~hklpy2.ops.Operations.set_solver (method)
+    ~hklpy2.diffract.DiffractometerBase.solver (property)
+    ~hklpy2.diffract.DiffractometerBase.solver_name (ophyd Signal)
 
 Source Code Documentation
 -------------------------

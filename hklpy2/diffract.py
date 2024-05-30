@@ -80,7 +80,6 @@ class DiffractometerBase(PseudoPositioner):
         ~auto_assign_axes
         ~forward
         ~inverse
-        ~set_solver
 
     .. rubric:: Python Properties
 
@@ -144,7 +143,7 @@ class DiffractometerBase(PseudoPositioner):
         super().__init__(*args, **kwargs)
 
         if isinstance(solver, str) and isinstance(geometry, str):
-            self.set_solver(solver, geometry, **solver_kwargs)
+            self.operator.set_solver(solver, geometry, **solver_kwargs)
 
         self.operator.assign_axes(pseudos, reals, extras)
 
@@ -232,18 +231,6 @@ class DiffractometerBase(PseudoPositioner):
         """Compute pseudo-space coordinates from reals (angles -> hkl)."""
         pos = self.operator.inverse(reals)
         return self.PseudoPosition(**pos)  # as created by namedtuple
-
-    def set_solver(self, solver: str, geometry: str, **kwargs: dict):
-        """
-        Set the backend |solver| for this diffractometer.
-
-        .. rubric:: Parameters
-
-        * ``solver`` (str): Name of the |solver| library.
-        * ``geometry`` (str): Name of the |solver| geometry.
-        * ``kwargs`` (dict): Any keyword arguments needed by the |solver|.
-        """
-        self.operator.set_solver(solver, geometry, **kwargs)
 
     # ---- get/set properties
 
