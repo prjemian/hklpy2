@@ -104,4 +104,9 @@ src_paths = ["hkl"]
 addopts = [
     "--import-mode=importlib",
 ]
+filterwarnings = [
+    "ignore:.*pkg_resources is deprecated as an API.*:DeprecationWarning",
+    "ignore:.*pkg_resources.declare_namespace*:DeprecationWarning",
+]
+
 [tool.setuptools_scm]
