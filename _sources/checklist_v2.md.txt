@@ -54,8 +54,33 @@ It could be re-organized.
   * [ ] How to hold axes fixed during `forward()` transformation
   * [ ] Choosing the default `forward()` solution.
   * [ ] How to migrate from hklpy v1.
+* Diffractometer-Operations API
+  * [ ] solver: 
+  * [x] geometry:
+  * [x] samples:
+  * [x] lattice:
+  * [x] reflections:
+  * [ ] configuration:
+  * axes
+    * pseudos
+      * [x] dict
+      * [x] list
+      * [x] tuple
+      * [x] PseudoPosition
+    * reals
+      * [x] dict
+      * [x] list
+      * [x] tuple
+      * [x] RealPosition
+  * [ ] transformation: forward (pseudos -> reals)
+  * [x] transformation: inverse (reals -> pseudos)
+  * [ ] ...
 * Operations-Solver interface transactions API
   * [ ] extra parameters
+  * [x] axes: expected extras
+  * [x] axes: expected pseudos
+  * [x] axes: expected reals
+  * [x] axes: convert names between diffractometer and solver
   * [x] geometry: list all available geometries
   * [x] geometry: set
   * [x] list available solvers
