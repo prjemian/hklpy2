@@ -45,7 +45,6 @@ class Operations:
         ~assign_axes
         ~auto_assign_axes
         ~calcUB
-        ~check_solver_defined
         ~forward
         ~inverse
         ~remove_sample
@@ -267,12 +266,6 @@ class Operations:
         self.solver.calculateOrientation(get_reflection(r1), get_reflection(r2))
         print(f"=========> {self.solver.UB=!r}")
 
-    def check_solver_defined(self):
-        """Raise DiffractometerError if solver is not defined."""
-        if self.solver is None:
-            # TODO: First try to create a new solver.
-            raise OperationsError("Call 'set_solver()' first.")
-
     def forward(self, pseudos) -> list:
         """Compute [{names:reals}] from {names: pseudos} (hkl -> angles)."""
         logger.debug(
@@ -280,7 +273,6 @@ class Operations:
             self.__class__.__name__,
             pseudos,
         )
-        # self.check_solver_defined()
         axes = self.diffractometer._get_real_positioners()  # TODO:
         reals = {axis[0]: 0 for axis in axes}
         return [reals]
@@ -452,7 +444,6 @@ class Operations:
     @property
     def geometry(self) -> str:
         """Backend |solver| geometry name."""
-        self.check_solver_defined()
         return self.solver.geometry
 
     @property
