@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=3ee479438cf8b5e0d341" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=3ee479438cf8b5e0d341"></script>
 
-    <script src="../_static/documentation_options.js?v=20ae521f"></script>
+    <script src="../_static/documentation_options.js?v=f55f8db3"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
@@ -354,9 +354,77 @@ document.write(`
                   
   <section id="operations">
 <span id="api-ops"></span><h1>Operations<a class="headerlink" href="#operations" title="Link to this heading">#</a></h1>
-<p><code class="xref py py-class docutils literal notranslate"><span class="pre">Operations</span></code> simplifies the code in
-<a class="reference internal" href="diffract.html#hklpy2.diffract.DiffractometerBase" title="hklpy2.diffract.DiffractometerBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">DiffractometerBase</span></code></a> as the
-interface with <a class="reference internal" href="backends/base.html#hklpy2.backends.base.SolverBase" title="hklpy2.backends.base.SolverBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">SolverBase</span></code></a>.</p>
+<p id="index-0">A diffractometer’s <code class="docutils literal notranslate"><span class="pre">.operator</span></code> provides most of its functionality.
+The <code class="docutils literal notranslate"><span class="pre">operator</span></code> conducts transactions with the <strong>Solver</strong> on behalf of the
+diffractometer. These transactions include the <code class="docutils literal notranslate"><span class="pre">forward()</span></code> and <code class="docutils literal notranslate"><span class="pre">inverse()</span></code>
+coordinate transformations, at the core of scientific measurements using
+a diffractometer.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Python class</p></th>
+<th class="head"><p>Purpose</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><a class="reference internal" href="diffract.html#hklpy2.diffract.DiffractometerBase" title="hklpy2.diffract.DiffractometerBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">DiffractometerBase</span></code></a></p></td>
+<td><p>ophyd <a class="reference external" href="https://blueskyproject.io/ophyd/user/reference/positioners.html#pseudopositioner">PseudoPositioner</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Operations</span></code></p></td>
+<td><p>The class for a diffractometer’s <code class="docutils literal notranslate"><span class="pre">.operator</span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="backends/base.html#hklpy2.backends.base.SolverBase" title="hklpy2.backends.base.SolverBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">SolverBase</span></code></a></p></td>
+<td><p>Code for diffractometer geometries and capabilities.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>In addition to <strong>Solver</strong> transactions, the <code class="docutils literal notranslate"><span class="pre">.operator</span></code> manages all
+details involving the set of samples and their lattices &amp; reflections.</p>
+<p>EXAMPLE:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hklpy2</span> <span class="kn">import</span> <span class="n">SimulatedE4CV</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">e4cv</span> <span class="o">=</span> <span class="n">SimulatedE4CV</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;e4cv&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">e4cv</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">sample</span>
+<span class="go">Sample(name=&#39;cubic&#39;, lattice=Lattice(a=1, b=1, c=1, alpha=90.0, beta=90.0, gamma=90.0))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">e4cv</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">solver</span>
+<span class="go">HklSolver(name=&#39;hkl_soleil&#39;, version=&#39;v5.0.0.3434&#39;, geometry=&#39;E4CV&#39;, engine=&#39;hkl&#39;, mode=&#39;bissector&#39;)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">e4cv</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">reflections</span>
+<span class="go">{}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">e4cv</span><span class="o">.</span><span class="n">add_reflection</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">20</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;r1&quot;</span><span class="p">)</span>
+<span class="go">Reflection(name=&#39;r1&#39;, geometry=&#39;E4CV&#39;, pseudos={&#39;h&#39;: 1, &#39;k&#39;: 0, &#39;l&#39;: 0}, reals={&#39;omega&#39;: 10, &#39;chi&#39;: 0, &#39;phi&#39;: 0, &#39;tth&#39;: 20}, wavelength=1.0)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">e4cv</span><span class="o">.</span><span class="n">add_reflection</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="o">-</span><span class="mi">90</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">20</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;r2&quot;</span><span class="p">)</span>
+<span class="go">Reflection(name=&#39;r2&#39;, geometry=&#39;E4CV&#39;, pseudos={&#39;h&#39;: 0, &#39;k&#39;: 1, &#39;l&#39;: 0}, reals={&#39;omega&#39;: 10, &#39;chi&#39;: -90, &#39;phi&#39;: 0, &#39;tth&#39;: 20}, wavelength=1.0)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">e4cv</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">reflections</span>
+<span class="go">{&#39;r1&#39;: {&#39;name&#39;: &#39;r1&#39;, &#39;geometry&#39;: &#39;E4CV&#39;, &#39;pseudos&#39;: {&#39;h&#39;: 1, &#39;k&#39;: 0, &#39;l&#39;: 0}, &#39;reals&#39;: {&#39;omega&#39;: 10, &#39;chi&#39;: 0, &#39;phi&#39;: 0, &#39;tth&#39;: 20}, &#39;wavelength&#39;: 1.0, &#39;order&#39;: 0}, &#39;r2&#39;: {&#39;name&#39;: &#39;r2&#39;, &#39;geometry&#39;: &#39;E4CV&#39;, &#39;pseudos&#39;: {&#39;h&#39;: 0, &#39;k&#39;: 1, &#39;l&#39;: 0}, &#39;reals&#39;: {&#39;omega&#39;: 10, &#39;chi&#39;: -90, &#39;phi&#39;: 0, &#39;tth&#39;: 20}, &#39;wavelength&#39;: 1.0, &#39;order&#39;: 1}}</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The <a class="reference internal" href="#hklpy2.ops.Operations" title="hklpy2.ops.Operations"><code class="xref py py-class docutils literal notranslate"><span class="pre">Operations</span></code></a> class provides
+key diffractometer features as Python properties.  This enables their
+inclusion in the <a class="reference internal" href="diffract.html#hklpy2.diffract.DiffractometerBase" title="hklpy2.diffract.DiffractometerBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">DiffractometerBase</span></code></a> class
+using ophyd <a class="reference external" href="https://github.com/bluesky/ophyd/blob/5c03c3fff974dc6390836fc83dae4c247a35e662/ophyd/signal.py#L2192">AttributeSignal</a>.
+One such example is the <strong>Solver</strong> geometry name:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">geometry</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span>
+    <span class="n">AttributeSignal</span><span class="p">,</span>
+    <span class="n">attr</span><span class="o">=</span><span class="s2">&quot;operator.geometry&quot;</span><span class="p">,</span>
+    <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Name of backend |solver| geometry.&quot;</span><span class="p">,</span>
+    <span class="n">write_access</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="sd">&quot;&quot;&quot;Name of backend |solver| geometry.&quot;&quot;&quot;</span>
+</pre></div>
+</div>
+<p>Using the <code class="docutils literal notranslate"><span class="pre">e4cv</span></code> simulator, the property is:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">e4cv</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">geometry</span>
+<span class="go">&#39;E4CV&#39;</span>
+</pre></div>
+</div>
+<p>From the ophyd diffractometer object reports this:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">e4cv</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+<span class="go">&#39;E4CV&#39;</span>
+</pre></div>
+</div>
+</div>
 <section id="module-hklpy2.ops">
 <span id="source-code-documentation"></span><h2>Source Code Documentation<a class="headerlink" href="#module-hklpy2.ops" title="Link to this heading">#</a></h2>
 <p>Operate the diffractometer using a <strong>Solver</strong> library and geometry.</p>
