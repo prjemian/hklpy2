@@ -39,7 +39,7 @@ This is a starting format for suggestions, but it may become clear that a differ
 
 ## Desired API
 
-The desired "solver API" into the HKL computation code should be transformations 
+The desired "solver API" into the HKL computation code should be transformations
 from reciprocal space to diffractometer angle space and vice versa, each taking
 three arguments:
 
@@ -64,7 +64,7 @@ It should be easy to switch between solvers at run time so that new things can b
 
   - [ ] Identify if we are missing items to support analyzers or polarizers
   - [ ] Make sure we don't over specify requirements to cause problems for analyzers or polarizers
-  - [ ] Do we need to tie these new ophyd objects together with diffractometer object?  
+  - [ ] Do we need to tie these new ophyd objects together with diffractometer object?
           What is the best way to do that?
 
 - Make it easy to provide additional axes, such as for:
@@ -76,7 +76,7 @@ It should be easy to switch between solvers at run time so that new things can b
 
 ## Reflections
 
-- [write orientation reflections with scan](https://github.com/bluesky/hklpy/issues/158), 
+- [write orientation reflections with scan](https://github.com/bluesky/hklpy/issues/158),
   [also](https://github.com/bluesky/hklpy/issues/247)
 - [identify orientation reflections](https://github.com/bluesky/hklpy/issues/176)
 - [`cahkl()` should make nice report when reflection can't be reached](https://github.com/bluesky/hklpy/issues/178)
