@@ -54,3 +54,22 @@ It could be re-organized.
   * [ ] How to hold axes fixed during `forward()` transformation
   * [ ] Choosing the default `forward()` solution.
   * [ ] How to migrate from hklpy v1.
+* Operations-Solver interface transactions API
+  * [ ] extra parameters
+  * [x] geometry: list all available geometries
+  * [x] geometry: set
+  * [x] list available solvers
+  * [x] mode: list all available modes
+  * [x] mode: set
+  * [x] orientation: calculate UB from 2 reflections
+  * [ ] orientation: return B matrix
+  * [ ] orientation: return U matrix
+  * [x] orientation: return UB matrix
+  * [x] reflection: add
+  * [x] reflection: remove all
+  * [x] sample lattice: add
+  * [ ] sample lattice: refine from >2 reflections
+  * [x] sample: add
+  * [ ] transformation: forward (pseudos -> reals)
+  * [x] transformation: inverse (reals -> pseudos)
+  * [x] wavelength: set
