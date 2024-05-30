@@ -20,12 +20,12 @@ hklpy2
 
 .. icons: https://fonts.google.com/icons
 
-.. grid:: 2
+.. grid:: 3
 
     .. grid-item-card:: :material-outlined:`summarize;3em` :ref:`user_guide`
+    .. grid-item-card:: :material-regular:`install_desktop;3em`  :ref:`install`
     .. grid-item-card:: :material-regular:`subscriptions;3em` :ref:`api`
 
-.. .. grid-item-card :: :material-regular:`install_desktop;3em` Installation
 .. .. grid-item-card:: :material-regular:`history;3em` History of changes
 
 .. _about:

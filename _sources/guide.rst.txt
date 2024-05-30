@@ -14,6 +14,7 @@ User Guide
 
    design-discussion
    examples/*
+   install
    glossary
 
 .. icons: https://fonts.google.com/icons
@@ -21,9 +22,9 @@ User Guide
 .. grid:: 2
 
     .. grid-item-card:: :material-outlined:`architecture;3em` :doc:`design-discussion`
-    .. grid-item-card:: :material-outlined:`list;3em` :ref:`glossary`
-
     .. grid-item-card:: :material-outlined:`school;3em` Examples
+    .. grid-item-card:: :material-regular:`install_desktop;3em`  :ref:`install`
+    .. grid-item-card:: :material-outlined:`list;3em` :ref:`glossary`
 
       * :doc:`examples/demo`
       * :doc:`examples/diffract`
