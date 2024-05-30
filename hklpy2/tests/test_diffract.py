@@ -38,7 +38,7 @@ def test_DiffractometerBase():
     [
         [Fourc, 3, 4, None, None, {}, [], [], []],
         [AugmentedFourc, 7, 8, None, None, {}, [], [], []],
-        [MultiAxis99, 9, 9, "hkl_soleil", "E4CV", {}, None, [], []],
+        [MultiAxis99, 9, 9, "hkl_soleil", "E4CV", {}, [], [], []],
         [
             MultiAxis99,
             9,
@@ -50,8 +50,8 @@ def test_DiffractometerBase():
             "r1 r2 r3 r4".split(),
             [],
         ],
-        [MultiAxis99, 9, 9, "no_op", "test", {}, None, [], []],
-        [MultiAxis99, 9, 9, "th_tth", "TH TTH Q", {}, None, [], []],
+        [MultiAxis99, 9, 9, "no_op", "test", {}, [], [], []],
+        [MultiAxis99, 9, 9, "th_tth", "TH TTH Q", {}, [], [], []],
         [NoOpTh2Th, 1, 2, None, None, {}, [], [], []],
         [TwoC, 2, 4, None, None, {}, [], [], []],
     ],
@@ -72,10 +72,11 @@ def test_diffractometer_class(
     assert dmeter is not None
     if solver is not None:
         dmeter.operator.set_solver(solver, gname, **solver_kwargs)
-        if pseudos is None:
-            dmeter.auto_assign_axes()
-        else:
-            dmeter.operator.assign_axes(pseudos, reals, extras)
+
+    if len(pseudos) == 0:
+        dmeter.auto_assign_axes()
+    else:
+        dmeter.operator.assign_axes(pseudos, reals, extras)
 
     with does_not_raise():
         # These PseudoPositioner properties _must_ work immediately.
