@@ -1,6 +1,7 @@
 """Test the hklpy2.diffract module."""
 
 import math
+from contextlib import nullcontext as does_not_raise
 
 import pytest
 
@@ -70,11 +71,16 @@ def test_diffractometer_class(
     dmeter = dclass("", name="goniometer")
     assert dmeter is not None
     if solver is not None:
-        dmeter.set_solver(solver, gname, **solver_kwargs)
+        dmeter.operator.set_solver(solver, gname, **solver_kwargs)
         if pseudos is None:
             dmeter.auto_assign_axes()
         else:
             dmeter.operator.assign_axes(pseudos, reals, extras)
+
+    with does_not_raise():
+        # These PseudoPositioner properties _must_ work immediately.
+        assert isinstance(dmeter.position, tuple), f"{type(dmeter.position)=!r}"
+        assert isinstance(dmeter.report, dict), f"{type(dmeter.report)=!r}"
 
     # ophyd components
     assert isinstance(dmeter.geometry.get(), str)
@@ -122,7 +128,7 @@ def test_extras():
     fourc = AugmentedFourc("", name="fourc")
     assert fourc is not None
 
-    fourc.set_solver(
+    fourc.operator.set_solver(
         solver_name,
         gname,
         pseudos=[fourc.h, fourc.k, fourc.l],
