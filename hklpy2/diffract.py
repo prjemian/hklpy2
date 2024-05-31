@@ -4,7 +4,7 @@ Base class for all diffractometers
 .. autosummary::
 
     ~DiffractometerBase
-    ~forward_choice_function__first
+    ~pick_first_item
 """
 
 import logging
@@ -28,9 +28,12 @@ logger = logging.getLogger(__name__)
 DEFAULT_PHOTON_ENERGY_KEV = 8.0
 
 
-def forward_choice_function__first(solutions: list):
+def pick_first_item(solutions: list):
     """
-    Choose first solution from list returned by '.forward()'.
+    Choose first item from list.
+
+    Used by '.forward()' method to pick the first solution
+    from a list of possible solutions.
 
     User can provide an alternative function and assign to diffractometer's
     :meth:`~hklpy2.diffract.DiffractometerBase._forward_solution` method.
@@ -136,7 +139,7 @@ class DiffractometerBase(PseudoPositioner):
         **kwargs,
     ):
         self._backend = None
-        self._forward_solution = forward_choice_function__first
+        self._forward_solution = pick_first_item
         self._wavelength = ConstantMonochromaticWavelength(DEFAULT_WAVELENGTH)
 
         self.operator = Operations(self)

@@ -7,7 +7,7 @@ import pytest
 
 from ..diffract import DiffractometerBase
 from ..diffract import DiffractometerError
-from ..diffract import forward_choice_function__first
+from ..diffract import pick_first_item
 from ..operations.sample import Sample
 from ..ops import Operations
 from ..wavelength_support import DEFAULT_WAVELENGTH
@@ -20,7 +20,7 @@ from .models import TwoC
 
 
 def test_choice_function():
-    choice = forward_choice_function__first("a b c".split())
+    choice = pick_first_item("a b c".split())
     assert choice == "a"
 
 
