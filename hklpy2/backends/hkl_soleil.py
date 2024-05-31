@@ -384,7 +384,7 @@ class HklSolver(SolverBase):
         logger.debug("%r ordering reflections: %r", value.reflections.order)
         for name in value.reflections.order:
             self.addReflection(value.reflections[name])
-        print(f"{sample.reflections_get()=!r}")
+        # print(f"{sample.reflections_get()=!r}")
 
     @property
     def UB(self) -> list[list[float]]:
