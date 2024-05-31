@@ -28,7 +28,8 @@ classifiers = [
     "Intended Audience :: Science/Research",
     "License :: Freely Distributable",
     "License :: Public Domain",
-    "Operating System :: POSIX :: Linux",
+    "Operating System :: OS Independent",
+    # "Operating System :: POSIX :: Linux",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.10",
@@ -44,6 +45,7 @@ classifiers = [
 ]
 
 dependencies = [
+  "hkl",  # [linux]
   "numpy",
   "ophyd",
   "packaging",  # ophyd needs this
@@ -52,7 +54,7 @@ dependencies = [
 
 [project.entry-points."hklpy2.solver"]
 no_op = "hklpy2.backends.no_op:NoOpSolver"
-hkl_soleil = "hklpy2.backends.hkl_soleil:HklSolver"
+hkl_soleil = "hklpy2.backends.hkl_soleil:HklSolver"  # [linux]
 th_tth = "hklpy2.backends.th_tth_q:ThTthSolver"
 
 [project.optional-dependencies]
