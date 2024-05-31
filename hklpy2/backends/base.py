@@ -17,7 +17,8 @@ from ..operations.sample import Sample
 
 logger = logging.getLogger(__name__)
 
-IDENTITY_MATRIX_3X3 = [[1.0, -0.0, -0.0], [0.0, 1.0, -0.0], [0.0, 0.0, 1.0]]
+# TODO: move to misc
+IDENTITY_MATRIX_3X3 = [[1, 0, 0], [0, 1, 0], [0, 0, 1]]
 
 
 class SolverBase(ABC):

@@ -53,6 +53,7 @@ class Sample:
         name: str,
         lattice: Lattice,
     ) -> None:
+        from ..backends.base import IDENTITY_MATRIX_3X3
         from ..ops import Operations
 
         if not isinstance(operator, Operations):
@@ -60,6 +61,8 @@ class Sample:
         self.name = name or unique_name()
         self.operator = operator
         self.lattice = lattice
+        self.U = IDENTITY_MATRIX_3X3
+        self.UB = IDENTITY_MATRIX_3X3
         # TODO: reciprocal_lattice
         self.reflections = ReflectionsDict()
 
@@ -72,6 +75,8 @@ class Sample:
             "name": self.name,
             "lattice": self.lattice._asdict(),
             "reflections": self.reflections._asdict(),
+            "U": self.U,
+            "UB": self.UB,
         }
 
     def refine_lattice(self):
@@ -117,12 +122,16 @@ class Sample:
         self._reflections = value
 
     @property
-    def U(self):
+    def U(self) -> list[list[float]]:
         """Return the matrix, U, crystal orientation on the diffractometer."""
-        return None  # TODO
+        return self._U
+    
+    @U.setter
+    def U(self, value: list[list[float]]):
+        self._U = value
 
     @property
-    def UB(self):
+    def UB(self) -> list[list[float]]:
         """
         Return the crystal orientation matrix, UB.
 
@@ -130,4 +139,9 @@ class Sample:
         * :math:`B` - crystal lattice on the diffractometer
         * :math:`U` - rotation matrix, relative orientation of crystal on diffractometer
         """
-        # self.operator.calculateOrientation()  # TODO
+        return self._UB
+    
+    @UB.setter
+    def UB(self, value: list[list[float]]):
+        # TODO: validate
+        self._UB = value

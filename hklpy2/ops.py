@@ -264,7 +264,9 @@ class Operations:
             return reflection
 
         self.solver.calculateOrientation(get_reflection(r1), get_reflection(r2))
-        print(f"=========> {self.solver.UB=!r}")
+        self.sample.U = self.solver.U
+        self.sample.UB = self.solver.UB
+        print(f"=========> {self.sample.UB=!r}")
 
     def forward(self, pseudos: tuple) -> list:
         """Compute [{names:reals}] from {names: pseudos} (hkl -> angles)."""

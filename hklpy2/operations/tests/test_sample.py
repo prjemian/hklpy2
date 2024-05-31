@@ -64,6 +64,12 @@ def test_sample_constructor(lattice, sname, outcome, expect, sim):
         assert isinstance(rep.get("name"), str)
         assert isinstance(rep.get("lattice"), dict)
         assert isinstance(rep.get("reflections"), dict)
+        assert isinstance(rep.get("U"), list)
+        assert isinstance(rep.get("UB"), list)
+        assert len(rep.get("U")) == 3
+        assert len(rep.get("UB")) == 3
+        assert len(rep.get("U")[0]) == 3
+        assert len(rep.get("UB")[0]) == 3
 
     if expect is not None:
         assert expect in str(excuse), f"{excuse=} {expect=}"
