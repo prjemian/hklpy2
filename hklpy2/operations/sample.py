@@ -39,6 +39,7 @@ class Sample:
 
     .. autosummary::
 
+        ~_asdict
         ~lattice
         ~name
         ~reflections
@@ -64,6 +65,14 @@ class Sample:
 
     def __repr__(self):
         return f"Sample(name={self.name!r}, lattice={self.lattice!r})"
+
+    def _asdict(self):
+        """Describe the sample as a dictionary."""
+        return {
+            "name": self.name,
+            "lattice": self.lattice._asdict(),
+            "reflections": self.reflections._asdict(),
+        }
 
     def refine_lattice(self):
         """Refine the lattice parameters from 3 or more reflections."""

@@ -59,6 +59,12 @@ def test_sample_constructor(lattice, sname, outcome, expect, sim):
         assert isinstance(sample.lattice, Lattice), f"{sample.lattice=}"
         assert isinstance(sample.reflections, ReflectionsDict)
 
+        rep = sample._asdict()
+        assert isinstance(rep, dict)
+        assert isinstance(rep.get("name"), str)
+        assert isinstance(rep.get("lattice"), dict)
+        assert isinstance(rep.get("reflections"), dict)
+
     if expect is not None:
         assert expect in str(excuse), f"{excuse=} {expect=}"
 
