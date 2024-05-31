@@ -46,7 +46,11 @@ LIBHKL_UNITS = {
     "user": libhkl.UnitEnum.USER,
 }
 LIBHKL_USER_UNITS = LIBHKL_UNITS["user"]
-ROUNDOFF_DIGITS = 14
+ROUNDOFF_DIGITS = 9
+
+def _roundoff(values, digits=ROUNDOFF_DIGITS):
+    """Prevent underflows and '-0'."""
+    return [round(v, digits) or 0 for v in values]
 
 
 class HklSolver(SolverBase):
@@ -214,10 +218,20 @@ class HklSolver(SolverBase):
 
     def forward(self, pseudos: dict) -> list[dict[str, float]]:
         """Compute list of solutions(reals) from pseudos (hkl -> [angles])."""
-        logger.debug("(%r) forward()", __name__)
-        # geometry_list = self._engine.pseudo_axis_values_set(values, LIBHKL_USER_UNITS)
-        # something = list(geometry_list.items())
-        return [{}]
+        logger.debug("(%r) forward(%r)", __name__, pseudos)
+        values = list(pseudos.values())
+        geometry_list = self._engine.pseudo_axis_values_set(values, LIBHKL_USER_UNITS)
+        solutions = []
+        for glist_item in geometry_list.items():
+            geo = glist_item.geometry_get()
+            sol = dict(
+                zip(
+                    geo.axis_names_get(), 
+                    _roundoff(geo.axis_values_get(LIBHKL_USER_UNITS)),
+                )
+            )
+            solutions.append(sol)
+        return solutions
 
     @classmethod
     def geometries(cls) -> list[str]:
@@ -264,14 +278,11 @@ class HklSolver(SolverBase):
         pdict = dict(
             zip(
                 self._engine.pseudo_axis_names_get(),
-                [
-                    round(v, ROUNDOFF_DIGITS)
-                    for v in self._engine.pseudo_axis_values_get(LIBHKL_USER_UNITS)
-                ],
+                _roundoff(self._engine.pseudo_axis_values_get(LIBHKL_USER_UNITS)),
             )
         )
         return pdict
-
+    
     @property
     def lattice(self) -> libhkl.Lattice:
         """
@@ -382,6 +393,6 @@ class HklSolver(SolverBase):
             return IDENTITY_MATRIX_3X3
         matrix = self.sample.UB_get()
         return [
-            [round(matrix.get(i, j), ROUNDOFF_DIGITS) for j in range(3)]
+           _roundoff([matrix.get(i, j) for j in range(3)])
             for i in range(3)
         ]

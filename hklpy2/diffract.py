@@ -223,13 +223,14 @@ class DiffractometerBase(PseudoPositioner):
     @pseudo_position_argument
     def forward(self, pseudos: dict) -> tuple:
         """Compute real-space coordinates from pseudos (hkl -> angles)."""
+        print(f"forward: {type(pseudos)=!r}  {pseudos=!r}")
         solutions = self.operator.forward(pseudos)
-        pos = self._forward_solution(solutions)
-        return self.RealPosition(**pos)  # as created by namedtuple
+        return self._forward_solution(solutions)
 
     @real_position_argument
     def inverse(self, reals: dict) -> tuple:
         """Compute pseudo-space coordinates from reals (angles -> hkl)."""
+        print(f"inverse: {type(reals)=!r}  {reals=!r}")
         pos = self.operator.inverse(reals)
         return self.PseudoPosition(**pos)  # as created by namedtuple
 

@@ -266,16 +266,25 @@ class Operations:
         self.solver.calculateOrientation(get_reflection(r1), get_reflection(r2))
         print(f"=========> {self.solver.UB=!r}")
 
-    def forward(self, pseudos) -> list:
+    def forward(self, pseudos: tuple) -> list:
         """Compute [{names:reals}] from {names: pseudos} (hkl -> angles)."""
         logger.debug(
             "(%s) forward(): pseudos=%r",
             self.__class__.__name__,
             pseudos,
         )
-        axes = self.diffractometer._get_real_positioners()  # TODO:
-        reals = {axis[0]: 0 for axis in axes}
-        return [reals]
+        # convert namedtuple to dict
+        pdict = dict(zip(pseudos._fields, list(pseudos)))
+        reals = {  # Original values.
+            axis[0]: 0 
+            for axis in self.diffractometer._get_real_positioners()
+        }
+        forwards = self.solver.forward(self._axes_names_d2s(pdict))
+        solutions = []
+        for solution in forwards:
+            reals.update(self._axes_names_s2d(solution))  # Update with new values.
+            solutions.append(self.diffractometer.RealPosition(**reals))
+        return solutions
 
     def inverse(self, reals) -> dict:
         """Compute (pseudos) from {names: reals} (angles -> hkl)."""
