@@ -16,6 +16,7 @@ Example::
 
 import logging
 import math
+import platform
 
 from .. import SolverBase
 from .. import SolverError
@@ -26,6 +27,8 @@ from ..operations.reflection import Reflection
 from ..operations.sample import Sample
 from .base import IDENTITY_MATRIX_3X3
 
+if platform.system() != "Linux":
+    raise SolverError("'hkl_soleil' only available for linux 64-bit.")
 try:
     import gi
 except ModuleNotFoundError:
