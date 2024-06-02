@@ -43,21 +43,13 @@ dependencies = [
   "ophyd",
   "packaging",  # ophyd needs this
   "pint",
+  "pygobject",  # [linux]
 ]
 
 [project.entry-points."hklpy2.solver"]
 no_op = "hklpy2.backends.no_op:NoOpSolver"
 hkl_soleil = "hklpy2.backends.hkl_soleil:HklSolver"  # [linux]
 th_tth = "hklpy2.backends.th_tth_q:ThTthSolver"
-
-[project.optional-dependencies]
-hkl_soleil = [
-  "pygobject",
-]
-tests = [
-  "packaging",
-]
-all = ["hklpy2[hkl_soleil,tests]"]
 
 [project.urls]
 "Homepage" = "https://prjemian.github.io/hklpy2"
