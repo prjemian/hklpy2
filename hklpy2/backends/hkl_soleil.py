@@ -1,6 +1,11 @@
 """
 Backend: Hkl (``"hkl_soleil"``)
 
+..  caution:: The ``hkl_soleil`` |solver| is not available
+    for Windows or Mac OS.  The underlying |libhkl| support 
+    library is only provided
+    for Linux 64-bit OS at this time.
+
 Example::
 
     >>> import hklpy2
