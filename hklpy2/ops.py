@@ -245,7 +245,7 @@ class Operations:
 
         logger.debug("axes_xref=%r", self.axes_xref)
 
-    def calcUB(self, r1: [Reflection, str], r2: [Reflection, str]):
+    def calcUB(self, r1: [Reflection, str], r2: [Reflection, str]) -> None:
         """
         Calculate the UB matrix with two reflections.
 
@@ -266,20 +266,24 @@ class Operations:
         self.solver.calculateOrientation(get_reflection(r1), get_reflection(r2))
         self.sample.U = self.solver.U
         self.sample.UB = self.solver.UB
-        print(f"=========> {self.sample.UB=!r}")
+        # print(f"=========> {self.sample.UB=!r}")
 
-    def forward(self, pseudos: tuple) -> list:
+    def forward(self, pseudos: tuple, wavelength: float = None) -> list:
         """Compute [{names:reals}] from {names: pseudos} (hkl -> angles)."""
         logger.debug(
             "(%s) forward(): pseudos=%r",
             self.__class__.__name__,
             pseudos,
         )
+
+        if wavelength is None:
+            wavelength = self.diffractometer.wavelength.get()
+        self.solver.wavelength = wavelength
+
         # convert namedtuple to dict
         pdict = dict(zip(pseudos._fields, list(pseudos)))
         reals = {  # Original values.
-            axis[0]: 0 
-            for axis in self.diffractometer._get_real_positioners()
+            axis[0]: 0 for axis in self.diffractometer._get_real_positioners()
         }
         forwards = self.solver.forward(self._axes_names_d2s(pdict))
         solutions = []
@@ -288,7 +292,7 @@ class Operations:
             solutions.append(self.diffractometer.RealPosition(**reals))
         return solutions
 
-    def inverse(self, reals) -> dict:
+    def inverse(self, reals, wavelength: float = None) -> dict:
         """Compute (pseudos) from {names: reals} (angles -> hkl)."""
         logger.debug(
             "(%s) inverse(): reals=%r",
@@ -304,6 +308,10 @@ class Operations:
         if self.solver is None:
             # Called from the constructor before solver is defined.
             return pseudos  # current values of pseudos
+
+        if wavelength is None:
+            wavelength = self.diffractometer.wavelength.get()
+        self.solver.wavelength = wavelength
 
         # Remove reals not used by the solver
         # and write dictionary in order expected by the solver.

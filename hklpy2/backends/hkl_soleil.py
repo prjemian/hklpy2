@@ -54,7 +54,7 @@ LIBHKL_UNITS = {
     "user": libhkl.UnitEnum.USER,
 }
 LIBHKL_USER_UNITS = LIBHKL_UNITS["user"]
-ROUNDOFF_DIGITS = 9
+ROUNDOFF_DIGITS = 12
 
 def _roundoff(values, digits=ROUNDOFF_DIGITS):
     """Prevent underflows and '-0'."""
@@ -116,6 +116,7 @@ class HklSolver(SolverBase):
         ~real_axis_names
         ~sample
         ~UB
+        ~wavelength
     """
 
     name = "hkl_soleil"
@@ -160,9 +161,8 @@ class HklSolver(SolverBase):
         logger.debug("reflection: %r", reflection)
         pseudos = list(reflection.pseudos.values())
         reals = list(reflection.reals.values())
-        wavelength = reflection.wavelength
+        self.wavelength = reflection.wavelength
         self._geometry.axis_values_set(reals, LIBHKL_USER_UNITS)
-        self._geometry.wavelength_set(wavelength, LIBHKL_USER_UNITS)
         self.sample.add_reflection(self._geometry, self._detector, *pseudos)
 
     @property
@@ -273,16 +273,11 @@ class HklSolver(SolverBase):
             )
             # fmt: on
 
-        # print(f"{reals=!r}")
-        # print(f"{self._engine.pseudo_axis_values_get(LIBHKL_USER_UNITS)=!r}")
         reals = list(reals.values())
-        # print(f"{reals=!r}")
         self._geometry.axis_values_set(reals, LIBHKL_USER_UNITS)
-        # print(f"{self._geometry.axis_values_get(LIBHKL_USER_UNITS)=!r}")
 
         self._engine_list.get()  # reals -> pseudos  (Odd name for this call!)
 
-        # print(f"{self._geometry.axis_values_get(LIBHKL_USER_UNITS)=!r}")
         pdict = dict(
             zip(
                 self._engine.pseudo_axis_names_get(),
@@ -395,6 +390,21 @@ class HklSolver(SolverBase):
         # print(f"{sample.reflections_get()=!r}")
 
     @property
+    def U(self) -> list[list[float]]:
+        """
+        Relative orientation of crystal on diffractometer.
+
+        Rotation matrix,  (3x3).
+        """
+        if self.sample is None:
+            return IDENTITY_MATRIX_3X3
+        matrix = self.sample.U_get()
+        return [
+           _roundoff([matrix.get(i, j) for j in range(3)])
+            for i in range(3)
+        ]
+
+    @property
     def UB(self) -> list[list[float]]:
         """Orientation matrix (3x3)."""
         if self.sample is None:
@@ -404,3 +414,18 @@ class HklSolver(SolverBase):
            _roundoff([matrix.get(i, j) for j in range(3)])
             for i in range(3)
         ]
+
+    # @UB.setter
+    # def UB(self, value:list[list[float]]) -> None:
+    #     value -> euler_matrix
+    #     matrix = libhkl.Matrix(value)
+    #     self.sample.UB_set(matrix)
+
+    @property
+    def wavelength(self) -> float:
+        """Monochromatic wavelength."""
+        return self._geometry.wavelength_get(LIBHKL_USER_UNITS)
+
+    @wavelength.setter
+    def wavelength(self, value: float) -> None:
+        return self._geometry.wavelength_set(value, LIBHKL_USER_UNITS)

@@ -20,7 +20,7 @@ from .operations.reflection import Reflection
 from .operations.sample import Sample
 from .ops import Operations
 from .wavelength_support import DEFAULT_WAVELENGTH
-from .wavelength_support import ConstantMonochromaticWavelength
+from .wavelength_support import MonochromaticXrayWavelength
 
 __all__ = ["DiffractometerBase"]
 logger = logging.getLogger(__name__)
@@ -140,7 +140,7 @@ class DiffractometerBase(PseudoPositioner):
     ):
         self._backend = None
         self._forward_solution = pick_first_item
-        self._wavelength = ConstantMonochromaticWavelength(DEFAULT_WAVELENGTH)
+        self._wavelength = MonochromaticXrayWavelength(DEFAULT_WAVELENGTH)
 
         self.operator = Operations(self)
 
@@ -224,17 +224,17 @@ class DiffractometerBase(PseudoPositioner):
         self.operator.auto_assign_axes()
 
     @pseudo_position_argument
-    def forward(self, pseudos: dict) -> tuple:
+    def forward(self, pseudos: dict, wavelength: float = None) -> tuple:
         """Compute real-space coordinates from pseudos (hkl -> angles)."""
         # print(f"forward: {type(pseudos)=!r}  {pseudos=!r}")
-        solutions = self.operator.forward(pseudos)
+        solutions = self.operator.forward(pseudos, wavelength=wavelength)
         return self._forward_solution(solutions)
 
     @real_position_argument
-    def inverse(self, reals: dict) -> tuple:
+    def inverse(self, reals: dict, wavelength: float = None) -> tuple:
         """Compute pseudo-space coordinates from reals (angles -> hkl)."""
         # print(f"inverse: {type(reals)=!r}  {reals=!r}")
-        pos = self.operator.inverse(reals)
+        pos = self.operator.inverse(reals, wavelength=wavelength)
         return self.PseudoPosition(**pos)  # as created by namedtuple
 
     # ---- get/set properties

@@ -152,3 +152,91 @@ def test_remove_sample():
     assert len(sim.samples) == 1
     sim.operator.remove_sample("cubic")
     assert len(sim.samples) == 0
+
+
+def test_orientation():
+    from ..geom import SimulatedE4CV
+    from ..operations.lattice import SI_LATTICE_PARAMETER
+
+    fourc = SimulatedE4CV("", name="fourc")
+    fourc.add_sample("silicon", SI_LATTICE_PARAMETER)
+    fourc.wavelength.put(1.0)
+    assert math.isclose(
+        fourc.wavelength.get(), 1.0, abs_tol=0.01
+    ), f"{fourc.wavelength.get()=!r}"
+
+    fourc.add_reflection(
+        (4, 0, 0),
+        dict(tth=69.0966, omega=-145.451, chi=0, phi=0),
+        wavelength=1.54,
+        name="(400)",
+    )
+    fourc.add_reflection(
+        (0, 4, 0),
+        dict(tth=69.0966, omega=-145.451, chi=90, phi=0),
+        wavelength=1.54,
+        name="(040)",
+    )
+
+    assert math.isclose(
+        fourc.wavelength.get(), 1.0, abs_tol=0.01
+    ), f"{fourc.wavelength.get()=!r}"
+    assert fourc.operator.sample.reflections.order == "(400) (040)".split()
+
+    result = fourc.operator.calcUB(*fourc.operator.sample.reflections.order)
+    assert result is None
+
+    UB = fourc.operator.solver.UB
+    assert len(UB) == 3
+
+    UBe = [[0, 0, -1.157], [0, -1.157, 0], [-1.157, 0, 0]]
+    for row, row_expected in zip(UB, UBe):
+        assert len(row) == len(row_expected)
+        assert isinstance(row[0], (float, int)), f"{row=!r}"
+
+    for i in range(3):
+        for j in range(3):
+            assert math.isclose(
+                UB[i][j], UBe[i][j], abs_tol=0.005
+            ), f"{i=!r}  {j=!r}  {UB=!r}  {UBe=!r}  {UB=!r}"
+
+    result = fourc.forward(4, 0, 0)
+    assert math.isclose(result.omega, -158.39, abs_tol=0.02), f"{result=!r}"
+    assert math.isclose(result.chi, 0, abs_tol=0.02), f"{result=!r}"
+    assert math.isclose(result.phi, 0, abs_tol=0.02), f"{result=!r}"
+    assert math.isclose(result.tth, 43.22, abs_tol=0.02), f"{result=!r}"
+
+    result = fourc.forward(4, 0, 0, wavelength=1.54)
+    assert math.isclose(result.omega, -145.45, abs_tol=0.02), f"{result=!r}"
+    assert math.isclose(result.chi, 0, abs_tol=0.02), f"{result=!r}"
+    assert math.isclose(result.phi, 0, abs_tol=0.02), f"{result=!r}"
+    assert math.isclose(result.tth, 69.098, abs_tol=0.02), f"{result=!r}"
+
+    assert math.isclose(  # still did not change the diffractometer wavelength
+        fourc.wavelength.get(), 1.0, abs_tol=0.01
+    ), f"{fourc.wavelength.get()=!r}"
+
+    result = fourc.inverse(-145, 0, 0, 70)
+    assert math.isclose(result.h, 6.23, abs_tol=0.02), f"{result=!r}"
+    assert math.isclose(result.k, 0, abs_tol=0.02), f"{result=!r}"
+    assert math.isclose(result.l, 0, abs_tol=0.02), f"{result=!r}"
+
+    result = fourc.inverse(-145, 0, 0, 70, wavelength=1.54)
+    assert math.isclose(result.h, 4.05, abs_tol=0.02), f"{result=!r}"
+    assert math.isclose(result.k, 0, abs_tol=0.02), f"{result=!r}"
+    assert math.isclose(result.l, 0, abs_tol=0.02), f"{result=!r}"
+
+
+# def test_set_UB():  # TODO:
+#     from ..geom import SimulatedE4CV
+#     UBe = [[0, 0, -1.157], [0, -1.157, 0], [-1.157, 0, 0]]
+#     fourc = SimulatedE4CV("", name="fourc")
+
+#     fourc.operator.solver.UB = UBe
+#     UBr = fourc.operator.solver.UB
+#     assert len(UBr) == len(UBe)
+
+#     result = fourc.inverse(-145, 0, 0, 70, wavelength=1.54)
+#     assert math.isclose(result.h, 4.05, abs_tol=0.02), f"{result=!r}"
+#     assert math.isclose(result.k, 0, abs_tol=0.02), f"{result=!r}"
+#     assert math.isclose(result.l, 0, abs_tol=0.02), f"{result=!r}"
