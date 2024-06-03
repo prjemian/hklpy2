@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=3ee479438cf8b5e0d341" />
   <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=3ee479438cf8b5e0d341"></script>
 
-    <script src="../../_static/documentation_options.js?v=c7cdf6fe"></script>
+    <script src="../../_static/documentation_options.js?v=c9042ed5"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/tabs.js?v=3030b3cb"></script>
@@ -326,7 +326,7 @@ document.write(`
 <span class="sd">.. autosummary::</span>
 
 <span class="sd">    ~DiffractometerBase</span>
-<span class="sd">    ~forward_choice_function__first</span>
+<span class="sd">    ~pick_first_item</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">import</span> <span class="nn">logging</span>
@@ -342,7 +342,7 @@ document.write(`
 <span class="kn">from</span> <span class="nn">.operations.sample</span> <span class="kn">import</span> <span class="n">Sample</span>
 <span class="kn">from</span> <span class="nn">.ops</span> <span class="kn">import</span> <span class="n">Operations</span>
 <span class="kn">from</span> <span class="nn">.wavelength_support</span> <span class="kn">import</span> <span class="n">DEFAULT_WAVELENGTH</span>
-<span class="kn">from</span> <span class="nn">.wavelength_support</span> <span class="kn">import</span> <span class="n">ConstantMonochromaticWavelength</span>
+<span class="kn">from</span> <span class="nn">.wavelength_support</span> <span class="kn">import</span> <span class="n">MonochromaticXrayWavelength</span>
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;DiffractometerBase&quot;</span><span class="p">]</span>
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
@@ -350,9 +350,12 @@ document.write(`
 <span class="n">DEFAULT_PHOTON_ENERGY_KEV</span> <span class="o">=</span> <span class="mf">8.0</span>
 
 
-<span class="k">def</span> <span class="nf">forward_choice_function__first</span><span class="p">(</span><span class="n">solutions</span><span class="p">:</span> <span class="nb">list</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">pick_first_item</span><span class="p">(</span><span class="n">solutions</span><span class="p">:</span> <span class="nb">list</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Choose first solution from list returned by &#39;.forward()&#39;.</span>
+<span class="sd">    Choose first item from list.</span>
+
+<span class="sd">    Used by &#39;.forward()&#39; method to pick the first solution</span>
+<span class="sd">    from a list of possible solutions.</span>
 
 <span class="sd">    User can provide an alternative function and assign to diffractometer&#39;s</span>
 <span class="sd">    :meth:`~hklpy2.diffract.DiffractometerBase._forward_solution` method.</span>
@@ -460,8 +463,8 @@ document.write(`
         <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
     <span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_backend</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_forward_solution</span> <span class="o">=</span> <span class="n">forward_choice_function__first</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_wavelength</span> <span class="o">=</span> <span class="n">ConstantMonochromaticWavelength</span><span class="p">(</span><span class="n">DEFAULT_WAVELENGTH</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_forward_solution</span> <span class="o">=</span> <span class="n">pick_first_item</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_wavelength</span> <span class="o">=</span> <span class="n">MonochromaticXrayWavelength</span><span class="p">(</span><span class="n">DEFAULT_WAVELENGTH</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">operator</span> <span class="o">=</span> <span class="n">Operations</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 
@@ -556,19 +559,20 @@ document.write(`
 <div class="viewcode-block" id="DiffractometerBase.forward">
 <a class="viewcode-back" href="../../api/diffract.html#hklpy2.diffract.DiffractometerBase.forward">[docs]</a>
     <span class="nd">@pseudo_position_argument</span>
-    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pseudos</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pseudos</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">wavelength</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute real-space coordinates from pseudos (hkl -&gt; angles).&quot;&quot;&quot;</span>
-        <span class="n">solutions</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">pseudos</span><span class="p">)</span>
-        <span class="n">pos</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_forward_solution</span><span class="p">(</span><span class="n">solutions</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">RealPosition</span><span class="p">(</span><span class="o">**</span><span class="n">pos</span><span class="p">)</span>  <span class="c1"># as created by namedtuple</span></div>
+        <span class="c1"># print(f&quot;forward: {type(pseudos)=!r}  {pseudos=!r}&quot;)</span>
+        <span class="n">solutions</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">pseudos</span><span class="p">,</span> <span class="n">wavelength</span><span class="o">=</span><span class="n">wavelength</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_forward_solution</span><span class="p">(</span><span class="n">solutions</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="DiffractometerBase.inverse">
 <a class="viewcode-back" href="../../api/diffract.html#hklpy2.diffract.DiffractometerBase.inverse">[docs]</a>
     <span class="nd">@real_position_argument</span>
-    <span class="k">def</span> <span class="nf">inverse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reals</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">inverse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reals</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">wavelength</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute pseudo-space coordinates from reals (angles -&gt; hkl).&quot;&quot;&quot;</span>
-        <span class="n">pos</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">inverse</span><span class="p">(</span><span class="n">reals</span><span class="p">)</span>
+        <span class="c1"># print(f&quot;inverse: {type(reals)=!r}  {reals=!r}&quot;)</span>
+        <span class="n">pos</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">inverse</span><span class="p">(</span><span class="n">reals</span><span class="p">,</span> <span class="n">wavelength</span><span class="o">=</span><span class="n">wavelength</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">PseudoPosition</span><span class="p">(</span><span class="o">**</span><span class="n">pos</span><span class="p">)</span>  <span class="c1"># as created by namedtuple</span></div>
 
 

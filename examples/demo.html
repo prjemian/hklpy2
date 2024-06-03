@@ -39,7 +39,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=3ee479438cf8b5e0d341" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=3ee479438cf8b5e0d341"></script>
 
-    <script src="../_static/documentation_options.js?v=c7cdf6fe"></script>
+    <script src="../_static/documentation_options.js?v=c9042ed5"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
@@ -374,8 +374,8 @@ document.write(`
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-2024-05-30 12:03:00.059690
-hklpy2.__version__=&#39;0.0.16.dev22+g53e3aaf.d20240530&#39;
+2024-05-30 22:48:50.759697
+hklpy2.__version__=&#39;0.0.17.dev2+g4cdb4db.d20240531&#39;
 hklpy2.solvers()={&#39;hkl_soleil&#39;: &#39;hklpy2.backends.hkl_soleil:HklSolver&#39;, &#39;no_op&#39;: &#39;hklpy2.backends.no_op:NoOpSolver&#39;, &#39;th_tth&#39;: &#39;hklpy2.backends.th_tth_q:ThTthSolver&#39;}
 </pre></div></div>
 </div>
@@ -400,12 +400,11 @@ hklpy2.solvers()={&#39;hkl_soleil&#39;: &#39;hklpy2.backends.hkl_soleil:HklSolve
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-sample.reflections_get()=[]
 sim4c.solver.get()=&#39;hkl_soleil&#39;
 sim4c.geometry.get()=&#39;E4CV&#39;
 sim4c.sample=Sample(name=&#39;cubic&#39;, lattice=Lattice(a=1, b=1, c=1, alpha=90.0, beta=90.0, gamma=90.0))
 sim4c.operator.axes_xref={&#39;h&#39;: &#39;h&#39;, &#39;k&#39;: &#39;k&#39;, &#39;l&#39;: &#39;l&#39;, &#39;omega&#39;: &#39;omega&#39;, &#39;chi&#39;: &#39;chi&#39;, &#39;phi&#39;: &#39;phi&#39;, &#39;tth&#39;: &#39;tth&#39;}
-sim4c.position=SimulatedE4CVPseudoPos(h=0.0, k=0.0, l=0.0)
+sim4c.position=SimulatedE4CVPseudoPos(h=0, k=0, l=0)
 </pre></div></div>
 </div>
 <p>Create a <span class="math notranslate nohighlight">\(\theta-2\theta\)</span> 2-circle <a class="reference external" href="https://prjemian.github.io/hklpy2/api/geom.html#hklpy2.geom.SimulatedTheta2Theta">diffractometer</a> using <code class="docutils literal notranslate"><span class="pre">&quot;th_tth&quot;</span></code>, a different backend solver. This demonstrates the ability to choose between different backend solvers.</p>
@@ -440,21 +439,13 @@ powder.position=SimulatedTheta2ThetaPseudoPos(q=0)
 </section>
 <section id="SimulatedE4CV">
 <h1>SimulatedE4CV<a class="headerlink" href="#SimulatedE4CV" title="Link to this heading">#</a></h1>
-<div class="nbinput docutils container">
+<div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fourc</span> <span class="o">=</span> <span class="n">hklpy2</span><span class="o">.</span><span class="n">SimulatedE4CV</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;fourc&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-sample.reflections_get()=[]
-</pre></div></div>
 </div>
 <p>Add a sample, as in <strong>hklpy</strong>.</p>
 <div class="nbinput docutils container">
@@ -479,7 +470,6 @@ sample.reflections_get()=[]
 <div class="highlight"><pre>
 fourc.samples={&#39;cubic&#39;: Sample(name=&#39;cubic&#39;, lattice=Lattice(a=1, b=1, c=1, alpha=90.0, beta=90.0, gamma=90.0))}
 fourc.sample=Sample(name=&#39;cubic&#39;, lattice=Lattice(a=1, b=1, c=1, alpha=90.0, beta=90.0, gamma=90.0))
-sample.reflections_get()=[]
 fourc.sample=Sample(name=&#39;vibranium&#39;, lattice=Lattice(a=6.283, b=6.283, c=6.283, alpha=90.0, beta=90.0, gamma=90.0))
 fourc.samples={&#39;cubic&#39;: Sample(name=&#39;cubic&#39;, lattice=Lattice(a=1, b=1, c=1, alpha=90.0, beta=90.0, gamma=90.0)), &#39;vibranium&#39;: Sample(name=&#39;vibranium&#39;, lattice=Lattice(a=6.283, b=6.283, c=6.283, alpha=90.0, beta=90.0, gamma=90.0))}
 fourc.sample=Sample(name=&#39;cubic&#39;, lattice=Lattice(a=1, b=1, c=1, alpha=90.0, beta=90.0, gamma=90.0))
@@ -499,7 +489,7 @@ fourc.sample=Sample(name=&#39;cubic&#39;, lattice=Lattice(a=1, b=1, c=1, alpha=9
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-{&#39;position&#39;: SimulatedE4CVPseudoPos(h=0.0, k=0.0, l=0.0)}
+{&#39;position&#39;: SimulatedE4CVPseudoPos(h=0, k=0, l=0)}
 </pre></div></div>
 </div>
 <div class="nbinput nblast docutils container">
@@ -520,8 +510,8 @@ fourc.sample=Sample(name=&#39;cubic&#39;, lattice=Lattice(a=1, b=1, c=1, alpha=9
 <span class="n">fourc</span><span class="o">.</span><span class="n">add_reflection</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="o">-</span><span class="mi">90</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">20</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;r2&quot;</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">fourc</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">reflections</span><span class="o">.</span><span class="n">order</span><span class="p">:</span>
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">fourc</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">reflections</span><span class="p">[</span><span class="n">r</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="c1"># fourc.operator.calcUB(*fourc.sample.reflections.order)  # WIP</span>
-<span class="c1"># print(f&quot;{fourc.inverse(10, 0, 0, 20)=!r}&quot;)</span>
+<span class="n">fourc</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">calcUB</span><span class="p">(</span><span class="o">*</span><span class="n">fourc</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">reflections</span><span class="o">.</span><span class="n">order</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">fourc</span><span class="o">.</span><span class="n">inverse</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">20</span><span class="p">)</span><span class="si">=!r}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -532,6 +522,8 @@ fourc.sample=Sample(name=&#39;cubic&#39;, lattice=Lattice(a=1, b=1, c=1, alpha=9
 <div class="highlight"><pre>
 Reflection(name=&#39;r1&#39;, geometry=&#39;E4CV&#39;, pseudos={&#39;h&#39;: 1, &#39;k&#39;: 0, &#39;l&#39;: 0}, reals={&#39;omega&#39;: 10, &#39;chi&#39;: 0, &#39;phi&#39;: 0, &#39;tth&#39;: 20}, wavelength=1.0)
 Reflection(name=&#39;r2&#39;, geometry=&#39;E4CV&#39;, pseudos={&#39;h&#39;: 0, &#39;k&#39;: 1, &#39;l&#39;: 0}, reals={&#39;omega&#39;: 10, &#39;chi&#39;: -90, &#39;phi&#39;: 0, &#39;tth&#39;: 20}, wavelength=1.0)
+=========&gt; self.solver.UB=[[0, 0, 1.0], [0, -1.0, 0], [1.0, 0, 0]]
+fourc.inverse(10, 0, 0, 20)=SimulatedE4CVPseudoPos(h=2.182127357, k=0, l=0)
 </pre></div></div>
 </div>
 <p>Swap the first two reflections.</p>
@@ -611,7 +603,6 @@ Reflection(name=&#39;r1&#39;, geometry=&#39;E4CV&#39;, pseudos={&#39;h&#39;: 1, 
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-sample.reflections_get()=[]
 fourc=Fourc(prefix=&#39;&#39;, name=&#39;fourc&#39;, settle_time=0.0, timeout=None, egu=&#39;&#39;, limits=(0, 0), source=&#39;computed&#39;, read_attrs=[&#39;h&#39;, &#39;h.readback&#39;, &#39;h.setpoint&#39;, &#39;k&#39;, &#39;k.readback&#39;, &#39;k.setpoint&#39;, &#39;l&#39;, &#39;l.readback&#39;, &#39;l.setpoint&#39;, &#39;theta&#39;, &#39;chi&#39;, &#39;phi&#39;, &#39;ttheta&#39;, &#39;h2&#39;, &#39;h2.readback&#39;, &#39;h2.setpoint&#39;, &#39;k2&#39;, &#39;k2.readback&#39;, &#39;k2.setpoint&#39;, &#39;l2&#39;, &#39;l2.readback&#39;, &#39;l2.setpoint&#39;, &#39;psi&#39;, &#39;energy&#39;], configuration_attrs=[&#39;geometry&#39;, &#39;solver&#39;, &#39;wavelength&#39;, &#39;h&#39;, &#39;k&#39;, &#39;l&#39;, &#39;h2&#39;, &#39;k2&#39;, &#39;l2&#39;], concurrent=True)
 </pre></div></div>
 </div>

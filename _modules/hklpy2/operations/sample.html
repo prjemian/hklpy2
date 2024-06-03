@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=3ee479438cf8b5e0d341" />
   <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=3ee479438cf8b5e0d341"></script>
 
-    <script src="../../../_static/documentation_options.js?v=c7cdf6fe"></script>
+    <script src="../../../_static/documentation_options.js?v=c9042ed5"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/tabs.js?v=3030b3cb"></script>
@@ -366,6 +366,7 @@ document.write(`
 
 <span class="sd">    .. autosummary::</span>
 
+<span class="sd">        ~_asdict</span>
 <span class="sd">        ~lattice</span>
 <span class="sd">        ~name</span>
 <span class="sd">        ~reflections</span>
@@ -379,6 +380,7 @@ document.write(`
         <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">lattice</span><span class="p">:</span> <span class="n">Lattice</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="kn">from</span> <span class="nn">..backends.base</span> <span class="kn">import</span> <span class="n">IDENTITY_MATRIX_3X3</span>
         <span class="kn">from</span> <span class="nn">..ops</span> <span class="kn">import</span> <span class="n">Operations</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">operator</span><span class="p">,</span> <span class="n">Operations</span><span class="p">):</span>
@@ -386,11 +388,26 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span> <span class="ow">or</span> <span class="n">unique_name</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">operator</span> <span class="o">=</span> <span class="n">operator</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">lattice</span> <span class="o">=</span> <span class="n">lattice</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">U</span> <span class="o">=</span> <span class="n">IDENTITY_MATRIX_3X3</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">UB</span> <span class="o">=</span> <span class="n">IDENTITY_MATRIX_3X3</span>
         <span class="c1"># TODO: reciprocal_lattice</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">reflections</span> <span class="o">=</span> <span class="n">ReflectionsDict</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Sample(name=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">!r}</span><span class="s2">, lattice=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">lattice</span><span class="si">!r}</span><span class="s2">)&quot;</span>
+
+<div class="viewcode-block" id="Sample._asdict">
+<a class="viewcode-back" href="../../../api/sample.html#hklpy2.operations.sample.Sample._asdict">[docs]</a>
+    <span class="k">def</span> <span class="nf">_asdict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Describe the sample as a dictionary.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+            <span class="s2">&quot;lattice&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">lattice</span><span class="o">.</span><span class="n">_asdict</span><span class="p">(),</span>
+            <span class="s2">&quot;reflections&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">reflections</span><span class="o">.</span><span class="n">_asdict</span><span class="p">(),</span>
+            <span class="s2">&quot;U&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">U</span><span class="p">,</span>
+            <span class="s2">&quot;UB&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">UB</span><span class="p">,</span>
+        <span class="p">}</span></div>
+
 
 <div class="viewcode-block" id="Sample.refine_lattice">
 <a class="viewcode-back" href="../../../api/sample.html#hklpy2.operations.sample.Sample.refine_lattice">[docs]</a>
@@ -438,21 +455,30 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">_reflections</span> <span class="o">=</span> <span class="n">value</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">U</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">U</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the matrix, U, crystal orientation on the diffractometer.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="kc">None</span>  <span class="c1"># TODO</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_U</span>
+    
+    <span class="nd">@U</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">U</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]]):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_U</span> <span class="o">=</span> <span class="n">value</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">UB</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">UB</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return the crystal orientation matrix, UB.</span>
 
 <span class="sd">        * :math:`UB` - orientation matrix</span>
 <span class="sd">        * :math:`B` - crystal lattice on the diffractometer</span>
 <span class="sd">        * :math:`U` - rotation matrix, relative orientation of crystal on diffractometer</span>
-<span class="sd">        &quot;&quot;&quot;</span></div>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_UB</span>
+    
+    <span class="nd">@UB</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">UB</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]]):</span>
+        <span class="c1"># TODO: validate</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_UB</span> <span class="o">=</span> <span class="n">value</span></div>
 
-        <span class="c1"># self.operator.calculateOrientation()  # TODO</span>
 </pre></div>
 
                 </article>
