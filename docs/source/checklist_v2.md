@@ -77,28 +77,70 @@ It could be re-organized.
   * [x] transformation: forward (pseudos -> reals)
   * [x] transformation: inverse (reals -> pseudos)
 * Operations-Solver interface transactions API
-  * [ ] extra parameters
-  * [x] axes: expected extras
-  * [x] axes: expected pseudos
-  * [x] axes: expected reals
-  * [x] axes: convert names between diffractometer and solver
-  * [x] geometry: list all available geometries
-  * [x] geometry: set
-  * [x] list available solvers
-  * [x] mode: list all available modes
-  * [x] mode: set
-  * [x] orientation: calculate UB from 2 reflections
-  * [ ] orientation: return B matrix
-  * [ ] orientation: return U matrix
-  * [x] orientation: return UB matrix
-  * [ ] orientation: set B matrix
-  * [ ] orientation: set U matrix
-  * [ ] orientation: set UB matrix
-  * [x] reflection: add
-  * [x] reflection: remove all
-  * [x] sample lattice: add
-  * [ ] sample lattice: refine from >2 reflections
-  * [x] sample: add
-  * [x] transformation: forward (pseudos -> reals)
-  * [x] transformation: inverse (reals -> pseudos)
-  * [x] wavelength: set
+  * [x] axes : assignment : automatic
+  * [x] axes : assignment : named
+  * [x] axes : convert names between diffractometer and solver
+  * [x] axes : expected extras
+  * [x] axes : expected pseudos
+  * [x] axes : expected reals
+  * [x] geometry : get
+  * [x] geometry : set
+  * [x] orientation : calculate UB from 2 reflections
+  * [x] reflection : add
+  * [x] sample : add
+  * [x] sample : get
+  * [x] sample : list all
+  * [x] sample : remove
+  * [x] solver : get
+  * [x] solver : set
+  * [x] transformation : forward (pseudos -> reals)
+  * [x] transformation : inverse (reals -> pseudos)
+* Backends - feature support
+  * [ ] hkl_soleil (libhkl)
+    * [x] axes : expected extras
+    * [x] axes : expected pseudos
+    * [x] axes : expected reals
+    * [ ] extra parameters
+    * [x] geometry : list all available geometries
+    * [x] geometry : set
+    * [x] list available solvers
+    * [x] mode : list all available modes
+    * [x] mode : set
+    * [x] orientation : calculate UB from 2 reflections
+    * [ ] orientation : return B matrix
+    * [ ] orientation : return U matrix
+    * [x] orientation : return UB matrix
+    * [ ] orientation : set B matrix
+    * [ ] orientation : set U matrix
+    * [ ] orientation : set UB matrix
+    * [x] reflection : add
+    * [x] reflection : remove all
+    * [x] sample : add
+    * [x] sample lattice : add
+    * [ ] sample lattice : refine from >2 reflections
+    * [x] transformation : forward (pseudos -> reals)
+    * [x] transformation : inverse (reals -> pseudos)
+  * [ ] no_op
+  * [x] th_tth
+    * axes : expected 
+      * [x] extras
+      * [x] pseudos
+      * [x] reals
+    * geometry
+      * [x] list all available geometries
+      * [x] set
+    * mode
+      * [ ] set (does not apply, only 1 mode)
+      * [x] list available
+    * [x] orientation : calculate (does not apply, empty [] as result)
+    * [x] sample : add
+    * [x] sample lattice
+      * [x] add
+      * [ ] refine (does not apply)
+    * [x] reflection
+      * [x] add
+      * [x]  remove all
+    * transformation
+      * [x] forward (pseudos -> reals)
+      * [x] inverse (reals -> pseudos)
+    * [x] wavelength : set
