@@ -16,9 +16,9 @@ It could be re-organized.
     * [x] Solvers with different reciprocal-space axes
     * [~] extra parameters, as required by solver
   * [x] user can choose different names for any of the diffractometer axes
-* [ ] Default diffractometer geometries
+* [~] Default diffractometer geometries
 * [ ] Bragg Peak optimization tools
-* [ ] Defining orientation matrix or matrices
+* [ ] Defining orientation matrix or matrices (set UB)
 * [x] Simulating diffraction and diffractometer modes
 * [x] Built in reciprocal space plans (or scans)
 * [x] Choice of calculation engines other than the hkl C package
@@ -49,7 +49,7 @@ It could be re-organized.
   * [ ] [diffcalc](https://github.com/bluesky/hklpy/issues/163)
   * [ ] [TwoC unknown](https://github.com/bluesky/hklpy/issues/165)
   * [ ] [xrayutilities](https://github.com/bluesky/hklpy/issues/162)
-  * [ ] SPEC server
+  * [ ] [SPEC server](https://certif.com/spec_help/server.html)
 * Documentation
   * [ ] How to hold axes fixed during `forward()` transformation
   * [ ] Choosing the default `forward()` solution.
@@ -91,11 +91,14 @@ It could be re-organized.
   * [ ] orientation: return B matrix
   * [ ] orientation: return U matrix
   * [x] orientation: return UB matrix
+  * [ ] orientation: set B matrix
+  * [ ] orientation: set U matrix
+  * [ ] orientation: set UB matrix
   * [x] reflection: add
   * [x] reflection: remove all
   * [x] sample lattice: add
   * [ ] sample lattice: refine from >2 reflections
   * [x] sample: add
-  * [ ] transformation: forward (pseudos -> reals)
+  * [x] transformation: forward (pseudos -> reals)
   * [x] transformation: inverse (reals -> pseudos)
   * [x] wavelength: set
