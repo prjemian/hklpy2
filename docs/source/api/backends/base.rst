@@ -11,7 +11,7 @@ SolverBase
 
 .. TODO: 
     - Describe the responsibilities of a |solver|.
-    - Define the terms expected.  Index as appropo.  Such as :index:`!mode`
+    - Define the terms expected (add to glossary.).
     - Note that solvers provide different features: additions and not availables
 
 .. automodule:: hklpy2.backends.base

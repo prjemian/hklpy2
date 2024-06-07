@@ -74,6 +74,13 @@ Glossary
 
 :lattice: Lattice parameters of a crystalline *sample*.
 
+..  index:: !mode, definition; mode
+
+:mode: Diffractometer geometry operation mode for :meth:`forward()`.
+
+  A *mode* (implemented by a |solver|), defines which axes will be modified by the
+  :meth:`forward()` computation.
+
 ..  index:: !monochromatic, definition; monochromatic
 
 :monochromatic: Radiation of a single wavelength.  Or sufficiently narrow
