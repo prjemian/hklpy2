@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=3ee479438cf8b5e0d341" />
   <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=3ee479438cf8b5e0d341"></script>
 
-    <script src="_static/documentation_options.js?v=c9042ed5"></script>
+    <script src="_static/documentation_options.js?v=b492c04b"></script>
     <script src="_static/doctools.js?v=9a2dae69"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/design-tabs.js?v=f930bc37"></script>
@@ -350,6 +350,8 @@ document.write(`
 <p>This is a first-cut checklist for the v2 release.
 It could be re-organized.</p>
 <ul class="simple">
+<li><p>community discussion</p>
+<ul>
 <li><p>[ ] user-requested changes</p></li>
 <li><p>[x] move libhkl to be a replaceable back-end computation library</p></li>
 <li><p>[ ] easy to save/restore configuration</p></li>
@@ -372,9 +374,9 @@ It could be re-organized.</p>
 <li><p>[x] user can choose different names for any of the diffractometer axes</p></li>
 </ul>
 </li>
-<li><p>[ ] Default diffractometer geometries</p></li>
+<li><p>[~] Default diffractometer geometries</p></li>
 <li><p>[ ] Bragg Peak optimization tools</p></li>
-<li><p>[ ] Defining orientation matrix or matrices</p></li>
+<li><p>[ ] Defining orientation matrix or matrices (set UB)</p></li>
 <li><p>[x] Simulating diffraction and diffractometer modes</p></li>
 <li><p>[x] Built in reciprocal space plans (or scans)</p></li>
 <li><p>[x] Choice of calculation engines other than the hkl C package</p></li>
@@ -408,6 +410,8 @@ It could be re-organized.</p>
 <li><p>[ ] <a class="reference external" href="https://github.com/bluesky/hklpy/issues/291">crystallographic <em>zones</em></a></p></li>
 </ul>
 </li>
+</ul>
+</li>
 <li><p>Solvers</p>
 <ul>
 <li><p>[x] <code class="docutils literal notranslate"><span class="pre">libhkl</span></code></p></li>
@@ -415,7 +419,7 @@ It could be re-organized.</p>
 <li><p>[ ] <a class="reference external" href="https://github.com/bluesky/hklpy/issues/163">diffcalc</a></p></li>
 <li><p>[ ] <a class="reference external" href="https://github.com/bluesky/hklpy/issues/165">TwoC unknown</a></p></li>
 <li><p>[ ] <a class="reference external" href="https://github.com/bluesky/hklpy/issues/162">xrayutilities</a></p></li>
-<li><p>[ ] SPEC server</p></li>
+<li><p>[ ] <a class="reference external" href="https://certif.com/spec_help/server.html">SPEC server</a></p></li>
 </ul>
 </li>
 <li><p>Documentation</p>
@@ -423,6 +427,7 @@ It could be re-organized.</p>
 <li><p>[ ] How to hold axes fixed during <code class="docutils literal notranslate"><span class="pre">forward()</span></code> transformation</p></li>
 <li><p>[ ] Choosing the default <code class="docutils literal notranslate"><span class="pre">forward()</span></code> solution.</p></li>
 <li><p>[ ] How to migrate from hklpy v1.</p></li>
+<li><p>[ ] documentation from hklpy</p></li>
 </ul>
 </li>
 <li><p>Diffractometer-Operations API</p>
@@ -458,34 +463,115 @@ It could be re-organized.</p>
 </li>
 </ul>
 </li>
-<li><p>[x] transformation: forward (pseudos -&gt; reals)</p></li>
-<li><p>[x] transformation: inverse (reals -&gt; pseudos)</p></li>
+<li><p>[x] transformations</p>
+<ul>
+<li><p>[x] forward (pseudos -&gt; reals)</p></li>
+<li><p>[x] inverse (reals -&gt; pseudos)</p></li>
+</ul>
+</li>
+<li><p>user friendliness</p>
+<ul>
+<li><p>[ ] features from hklpy</p></li>
+</ul>
+</li>
 </ul>
 </li>
 <li><p>Operations-Solver interface transactions API</p>
 <ul>
+<li><p>[x] axes : assignment : automatic</p></li>
+<li><p>[x] axes : assignment : named</p></li>
+<li><p>[x] axes : convert names between diffractometer and solver</p></li>
+<li><p>[x] axes : expected extras</p></li>
+<li><p>[x] axes : expected pseudos</p></li>
+<li><p>[x] axes : expected reals</p></li>
+<li><p>[x] geometry : get</p></li>
+<li><p>[x] geometry : set</p></li>
+<li><p>[x] orientation : calculate UB from 2 reflections</p></li>
+<li><p>[x] reflection : add</p></li>
+<li><p>[x] sample : add</p></li>
+<li><p>[x] sample : get</p></li>
+<li><p>[x] sample : list all</p></li>
+<li><p>[x] sample : remove</p></li>
+<li><p>[x] solver : get</p></li>
+<li><p>[x] solver : set</p></li>
+<li><p>[x] transformation : forward (pseudos -&gt; reals)</p></li>
+<li><p>[x] transformation : inverse (reals -&gt; pseudos)</p></li>
+</ul>
+</li>
+<li><p>Backends - feature support</p>
+<ul>
+<li><p>[ ] hkl_soleil (libhkl)</p>
+<ul>
+<li><p>[x] axes : expected extras</p></li>
+<li><p>[x] axes : expected pseudos</p></li>
+<li><p>[x] axes : expected reals</p></li>
 <li><p>[ ] extra parameters</p></li>
-<li><p>[x] axes: expected extras</p></li>
-<li><p>[x] axes: expected pseudos</p></li>
-<li><p>[x] axes: expected reals</p></li>
-<li><p>[x] axes: convert names between diffractometer and solver</p></li>
-<li><p>[x] geometry: list all available geometries</p></li>
-<li><p>[x] geometry: set</p></li>
+<li><p>[x] geometry : list all available geometries</p></li>
+<li><p>[x] geometry : set</p></li>
 <li><p>[x] list available solvers</p></li>
-<li><p>[x] mode: list all available modes</p></li>
-<li><p>[x] mode: set</p></li>
-<li><p>[x] orientation: calculate UB from 2 reflections</p></li>
-<li><p>[ ] orientation: return B matrix</p></li>
-<li><p>[ ] orientation: return U matrix</p></li>
-<li><p>[x] orientation: return UB matrix</p></li>
-<li><p>[x] reflection: add</p></li>
-<li><p>[x] reflection: remove all</p></li>
-<li><p>[x] sample lattice: add</p></li>
-<li><p>[ ] sample lattice: refine from &gt;2 reflections</p></li>
-<li><p>[x] sample: add</p></li>
-<li><p>[ ] transformation: forward (pseudos -&gt; reals)</p></li>
-<li><p>[x] transformation: inverse (reals -&gt; pseudos)</p></li>
-<li><p>[x] wavelength: set</p></li>
+<li><p>[x] mode : list all available modes</p></li>
+<li><p>[x] mode : set</p></li>
+<li><p>[x] orientation : calculate UB from 2 reflections</p></li>
+<li><p>[!] orientation : return B matrix (not provided by hkl_soleil)</p></li>
+<li><p>[x] orientation : return U matrix</p></li>
+<li><p>[x] orientation : return UB matrix</p></li>
+<li><p>[!] orientation : set B matrix (not provided by hkl_soleil)</p></li>
+<li><p>[ ] orientation : set U matrix</p></li>
+<li><p>[ ] orientation : set UB matrix</p></li>
+<li><p>[x] reflection : add</p></li>
+<li><p>[x] reflection : remove all</p></li>
+<li><p>[x] sample : add</p></li>
+<li><p>[x] sample lattice : add</p></li>
+<li><p>[ ] sample lattice : refine from &gt;2 reflections</p></li>
+<li><p>[x] transformation : forward (pseudos -&gt; reals)</p></li>
+<li><p>[x] transformation : inverse (reals -&gt; pseudos)</p></li>
+</ul>
+</li>
+<li><p>[ ] no_op</p></li>
+<li><p>[x] th_tth</p>
+<ul>
+<li><p>axes : expected</p>
+<ul>
+<li><p>[x] extras</p></li>
+<li><p>[x] pseudos</p></li>
+<li><p>[x] reals</p></li>
+</ul>
+</li>
+<li><p>geometry</p>
+<ul>
+<li><p>[x] list all available geometries</p></li>
+<li><p>[x] set</p></li>
+</ul>
+</li>
+<li><p>mode</p>
+<ul>
+<li><p>[!] set (does not apply, only 1 mode)</p></li>
+<li><p>[x] list available</p></li>
+</ul>
+</li>
+<li><p>[x] orientation : calculate (does not apply, empty [] as result)</p></li>
+<li><p>[x] sample : add</p></li>
+<li><p>[x] sample lattice</p>
+<ul>
+<li><p>[x] add</p></li>
+<li><p>[!] refine (does not apply)</p></li>
+</ul>
+</li>
+<li><p>[x] reflection</p>
+<ul>
+<li><p>[x] add</p></li>
+<li><p>[x]  remove all</p></li>
+</ul>
+</li>
+<li><p>transformation</p>
+<ul>
+<li><p>[x] forward (pseudos -&gt; reals)</p></li>
+<li><p>[x] inverse (reals -&gt; pseudos)</p></li>
+</ul>
+</li>
+<li><p>[x] wavelength : set</p></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
