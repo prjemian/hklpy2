@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=3ee479438cf8b5e0d341" />
   <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=3ee479438cf8b5e0d341"></script>
 
-    <script src="_static/documentation_options.js?v=8aabda76"></script>
+    <script src="_static/documentation_options.js?v=cf8d41ab"></script>
     <script src="_static/doctools.js?v=9a2dae69"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/design-tabs.js?v=f930bc37"></script>
@@ -286,6 +286,7 @@ document.write(`
 
 
 <li class="toctree-l2"><a class="reference internal" href="examples/diffract.html">Diffractometer Axis Names</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/howto_set_UB.html">How to set the UB matrix directly</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
@@ -416,13 +417,20 @@ a precise angular position.</p>
 <dd class="field-odd"><p>Lattice parameters of a crystalline <em>sample</em>.</p>
 </dd>
 </dl>
-<dl class="field-list simple" id="index-9">
+<dl class="field-list" id="index-9">
+<dt class="field-odd">mode<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Diffractometer geometry operation mode for <code class="xref py py-meth docutils literal notranslate"><span class="pre">forward()</span></code>.</p>
+<p>A <em>mode</em> (implemented by a <strong>Solver</strong>), defines which axes will be modified by the
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">forward()</span></code> computation.</p>
+</dd>
+</dl>
+<dl class="field-list simple" id="index-10">
 <dt class="field-odd">monochromatic<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Radiation of a single wavelength.  Or sufficiently narrow
 range, such that it may be characterized by a single floating point value.</p>
 </dd>
 </dl>
-<dl class="field-list" id="index-10">
+<dl class="field-list" id="index-11">
 <dt class="field-odd">operator<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The intermediate software adapter layer between
 <a class="reference internal" href="api/diffract.html#hklpy2.diffract.DiffractometerBase" title="hklpy2.diffract.DiffractometerBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">DiffractometerBase</span></code></a> (user-facing code) and a
@@ -431,34 +439,34 @@ range, such that it may be characterized by a single floating point value.</p>
 one of its <em>geometries</em>.</p>
 </dd>
 </dl>
-<dl class="field-list simple" id="index-11">
+<dl class="field-list simple" id="index-12">
 <dt class="field-odd">orientation<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Positioning of a crystalline sample’s atomic planes
 (identified by a set of <em>pseudos</em>) within the laboratory reference
 frame (described by the <em>reals</em>).</p>
 </dd>
 </dl>
-<dl class="field-list simple" id="index-12">
+<dl class="field-list simple" id="index-13">
 <dt class="field-odd">pseudo<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Reciprocal-space axis, such as <span class="math notranslate nohighlight">\(h\)</span>, <span class="math notranslate nohighlight">\(k\)</span>, and <span class="math notranslate nohighlight">\(l\)</span>.
 The engineering units (rarely examined for crystalline work) are reciprocal
 of the <em>wavelength</em> units.</p>
 </dd>
 </dl>
-<dl class="field-list simple" id="index-13">
+<dl class="field-list simple" id="index-14">
 <dt class="field-odd">real<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Real-space axis (typically a rotation stage),
 such as <code class="docutils literal notranslate"><span class="pre">omega</span></code> (<span class="math notranslate nohighlight">\(\omega\)</span>).
 The engineering units are expected to be in <strong>degrees</strong>.</p>
 </dd>
 </dl>
-<dl class="field-list simple" id="index-14">
+<dl class="field-list simple" id="index-15">
 <dt class="field-odd">reflection<span class="colon">:</span></dt>
 <dd class="field-odd"><p>User-identified coordinates: (<em>pseudos</em>, <em>reals</em>, <em>wavelength</em>).
 Used to orient a <em>sample</em> with a specific <em>diffractometer</em> geometry.</p>
 </dd>
 </dl>
-<dl class="field-list" id="index-15">
+<dl class="field-list" id="index-16">
 <dt class="field-odd">sample<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The named substance to be explored with the <em>diffractometer</em>.
 In <strong>hklpy2</strong>, a sample has a <em>lattice</em> and list of <em>reflections</em>.</p>
@@ -468,24 +476,25 @@ Consequently, the sample is defined for a specific <strong>Solver</strong> and
 <em>geometry</em>.  The same sample cannot be used for other geometries.</p>
 </dd>
 </dl>
-<dl class="field-list simple" id="index-16">
+<dl class="field-list simple" id="index-17">
 <dt class="field-odd">solver<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Backend <strong>Solver</strong> library.  Provides computations to transform
 coordinates between <em>pseudo</em> and <em>real</em> axes for a defined
 <em>diffractometer</em> <em>geometry</em>.</p>
 </dd>
 </dl>
-<dl class="field-list" id="index-17">
+<dl class="field-list" id="index-18">
 <dt class="field-odd">UB<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Orientation matrix (3 x 3).</p>
-<p><span class="math notranslate nohighlight">\(U\)</span> is the crystal orientation matrix relative to the diffractometer</p>
 <dl class="simple">
+<dt><span class="math notranslate nohighlight">\(U\)</span> is the orientation matrix of the crystal lattice as mounted on the</dt><dd><p>diffractometer sample holder.</p>
+</dd>
 <dt><span class="math notranslate nohighlight">\(B\)</span> is the transition matrix of a non-orthonormal</dt><dd><p>(the reciprocal of the crystal) in an orthonormal system.</p>
 </dd>
 </dl>
 </dd>
 </dl>
-<dl class="field-list simple" id="index-18">
+<dl class="field-list simple" id="index-19">
 <dt class="field-odd">wavelength<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The numerical value of the wavelength of the incident radiation.
 The radiation is expected to be <em>monochromatic</em> neutrons or X-rays.

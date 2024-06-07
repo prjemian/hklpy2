@@ -52,10 +52,13 @@ It could be re-organized.
   * [ ] [xrayutilities](https://github.com/bluesky/hklpy/issues/162)
   * [ ] [SPEC server](https://certif.com/spec_help/server.html)
 * Documentation
-  * [ ] How to hold axes fixed during `forward()` transformation
   * [ ] Choosing the default `forward()` solution.
+  * [ ] documentation from hklpy.
+  * [ ] How to calculate UB from 2 reflections.
+  * [ ] How to hold axes fixed during `forward()` transformation.
   * [ ] How to migrate from hklpy v1.
-  * [ ] documentation from hklpy
+  * [ ] How to refine lattice from 3 reflections.
+  * [ ] How to set UB directly.
 * Diffractometer-Operations API
   * [x] solver:
   * [x] geometry:
