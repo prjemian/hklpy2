@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=3ee479438cf8b5e0d341" />
   <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=3ee479438cf8b5e0d341"></script>
 
-    <script src="../../_static/documentation_options.js?v=bc604aeb"></script>
+    <script src="../../_static/documentation_options.js?v=4d964e1d"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/tabs.js?v=3030b3cb"></script>
@@ -595,7 +595,7 @@ document.write(`
 <a class="viewcode-back" href="../../api/ops.html#hklpy2.ops.Operations.calcUB">[docs]</a>
     <span class="k">def</span> <span class="nf">calcUB</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">r1</span><span class="p">:</span> <span class="p">[</span><span class="n">Reflection</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span> <span class="n">r2</span><span class="p">:</span> <span class="p">[</span><span class="n">Reflection</span><span class="p">,</span> <span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Calculate the UB matrix with two reflections.</span>
+<span class="sd">        Calculate the UB (orientation) matrix with two reflections.</span>
 
 <span class="sd">        The method of Busing &amp; Levy, Acta Cryst 22 (1967) 457.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -611,11 +611,10 @@ document.write(`
                 <span class="p">)</span>
             <span class="k">return</span> <span class="n">reflection</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">calculateOrientation</span><span class="p">(</span><span class="n">get_reflection</span><span class="p">(</span><span class="n">r1</span><span class="p">),</span> <span class="n">get_reflection</span><span class="p">(</span><span class="n">r2</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">calculate_UB</span><span class="p">(</span><span class="n">get_reflection</span><span class="p">(</span><span class="n">r1</span><span class="p">),</span> <span class="n">get_reflection</span><span class="p">(</span><span class="n">r2</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">U</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">U</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">UB</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">UB</span></div>
 
-        <span class="c1"># print(f&quot;=========&gt; {self.sample.UB=!r}&quot;)</span>
 
 <div class="viewcode-block" id="Operations.forward">
 <a class="viewcode-back" href="../../api/ops.html#hklpy2.ops.Operations.forward">[docs]</a>

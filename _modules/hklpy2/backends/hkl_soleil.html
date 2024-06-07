@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=3ee479438cf8b5e0d341" />
   <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=3ee479438cf8b5e0d341"></script>
 
-    <script src="../../../_static/documentation_options.js?v=bc604aeb"></script>
+    <script src="../../../_static/documentation_options.js?v=4d964e1d"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/tabs.js?v=3030b3cb"></script>
@@ -480,7 +480,7 @@ document.write(`
 <span class="sd">    .. autosummary::</span>
 
 <span class="sd">        ~addReflection</span>
-<span class="sd">        ~calculateOrientation</span>
+<span class="sd">        ~calculate_UB</span>
 <span class="sd">        ~forward</span>
 <span class="sd">        ~geometries</span>
 <span class="sd">        ~inverse</span>
@@ -581,14 +581,18 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_engine</span><span class="o">.</span><span class="n">axis_names_get</span><span class="p">(</span><span class="n">AXES_WRITTEN</span><span class="p">)</span>  <span class="c1"># Do NOT sort.</span>
 
-<div class="viewcode-block" id="HklSolver.calculateOrientation">
-<a class="viewcode-back" href="../../../api/backends/hkl_soleil.html#hklpy2.backends.hkl_soleil.HklSolver.calculateOrientation">[docs]</a>
-    <span class="k">def</span> <span class="nf">calculateOrientation</span><span class="p">(</span>
+<div class="viewcode-block" id="HklSolver.calculate_UB">
+<a class="viewcode-back" href="../../../api/backends/hkl_soleil.html#hklpy2.backends.hkl_soleil.HklSolver.calculate_UB">[docs]</a>
+    <span class="k">def</span> <span class="nf">calculate_UB</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">r1</span><span class="p">:</span> <span class="n">Reflection</span><span class="p">,</span>
         <span class="n">r2</span><span class="p">:</span> <span class="n">Reflection</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculate the UB (orientation) matrix from two reflections.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculate the UB (orientation) matrix with two reflections.</span>
+
+<span class="sd">        The method of Busing &amp; Levy, Acta Cryst 22 (1967) 457.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">sample</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span>
         <span class="c1"># Remove all reflections first</span>
@@ -749,7 +753,11 @@ document.write(`
 <div class="viewcode-block" id="HklSolver.refineLattice">
 <a class="viewcode-back" href="../../../api/backends/hkl_soleil.html#hklpy2.backends.hkl_soleil.HklSolver.refineLattice">[docs]</a>
     <span class="k">def</span> <span class="nf">refineLattice</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reflections</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Reflection</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Lattice</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Refine the lattice parameters from a list of reflections.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Refine the lattice parameters from a list of reflections.</span>
+
+<span class="sd">        hkl_soleil uses a simplex method.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">reflections</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Must provide 3 or more reflections to refine lattice.&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">removeAllReflections</span><span class="p">()</span>
