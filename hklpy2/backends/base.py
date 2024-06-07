@@ -55,7 +55,7 @@ class SolverBase(ABC):
     .. autosummary::
 
         ~addReflection
-        ~calculateOrientation
+        ~calculate_UB
         ~extra_axis_names
         ~forward
         ~geometries
@@ -110,12 +110,16 @@ class SolverBase(ABC):
         """Add coordinates of a diffraction condition (a reflection)."""
 
     @abstractmethod
-    def calculateOrientation(
+    def calculate_UB(
         self,
         r1: Reflection,
         r2: Reflection,
     ) -> list[list[float]]:
-        """Calculate the UB (orientation) matrix from two reflections."""
+        """
+        Calculate the UB (orientation) matrix with two reflections.
+
+        The method of Busing & Levy, Acta Cryst 22 (1967) 457.
+        """
         return self.UB
 
     @property

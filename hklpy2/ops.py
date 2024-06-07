@@ -248,7 +248,7 @@ class Operations:
 
     def calcUB(self, r1: [Reflection, str], r2: [Reflection, str]) -> None:
         """
-        Calculate the UB matrix with two reflections.
+        Calculate the UB (orientation) matrix with two reflections.
 
         The method of Busing & Levy, Acta Cryst 22 (1967) 457.
         """
@@ -264,10 +264,9 @@ class Operations:
                 )
             return reflection
 
-        self.solver.calculateOrientation(get_reflection(r1), get_reflection(r2))
+        self.solver.calculate_UB(get_reflection(r1), get_reflection(r2))
         self.sample.U = self.solver.U
         self.sample.UB = self.solver.UB
-        # print(f"=========> {self.sample.UB=!r}")
 
     def forward(self, pseudos: tuple, wavelength: float = None) -> list:
         """Compute [{names:reals}] from {names: pseudos} (hkl -> angles)."""

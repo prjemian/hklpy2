@@ -1,3 +1,5 @@
+import math
+
 import pytest
 
 from .. import hkl_soleil
@@ -70,3 +72,62 @@ def test_geometries():
     assert len(glist) >= 18
     for gname in "E4CV E4CH E6C K4CV K6C ZAXIS".split():
         assert gname in glist, f"{gname=}  {glist=}"
+
+
+def test_affine():
+    """Test the lattice parameter refinement."""
+    from ... import SI_LATTICE_PARAMETER
+    from ... import SimulatedE4CV
+    from ...operations.lattice import SI_LATTICE_PARAMETER_UNCERTAINTY
+
+    e4cv = SimulatedE4CV("", name="e4cv")
+    assert e4cv is not None
+
+    e4cv.add_sample("silicon", SI_LATTICE_PARAMETER)
+    e4cv.add_reflection(
+        (4, 0, 0),
+        dict(tth=69.1, omega=-145.5, chi=0, phi=0),
+        wavelength=1.54,
+        name="r1",
+    )
+    e4cv.add_reflection(
+        (0, 4, 0),
+        dict(tth=69.1, omega=-145.5, chi=90, phi=0),
+        wavelength=1.54,
+        name="r2",
+    )
+    e4cv.add_reflection(
+        (0, 0, 4),
+        dict(tth=69.1, omega=-145.5, chi=0, phi=90),
+        wavelength=1.54,
+        name="r3",
+    )
+    assert len(e4cv.sample.reflections) == 3
+
+    # as-defined, sample is cubic with precise lattice parameter
+    tol = SI_LATTICE_PARAMETER_UNCERTAINTY
+    assert math.isclose(e4cv.sample.lattice.a, SI_LATTICE_PARAMETER, abs_tol=tol)
+    assert math.isclose(e4cv.sample.lattice.b, SI_LATTICE_PARAMETER, abs_tol=tol)
+    assert math.isclose(e4cv.sample.lattice.c, SI_LATTICE_PARAMETER, abs_tol=tol)
+    assert math.isclose(e4cv.sample.lattice.alpha, 90, abs_tol=tol)
+    assert math.isclose(e4cv.sample.lattice.beta, 90, abs_tol=tol)
+    assert math.isclose(e4cv.sample.lattice.gamma, 90, abs_tol=tol)
+
+    e4cv.operator.refine_lattice()
+
+    # refined lattice parameter is not so precise
+    assert not math.isclose(e4cv.sample.lattice.a, SI_LATTICE_PARAMETER, abs_tol=tol)
+    assert not math.isclose(e4cv.sample.lattice.b, SI_LATTICE_PARAMETER, abs_tol=tol)
+    assert not math.isclose(e4cv.sample.lattice.c, SI_LATTICE_PARAMETER, abs_tol=tol)
+    assert not math.isclose(e4cv.sample.lattice.alpha, 90, abs_tol=tol)
+    assert not math.isclose(e4cv.sample.lattice.beta, 90, abs_tol=tol)
+    assert not math.isclose(e4cv.sample.lattice.gamma, 90, abs_tol=tol)
+
+    # relax the precision quite a bit
+    tol = 0.001
+    assert math.isclose(e4cv.sample.lattice.a, SI_LATTICE_PARAMETER, rel_tol=tol)
+    assert math.isclose(e4cv.sample.lattice.b, SI_LATTICE_PARAMETER, rel_tol=tol)
+    assert math.isclose(e4cv.sample.lattice.c, SI_LATTICE_PARAMETER, rel_tol=tol)
+    assert math.isclose(e4cv.sample.lattice.alpha, 90, rel_tol=tol)
+    assert math.isclose(e4cv.sample.lattice.beta, 90, rel_tol=tol)
+    assert math.isclose(e4cv.sample.lattice.gamma, 90, rel_tol=tol)

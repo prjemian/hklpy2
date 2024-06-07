@@ -51,7 +51,7 @@ class ThTthSolver(SolverBase):
     .. autosummary::
 
         ~addReflection
-        ~calculateOrientation
+        ~calculate_UB
         ~extra_axis_names
         ~forward
         ~geometries
@@ -93,7 +93,7 @@ class ThTthSolver(SolverBase):
             raise SolverError(f"All reflections must have same wavelength. Received: {wavelengths!r}")
         self.wavelength = wavelengths[0]
 
-    def calculateOrientation(self, r1, r2):
+    def calculate_UB(self, r1, r2):
         return []
 
     def forward(self, pseudos: dict) -> list[dict[str, float]]:

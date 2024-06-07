@@ -144,7 +144,7 @@ class HklSolver(SolverBase):
     .. autosummary::
 
         ~addReflection
-        ~calculateOrientation
+        ~calculate_UB
         ~forward
         ~geometries
         ~inverse
@@ -242,12 +242,16 @@ class HklSolver(SolverBase):
         """
         return self._engine.axis_names_get(AXES_WRITTEN)  # Do NOT sort.
 
-    def calculateOrientation(
+    def calculate_UB(
         self,
         r1: Reflection,
         r2: Reflection,
     ) -> list[list[float]]:
-        """Calculate the UB (orientation) matrix from two reflections."""
+        """
+        Calculate the UB (orientation) matrix with two reflections.
+
+        The method of Busing & Levy, Acta Cryst 22 (1967) 457.
+        """
         if self.sample is None:
             return
         # Remove all reflections first
@@ -396,7 +400,11 @@ class HklSolver(SolverBase):
         return self._geometry.axis_names_get()  # Do NOT sort.
 
     def refineLattice(self, reflections: list[Reflection]) -> Lattice:
-        """Refine the lattice parameters from a list of reflections."""
+        """
+        Refine the lattice parameters from a list of reflections.
+
+        hkl_soleil uses a simplex method.
+        """
         if len(reflections) < 3:
             raise ValueError("Must provide 3 or more reflections to refine lattice.")
         self.removeAllReflections()

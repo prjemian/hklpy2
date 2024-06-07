@@ -34,7 +34,7 @@ class NoOpSolver(SolverBase):
     .. autosummary::
 
         ~addReflection
-        ~calculateOrientation
+        ~calculate_UB
         ~extra_axis_names
         ~forward
         ~geometries
@@ -64,7 +64,7 @@ class NoOpSolver(SolverBase):
     def addReflection(self, reflection: Reflection):
         pass
 
-    def calculateOrientation(self, r1, r2):
+    def calculate_UB(self, r1, r2):
         return
 
     @property
