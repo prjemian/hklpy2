@@ -134,11 +134,12 @@ Glossary
   coordinates between *pseudo* and *real* axes for a defined
   *diffractometer* *geometry*.
 
-..  index:: !UB, definition; UB
+..  index:: !UB, definition; UB; !U, definition; !U
 
 :UB: Orientation matrix (3 x 3).  
 
-  :math:`U` is the crystal orientation matrix relative to the diffractometer
+  :math:`U` is the orientation matrix of the crystal lattice as mounted on the
+    diffractometer sample holder.
   
   :math:`B` is the transition matrix of a non-orthonormal
     (the reciprocal of the crystal) in an orthonormal system.
