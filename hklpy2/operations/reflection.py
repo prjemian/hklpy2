@@ -285,6 +285,7 @@ class ReflectionsDict(dict):
     def add(self, reflection: Reflection, replace: bool = False) -> None:
         """Add a single orientation reflection."""
         self._validate_reflection(reflection, replace)
+
         self[reflection.name] = reflection
         if reflection.name not in self.order:
             self.order.append(reflection.name)
@@ -308,13 +309,35 @@ class ReflectionsDict(dict):
             raise TypeError(
                 f"Unexpected {reflection=!r}.  Must be a 'Reflection' type."
             )
-        if reflection.name in self and not replace:
-            raise ReflectionError(
-                f"Reflection name {reflection.name!r} already defined. "
-                "Set `replace=True` to replace it."
-            )
+
+        # matching content
+        matching = [v.name for v in self.values() if v == reflection]
+        if reflection.name in self:
+            # matching name
+            if reflection.name not in matching:
+                matching.append(reflection.name)
+
+        if replace:
+            # remove ALL matches (name or content matches)
+            for nm in matching:
+                r = self.pop(nm)
+                logger.debug("Replacing known reflection %r", r)
+            matching = []
+        if len(matching) > 0:  # still?
+            if reflection.name in matching:
+                raise ReflectionError(
+                    f"Reflection name {reflection.name!r} is known."
+                    "  Use 'replace=True' to overwrite."
+                )
+            else:
+                raise ReflectionError(
+                    f"Reflection {reflection!r} matches one or more"
+                    " existing reflections.  Use 'replace=True' to overwrite."
+                )
+
         if self.geometry is None or len(self) == 0:
             self.geometry = reflection.geometry
+
         if reflection.geometry != self.geometry:
             # fmt: off
             raise ValueError(
@@ -323,17 +346,6 @@ class ReflectionsDict(dict):
                 f" previous: {self.geometry!r}."
             )
             # fmt: on
-
-        # Compare with all existing reflections for duplicate contents.
-        this = reflection._asdict()
-        this.pop("name")  # might use a different name
-        for v in self.values():
-            existing = v._asdict()
-            existing.pop("name")
-            if compare_float_dicts(this, existing):
-                raise ReflectionError(
-                    f"Reflection {reflection!r} matches existing {v.name!r}"
-                )
 
     # ---- get/set properties
 

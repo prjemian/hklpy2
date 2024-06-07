@@ -84,6 +84,7 @@ class Operations:
         reals=None,
         wavelength=None,
         name=None,
+        replace: bool = False,
     ) -> Reflection:
         """
         Add a new reflection.
@@ -95,6 +96,8 @@ class Operations:
         * ``wavelength`` (float): Wavelength of incident radiation.
         * ``name`` (str): Reference name for this reflection.
           If ``None``, a random name will be assigned.
+        * ``replace`` (bool): If ``True``, replace existing reflection of
+          this name.  (default: ``False``)
         """
         from .operations.reflection import Reflection
 
@@ -125,7 +128,7 @@ class Operations:
             pnames,
             rnames,
         )
-        self.sample.reflections.add(refl)
+        self.sample.reflections.add(refl, replace=replace)
         return refl
 
     def add_sample(
@@ -334,6 +337,10 @@ class Operations:
         """Refine the sample lattice from 3 or more reflections."""
         if reflections is None:
             reflections = list(self.sample.reflections.values())
+        logger.debug(
+            "Refining lattice using reflections %r",
+            [r.name for r in reflections],
+        )
         lattice = self.solver.refineLattice(reflections)
         self.sample.lattice = lattice
 

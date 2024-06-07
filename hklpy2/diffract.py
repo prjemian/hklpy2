@@ -157,6 +157,7 @@ class DiffractometerBase(PseudoPositioner):
         reals=None,
         wavelength=None,
         name=None,
+        replace: bool = False,
     ) -> Reflection:
         """
         Add a new reflection with this geometry to the selected sample.
@@ -169,9 +170,11 @@ class DiffractometerBase(PseudoPositioner):
           If ``None``, diffractometer's current wavelength will be assigned.
         * ``name`` (str): Reference name for this reflection.
           If ``None``, a random name will be assigned.
+        * ``replace`` (bool): If ``True``, replace existing reflection of
+          this name.  (default: ``False``)
         """
         return self.operator.add_reflection(
-            pseudos, reals, wavelength or self.wavelength.get(), name
+            pseudos, reals, wavelength or self.wavelength.get(), name, replace
         )
 
     def add_sample(
