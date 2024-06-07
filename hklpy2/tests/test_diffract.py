@@ -8,6 +8,7 @@ import pytest
 from ..diffract import DiffractometerBase
 from ..diffract import DiffractometerError
 from ..diffract import pick_first_item
+from ..operations.reflection import ReflectionError
 from ..operations.sample import Sample
 from ..ops import Operations
 from ..wavelength_support import DEFAULT_WAVELENGTH
@@ -227,16 +228,84 @@ def test_orientation():
     assert math.isclose(result.l, 0, abs_tol=0.02), f"{result=!r}"
 
 
-# def test_set_UB():  # TODO:
-#     from ..geom import SimulatedE4CV
-#     UBe = [[0, 0, -1.157], [0, -1.157, 0], [-1.157, 0, 0]]
-#     fourc = SimulatedE4CV("", name="fourc")
+def test_set_UB():
+    from ..geom import SimulatedE4CV
 
-#     fourc.operator.solver.UB = UBe
-#     UBr = fourc.operator.solver.UB
-#     assert len(UBr) == len(UBe)
+    UBe = [[0, 0, -1.157], [0, -1.157, 0], [-1.157, 0, 0]]
+    fourc = SimulatedE4CV("", name="fourc")
 
-#     result = fourc.inverse(-145, 0, 0, 70, wavelength=1.54)
-#     assert math.isclose(result.h, 4.05, abs_tol=0.02), f"{result=!r}"
-#     assert math.isclose(result.k, 0, abs_tol=0.02), f"{result=!r}"
-#     assert math.isclose(result.l, 0, abs_tol=0.02), f"{result=!r}"
+    fourc.operator.solver.UB = UBe
+    UBr = fourc.operator.solver.UB
+    assert len(UBr) == len(UBe)
+
+    result = fourc.inverse(-145, 0, 0, 70, wavelength=1.54)
+    assert math.isclose(result.h, 4.05, abs_tol=0.02), f"{result=!r}"
+    assert math.isclose(result.k, 0, abs_tol=0.02), f"{result=!r}"
+    assert math.isclose(result.l, 0, abs_tol=0.02), f"{result=!r}"
+
+
+@pytest.mark.parametrize(
+    "name, pseudos, reals, wavelength, replace, num, raiser, excuse",
+    [
+        ["(100)", (1, 0, 0), (10, 0, 0, 20), 1, True, 1, does_not_raise(), None],
+        [
+            "(100)",
+            (1, 0, 0),
+            (10, 0, 0, 20),
+            1,
+            False,
+            1,
+            pytest.raises(ReflectionError),
+            "Use 'replace=True' to overwrite.",
+        ],
+        ["r2", (1, 0, 0), (10, 0, 0, 20), 1, True, 1, does_not_raise(), None],
+        ["r2", (2, 0, 0), (10, 0, 0, 20), 1, False, 2, does_not_raise(), None],
+        ["r2", (1, 0, 0), (10, 10, 0, 20), 1, False, 2, does_not_raise(), None],
+        ["(100)", (1, 0, 0), (10, 10, 0, 20), 1, True, 1, does_not_raise(), None],
+        [
+            "r2",  # different name
+            (1, 0, 0),  # same data
+            (10, 0, 0, 20),  # same data
+            1,  # same data
+            False,
+            1,
+            pytest.raises(ReflectionError),
+            "Use 'replace=True' to overwrite.",
+        ],
+        [
+            "r2",  # different name
+            (1, 0, 0),  # same data
+            (10, 0, 0, 20),  # same data
+            1.5,  # different data
+            False,
+            2,
+            does_not_raise(),
+            None,
+        ],
+    ],
+)
+def test_repeated_reflections(
+    name, pseudos, reals, wavelength, replace, num, raiser, excuse
+):
+    from ..geom import SimulatedE4CV
+
+    e4cv = SimulatedE4CV("", name="e4cv")
+    e4cv.add_reflection(
+        dict(h=1, k=0, l=0),
+        dict(omega=10, chi=0, phi=0, tth=20),
+        wavelength=1.0,
+        name="(100)",
+    )
+    assert len(e4cv.sample.reflections) == 1
+
+    with raiser as reason:
+        e4cv.add_reflection(
+            pseudos,
+            reals,
+            name=name,
+            wavelength=wavelength,
+            replace=replace,
+        )
+    if excuse is not None:
+        assert excuse in str(reason), f"{reason=!r}  {excuse=!r}"
+    assert len(e4cv.sample.reflections) == num, f"{e4cv.sample.reflections=!r}"

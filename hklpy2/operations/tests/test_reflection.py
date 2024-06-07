@@ -289,7 +289,7 @@ def test_ReflectionsDict(parms):
         [[r100_parms, r010_parms], does_not_raise(), None],
         [[r_1], does_not_raise(), None],
         [[r_2], does_not_raise(), None],
-        [[r_1, r_2], pytest.raises(ReflectionError), "matches existing"],
+        [[r_1, r_2], pytest.raises(ReflectionError), "matches one or more existing"],
         [[r_1, r_4], does_not_raise(), None],
         [
             [r100_parms, r010_parms, r_1, r_4],
@@ -309,7 +309,10 @@ def test_IncompatibleReflectionsDict(parms, probe, expect):
 
     with probe as reason:
         for i, refl in enumerate(parms, start=1):
-            db.add(Reflection(*refl))
+            r = Reflection(*refl)
+            assert r is not None
+            db.add(r)
+            assert len(db) == i
     if expect is not None:
         assert expect in str(reason), f"{reason=!r}"
 
@@ -319,11 +322,11 @@ def test_duplicate_reflection():
     db.add(Reflection(*r_1))
     with pytest.raises(ReflectionError) as reason:
         db.add(Reflection(*r_1))
-    assert "already defined." in str(reason), f"{reason=!r}"
+    assert "is known." in str(reason), f"{reason=!r}"
 
     with pytest.raises(ReflectionError) as reason:
         db.add(Reflection(*r_2))
-    assert "matches existing" in str(reason), f"{reason=!r}"
+    assert "matches one or more existing" in str(reason), f"{reason=!r}"
 
 
 def test_swap():

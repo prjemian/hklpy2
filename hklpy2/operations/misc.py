@@ -38,12 +38,17 @@ def check_value_in_list(title, value, examples, blank_ok=False):
         msg = f"{title} {value!r} unknown. Pick one of: {examples!r}"
         raise KeyError(msg)
 
+
 def compare_float_dicts(a1, a2, tol=1e-4):
     """
     Compare two dictionaries.  Values are all floats.
     """
     if tol <= 0:
         raise ValueError("received {tol=}, should be tol >0")
+    
+    if sorted(a1.keys()) != sorted(a2.keys()):
+        return False
+    
     tests = [True]
     for k, v in a1.items():
         if isinstance(v, float):
@@ -55,7 +60,6 @@ def compare_float_dicts(a1, a2, tol=1e-4):
             test = a1[k] == a2[k]
         if not test:
             return False  # no need to go further
-    tests.append(sorted(a1.keys()) == sorted(a2.keys()))
     return False not in tests
 
 
