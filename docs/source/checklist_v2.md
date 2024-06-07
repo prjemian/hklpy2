@@ -3,7 +3,7 @@
 This is a first-cut checklist for the v2 release.
 It could be re-organized.
 
-* community discussion
+* community wish list
   * [ ] user-requested changes
   * [x] move libhkl to be a replaceable back-end computation library
   * [ ] easy to save/restore configuration
@@ -88,6 +88,7 @@ It could be re-organized.
   * [x] axes : expected extras
   * [x] axes : expected pseudos
   * [x] axes : expected reals
+  * [ ] constraints
   * [x] geometry : get
   * [x] geometry : set
   * [x] orientation : calculate UB from 2 reflections
@@ -116,13 +117,13 @@ It could be re-organized.
     * [x] orientation : return U matrix
     * [x] orientation : return UB matrix
     * [!] orientation : set B matrix (not provided by hkl_soleil)
-    * [ ] orientation : set U matrix
-    * [ ] orientation : set UB matrix
+    * [x] orientation : set U matrix
+    * [x] orientation : set UB matrix
     * [x] reflection : add
     * [x] reflection : remove all
     * [x] sample : add
     * [x] sample lattice : add
-    * [ ] sample lattice : refine from >2 reflections
+    * [x] sample lattice : refine from >2 reflections
     * [x] transformation : forward (pseudos -> reals)
     * [x] transformation : inverse (reals -> pseudos)
   * [ ] no_op

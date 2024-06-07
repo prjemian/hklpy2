@@ -2,7 +2,7 @@
 Backend: Hkl (``"hkl_soleil"``)
 
 ..  caution:: The ``hkl_soleil`` |solver| is not available
-    for Windows or Mac OS.  The underlying |libhkl| support 
+    for Windows or Mac OS.  The underlying |libhkl| support
     library is only provided
     for Linux 64-bit OS at this time.
 
@@ -56,9 +56,62 @@ LIBHKL_UNITS = {
 LIBHKL_USER_UNITS = LIBHKL_UNITS["user"]
 ROUNDOFF_DIGITS = 12
 
+
 def _roundoff(values, digits=ROUNDOFF_DIGITS):
     """Prevent underflows and '-0'."""
     return [round(v, digits) or 0 for v in values]
+
+
+def hkl_euler_matrix(euler_x, euler_y, euler_z):
+    """Convert into matrix form."""
+    return libhkl.Matrix.new_euler(euler_x, euler_y, euler_z)
+
+
+def to_hkl(arr):
+    """Convert a numpy ndarray to an hkl ``Matrix``
+
+    Parameters
+    ----------
+    arr : ndarray
+
+    Returns
+    -------
+    Hkl.Matrix
+    """
+    import numpy as np
+
+    if isinstance(arr, libhkl.Matrix):
+        return arr
+
+    arr = np.array(arr)
+
+    hklm = hkl_euler_matrix(0, 0, 0)
+    hklm.init(*arr.flatten())
+    return hklm
+
+
+def to_numpy(mat):
+    """Convert an hkl ``Matrix`` to a numpy ndarray
+
+    Parameters
+    ----------
+    mat : Hkl.Matrix
+
+    Returns
+    -------
+    ndarray
+    """
+    import numpy as np
+
+    if isinstance(mat, np.ndarray):
+        return mat
+
+    ret = np.zeros((3, 3))
+    for i in range(3):
+        for j in range(3):
+            ret[i, j] = mat.get(i, j)
+
+    return ret
 
 
 class HklSolver(SolverBase):
@@ -234,7 +287,7 @@ class HklSolver(SolverBase):
             geo = glist_item.geometry_get()
             sol = dict(
                 zip(
-                    geo.axis_names_get(), 
+                    geo.axis_names_get(),
                     _roundoff(geo.axis_values_get(LIBHKL_USER_UNITS)),
                 )
             )
@@ -285,7 +338,7 @@ class HklSolver(SolverBase):
             )
         )
         return pdict
-    
+
     @property
     def lattice(self) -> libhkl.Lattice:
         """
@@ -344,13 +397,24 @@ class HklSolver(SolverBase):
 
     def refineLattice(self, reflections: list[Reflection]) -> Lattice:
         """Refine the lattice parameters from a list of reflections."""
+        if len(reflections) < 3:
+            raise ValueError("Must provide 3 or more reflections to refine lattice.")
         self.removeAllReflections()
         for r in reflections:
             self.addReflection(r)
-        # TODO:
-        # self.sample.affine(*self.sample.reflections_get())
+
+        self.sample.affine()  # refine the lattice
+
         # get the refined lattice
-        # return Lattice()
+        lattice = self.lattice.get(LIBHKL_USER_UNITS)
+        return Lattice(
+            lattice.a,
+            lattice.b,
+            lattice.c,
+            lattice.alpha,
+            lattice.beta,
+            lattice.gamma,
+        )
 
     def removeAllReflections(self) -> None:
         """Remove all reflections."""
@@ -398,28 +462,26 @@ class HklSolver(SolverBase):
         """
         if self.sample is None:
             return IDENTITY_MATRIX_3X3
-        matrix = self.sample.U_get()
-        return [
-           _roundoff([matrix.get(i, j) for j in range(3)])
-            for i in range(3)
-        ]
+        matrix = to_numpy(self.sample.U_get())
+        return matrix.round(decimals=ROUNDOFF_DIGITS).tolist()
+
+    @U.setter
+    def U(self, value:list[list[float]]) -> None:
+        if self.sample is not None:
+            self.sample.U_set(to_hkl(value))
 
     @property
     def UB(self) -> list[list[float]]:
         """Orientation matrix (3x3)."""
         if self.sample is None:
             return IDENTITY_MATRIX_3X3
-        matrix = self.sample.UB_get()
-        return [
-           _roundoff([matrix.get(i, j) for j in range(3)])
-            for i in range(3)
-        ]
+        matrix = to_numpy(self.sample.UB_get())
+        return matrix.round(decimals=ROUNDOFF_DIGITS).tolist()
 
-    # @UB.setter
-    # def UB(self, value:list[list[float]]) -> None:
-    #     value -> euler_matrix
-    #     matrix = libhkl.Matrix(value)
-    #     self.sample.UB_set(matrix)
+    @UB.setter
+    def UB(self, value:list[list[float]]) -> None:
+        if self.sample is not None:
+            self.sample.UB_set(to_hkl(value))
 
     @property
     def wavelength(self) -> float:

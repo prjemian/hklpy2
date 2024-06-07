@@ -47,6 +47,7 @@ class Operations:
         ~calcUB
         ~forward
         ~inverse
+        ~refine_lattice
         ~remove_sample
         ~set_solver
         ~standardize_pseudos
@@ -329,6 +330,13 @@ class Operations:
 
         pseudos.update(self._axes_names_s2d(spdict))  # Update with new values.
         return pseudos
+
+    def refine_lattice(self, reflections: list = None):
+        """Refine the sample lattice from 3 or more reflections."""
+        if reflections is None:
+            reflections = list(self.sample.reflections.values())
+        lattice = self.solver.refineLattice(reflections)
+        self.sample.lattice = lattice
 
     def remove_sample(self, name):
         """Remove the named sample.  No error if name is not known."""
