@@ -191,6 +191,8 @@ class SolverBase(ABC):
         """
         Diffractometer geometry operation mode for :meth:`forward()`.
 
+        .. index:: !mode
+
         A mode defines which axes will be modified by the
         :meth:`forward` computation.
         """
