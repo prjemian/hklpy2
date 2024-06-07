@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=3ee479438cf8b5e0d341" />
   <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=3ee479438cf8b5e0d341"></script>
 
-    <script src="../../_static/documentation_options.js?v=cf8d41ab"></script>
+    <script src="../../_static/documentation_options.js?v=9eb70a84"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/tabs.js?v=3030b3cb"></script>
@@ -413,6 +413,7 @@ document.write(`
         <span class="n">reals</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">wavelength</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">replace</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Reflection</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Add a new reflection.</span>
@@ -424,6 +425,8 @@ document.write(`
 <span class="sd">        * ``wavelength`` (float): Wavelength of incident radiation.</span>
 <span class="sd">        * ``name`` (str): Reference name for this reflection.</span>
 <span class="sd">          If ``None``, a random name will be assigned.</span>
+<span class="sd">        * ``replace`` (bool): If ``True``, replace existing reflection of</span>
+<span class="sd">          this name.  (default: ``False``)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="kn">from</span> <span class="nn">.operations.reflection</span> <span class="kn">import</span> <span class="n">Reflection</span>
 
@@ -454,7 +457,7 @@ document.write(`
             <span class="n">pnames</span><span class="p">,</span>
             <span class="n">rnames</span><span class="p">,</span>
         <span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">reflections</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">refl</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">reflections</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">refl</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="n">replace</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">refl</span></div>
 
 
@@ -690,6 +693,10 @@ document.write(`
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Refine the sample lattice from 3 or more reflections.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">reflections</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">reflections</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">reflections</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
+            <span class="s2">&quot;Refining lattice using reflections </span><span class="si">%r</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="p">[</span><span class="n">r</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">reflections</span><span class="p">],</span>
+        <span class="p">)</span>
         <span class="n">lattice</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">refineLattice</span><span class="p">(</span><span class="n">reflections</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">lattice</span> <span class="o">=</span> <span class="n">lattice</span></div>
 

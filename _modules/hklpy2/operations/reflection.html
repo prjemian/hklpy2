@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=3ee479438cf8b5e0d341" />
   <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=3ee479438cf8b5e0d341"></script>
 
-    <script src="../../../_static/documentation_options.js?v=cf8d41ab"></script>
+    <script src="../../../_static/documentation_options.js?v=9eb70a84"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/tabs.js?v=3030b3cb"></script>
@@ -635,6 +635,7 @@ document.write(`
     <span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reflection</span><span class="p">:</span> <span class="n">Reflection</span><span class="p">,</span> <span class="n">replace</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Add a single orientation reflection.&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_validate_reflection</span><span class="p">(</span><span class="n">reflection</span><span class="p">,</span> <span class="n">replace</span><span class="p">)</span>
+
         <span class="bp">self</span><span class="p">[</span><span class="n">reflection</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">reflection</span>
         <span class="k">if</span> <span class="n">reflection</span><span class="o">.</span><span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">order</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">order</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">reflection</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
@@ -667,33 +668,44 @@ document.write(`
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
                 <span class="sa">f</span><span class="s2">&quot;Unexpected </span><span class="si">{</span><span class="n">reflection</span><span class="si">=!r}</span><span class="s2">.  Must be a &#39;Reflection&#39; type.&quot;</span>
             <span class="p">)</span>
-        <span class="k">if</span> <span class="n">reflection</span><span class="o">.</span><span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">replace</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">ReflectionError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;Reflection name </span><span class="si">{</span><span class="n">reflection</span><span class="o">.</span><span class="n">name</span><span class="si">!r}</span><span class="s2"> already defined. &quot;</span>
-                <span class="s2">&quot;Set `replace=True` to replace it.&quot;</span>
-            <span class="p">)</span>
+
+        <span class="c1"># matching content</span>
+        <span class="n">matching</span> <span class="o">=</span> <span class="p">[</span><span class="n">v</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">()</span> <span class="k">if</span> <span class="n">v</span> <span class="o">==</span> <span class="n">reflection</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">reflection</span><span class="o">.</span><span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
+            <span class="c1"># matching name</span>
+            <span class="k">if</span> <span class="n">reflection</span><span class="o">.</span><span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">matching</span><span class="p">:</span>
+                <span class="n">matching</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">reflection</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">replace</span><span class="p">:</span>
+            <span class="c1"># remove ALL matches (name or content matches)</span>
+            <span class="k">for</span> <span class="n">nm</span> <span class="ow">in</span> <span class="n">matching</span><span class="p">:</span>
+                <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">nm</span><span class="p">)</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Replacing known reflection </span><span class="si">%r</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">r</span><span class="p">)</span>
+            <span class="n">matching</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">matching</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>  <span class="c1"># still?</span>
+            <span class="k">if</span> <span class="n">reflection</span><span class="o">.</span><span class="n">name</span> <span class="ow">in</span> <span class="n">matching</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">ReflectionError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;Reflection name </span><span class="si">{</span><span class="n">reflection</span><span class="o">.</span><span class="n">name</span><span class="si">!r}</span><span class="s2"> is known.&quot;</span>
+                    <span class="s2">&quot;  Use &#39;replace=True&#39; to overwrite.&quot;</span>
+                <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">ReflectionError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;Reflection </span><span class="si">{</span><span class="n">reflection</span><span class="si">!r}</span><span class="s2"> matches one or more&quot;</span>
+                    <span class="s2">&quot; existing reflections.  Use &#39;replace=True&#39; to overwrite.&quot;</span>
+                <span class="p">)</span>
+
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">geometry</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">geometry</span> <span class="o">=</span> <span class="n">reflection</span><span class="o">.</span><span class="n">geometry</span>
+
         <span class="k">if</span> <span class="n">reflection</span><span class="o">.</span><span class="n">geometry</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">geometry</span><span class="p">:</span>
             <span class="c1"># fmt: off</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
                 <span class="s2">&quot;geometry does not match previous reflections:&quot;</span>
                 <span class="sa">f</span><span class="s2">&quot; received </span><span class="si">{</span><span class="n">reflection</span><span class="o">.</span><span class="n">geometry</span><span class="si">!r}</span><span class="s2">&quot;</span>
                 <span class="sa">f</span><span class="s2">&quot; previous: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">geometry</span><span class="si">!r}</span><span class="s2">.&quot;</span>
-            <span class="p">)</span>
+            <span class="p">)</span></div>
+
             <span class="c1"># fmt: on</span>
-
-        <span class="c1"># Compare with all existing reflections for duplicate contents.</span>
-        <span class="n">this</span> <span class="o">=</span> <span class="n">reflection</span><span class="o">.</span><span class="n">_asdict</span><span class="p">()</span>
-        <span class="n">this</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">)</span>  <span class="c1"># might use a different name</span>
-        <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
-            <span class="n">existing</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">_asdict</span><span class="p">()</span>
-            <span class="n">existing</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">compare_float_dicts</span><span class="p">(</span><span class="n">this</span><span class="p">,</span> <span class="n">existing</span><span class="p">):</span>
-                <span class="k">raise</span> <span class="n">ReflectionError</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">&quot;Reflection </span><span class="si">{</span><span class="n">reflection</span><span class="si">!r}</span><span class="s2"> matches existing </span><span class="si">{</span><span class="n">v</span><span class="o">.</span><span class="n">name</span><span class="si">!r}</span><span class="s2">&quot;</span>
-                <span class="p">)</span></div>
-
 
     <span class="c1"># ---- get/set properties</span>
 

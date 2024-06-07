@@ -39,7 +39,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=3ee479438cf8b5e0d341" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=3ee479438cf8b5e0d341"></script>
 
-    <script src="../_static/documentation_options.js?v=cf8d41ab"></script>
+    <script src="../_static/documentation_options.js?v=9eb70a84"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
@@ -354,11 +354,23 @@ document.write(`
                   
   <section id="How-to-set-the-UB-matrix-directly">
 <h1>How to set the UB matrix directly<a class="headerlink" href="#How-to-set-the-UB-matrix-directly" title="Link to this heading">#</a></h1>
+<p><strong>NOTE</strong>: work-in-progress</p>
 <p><span class="math notranslate nohighlight">\(UB\)</span> is the 3x3 orientation matrix used to transform coordinates between reciprocal space directions (of the crystal lattice planes) and the rotational axes of the diffractometer.</p>
-<p>It is possible to set <span class="math notranslate nohighlight">\(UB\)</span> directly. That will be described here. Alternatively, <span class="math notranslate nohighlight">\(UB\)</span> can be calculated from two non-parallel reflections, using the method of Busing and Levy (<em>Acta Cryst</em> <strong>22</strong> (1967) 457).</p>
-<section id="Create-a-diffractometer-object">
-<h2>Create a diffractometer object<a class="headerlink" href="#Create-a-diffractometer-object" title="Link to this heading">#</a></h2>
-<p>First, create a diffractometer object that uses the <code class="docutils literal notranslate"><span class="pre">&quot;hkl_soleil&quot;</span></code> solver with the <code class="docutils literal notranslate"><span class="pre">&quot;hkl&quot;</span></code> computation engine. This solver provides support for many diffractometer geometries. This example will use the simulated 4-circle geometry <code class="docutils literal notranslate"><span class="pre">&quot;E4CV&quot;</span></code>.</p>
+<p>It is possible to set <span class="math notranslate nohighlight">\(UB\)</span> directly, as shown next. Alternatively, <span class="math notranslate nohighlight">\(UB\)</span> can be calculated from two non-parallel reflections, using the method of Busing and Levy (<em>Acta Cryst</em> <strong>22</strong> (1967) 457).</p>
+<section id="Set-UB">
+<h2>Set UB<a class="headerlink" href="#Set-UB" title="Link to this heading">#</a></h2>
+<p>For a diffractometer object named <code class="docutils literal notranslate"><span class="pre">diffractometer</span></code>, set <span class="math notranslate nohighlight">\(UB\)</span> at <code class="docutils literal notranslate"><span class="pre">diffractometer.operator.solver.UB</span></code>, such as:</p>
+<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="n">diffractometer</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">UB</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">[</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">6.24</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">],</span>
+    <span class="p">[</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">6.24</span><span class="p">],</span>
+    <span class="p">[</span><span class="o">-</span><span class="mf">6.24</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">],</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+</section>
+<section id="Working-example">
+<h2>Working example<a class="headerlink" href="#Working-example" title="Link to this heading">#</a></h2>
+<p>First, create a diffractometer object that uses the <code class="docutils literal notranslate"><span class="pre">&quot;hkl_soleil&quot;</span></code> solver with the <code class="docutils literal notranslate"><span class="pre">&quot;hkl&quot;</span></code> computation engine. This solver provides support for many diffractometer geometries. This example will use the simulated 4-circle geometry from the solver’s <code class="docutils literal notranslate"><span class="pre">&quot;E4CV&quot;</span></code>.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
@@ -389,8 +401,9 @@ document.write(`
 Sample(name=&#39;cubic&#39;, lattice=Lattice(a=1, b=1, c=1, alpha=90.0, beta=90.0, gamma=90.0))
 </pre></div></div>
 </div>
-<p><span class="math notranslate nohighlight">\(U\)</span> is the orientation of the crystal lattice as mounted on the diffractometer sample holder. The default is to assume <span class="math notranslate nohighlight">\(U=I\)</span>, where <span class="math notranslate nohighlight">\(I\)</span> is the 3x3 identity matrix.</p>
-<p><span class="math notranslate nohighlight">\(U\)</span> is provided by the <em>solver</em>, in this case <code class="docutils literal notranslate"><span class="pre">&quot;hkl_soleil&quot;</span></code>. From the diffractometer object, <span class="math notranslate nohighlight">\(U\)</span> is accessed through a couple software layers:</p>
+<p>This is the sample the solver will be using.</p>
+<p><span class="math notranslate nohighlight">\(U\)</span> is the orientation of the sample’s crystal lattice as mounted on the diffractometer sample holder. The default is to assume <span class="math notranslate nohighlight">\(U=I\)</span>, where <span class="math notranslate nohighlight">\(I\)</span> is the 3x3 identity matrix.</p>
+<p><span class="math notranslate nohighlight">\(U\)</span> is provided by the <em>solver</em>, in this case <code class="docutils literal notranslate"><span class="pre">&quot;hkl_soleil&quot;</span></code>. From the diffractometer object, the solver’s default sample <span class="math notranslate nohighlight">\(U\)</span> is accessed through a couple software layers:</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
@@ -496,9 +509,11 @@ SimulatedE4CVPseudoPos(h=-1.003252265133, k=0.993463529784, l=-1.003252265133)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">e4cv</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">UB</span> <span class="o">=</span> <span class="p">[[</span><span class="mf">0.545455316412</span><span class="p">,</span> <span class="o">-</span><span class="mf">6.239788968842</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.495930309978</span><span class="p">],</span>
- <span class="p">[</span><span class="o">-</span><span class="mf">0.547615630691</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.543471652084</span><span class="p">,</span> <span class="mf">6.235639164201</span><span class="p">],</span>
- <span class="p">[</span><span class="o">-</span><span class="mf">6.235463558747</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.498103654451</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.591011669061</span><span class="p">]]</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">e4cv</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">UB</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">[</span><span class="mf">0.545455316412</span><span class="p">,</span> <span class="o">-</span><span class="mf">6.239788968842</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.495930309978</span><span class="p">],</span>
+    <span class="p">[</span><span class="o">-</span><span class="mf">0.547615630691</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.543471652084</span><span class="p">,</span> <span class="mf">6.235639164201</span><span class="p">],</span>
+    <span class="p">[</span><span class="o">-</span><span class="mf">6.235463558747</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.498103654451</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.591011669061</span><span class="p">]</span>
+<span class="p">]</span>
 <span class="n">e4cv</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">UB</span>
 </pre></div>
 </div>
@@ -568,6 +583,7 @@ SimulatedE4CVRealPos(omega=-59.999921375969, chi=-28.211225311916, phi=40.202361
 </pre></div></div>
 </div>
 <hr class="docutils" />
+<p>This is for another howto</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
@@ -619,7 +635,7 @@ SimulatedE4CVRealPos(omega=-150.000014867083, chi=4.999999955784, phi=-4.9992972
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">e4cv</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
@@ -627,16 +643,16 @@ SimulatedE4CVRealPos(omega=-150.000014867083, chi=4.999999955784, phi=-4.9992972
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-SimulatedE4CVRealPos(omega=-120.000001764592, chi=-34.931775550704, phi=-44.822655357006, tth=119.999996470815)
+SimulatedE4CVRealPos(omega=-120.000001897699, chi=-34.931775605417, phi=-44.822655370896, tth=119.999996204601)
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">r004</span> <span class="o">=</span> <span class="n">e4cv</span><span class="o">.</span><span class="n">add_reflection</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="o">-</span><span class="mi">120</span><span class="p">,</span> <span class="o">-</span><span class="mi">35</span><span class="p">,</span> <span class="o">-</span><span class="mi">45</span><span class="p">,</span> <span class="mi">120</span><span class="p">))</span>
@@ -704,7 +720,8 @@ e4cv.sample=Sample(name=&#39;cubic&#39;, lattice=Lattice(a=0.8954, b=0.9552, c=0
   </div>
   <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Create-a-diffractometer-object">Create a diffractometer object</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Set-UB">Set UB</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Working-example">Working example</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Defaults">Defaults</a></li>
 </ul>
 </li>
