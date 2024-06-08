@@ -34,11 +34,9 @@ hklpy2
 
    Close-up view of world’s largest crystal structure model (an FCC ball
    & stick model), as displayed at the 2017 IUCr 24th International
-   Congress, Hyderabad, India). :see:`https://worldrecord.r-krickl.com/en/`
+   Congress, Hyderabad, India). Creator: `R. Krickl <https://worldrecord.r-krickl.com/en/>`_
 
    Note several high symmetry axes.
-
-   .. seealso:: https://worldrecord.r-krickl.com/en/
 
 .. _about:
 
