@@ -1,10 +1,13 @@
 .. include:: /substitutions.txt
 
-..  The glossary is formatted as a reST definition list.
+..  The glossary is formatted as a reST "definition list".
     Follow the pattern.
 
-    All glossary entries should be preceded by a
-    defining index entry with the same name.
+    All glossary entries should be preceded by
+    index entries.  Follow the pattern.
+
+.. index:: !definition
+.. index:: see: glossary; definition
 
 .. _glossary:
 
