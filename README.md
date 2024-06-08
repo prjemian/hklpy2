@@ -9,6 +9,8 @@ NOTE:  this project at initial development
 2nd generation controls for using diffractometers within the [Bluesky
 Framework](https://blueskyproject.io).
 
+[![FCC ball&stick](/docs/source/_static/fcc-ball-and-stick.jpg)](https://worldrecord.r-krickl.com/en/)
+
 ![API diagram](/docs/source/_static/hklpy2-block-diagram.png)
 
 ## About

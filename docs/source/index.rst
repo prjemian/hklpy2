@@ -11,6 +11,18 @@ hklpy2
 
 .. caution:: Development in progress.
 
+.. figure:: _static/fcc-ball-and-stick.jpg
+   :alt: FCC ball & stick model (2017 IUCr 24th International Congress, Hyderabad, India)
+   :scale: 50%
+
+   Close-up view of world’s largest crystal structure model (an FCC ball
+   & stick model), as displayed at the 2017 IUCr 24th International
+   Congress, Hyderabad, India).
+
+   Note several high symmetry axes.
+
+   .. seealso:: https://worldrecord.r-krickl.com/en/
+
 .. toctree::
    :glob:
    :hidden:
