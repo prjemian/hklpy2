@@ -32,15 +32,16 @@ Glossary
 ..  index:: !diffractometer, definition; diffractometer
 
 :diffractometer:
-  Diffractometers are mechanical systems used in studies of the stucture
-  of crystalline substances.
+  Diffractometers, mechanical systems of *real* space rotation axes, are used in
+  studies of the stucture of crystalline *samples*.  The structural features of
+  interest are usually expressed in terms of reciprocal space (*pseudo*) axes.
 
   A diffractometer is a type of *goniometer*.  Generally, a diffractometer
-  consists of two stacks of rotation axes, used to control the position and
-  *orientation* of a crystalline sample and a detector.  When the sample is
-  exposed to a controlled radiation source, the detector is positioned to
-  measure the intensity of radiation scattered by the sample into specific
-  directions.
+  consists of two stacks of rotation axes, used to control the *orientation* of
+  a crystalline *sample* and a *detector*.  In a study, while the sample is
+  oriented and exposed to a controlled radiation source, the detector is
+  oriented to measure the intensity of radiation diffracted by the sample in
+  specific directions.
 
 ..  index:: !engine, definition; engine
 
