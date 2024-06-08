@@ -141,11 +141,16 @@ Glossary
 
 :UB: Orientation matrix (3 x 3).  
 
-  :math:`U` is the orientation matrix of the crystal lattice as mounted on the
+  :math:`U` 
+    Orientation matrix of the crystal lattice as mounted on the
     diffractometer sample holder.
   
-  :math:`B` is the transition matrix of a non-orthonormal
+  :math:`B` 
+    Transition matrix of a non-orthonormal
     (the reciprocal of the crystal) in an orthonormal system.
+
+  :math:`UB` 
+    Orientation matrix of the crystal lattice in the laboratory reference frame.
 
 ..  index:: !wavelength, definition; wavelength
 
