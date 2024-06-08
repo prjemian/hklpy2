@@ -32,13 +32,15 @@ Glossary
 ..  index:: !diffractometer, definition; diffractometer
 
 :diffractometer:
-  A *goniometer*.
-  The mechanical system of stacked rotation axes used to control a
-  sample's crystalline *orientation* and a detector position for
-  scientific measurements.
+  Diffractometers are mechanical systems used in studies of the stucture
+  of crystalline substances.
 
-  Generally, there are two stacks, one which controls the *sample* position,
-  the other for the *detector* position.
+  A diffractometer is a type of *goniometer*.  Generally, a diffractometer
+  consists of two stacks of rotation axes, used to control the position and
+  *orientation* of a crystalline sample and a detector.  When the sample is
+  exposed to a controlled radiation source, the detector is positioned to
+  measure the intensity of radiation scattered by the sample into specific
+  directions.
 
 ..  index:: !engine, definition; engine
 
