@@ -70,7 +70,7 @@ Glossary
 
 ..  index:: !goniometer, definition; goniometer
 
-:goniometer: Instrument which allows an object to be rotated to 
+:goniometer: Instrument which allows an object to be rotated to
   a precise angular position.
 
 ..  index:: !lattice, definition; lattice
@@ -95,7 +95,7 @@ Glossary
   :class:`~hklpy2.diffract.DiffractometerBase` (user-facing code) and a
   :class:`~hklpy2.backends.base.SolverBase`.
 
-  Connects a *diffractometer* with  a |solver| library and 
+  Connects a *diffractometer* with  a |solver| library and
   one of its *geometries*.
 
 ..  index:: !orientation, definition; orientation
@@ -125,7 +125,7 @@ Glossary
 
 :sample: The named substance to be explored with the *diffractometer*.
   In |hklpy2|, a sample has a *lattice* and list of *reflections*.
-  
+
   The *axes* in a sample's *reflections* are specific to the *diffractometer*
   *geometry*.
   Consequently, the sample is defined for a specific |solver| and
@@ -139,18 +139,16 @@ Glossary
 
 ..  index:: !UB, definition; UB; !U, definition; !U
 
-:UB: Orientation matrix (3 x 3).  
+:UB: Orientation matrix (3 x 3).
 
-  :math:`U` 
-    Orientation matrix of the crystal lattice as mounted on the
-    diffractometer sample holder.
-  
-  :math:`B` 
-    Transition matrix of a non-orthonormal
-    (the reciprocal of the crystal) in an orthonormal system.
+  :math:`U` Orientation matrix
+    of the crystal lattice as mounted on the diffractometer sample holder.
 
-  :math:`UB` 
-    Orientation matrix of the crystal lattice in the laboratory reference frame.
+  :math:`B` Transition matrix
+    of a non-orthonormal (the reciprocal of the crystal) in an orthonormal system.
+
+  :math:`UB` Orientation matrix
+    of the crystal lattice in the laboratory reference frame.
 
 ..  index:: !wavelength, definition; wavelength
 
