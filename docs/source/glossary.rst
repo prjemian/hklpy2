@@ -6,13 +6,16 @@
     All glossary entries should be preceded by a
     defining index entry with the same name.
 
-    In a definition, emphasize (wrap with '*') other glossary entries.
-
 .. _glossary:
 
 ==========
 Glossary
 ==========
+
+.. sidebar:: Italics
+
+    *Italics* are used in these definitions to identify
+    other glossary entries.
 
 ..  index:: !axis, definition; axis
 
@@ -25,6 +28,11 @@ Glossary
   ordered lists of the *axis* names, dictionaries of *samples*
   (with *lattice* & *reflection(s)*).
 
+..  index:: !crystal, definition; crystal
+
+:crystal: A homogeneous substance composed from a repeating three-dimensional
+  pattern.  The pattern (*unit cell*) is characterized by its *lattice*.
+
 ..  index:: !detector, definition; detector
 
 :detector: Measures the intensity of diffracted radiation from the sample.
@@ -33,12 +41,12 @@ Glossary
 
 :diffractometer:
   Diffractometers, mechanical systems of *real* space rotation axes, are used in
-  studies of the stucture of crystalline *samples*.  The structural features of
+  studies of the stucture of *crystalline* *samples*.  The structural features of
   interest are usually expressed in terms of reciprocal space (*pseudo*) axes.
 
   A diffractometer is a type of *goniometer*.  Generally, a diffractometer
   consists of two stacks of rotation axes, used to control the *orientation* of
-  a crystalline *sample* and a *detector*.  In a study, while the sample is
+  a *crystalline* *sample* and a *detector*.  In a study, while the sample is
   oriented and exposed to a controlled radiation source, the detector is
   oriented to measure the intensity of radiation diffracted by the sample in
   specific directions.
@@ -70,16 +78,19 @@ Glossary
 
 ..  index:: !goniometer, definition; goniometer
 
-:goniometer: Instrument which allows an object to be rotated to
+:goniometer: Mechanical system which allows an object to be rotated to
   a precise angular position.
 
 ..  index:: !lattice, definition; lattice
 
-:lattice: Lattice parameters of a crystalline *sample*.
+:lattice: Characteristic dimensions of the parallelepiped representing the
+  *sample* *crystal* structure.  For a three-dimensional crystal, the lengths of
+  each side of the lattice are :math:`a`, :math:`b`, & :math:`c`, the angles
+  between the sides are :math:`\alpha`, :math:`\beta`, & :math:`\gamma`
 
 ..  index:: !mode, definition; mode
 
-:mode: Diffractometer geometry operation mode for :meth:`forward()`.
+:mode: *Diffractometer* *geometry* operation mode for :meth:`forward()`.
 
   A *mode* (implemented by a |solver|), defines which axes will be modified by the
   :meth:`forward()` computation.
@@ -91,7 +102,7 @@ Glossary
 
 ..  index:: !operator, definition; operator
 
-:operator: The intermediate software adapter layer between
+:operator: The intermediate software adapter layer in |hklpy2| between
   :class:`~hklpy2.diffract.DiffractometerBase` (user-facing code) and a
   :class:`~hklpy2.backends.base.SolverBase`.
 
@@ -100,14 +111,14 @@ Glossary
 
 ..  index:: !orientation, definition; orientation
 
-:orientation: Positioning of a crystalline sample's atomic planes
+:orientation: Positioning of a *crystalline* sample's atomic planes
   (identified by a set of *pseudos*) within the laboratory reference
   frame (described by the *reals*).
 
 ..  index:: !pseudo, definition; pseudo
 
 :pseudo: Reciprocal-space axis, such as :math:`h`, :math:`k`, and :math:`l`.
-  The engineering units (rarely examined for crystalline work) are reciprocal
+  The engineering units (rarely examined for *crystalline* work) are reciprocal
   of the *wavelength* units.
 
 ..  index:: !real, definition; real
@@ -118,16 +129,20 @@ Glossary
 
 ..  index:: !reflection, definition; reflection
 
-:reflection: User-identified coordinates: (*pseudos*, *reals*, *wavelength*).
-  Used to orient a *sample* with a specific *diffractometer* geometry.
+:reflection: User-identified coordinates serving as a fiducial reference
+  associating crystal orientation (reciprocal space, *pseudos*) and rotational
+  axes (real space, *reals*). Reflections are used to orient a *sample* with a
+  specific *diffractometer* geometry. In |hklpy2|, a reflection has a name, a
+  set of *pseudos*, a set of *reals*, and a *wavelength*.
 
 ..  index:: !sample, definition; sample
 
 :sample: The named substance to be explored with the *diffractometer*.
-  In |hklpy2|, a sample has a *lattice* and list of *reflections*.
+  In |hklpy2|, a sample has a name, a *lattice*, and a list of *reflections*.
 
   The *axes* in a sample's *reflections* are specific to the *diffractometer*
   *geometry*.
+
   Consequently, the sample is defined for a specific |solver| and
   *geometry*.  The same sample cannot be used for other geometries.
 
@@ -142,17 +157,22 @@ Glossary
 :UB: Orientation matrix (3 x 3).
 
   :math:`U` Orientation matrix
-    of the crystal lattice as mounted on the diffractometer sample holder.
+    of the *crystal* *lattice* as mounted on the *diffractometer* *sample* holder.
 
   :math:`B` Transition matrix
     of a non-orthonormal (the reciprocal of the crystal) in an orthonormal system.
 
   :math:`UB` Orientation matrix
-    of the crystal lattice in the laboratory reference frame.
+    of the *crystal* *lattice* in the laboratory reference frame.
+
+..  index:: !unit cell, definition; unit cell
+
+:unit cell: The parallelepiped representing the repeating structural pattern
+  of the *crystal*, characterized by its *lattice* parameters.
 
 ..  index:: !wavelength, definition; wavelength
 
 :wavelength: The numerical value of the wavelength of the incident radiation.
   The radiation is expected to be *monochromatic* neutrons or X-rays.
   The engineering units of wavelength must be identical to those of the
-  crystalline lattice length parameters: :math:`a`, :math:`b`, & :math:`c`.
+  *crystalline* *lattice* length parameters.
