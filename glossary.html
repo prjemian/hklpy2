@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=3ee479438cf8b5e0d341" />
   <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=3ee479438cf8b5e0d341"></script>
 
-    <script src="_static/documentation_options.js?v=19c9711e"></script>
+    <script src="_static/documentation_options.js?v=5e07fd6b"></script>
     <script src="_static/doctools.js?v=9a2dae69"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/design-tabs.js?v=f930bc37"></script>
@@ -350,6 +350,11 @@ document.write(`
                   
   <section id="glossary">
 <span id="id1"></span><h1>Glossary<a class="headerlink" href="#glossary" title="Link to this heading">#</a></h1>
+<aside class="sidebar">
+<p class="sidebar-title">Italics</p>
+<p><em>Italics</em> are used in these definitions to identify
+other glossary entries.</p>
+</aside>
 <dl class="field-list simple" id="index-0">
 <dt class="field-odd">axis<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Either a <em>pseudo</em>, <em>real</em>, or <em>extra</em>.</p>
@@ -364,24 +369,30 @@ ordered lists of the <em>axis</em> names, dictionaries of <em>samples</em>
 </dd>
 </dl>
 <dl class="field-list simple" id="index-2">
+<dt class="field-odd">crystal<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A homogeneous substance composed from a repeating three-dimensional
+pattern.  The pattern (<em>unit cell</em>) is characterized by its <em>lattice</em>.</p>
+</dd>
+</dl>
+<dl class="field-list simple" id="index-3">
 <dt class="field-odd">detector<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Measures the intensity of diffracted radiation from the sample.</p>
 </dd>
 </dl>
-<dl class="field-list" id="index-3">
+<dl class="field-list" id="index-4">
 <dt class="field-odd">diffractometer<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Diffractometers, mechanical systems of <em>real</em> space rotation axes, are used in
-studies of the stucture of crystalline <em>samples</em>.  The structural features of
+studies of the stucture of <em>crystalline</em> <em>samples</em>.  The structural features of
 interest are usually expressed in terms of reciprocal space (<em>pseudo</em>) axes.</p>
 <p>A diffractometer is a type of <em>goniometer</em>.  Generally, a diffractometer
 consists of two stacks of rotation axes, used to control the <em>orientation</em> of
-a crystalline <em>sample</em> and a <em>detector</em>.  In a study, while the sample is
+a <em>crystalline</em> <em>sample</em> and a <em>detector</em>.  In a study, while the sample is
 oriented and exposed to a controlled radiation source, the detector is
 oriented to measure the intensity of radiation diffracted by the sample in
 specific directions.</p>
 </dd>
 </dl>
-<dl class="field-list simple" id="index-4">
+<dl class="field-list simple" id="index-5">
 <dt class="field-odd">engine<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Some <strong>Solver</strong> libraries provide coordinate transformations
 between <em>real</em> axes and different types of <em>pseudo</em> axes,
@@ -390,7 +401,7 @@ an engine for each separate type of transformation (and related
 <em>pseudos</em>).</p>
 </dd>
 </dl>
-<dl class="field-list simple" id="index-5">
+<dl class="field-list simple" id="index-6">
 <dt class="field-odd">extra<span class="colon">:</span></dt>
 <dd class="field-odd"><p>An additional axis used by a <strong>Solver</strong> for operation of
 a <em>diffractometer</em>.
@@ -399,7 +410,7 @@ diffraction vector, <span class="math notranslate nohighlight">\((h_2,k_2,l_2)\)
 <code class="docutils literal notranslate"><span class="pre">&quot;h2&quot;,</span> <span class="pre">&quot;k2&quot;,</span> <span class="pre">&quot;l2&quot;,</span> <span class="pre">&quot;psi&quot;</span></code>.</p>
 </dd>
 </dl>
-<dl class="field-list simple" id="index-6">
+<dl class="field-list simple" id="index-7">
 <dt class="field-odd">geometry<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The set of <em>reals</em> (stacked rotation angles) which
 define a specific <em>diffractometer</em>.
@@ -409,102 +420,114 @@ For example, the <a class="reference internal" href="api/geom.html#hklpy2.geom.E
 In some shorthand reference, this is called “S3D1”.</p>
 </dd>
 </dl>
-<dl class="field-list simple" id="index-7">
+<dl class="field-list simple" id="index-8">
 <dt class="field-odd">goniometer<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Instrument which allows an object to be rotated to
+<dd class="field-odd"><p>Mechanical system which allows an object to be rotated to
 a precise angular position.</p>
 </dd>
 </dl>
-<dl class="field-list simple" id="index-8">
+<dl class="field-list simple" id="index-9">
 <dt class="field-odd">lattice<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Lattice parameters of a crystalline <em>sample</em>.</p>
+<dd class="field-odd"><p>Characteristic dimensions of the parallelepiped representing the
+<em>sample</em> <em>crystal</em> structure.  For a three-dimensional crystal, the lengths of
+each side of the lattice are <span class="math notranslate nohighlight">\(a\)</span>, <span class="math notranslate nohighlight">\(b\)</span>, &amp; <span class="math notranslate nohighlight">\(c\)</span>, the angles
+between the sides are <span class="math notranslate nohighlight">\(\alpha\)</span>, <span class="math notranslate nohighlight">\(\beta\)</span>, &amp; <span class="math notranslate nohighlight">\(\gamma\)</span></p>
 </dd>
 </dl>
-<dl class="field-list" id="index-9">
+<dl class="field-list" id="index-10">
 <dt class="field-odd">mode<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Diffractometer geometry operation mode for <code class="xref py py-meth docutils literal notranslate"><span class="pre">forward()</span></code>.</p>
+<dd class="field-odd"><p><em>Diffractometer</em> <em>geometry</em> operation mode for <code class="xref py py-meth docutils literal notranslate"><span class="pre">forward()</span></code>.</p>
 <p>A <em>mode</em> (implemented by a <strong>Solver</strong>), defines which axes will be modified by the
 <code class="xref py py-meth docutils literal notranslate"><span class="pre">forward()</span></code> computation.</p>
 </dd>
 </dl>
-<dl class="field-list simple" id="index-10">
+<dl class="field-list simple" id="index-11">
 <dt class="field-odd">monochromatic<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Radiation of a single wavelength.  Or sufficiently narrow
 range, such that it may be characterized by a single floating point value.</p>
 </dd>
 </dl>
-<dl class="field-list" id="index-11">
+<dl class="field-list" id="index-12">
 <dt class="field-odd">operator<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The intermediate software adapter layer between
+<dd class="field-odd"><p>The intermediate software adapter layer in <strong>hklpy2</strong> between
 <a class="reference internal" href="api/diffract.html#hklpy2.diffract.DiffractometerBase" title="hklpy2.diffract.DiffractometerBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">DiffractometerBase</span></code></a> (user-facing code) and a
 <a class="reference internal" href="api/backends/base.html#hklpy2.backends.base.SolverBase" title="hklpy2.backends.base.SolverBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">SolverBase</span></code></a>.</p>
 <p>Connects a <em>diffractometer</em> with  a <strong>Solver</strong> library and
 one of its <em>geometries</em>.</p>
 </dd>
 </dl>
-<dl class="field-list simple" id="index-12">
+<dl class="field-list simple" id="index-13">
 <dt class="field-odd">orientation<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Positioning of a crystalline sample’s atomic planes
+<dd class="field-odd"><p>Positioning of a <em>crystalline</em> sample’s atomic planes
 (identified by a set of <em>pseudos</em>) within the laboratory reference
 frame (described by the <em>reals</em>).</p>
 </dd>
 </dl>
-<dl class="field-list simple" id="index-13">
+<dl class="field-list simple" id="index-14">
 <dt class="field-odd">pseudo<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Reciprocal-space axis, such as <span class="math notranslate nohighlight">\(h\)</span>, <span class="math notranslate nohighlight">\(k\)</span>, and <span class="math notranslate nohighlight">\(l\)</span>.
-The engineering units (rarely examined for crystalline work) are reciprocal
+The engineering units (rarely examined for <em>crystalline</em> work) are reciprocal
 of the <em>wavelength</em> units.</p>
 </dd>
 </dl>
-<dl class="field-list simple" id="index-14">
+<dl class="field-list simple" id="index-15">
 <dt class="field-odd">real<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Real-space axis (typically a rotation stage),
 such as <code class="docutils literal notranslate"><span class="pre">omega</span></code> (<span class="math notranslate nohighlight">\(\omega\)</span>).
 The engineering units are expected to be in <strong>degrees</strong>.</p>
 </dd>
 </dl>
-<dl class="field-list simple" id="index-15">
+<dl class="field-list simple" id="index-16">
 <dt class="field-odd">reflection<span class="colon">:</span></dt>
-<dd class="field-odd"><p>User-identified coordinates: (<em>pseudos</em>, <em>reals</em>, <em>wavelength</em>).
-Used to orient a <em>sample</em> with a specific <em>diffractometer</em> geometry.</p>
+<dd class="field-odd"><p>User-identified coordinates serving as a fiducial reference
+associating crystal orientation (reciprocal space, <em>pseudos</em>) and rotational
+axes (real space, <em>reals</em>). Reflections are used to orient a <em>sample</em> with a
+specific <em>diffractometer</em> geometry. In <strong>hklpy2</strong>, a reflection has a name, a
+set of <em>pseudos</em>, a set of <em>reals</em>, and a <em>wavelength</em>.</p>
 </dd>
 </dl>
-<dl class="field-list" id="index-16">
+<dl class="field-list" id="index-17">
 <dt class="field-odd">sample<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The named substance to be explored with the <em>diffractometer</em>.
-In <strong>hklpy2</strong>, a sample has a <em>lattice</em> and list of <em>reflections</em>.</p>
+In <strong>hklpy2</strong>, a sample has a name, a <em>lattice</em>, and a list of <em>reflections</em>.</p>
 <p>The <em>axes</em> in a sample’s <em>reflections</em> are specific to the <em>diffractometer</em>
-<em>geometry</em>.
-Consequently, the sample is defined for a specific <strong>Solver</strong> and
+<em>geometry</em>.</p>
+<p>Consequently, the sample is defined for a specific <strong>Solver</strong> and
 <em>geometry</em>.  The same sample cannot be used for other geometries.</p>
 </dd>
 </dl>
-<dl class="field-list simple" id="index-17">
+<dl class="field-list simple" id="index-18">
 <dt class="field-odd">solver<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Backend <strong>Solver</strong> library.  Provides computations to transform
 coordinates between <em>pseudo</em> and <em>real</em> axes for a defined
 <em>diffractometer</em> <em>geometry</em>.</p>
 </dd>
 </dl>
-<dl class="field-list" id="index-18">
+<dl class="field-list" id="index-19">
 <dt class="field-odd">UB<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Orientation matrix (3 x 3).</p>
 <dl class="simple">
-<dt><span class="math notranslate nohighlight">\(U\)</span> Orientation matrix</dt><dd><p>of the crystal lattice as mounted on the diffractometer sample holder.</p>
+<dt><span class="math notranslate nohighlight">\(U\)</span> Orientation matrix</dt><dd><p>of the <em>crystal</em> <em>lattice</em> as mounted on the <em>diffractometer</em> <em>sample</em> holder.</p>
 </dd>
 <dt><span class="math notranslate nohighlight">\(B\)</span> Transition matrix</dt><dd><p>of a non-orthonormal (the reciprocal of the crystal) in an orthonormal system.</p>
 </dd>
-<dt><span class="math notranslate nohighlight">\(UB\)</span> Orientation matrix</dt><dd><p>of the crystal lattice in the laboratory reference frame.</p>
+<dt><span class="math notranslate nohighlight">\(UB\)</span> Orientation matrix</dt><dd><p>of the <em>crystal</em> <em>lattice</em> in the laboratory reference frame.</p>
 </dd>
 </dl>
 </dd>
 </dl>
-<dl class="field-list simple" id="index-19">
+<dl class="field-list simple" id="index-20">
+<dt class="field-odd">unit cell<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The parallelepiped representing the repeating structural pattern
+of the <em>crystal</em>, characterized by its <em>lattice</em> parameters.</p>
+</dd>
+</dl>
+<dl class="field-list simple" id="index-21">
 <dt class="field-odd">wavelength<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The numerical value of the wavelength of the incident radiation.
 The radiation is expected to be <em>monochromatic</em> neutrons or X-rays.
 The engineering units of wavelength must be identical to those of the
-crystalline lattice length parameters: <span class="math notranslate nohighlight">\(a\)</span>, <span class="math notranslate nohighlight">\(b\)</span>, &amp; <span class="math notranslate nohighlight">\(c\)</span>.</p>
+<em>crystalline</em> <em>lattice</em> length parameters.</p>
 </dd>
 </dl>
 </section>
