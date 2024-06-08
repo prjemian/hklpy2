@@ -17,27 +17,37 @@ Glossary
     *Italics* are used in these definitions to identify
     other glossary entries.
 
-..  index:: !axis, definition; axis
+..  index::
+    !definition; axis
+    !axis
 
 :axis: Either a *pseudo*, *real*, or *extra*.
 
-..  index:: !configuration, definition; configuration
+..  index::
+    !definition; configuration
+    !configuration
 
 :configuration: Complete description of a *diffractometer's*
   settings.  Includes *solver*, *geometry* (& *engine*, if applicable),
   ordered lists of the *axis* names, dictionaries of *samples*
   (with *lattice* & *reflection(s)*).
 
-..  index:: !crystal, definition; crystal
+..  index::
+    !definition; crystal
+    !crystal
 
 :crystal: A homogeneous substance composed from a repeating three-dimensional
   pattern.  The pattern (*unit cell*) is characterized by its *lattice*.
 
-..  index:: !detector, definition; detector
+..  index::
+    !definition; detector
+    !detector
 
 :detector: Measures the intensity of diffracted radiation from the sample.
 
-..  index:: !diffractometer, definition; diffractometer
+..  index::
+    !definition; diffractometer
+    !diffractometer
 
 :diffractometer:
   Diffractometers, mechanical systems of *real* space rotation axes, are used in
@@ -51,7 +61,9 @@ Glossary
   oriented to measure the intensity of radiation diffracted by the sample in
   specific directions.
 
-..  index:: !engine, definition; engine
+..  index::
+    !definition; engine
+    !engine
 
 :engine: Some |solver| libraries provide coordinate transformations
   between *real* axes and different types of *pseudo* axes,
@@ -59,7 +71,9 @@ Glossary
   an engine for each separate type of transformation (and related
   *pseudos*).
 
-..  index:: !extra, definition; extra
+..  index::
+    !definition; extra
+    !extra
 
 :extra: An additional axis used by a |solver| for operation of
   a *diffractometer*.
@@ -67,7 +81,9 @@ Glossary
   diffraction vector, :math:`(h_2,k_2,l_2)`, the extra axes are:
   ``"h2", "k2", "l2", "psi"``.
 
-..  index:: !geometry, definition; geometry
+..  index::
+    !definition; geometry
+    !geometry
 
 :geometry: The set of *reals* (stacked rotation angles) which
   define a specific *diffractometer*.
@@ -76,58 +92,76 @@ Glossary
   (``omega``, ``chi``, ``phi``) and 1 detector axis (``tth``).
   In some shorthand reference, this is called "S3D1".
 
-..  index:: !goniometer, definition; goniometer
+..  index::
+    !definition; goniometer
+    !goniometer
 
 :goniometer: Mechanical system which allows an object to be rotated to
   a precise angular position.
 
-..  index:: !lattice, definition; lattice
+..  index::
+    !definition; lattice
+    !lattice
 
 :lattice: Characteristic dimensions of the parallelepiped representing the
   *sample* *crystal* structure.  For a three-dimensional crystal, the lengths of
   each side of the lattice are :math:`a`, :math:`b`, & :math:`c`, the angles
   between the sides are :math:`\alpha`, :math:`\beta`, & :math:`\gamma`
 
-..  index:: !mode, definition; mode
+..  index::
+    !definition; mode
+    !mode
 
 :mode: *Diffractometer* *geometry* operation mode for :meth:`forward()`.
 
   A *mode* (implemented by a |solver|), defines which axes will be modified by the
   :meth:`forward()` computation.
 
-..  index:: !monochromatic, definition; monochromatic
+..  index::
+    !definition; monochromatic
+    !monochromatic
 
 :monochromatic: Radiation of a single wavelength.  Or sufficiently narrow
   range, such that it may be characterized by a single floating point value.
 
-..  index:: !operator, definition; operator
+..  index::
+    !definition; operator
+    !operator
 
-:operator: The intermediate software adapter layer in |hklpy2| between
+:operator: The |hklpy2| intermediate software adapter layer between
   :class:`~hklpy2.diffract.DiffractometerBase` (user-facing code) and a
   :class:`~hklpy2.backends.base.SolverBase`.
 
   Connects a *diffractometer* with  a |solver| library and
   one of its *geometries*.
 
-..  index:: !orientation, definition; orientation
+..  index::
+    !definition; orientation
+    !orientation
 
 :orientation: Positioning of a *crystalline* sample's atomic planes
   (identified by a set of *pseudos*) within the laboratory reference
   frame (described by the *reals*).
 
-..  index:: !pseudo, definition; pseudo
+..  index::
+    !definition; pseudo
+    !pseudo
 
 :pseudo: Reciprocal-space axis, such as :math:`h`, :math:`k`, and :math:`l`.
   The engineering units (rarely examined for *crystalline* work) are reciprocal
   of the *wavelength* units.
 
-..  index:: !real, definition; real
+..  index::
+    !definition; real
+    !real
 
 :real: Real-space axis (typically a rotation stage),
   such as ``omega`` (:math:`\omega`).
   The engineering units are expected to be in **degrees**.
 
-..  index:: !reflection, definition; reflection
+..  index::
+    !definition; reflection
+    !reflection
 
 :reflection: User-identified coordinates serving as a fiducial reference
   associating crystal orientation (reciprocal space, *pseudos*) and rotational
@@ -135,7 +169,9 @@ Glossary
   specific *diffractometer* geometry. In |hklpy2|, a reflection has a name, a
   set of *pseudos*, a set of *reals*, and a *wavelength*.
 
-..  index:: !sample, definition; sample
+..  index::
+    !definition; sample
+    !sample
 
 :sample: The named substance to be explored with the *diffractometer*.
   In |hklpy2|, a sample has a name, a *lattice*, and a list of *reflections*.
@@ -146,13 +182,20 @@ Glossary
   Consequently, the sample is defined for a specific |solver| and
   *geometry*.  The same sample cannot be used for other geometries.
 
-..  index:: !solver, definition; solver
+..  index::
+    !definition; solver
+    !solver
 
-:solver: Backend |solver| library.  Provides computations to transform
-  coordinates between *pseudo* and *real* axes for a defined
-  *diffractometer* *geometry*.
+:solver: The |hklpy2| interface layer to a backend |solver| library, such as
+  |libhkl|. The library provides computations to transform coordinates between
+  *pseudo* and *real* axes for a defined *diffractometer* *geometry*.  The
+  library also provides one or more diffractometer geometries.
 
-..  index:: !UB, definition; UB; !U, definition; !U
+..  index::
+    !U
+    !UB
+    !definition; U
+    !definition; UB
 
 :UB: Orientation matrix (3 x 3).
 
@@ -165,12 +208,16 @@ Glossary
   :math:`UB` Orientation matrix
     of the *crystal* *lattice* in the laboratory reference frame.
 
-..  index:: !unit cell, definition; unit cell
+..  index::
+    !definition; unit cell
+    !unit cell
 
 :unit cell: The parallelepiped representing the repeating structural pattern
   of the *crystal*, characterized by its *lattice* parameters.
 
-..  index:: !wavelength, definition; wavelength
+..  index::
+    !definition; wavelength
+    !wavelength
 
 :wavelength: The numerical value of the wavelength of the incident radiation.
   The radiation is expected to be *monochromatic* neutrons or X-rays.

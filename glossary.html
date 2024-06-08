@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=3ee479438cf8b5e0d341" />
   <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=3ee479438cf8b5e0d341"></script>
 
-    <script src="_static/documentation_options.js?v=5e07fd6b"></script>
+    <script src="_static/documentation_options.js?v=58cff7b9"></script>
     <script src="_static/doctools.js?v=9a2dae69"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/design-tabs.js?v=f930bc37"></script>
@@ -449,7 +449,7 @@ range, such that it may be characterized by a single floating point value.</p>
 </dl>
 <dl class="field-list" id="index-12">
 <dt class="field-odd">operator<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The intermediate software adapter layer in <strong>hklpy2</strong> between
+<dd class="field-odd"><p>The <strong>hklpy2</strong> intermediate software adapter layer between
 <a class="reference internal" href="api/diffract.html#hklpy2.diffract.DiffractometerBase" title="hklpy2.diffract.DiffractometerBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">DiffractometerBase</span></code></a> (user-facing code) and a
 <a class="reference internal" href="api/backends/base.html#hklpy2.backends.base.SolverBase" title="hklpy2.backends.base.SolverBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">SolverBase</span></code></a>.</p>
 <p>Connects a <em>diffractometer</em> with  a <strong>Solver</strong> library and
@@ -498,9 +498,10 @@ In <strong>hklpy2</strong>, a sample has a name, a <em>lattice</em>, and a list 
 </dl>
 <dl class="field-list simple" id="index-18">
 <dt class="field-odd">solver<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Backend <strong>Solver</strong> library.  Provides computations to transform
-coordinates between <em>pseudo</em> and <em>real</em> axes for a defined
-<em>diffractometer</em> <em>geometry</em>.</p>
+<dd class="field-odd"><p>The <strong>hklpy2</strong> interface layer to a backend <strong>Solver</strong> library, such as
+<strong>Hkl/Soleil</strong>. The library provides computations to transform coordinates between
+<em>pseudo</em> and <em>real</em> axes for a defined <em>diffractometer</em> <em>geometry</em>.  The
+library also provides one or more diffractometer geometries.</p>
 </dd>
 </dl>
 <dl class="field-list" id="index-19">
