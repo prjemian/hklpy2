@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=3ee479438cf8b5e0d341" />
   <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=3ee479438cf8b5e0d341"></script>
 
-    <script src="../../_static/documentation_options.js?v=f91d8841"></script>
+    <script src="../../_static/documentation_options.js?v=f1d06faf"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/tabs.js?v=3030b3cb"></script>
@@ -343,6 +343,7 @@ document.write(`
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="s2">&quot;Operations OperationsError&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+<span class="n">DEFAULT_SAMPLE_NAME</span> <span class="o">=</span> <span class="s2">&quot;sample&quot;</span>
 
 
 <div class="viewcode-block" id="OperationsError">
@@ -403,7 +404,7 @@ document.write(`
 
         <span class="k">if</span> <span class="n">default_sample</span><span class="p">:</span>
             <span class="c1"># first sample is cubic, no reflections</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">add_sample</span><span class="p">(</span><span class="s2">&quot;cubic&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">add_sample</span><span class="p">(</span><span class="n">DEFAULT_SAMPLE_NAME</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 
 <div class="viewcode-block" id="Operations.add_reflection">
 <a class="viewcode-back" href="../../api/ops.html#hklpy2.ops.Operations.add_reflection">[docs]</a>
@@ -689,8 +690,12 @@ document.write(`
 
 <div class="viewcode-block" id="Operations.refine_lattice">
 <a class="viewcode-back" href="../../api/ops.html#hklpy2.ops.Operations.refine_lattice">[docs]</a>
-    <span class="k">def</span> <span class="nf">refine_lattice</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reflections</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Refine the sample lattice from 3 or more reflections.&quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">refine_lattice</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reflections</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Lattice</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the sample lattice computed from 3 or more reflections.</span>
+<span class="sd">        </span>
+<span class="sd">        Do not change the sample lattice.  Let the user decide that.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">reflections</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">reflections</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">reflections</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
@@ -698,7 +703,7 @@ document.write(`
             <span class="p">[</span><span class="n">r</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">reflections</span><span class="p">],</span>
         <span class="p">)</span>
         <span class="n">lattice</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">refineLattice</span><span class="p">(</span><span class="n">reflections</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">lattice</span> <span class="o">=</span> <span class="n">lattice</span></div>
+        <span class="k">return</span> <span class="n">lattice</span></div>
 
 
 <div class="viewcode-block" id="Operations.remove_sample">

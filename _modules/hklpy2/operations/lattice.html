@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=3ee479438cf8b5e0d341" />
   <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=3ee479438cf8b5e0d341"></script>
 
-    <script src="../../../_static/documentation_options.js?v=f91d8841"></script>
+    <script src="../../../_static/documentation_options.js?v=f1d06faf"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/tabs.js?v=3030b3cb"></script>
@@ -331,7 +331,9 @@ document.write(`
 <span class="sd">    ~SI_LATTICE_PARAMETER_UNCERTAINTY</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
+<span class="kn">import</span> <span class="nn">enum</span>
 <span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">math</span>
 
 <span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">Hklpy2Error</span>
 <span class="kn">from</span> <span class="nn">.misc</span> <span class="kn">import</span> <span class="n">compare_float_dicts</span>
@@ -351,6 +353,20 @@ document.write(`
 <span class="sd">&quot;&quot;&quot;</span>
 
 
+<span class="n">CrystalSystem</span> <span class="o">=</span> <span class="n">enum</span><span class="o">.</span><span class="n">Enum</span><span class="p">(</span>  <span class="c1"># in order from lowest symmetry</span>
+    <span class="s2">&quot;CrystalSystem&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        triclinic</span>
+<span class="sd">        monoclinic</span>
+<span class="sd">        orthorhombic</span>
+<span class="sd">        tetragonal</span>
+<span class="sd">        rhombohedral</span>
+<span class="sd">        hexagonal</span>
+<span class="sd">        cubic</span>
+<span class="sd">    &quot;&quot;&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">(),</span>
+<span class="p">)</span>
+
+
 <div class="viewcode-block" id="LatticeError">
 <a class="viewcode-back" href="../../../api/lattice.html#hklpy2.operations.lattice.LatticeError">[docs]</a>
 <span class="k">class</span> <span class="nc">LatticeError</span><span class="p">(</span><span class="n">Hklpy2Error</span><span class="p">):</span>
@@ -368,14 +384,16 @@ document.write(`
 
 <span class="sd">    EXAMPLE::</span>
 
-<span class="sd">        import hklpy2</span>
-<span class="sd">        hexagonal = hklpy2.Lattice(4.74, c=9.515, gamma=120)</span>
+<span class="sd">        &gt;&gt;&gt; from hklpy2.operations.lattice import Lattice</span>
+<span class="sd">        &gt;&gt;&gt; Lattice(4.74, c=9.515, gamma=120)</span>
+<span class="sd">        Lattice(a=4.74, c=9.515, gamma=120, system=&#39;hexagonal&#39;)</span>
 
 <span class="sd">    .. autosummary::</span>
 
 <span class="sd">        ~_asdict</span>
 <span class="sd">        ~__eq__</span>
 <span class="sd">        ~__repr__</span>
+<span class="sd">        ~crystal_system</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
@@ -428,10 +446,91 @@ document.write(`
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Standard representation of lattice.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">parameters</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">=</span><span class="si">{</span><span class="nb">round</span><span class="p">(</span><span class="n">v</span><span class="p">,</span><span class="w"> </span><span class="bp">self</span><span class="o">.</span><span class="n">digits</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_asdict</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">()]</span>
+        <span class="n">system</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">crystal_system</span>
+        <span class="n">parms</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;cubic&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;a&quot;</span><span class="p">],</span>
+            <span class="s2">&quot;hexagonal&quot;</span><span class="p">:</span> <span class="s2">&quot;a c gamma&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">(),</span>
+            <span class="s2">&quot;rhombohedral&quot;</span><span class="p">:</span> <span class="s2">&quot;a alpha&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">(),</span>
+            <span class="s2">&quot;tetragonal&quot;</span><span class="p">:</span> <span class="s2">&quot;a c&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">(),</span>
+            <span class="s2">&quot;orthorhombic&quot;</span><span class="p">:</span> <span class="s2">&quot;a b c&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">(),</span>
+            <span class="s2">&quot;monoclinic&quot;</span><span class="p">:</span> <span class="s2">&quot;a b c beta&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">(),</span>
+            <span class="s2">&quot;triclinic&quot;</span><span class="p">:</span> <span class="s2">&quot;a b c alpha beta gamma&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">(),</span>
+        <span class="p">}[</span><span class="n">system</span><span class="p">]</span>
+        <span class="n">parameters</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">=</span><span class="si">{</span><span class="nb">round</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">),</span><span class="w"> </span><span class="bp">self</span><span class="o">.</span><span class="n">digits</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">parms</span><span class="p">]</span>
+        <span class="n">parameters</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">system</span><span class="si">=!r}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="s2">&quot;Lattice(&quot;</span> <span class="o">+</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">parameters</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;)&quot;</span>
 
     <span class="c1"># ---- get/set properties</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">crystal_system</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The crystal system of this lattice.  By inspection of the parameters.</span>
+
+<span class="sd">        .. seealso:: https://dictionary.iucr.org/Crystal_system</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">def</span> <span class="nf">very_close</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">ref</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1e-7</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">math</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">ref</span><span class="p">,</span> <span class="n">abs_tol</span><span class="o">=</span><span class="n">tol</span><span class="p">)</span>
+
+        <span class="k">def</span> <span class="nf">angles</span><span class="p">(</span><span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">gamma</span><span class="p">):</span>
+            <span class="k">return</span> <span class="p">(</span>
+                <span class="n">very_close</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">alpha</span><span class="p">,</span> <span class="n">alpha</span><span class="p">)</span>
+                <span class="ow">and</span> <span class="n">very_close</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">beta</span><span class="p">,</span> <span class="n">beta</span><span class="p">)</span>
+                <span class="ow">and</span> <span class="n">very_close</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">gamma</span><span class="p">,</span> <span class="n">gamma</span><span class="p">)</span>
+            <span class="p">)</span>
+
+        <span class="k">def</span> <span class="nf">edges</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span>
+            <span class="k">return</span> <span class="p">(</span>
+                <span class="n">very_close</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="p">,</span> <span class="n">a</span><span class="p">)</span>
+                <span class="ow">and</span> <span class="n">very_close</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">b</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+                <span class="ow">and</span> <span class="n">very_close</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">c</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
+            <span class="p">)</span>
+
+        <span class="k">def</span> <span class="nf">all_angles</span><span class="p">(</span><span class="n">ref</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">angles</span><span class="p">(</span><span class="n">ref</span><span class="p">,</span> <span class="n">ref</span><span class="p">,</span> <span class="n">ref</span><span class="p">)</span>
+
+        <span class="k">def</span> <span class="nf">all_edges</span><span class="p">(</span><span class="n">ref</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">edges</span><span class="p">(</span><span class="n">ref</span><span class="p">,</span> <span class="n">ref</span><span class="p">,</span> <span class="n">ref</span><span class="p">)</span>
+
+        <span class="c1"># filter by testing symmetry elements from lowest system first</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">very_close</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">alpha</span><span class="p">,</span> <span class="mi">90</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">very_close</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">alpha</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">beta</span>
+        <span class="p">):</span>
+            <span class="c1"># no need to compare alpha != gamma</span>
+            <span class="k">return</span> <span class="n">CrystalSystem</span><span class="o">.</span><span class="n">triclinic</span><span class="o">.</span><span class="n">name</span>
+
+        <span class="k">if</span> <span class="n">very_close</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">alpha</span><span class="p">,</span> <span class="mi">90</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">very_close</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">alpha</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">beta</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">CrystalSystem</span><span class="o">.</span><span class="n">monoclinic</span><span class="o">.</span><span class="n">name</span>
+
+        <span class="k">if</span> <span class="n">all_angles</span><span class="p">(</span><span class="mi">90</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">very_close</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">b</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">CrystalSystem</span><span class="o">.</span><span class="n">orthorhombic</span><span class="o">.</span><span class="n">name</span>
+
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="n">all_angles</span><span class="p">(</span><span class="mi">90</span><span class="p">)</span>
+            <span class="ow">and</span> <span class="n">very_close</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">b</span><span class="p">)</span>
+            <span class="ow">and</span> <span class="ow">not</span> <span class="n">very_close</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">c</span><span class="p">)</span>
+        <span class="p">):</span>
+            <span class="k">return</span> <span class="n">CrystalSystem</span><span class="o">.</span><span class="n">tetragonal</span><span class="o">.</span><span class="n">name</span>
+
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="ow">not</span> <span class="n">very_close</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">alpha</span><span class="p">,</span> <span class="mi">90</span><span class="p">)</span>
+            <span class="ow">and</span> <span class="n">all_angles</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">alpha</span><span class="p">)</span>
+            <span class="ow">and</span> <span class="n">all_edges</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="p">)</span>
+        <span class="p">):</span>
+            <span class="k">return</span> <span class="n">CrystalSystem</span><span class="o">.</span><span class="n">rhombohedral</span><span class="o">.</span><span class="n">name</span>
+
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="n">angles</span><span class="p">(</span><span class="mi">90</span><span class="p">,</span> <span class="mi">90</span><span class="p">,</span> <span class="mi">120</span><span class="p">)</span>
+            <span class="ow">and</span> <span class="n">very_close</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">b</span><span class="p">)</span>
+            <span class="ow">and</span> <span class="ow">not</span> <span class="n">very_close</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">c</span><span class="p">)</span>
+        <span class="p">):</span>
+            <span class="k">return</span> <span class="n">CrystalSystem</span><span class="o">.</span><span class="n">hexagonal</span><span class="o">.</span><span class="n">name</span>
+
+        <span class="k">if</span> <span class="n">all_angles</span><span class="p">(</span><span class="mi">90</span><span class="p">)</span> <span class="ow">and</span> <span class="n">all_edges</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">CrystalSystem</span><span class="o">.</span><span class="n">cubic</span><span class="o">.</span><span class="n">name</span>
+
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unrecognized crystal system: </span><span class="si">{</span><span class="bp">self</span><span class="si">=!r}</span><span class="s2">&quot;</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">digits</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>

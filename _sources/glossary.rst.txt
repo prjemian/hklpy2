@@ -215,8 +215,8 @@ Glossary
     !definition; unit cell
     !unit cell
 
-:unit cell: The parallelepiped representing the repeating structural pattern
-  of the *crystal*, characterized by its *lattice* parameters.
+:unit cell: The parallelepiped representing the smallest repeating structural
+  pattern of the *crystal*, characterized by its *lattice* parameters.
 
 ..  index::
     !definition; wavelength
