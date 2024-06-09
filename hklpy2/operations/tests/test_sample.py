@@ -80,6 +80,7 @@ def test_repr(sim):
     assert rep.startswith("Sample(")
     assert "name=" in rep
     assert "lattice=" in rep
+    assert "system=" in rep
     assert rep.endswith(")")
 
 
