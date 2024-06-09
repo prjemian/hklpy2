@@ -21,7 +21,7 @@ from .models import TwoC
 
 
 def test_choice_function():
-    choice = pick_first_item("a b c".split())
+    choice = pick_first_item((), "a b c".split())
     assert choice == "a"
 
 

@@ -8,7 +8,6 @@ Base class for all diffractometers
 """
 
 import logging
-import math
 
 from ophyd import Component as Cpt
 from ophyd import PseudoPositioner
