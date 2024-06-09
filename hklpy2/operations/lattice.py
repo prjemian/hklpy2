@@ -10,6 +10,8 @@ Lattice parameters for a single crystal.
 """
 
 import logging
+import enum
+import math
 
 from .. import Hklpy2Error
 from .misc import compare_float_dicts
@@ -29,6 +31,20 @@ SI_LATTICE_PARAMETER_UNCERTAINTY = 0.000000089
 """
 
 
+CrystalSystem = enum.Enum(  # in order from lowest symmetry
+    "CrystalSystem",
+    """
+        triclinic
+        monoclinic
+        orthorhombic
+        tetragonal
+        rhombohedral
+        hexagonal
+        cubic
+    """.split(),
+)
+
+
 class LatticeError(Hklpy2Error):
     """Custom exceptions from the :mod:`hklpy2.operations.lattice` module."""
 
@@ -41,14 +57,16 @@ class Lattice:
 
     EXAMPLE::
 
-        import hklpy2
-        hexagonal = hklpy2.Lattice(4.74, c=9.515, gamma=120)
+        >>> from hklpy2.operations.lattice import Lattice
+        >>> Lattice(4.74, c=9.515, gamma=120)
+        Lattice(a=4.74, c=9.515, gamma=120, system='hexagonal')
 
     .. autosummary::
 
         ~_asdict
         ~__eq__
         ~__repr__
+        ~crystal_system
     """
 
     def __init__(
@@ -98,10 +116,91 @@ class Lattice:
         """
         Standard representation of lattice.
         """
-        parameters = [f"{k}={round(v, self.digits)}" for k, v in self._asdict().items()]
+        system = self.crystal_system
+        parms = {
+            "cubic": ["a"],
+            "hexagonal": "a c gamma".split(),
+            "rhombohedral": "a alpha".split(),
+            "tetragonal": "a c".split(),
+            "orthorhombic": "a b c".split(),
+            "monoclinic": "a b c beta".split(),
+            "triclinic": "a b c alpha beta gamma".split(),
+        }[system]
+        parameters = [f"{k}={round(getattr(self, k), self.digits)}" for k in parms]
+        parameters.append(f"{system=!r}")
         return "Lattice(" + ", ".join(parameters) + ")"
 
     # ---- get/set properties
+
+    @property
+    def crystal_system(self):
+        """
+        The crystal system of this lattice.  By inspection of the parameters.
+
+        .. seealso:: https://dictionary.iucr.org/Crystal_system
+        """
+
+        def very_close(value, ref, tol=1e-7):
+            return math.isclose(value, ref, abs_tol=tol)
+
+        def angles(alpha, beta, gamma):
+            return (
+                very_close(self.alpha, alpha)
+                and very_close(self.beta, beta)
+                and very_close(self.gamma, gamma)
+            )
+
+        def edges(a, b, c):
+            return (
+                very_close(self.a, a)
+                and very_close(self.b, b)
+                and very_close(self.c, c)
+            )
+
+        def all_angles(ref):
+            return angles(ref, ref, ref)
+
+        def all_edges(ref):
+            return edges(ref, ref, ref)
+
+        # filter by testing symmetry elements from lowest system first
+        if not very_close(self.alpha, 90) and not very_close(
+            self.alpha, self.beta
+        ):
+            # no need to compare alpha != gamma
+            return CrystalSystem.triclinic.name
+
+        if very_close(self.alpha, 90) and not very_close(self.alpha, self.beta):
+            return CrystalSystem.monoclinic.name
+
+        if all_angles(90) and not very_close(self.a, self.b):
+            return CrystalSystem.orthorhombic.name
+
+        if (
+            all_angles(90)
+            and very_close(self.a, self.b)
+            and not very_close(self.a, self.c)
+        ):
+            return CrystalSystem.tetragonal.name
+
+        if (
+            not very_close(self.alpha, 90)
+            and all_angles(self.alpha)
+            and all_edges(self.a)
+        ):
+            return CrystalSystem.rhombohedral.name
+
+        if (
+            angles(90, 90, 120)
+            and very_close(self.a, self.b)
+            and not very_close(self.a, self.c)
+        ):
+            return CrystalSystem.hexagonal.name
+
+        if all_angles(90) and all_edges(self.a):
+            return CrystalSystem.cubic.name
+
+        raise ValueError(f"Unrecognized crystal system: {self=!r}")
 
     @property
     def digits(self) -> int:
