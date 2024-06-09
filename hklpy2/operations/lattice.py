@@ -9,8 +9,8 @@ Lattice parameters for a single crystal.
     ~SI_LATTICE_PARAMETER_UNCERTAINTY
 """
 
-import logging
 import enum
+import logging
 import math
 
 from .. import Hklpy2Error

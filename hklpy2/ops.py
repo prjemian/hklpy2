@@ -21,6 +21,7 @@ from .operations.sample import Sample
 
 __all__ = "Operations OperationsError".split()
 logger = logging.getLogger(__name__)
+DEFAULT_SAMPLE_NAME = "sample"
 
 
 class OperationsError(Hklpy2Error):
@@ -76,7 +77,7 @@ class Operations:
 
         if default_sample:
             # first sample is cubic, no reflections
-            self.add_sample("cubic", 1)
+            self.add_sample(DEFAULT_SAMPLE_NAME, 1)
 
     def add_reflection(
         self,
