@@ -10,6 +10,7 @@ from ..diffract import DiffractometerError
 from ..diffract import pick_first_item
 from ..operations.reflection import ReflectionError
 from ..operations.sample import Sample
+from ..ops import DEFAULT_SAMPLE_NAME
 from ..ops import Operations
 from ..wavelength_support import DEFAULT_WAVELENGTH
 from ..wavelength_support import DEFAULT_WAVELENGTH_UNITS
@@ -151,7 +152,7 @@ def test_extras():
 def test_remove_sample():
     sim = NoOpTh2Th("", name="sim")
     assert len(sim.samples) == 1
-    sim.operator.remove_sample("cubic")
+    sim.operator.remove_sample(DEFAULT_SAMPLE_NAME)
     assert len(sim.samples) == 0
 
 

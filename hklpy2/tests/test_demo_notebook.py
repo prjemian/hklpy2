@@ -3,6 +3,8 @@ from math import pi
 import hklpy2
 import pytest
 
+from ..ops import DEFAULT_SAMPLE_NAME
+
 
 @pytest.fixture
 def fourc():
@@ -78,7 +80,7 @@ def test_as_in_demo_notebook(fourc):
     assert str(fourc.report) == expected, f"{fourc.report=!r}"
 
     assert len(fourc.samples) == 1
-    assert fourc.sample.name == "cubic"
+    assert fourc.sample.name == DEFAULT_SAMPLE_NAME
 
     fourc.operator.remove_sample("vibranium")
     assert len(fourc.samples) == 1
@@ -90,8 +92,8 @@ def test_as_in_demo_notebook(fourc):
     assert len(fourc.samples) == 2
     assert fourc.sample.name == "vibranium"
 
-    fourc.sample = "cubic"
-    assert fourc.sample.name == "cubic"
+    fourc.sample = DEFAULT_SAMPLE_NAME
+    assert fourc.sample.name == DEFAULT_SAMPLE_NAME
 
     fourc.sample = "vibranium"
     assert fourc.sample.name == "vibranium"

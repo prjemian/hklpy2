@@ -2,6 +2,7 @@ import pytest
 
 from ..lattice import Lattice
 
+
 @pytest.mark.parametrize(
     "system, a, others",
     [
