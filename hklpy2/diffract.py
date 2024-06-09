@@ -8,6 +8,7 @@ Base class for all diffractometers
 """
 
 import logging
+import math
 
 from ophyd import Component as Cpt
 from ophyd import PseudoPositioner
@@ -28,7 +29,7 @@ logger = logging.getLogger(__name__)
 DEFAULT_PHOTON_ENERGY_KEV = 8.0
 
 
-def pick_first_item(solutions: list):
+def pick_first_item(now: tuple, solutions: list):
     """
     Choose first item from list.
 
@@ -37,6 +38,11 @@ def pick_first_item(solutions: list):
 
     User can provide an alternative function and assign to diffractometer's
     :meth:`~hklpy2.diffract.DiffractometerBase._forward_solution` method.
+
+    .. rubric:: Parameters
+
+    * ``now`` (*tuple*) : Current position.
+    * ``solutions`` (*[tuple]*) : List of positions.
     """
     return solutions[0]
 
@@ -229,14 +235,15 @@ class DiffractometerBase(PseudoPositioner):
     @pseudo_position_argument
     def forward(self, pseudos: dict, wavelength: float = None) -> tuple:
         """Compute real-space coordinates from pseudos (hkl -> angles)."""
-        # print(f"forward: {type(pseudos)=!r}  {pseudos=!r}")
+        logger.debug("forward: pseudos=%r", pseudos)
         solutions = self.operator.forward(pseudos, wavelength=wavelength)
-        return self._forward_solution(solutions)
+        # TODO: constraints
+        return self._forward_solution(self.real_position, solutions)
 
     @real_position_argument
     def inverse(self, reals: dict, wavelength: float = None) -> tuple:
         """Compute pseudo-space coordinates from reals (angles -> hkl)."""
-        # print(f"inverse: {type(reals)=!r}  {reals=!r}")
+        logger.debug("inverse: reals=%r", reals)
         pos = self.operator.inverse(reals, wavelength=wavelength)
         return self.PseudoPosition(**pos)  # as created by namedtuple
 

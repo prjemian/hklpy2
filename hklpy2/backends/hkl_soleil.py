@@ -24,7 +24,7 @@ Example::
 # TODO: how to set extras? such as constant_psi
 # TODO: how to set psi and rotate around it?
 # TODO: self.engines.select_solution
-# TODO: 
+# TODO:
 #         axis = self._geometry.axis_get(self.param_name)
 #         low, high = axis.min_max_get(self._units)
 #         axis = self._geometry.axis_get(self.param_name)
@@ -170,6 +170,7 @@ class HklSolver(SolverBase):
         ~axes_r
         ~axes_w
         ~engine
+        ~engine_name
         ~engines
         ~extra_axis_names
         ~geometry
@@ -242,7 +243,7 @@ class HklSolver(SolverBase):
     @property
     def axes_r(self) -> list[str]:
         """HKL real axis names (read-only)."""
-        return self._engine.axis_names_get(AXES_READ)  # Do NOT sort.
+        return self.engine.axis_names_get(AXES_READ)  # Do NOT sort.
 
     @property
     def axes_w(self) -> list[str]:
@@ -251,7 +252,7 @@ class HklSolver(SolverBase):
 
                 Updated by 'forward()' computation.
         """
-        return self._engine.axis_names_get(AXES_WRITTEN)  # Do NOT sort.
+        return self.engine.axis_names_get(AXES_WRITTEN)  # Do NOT sort.
 
     def calculate_UB(
         self,
@@ -276,7 +277,12 @@ class HklSolver(SolverBase):
     @property
     def engine(self) -> libhkl.Engine:
         """Selected computational engine for this geometry."""
-        return self._engine.name_get()
+        return self._engine
+
+    @property
+    def engine_name(self) -> str:
+        """Name of selected computational engine for this geometry."""
+        return self.engine.name_get()
 
     @property
     def engines(self) -> list[str]:
@@ -290,13 +296,26 @@ class HklSolver(SolverBase):
 
         Depends on selected geometry, engine, and mode.
         """
-        return self._engine.parameters_names_get()  # Do NOT sort.
+        return self.engine.parameters_names_get()  # Do NOT sort.
 
     def forward(self, pseudos: dict) -> list[dict[str, float]]:
         """Compute list of solutions(reals) from pseudos (hkl -> [angles])."""
         logger.debug("(%r) forward(%r)", __name__, pseudos)
-        values = list(pseudos.values())
-        geometry_list = self._engine.pseudo_axis_values_set(values, LIBHKL_USER_UNITS)
+
+        # TODO: check this
+        # TODO: What about reals in the extras
+        # xdict = {k: pseudos[k] for k in self.extra_axis_names if k in pseudos}
+        # if len(xdict) > 0:
+        #     self.engine.parameters_values_set(
+        #         list(xdict.values()),
+        #         LIBHKL_USER_UNITS,
+        #     )
+
+        geometry_list = self.engine.pseudo_axis_values_set(
+            list(pseudos.values()),
+            LIBHKL_USER_UNITS,
+        )
+
         solutions = []
         for glist_item in geometry_list.items():
             geo = glist_item.geometry_get()
@@ -348,8 +367,8 @@ class HklSolver(SolverBase):
 
         pdict = dict(
             zip(
-                self._engine.pseudo_axis_names_get(),
-                _roundoff(self._engine.pseudo_axis_values_get(LIBHKL_USER_UNITS)),
+                self.engine.pseudo_axis_names_get(),
+                _roundoff(self.engine.pseudo_axis_values_get(LIBHKL_USER_UNITS)),
             )
         )
         return pdict
@@ -384,26 +403,26 @@ class HklSolver(SolverBase):
     @property
     def mode(self) -> str:
         """Name of the current geometry operating mode."""
-        return self._engine.current_mode_get()
+        return self.engine.current_mode_get()
 
     @mode.setter
     def mode(self, value: str):
         check_value_in_list("Mode", value, self.modes, blank_ok=True)
         if value == "":
             return  # keep current mode
-        self._engine.current_mode_set(value)
+        self.engine.current_mode_set(value)
 
     @property
     def modes(self) -> list[str]:
         """List of the geometry operating modes."""
-        if self._engine is None:
+        if self.engine is None:
             return []
-        return self._engine.modes_names_get()
+        return self.engine.modes_names_get()
 
     @property
     def pseudo_axis_names(self) -> list[str]:
         """Ordered list of the pseudo axis names (such as h, k, l)."""
-        return self._engine.pseudo_axis_names_get()  # Do NOT sort.
+        return self.engine.pseudo_axis_names_get()  # Do NOT sort.
 
     @property
     def real_axis_names(self) -> list[str]:
@@ -485,7 +504,7 @@ class HklSolver(SolverBase):
         return matrix.round(decimals=ROUNDOFF_DIGITS).tolist()
 
     @U.setter
-    def U(self, value:list[list[float]]) -> None:
+    def U(self, value: list[list[float]]) -> None:
         if self.sample is not None:
             self.sample.U_set(to_hkl(value))
 
@@ -498,7 +517,7 @@ class HklSolver(SolverBase):
         return matrix.round(decimals=ROUNDOFF_DIGITS).tolist()
 
     @UB.setter
-    def UB(self, value:list[list[float]]) -> None:
+    def UB(self, value: list[list[float]]) -> None:
         if self.sample is not None:
             self.sample.UB_set(to_hkl(value))
 

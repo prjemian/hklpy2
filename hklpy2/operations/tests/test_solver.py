@@ -41,7 +41,7 @@ def test_HklSolver():
     assert "Geometry E4CV cannot be changed." in str(reason)
     assert solver.geometry is not None
     assert solver.geometry == "E4CV"  # did not change
-    assert solver.engine == "hkl"
+    assert solver.engine_name == "hkl"
 
     reals = solver.real_axis_names
     assert reals == "omega chi phi tth".split()
@@ -51,7 +51,7 @@ def test_HklSolver():
 
     solver = Solver(gname)
     assert solver.geometry == gname  # did not change
-    assert solver.engine == "hkl"
+    assert solver.engine_name == "hkl"
 
     reals = solver.real_axis_names
     assert reals == "mu eta phi nu delta".split()
