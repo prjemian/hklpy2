@@ -333,8 +333,12 @@ class Operations:
         pseudos.update(self._axes_names_s2d(spdict))  # Update with new values.
         return pseudos
 
-    def refine_lattice(self, reflections: list = None):
-        """Refine the sample lattice from 3 or more reflections."""
+    def refine_lattice(self, reflections: list = None) -> Lattice:
+        """
+        Return the sample lattice computed from 3 or more reflections.
+        
+        Do not change the sample lattice.  Let the user decide that.
+        """
         if reflections is None:
             reflections = list(self.sample.reflections.values())
         logger.debug(
@@ -342,7 +346,7 @@ class Operations:
             [r.name for r in reflections],
         )
         lattice = self.solver.refineLattice(reflections)
-        self.sample.lattice = lattice
+        return lattice
 
     def remove_sample(self, name):
         """Remove the named sample.  No error if name is not known."""

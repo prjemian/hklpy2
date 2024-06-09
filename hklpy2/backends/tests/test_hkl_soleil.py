@@ -113,21 +113,24 @@ def test_affine():
     assert math.isclose(e4cv.sample.lattice.beta, 90, abs_tol=tol)
     assert math.isclose(e4cv.sample.lattice.gamma, 90, abs_tol=tol)
 
-    e4cv.operator.refine_lattice()
+    refined = e4cv.operator.refine_lattice()
+
+    # sample lattice was not changed
+    assert refined != e4cv.sample.lattice
 
     # refined lattice parameter is not so precise
-    assert not math.isclose(e4cv.sample.lattice.a, SI_LATTICE_PARAMETER, abs_tol=tol)
-    assert not math.isclose(e4cv.sample.lattice.b, SI_LATTICE_PARAMETER, abs_tol=tol)
-    assert not math.isclose(e4cv.sample.lattice.c, SI_LATTICE_PARAMETER, abs_tol=tol)
-    assert not math.isclose(e4cv.sample.lattice.alpha, 90, abs_tol=tol)
-    assert not math.isclose(e4cv.sample.lattice.beta, 90, abs_tol=tol)
-    assert not math.isclose(e4cv.sample.lattice.gamma, 90, abs_tol=tol)
+    assert not math.isclose(refined.a, SI_LATTICE_PARAMETER, abs_tol=tol)
+    assert not math.isclose(refined.b, SI_LATTICE_PARAMETER, abs_tol=tol)
+    assert not math.isclose(refined.c, SI_LATTICE_PARAMETER, abs_tol=tol)
+    assert not math.isclose(refined.alpha, 90, abs_tol=tol)
+    assert not math.isclose(refined.beta, 90, abs_tol=tol)
+    assert not math.isclose(refined.gamma, 90, abs_tol=tol)
 
     # relax the precision quite a bit
     tol = 0.001
-    assert math.isclose(e4cv.sample.lattice.a, SI_LATTICE_PARAMETER, rel_tol=tol)
-    assert math.isclose(e4cv.sample.lattice.b, SI_LATTICE_PARAMETER, rel_tol=tol)
-    assert math.isclose(e4cv.sample.lattice.c, SI_LATTICE_PARAMETER, rel_tol=tol)
-    assert math.isclose(e4cv.sample.lattice.alpha, 90, rel_tol=tol)
-    assert math.isclose(e4cv.sample.lattice.beta, 90, rel_tol=tol)
-    assert math.isclose(e4cv.sample.lattice.gamma, 90, rel_tol=tol)
+    assert math.isclose(refined.a, SI_LATTICE_PARAMETER, rel_tol=tol)
+    assert math.isclose(refined.b, SI_LATTICE_PARAMETER, rel_tol=tol)
+    assert math.isclose(refined.c, SI_LATTICE_PARAMETER, rel_tol=tol)
+    assert math.isclose(refined.alpha, 90, rel_tol=tol)
+    assert math.isclose(refined.beta, 90, rel_tol=tol)
+    assert math.isclose(refined.gamma, 90, rel_tol=tol)

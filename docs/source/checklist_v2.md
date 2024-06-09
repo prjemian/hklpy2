@@ -54,11 +54,11 @@ It could be re-organized.
 * Documentation
   * [ ] Choosing the default `forward()` solution.
   * [ ] documentation from hklpy.
-  * [ ] How to calculate UB from 2 reflections.
+  * [x] How to calculate UB from 2 reflections.
   * [ ] How to hold axes fixed during `forward()` transformation.
   * [ ] How to migrate from hklpy v1.
-  * [ ] How to refine lattice from 3 reflections.
-  * [ ] How to set UB directly.
+  * [x] How to refine lattice from 3 reflections.
+  * [x] How to set UB directly.
 * Diffractometer-Operations API
   * [x] solver:
   * [x] geometry:

@@ -19,6 +19,17 @@ Example::
     ~HklSolver
 """
 
+# TODO: how to hold an axis constant at current value? such as constant_omega
+# TODO: how to hold an axis constant at a specific value? such as constant_omega
+# TODO: how to set extras? such as constant_psi
+# TODO: how to set psi and rotate around it?
+# TODO: self.engines.select_solution
+# TODO: 
+#         axis = self._geometry.axis_get(self.param_name)
+#         low, high = axis.min_max_get(self._units)
+#         axis = self._geometry.axis_get(self.param_name)
+#         return bool(axis.fit_get())
+
 import logging
 import math
 import platform
