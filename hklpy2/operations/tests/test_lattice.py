@@ -20,8 +20,12 @@ def test_repr(system, a, others):
     lattice = Lattice(a, **others)
     assert lattice is not None
 
-    text = repr(lattice)
-    assert repr(system) in text, f"{system=!r} lattice={text!r}"
+    rep = repr(lattice)
+    assert rep.startswith("Lattice(")
+    assert "a=" in rep
+    assert "system=" in rep
+    assert repr(system) in rep, f"{system=!r} lattice={rep!r}"
+    assert rep.endswith(")")
 
 @pytest.mark.parametrize(
     "args, kwargs, expected",
