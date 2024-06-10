@@ -39,7 +39,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=3ee479438cf8b5e0d341" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=3ee479438cf8b5e0d341"></script>
 
-    <script src="../_static/documentation_options.js?v=1121981c"></script>
+    <script src="../_static/documentation_options.js?v=02f15813"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
@@ -600,6 +600,7 @@ gi<span class="ansi-blue-fg">.</span>require_version<span class="ansi-blue-fg">(
 <span class="ansi-green-fg">from</span> gi<span class="ansi-blue-fg">.</span>repository <span class="ansi-green-fg">import</span> Hkl  <span class="ansi-red-fg"># noqa: E402</span>
 
 DEFAULT_DIGITS <span class="ansi-blue-fg">=</span> <span class="ansi-cyan-fg">9</span>
+UNITS <span class="ansi-blue-fg">=</span> Hkl<span class="ansi-blue-fg">.</span>UnitEnum<span class="ansi-blue-fg">.</span>USER
 
 
 <span class="ansi-green-fg">class</span> Table<span class="ansi-blue-fg">(</span>pyRestTable<span class="ansi-blue-fg">.</span>Table<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
@@ -656,7 +657,7 @@ DEFAULT_DIGITS <span class="ansi-blue-fg">=</span> <span class="ansi-cyan-fg">9<
         self<span class="ansi-blue-fg">,</span> obj<span class="ansi-blue-fg">:</span> object<span class="ansi-blue-fg">,</span> part<span class="ansi-blue-fg">:</span> str<span class="ansi-blue-fg">,</span> digits<span class="ansi-blue-fg">:</span> int <span class="ansi-blue-fg">=</span> DEFAULT_DIGITS
     <span class="ansi-blue-fg">)</span> <span class="ansi-blue-fg">-&gt;</span> dict<span class="ansi-blue-fg">:</span>
         names <span class="ansi-blue-fg">=</span> getattr<span class="ansi-blue-fg">(</span>obj<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">f&#34;{part}_names_get&#34;</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
-        values <span class="ansi-blue-fg">=</span> getattr<span class="ansi-blue-fg">(</span>obj<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">f&#34;{part}_values_get&#34;</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">(</span>Hkl<span class="ansi-blue-fg">.</span>UnitEnum<span class="ansi-blue-fg">.</span>USER<span class="ansi-blue-fg">)</span>
+        values <span class="ansi-blue-fg">=</span> getattr<span class="ansi-blue-fg">(</span>obj<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">f&#34;{part}_values_get&#34;</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">(</span>UNITS<span class="ansi-blue-fg">)</span>
         <span class="ansi-green-fg">return</span> dict<span class="ansi-blue-fg">(</span>zip<span class="ansi-blue-fg">(</span>names<span class="ansi-blue-fg">,</span> self<span class="ansi-blue-fg">.</span>_roundoff<span class="ansi-blue-fg">(</span>values<span class="ansi-blue-fg">,</span> digits<span class="ansi-blue-fg">=</span>digits<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">)</span>
 
     <span class="ansi-green-fg">def</span> _roundoff<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">,</span> array<span class="ansi-blue-fg">:</span> list<span class="ansi-blue-fg">,</span> digits<span class="ansi-blue-fg">:</span> int <span class="ansi-blue-fg">=</span> <span class="ansi-cyan-fg">9</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
@@ -665,7 +666,7 @@ DEFAULT_DIGITS <span class="ansi-blue-fg">=</span> <span class="ansi-cyan-fg">9<
     <span class="ansi-green-fg">def</span> forward<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">*</span>pseudos<span class="ansi-blue-fg">:</span> list<span class="ansi-blue-fg">)</span> <span class="ansi-blue-fg">-&gt;</span> list<span class="ansi-blue-fg">:</span>
         self<span class="ansi-blue-fg">.</span>_solutions <span class="ansi-blue-fg">=</span> self<span class="ansi-blue-fg">.</span>engine<span class="ansi-blue-fg">.</span>pseudo_axis_values_set<span class="ansi-blue-fg">(</span>
             pseudos<span class="ansi-blue-fg">,</span>
-            Hkl<span class="ansi-blue-fg">.</span>UnitEnum<span class="ansi-blue-fg">.</span>USER<span class="ansi-blue-fg">,</span>
+            UNITS<span class="ansi-blue-fg">,</span>
         <span class="ansi-blue-fg">)</span>
         <span class="ansi-green-fg">return</span> self<span class="ansi-blue-fg">.</span>_solutions
 
@@ -680,7 +681,7 @@ DEFAULT_DIGITS <span class="ansi-blue-fg">=</span> <span class="ansi-cyan-fg">9<
 
     <span class="ansi-blue-fg">@</span>angles<span class="ansi-blue-fg">.</span>setter
     <span class="ansi-green-fg">def</span> angles<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">,</span> values<span class="ansi-blue-fg">:</span> list<span class="ansi-blue-fg">)</span> <span class="ansi-blue-fg">-&gt;</span> <span class="ansi-green-fg">None</span><span class="ansi-blue-fg">:</span>
-        self<span class="ansi-blue-fg">.</span>geometry<span class="ansi-blue-fg">.</span>axis_values_set<span class="ansi-blue-fg">(</span>values<span class="ansi-blue-fg">,</span> Hkl<span class="ansi-blue-fg">.</span>UnitEnum<span class="ansi-blue-fg">.</span>USER<span class="ansi-blue-fg">)</span>
+        self<span class="ansi-blue-fg">.</span>geometry<span class="ansi-blue-fg">.</span>axis_values_set<span class="ansi-blue-fg">(</span>values<span class="ansi-blue-fg">,</span> UNITS<span class="ansi-blue-fg">)</span>
 
     <span class="ansi-blue-fg">@</span>property
     <span class="ansi-green-fg">def</span> extras<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">)</span> <span class="ansi-blue-fg">-&gt;</span> dict<span class="ansi-blue-fg">:</span>
@@ -694,7 +695,7 @@ DEFAULT_DIGITS <span class="ansi-blue-fg">=</span> <span class="ansi-cyan-fg">9<
                 <span class="ansi-green-fg">raise</span> KeyError<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">f&#34;Unknown parameter name {k!r}.&#34;</span><span class="ansi-blue-fg">)</span>
 
             p <span class="ansi-blue-fg">=</span> self<span class="ansi-blue-fg">.</span>engine<span class="ansi-blue-fg">.</span>parameter_get<span class="ansi-blue-fg">(</span>k<span class="ansi-blue-fg">)</span>
-            p<span class="ansi-blue-fg">.</span>value_set<span class="ansi-blue-fg">(</span>v<span class="ansi-blue-fg">,</span> Hkl<span class="ansi-blue-fg">.</span>UnitEnum<span class="ansi-blue-fg">.</span>USER<span class="ansi-blue-fg">)</span>
+            p<span class="ansi-blue-fg">.</span>value_set<span class="ansi-blue-fg">(</span>v<span class="ansi-blue-fg">,</span> UNITS<span class="ansi-blue-fg">)</span>
             self<span class="ansi-blue-fg">.</span>engine<span class="ansi-blue-fg">.</span>parameter_set<span class="ansi-blue-fg">(</span>k<span class="ansi-blue-fg">,</span> p<span class="ansi-blue-fg">)</span>
 
     <span class="ansi-blue-fg">@</span>property
@@ -714,7 +715,7 @@ DEFAULT_DIGITS <span class="ansi-blue-fg">=</span> <span class="ansi-cyan-fg">9<
     <span class="ansi-blue-fg">@</span>property
     <span class="ansi-green-fg">def</span> lattice<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">)</span> <span class="ansi-blue-fg">-&gt;</span> dict<span class="ansi-blue-fg">:</span>
         lattice <span class="ansi-blue-fg">=</span> self<span class="ansi-blue-fg">.</span>sample<span class="ansi-blue-fg">.</span>lattice_get<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
-        lattice <span class="ansi-blue-fg">=</span> lattice<span class="ansi-blue-fg">.</span>get<span class="ansi-blue-fg">(</span>Hkl<span class="ansi-blue-fg">.</span>UnitEnum<span class="ansi-blue-fg">.</span>USER<span class="ansi-blue-fg">)</span>
+        lattice <span class="ansi-blue-fg">=</span> lattice<span class="ansi-blue-fg">.</span>get<span class="ansi-blue-fg">(</span>UNITS<span class="ansi-blue-fg">)</span>
         lattice <span class="ansi-blue-fg">=</span> <span class="ansi-blue-fg">{</span>k<span class="ansi-blue-fg">:</span> getattr<span class="ansi-blue-fg">(</span>lattice<span class="ansi-blue-fg">,</span> k<span class="ansi-blue-fg">)</span> <span class="ansi-green-fg">for</span> k <span class="ansi-green-fg">in</span> <span class="ansi-blue-fg">&#34;a b c alpha beta gamma&#34;</span><span class="ansi-blue-fg">.</span>split<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">}</span>
         <span class="ansi-green-fg">return</span> lattice
 
@@ -723,7 +724,7 @@ DEFAULT_DIGITS <span class="ansi-blue-fg">=</span> <span class="ansi-cyan-fg">9<
         a<span class="ansi-blue-fg">,</span> b<span class="ansi-blue-fg">,</span> c<span class="ansi-blue-fg">,</span> alpha<span class="ansi-blue-fg">,</span> beta<span class="ansi-blue-fg">,</span> gamma <span class="ansi-blue-fg">=</span> parameters
 
         lattice <span class="ansi-blue-fg">=</span> self<span class="ansi-blue-fg">.</span>sample<span class="ansi-blue-fg">.</span>lattice_get<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
-        lattice<span class="ansi-blue-fg">.</span>set<span class="ansi-blue-fg">(</span>a<span class="ansi-blue-fg">,</span> b<span class="ansi-blue-fg">,</span> c<span class="ansi-blue-fg">,</span> alpha<span class="ansi-blue-fg">,</span> beta<span class="ansi-blue-fg">,</span> gamma<span class="ansi-blue-fg">,</span> Hkl<span class="ansi-blue-fg">.</span>UnitEnum<span class="ansi-blue-fg">.</span>USER<span class="ansi-blue-fg">)</span>
+        lattice<span class="ansi-blue-fg">.</span>set<span class="ansi-blue-fg">(</span>a<span class="ansi-blue-fg">,</span> b<span class="ansi-blue-fg">,</span> c<span class="ansi-blue-fg">,</span> alpha<span class="ansi-blue-fg">,</span> beta<span class="ansi-blue-fg">,</span> gamma<span class="ansi-blue-fg">,</span> UNITS<span class="ansi-blue-fg">)</span>
         self<span class="ansi-blue-fg">.</span>sample<span class="ansi-blue-fg">.</span>lattice_set<span class="ansi-blue-fg">(</span>lattice<span class="ansi-blue-fg">)</span>
 
     <span class="ansi-blue-fg">@</span>property
@@ -746,7 +747,7 @@ DEFAULT_DIGITS <span class="ansi-blue-fg">=</span> <span class="ansi-cyan-fg">9<
     <span class="ansi-green-fg">def</span> pseudos<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">,</span> values<span class="ansi-blue-fg">:</span> list<span class="ansi-blue-fg">)</span> <span class="ansi-blue-fg">-&gt;</span> <span class="ansi-green-fg">None</span><span class="ansi-blue-fg">:</span>
         self<span class="ansi-blue-fg">.</span>engine<span class="ansi-blue-fg">.</span>pseudo_axis_values_set<span class="ansi-blue-fg">(</span>
             values<span class="ansi-blue-fg">,</span>
-            Hkl<span class="ansi-blue-fg">.</span>UnitEnum<span class="ansi-blue-fg">.</span>USER<span class="ansi-blue-fg">,</span>
+            UNITS<span class="ansi-blue-fg">,</span>
         <span class="ansi-blue-fg">)</span>
 
     <span class="ansi-blue-fg">@</span>property
@@ -776,11 +777,11 @@ DEFAULT_DIGITS <span class="ansi-blue-fg">=</span> <span class="ansi-cyan-fg">9<
 
     <span class="ansi-blue-fg">@</span>property
     <span class="ansi-green-fg">def</span> wavelength<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">)</span> <span class="ansi-blue-fg">-&gt;</span> float<span class="ansi-blue-fg">:</span>
-        <span class="ansi-green-fg">return</span> self<span class="ansi-blue-fg">.</span>geometry<span class="ansi-blue-fg">.</span>wavelength_get<span class="ansi-blue-fg">(</span>Hkl<span class="ansi-blue-fg">.</span>UnitEnum<span class="ansi-blue-fg">.</span>USER<span class="ansi-blue-fg">)</span>
+        <span class="ansi-green-fg">return</span> self<span class="ansi-blue-fg">.</span>geometry<span class="ansi-blue-fg">.</span>wavelength_get<span class="ansi-blue-fg">(</span>UNITS<span class="ansi-blue-fg">)</span>
 
     <span class="ansi-blue-fg">@</span>wavelength<span class="ansi-blue-fg">.</span>setter
     <span class="ansi-green-fg">def</span> wavelength<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">,</span> value<span class="ansi-blue-fg">:</span> float<span class="ansi-blue-fg">)</span> <span class="ansi-blue-fg">-&gt;</span> <span class="ansi-green-fg">None</span><span class="ansi-blue-fg">:</span>
-        self<span class="ansi-blue-fg">.</span>geometry<span class="ansi-blue-fg">.</span>wavelength_set<span class="ansi-blue-fg">(</span>value<span class="ansi-blue-fg">,</span> Hkl<span class="ansi-blue-fg">.</span>UnitEnum<span class="ansi-blue-fg">.</span>USER<span class="ansi-blue-fg">)</span>
+        self<span class="ansi-blue-fg">.</span>geometry<span class="ansi-blue-fg">.</span>wavelength_set<span class="ansi-blue-fg">(</span>value<span class="ansi-blue-fg">,</span> UNITS<span class="ansi-blue-fg">)</span>
 
     <span class="ansi-blue-fg">@</span>property
     <span class="ansi-green-fg">def</span> wh<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">)</span> <span class="ansi-blue-fg">-&gt;</span> <span class="ansi-green-fg">None</span><span class="ansi-blue-fg">:</span>
