@@ -11,6 +11,7 @@ gi.require_version("Hkl", "5.0")
 from gi.repository import Hkl  # noqa: E402
 
 DEFAULT_DIGITS = 9
+UNITS = Hkl.UnitEnum.USER
 
 
 class Table(pyRestTable.Table):
@@ -67,7 +68,7 @@ class Diffractometer:
         self, obj: object, part: str, digits: int = DEFAULT_DIGITS
     ) -> dict:
         names = getattr(obj, f"{part}_names_get")()
-        values = getattr(obj, f"{part}_values_get")(Hkl.UnitEnum.USER)
+        values = getattr(obj, f"{part}_values_get")(UNITS)
         return dict(zip(names, self._roundoff(values, digits=digits)))
 
     def _roundoff(self, array: list, digits: int = 9):
@@ -76,7 +77,7 @@ class Diffractometer:
     def forward(self, *pseudos: list) -> list:
         self._solutions = self.engine.pseudo_axis_values_set(
             pseudos,
-            Hkl.UnitEnum.USER,
+            UNITS,
         )
         return self._solutions
 
@@ -91,7 +92,7 @@ class Diffractometer:
 
     @angles.setter
     def angles(self, values: list) -> None:
-        self.geometry.axis_values_set(values, Hkl.UnitEnum.USER)
+        self.geometry.axis_values_set(values, UNITS)
 
     @property
     def extras(self) -> dict:
@@ -105,7 +106,7 @@ class Diffractometer:
                 raise KeyError(f"Unknown parameter name {k!r}.")
 
             p = self.engine.parameter_get(k)
-            p.value_set(v, Hkl.UnitEnum.USER)
+            p.value_set(v, UNITS)
             self.engine.parameter_set(k, p)
 
     @property
@@ -125,7 +126,7 @@ class Diffractometer:
     @property
     def lattice(self) -> dict:
         lattice = self.sample.lattice_get()
-        lattice = lattice.get(Hkl.UnitEnum.USER)
+        lattice = lattice.get(UNITS)
         lattice = {k: getattr(lattice, k) for k in "a b c alpha beta gamma".split()}
         return lattice
 
@@ -134,7 +135,7 @@ class Diffractometer:
         a, b, c, alpha, beta, gamma = parameters
 
         lattice = self.sample.lattice_get()
-        lattice.set(a, b, c, alpha, beta, gamma, Hkl.UnitEnum.USER)
+        lattice.set(a, b, c, alpha, beta, gamma, UNITS)
         self.sample.lattice_set(lattice)
 
     @property
@@ -157,7 +158,7 @@ class Diffractometer:
     def pseudos(self, values: list) -> None:
         self.engine.pseudo_axis_values_set(
             values,
-            Hkl.UnitEnum.USER,
+            UNITS,
         )
 
     @property
@@ -187,11 +188,11 @@ class Diffractometer:
 
     @property
     def wavelength(self) -> float:
-        return self.geometry.wavelength_get(Hkl.UnitEnum.USER)
+        return self.geometry.wavelength_get(UNITS)
 
     @wavelength.setter
     def wavelength(self, value: float) -> None:
-        self.geometry.wavelength_set(value, Hkl.UnitEnum.USER)
+        self.geometry.wavelength_set(value, UNITS)
 
     @property
     def wh(self) -> None:
