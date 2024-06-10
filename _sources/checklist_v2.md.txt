@@ -41,7 +41,7 @@ It could be re-organized.
       [also](https://github.com/bluesky/hklpy/issues/247)
     * [ ] [`cahkl()` should make nice report when reflection can't be reached](https://github.com/bluesky/hklpy/issues/178)
   * Other
-    * [ ] [modify existing sample](https://github.com/bluesky/hklpy/issues/157)
+    * [x] [modify existing sample](https://github.com/bluesky/hklpy/issues/157)
     * [ ] [control display precision in `wh()` and `pa()`](https://github.com/bluesky/hklpy/issues/179)
     * [ ] [crystallographic *zones*](https://github.com/bluesky/hklpy/issues/291)
 * Solvers
