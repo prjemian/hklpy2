@@ -19,16 +19,17 @@ Example::
     ~HklSolver
 """
 
-# TODO: how to hold an axis constant at current value? such as constant_omega
-# TODO: how to hold an axis constant at a specific value? such as constant_omega
-# TODO: how to set extras? such as constant_psi
-# TODO: how to set psi and rotate around it?
-# TODO: self.engines.select_solution
-# TODO:
-#         axis = self._geometry.axis_get(self.param_name)
-#         low, high = axis.min_max_get(self._units)
-#         axis = self._geometry.axis_get(self.param_name)
-#         return bool(axis.fit_get())
+# Notes:
+#
+# - 'fit'
+#     While this parameter is used by *libhkl* to adjust lattice parameters when
+#     refining from more than 2 reflections, it is not used in the calculation of
+#     rotation angles from reciprocal-space coordinates.
+
+# - To hold an axis or extra parameter constant (current or specified value):
+#     choose the mode and set it before the forward() transformation.
+
+# - To scan around hkl2 using psi, see the new how to.
 
 import logging
 import math
@@ -145,10 +146,12 @@ class HklSolver(SolverBase):
       (default: ``[]``)
       First the pseudos, then the reals.
 
-    .. note:: The lists of ``pseudos``, ``reals``, and ``extras`` are the
+    .. note:: The lists of ``pseudos`` and ``reals`` are the
        corresponding axes of the diffractometer, in the order expected by
-       the |solver| geometry.  The names can be different between the
-       supplied and expected axes.  They are matched by order in the list.
+       the |solver| geometry.  The diffractometer can use names that are
+       different from the names expected by the engine here.  The 
+       :class:`~hklpys.ops.Operator` class will convert between the two
+       sets of names.
 
     .. rubric:: Python Methods
 

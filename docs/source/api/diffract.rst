@@ -16,10 +16,10 @@ Diffractometer
   sets :attr:`~hklpy2.diffract.DiffractometerBase.backend_solver` by calling
   :func:`~hklpy2.operations.misc.solver_factory`.  In this call, the user specifies the solver,
   the geometry, and defines which Components (of the diffractometer) are to be used as
-  pseudos, reals, and extras.  The backend implements
+  pseudos and reals.  The backend implements
   :meth:`~hklpy2.backends.base.SolverBase.forward`,
   :meth:`~hklpy2.backends.base.SolverBase.inverse`, and all related support, for
-  only the pseudos, reals, and extras that are identified.
+  only the pseudos and reals that are identified.
 
 .. grid:: 2
 

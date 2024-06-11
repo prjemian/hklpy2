@@ -36,11 +36,11 @@ def test_DiffractometerBase():
 
 
 @pytest.mark.parametrize(
-    "dclass, np, nr, solver, gname, solver_kwargs, pseudos, reals, extras",
+    "dclass, np, nr, solver, gname, solver_kwargs, pseudos, reals",
     [
-        [Fourc, 3, 4, None, None, {}, [], [], []],
-        [AugmentedFourc, 7, 8, None, None, {}, [], [], []],
-        [MultiAxis99, 9, 9, "hkl_soleil", "E4CV", {}, [], [], []],
+        [Fourc, 3, 4, None, None, {}, [], []],
+        [AugmentedFourc, 7, 8, None, None, {}, [], []],
+        [MultiAxis99, 9, 9, "hkl_soleil", "E4CV", {}, [],[]],
         [
             MultiAxis99,
             9,
@@ -50,12 +50,11 @@ def test_DiffractometerBase():
             {},
             "p1 p2 p3 p4".split(),
             "r1 r2 r3 r4".split(),
-            [],
         ],
-        [MultiAxis99, 9, 9, "no_op", "test", {}, [], [], []],
-        [MultiAxis99, 9, 9, "th_tth", "TH TTH Q", {}, [], [], []],
-        [NoOpTh2Th, 1, 2, None, None, {}, [], [], []],
-        [TwoC, 2, 4, None, None, {}, [], [], []],
+        [MultiAxis99, 9, 9, "no_op", "test", {}, [], []],
+        [MultiAxis99, 9, 9, "th_tth", "TH TTH Q", {}, [], []],
+        [NoOpTh2Th, 1, 2, None, None, {}, [], []],
+        [TwoC, 2, 4, None, None, {}, [], []],
     ],
 )
 def test_diffractometer_class(
@@ -67,7 +66,6 @@ def test_diffractometer_class(
     solver_kwargs,
     pseudos,
     reals,
-    extras,
 ):
     """Test each diffractometer class."""
     dmeter = dclass("", name="goniometer")
@@ -78,7 +76,7 @@ def test_diffractometer_class(
     if len(pseudos) == 0:
         dmeter.auto_assign_axes()
     else:
-        dmeter.operator.assign_axes(pseudos, reals, extras)
+        dmeter.operator.assign_axes(pseudos, reals)
 
     with does_not_raise():
         # These PseudoPositioner properties _must_ work immediately.
@@ -123,30 +121,6 @@ def test_diffractometer_class(
     assert dmeter.solver is not None
     assert isinstance(dmeter.solver_name, str)
     assert len(dmeter.solver_name) > 0
-
-
-def test_extras():
-    solver_name = "hkl_soleil"
-    gname = "E4CV"
-    fourc = AugmentedFourc("", name="fourc")
-    assert fourc is not None
-
-    fourc.operator.set_solver(
-        solver_name,
-        gname,
-        pseudos=[fourc.h, fourc.k, fourc.l],
-        reals=[fourc.theta, fourc.chi, fourc.phi, fourc.ttheta],
-        extras=[fourc.h2, fourc.k2, fourc.l2, fourc.psi],
-    )
-    assert "solver_name" in dir(fourc), f"{dir(fourc)!r}"
-    assert fourc.solver_name == solver_name, f"{fourc!r}"
-
-    fourc.operator.solver.mode = "psi_constant"
-    assert fourc.operator.solver.pseudo_axis_names == "h k l".split()
-    assert fourc.operator.solver.real_axis_names == "omega chi phi tth".split()
-    assert fourc.operator.solver.extra_axis_names == "h2 k2 l2 psi".split()
-
-    # TODO:
 
 
 def test_remove_sample():

@@ -155,9 +155,7 @@ class Operations:
             self.solver.sample = self._samples[name]
         return self._samples[name]
 
-    def assign_axes(
-        self, pseudos: list[str], reals: list[str], extras: list[str]
-    ) -> None:
+    def assign_axes(self, pseudos: list[str], reals: list[str]) -> None:
         """
         Designate attributes for use by the PseudoPositioner class.
 
@@ -165,7 +163,6 @@ class Operations:
         """
         pseudos = pseudos or []
         reals = reals or []
-        extras = extras or []
 
         def itemize(label, select, full):
             keys = [name for name, _obj in full]
@@ -180,7 +177,7 @@ class Operations:
                 both_p_r.remove(dname)
 
         # check for duplicates
-        if len(set(pseudos + reals + extras)) != len(pseudos + reals + extras):
+        if len(set(pseudos + reals)) != len(pseudos + reals):
             raise ValueError("Axis name cannot be in more than list.")
 
         dfrct = self.diffractometer
@@ -195,7 +192,6 @@ class Operations:
         self.axes_xref = {}
         reference(pseudos, solver.pseudo_axis_names)
         reference(reals, solver.real_axis_names)
-        reference(extras, solver.extra_axis_names)
         logger.debug("axes_xref=%r", self.axes_xref)
 
     def _axes_names_s2d(self, axis_dict: dict[str, float]) -> dict[str, float]:
@@ -244,9 +240,8 @@ class Operations:
         solver = self.diffractometer.operator.solver
         pseudos = lister(all_pseudos, solver.pseudo_axis_names)
         reals = lister(all_reals, solver.real_axis_names)
-        extras = lister(both_p_r, solver.extra_axis_names)
 
-        self.assign_axes(pseudos, reals, extras)
+        self.assign_axes(pseudos, reals)
 
         logger.debug("axes_xref=%r", self.axes_xref)
 
@@ -337,7 +332,7 @@ class Operations:
     def refine_lattice(self, reflections: list = None) -> Lattice:
         """
         Return the sample lattice computed from 3 or more reflections.
-        
+
         Do not change the sample lattice.  Let the user decide that.
         """
         if reflections is None:

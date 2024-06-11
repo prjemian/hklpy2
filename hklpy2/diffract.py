@@ -66,8 +66,6 @@ class DiffractometerBase(PseudoPositioner):
         as pseudo axes. (default: unspecified)
     *   ``reals`` ([str]) : List of diffractometer axis names to be used as
         real axes. (default: unspecified)
-    *   ``extras`` ([str]) : List of diffractometer axis names to be used as
-        extra axes. (default: unspecified)
 
     .. rubric:: (ophyd) Components
 
@@ -140,7 +138,6 @@ class DiffractometerBase(PseudoPositioner):
         solver_kwargs: dict = {},
         pseudos: list[str] = None,
         reals: list[str] = None,
-        extras: list[str] = None,
         **kwargs,
     ):
         self._backend = None
@@ -154,7 +151,7 @@ class DiffractometerBase(PseudoPositioner):
         if isinstance(solver, str) and isinstance(geometry, str):
             self.operator.set_solver(solver, geometry, **solver_kwargs)
 
-        self.operator.assign_axes(pseudos, reals, extras)
+        self.operator.assign_axes(pseudos, reals)
 
     def add_reflection(
         self,

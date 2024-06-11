@@ -88,7 +88,6 @@ It could be re-organized.
   * [x] axes : assignment : automatic
   * [x] axes : assignment : named
   * [x] axes : convert names between diffractometer and solver
-  * [x] axes : expected extras
   * [x] axes : expected pseudos
   * [x] axes : expected reals
   * [ ] constraints
@@ -106,7 +105,6 @@ It could be re-organized.
   * [x] transformation : inverse (reals -> pseudos)
 * Backends - feature support
   * [ ] hkl_soleil (libhkl)
-    * [x] axes : expected extras
     * [x] axes : expected pseudos
     * [x] axes : expected reals
     * [ ] extra parameters
@@ -132,7 +130,6 @@ It could be re-organized.
   * [ ] no_op
   * [x] th_tth
     * axes : expected 
-      * [x] extras
       * [x] pseudos
       * [x] reals
     * geometry
