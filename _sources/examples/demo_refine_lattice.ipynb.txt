@@ -4,11 +4,14 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "# How to calculate UB from 2 reflections.\n",
+    "# Refine lattice from 3 reflections\n",
     "\n",
-    "$UB$ is the 3x3 orientation matrix used to transform coordinates between\n",
-    "reciprocal space directions (of the crystal lattice planes) and the rotational\n",
-    "axes of the diffractometer."
+    "**NOTE**: work-in-progress\n",
+    "\n",
+    "The lattice parameters of a sample can be computed from a set of 3 or more\n",
+    "reflections if the **solver** provides such a method.  The hkl_soleil solver\n",
+    "uses a simplex.  The computed lattice is likely the lowest symmetry since the\n",
+    "parameters are refined to meet best the observed reflections."
    ]
   },
   {
@@ -67,9 +70,9 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "## Add 2 reflections\n",
+    "## Add 3 reflections\n",
     "\n",
-    "Two reflections are needed to calculate $UB$.  Since we do not specify the wavelength, the support assumes the diffractometer's current wavelength."
+    "At least three reflections are needed to refine the lattice parameters.  Since we do not specify the wavelength, the support assumes the diffractometer's current wavelength."
    ]
   },
   {
@@ -96,9 +99,9 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "Add two non-parallel reflections.  Here, just the values of the pseudos and\n",
-    "reals are specified as Python tuples, in the exact order expected by the\n",
-    "*solver* geometry."
+    "Add three non-parallel reflections.  Here, just the values of the pseudos and reals are\n",
+    "specified as Python tuples, in the exact order expected by the *solver*\n",
+    "geometry."
    ]
   },
   {
@@ -108,32 +111,45 @@
    "outputs": [],
    "source": [
     "r100 = diffractometer.add_reflection((1, 0, 0), (-145.451, 5, -5, 69.0966), name=\"(100)\")\n",
-    "r010 = diffractometer.add_reflection((0, 1, 0), (-145.451, 5, 85, 69.0966), name=\"(010)\")"
+    "r010 = diffractometer.add_reflection((0, 1, 0), (-145.451, 5, 85, 69.0966), name=\"(010)\")\n",
+    "r001 = diffractometer.add_reflection((0, 0, 1), (-145.451, -85, -95, 69.0966), name=\"(001)\")"
    ]
   },
   {
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "## Compute UB\n",
+    "## Compute refined lattice\n",
     "\n",
-    "Compute $UB$ with these two reflections:"
+    "Compute the lattice refined with these three reflections.  Notice that the refined lattice is triclinic and not the original cubic symmetry."
    ]
   },
   {
    "cell_type": "code",
    "execution_count": 5,
    "metadata": {},
-   "outputs": [],
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "Lattice(a=0.885, b=0.8953, c=0.8987, alpha=79.9999, beta=85.0196, gamma=89.5632, system='triclinic')"
+      ]
+     },
+     "execution_count": 5,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
    "source": [
-    "diffractometer.operator.calcUB(r100, r010)"
+    "lattice = diffractometer.operator.refine_lattice([r100, r010, r001])\n",
+    "lattice"
    ]
   },
   {
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "Show the calculated $UB$ matrix:"
+    "The `refine_lattice()` method returns the refined lattice but does not actually change the sample lattice:"
    ]
   },
   {
@@ -144,9 +160,7 @@
     {
      "data": {
       "text/plain": [
-       "[[0.545455367746, -6.239787515781, -0.495931249329],\n",
-       " [-0.547615682228, -0.543471605558, 6.235637359796],\n",
-       " [-6.235464145574, -0.498104382852, -0.591013127949]]"
+       "Lattice(a=1, system='cubic')"
       ]
      },
      "execution_count": 6,
@@ -155,16 +169,16 @@
     }
    ],
    "source": [
-    "diffractometer.operator.solver.UB"
+    "diffractometer.sample.lattice"
    ]
   },
   {
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "## Try it out\n",
+    "## Change the sample lattice\n",
     "\n",
-    " corresponding to the $(1,0,0)$ reflection:"
+    "The sample lattice can be changed with the refined lattice:"
    ]
   },
   {
@@ -175,7 +189,7 @@
     {
      "data": {
       "text/plain": [
-       "SimulatedE4CVRealPos(omega=-149.99999995966, chi=4.999999963086, phi=-4.999297295233, tth=60.00000008068)"
+       "Lattice(a=0.885, b=0.8953, c=0.8987, alpha=79.9999, beta=85.0196, gamma=89.5632, system='triclinic')"
       ]
      },
      "execution_count": 7,
@@ -184,34 +198,8 @@
     }
    ],
    "source": [
-    "diffractometer.forward(1, 0, 0)"
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "metadata": {},
-   "source": [
-    "Show the (first set of computed) angles corresponding to the $(1 \\bar1 1)$ reflection:"
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": 8,
-   "metadata": {},
-   "outputs": [
-    {
-     "data": {
-      "text/plain": [
-       "SimulatedE4CVRealPos(omega=-119.999999996665, chi=-34.931758281633, phi=-44.822626886902, tth=120.00000000667)"
-      ]
-     },
-     "execution_count": 8,
-     "metadata": {},
-     "output_type": "execute_result"
-    }
-   ],
-   "source": [
-    "diffractometer.forward(1, -1, 1)"
+    "diffractometer.sample.lattice = lattice\n",
+    "diffractometer.sample.lattice"
    ]
   }
  ],

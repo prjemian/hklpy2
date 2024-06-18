@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>How to refine lattice from 3 reflections &#8212; hklpy2 0.0</title>
+    <title>Refine lattice from 3 reflections &#8212; hklpy2 0.0</title>
   
   
   
@@ -39,18 +39,18 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=3ee479438cf8b5e0d341" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=3ee479438cf8b5e0d341"></script>
 
-    <script src="../_static/documentation_options.js?v=1bb0c18b"></script>
+    <script src="../_static/documentation_options.js?v=1f7bb869"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'examples/howto_refine_lattice';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'examples/demo_refine_lattice';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="How to set the UB matrix directly" href="howto_set_UB.html" />
-    <link rel="prev" title="How to calculate UB from 2 reflections." href="howto_calc_UB.html" />
+    <link rel="next" title="Scan in \((hkl)\) coordinates" href="demo_scan_hkl.html" />
+    <link rel="prev" title="Demo: hkl_soleil Python API" href="demo_libhkl_python_api.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -286,11 +286,12 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="demo.html">Demonstrate <strong>hklpy2</strong>’s API</a></li>
 
 
+<li class="toctree-l2"><a class="reference internal" href="demo_UB_calc.html">UB matrix : calculate from 2 reflections.</a></li>
+<li class="toctree-l2"><a class="reference internal" href="demo_UB_set.html">UB matrix : Set directly</a></li>
 <li class="toctree-l2"><a class="reference internal" href="demo_libhkl_python_api.html">Demo: hkl_soleil Python API</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Refine lattice from 3 reflections</a></li>
+<li class="toctree-l2"><a class="reference internal" href="demo_scan_hkl.html">Scan in <span class="math notranslate nohighlight">\((hkl)\)</span> coordinates</a></li>
 <li class="toctree-l2"><a class="reference internal" href="diffract.html">Diffractometer Axis Names</a></li>
-<li class="toctree-l2"><a class="reference internal" href="howto_calc_UB.html">How to calculate UB from 2 reflections.</a></li>
-<li class="toctree-l2 current active"><a class="current reference internal" href="#">How to refine lattice from 3 reflections</a></li>
-<li class="toctree-l2"><a class="reference internal" href="howto_set_UB.html">How to set the UB matrix directly</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
@@ -338,7 +339,7 @@ document.write(`
     
     <li class="breadcrumb-item"><a href="../examples.html" class="nav-link">Examples</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page">How to...</li>
+    <li class="breadcrumb-item active" aria-current="page">Refine...</li>
   </ul>
 </nav>
 </div>
@@ -355,8 +356,8 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="How-to-refine-lattice-from-3-reflections">
-<h1>How to refine lattice from 3 reflections<a class="headerlink" href="#How-to-refine-lattice-from-3-reflections" title="Link to this heading">#</a></h1>
+  <section id="Refine-lattice-from-3-reflections">
+<h1>Refine lattice from 3 reflections<a class="headerlink" href="#Refine-lattice-from-3-reflections" title="Link to this heading">#</a></h1>
 <p><strong>NOTE</strong>: work-in-progress</p>
 <p>The lattice parameters of a sample can be computed from a set of 3 or more reflections if the <strong>solver</strong> provides such a method. The hkl_soleil solver uses a simplex. The computed lattice is likely the lowest symmetry since the parameters are refined to meet best the observed reflections.</p>
 <section id="Create-a-diffractometer-object">
@@ -501,20 +502,20 @@ Lattice(a=0.885, b=0.8953, c=0.8987, alpha=79.9999, beta=85.0196, gamma=89.5632,
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="howto_calc_UB.html"
+       href="demo_libhkl_python_api.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">How to calculate UB from 2 reflections.</p>
+        <p class="prev-next-title">Demo: hkl_soleil Python API</p>
       </div>
     </a>
     <a class="right-next"
-       href="howto_set_UB.html"
+       href="demo_scan_hkl.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">How to set the UB matrix directly</p>
+        <p class="prev-next-title">Scan in <span class="math notranslate nohighlight">\((hkl)\)</span> coordinates</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -549,7 +550,7 @@ Lattice(a=0.885, b=0.8953, c=0.8987, alpha=79.9999, beta=85.0196, gamma=89.5632,
   <div class="sidebar-secondary-item">
 
   <div class="tocsection sourcelink">
-    <a href="../_sources/examples/howto_refine_lattice.ipynb.txt">
+    <a href="../_sources/examples/demo_refine_lattice.ipynb.txt">
       <i class="fa-solid fa-file-lines"></i> Show Source
     </a>
   </div>

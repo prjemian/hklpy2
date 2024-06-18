@@ -1,0 +1,804 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Scan in \((hkl)\) coordinates &#8212; hklpy2 0.0</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=3ee479438cf8b5e0d341" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=3ee479438cf8b5e0d341" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=3ee479438cf8b5e0d341" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=3ee479438cf8b5e0d341" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=fd3f3429" />
+    <link rel="stylesheet" type="text/css" href="../_static/tabs.css?v=a5c4661c" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=87e54e7c" />
+    <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=3ee479438cf8b5e0d341" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=3ee479438cf8b5e0d341" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=3ee479438cf8b5e0d341"></script>
+
+    <script src="../_static/documentation_options.js?v=1f7bb869"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'examples/demo_scan_hkl';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Diffractometer Axis Names" href="diffract.html" />
+    <link rel="prev" title="Refine lattice from 3 reflections" href="demo_refine_lattice.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">hklpy2 0.0</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav class="navbar-nav">
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item pst-header-nav-item current active">
+  <a class="nav-link nav-internal" href="../guide.html">
+    User Guide
+  </a>
+</li>
+
+
+<li class="nav-item pst-header-nav-item">
+  <a class="nav-link nav-internal" href="../api.html">
+    API
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+    <button class="sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav class="navbar-nav">
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item pst-header-nav-item current active">
+  <a class="nav-link nav-internal" href="../guide.html">
+    User Guide
+  </a>
+</li>
+
+
+<li class="nav-item pst-header-nav-item">
+  <a class="nav-link nav-internal" href="../api.html">
+    API
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../design-discussion.html">Design for hklpy2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../checklist_v2.html">Feature Checklist for v2</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../examples.html">Examples</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="demo.html">Demonstrate <strong>hklpy2</strong>’s API</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="demo_UB_calc.html">UB matrix : calculate from 2 reflections.</a></li>
+<li class="toctree-l2"><a class="reference internal" href="demo_UB_set.html">UB matrix : Set directly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="demo_libhkl_python_api.html">Demo: hkl_soleil Python API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="demo_refine_lattice.html">Refine lattice from 3 reflections</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Scan in <span class="math notranslate nohighlight">\((hkl)\)</span> coordinates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="diffract.html">Diffractometer Axis Names</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../guide.html" class="nav-link">User Guide</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="../examples.html" class="nav-link">Examples</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">Scan in...</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="Scan-in-(hkl)-coordinates">
+<h1>Scan in <span class="math notranslate nohighlight">\((hkl)\)</span> coordinates<a class="headerlink" href="#Scan-in-(hkl)-coordinates" title="Link to this heading">#</a></h1>
+<p>This notebook demonstrates how to scan in <span class="math notranslate nohighlight">\((hkl)\)</span> coordinates. It uses the simulated 4-circle geometry from the <code class="docutils literal notranslate"><span class="pre">&quot;hkl_soleil&quot;</span></code> solver. The wavelength and sample are whatever the simulator provides as defaults.</p>
+<p><strong>Important</strong>: It is possible to scan in any combination of reciprocal axes or to scan in any combination of real-space axes. You are not allowed to scan in a mix of reciprocal and real-space axes.</p>
+<section id="Setup">
+<h2>Setup<a class="headerlink" href="#Setup" title="Link to this heading">#</a></h2>
+<p>First, create the simulated 4-circle diffractometer object (<code class="docutils literal notranslate"><span class="pre">e4cv</span></code>).</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">hklpy2</span> <span class="kn">import</span> <span class="n">SimulatedE4CV</span>
+
+<span class="n">e4cv</span> <span class="o">=</span> <span class="n">SimulatedE4CV</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;e4cv&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>Setup Bluesky for running the scans with the <code class="docutils literal notranslate"><span class="pre">RE</span></code> object. The <code class="docutils literal notranslate"><span class="pre">bec</span></code> object will show a table of the data collected for each scan.</p>
+<p>For this simple demonstration, we won’t add a databroker catalog.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">bluesky</span> <span class="kn">import</span> <span class="n">RunEngine</span><span class="p">,</span> <span class="n">plans</span> <span class="k">as</span> <span class="n">bp</span>
+<span class="kn">from</span> <span class="nn">bluesky.callbacks.best_effort</span> <span class="kn">import</span> <span class="n">BestEffortCallback</span>
+
+<span class="n">bec</span> <span class="o">=</span> <span class="n">BestEffortCallback</span><span class="p">()</span>
+<span class="n">RE</span> <span class="o">=</span> <span class="n">RunEngine</span><span class="p">()</span>
+<span class="n">RE</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="n">bec</span><span class="p">)</span>
+<span class="n">bec</span><span class="o">.</span><span class="n">disable_plots</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<p>We’ll <strong>import a simulator</strong> (ready to use) from the <code class="docutils literal notranslate"><span class="pre">ophyd</span></code> package as a noisy detector.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ophyd.sim</span> <span class="kn">import</span> <span class="n">noisy_det</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="(h10)-scan">
+<h2>(h10) scan<a class="headerlink" href="#(h10)-scan" title="Link to this heading">#</a></h2>
+<p>Scan the (reciprocal space) <span class="math notranslate nohighlight">\(h\)</span> axis from -0.5 to +0.5 with <span class="math notranslate nohighlight">\(k=1\)</span> and <span class="math notranslate nohighlight">\(l=0\)</span>. This is called an <span class="math notranslate nohighlight">\((h10)\)</span> scan.</p>
+<details><p>The computation to convert reciprocal-space values <span class="math notranslate nohighlight">\((h,k,l)\)</span> into real-space angles (<span class="math notranslate nohighlight">\(\omega\)</span>, <span class="math notranslate nohighlight">\(\chi\)</span>, <span class="math notranslate nohighlight">\(\phi\)</span>, <span class="math notranslate nohighlight">\(2\theta\)</span>) is called the <code class="docutils literal notranslate"><span class="pre">forward()</span></code> transformation. The transformation is not necessarily unique. The most common way to reduce the number of <em>solutions</em> is to tell the solver which <code class="docutils literal notranslate"><span class="pre">mode</span></code> to use. The <code class="docutils literal notranslate"><span class="pre">mode</span></code> adds an additional pre-designed rule that constrains the acceptable solutions. The solver’s geometry (in this case <code class="docutils literal notranslate"><span class="pre">E4CV</span></code>) provides the list
+of known modes.</p>
+<p>Note: Even with a chosen mode, the solution might not be unique. In such cases, the first solution returned by the <code class="docutils literal notranslate"><span class="pre">forward()</span></code> transformation is chosen. The user can change this by providing a different function for the diffractometer’s <code class="docutils literal notranslate"><span class="pre">_forward_solution</span></code> attribute. The default is the <code class="docutils literal notranslate"><span class="pre">hklpy2.diffract.pick_first_item()</span></code> function.</p>
+</details><p>Here, the diffractometer starts with <code class="docutils literal notranslate"><span class="pre">&quot;bissector&quot;</span></code> mode (requires <code class="docutils literal notranslate"><span class="pre">tth</span> <span class="pre">=</span> <span class="pre">2*omega</span></code>).</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e4cv</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">mode</span><span class="si">=!r}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">e4cv</span><span class="o">.</span><span class="n">k</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">e4cv</span><span class="o">.</span><span class="n">l</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">RE</span><span class="p">(</span><span class="n">bp</span><span class="o">.</span><span class="n">scan</span><span class="p">([</span><span class="n">noisy_det</span><span class="p">],</span> <span class="n">e4cv</span><span class="o">.</span><span class="n">h</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mi">11</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+e4cv.operator.solver.mode=&#39;bissector&#39;
+
+
+Transient Scan ID: 1     Time: 2024-06-18 10:59:21
+Persistent Unique Scan ID: &#39;5f4fc0a9-17e2-4ae3-9fd6-f1e7a4b9b775&#39;
+New stream: &#39;primary&#39;
++-----------+------------+------------+------------+
+|   seq_num |       time |     e4cv_h |  noisy_det |
++-----------+------------+------------+------------+
+|         1 | 10:59:21.9 |     -0.500 |      0.977 |
+|         2 | 10:59:21.9 |     -0.400 |      1.038 |
+|         3 | 10:59:21.9 |     -0.300 |      0.941 |
+|         4 | 10:59:21.9 |     -0.200 |      1.077 |
+|         5 | 10:59:21.9 |     -0.100 |      1.079 |
+|         6 | 10:59:21.9 |      0.000 |      1.061 |
+|         7 | 10:59:21.9 |      0.100 |      1.085 |
+|         8 | 10:59:21.9 |      0.200 |      0.972 |
+|         9 | 10:59:21.9 |      0.300 |      1.028 |
+|        10 | 10:59:22.0 |      0.400 |      0.970 |
+|        11 | 10:59:22.0 |      0.500 |      1.015 |
++-----------+------------+------------+------------+
+generator scan [&#39;5f4fc0a9&#39;] (scan num: 1)
+
+
+
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(&#39;5f4fc0a9-17e2-4ae3-9fd6-f1e7a4b9b775&#39;,)
+</pre></div></div>
+</div>
+<p><strong>Clearly we see</strong> that <span class="math notranslate nohighlight">\(h\)</span> has been stepped across the range of -0.5 to +0.5. Values for the noisy detector have been reported at each step. But we want to know about <em>all</em> the <span class="math notranslate nohighlight">\(hkl\)</span> and angle values so we can observe the effects of <code class="docutils literal notranslate"><span class="pre">&quot;bissector&quot;</span></code> mode.</p>
+<section id="Scan-again,-showing-all-(hkl)-and-real-space-axes">
+<h3>Scan again, showing all <span class="math notranslate nohighlight">\((hkl)\)</span> and real-space axes<a class="headerlink" href="#Scan-again,-showing-all-(hkl)-and-real-space-axes" title="Link to this heading">#</a></h3>
+<p>Repeat the scan, same as before with a slight variation. This time, add the <code class="docutils literal notranslate"><span class="pre">e4cv</span></code> object as an additional detector.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e4cv</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">mode</span><span class="si">=!r}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">e4cv</span><span class="o">.</span><span class="n">k</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">e4cv</span><span class="o">.</span><span class="n">l</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">RE</span><span class="p">(</span><span class="n">bp</span><span class="o">.</span><span class="n">scan</span><span class="p">([</span><span class="n">noisy_det</span><span class="p">,</span> <span class="n">e4cv</span><span class="p">],</span> <span class="n">e4cv</span><span class="o">.</span><span class="n">h</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mi">11</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+e4cv.operator.solver.mode=&#39;bissector&#39;
+
+
+Transient Scan ID: 2     Time: 2024-06-18 10:59:22
+Persistent Unique Scan ID: &#39;ece958ca-2c83-4391-829d-b542094a508e&#39;
+New stream: &#39;primary&#39;
++-----------+------------+------------+------------+------------+------------+------------+------------+------------+------------+
+|   seq_num |       time |     e4cv_h |  noisy_det |     e4cv_k |     e4cv_l | e4cv_omega |   e4cv_chi |   e4cv_phi |   e4cv_tth |
++-----------+------------+------------+------------+------------+------------+------------+------------+------------+------------+
+|         1 | 10:59:22.2 |     -0.500 |      0.957 |      1.000 |      0.000 |    -33.988 |    -63.435 |     90.000 |    -67.976 |
+|         2 | 10:59:22.2 |     -0.400 |      1.031 |      1.000 |      0.000 |    -32.583 |    -68.199 |     90.000 |    -65.165 |
+|         3 | 10:59:22.2 |     -0.300 |      1.063 |      1.000 |     -0.000 |    -31.468 |    -73.301 |     90.000 |    -62.935 |
+|         4 | 10:59:22.2 |     -0.200 |      1.028 |      1.000 |     -0.000 |    -30.657 |    -78.690 |     90.000 |    -61.315 |
+|         5 | 10:59:22.2 |     -0.100 |      1.005 |      1.000 |     -0.000 |    -30.165 |    -84.289 |     90.000 |    -60.330 |
+|         6 | 10:59:22.2 |      0.000 |      1.072 |      1.000 |      0.000 |    -30.000 |    -90.000 |     90.000 |    -60.000 |
+|         7 | 10:59:22.2 |      0.100 |      1.091 |      1.000 |      0.000 |    -30.165 |    -95.711 |     90.000 |    -60.330 |
+|         8 | 10:59:22.2 |      0.200 |      0.952 |      1.000 |     -0.000 |    -30.657 |   -101.310 |     90.000 |    -61.315 |
+|         9 | 10:59:22.2 |      0.300 |      1.098 |      1.000 |     -0.000 |    -31.468 |   -106.699 |     90.000 |    -62.935 |
+|        10 | 10:59:22.3 |      0.400 |      1.019 |      1.000 |     -0.000 |    -32.583 |   -111.801 |     90.000 |    -65.165 |
+|        11 | 10:59:22.3 |      0.500 |      0.904 |      1.000 |     -0.000 |    -33.988 |   -116.565 |     90.000 |    -67.976 |
++-----------+------------+------------+------------+------------+------------+------------+------------+------------+------------+
+generator scan [&#39;ece958ca&#39;] (scan num: 2)
+
+
+
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(&#39;ece958ca-2c83-4391-829d-b542094a508e&#39;,)
+</pre></div></div>
+</div>
+</section>
+</section>
+<section id="What-other-modes-are-available?">
+<h2>What other modes are available?<a class="headerlink" href="#What-other-modes-are-available?" title="Link to this heading">#</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">e4cv</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">modes</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[&#39;bissector&#39;,
+ &#39;constant_omega&#39;,
+ &#39;constant_chi&#39;,
+ &#39;constant_phi&#39;,
+ &#39;double_diffraction&#39;,
+ &#39;psi_constant&#39;]
+</pre></div></div>
+</div>
+</section>
+<section id="Scan-(h10)-holding-\omega-at--30-degrees">
+<h2>Scan <span class="math notranslate nohighlight">\((h10)\)</span> holding <span class="math notranslate nohighlight">\(\omega\)</span> at -30 degrees<a class="headerlink" href="#Scan-(h10)-holding-\omega-at--30-degrees" title="Link to this heading">#</a></h2>
+<p>Set the mode to <code class="docutils literal notranslate"><span class="pre">&quot;constant_omega&quot;</span></code>, then set <span class="math notranslate nohighlight">\(\omega=-30\)</span> degrees.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">e4cv</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">mode</span> <span class="o">=</span> <span class="s2">&quot;constant_omega&quot;</span>
+<span class="n">e4cv</span><span class="o">.</span><span class="n">omega</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="o">-</span><span class="mi">30</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e4cv</span><span class="o">.</span><span class="n">omega</span><span class="o">.</span><span class="n">position</span><span class="si">=!r}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+e4cv.omega.position=-30
+</pre></div></div>
+</div>
+<p><strong>Run the scan again</strong> with the same command.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e4cv</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">mode</span><span class="si">=!r}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">e4cv</span><span class="o">.</span><span class="n">k</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">e4cv</span><span class="o">.</span><span class="n">l</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">RE</span><span class="p">(</span><span class="n">bp</span><span class="o">.</span><span class="n">scan</span><span class="p">([</span><span class="n">noisy_det</span><span class="p">,</span> <span class="n">e4cv</span><span class="p">],</span> <span class="n">e4cv</span><span class="o">.</span><span class="n">h</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mi">11</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+e4cv.operator.solver.mode=&#39;constant_omega&#39;
+
+
+Transient Scan ID: 3     Time: 2024-06-18 10:59:22
+Persistent Unique Scan ID: &#39;3f5684c0-a076-4c3a-a496-ccec3d9f7a69&#39;
+New stream: &#39;primary&#39;
++-----------+------------+------------+------------+------------+------------+------------+------------+------------+------------+
+|   seq_num |       time |     e4cv_h |  noisy_det |     e4cv_k |     e4cv_l | e4cv_omega |   e4cv_chi |   e4cv_phi |   e4cv_tth |
++-----------+------------+------------+------------+------------+------------+------------+------------+------------+------------+
+|         1 | 10:59:22.5 |     -0.500 |      0.933 |      1.000 |      0.000 |    -30.000 |    -63.714 |     81.054 |    -67.976 |
+|         2 | 10:59:22.5 |     -0.400 |      1.018 |      1.000 |     -0.000 |    -30.000 |    -68.345 |     83.031 |    -65.165 |
+|         3 | 10:59:22.5 |     -0.300 |      1.096 |      1.000 |     -0.000 |    -30.000 |    -73.364 |     84.887 |    -62.935 |
+|         4 | 10:59:22.5 |     -0.200 |      1.084 |      1.000 |     -0.000 |    -30.000 |    -78.709 |     86.647 |    -61.315 |
+|         5 | 10:59:22.5 |     -0.100 |      0.940 |      1.000 |     -0.000 |    -30.000 |    -84.292 |     88.340 |    -60.330 |
+|         6 | 10:59:22.5 |     -0.000 |      0.982 |      1.000 |     -0.000 |    -30.000 |    -90.000 |     88.340 |    -60.000 |
+|         7 | 10:59:22.5 |      0.100 |      0.907 |      1.000 |     -0.000 |    -30.000 |    -95.708 |     91.660 |    -60.330 |
+|         8 | 10:59:22.5 |      0.200 |      1.051 |      1.000 |     -0.000 |    -30.000 |   -101.291 |     93.353 |    -61.315 |
+|         9 | 10:59:22.5 |      0.300 |      0.952 |      1.000 |     -0.000 |    -30.000 |   -106.636 |     95.113 |    -62.935 |
+|        10 | 10:59:22.5 |      0.400 |      0.945 |      1.000 |     -0.000 |    -30.000 |   -111.655 |     96.969 |    -65.165 |
+|        11 | 10:59:22.6 |      0.500 |      1.057 |      1.000 |      0.000 |    -30.000 |   -116.286 |     98.946 |    -67.976 |
++-----------+------------+------------+------------+------------+------------+------------+------------+------------+------------+
+generator scan [&#39;3f5684c0&#39;] (scan num: 3)
+
+
+
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(&#39;3f5684c0-a076-4c3a-a496-ccec3d9f7a69&#39;,)
+</pre></div></div>
+</div>
+</section>
+<section id="Scan-(\bar{1}kl)-holding-\omega-at--30-degrees">
+<h2>Scan <span class="math notranslate nohighlight">\((\bar{1}kl)\)</span> holding <span class="math notranslate nohighlight">\(\omega\)</span> at -30 degrees<a class="headerlink" href="#Scan-(\bar{1}kl)-holding-\omega-at--30-degrees" title="Link to this heading">#</a></h2>
+<p>Keep mode as <code class="docutils literal notranslate"><span class="pre">&quot;constant_omega&quot;</span></code> and <span class="math notranslate nohighlight">\(\omega=-30\)</span>. Set <span class="math notranslate nohighlight">\(h=-1\)</span> and scan <span class="math notranslate nohighlight">\(k\)</span> &amp; <span class="math notranslate nohighlight">\(l\)</span>.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">e4cv</span><span class="o">.</span><span class="n">h</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e4cv</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">mode</span><span class="si">=!r}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">RE</span><span class="p">(</span><span class="n">bp</span><span class="o">.</span><span class="n">scan</span><span class="p">([</span><span class="n">noisy_det</span><span class="p">,</span> <span class="n">e4cv</span><span class="p">],</span> <span class="n">e4cv</span><span class="o">.</span><span class="n">k</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">,</span> <span class="mf">1.1</span><span class="p">,</span> <span class="n">e4cv</span><span class="o">.</span><span class="n">l</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.6</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.4</span><span class="p">,</span> <span class="mi">11</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+e4cv.operator.solver.mode=&#39;constant_omega&#39;
+
+
+Transient Scan ID: 4     Time: 2024-06-18 10:59:22
+Persistent Unique Scan ID: &#39;53cb8642-060a-4e88-a115-e4ba3143f595&#39;
+New stream: &#39;primary&#39;
++-----------+------------+------------+------------+------------+------------+------------+------------+------------+------------+
+|   seq_num |       time |     e4cv_k |     e4cv_l |  noisy_det |     e4cv_h | e4cv_omega |   e4cv_chi |   e4cv_phi |   e4cv_tth |
++-----------+------------+------------+------------+------------+------------+------------+------------+------------+------------+
+|         1 | 10:59:22.7 |      0.900 |     -0.600 |      0.993 |     -1.000 |    -30.000 |    -39.821 |     36.793 |    -94.876 |
+|         2 | 10:59:22.7 |      0.920 |     -0.580 |      1.086 |     -1.000 |    -30.000 |    -40.796 |     37.124 |    -95.244 |
+|         3 | 10:59:22.7 |      0.940 |     -0.560 |      1.032 |     -1.000 |    -30.000 |    -41.770 |     37.424 |    -95.659 |
+|         4 | 10:59:22.7 |      0.960 |     -0.540 |      1.097 |     -1.000 |    -30.000 |    -42.745 |     37.689 |    -96.119 |
+|         5 | 10:59:22.7 |      0.980 |     -0.520 |      0.984 |     -1.000 |    -30.000 |    -43.721 |     37.920 |    -96.627 |
+|         6 | 10:59:22.7 |      1.000 |     -0.500 |      0.927 |     -1.000 |    -30.000 |    -44.698 |     38.112 |    -97.181 |
+|         7 | 10:59:22.7 |      1.020 |     -0.480 |      1.074 |     -1.000 |    -30.000 |    -45.677 |     38.265 |    -97.782 |
+|         8 | 10:59:22.7 |      1.040 |     -0.460 |      0.927 |     -1.000 |    -30.000 |    -46.660 |     38.375 |    -98.430 |
+|         9 | 10:59:22.7 |      1.060 |     -0.440 |      1.042 |     -1.000 |    -30.000 |    -47.647 |     38.440 |    -99.126 |
+|        10 | 10:59:22.7 |      1.080 |     -0.420 |      1.073 |     -1.000 |    -30.000 |    -48.640 |     38.457 |    -99.869 |
+|        11 | 10:59:22.7 |      1.100 |     -0.400 |      0.947 |     -1.000 |    -30.000 |    -49.641 |     38.422 |   -100.661 |
++-----------+------------+------------+------------+------------+------------+------------+------------+------------+------------+
+generator scan [&#39;53cb8642&#39;] (scan num: 4)
+
+
+
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(&#39;53cb8642-060a-4e88-a115-e4ba3143f595&#39;,)
+</pre></div></div>
+</div>
+</section>
+<section id="Scan-(h10)-holding-\psi-at-25-degrees">
+<h2>Scan <span class="math notranslate nohighlight">\((h10)\)</span> holding <span class="math notranslate nohighlight">\(\psi\)</span> at 25 degrees<a class="headerlink" href="#Scan-(h10)-holding-\psi-at-25-degrees" title="Link to this heading">#</a></h2>
+<p>Set the mode to <code class="docutils literal notranslate"><span class="pre">&quot;psi_constant&quot;</span></code>, then set <span class="math notranslate nohighlight">\(\psi=25\)</span> degrees.</p>
+<p>TODO: What is <span class="math notranslate nohighlight">\(\psi\)</span>? What is <span class="math notranslate nohighlight">\((h_2, k_2, l_2)\)</span>? Is enabled by solver yet?</p>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="demo_refine_lattice.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Refine lattice from 3 reflections</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="diffract.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Diffractometer Axis Names</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Setup">Setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#(h10)-scan">(h10) scan</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Scan-again,-showing-all-(hkl)-and-real-space-axes">Scan again, showing all <span class="math notranslate nohighlight">\((hkl)\)</span> and real-space axes</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#What-other-modes-are-available?">What other modes are available?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Scan-(h10)-holding-\omega-at--30-degrees">Scan <span class="math notranslate nohighlight">\((h10)\)</span> holding <span class="math notranslate nohighlight">\(\omega\)</span> at -30 degrees</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Scan-(\bar{1}kl)-holding-\omega-at--30-degrees">Scan <span class="math notranslate nohighlight">\((\bar{1}kl)\)</span> holding <span class="math notranslate nohighlight">\(\omega\)</span> at -30 degrees</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Scan-(h10)-holding-\psi-at-25-degrees">Scan <span class="math notranslate nohighlight">\((h10)\)</span> holding <span class="math notranslate nohighlight">\(\psi\)</span> at 25 degrees</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+
+  <div class="tocsection sourcelink">
+    <a href="../_sources/examples/demo_scan_hkl.ipynb.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=3ee479438cf8b5e0d341"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=3ee479438cf8b5e0d341"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2023-2024, Argonne National Laboratory.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.3.7.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.15.3.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>
