@@ -142,14 +142,11 @@ class HklSolver(SolverBase):
       (default: ``[]``)
     * reals: ([PositionerBase]) List of real positioners.
       (default: ``[]``)
-    * extra: ([PseudoPositioner]+[PositionerBase) List of extra positioners.
-      (default: ``[]``)
-      First the pseudos, then the reals.
 
     .. note:: The lists of ``pseudos`` and ``reals`` are the
        corresponding axes of the diffractometer, in the order expected by
        the |solver| geometry.  The diffractometer can use names that are
-       different from the names expected by the engine here.  The 
+       different from the names expected by the engine here.  The
        :class:`~hklpys.ops.Operator` class will convert between the two
        sets of names.
 
@@ -176,6 +173,7 @@ class HklSolver(SolverBase):
         ~engine_name
         ~engines
         ~extra_axis_names
+        ~extras
         ~geometry
         ~lattice
         ~mode
@@ -295,11 +293,39 @@ class HklSolver(SolverBase):
     @property
     def extra_axis_names(self) -> list[str]:
         """
-        Ordered list of any extra axis names (such as x, y, z).
+        Ordered list of any extra parameter names (such as x, y, z).
 
         Depends on selected geometry, engine, and mode.
         """
         return self.engine.parameters_names_get()  # Do NOT sort.
+
+    @property
+    def extras(self) -> dict:
+        """
+        Ordered dictionary of any extra parameters.
+
+        Depends on selected geometry, engine, and mode.
+        """
+        return dict(
+            zip(
+                self.extra_axis_names,
+                self.engine.parameters_values_get(LIBHKL_USER_UNITS),
+            )
+        )
+
+    @extras.setter
+    def extras(self, values: dict) -> None:
+        known_names = self.extra_axis_names
+        for k in values.keys():
+            if k not in known_names:
+                raise ValueError(
+                    f"Unexpected dictionary key received: {k!r}"
+                    f" Expected one of these: {known_names!r}"
+                )
+        for k, v in values.items():
+            p = self.engine.parameter_get(k)
+            p.value_set(v, LIBHKL_USER_UNITS)
+            self.engine.parameter_set(k, p)
 
     def forward(self, pseudos: dict) -> list[dict[str, float]]:
         """Compute list of solutions(reals) from pseudos (hkl -> [angles])."""
