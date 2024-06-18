@@ -11,7 +11,7 @@ There are several possible ways to install this package:
 Conda - conda-forge
 ====================
 
-The package has not been submitted to conda-forge.  Once that is ready:
+Install from conda-forge:
 
 ``conda install -c conda-forge hklpy2``
 
