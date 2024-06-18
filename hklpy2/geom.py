@@ -6,6 +6,8 @@ Diffractometer Geometries.
 
     ~E4CV
     ~E6C
+    ~K4CV
+    ~K6C
     ~Theta2Theta
 
 .. rubric:: Simulators
@@ -13,6 +15,7 @@ Diffractometer Geometries.
 
     ~SimulatedE4CV
     ~SimulatedE6C
+    ~SimulatedK4CV
     ~SimulatedK6C
     ~SimulatedTheta2Theta
 
@@ -26,6 +29,7 @@ Diffractometer Geometries.
 .. rubric:: Support
 .. autosummary::
 
+    ~MixinAutoAssignAxes
     ~MixinHkl
     ~MixinQ
 """
@@ -43,6 +47,7 @@ from .diffract import DiffractometerBase
 __all__ = """
     E4CV
     E6C
+    K4CV
     K6C
     MixinHkl
     MixinQ
@@ -51,6 +56,7 @@ __all__ = """
     Petra3_p23_6c
     SimulatedE4CV
     SimulatedE6C
+    SimulatedK4CV
     SimulatedK6C
     SimulatedTheta2Theta
     Theta2Theta
@@ -58,6 +64,14 @@ __all__ = """
 
 logger = logging.getLogger(__name__)
 H_OR_N = Kind.hinted | Kind.normal
+
+
+class MixinAutoAssignAxes(Device):
+    """Automatically assigns diffrctometer axes."""
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.operator.auto_assign_axes()
 
 
 class MixinHkl(Device):
@@ -88,7 +102,7 @@ class MixinQ(Device):
 
 class E4CV(DiffractometerBase, MixinHkl):
     """
-    4-circle, hkl_soleil, E4CV, engine="hkl".
+    Eulerian 4-circle, hkl_soleil, E4CV, engine="hkl".
 
     :class:`~hklpy2.backends.hkl_soleil.HklSolver`
     """
@@ -105,7 +119,7 @@ class E4CV(DiffractometerBase, MixinHkl):
 
 class E6C(DiffractometerBase, MixinHkl):
     """
-    6-circle, hkl_soleil, E6C, engine="hkl".
+    Eulerian 6-circle, hkl_soleil, E6C, engine="hkl".
 
     :class:`~hklpy2.backends.hkl_soleil.HklSolver`
     """
@@ -115,6 +129,23 @@ class E6C(DiffractometerBase, MixinHkl):
             *args,
             solver="hkl_soleil",
             geometry="E6C",
+            solver_kwargs={"engine": "hkl"},
+            **kwargs,
+        )
+
+
+class K4CV(DiffractometerBase, MixinHkl):
+    """
+    Kappa 4-circle, hkl_soleil, K4CV, engine="hkl".
+
+    :class:`~hklpy2.backends.hkl_soleil.HklSolver`
+    """
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(
+            *args,
+            solver="hkl_soleil",
+            geometry="K4CV",
             solver_kwargs={"engine": "hkl"},
             **kwargs,
         )
@@ -191,6 +222,8 @@ class Petra3_p23_6c(DiffractometerBase, MixinHkl):
 class Theta2Theta(DiffractometerBase):
     """
     2-circle, th_tth, TH TTH Q.
+    
+    NOTE:  For demonstration purposes.  Needs testing.
 
     :class:`~hklpy2.backends.th_tth_q.ThTthSolver`
     """
@@ -204,9 +237,9 @@ class Theta2Theta(DiffractometerBase):
         )
 
 
-class SimulatedE4CV(E4CV, MixinHkl):
+class SimulatedE4CV(MixinAutoAssignAxes, E4CV, MixinHkl):
     """
-    4-circle, hkl_soleil, E4CV, engine="hkl", simulated rotary axes.
+    Eulerian 4-circle, hkl_soleil, E4CV, engine="hkl", simulated rotary axes.
 
     :class:`~hklpy2.backends.hkl_soleil.HklSolver`
     """
@@ -216,14 +249,10 @@ class SimulatedE4CV(E4CV, MixinHkl):
     phi = Cpt(SoftPositioner, limits=(-180, 180), init_pos=0, kind=H_OR_N)
     tth = Cpt(SoftPositioner, limits=(-170, 170), init_pos=0, kind=H_OR_N)
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.operator.auto_assign_axes()
 
-
-class SimulatedE6C(E4CV, MixinHkl):
+class SimulatedE6C(MixinAutoAssignAxes, E4CV, MixinHkl):
     """
-    6-circle, *hkl_soleil*, E6C, engine="hkl", simulated rotary axes.
+    Eulerian 6-circle, *hkl_soleil*, E6C, engine="hkl", simulated rotary axes.
 
     :class:`~hklpy2.backends.hkl_soleil.HklSolver`
     """
@@ -235,12 +264,21 @@ class SimulatedE6C(E4CV, MixinHkl):
     gamma = Cpt(SoftPositioner, limits=(-180, 180), init_pos=0, kind=H_OR_N)
     delta = Cpt(SoftPositioner, limits=(-180, 180), init_pos=0, kind=H_OR_N)
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.operator.auto_assign_axes()
+
+class SimulatedK4CV(MixinAutoAssignAxes, K4CV, MixinHkl):
+    """
+    Kappa 4-circle, hkl_soleil, K4CV, engine="hkl", simulated rotary axes.
+
+    :class:`~hklpy2.backends.hkl_soleil.HklSolver`
+    """
+
+    komega = Cpt(SoftPositioner, limits=(-180, 180), init_pos=0, kind=H_OR_N)
+    kappa = Cpt(SoftPositioner, limits=(-180, 180), init_pos=0, kind=H_OR_N)
+    kphi = Cpt(SoftPositioner, limits=(-180, 180), init_pos=0, kind=H_OR_N)
+    tth = Cpt(SoftPositioner, limits=(-170, 170), init_pos=0, kind=H_OR_N)
 
 
-class SimulatedK6C(K6C, MixinHkl):
+class SimulatedK6C(MixinAutoAssignAxes, K6C, MixinHkl):
     """
     Kappa 6-circle, hkl_soleil, K6C, engine="hkl", simulated rotary axes.
 
@@ -254,21 +292,15 @@ class SimulatedK6C(K6C, MixinHkl):
     gamma = Cpt(SoftPositioner, limits=(-170, 170), init_pos=0, kind=H_OR_N)
     delta = Cpt(SoftPositioner, limits=(-170, 170), init_pos=0, kind=H_OR_N)
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.operator.auto_assign_axes()
 
-
-class SimulatedTheta2Theta(Theta2Theta, MixinQ):
+class SimulatedTheta2Theta(MixinAutoAssignAxes, Theta2Theta, MixinQ):
     """
     2-circle, *th_tth*, TH TTH Q, simulated rotary axes.
+    
+    NOTE:  For demonstration purposes.  Needs testing.
 
     :class:`~hklpy2.backends.th_tth_q.ThTthSolver`
     """
 
     theta = Cpt(SoftPositioner, limits=(-100, 100), init_pos=0, kind=H_OR_N)
     ttheta = Cpt(SoftPositioner, limits=(-15, 150), init_pos=0, kind=H_OR_N)
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.operator.auto_assign_axes()
