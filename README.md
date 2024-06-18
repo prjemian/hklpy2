@@ -1,6 +1,6 @@
 # hklpy2
 
-NOTE:  this project at initial development
+NOTE:  This project is in its initial development.
 
 | Name | Downloads | Version | Platforms | PyPI | Coverage |
 | --- | --- | --- | --- | --- | --- |
