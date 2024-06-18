@@ -49,6 +49,7 @@ __all__ = """
     E6C
     K4CV
     K6C
+    MixinAutoAssignAxes
     MixinHkl
     MixinQ
     Petra3_p09_eh2
@@ -67,7 +68,7 @@ H_OR_N = Kind.hinted | Kind.normal
 
 
 class MixinAutoAssignAxes(Device):
-    """Automatically assigns diffrctometer axes."""
+    """Automatically assigns diffractometer axes."""
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
