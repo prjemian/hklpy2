@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=3ee479438cf8b5e0d341" />
   <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=3ee479438cf8b5e0d341"></script>
 
-    <script src="../../../_static/documentation_options.js?v=02f15813"></script>
+    <script src="../../../_static/documentation_options.js?v=1bb0c18b"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/tabs.js?v=3030b3cb"></script>
@@ -341,16 +341,17 @@ document.write(`
 <span class="sd">    ~HklSolver</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="c1"># TODO: how to hold an axis constant at current value? such as constant_omega</span>
-<span class="c1"># TODO: how to hold an axis constant at a specific value? such as constant_omega</span>
-<span class="c1"># TODO: how to set extras? such as constant_psi</span>
-<span class="c1"># TODO: how to set psi and rotate around it?</span>
-<span class="c1"># TODO: self.engines.select_solution</span>
-<span class="c1"># TODO:</span>
-<span class="c1">#         axis = self._geometry.axis_get(self.param_name)</span>
-<span class="c1">#         low, high = axis.min_max_get(self._units)</span>
-<span class="c1">#         axis = self._geometry.axis_get(self.param_name)</span>
-<span class="c1">#         return bool(axis.fit_get())</span>
+<span class="c1"># Notes:</span>
+<span class="c1">#</span>
+<span class="c1"># - &#39;fit&#39;</span>
+<span class="c1">#     While this parameter is used by *libhkl* to adjust lattice parameters when</span>
+<span class="c1">#     refining from more than 2 reflections, it is not used in the calculation of</span>
+<span class="c1">#     rotation angles from reciprocal-space coordinates.</span>
+
+<span class="c1"># - To hold an axis or extra parameter constant (current or specified value):</span>
+<span class="c1">#     choose the mode and set it before the forward() transformation.</span>
+
+<span class="c1"># - To scan around hkl2 using psi, see the new how to.</span>
 
 <span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">import</span> <span class="nn">math</span>
@@ -481,10 +482,12 @@ document.write(`
 <span class="sd">      (default: ``[]``)</span>
 <span class="sd">      First the pseudos, then the reals.</span>
 
-<span class="sd">    .. note:: The lists of ``pseudos``, ``reals``, and ``extras`` are the</span>
+<span class="sd">    .. note:: The lists of ``pseudos`` and ``reals`` are the</span>
 <span class="sd">       corresponding axes of the diffractometer, in the order expected by</span>
-<span class="sd">       the |solver| geometry.  The names can be different between the</span>
-<span class="sd">       supplied and expected axes.  They are matched by order in the list.</span>
+<span class="sd">       the |solver| geometry.  The diffractometer can use names that are</span>
+<span class="sd">       different from the names expected by the engine here.  The </span>
+<span class="sd">       :class:`~hklpys.ops.Operator` class will convert between the two</span>
+<span class="sd">       sets of names.</span>
 
 <span class="sd">    .. rubric:: Python Methods</span>
 

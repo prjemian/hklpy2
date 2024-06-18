@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=3ee479438cf8b5e0d341" />
   <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=3ee479438cf8b5e0d341"></script>
 
-    <script src="../../_static/documentation_options.js?v=02f15813"></script>
+    <script src="../../_static/documentation_options.js?v=1bb0c18b"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/tabs.js?v=3030b3cb"></script>
@@ -490,9 +490,7 @@ document.write(`
 
 <div class="viewcode-block" id="Operations.assign_axes">
 <a class="viewcode-back" href="../../api/ops.html#hklpy2.ops.Operations.assign_axes">[docs]</a>
-    <span class="k">def</span> <span class="nf">assign_axes</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">pseudos</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">reals</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">extras</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">assign_axes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pseudos</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">reals</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Designate attributes for use by the PseudoPositioner class.</span>
 
@@ -500,7 +498,6 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">pseudos</span> <span class="o">=</span> <span class="n">pseudos</span> <span class="ow">or</span> <span class="p">[]</span>
         <span class="n">reals</span> <span class="o">=</span> <span class="n">reals</span> <span class="ow">or</span> <span class="p">[]</span>
-        <span class="n">extras</span> <span class="o">=</span> <span class="n">extras</span> <span class="ow">or</span> <span class="p">[]</span>
 
         <span class="k">def</span> <span class="nf">itemize</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">select</span><span class="p">,</span> <span class="n">full</span><span class="p">):</span>
             <span class="n">keys</span> <span class="o">=</span> <span class="p">[</span><span class="n">name</span> <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">_obj</span> <span class="ow">in</span> <span class="n">full</span><span class="p">]</span>
@@ -515,7 +512,7 @@ document.write(`
                 <span class="n">both_p_r</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">dname</span><span class="p">)</span>
 
         <span class="c1"># check for duplicates</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">pseudos</span> <span class="o">+</span> <span class="n">reals</span> <span class="o">+</span> <span class="n">extras</span><span class="p">))</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">pseudos</span> <span class="o">+</span> <span class="n">reals</span> <span class="o">+</span> <span class="n">extras</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">pseudos</span> <span class="o">+</span> <span class="n">reals</span><span class="p">))</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">pseudos</span> <span class="o">+</span> <span class="n">reals</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Axis name cannot be in more than list.&quot;</span><span class="p">)</span>
 
         <span class="n">dfrct</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">diffractometer</span>
@@ -530,7 +527,6 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">axes_xref</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="n">reference</span><span class="p">(</span><span class="n">pseudos</span><span class="p">,</span> <span class="n">solver</span><span class="o">.</span><span class="n">pseudo_axis_names</span><span class="p">)</span>
         <span class="n">reference</span><span class="p">(</span><span class="n">reals</span><span class="p">,</span> <span class="n">solver</span><span class="o">.</span><span class="n">real_axis_names</span><span class="p">)</span>
-        <span class="n">reference</span><span class="p">(</span><span class="n">extras</span><span class="p">,</span> <span class="n">solver</span><span class="o">.</span><span class="n">extra_axis_names</span><span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;axes_xref=</span><span class="si">%r</span><span class="s2">&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">axes_xref</span><span class="p">)</span></div>
 
 
@@ -588,9 +584,8 @@ document.write(`
         <span class="n">solver</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">diffractometer</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">solver</span>
         <span class="n">pseudos</span> <span class="o">=</span> <span class="n">lister</span><span class="p">(</span><span class="n">all_pseudos</span><span class="p">,</span> <span class="n">solver</span><span class="o">.</span><span class="n">pseudo_axis_names</span><span class="p">)</span>
         <span class="n">reals</span> <span class="o">=</span> <span class="n">lister</span><span class="p">(</span><span class="n">all_reals</span><span class="p">,</span> <span class="n">solver</span><span class="o">.</span><span class="n">real_axis_names</span><span class="p">)</span>
-        <span class="n">extras</span> <span class="o">=</span> <span class="n">lister</span><span class="p">(</span><span class="n">both_p_r</span><span class="p">,</span> <span class="n">solver</span><span class="o">.</span><span class="n">extra_axis_names</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">assign_axes</span><span class="p">(</span><span class="n">pseudos</span><span class="p">,</span> <span class="n">reals</span><span class="p">,</span> <span class="n">extras</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assign_axes</span><span class="p">(</span><span class="n">pseudos</span><span class="p">,</span> <span class="n">reals</span><span class="p">)</span>
 
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;axes_xref=</span><span class="si">%r</span><span class="s2">&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">axes_xref</span><span class="p">)</span></div>
 
@@ -693,7 +688,7 @@ document.write(`
     <span class="k">def</span> <span class="nf">refine_lattice</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reflections</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Lattice</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return the sample lattice computed from 3 or more reflections.</span>
-<span class="sd">        </span>
+
 <span class="sd">        Do not change the sample lattice.  Let the user decide that.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">reflections</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
