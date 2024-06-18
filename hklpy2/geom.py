@@ -13,6 +13,7 @@ Diffractometer Geometries.
 
     ~SimulatedE4CV
     ~SimulatedE6C
+    ~SimulatedK6C
     ~SimulatedTheta2Theta
 
 .. rubric:: Special-Use Diffractometer Geometries
@@ -42,6 +43,7 @@ from .diffract import DiffractometerBase
 __all__ = """
     E4CV
     E6C
+    K6C
     MixinHkl
     MixinQ
     Petra3_p09_eh2
@@ -49,6 +51,7 @@ __all__ = """
     Petra3_p23_6c
     SimulatedE4CV
     SimulatedE6C
+    SimulatedK6C
     SimulatedTheta2Theta
     Theta2Theta
 """.split()
@@ -112,6 +115,23 @@ class E6C(DiffractometerBase, MixinHkl):
             *args,
             solver="hkl_soleil",
             geometry="E6C",
+            solver_kwargs={"engine": "hkl"},
+            **kwargs,
+        )
+
+
+class K6C(DiffractometerBase, MixinHkl):
+    """
+    Kappa 6-circle, hkl_soleil, K6C, engine="hkl".
+
+    :class:`~hklpy2.backends.hkl_soleil.HklSolver`
+    """
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(
+            *args,
+            solver="hkl_soleil",
+            geometry="K6C",
             solver_kwargs={"engine": "hkl"},
             **kwargs,
         )
@@ -214,6 +234,25 @@ class SimulatedE6C(E4CV, MixinHkl):
     phi = Cpt(SoftPositioner, limits=(-180, 180), init_pos=0, kind=H_OR_N)
     gamma = Cpt(SoftPositioner, limits=(-180, 180), init_pos=0, kind=H_OR_N)
     delta = Cpt(SoftPositioner, limits=(-180, 180), init_pos=0, kind=H_OR_N)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.operator.auto_assign_axes()
+
+
+class SimulatedK6C(K6C, MixinHkl):
+    """
+    Kappa 6-circle, hkl_soleil, K6C, engine="hkl", simulated rotary axes.
+
+    :class:`~hklpy2.backends.hkl_soleil.HklSolver`
+    """
+
+    mu = Cpt(SoftPositioner, limits=(-180, 180), init_pos=0, kind=H_OR_N)
+    komega = Cpt(SoftPositioner, limits=(-180, 180), init_pos=0, kind=H_OR_N)
+    kappa = Cpt(SoftPositioner, limits=(-180, 180), init_pos=0, kind=H_OR_N)
+    kphi = Cpt(SoftPositioner, limits=(-180, 180), init_pos=0, kind=H_OR_N)
+    gamma = Cpt(SoftPositioner, limits=(-170, 170), init_pos=0, kind=H_OR_N)
+    delta = Cpt(SoftPositioner, limits=(-170, 170), init_pos=0, kind=H_OR_N)
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
