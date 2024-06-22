@@ -215,7 +215,7 @@ class HklSolver(SolverBase):
     def __repr__(self) -> str:
         args = [
             f"{s}={getattr(self, s)!r}"
-            for s in "name version geometry engine mode".split()
+            for s in "name version geometry engine_name mode".split()
         ]
         return f"{self.__class__.__name__}({', '.join(args)})"
 
@@ -330,15 +330,6 @@ class HklSolver(SolverBase):
     def forward(self, pseudos: dict) -> list[dict[str, float]]:
         """Compute list of solutions(reals) from pseudos (hkl -> [angles])."""
         logger.debug("(%r) forward(%r)", __name__, pseudos)
-
-        # TODO: check this
-        # TODO: What about reals in the extras
-        # xdict = {k: pseudos[k] for k in self.extra_axis_names if k in pseudos}
-        # if len(xdict) > 0:
-        #     self.engine.parameters_values_set(
-        #         list(xdict.values()),
-        #         LIBHKL_USER_UNITS,
-        #     )
 
         geometry_list = self.engine.pseudo_axis_values_set(
             list(pseudos.values()),
