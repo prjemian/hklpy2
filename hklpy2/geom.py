@@ -251,7 +251,7 @@ class SimulatedE4CV(MixinAutoAssignAxes, E4CV, MixinHkl):
     tth = Cpt(SoftPositioner, limits=(-170, 170), init_pos=0, kind=H_OR_N)
 
 
-class SimulatedE6C(MixinAutoAssignAxes, E4CV, MixinHkl):
+class SimulatedE6C(MixinAutoAssignAxes, E6C, MixinHkl):
     """
     Eulerian 6-circle, *hkl_soleil*, E6C, engine="hkl", simulated rotary axes.
 
