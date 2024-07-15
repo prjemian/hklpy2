@@ -17,7 +17,7 @@ from . import NO_OP_SOLVER_TYPE_STR
 def test_solvers(solver_class, base_class, geometry):
     """Test import of the Solver classes, as user and as unit tester."""
     # test the classes, themselves
-    assert type(solver_class) == type(base_class)
+    assert type(solver_class) is type(base_class)
     assert issubclass(solver_class, base_class)
 
     # confirm that users cannot use the base class directly
