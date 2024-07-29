@@ -86,6 +86,7 @@ class DiffractometerBase(PseudoPositioner):
         ~auto_assign_axes
         ~forward
         ~inverse
+        ~wh
 
     .. rubric:: Python Properties
 
@@ -293,3 +294,24 @@ class DiffractometerBase(PseudoPositioner):
         if self.operator is not None and self.operator.solver is not None:
             return self.operator.solver.name
         return ""
+
+    def wh(self, digits=4, full=False):
+        """Concise report of the current diffractometer positions."""
+
+        def wh_round(label, value):
+            value = round(value, ndigits=digits)
+            if value == 0:
+                value = 0  # do not show as "-0"
+            return f"{label}={value}"
+
+        def show_axes(names):
+            print(" ".join([wh_round(nm, getattr(self, nm).position) for nm in names]))
+
+        if full:
+            print(f"diffractometer={self.name!r}")
+            print(f"{self.sample}")
+            print(f"{self.operator.solver}")
+        print(f"wavelength={self.wavelength.get()}")
+        show_axes(self.pseudo_axis_names)
+        show_axes(self.real_axis_names)
+        # TODO: extra axis names

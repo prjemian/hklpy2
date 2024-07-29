@@ -284,3 +284,29 @@ def test_repeated_reflections(
     if excuse is not None:
         assert excuse in str(reason), f"{reason=!r}  {excuse=!r}"
     assert len(e4cv.sample.reflections) == num, f"{e4cv.sample.reflections=!r}"
+
+
+def test_diffractometer_wh(capsys):
+    from ..geom import SimulatedE4CV
+
+    e4cv = SimulatedE4CV("", name="e4cv")
+
+    e4cv.wh()
+    captured = capsys.readouterr()
+    lines = captured.out.splitlines()
+    assert len(lines) == 3, f"{captured.out=}"
+    assert lines[0].startswith("wavelength=")
+    assert lines[1].startswith("h=")
+    assert lines[2].startswith("omega=")
+
+    e4cv.wh(full=True)
+    captured = capsys.readouterr()
+    lines = captured.out.splitlines()
+    assert len(lines) == 6, f"{captured.out=}"
+    assert lines[0].startswith("diffractometer=")
+    assert lines[1].startswith("Sample(name=")
+    assert lines[2].startswith("HklSolver(name")
+    assert lines[3].startswith("wavelength=")
+
+    # TODO: extra axis names
+
