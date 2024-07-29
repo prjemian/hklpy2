@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=fd7378e2"></script>
+    <script src="../_static/documentation_options.js?v=eb5c2190"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
@@ -448,10 +448,7 @@ and <a class="reference internal" href="ops.html#hklpy2.ops.Operations.sample" t
 <tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.diffract.DiffractometerBase.real_axis_names" title="hklpy2.diffract.DiffractometerBase.real_axis_names"><code class="xref py py-obj docutils literal notranslate"><span class="pre">real_axis_names</span></code></a></p></td>
 <td><p>Names of all the real axes, in order of appearance.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="ops.html#hklpy2.ops.Operations.set_solver" title="hklpy2.ops.Operations.set_solver"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_solver</span></code></a>(name, geometry, **kwargs)</p></td>
-<td><p>Create an instance of the backend <strong>Solver</strong> library and geometry.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.diffract.DiffractometerBase.wh" title="hklpy2.diffract.DiffractometerBase.wh"><code class="xref py py-obj docutils literal notranslate"><span class="pre">wh</span></code></a>([digits, full])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.diffract.DiffractometerBase.wh" title="hklpy2.diffract.DiffractometerBase.wh"><code class="xref py py-obj docutils literal notranslate"><span class="pre">wh</span></code></a>([digits, full])</p></td>
 <td><p>Concise report of the current diffractometer positions.</p></td>
 </tr>
 </tbody>
@@ -481,14 +478,41 @@ and <a class="reference internal" href="ops.html#hklpy2.ops.Operations.sample" t
 <tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.diffract.DiffractometerBase.geometry" title="hklpy2.diffract.DiffractometerBase.geometry"><code class="xref py py-obj docutils literal notranslate"><span class="pre">geometry</span></code></a></p></td>
 <td><p>Name of backend <strong>Solver</strong> geometry.</p></td>
 </tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.diffract.DiffractometerBase.solver" title="hklpy2.diffract.DiffractometerBase.solver"><code class="xref py py-obj docutils literal notranslate"><span class="pre">solver</span></code></a></p></td>
+<td><p>Name of backend <strong>Solver</strong> (library).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.diffract.DiffractometerBase.solver_name" title="hklpy2.diffract.DiffractometerBase.solver_name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">solver_name</span></code></a></p></td>
+<td><p>Backend <strong>Solver</strong> library name.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p class="rubric">Related methods and properties from other classes</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="ops.html#hklpy2.ops.Operations.assign_axes" title="hklpy2.ops.Operations.assign_axes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">assign_axes</span></code></a>(pseudos, reals)</p></td>
+<td><p>Designate attributes for use by the PseudoPositioner class.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="backends/base.html#hklpy2.backends.base.SolverBase.extra_axis_names" title="hklpy2.backends.base.SolverBase.extra_axis_names"><code class="xref py py-obj docutils literal notranslate"><span class="pre">extra_axis_names</span></code></a></p></td>
+<td><p>Ordered list of any extra axis names (such as x, y, z).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="sample.html#hklpy2.operations.sample.Sample.lattice" title="hklpy2.operations.sample.Sample.lattice"><code class="xref py py-obj docutils literal notranslate"><span class="pre">lattice</span></code></a></p></td>
+<td><p>Sample crystal lattice.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="sample.html#hklpy2.operations.sample.Sample.refine_lattice" title="hklpy2.operations.sample.Sample.refine_lattice"><code class="xref py py-obj docutils literal notranslate"><span class="pre">refine_lattice</span></code></a>()</p></td>
+<td><p>Refine the lattice parameters from 3 or more reflections.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="sample.html#hklpy2.operations.sample.Sample.reflections" title="hklpy2.operations.sample.Sample.reflections"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reflections</span></code></a></p></td>
+<td><p>Ordered dictionary of orientation reflections.</p></td>
+</tr>
 <tr class="row-even"><td><p><a class="reference internal" href="ops.html#hklpy2.ops.Operations.set_solver" title="hklpy2.ops.Operations.set_solver"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_solver</span></code></a>(name, geometry, **kwargs)</p></td>
 <td><p>Create an instance of the backend <strong>Solver</strong> library and geometry.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.diffract.DiffractometerBase.solver" title="hklpy2.diffract.DiffractometerBase.solver"><code class="xref py py-obj docutils literal notranslate"><span class="pre">solver</span></code></a></p></td>
-<td><p>Name of backend <strong>Solver</strong> (library).</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="sample.html#hklpy2.operations.sample.Sample.U" title="hklpy2.operations.sample.Sample.U"><code class="xref py py-obj docutils literal notranslate"><span class="pre">U</span></code></a></p></td>
+<td><p>Return the matrix, U, crystal orientation on the diffractometer.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.diffract.DiffractometerBase.solver_name" title="hklpy2.diffract.DiffractometerBase.solver_name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">solver_name</span></code></a></p></td>
-<td><p>Backend <strong>Solver</strong> library name.</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="sample.html#hklpy2.operations.sample.Sample.UB" title="hklpy2.operations.sample.Sample.UB"><code class="xref py py-obj docutils literal notranslate"><span class="pre">UB</span></code></a></p></td>
+<td><p>Return the crystal orientation matrix, UB.</p></td>
 </tr>
 </tbody>
 </table>
