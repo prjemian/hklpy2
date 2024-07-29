@@ -28,7 +28,7 @@ def test_choice_function():
 
 def test_DiffractometerBase():
     with pytest.raises((DiffractometerError, ValueError)) as reason:
-        DiffractometerBase("", name="dbase")
+        DiffractometerBase(name="dbase")
     if reason.type == "ValueError":
         assert "Must have at least 1 positioner" in str(reason)
     if reason.type == "DiffractometerError":
@@ -124,7 +124,7 @@ def test_diffractometer_class(
 
 
 def test_remove_sample():
-    sim = NoOpTh2Th("", name="sim")
+    sim = NoOpTh2Th(name="sim")
     assert len(sim.samples) == 1
     sim.operator.remove_sample(DEFAULT_SAMPLE_NAME)
     assert len(sim.samples) == 0
@@ -134,7 +134,7 @@ def test_orientation():
     from ..geom import SimulatedE4CV
     from ..operations.lattice import SI_LATTICE_PARAMETER
 
-    fourc = SimulatedE4CV("", name="fourc")
+    fourc = SimulatedE4CV(name="fourc")
     fourc.add_sample("silicon", SI_LATTICE_PARAMETER)
     fourc.wavelength.put(1.0)
     assert math.isclose(
@@ -207,7 +207,7 @@ def test_set_UB():
     from ..geom import SimulatedE4CV
 
     UBe = [[0, 0, -1.157], [0, -1.157, 0], [-1.157, 0, 0]]
-    fourc = SimulatedE4CV("", name="fourc")
+    fourc = SimulatedE4CV(name="fourc")
 
     fourc.operator.solver.UB = UBe
     UBr = fourc.operator.solver.UB
@@ -264,7 +264,7 @@ def test_repeated_reflections(
 ):
     from ..geom import SimulatedE4CV
 
-    e4cv = SimulatedE4CV("", name="e4cv")
+    e4cv = SimulatedE4CV(name="e4cv")
     e4cv.add_reflection(
         dict(h=1, k=0, l=0),
         dict(omega=10, chi=0, phi=0, tth=20),
@@ -289,7 +289,7 @@ def test_repeated_reflections(
 def test_diffractometer_wh(capsys):
     from ..geom import SimulatedE4CV
 
-    e4cv = SimulatedE4CV("", name="e4cv")
+    e4cv = SimulatedE4CV(name="e4cv")
 
     e4cv.wh()
     captured = capsys.readouterr()

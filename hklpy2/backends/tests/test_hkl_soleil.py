@@ -80,7 +80,7 @@ def test_affine():
     from ... import SimulatedE4CV
     from ...operations.lattice import SI_LATTICE_PARAMETER_UNCERTAINTY
 
-    e4cv = SimulatedE4CV("", name="e4cv")
+    e4cv = SimulatedE4CV(name="e4cv")
     assert e4cv is not None
 
     e4cv.add_sample("silicon", SI_LATTICE_PARAMETER)

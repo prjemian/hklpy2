@@ -28,7 +28,7 @@ details involving the set of samples and their lattices & reflections.
 EXAMPLE::
 
     >>> from hklpy2 import SimulatedE4CV
-    >>> e4cv = SimulatedE4CV("", name="e4cv")
+    >>> e4cv = SimulatedE4CV(name="e4cv")
     >>> e4cv.operator.sample
     Sample(name='cubic', lattice=Lattice(a=1, b=1, c=1, alpha=90.0, beta=90.0, gamma=90.0))
     >>> e4cv.operator.solver

@@ -29,7 +29,7 @@ Diffractometer Geometries.
 .. rubric:: Support
 .. autosummary::
 
-    ~MixinAutoAssignAxes
+    ~MixinSimulator
     ~MixinHkl
     ~MixinQ
 """
@@ -49,9 +49,9 @@ __all__ = """
     E6C
     K4CV
     K6C
-    MixinAutoAssignAxes
     MixinHkl
     MixinQ
+    MixinSimulator
     Petra3_p09_eh2
     Petra3_p23_4c
     Petra3_p23_6c
@@ -67,11 +67,16 @@ logger = logging.getLogger(__name__)
 H_OR_N = Kind.hinted | Kind.normal
 
 
-class MixinAutoAssignAxes(Device):
-    """Automatically assigns diffractometer axes."""
+class MixinSimulator(Device):
+    """
+    Mixin used by simulators.
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+    - Supplies default 'prefix' argument.
+    - Automatically assigns diffractometer axes.
+    """
+
+    def __init__(self, prefix:str="", **kwargs):
+        super().__init__(prefix, **kwargs)
         self.operator.auto_assign_axes()
 
 
@@ -238,7 +243,7 @@ class Theta2Theta(DiffractometerBase):
         )
 
 
-class SimulatedE4CV(MixinAutoAssignAxes, E4CV, MixinHkl):
+class SimulatedE4CV(MixinSimulator, E4CV, MixinHkl):
     """
     Eulerian 4-circle, hkl_soleil, E4CV, engine="hkl", simulated rotary axes.
 
@@ -251,7 +256,7 @@ class SimulatedE4CV(MixinAutoAssignAxes, E4CV, MixinHkl):
     tth = Cpt(SoftPositioner, limits=(-170, 170), init_pos=0, kind=H_OR_N)
 
 
-class SimulatedE6C(MixinAutoAssignAxes, E6C, MixinHkl):
+class SimulatedE6C(MixinSimulator, E6C, MixinHkl):
     """
     Eulerian 6-circle, *hkl_soleil*, E6C, engine="hkl", simulated rotary axes.
 
@@ -266,7 +271,7 @@ class SimulatedE6C(MixinAutoAssignAxes, E6C, MixinHkl):
     delta = Cpt(SoftPositioner, limits=(-180, 180), init_pos=0, kind=H_OR_N)
 
 
-class SimulatedK4CV(MixinAutoAssignAxes, K4CV, MixinHkl):
+class SimulatedK4CV(MixinSimulator, K4CV, MixinHkl):
     """
     Kappa 4-circle, hkl_soleil, K4CV, engine="hkl", simulated rotary axes.
 
@@ -279,7 +284,7 @@ class SimulatedK4CV(MixinAutoAssignAxes, K4CV, MixinHkl):
     tth = Cpt(SoftPositioner, limits=(-170, 170), init_pos=0, kind=H_OR_N)
 
 
-class SimulatedK6C(MixinAutoAssignAxes, K6C, MixinHkl):
+class SimulatedK6C(MixinSimulator, K6C, MixinHkl):
     """
     Kappa 6-circle, hkl_soleil, K6C, engine="hkl", simulated rotary axes.
 
@@ -294,7 +299,7 @@ class SimulatedK6C(MixinAutoAssignAxes, K6C, MixinHkl):
     delta = Cpt(SoftPositioner, limits=(-170, 170), init_pos=0, kind=H_OR_N)
 
 
-class SimulatedTheta2Theta(MixinAutoAssignAxes, Theta2Theta, MixinQ):
+class SimulatedTheta2Theta(MixinSimulator, Theta2Theta, MixinQ):
     """
     2-circle, *th_tth*, TH TTH Q, simulated rotary axes.
     

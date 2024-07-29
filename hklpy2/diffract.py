@@ -133,7 +133,8 @@ class DiffractometerBase(PseudoPositioner):
 
     def __init__(
         self,
-        *args,
+        prefix:str="",
+        *,
         solver: str = None,
         geometry: str = None,
         solver_kwargs: dict = {},
@@ -147,7 +148,7 @@ class DiffractometerBase(PseudoPositioner):
 
         self.operator = Operations(self)
 
-        super().__init__(*args, **kwargs)
+        super().__init__(prefix, **kwargs)
 
         if isinstance(solver, str) and isinstance(geometry, str):
             self.operator.set_solver(solver, geometry, **solver_kwargs)

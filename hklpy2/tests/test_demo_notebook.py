@@ -19,9 +19,9 @@ def fourc():
         """Test case."""
 
         # pseudo-space axes, in order expected by hkl_soleil E4CV, engine="hkl"
-        h = Cpt(PseudoSingle, "", kind=NORMAL_HINTED)  # noqa: E741
-        k = Cpt(PseudoSingle, "", kind=NORMAL_HINTED)  # noqa: E741
-        l = Cpt(PseudoSingle, "", kind=NORMAL_HINTED)  # noqa: E741
+        h = Cpt(PseudoSingle, kind=NORMAL_HINTED)  # noqa: E741
+        k = Cpt(PseudoSingle, kind=NORMAL_HINTED)  # noqa: E741
+        l = Cpt(PseudoSingle, kind=NORMAL_HINTED)  # noqa: E741
 
         # real-space axes, in order expected by hkl_soleil E4CV
         # using different names
@@ -31,9 +31,9 @@ def fourc():
         ttheta = Cpt(SoftPositioner, limits=(-170, 170), init_pos=0, kind=NORMAL_HINTED)
 
         # pseudo-space extra axes used in a couple modes
-        h2 = Cpt(PseudoSingle, "", kind=NORMAL_HINTED)  # noqa: E741
-        k2 = Cpt(PseudoSingle, "", kind=NORMAL_HINTED)  # noqa: E741
-        l2 = Cpt(PseudoSingle, "", kind=NORMAL_HINTED)  # noqa: E741
+        h2 = Cpt(PseudoSingle, kind=NORMAL_HINTED)  # noqa: E741
+        k2 = Cpt(PseudoSingle, kind=NORMAL_HINTED)  # noqa: E741
+        l2 = Cpt(PseudoSingle, kind=NORMAL_HINTED)  # noqa: E741
 
         # real-space extra axis used in a couple modes
         psi = Cpt(SoftPositioner, limits=(-170, 170), init_pos=0, kind=NORMAL_HINTED)
@@ -51,7 +51,7 @@ def fourc():
             )
             self.operator.auto_assign_axes()
 
-    fourc = Fourc("", name="fourc")
+    fourc = Fourc(name="fourc")
     yield fourc
 
 
@@ -109,7 +109,7 @@ def test_as_in_demo_notebook(fourc):
 
 
 def test_add_reflections_simple():
-    fourc = hklpy2.SimulatedE4CV("", name="fourc")
+    fourc = hklpy2.SimulatedE4CV(name="fourc")
     fourc.add_reflection((1, 0, 0), (10, 0, 0, 20), name="r1")
     fourc.add_reflection((0, 1, 0), (10, -90, 0, 20), name="r2")
     assert len(fourc.sample.reflections.order) == 2
