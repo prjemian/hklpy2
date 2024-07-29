@@ -60,13 +60,19 @@ and :attr:`~hklpy2.ops.Operations.sample`)
 .. rubric:: Operations-related methods and properties
 .. autosummary::
 
-    ~hklpy2.diffract.DiffractometerBase.add_sample (method)
-    ~hklpy2.ops.Operations.set_solver (method)
     ~hklpy2.diffract.DiffractometerBase.auto_assign_axes (method)
+    ~hklpy2.diffract.DiffractometerBase.forward (method)
+    ~hklpy2.diffract.DiffractometerBase.inverse (method)
+    ~hklpy2.diffract.DiffractometerBase.position (method)
+    ~hklpy2.diffract.DiffractometerBase.pseudo_axis_names (property)
+    ~hklpy2.diffract.DiffractometerBase.real_axis_names (property)
+    ~hklpy2.ops.Operations.set_solver (method)
+    ~hklpy2.diffract.DiffractometerBase.wh (method)
 
 .. rubric:: Sample-related methods and properties
 .. autosummary::
 
+    ~hklpy2.diffract.DiffractometerBase.add_reflection (method)
     ~hklpy2.diffract.DiffractometerBase.add_sample (method)
     ~hklpy2.diffract.DiffractometerBase.sample (property)
     ~hklpy2.diffract.DiffractometerBase.samples (property)
