@@ -315,4 +315,7 @@ class DiffractometerBase(PseudoPositioner):
         print(f"wavelength={self.wavelength.get()}")
         show_axes(self.pseudo_axis_names)
         show_axes(self.real_axis_names)
-        # TODO: extra axis names
+
+        extras = self.operator.solver.extras
+        if len(extras) > 0:
+            print(" ".join([wh_round(k, v) for k, v in extras.items()]))
