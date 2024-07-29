@@ -66,7 +66,6 @@ and :attr:`~hklpy2.ops.Operations.sample`)
     ~hklpy2.diffract.DiffractometerBase.position (method)
     ~hklpy2.diffract.DiffractometerBase.pseudo_axis_names (property)
     ~hklpy2.diffract.DiffractometerBase.real_axis_names (property)
-    ~hklpy2.ops.Operations.set_solver (method)
     ~hklpy2.diffract.DiffractometerBase.wh (method)
 
 .. rubric:: Sample-related methods and properties
@@ -81,9 +80,20 @@ and :attr:`~hklpy2.ops.Operations.sample`)
 .. autosummary::
 
     ~hklpy2.diffract.DiffractometerBase.geometry (ophyd Signal)
-    ~hklpy2.ops.Operations.set_solver (method)
     ~hklpy2.diffract.DiffractometerBase.solver (property)
     ~hklpy2.diffract.DiffractometerBase.solver_name (ophyd Signal)
+
+.. rubric:: Related methods and properties from other classes
+.. autosummary::
+
+    ~hklpy2.ops.Operations.assign_axes (method)
+    ~hklpy2.backends.base.SolverBase.extra_axis_names (property)
+    ~hklpy2.operations.sample.Sample.lattice (property)
+    ~hklpy2.operations.sample.Sample.refine_lattice (method)
+    ~hklpy2.operations.sample.Sample.reflections (property)
+    ~hklpy2.ops.Operations.set_solver (method)
+    ~hklpy2.operations.sample.Sample.U (property)
+    ~hklpy2.operations.sample.Sample.UB (property)
 
 Source Code Documentation
 -------------------------

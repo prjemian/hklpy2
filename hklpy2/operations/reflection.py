@@ -22,7 +22,7 @@ from .misc import compare_float_dicts
 logger = logging.getLogger(__name__)
 
 UNUSED_REFLECTION = "unused"
-"""Identifies an unused reflection in the ReflectionsList."""
+"""Identifies an unused reflection in the ReflectionsDict."""
 
 
 class ReflectionError(Hklpy2Error):
