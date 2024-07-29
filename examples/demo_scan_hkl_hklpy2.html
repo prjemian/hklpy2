@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Scan in \((hkl)\) coordinates &#8212; hklpy2 0.0</title>
+    <title>WIP: Scan in \((hkl)\) coordinates &#8212; hklpy2 0.0</title>
   
   
   
@@ -39,14 +39,14 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=eb5c2190"></script>
+    <script src="../_static/documentation_options.js?v=691131a4"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'examples/demo_scan_hkl';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'examples/demo_scan_hkl_hklpy2';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Diffractometer Axis Names" href="diffract.html" />
@@ -291,11 +291,12 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="demo_UB_calc.html">UB matrix : calculate from 2 reflections.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="demo_UB_set.html">UB matrix : Set directly</a></li>
 <li class="toctree-l2"><a class="reference internal" href="demo_refine_lattice.html">Refine lattice from 3 reflections</a></li>
-<li class="toctree-l2 current active"><a class="current reference internal" href="#">Scan in <span class="math notranslate nohighlight">\((hkl)\)</span> coordinates</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">WIP: Scan in <span class="math notranslate nohighlight">\((hkl)\)</span> coordinates</a></li>
 <li class="toctree-l2"><a class="reference internal" href="diffract.html">Diffractometer Axis Names</a></li>
-<li class="toctree-l2"><a class="reference internal" href="e6c-hklpy.html">Set and compute <span class="math notranslate nohighlight">\(\psi\)</span> (psi)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="e6c-psi-hklpy.html">Set and compute <span class="math notranslate nohighlight">\(\psi\)</span> (psi)</a></li>
 
-<li class="toctree-l2"><a class="reference internal" href="polar-hklpy.html">Compute <span class="math notranslate nohighlight">\(\psi\)</span> with APS POLAR geometry</a></li>
+<li class="toctree-l2"><a class="reference internal" href="polar-psi-hklpy.html">Compute <span class="math notranslate nohighlight">\(\psi\)</span> with APS POLAR geometry</a></li>
+<li class="toctree-l2"><a class="reference internal" href="polar-psi-hklpy2.html">APS POLAR diffractometer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="zz_demo_libhkl_python_api.html">Demo: hkl_soleil Python API</a></li>
 </ul>
 </details></li>
@@ -344,7 +345,7 @@ document.write(`
     
     <li class="breadcrumb-item"><a href="../examples.html" class="nav-link">Examples</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page">Scan in...</li>
+    <li class="breadcrumb-item active" aria-current="page">WIP: Scan...</li>
   </ul>
 </nav>
 </div>
@@ -361,8 +362,8 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="Scan-in-(hkl)-coordinates">
-<h1>Scan in <span class="math notranslate nohighlight">\((hkl)\)</span> coordinates<a class="headerlink" href="#Scan-in-(hkl)-coordinates" title="Link to this heading">#</a></h1>
+  <section id="WIP:-Scan-in-(hkl)-coordinates">
+<h1>WIP: Scan in <span class="math notranslate nohighlight">\((hkl)\)</span> coordinates<a class="headerlink" href="#WIP:-Scan-in-(hkl)-coordinates" title="Link to this heading">#</a></h1>
 <p>This notebook demonstrates how to scan in <span class="math notranslate nohighlight">\((hkl)\)</span> coordinates. It uses the simulated 4-circle geometry from the <code class="docutils literal notranslate"><span class="pre">&quot;hkl_soleil&quot;</span></code> solver. The wavelength and sample are whatever the simulator provides as defaults.</p>
 <p><strong>Important</strong>: It is possible to scan in any combination of reciprocal axes or to scan in any combination of real-space axes. You are not allowed to scan in a mix of reciprocal and real-space axes.</p>
 <section id="Setup">
@@ -374,7 +375,7 @@ document.write(`
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">hklpy2</span> <span class="kn">import</span> <span class="n">SimulatedE4CV</span>
 
-<span class="n">e4cv</span> <span class="o">=</span> <span class="n">SimulatedE4CV</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;e4cv&quot;</span><span class="p">)</span>
+<span class="n">e4cv</span> <span class="o">=</span> <span class="n">SimulatedE4CV</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;e4cv&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -430,25 +431,25 @@ of known modes.</p>
 e4cv.operator.solver.mode=&#39;bissector&#39;
 
 
-Transient Scan ID: 1     Time: 2024-06-22 09:52:43
-Persistent Unique Scan ID: &#39;f23b87bf-aa46-4c22-996b-1d4c48f3ba01&#39;
+Transient Scan ID: 1     Time: 2024-07-29 10:45:44
+Persistent Unique Scan ID: &#39;a66f79a6-96cb-441d-a5aa-71e2328fc68c&#39;
 New stream: &#39;primary&#39;
 +-----------+------------+------------+------------+
 |   seq_num |       time |     e4cv_h |  noisy_det |
 +-----------+------------+------------+------------+
-|         1 | 09:52:43.0 |     -0.500 |      0.923 |
-|         2 | 09:52:43.1 |     -0.400 |      1.033 |
-|         3 | 09:52:43.1 |     -0.300 |      0.920 |
-|         4 | 09:52:43.1 |     -0.200 |      0.987 |
-|         5 | 09:52:43.1 |     -0.100 |      1.033 |
-|         6 | 09:52:43.1 |      0.000 |      0.948 |
-|         7 | 09:52:43.1 |      0.100 |      1.028 |
-|         8 | 09:52:43.1 |      0.200 |      1.040 |
-|         9 | 09:52:43.1 |      0.300 |      1.056 |
-|        10 | 09:52:43.1 |      0.400 |      1.039 |
-|        11 | 09:52:43.1 |      0.500 |      0.927 |
+|         1 | 10:45:44.2 |     -0.500 |      0.996 |
+|         2 | 10:45:44.2 |     -0.400 |      0.985 |
+|         3 | 10:45:44.2 |     -0.300 |      1.049 |
+|         4 | 10:45:44.2 |     -0.200 |      0.980 |
+|         5 | 10:45:44.2 |     -0.100 |      1.032 |
+|         6 | 10:45:44.2 |      0.000 |      0.966 |
+|         7 | 10:45:44.2 |      0.100 |      0.969 |
+|         8 | 10:45:44.2 |      0.200 |      1.014 |
+|         9 | 10:45:44.3 |      0.300 |      0.911 |
+|        10 | 10:45:44.3 |      0.400 |      0.952 |
+|        11 | 10:45:44.3 |      0.500 |      1.020 |
 +-----------+------------+------------+------------+
-generator scan [&#39;f23b87bf&#39;] (scan num: 1)
+generator scan [&#39;a66f79a6&#39;] (scan num: 1)
 
 
 
@@ -460,7 +461,7 @@ generator scan [&#39;f23b87bf&#39;] (scan num: 1)
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-(&#39;f23b87bf-aa46-4c22-996b-1d4c48f3ba01&#39;,)
+(&#39;a66f79a6-96cb-441d-a5aa-71e2328fc68c&#39;,)
 </pre></div></div>
 </div>
 <p><strong>Clearly we see</strong> that <span class="math notranslate nohighlight">\(h\)</span> has been stepped across the range of -0.5 to +0.5. Values for the noisy detector have been reported at each step. But we want to know about <em>all</em> the <span class="math notranslate nohighlight">\(hkl\)</span> and angle values so we can observe the effects of <code class="docutils literal notranslate"><span class="pre">&quot;bissector&quot;</span></code> mode.</p>
@@ -486,25 +487,25 @@ generator scan [&#39;f23b87bf&#39;] (scan num: 1)
 e4cv.operator.solver.mode=&#39;bissector&#39;
 
 
-Transient Scan ID: 2     Time: 2024-06-22 09:52:43
-Persistent Unique Scan ID: &#39;ecb06edd-eeca-479b-ad2f-2fe1a2579a99&#39;
+Transient Scan ID: 2     Time: 2024-07-29 10:45:44
+Persistent Unique Scan ID: &#39;78c80bd6-ebed-45c5-866d-14f05769844f&#39;
 New stream: &#39;primary&#39;
 +-----------+------------+------------+------------+------------+------------+------------+------------+------------+------------+
 |   seq_num |       time |     e4cv_h |  noisy_det |     e4cv_k |     e4cv_l | e4cv_omega |   e4cv_chi |   e4cv_phi |   e4cv_tth |
 +-----------+------------+------------+------------+------------+------------+------------+------------+------------+------------+
-|         1 | 09:52:43.3 |     -0.500 |      1.030 |      1.000 |      0.000 |    -33.988 |    -63.435 |     90.000 |    -67.976 |
-|         2 | 09:52:43.3 |     -0.400 |      0.996 |      1.000 |      0.000 |    -32.583 |    -68.199 |     90.000 |    -65.165 |
-|         3 | 09:52:43.4 |     -0.300 |      1.072 |      1.000 |     -0.000 |    -31.468 |    -73.301 |     90.000 |    -62.935 |
-|         4 | 09:52:43.4 |     -0.200 |      0.987 |      1.000 |     -0.000 |    -30.657 |    -78.690 |     90.000 |    -61.315 |
-|         5 | 09:52:43.4 |     -0.100 |      1.047 |      1.000 |     -0.000 |    -30.165 |    -84.289 |     90.000 |    -60.330 |
-|         6 | 09:52:43.4 |      0.000 |      1.074 |      1.000 |      0.000 |    -30.000 |    -90.000 |     90.000 |    -60.000 |
-|         7 | 09:52:43.4 |      0.100 |      1.034 |      1.000 |      0.000 |    -30.165 |    -95.711 |     90.000 |    -60.330 |
-|         8 | 09:52:43.4 |      0.200 |      1.054 |      1.000 |     -0.000 |    -30.657 |   -101.310 |     90.000 |    -61.315 |
-|         9 | 09:52:43.4 |      0.300 |      0.949 |      1.000 |     -0.000 |    -31.468 |   -106.699 |     90.000 |    -62.935 |
-|        10 | 09:52:43.4 |      0.400 |      1.056 |      1.000 |     -0.000 |    -32.583 |   -111.801 |     90.000 |    -65.165 |
-|        11 | 09:52:43.4 |      0.500 |      0.976 |      1.000 |     -0.000 |    -33.988 |   -116.565 |     90.000 |    -67.976 |
+|         1 | 10:45:44.4 |     -0.500 |      0.960 |      1.000 |      0.000 |    -33.988 |    -63.435 |     90.000 |    -67.976 |
+|         2 | 10:45:44.4 |     -0.400 |      0.914 |      1.000 |      0.000 |    -32.583 |    -68.199 |     90.000 |    -65.165 |
+|         3 | 10:45:44.4 |     -0.300 |      0.950 |      1.000 |     -0.000 |    -31.468 |    -73.301 |     90.000 |    -62.935 |
+|         4 | 10:45:44.4 |     -0.200 |      1.018 |      1.000 |     -0.000 |    -30.657 |    -78.690 |     90.000 |    -61.315 |
+|         5 | 10:45:44.5 |     -0.100 |      1.074 |      1.000 |     -0.000 |    -30.165 |    -84.289 |     90.000 |    -60.330 |
+|         6 | 10:45:44.5 |      0.000 |      0.935 |      1.000 |      0.000 |    -30.000 |    -90.000 |     90.000 |    -60.000 |
+|         7 | 10:45:44.5 |      0.100 |      0.909 |      1.000 |      0.000 |    -30.165 |    -95.711 |     90.000 |    -60.330 |
+|         8 | 10:45:44.5 |      0.200 |      0.976 |      1.000 |     -0.000 |    -30.657 |   -101.310 |     90.000 |    -61.315 |
+|         9 | 10:45:44.5 |      0.300 |      0.999 |      1.000 |     -0.000 |    -31.468 |   -106.699 |     90.000 |    -62.935 |
+|        10 | 10:45:44.5 |      0.400 |      0.919 |      1.000 |     -0.000 |    -32.583 |   -111.801 |     90.000 |    -65.165 |
+|        11 | 10:45:44.5 |      0.500 |      1.038 |      1.000 |     -0.000 |    -33.988 |   -116.565 |     90.000 |    -67.976 |
 +-----------+------------+------------+------------+------------+------------+------------+------------+------------+------------+
-generator scan [&#39;ecb06edd&#39;] (scan num: 2)
+generator scan [&#39;78c80bd6&#39;] (scan num: 2)
 
 
 
@@ -516,7 +517,7 @@ generator scan [&#39;ecb06edd&#39;] (scan num: 2)
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-(&#39;ecb06edd-eeca-479b-ad2f-2fe1a2579a99&#39;,)
+(&#39;78c80bd6-ebed-45c5-866d-14f05769844f&#39;,)
 </pre></div></div>
 </div>
 </section>
@@ -587,25 +588,25 @@ e4cv.omega.position=-30
 e4cv.operator.solver.mode=&#39;constant_omega&#39;
 
 
-Transient Scan ID: 3     Time: 2024-06-22 09:52:43
-Persistent Unique Scan ID: &#39;763a50a8-64c3-4fdf-a380-5acb17fdf909&#39;
+Transient Scan ID: 3     Time: 2024-07-29 10:45:44
+Persistent Unique Scan ID: &#39;fc29120e-ea36-4960-b78e-580938dd85ff&#39;
 New stream: &#39;primary&#39;
 +-----------+------------+------------+------------+------------+------------+------------+------------+------------+------------+
 |   seq_num |       time |     e4cv_h |  noisy_det |     e4cv_k |     e4cv_l | e4cv_omega |   e4cv_chi |   e4cv_phi |   e4cv_tth |
 +-----------+------------+------------+------------+------------+------------+------------+------------+------------+------------+
-|         1 | 09:52:43.6 |     -0.500 |      1.037 |      1.000 |      0.000 |    -30.000 |    -63.714 |     81.054 |    -67.976 |
-|         2 | 09:52:43.6 |     -0.400 |      1.002 |      1.000 |     -0.000 |    -30.000 |    -68.345 |     83.031 |    -65.165 |
-|         3 | 09:52:43.7 |     -0.300 |      0.979 |      1.000 |     -0.000 |    -30.000 |    -73.364 |     84.887 |    -62.935 |
-|         4 | 09:52:43.7 |     -0.200 |      1.073 |      1.000 |     -0.000 |    -30.000 |    -78.709 |     86.647 |    -61.315 |
-|         5 | 09:52:43.7 |     -0.100 |      0.935 |      1.000 |     -0.000 |    -30.000 |    -84.292 |     88.340 |    -60.330 |
-|         6 | 09:52:43.7 |     -0.000 |      1.068 |      1.000 |     -0.000 |    -30.000 |    -90.000 |     88.340 |    -60.000 |
-|         7 | 09:52:43.7 |      0.100 |      0.918 |      1.000 |     -0.000 |    -30.000 |    -95.708 |     91.660 |    -60.330 |
-|         8 | 09:52:43.7 |      0.200 |      1.066 |      1.000 |     -0.000 |    -30.000 |   -101.291 |     93.353 |    -61.315 |
-|         9 | 09:52:43.7 |      0.300 |      0.936 |      1.000 |     -0.000 |    -30.000 |   -106.636 |     95.113 |    -62.935 |
-|        10 | 09:52:43.7 |      0.400 |      1.004 |      1.000 |     -0.000 |    -30.000 |   -111.655 |     96.969 |    -65.165 |
-|        11 | 09:52:43.7 |      0.500 |      1.029 |      1.000 |      0.000 |    -30.000 |   -116.286 |     98.946 |    -67.976 |
+|         1 | 10:45:44.7 |     -0.500 |      1.054 |      1.000 |      0.000 |    -30.000 |    -63.714 |     81.054 |    -67.976 |
+|         2 | 10:45:44.7 |     -0.400 |      0.939 |      1.000 |     -0.000 |    -30.000 |    -68.345 |     83.031 |    -65.165 |
+|         3 | 10:45:44.7 |     -0.300 |      1.060 |      1.000 |     -0.000 |    -30.000 |    -73.364 |     84.887 |    -62.935 |
+|         4 | 10:45:44.7 |     -0.200 |      0.919 |      1.000 |     -0.000 |    -30.000 |    -78.709 |     86.647 |    -61.315 |
+|         5 | 10:45:44.7 |     -0.100 |      1.040 |      1.000 |     -0.000 |    -30.000 |    -84.292 |     88.340 |    -60.330 |
+|         6 | 10:45:44.7 |     -0.000 |      0.904 |      1.000 |     -0.000 |    -30.000 |    -90.000 |     88.340 |    -60.000 |
+|         7 | 10:45:44.7 |      0.100 |      0.901 |      1.000 |     -0.000 |    -30.000 |    -95.708 |     91.660 |    -60.330 |
+|         8 | 10:45:44.8 |      0.200 |      0.922 |      1.000 |     -0.000 |    -30.000 |   -101.291 |     93.353 |    -61.315 |
+|         9 | 10:45:44.8 |      0.300 |      1.004 |      1.000 |     -0.000 |    -30.000 |   -106.636 |     95.113 |    -62.935 |
+|        10 | 10:45:44.8 |      0.400 |      0.915 |      1.000 |     -0.000 |    -30.000 |   -111.655 |     96.969 |    -65.165 |
+|        11 | 10:45:44.8 |      0.500 |      1.014 |      1.000 |      0.000 |    -30.000 |   -116.286 |     98.946 |    -67.976 |
 +-----------+------------+------------+------------+------------+------------+------------+------------+------------+------------+
-generator scan [&#39;763a50a8&#39;] (scan num: 3)
+generator scan [&#39;fc29120e&#39;] (scan num: 3)
 
 
 
@@ -617,7 +618,7 @@ generator scan [&#39;763a50a8&#39;] (scan num: 3)
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-(&#39;763a50a8-64c3-4fdf-a380-5acb17fdf909&#39;,)
+(&#39;fc29120e-ea36-4960-b78e-580938dd85ff&#39;,)
 </pre></div></div>
 </div>
 </section>
@@ -642,25 +643,25 @@ generator scan [&#39;763a50a8&#39;] (scan num: 3)
 e4cv.operator.solver.mode=&#39;constant_omega&#39;
 
 
-Transient Scan ID: 4     Time: 2024-06-22 09:52:43
-Persistent Unique Scan ID: &#39;a65729ed-4f8b-4722-a09d-974196cd9065&#39;
+Transient Scan ID: 4     Time: 2024-07-29 10:45:44
+Persistent Unique Scan ID: &#39;48c0cf76-361d-435a-935a-ae45562a5c8e&#39;
 New stream: &#39;primary&#39;
 +-----------+------------+------------+------------+------------+------------+------------+------------+------------+------------+
 |   seq_num |       time |     e4cv_k |     e4cv_l |  noisy_det |     e4cv_h | e4cv_omega |   e4cv_chi |   e4cv_phi |   e4cv_tth |
 +-----------+------------+------------+------------+------------+------------+------------+------------+------------+------------+
-|         1 | 09:52:43.9 |      0.900 |     -0.600 |      0.954 |     -1.000 |    -30.000 |    -39.821 |     36.793 |    -94.876 |
-|         2 | 09:52:44.0 |      0.920 |     -0.580 |      1.057 |     -1.000 |    -30.000 |    -40.796 |     37.124 |    -95.244 |
-|         3 | 09:52:44.0 |      0.940 |     -0.560 |      1.025 |     -1.000 |    -30.000 |    -41.770 |     37.424 |    -95.659 |
-|         4 | 09:52:44.0 |      0.960 |     -0.540 |      0.957 |     -1.000 |    -30.000 |    -42.745 |     37.689 |    -96.119 |
-|         5 | 09:52:44.0 |      0.980 |     -0.520 |      1.050 |     -1.000 |    -30.000 |    -43.721 |     37.920 |    -96.627 |
-|         6 | 09:52:44.0 |      1.000 |     -0.500 |      0.955 |     -1.000 |    -30.000 |    -44.698 |     38.112 |    -97.181 |
-|         7 | 09:52:44.0 |      1.020 |     -0.480 |      1.017 |     -1.000 |    -30.000 |    -45.677 |     38.265 |    -97.782 |
-|         8 | 09:52:44.0 |      1.040 |     -0.460 |      1.016 |     -1.000 |    -30.000 |    -46.660 |     38.375 |    -98.430 |
-|         9 | 09:52:44.0 |      1.060 |     -0.440 |      0.967 |     -1.000 |    -30.000 |    -47.647 |     38.440 |    -99.126 |
-|        10 | 09:52:44.0 |      1.080 |     -0.420 |      1.016 |     -1.000 |    -30.000 |    -48.640 |     38.457 |    -99.869 |
-|        11 | 09:52:44.0 |      1.100 |     -0.400 |      0.999 |     -1.000 |    -30.000 |    -49.641 |     38.422 |   -100.661 |
+|         1 | 10:45:45.0 |      0.900 |     -0.600 |      1.000 |     -1.000 |    -30.000 |    -39.821 |     36.793 |    -94.876 |
+|         2 | 10:45:45.0 |      0.920 |     -0.580 |      1.038 |     -1.000 |    -30.000 |    -40.796 |     37.124 |    -95.244 |
+|         3 | 10:45:45.0 |      0.940 |     -0.560 |      1.091 |     -1.000 |    -30.000 |    -41.770 |     37.424 |    -95.659 |
+|         4 | 10:45:45.0 |      0.960 |     -0.540 |      0.922 |     -1.000 |    -30.000 |    -42.745 |     37.689 |    -96.119 |
+|         5 | 10:45:45.0 |      0.980 |     -0.520 |      1.019 |     -1.000 |    -30.000 |    -43.721 |     37.920 |    -96.627 |
+|         6 | 10:45:45.0 |      1.000 |     -0.500 |      0.978 |     -1.000 |    -30.000 |    -44.698 |     38.112 |    -97.181 |
+|         7 | 10:45:45.0 |      1.020 |     -0.480 |      0.940 |     -1.000 |    -30.000 |    -45.677 |     38.265 |    -97.782 |
+|         8 | 10:45:45.0 |      1.040 |     -0.460 |      0.905 |     -1.000 |    -30.000 |    -46.660 |     38.375 |    -98.430 |
+|         9 | 10:45:45.1 |      1.060 |     -0.440 |      1.052 |     -1.000 |    -30.000 |    -47.647 |     38.440 |    -99.126 |
+|        10 | 10:45:45.1 |      1.080 |     -0.420 |      0.963 |     -1.000 |    -30.000 |    -48.640 |     38.457 |    -99.869 |
+|        11 | 10:45:45.1 |      1.100 |     -0.400 |      0.904 |     -1.000 |    -30.000 |    -49.641 |     38.422 |   -100.661 |
 +-----------+------------+------------+------------+------------+------------+------------+------------+------------+------------+
-generator scan [&#39;a65729ed&#39;] (scan num: 4)
+generator scan [&#39;48c0cf76&#39;] (scan num: 4)
 
 
 
@@ -672,7 +673,7 @@ generator scan [&#39;a65729ed&#39;] (scan num: 4)
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-(&#39;a65729ed-4f8b-4722-a09d-974196cd9065&#39;,)
+(&#39;48c0cf76-361d-435a-935a-ae45562a5c8e&#39;,)
 </pre></div></div>
 </div>
 </section>
@@ -716,25 +717,25 @@ e4cv.operator.solver.mode=&#39;psi_constant&#39;
 e4cv.operator.solver.extras={&#39;h2&#39;: 1.0, &#39;k2&#39;: 0.0, &#39;l2&#39;: 0.0, &#39;psi&#39;: 25.0}
 
 
-Transient Scan ID: 5     Time: 2024-06-22 09:52:44
-Persistent Unique Scan ID: &#39;b908fbbc-9853-424e-8f00-3b3ba7bab9fb&#39;
+Transient Scan ID: 5     Time: 2024-07-29 10:45:45
+Persistent Unique Scan ID: &#39;320521d0-e29a-4067-b9d7-dfae2cf0fd77&#39;
 New stream: &#39;primary&#39;
 +-----------+------------+------------+------------+------------+------------+------------+------------+------------+------------+
 |   seq_num |       time |     e4cv_k |     e4cv_l |  noisy_det |     e4cv_h | e4cv_omega |   e4cv_chi |   e4cv_phi |   e4cv_tth |
 +-----------+------------+------------+------------+------------+------------+------------+------------+------------+------------+
-|         1 | 09:52:44.3 |      0.900 |     -0.600 |      0.908 |     -1.000 |      3.258 |    -74.691 |    -18.768 |    -94.876 |
-|         2 | 09:52:44.3 |      0.920 |     -0.580 |      1.057 |     -1.000 |      2.461 |    -76.033 |    -18.698 |    -95.244 |
-|         3 | 09:52:44.3 |      0.940 |     -0.560 |      1.054 |     -1.000 |      1.635 |    -77.355 |    -18.646 |    -95.659 |
-|         4 | 09:52:44.3 |      0.960 |     -0.540 |      1.021 |     -1.000 |      0.781 |    -78.654 |    -18.611 |    -96.119 |
-|         5 | 09:52:44.3 |      0.980 |     -0.520 |      0.916 |     -1.000 |     -0.104 |    -79.930 |    -18.592 |    -96.627 |
-|         6 | 09:52:44.3 |      1.000 |     -0.500 |      0.901 |     -1.000 |     -1.017 |    -81.181 |    -18.589 |    -97.181 |
-|         7 | 09:52:44.3 |      1.020 |     -0.480 |      0.967 |     -1.000 |     -1.959 |    -82.406 |    -18.599 |    -97.782 |
-|         8 | 09:52:44.3 |      1.040 |     -0.460 |      1.049 |     -1.000 |     -2.930 |    -83.605 |    -18.624 |    -98.430 |
-|         9 | 09:52:44.3 |      1.060 |     -0.440 |      0.982 |     -1.000 |     -3.930 |    -84.776 |    -18.661 |    -99.126 |
-|        10 | 09:52:44.3 |      1.080 |     -0.420 |      1.099 |     -1.000 |     -4.957 |    -85.920 |    -18.709 |    -99.869 |
-|        11 | 09:52:44.3 |      1.100 |     -0.400 |      1.004 |     -1.000 |     -6.014 |    -87.035 |    -18.769 |   -100.661 |
+|         1 | 10:45:45.3 |      0.900 |     -0.600 |      1.036 |     -1.000 |      3.258 |    -74.691 |    -18.768 |    -94.876 |
+|         2 | 10:45:45.3 |      0.920 |     -0.580 |      1.018 |     -1.000 |      2.461 |    -76.033 |    -18.698 |    -95.244 |
+|         3 | 10:45:45.3 |      0.940 |     -0.560 |      0.971 |     -1.000 |      1.635 |    -77.355 |    -18.646 |    -95.659 |
+|         4 | 10:45:45.3 |      0.960 |     -0.540 |      1.030 |     -1.000 |      0.781 |    -78.654 |    -18.611 |    -96.119 |
+|         5 | 10:45:45.3 |      0.980 |     -0.520 |      1.098 |     -1.000 |     -0.104 |    -79.930 |    -18.592 |    -96.627 |
+|         6 | 10:45:45.3 |      1.000 |     -0.500 |      0.978 |     -1.000 |     -1.017 |    -81.181 |    -18.589 |    -97.181 |
+|         7 | 10:45:45.3 |      1.020 |     -0.480 |      1.065 |     -1.000 |     -1.959 |    -82.406 |    -18.599 |    -97.782 |
+|         8 | 10:45:45.3 |      1.040 |     -0.460 |      1.068 |     -1.000 |     -2.930 |    -83.605 |    -18.624 |    -98.430 |
+|         9 | 10:45:45.3 |      1.060 |     -0.440 |      0.938 |     -1.000 |     -3.930 |    -84.776 |    -18.661 |    -99.126 |
+|        10 | 10:45:45.3 |      1.080 |     -0.420 |      1.061 |     -1.000 |     -4.957 |    -85.920 |    -18.709 |    -99.869 |
+|        11 | 10:45:45.3 |      1.100 |     -0.400 |      0.991 |     -1.000 |     -6.014 |    -87.035 |    -18.769 |   -100.661 |
 +-----------+------------+------------+------------+------------+------------+------------+------------+------------+------------+
-generator scan [&#39;b908fbbc&#39;] (scan num: 5)
+generator scan [&#39;320521d0&#39;] (scan num: 5)
 
 
 
@@ -746,116 +747,39 @@ generator scan [&#39;b908fbbc&#39;] (scan num: 5)
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-(&#39;b908fbbc-9853-424e-8f00-3b3ba7bab9fb&#39;,)
+(&#39;320521d0-e29a-4067-b9d7-dfae2cf0fd77&#39;,)
 </pre></div></div>
 </div>
 </section>
 <section id="Scan-\psi-around-(100)-with-sample-oriented-at-(101)">
 <h2>Scan <span class="math notranslate nohighlight">\(\psi\)</span> around <span class="math notranslate nohighlight">\((100)\)</span> with sample oriented at <span class="math notranslate nohighlight">\((101)\)</span><a class="headerlink" href="#Scan-\psi-around-(100)-with-sample-oriented-at-(101)" title="Link to this heading">#</a></h2>
 <p>Set the mode to <code class="docutils literal notranslate"><span class="pre">&quot;psi_constant&quot;</span></code>, then set <span class="math notranslate nohighlight">\(h_2=1, k_2=0, l_2=0\)</span>. Step scan <span class="math notranslate nohighlight">\(\psi\)</span> through desired range, setting before reporting at each step.</p>
-<p>need custom plan</p>
-<ul class="simple">
-<li><p>loop through psi:</p>
-<ul>
-<li><p>set psi via extras</p></li>
-<li><p>solution = forward(1,0,1)</p></li>
-<li><p>move to solution</p></li>
-<li><p>read detectors</p></li>
-</ul>
-</li>
-</ul>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[136]:
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span>
-<span class="kn">from</span> <span class="nn">bluesky</span> <span class="kn">import</span> <span class="n">plan_stubs</span> <span class="k">as</span> <span class="n">bps</span>
-<span class="kn">from</span> <span class="nn">bluesky</span> <span class="kn">import</span> <span class="n">preprocessors</span> <span class="k">as</span> <span class="n">bpp</span>
-<span class="kn">from</span> <span class="nn">ophyd</span> <span class="kn">import</span> <span class="n">Signal</span>
-<span class="kn">from</span> <span class="nn">hklpy2</span> <span class="kn">import</span> <span class="n">SolverError</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># from lib_demo_scan import scan_extra_parameter</span>
+<span class="o">%</span><span class="k">run</span> -im lib_demo_scan
+<span class="n">e4cv</span><span class="o">.</span><span class="n">wh</span><span class="p">(</span><span class="n">full</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[137]:
-</pre></div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">scan_extra_parameter</span><span class="p">(</span>
-    <span class="n">dfrct</span><span class="p">,</span>
-    <span class="n">detectors</span><span class="p">:</span><span class="nb">list</span> <span class="o">=</span> <span class="p">[],</span>
-    <span class="n">axis</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>  <span class="c1"># name of extra parameter to be scanned</span>
-    <span class="n">start</span><span class="p">:</span><span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">finish</span><span class="p">:</span><span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">num</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">pseudos</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">reals</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">extras</span><span class="p">:</span><span class="nb">dict</span> <span class="o">=</span> <span class="p">{},</span>  <span class="c1"># define all but the &#39;axis&#39;, these will remain constant</span>
-    <span class="n">md</span><span class="p">:</span><span class="nb">dict</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-<span class="p">):</span>
-    <span class="k">if</span> <span class="n">pseudos</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">reals</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">SolverError</span><span class="p">(</span><span class="s2">&quot;Cannot define both pseudos and reals.&quot;</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">pseudos</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">reals</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">SolverError</span><span class="p">(</span><span class="s2">&quot;Must define either pseudos or reals.&quot;</span><span class="p">)</span>
-    <span class="n">forwardTransformation</span> <span class="o">=</span> <span class="n">reals</span> <span class="ow">is</span> <span class="kc">None</span>
-
-    <span class="n">_md</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s2">&quot;diffractometer&quot;</span><span class="p">:</span> <span class="p">{</span>
-            <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">dfrct</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
-            <span class="s2">&quot;solver&quot;</span><span class="p">:</span> <span class="n">dfrct</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
-            <span class="s2">&quot;geometry&quot;</span><span class="p">:</span> <span class="n">dfrct</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">geometry</span><span class="p">,</span>
-            <span class="s2">&quot;engine&quot;</span><span class="p">:</span> <span class="n">dfrct</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">engine_name</span><span class="p">,</span>
-            <span class="s2">&quot;mode&quot;</span><span class="p">:</span> <span class="n">dfrct</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">mode</span><span class="p">,</span>
-            <span class="s2">&quot;extra_axes&quot;</span><span class="p">:</span> <span class="n">dfrct</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">extra_axis_names</span><span class="p">,</span>
-        <span class="p">},</span>
-        <span class="s2">&quot;axis&quot;</span><span class="p">:</span> <span class="n">axis</span><span class="p">,</span>
-        <span class="s2">&quot;start&quot;</span><span class="p">:</span> <span class="n">start</span><span class="p">,</span>
-        <span class="s2">&quot;finish&quot;</span><span class="p">:</span> <span class="n">finish</span><span class="p">,</span>
-        <span class="s2">&quot;num&quot;</span><span class="p">:</span> <span class="n">num</span><span class="p">,</span>
-        <span class="s2">&quot;pseudos&quot;</span><span class="p">:</span> <span class="n">pseudos</span><span class="p">,</span>
-        <span class="s2">&quot;reals&quot;</span><span class="p">:</span> <span class="n">reals</span><span class="p">,</span>
-        <span class="s2">&quot;extras&quot;</span><span class="p">:</span> <span class="n">extras</span><span class="p">,</span>
-        <span class="s2">&quot;transformation&quot;</span><span class="p">:</span> <span class="s2">&quot;forward&quot;</span> <span class="k">if</span> <span class="n">forwardTransformation</span> <span class="k">else</span> <span class="s2">&quot;inverse&quot;</span>
-    <span class="p">}</span>
-    <span class="n">_md</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">md</span> <span class="ow">or</span> <span class="p">{})</span>
-
-    <span class="n">signal</span> <span class="o">=</span> <span class="n">Signal</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">axis</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">start</span><span class="p">)</span>
-    <span class="n">controls</span> <span class="o">=</span> <span class="n">detectors</span>
-    <span class="n">controls</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dfrct</span><span class="p">)</span>
-    <span class="n">controls</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">signal</span><span class="p">)</span>
-    <span class="c1"># TODO: controls.append(extras_device)  # TODO: need Device to report ALL extras</span>
-    <span class="n">controls</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">controls</span><span class="p">))</span>
-
-    <span class="nd">@bpp</span><span class="o">.</span><span class="n">stage_decorator</span><span class="p">(</span><span class="n">detectors</span><span class="p">)</span>
-    <span class="nd">@bpp</span><span class="o">.</span><span class="n">run_decorator</span><span class="p">(</span><span class="n">md</span><span class="o">=</span><span class="n">_md</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">_inner</span><span class="p">():</span>
-        <span class="n">dfrct</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">extras</span> <span class="o">=</span> <span class="n">extras</span>
-        <span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">numpy</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">finish</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="n">num</span><span class="p">):</span>
-            <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
-
-            <span class="n">dfrct</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">extras</span> <span class="o">=</span> <span class="p">{</span><span class="n">axis</span><span class="p">:</span> <span class="n">value</span><span class="p">}</span>  <span class="c1"># just the changing one</span>
-            <span class="k">if</span> <span class="n">forwardTransformation</span><span class="p">:</span>
-                <span class="n">solution</span> <span class="o">=</span> <span class="n">dfrct</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">pseudos</span><span class="p">)</span>
-                <span class="c1"># TODO: Could provide a test run without the moves.</span>
-                <span class="n">reals</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># convert to ophyd real positioner objects</span>
-                <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">solution</span><span class="o">.</span><span class="n">_asdict</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-                    <span class="n">reals</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">dfrct</span><span class="p">,</span> <span class="n">k</span><span class="p">))</span>
-                    <span class="n">reals</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
-                <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span><span class="o">*</span><span class="n">reals</span><span class="p">)</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="k">pass</span>  <span class="c1"># TODO: inverse</span>
-
-            <span class="c1"># yield from bps.trigger(detectors)</span>
-            <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="s2">&quot;primary&quot;</span><span class="p">)</span>
-            <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">controls</span><span class="p">:</span>
-                <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
-            <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
-
-    <span class="k">return</span> <span class="p">(</span><span class="k">yield from</span> <span class="n">_inner</span><span class="p">())</span>
-</pre></div>
-</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+diffractometer=&#39;e4cv&#39;
+Sample(name=&#39;sample&#39;, lattice=Lattice(a=1, system=&#39;cubic&#39;))
+HklSolver(name=&#39;hkl_soleil&#39;, version=&#39;5.0.0.3511&#39;, geometry=&#39;E4CV&#39;, engine_name=&#39;hkl&#39;, mode=&#39;psi_constant&#39;)
+wavelength=1.0
+h=-1.0 k=1.1 l=-0.4
+omega=-6.0135 chi=-87.0346 phi=-18.7687 tth=-100.6611
+h2=1.0 k2=0 l2=0 psi=25.0
+</pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[150]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e4cv</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">mode</span><span class="si">=!r}</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -870,6 +794,7 @@ generator scan [&#39;b908fbbc&#39;] (scan num: 5)
         <span class="n">num</span><span class="o">=</span><span class="mi">11</span><span class="p">,</span>
         <span class="n">extras</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">h2</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">k2</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">l2</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
     <span class="p">),</span>
+    <span class="n">collector</span><span class="o">.</span><span class="n">receiver</span>
 <span class="p">)</span>
 </pre></div>
 </div>
@@ -882,37 +807,571 @@ generator scan [&#39;b908fbbc&#39;] (scan num: 5)
 e4cv.operator.solver.mode=&#39;psi_constant&#39;
 
 
-Transient Scan ID: 89     Time: 2024-06-22 11:11:20
-Persistent Unique Scan ID: &#39;54de771b-d955-43ae-acb5-a8e36f974751&#39;
+Transient Scan ID: 6     Time: 2024-07-29 10:45:45
+Persistent Unique Scan ID: &#39;4207283c-fc7a-4767-8984-54cbb82ed28a&#39;
 New stream: &#39;primary&#39;
 +-----------+------------+------------+------------+------------+------------+------------+------------+------------+------------+------------+
-|   seq_num |       time |        psi |  noisy_det |     e4cv_h |     e4cv_k |     e4cv_l | e4cv_omega |   e4cv_chi |   e4cv_phi |   e4cv_tth |
+|   seq_num |       time |  noisy_det |     e4cv_h |     e4cv_k |     e4cv_l | e4cv_omega |   e4cv_chi |   e4cv_phi |   e4cv_tth |        psi |
 +-----------+------------+------------+------------+------------+------------+------------+------------+------------+------------+------------+
-|         1 | 11:11:20.4 |      4.000 |      1.004 |      1.000 |     -0.000 |      1.000 |   -135.000 |   -176.000 |    -45.000 |    -90.000 |
-|         2 | 11:11:20.4 |      8.000 |      1.004 |      1.000 |      0.000 |      1.000 |   -135.000 |   -172.000 |    -45.000 |    -90.000 |
-|         3 | 11:11:20.5 |     12.000 |      1.004 |      1.000 |     -0.000 |      1.000 |   -135.000 |   -168.000 |    -45.000 |    -90.000 |
-|         4 | 11:11:20.5 |     16.000 |      1.004 |      1.000 |      0.000 |      1.000 |   -135.000 |   -164.000 |    -45.000 |    -90.000 |
-|         5 | 11:11:20.5 |     20.000 |      1.004 |      1.000 |     -0.000 |      1.000 |   -135.000 |   -160.000 |    -45.000 |    -90.000 |
-|         6 | 11:11:20.5 |     24.000 |      1.004 |      1.000 |     -0.000 |      1.000 |   -135.000 |   -156.000 |    -45.000 |    -90.000 |
-|         7 | 11:11:20.5 |     28.000 |      1.004 |      1.000 |     -0.000 |      1.000 |   -135.000 |   -152.000 |    -45.000 |    -90.000 |
-|         8 | 11:11:20.5 |     32.000 |      1.004 |      1.000 |     -0.000 |      1.000 |   -135.000 |   -148.000 |    -45.000 |    -90.000 |
-|         9 | 11:11:20.5 |     36.000 |      1.004 |      1.000 |      0.000 |      1.000 |   -135.000 |   -144.000 |    -45.000 |    -90.000 |
-|        10 | 11:11:20.5 |     40.000 |      1.004 |      1.000 |      0.000 |      1.000 |   -135.000 |   -140.000 |    -45.000 |    -90.000 |
-|        11 | 11:11:20.5 |     44.000 |      1.004 |      1.000 |     -0.000 |      1.000 |   -135.000 |   -136.000 |    -45.000 |    -90.000 |
+|         1 | 10:45:45.6 |      0.991 |      1.000 |     -0.000 |      1.000 |   -135.000 |   -176.000 |    -45.000 |    -90.000 |      4.000 |
+|         2 | 10:45:45.6 |      0.991 |      1.000 |      0.000 |      1.000 |   -135.000 |   -172.000 |    -45.000 |    -90.000 |      8.000 |
+|         3 | 10:45:45.6 |      0.991 |      1.000 |     -0.000 |      1.000 |   -135.000 |   -168.000 |    -45.000 |    -90.000 |     12.000 |
+|         4 | 10:45:45.6 |      0.991 |      1.000 |      0.000 |      1.000 |   -135.000 |   -164.000 |    -45.000 |    -90.000 |     16.000 |
+|         5 | 10:45:45.6 |      0.991 |      1.000 |      0.000 |      1.000 |   -135.000 |   -160.000 |    -45.000 |    -90.000 |     20.000 |
+|         6 | 10:45:45.6 |      0.991 |      1.000 |     -0.000 |      1.000 |   -135.000 |   -156.000 |    -45.000 |    -90.000 |     24.000 |
+|         7 | 10:45:45.6 |      0.991 |      1.000 |     -0.000 |      1.000 |   -135.000 |   -152.000 |    -45.000 |    -90.000 |     28.000 |
+|         8 | 10:45:45.6 |      0.991 |      1.000 |     -0.000 |      1.000 |   -135.000 |   -148.000 |    -45.000 |    -90.000 |     32.000 |
+|         9 | 10:45:45.6 |      0.991 |      1.000 |      0.000 |      1.000 |   -135.000 |   -144.000 |    -45.000 |    -90.000 |     36.000 |
+|        10 | 10:45:45.6 |      0.991 |      1.000 |     -0.000 |      1.000 |   -135.000 |   -140.000 |    -45.000 |    -90.000 |     40.000 |
+|        11 | 10:45:45.6 |      0.991 |      1.000 |      0.000 |      1.000 |   -135.000 |   -136.000 |    -45.000 |    -90.000 |     44.000 |
 +-----------+------------+------------+------------+------------+------------+------------+------------+------------+------------+------------+
-generator plan_b [&#39;54de771b&#39;] (scan num: 89)
+generator scan_extra_parameter [&#39;4207283c&#39;] (scan num: 6)
 
 
 
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[150]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-(&#39;54de771b-d955-43ae-acb5-a8e36f974751&#39;,)
+(&#39;4207283c-fc7a-4767-8984-54cbb82ed28a&#39;,)
+</pre></div></div>
+</div>
+<p>Show all the documents published from this run.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">collector</span><span class="o">.</span><span class="n">documents</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[(&#39;start&#39;,
+  {&#39;uid&#39;: &#39;4207283c-fc7a-4767-8984-54cbb82ed28a&#39;,
+   &#39;time&#39;: 1722267945.581714,
+   &#39;versions&#39;: {&#39;ophyd&#39;: &#39;1.9.0&#39;, &#39;bluesky&#39;: &#39;1.13.0a3&#39;},
+   &#39;scan_id&#39;: 6,
+   &#39;plan_type&#39;: &#39;generator&#39;,
+   &#39;plan_name&#39;: &#39;scan_extra_parameter&#39;,
+   &#39;diffractometer&#39;: {&#39;name&#39;: &#39;e4cv&#39;,
+    &#39;solver&#39;: &#39;hkl_soleil&#39;,
+    &#39;geometry&#39;: &#39;E4CV&#39;,
+    &#39;engine&#39;: &#39;hkl&#39;,
+    &#39;mode&#39;: &#39;psi_constant&#39;,
+    &#39;extra_axes&#39;: [&#39;h2&#39;, &#39;k2&#39;, &#39;l2&#39;, &#39;psi&#39;]},
+   &#39;axis&#39;: &#39;psi&#39;,
+   &#39;start&#39;: 4,
+   &#39;finish&#39;: 44,
+   &#39;num&#39;: 11,
+   &#39;pseudos&#39;: (1, 0, 1),
+   &#39;reals&#39;: None,
+   &#39;extras&#39;: {&#39;h2&#39;: 1, &#39;k2&#39;: 0, &#39;l2&#39;: 0},
+   &#39;transformation&#39;: &#39;forward&#39;}),
+ (&#39;descriptor&#39;,
+  {&#39;configuration&#39;: {&#39;noisy_det&#39;: {&#39;data&#39;: {&#39;noisy_det_Imax&#39;: 1,
+      &#39;noisy_det_center&#39;: 0,
+      &#39;noisy_det_sigma&#39;: 1,
+      &#39;noisy_det_noise&#39;: &#39;uniform&#39;,
+      &#39;noisy_det_noise_multiplier&#39;: 0.1},
+     &#39;timestamps&#39;: {&#39;noisy_det_Imax&#39;: 1722267944.1981087,
+      &#39;noisy_det_center&#39;: 1722267944.1981025,
+      &#39;noisy_det_sigma&#39;: 1722267944.1981163,
+      &#39;noisy_det_noise&#39;: 1722267944.1981235,
+      &#39;noisy_det_noise_multiplier&#39;: 1722267944.198128},
+     &#39;data_keys&#39;: OrderedDict([(&#39;noisy_det_Imax&#39;,
+                   {&#39;source&#39;: &#39;SIM:noisy_det_Imax&#39;,
+                    &#39;dtype&#39;: &#39;integer&#39;,
+                    &#39;shape&#39;: []}),
+                  (&#39;noisy_det_center&#39;,
+                   {&#39;source&#39;: &#39;SIM:noisy_det_center&#39;,
+                    &#39;dtype&#39;: &#39;integer&#39;,
+                    &#39;shape&#39;: []}),
+                  (&#39;noisy_det_sigma&#39;,
+                   {&#39;source&#39;: &#39;SIM:noisy_det_sigma&#39;,
+                    &#39;dtype&#39;: &#39;integer&#39;,
+                    &#39;shape&#39;: []}),
+                  (&#39;noisy_det_noise&#39;,
+                   {&#39;source&#39;: &#39;SIM:noisy_det_noise&#39;,
+                    &#39;dtype&#39;: &#39;integer&#39;,
+                    &#39;shape&#39;: [],
+                    &#39;enum_strs&#39;: (&#39;none&#39;, &#39;poisson&#39;, &#39;uniform&#39;)}),
+                  (&#39;noisy_det_noise_multiplier&#39;,
+                   {&#39;source&#39;: &#39;SIM:noisy_det_noise_multiplier&#39;,
+                    &#39;dtype&#39;: &#39;number&#39;,
+                    &#39;shape&#39;: []})])},
+    &#39;e4cv&#39;: {&#39;data&#39;: {&#39;e4cv_geometry&#39;: &#39;E4CV&#39;,
+      &#39;e4cv_solver&#39;: &#39;hkl_soleil&#39;,
+      &#39;e4cv_wavelength&#39;: 1.0},
+     &#39;timestamps&#39;: {&#39;e4cv_geometry&#39;: 1722267943.7721956,
+      &#39;e4cv_solver&#39;: 1722267943.7722116,
+      &#39;e4cv_wavelength&#39;: 1722267943.772224},
+     &#39;data_keys&#39;: OrderedDict([(&#39;e4cv_geometry&#39;,
+                   {&#39;source&#39;: &#39;PY:e4cv.operator.geometry&#39;,
+                    &#39;dtype&#39;: &#39;string&#39;,
+                    &#39;shape&#39;: []}),
+                  (&#39;e4cv_solver&#39;,
+                   {&#39;source&#39;: &#39;PY:e4cv.solver_name&#39;,
+                    &#39;dtype&#39;: &#39;string&#39;,
+                    &#39;shape&#39;: []}),
+                  (&#39;e4cv_wavelength&#39;,
+                   {&#39;source&#39;: &#39;PY:e4cv._wavelength.wavelength&#39;,
+                    &#39;dtype&#39;: &#39;number&#39;,
+                    &#39;shape&#39;: []})])},
+    &#39;psi&#39;: {&#39;data&#39;: {&#39;psi&#39;: 4.0},
+     &#39;timestamps&#39;: {&#39;psi&#39;: 1722267945.5927231},
+     &#39;data_keys&#39;: {&#39;psi&#39;: {&#39;source&#39;: &#39;SIM:psi&#39;,
+       &#39;dtype&#39;: &#39;number&#39;,
+       &#39;shape&#39;: []}}}},
+   &#39;data_keys&#39;: {&#39;noisy_det&#39;: {&#39;source&#39;: &#39;SIM:noisy_det&#39;,
+     &#39;dtype&#39;: &#39;number&#39;,
+     &#39;shape&#39;: [],
+     &#39;precision&#39;: 3,
+     &#39;object_name&#39;: &#39;noisy_det&#39;},
+    &#39;e4cv_h&#39;: {&#39;source&#39;: &#39;PY:e4cv_h.position&#39;,
+     &#39;dtype&#39;: &#39;number&#39;,
+     &#39;shape&#39;: [],
+     &#39;upper_ctrl_limit&#39;: 0,
+     &#39;lower_ctrl_limit&#39;: 0,
+     &#39;units&#39;: &#39;&#39;,
+     &#39;object_name&#39;: &#39;e4cv&#39;},
+    &#39;e4cv_h_setpoint&#39;: {&#39;source&#39;: &#39;PY:e4cv_h.target&#39;,
+     &#39;dtype&#39;: &#39;integer&#39;,
+     &#39;shape&#39;: [],
+     &#39;upper_ctrl_limit&#39;: 0,
+     &#39;lower_ctrl_limit&#39;: 0,
+     &#39;units&#39;: &#39;&#39;,
+     &#39;object_name&#39;: &#39;e4cv&#39;},
+    &#39;e4cv_k&#39;: {&#39;source&#39;: &#39;PY:e4cv_k.position&#39;,
+     &#39;dtype&#39;: &#39;number&#39;,
+     &#39;shape&#39;: [],
+     &#39;upper_ctrl_limit&#39;: 0,
+     &#39;lower_ctrl_limit&#39;: 0,
+     &#39;units&#39;: &#39;&#39;,
+     &#39;object_name&#39;: &#39;e4cv&#39;},
+    &#39;e4cv_k_setpoint&#39;: {&#39;source&#39;: &#39;PY:e4cv_k.target&#39;,
+     &#39;dtype&#39;: &#39;number&#39;,
+     &#39;shape&#39;: [],
+     &#39;upper_ctrl_limit&#39;: 0,
+     &#39;lower_ctrl_limit&#39;: 0,
+     &#39;units&#39;: &#39;&#39;,
+     &#39;object_name&#39;: &#39;e4cv&#39;},
+    &#39;e4cv_l&#39;: {&#39;source&#39;: &#39;PY:e4cv_l.position&#39;,
+     &#39;dtype&#39;: &#39;number&#39;,
+     &#39;shape&#39;: [],
+     &#39;upper_ctrl_limit&#39;: 0,
+     &#39;lower_ctrl_limit&#39;: 0,
+     &#39;units&#39;: &#39;&#39;,
+     &#39;object_name&#39;: &#39;e4cv&#39;},
+    &#39;e4cv_l_setpoint&#39;: {&#39;source&#39;: &#39;PY:e4cv_l.target&#39;,
+     &#39;dtype&#39;: &#39;number&#39;,
+     &#39;shape&#39;: [],
+     &#39;upper_ctrl_limit&#39;: 0,
+     &#39;lower_ctrl_limit&#39;: 0,
+     &#39;units&#39;: &#39;&#39;,
+     &#39;object_name&#39;: &#39;e4cv&#39;},
+    &#39;e4cv_omega&#39;: {&#39;source&#39;: &#39;computed&#39;,
+     &#39;dtype&#39;: &#39;number&#39;,
+     &#39;shape&#39;: [],
+     &#39;units&#39;: &#39;&#39;,
+     &#39;lower_ctrl_limit&#39;: -180,
+     &#39;upper_ctrl_limit&#39;: 180,
+     &#39;object_name&#39;: &#39;e4cv&#39;},
+    &#39;e4cv_chi&#39;: {&#39;source&#39;: &#39;computed&#39;,
+     &#39;dtype&#39;: &#39;number&#39;,
+     &#39;shape&#39;: [],
+     &#39;units&#39;: &#39;&#39;,
+     &#39;lower_ctrl_limit&#39;: -180,
+     &#39;upper_ctrl_limit&#39;: 180,
+     &#39;object_name&#39;: &#39;e4cv&#39;},
+    &#39;e4cv_phi&#39;: {&#39;source&#39;: &#39;computed&#39;,
+     &#39;dtype&#39;: &#39;number&#39;,
+     &#39;shape&#39;: [],
+     &#39;units&#39;: &#39;&#39;,
+     &#39;lower_ctrl_limit&#39;: -180,
+     &#39;upper_ctrl_limit&#39;: 180,
+     &#39;object_name&#39;: &#39;e4cv&#39;},
+    &#39;e4cv_tth&#39;: {&#39;source&#39;: &#39;computed&#39;,
+     &#39;dtype&#39;: &#39;number&#39;,
+     &#39;shape&#39;: [],
+     &#39;units&#39;: &#39;&#39;,
+     &#39;lower_ctrl_limit&#39;: -170,
+     &#39;upper_ctrl_limit&#39;: 170,
+     &#39;object_name&#39;: &#39;e4cv&#39;},
+    &#39;psi&#39;: {&#39;source&#39;: &#39;SIM:psi&#39;,
+     &#39;dtype&#39;: &#39;number&#39;,
+     &#39;shape&#39;: [],
+     &#39;object_name&#39;: &#39;psi&#39;}},
+   &#39;name&#39;: &#39;primary&#39;,
+   &#39;object_keys&#39;: {&#39;noisy_det&#39;: [&#39;noisy_det&#39;],
+    &#39;e4cv&#39;: [&#39;e4cv_h&#39;,
+     &#39;e4cv_h_setpoint&#39;,
+     &#39;e4cv_k&#39;,
+     &#39;e4cv_k_setpoint&#39;,
+     &#39;e4cv_l&#39;,
+     &#39;e4cv_l_setpoint&#39;,
+     &#39;e4cv_omega&#39;,
+     &#39;e4cv_chi&#39;,
+     &#39;e4cv_phi&#39;,
+     &#39;e4cv_tth&#39;],
+    &#39;psi&#39;: [&#39;psi&#39;]},
+   &#39;run_start&#39;: &#39;4207283c-fc7a-4767-8984-54cbb82ed28a&#39;,
+   &#39;time&#39;: 1722267945.6110752,
+   &#39;uid&#39;: &#39;b2ab0c0c-a8fb-4485-8c6e-2beb2c7c2815&#39;,
+   &#39;hints&#39;: {&#39;noisy_det&#39;: {&#39;fields&#39;: [&#39;noisy_det&#39;]},
+    &#39;e4cv&#39;: {&#39;fields&#39;: [&#39;e4cv_h&#39;,
+      &#39;e4cv_k&#39;,
+      &#39;e4cv_l&#39;,
+      &#39;e4cv_omega&#39;,
+      &#39;e4cv_chi&#39;,
+      &#39;e4cv_phi&#39;,
+      &#39;e4cv_tth&#39;]},
+    &#39;psi&#39;: {&#39;fields&#39;: [&#39;psi&#39;]}}}),
+ (&#39;event&#39;,
+  {&#39;uid&#39;: &#39;b97b4704-bed4-41b8-95a3-322cbc22cc6a&#39;,
+   &#39;time&#39;: 1722267945.6288772,
+   &#39;data&#39;: {&#39;noisy_det&#39;: 0.9914172247089457,
+    &#39;e4cv_h&#39;: 0.999999999399,
+    &#39;e4cv_h_setpoint&#39;: -1,
+    &#39;e4cv_k&#39;: -3.15e-10,
+    &#39;e4cv_k_setpoint&#39;: 1.1,
+    &#39;e4cv_l&#39;: 1.000000000115,
+    &#39;e4cv_l_setpoint&#39;: -0.4,
+    &#39;e4cv_omega&#39;: -135.000000169237,
+    &#39;e4cv_chi&#39;: -175.999999989453,
+    &#39;e4cv_phi&#39;: -45.000000203251,
+    &#39;e4cv_tth&#39;: -89.999999972101,
+    &#39;psi&#39;: 4.0},
+   &#39;timestamps&#39;: {&#39;noisy_det&#39;: 1722267945.3946135,
+    &#39;e4cv_h&#39;: 1722267943.77197,
+    &#39;e4cv_h_setpoint&#39;: 1722267943.77199,
+    &#39;e4cv_k&#39;: 1722267943.7720666,
+    &#39;e4cv_k_setpoint&#39;: 1722267943.772079,
+    &#39;e4cv_l&#39;: 1722267943.7721512,
+    &#39;e4cv_l_setpoint&#39;: 1722267943.7721653,
+    &#39;e4cv_omega&#39;: 1722267945.6082811,
+    &#39;e4cv_chi&#39;: 1722267945.608288,
+    &#39;e4cv_phi&#39;: 1722267945.6082928,
+    &#39;e4cv_tth&#39;: 1722267945.6082976,
+    &#39;psi&#39;: 1722267945.5927231},
+   &#39;seq_num&#39;: 1,
+   &#39;filled&#39;: {},
+   &#39;descriptor&#39;: &#39;b2ab0c0c-a8fb-4485-8c6e-2beb2c7c2815&#39;}),
+ (&#39;event&#39;,
+  {&#39;uid&#39;: &#39;c94afded-9fb9-44bb-a2ab-44805363cc32&#39;,
+   &#39;time&#39;: 1722267945.6382146,
+   &#39;data&#39;: {&#39;noisy_det&#39;: 0.9914172247089457,
+    &#39;e4cv_h&#39;: 1.000000000469,
+    &#39;e4cv_h_setpoint&#39;: -1,
+    &#39;e4cv_k&#39;: 6.17e-10,
+    &#39;e4cv_k_setpoint&#39;: 1.1,
+    &#39;e4cv_l&#39;: 1.000000000393,
+    &#39;e4cv_l_setpoint&#39;: -0.4,
+    &#39;e4cv_omega&#39;: -134.999999845142,
+    &#39;e4cv_chi&#39;: -171.999999955516,
+    &#39;e4cv_phi&#39;: -44.999999819998,
+    &#39;e4cv_tth&#39;: -90.000000049412,
+    &#39;psi&#39;: 8.0},
+   &#39;timestamps&#39;: {&#39;noisy_det&#39;: 1722267945.3946135,
+    &#39;e4cv_h&#39;: 1722267943.77197,
+    &#39;e4cv_h_setpoint&#39;: 1722267943.77199,
+    &#39;e4cv_k&#39;: 1722267943.7720666,
+    &#39;e4cv_k_setpoint&#39;: 1722267943.772079,
+    &#39;e4cv_l&#39;: 1722267943.7721512,
+    &#39;e4cv_l_setpoint&#39;: 1722267943.7721653,
+    &#39;e4cv_omega&#39;: 1722267945.63792,
+    &#39;e4cv_chi&#39;: 1722267945.637924,
+    &#39;e4cv_phi&#39;: 1722267945.6379268,
+    &#39;e4cv_tth&#39;: 1722267945.63793,
+    &#39;psi&#39;: 1722267945.6310284},
+   &#39;seq_num&#39;: 2,
+   &#39;filled&#39;: {},
+   &#39;descriptor&#39;: &#39;b2ab0c0c-a8fb-4485-8c6e-2beb2c7c2815&#39;}),
+ (&#39;event&#39;,
+  {&#39;uid&#39;: &#39;740ed1ae-4d68-4300-bfe1-a93084dd3288&#39;,
+   &#39;time&#39;: 1722267945.645601,
+   &#39;data&#39;: {&#39;noisy_det&#39;: 0.9914172247089457,
+    &#39;e4cv_h&#39;: 0.999999999956,
+    &#39;e4cv_h_setpoint&#39;: -1,
+    &#39;e4cv_k&#39;: -4.08e-10,
+    &#39;e4cv_k_setpoint&#39;: 1.1,
+    &#39;e4cv_l&#39;: 1.000000000044,
+    &#39;e4cv_l_setpoint&#39;: -0.4,
+    &#39;e4cv_omega&#39;: -135.000000079496,
+    &#39;e4cv_chi&#39;: -167.999999866946,
+    &#39;e4cv_phi&#39;: -45.000000080278,
+    &#39;e4cv_tth&#39;: -90.0,
+    &#39;psi&#39;: 12.0},
+   &#39;timestamps&#39;: {&#39;noisy_det&#39;: 1722267945.3946135,
+    &#39;e4cv_h&#39;: 1722267943.77197,
+    &#39;e4cv_h_setpoint&#39;: 1722267943.77199,
+    &#39;e4cv_k&#39;: 1722267943.7720666,
+    &#39;e4cv_k_setpoint&#39;: 1722267943.772079,
+    &#39;e4cv_l&#39;: 1722267943.7721512,
+    &#39;e4cv_l_setpoint&#39;: 1722267943.7721653,
+    &#39;e4cv_omega&#39;: 1722267945.6453733,
+    &#39;e4cv_chi&#39;: 1722267945.6453767,
+    &#39;e4cv_phi&#39;: 1722267945.6453793,
+    &#39;e4cv_tth&#39;: 1722267945.6453817,
+    &#39;psi&#39;: 1722267945.6403382},
+   &#39;seq_num&#39;: 3,
+   &#39;filled&#39;: {},
+   &#39;descriptor&#39;: &#39;b2ab0c0c-a8fb-4485-8c6e-2beb2c7c2815&#39;}),
+ (&#39;event&#39;,
+  {&#39;uid&#39;: &#39;7149f274-e412-4e3a-b2ab-103595fd0269&#39;,
+   &#39;time&#39;: 1722267945.6518295,
+   &#39;data&#39;: {&#39;noisy_det&#39;: 0.9914172247089457,
+    &#39;e4cv_h&#39;: 1.000000000926,
+    &#39;e4cv_h_setpoint&#39;: -1,
+    &#39;e4cv_k&#39;: 1.46e-10,
+    &#39;e4cv_k_setpoint&#39;: 1.1,
+    &#39;e4cv_l&#39;: 1.000000000881,
+    &#39;e4cv_l_setpoint&#39;: -0.4,
+    &#39;e4cv_omega&#39;: -135.000000030239,
+    &#39;e4cv_chi&#39;: -163.999999916887,
+    &#39;e4cv_phi&#39;: -44.999999977994,
+    &#39;e4cv_tth&#39;: -90.000000103529,
+    &#39;psi&#39;: 16.0},
+   &#39;timestamps&#39;: {&#39;noisy_det&#39;: 1722267945.3946135,
+    &#39;e4cv_h&#39;: 1722267943.77197,
+    &#39;e4cv_h_setpoint&#39;: 1722267943.77199,
+    &#39;e4cv_k&#39;: 1722267943.7720666,
+    &#39;e4cv_k_setpoint&#39;: 1722267943.772079,
+    &#39;e4cv_l&#39;: 1722267943.7721512,
+    &#39;e4cv_l_setpoint&#39;: 1722267943.7721653,
+    &#39;e4cv_omega&#39;: 1722267945.6516306,
+    &#39;e4cv_chi&#39;: 1722267945.6516335,
+    &#39;e4cv_phi&#39;: 1722267945.6516354,
+    &#39;e4cv_tth&#39;: 1722267945.6516373,
+    &#39;psi&#39;: 1722267945.6473205},
+   &#39;seq_num&#39;: 4,
+   &#39;filled&#39;: {},
+   &#39;descriptor&#39;: &#39;b2ab0c0c-a8fb-4485-8c6e-2beb2c7c2815&#39;}),
+ (&#39;event&#39;,
+  {&#39;uid&#39;: &#39;8e06e153-c8d6-4a00-8ad3-ed45dc08a89a&#39;,
+   &#39;time&#39;: 1722267945.6578987,
+   &#39;data&#39;: {&#39;noisy_det&#39;: 0.9914172247089457,
+    &#39;e4cv_h&#39;: 1.000000000925,
+    &#39;e4cv_h_setpoint&#39;: -1,
+    &#39;e4cv_k&#39;: 0,
+    &#39;e4cv_k_setpoint&#39;: 1.1,
+    &#39;e4cv_l&#39;: 1.000000000925,
+    &#39;e4cv_l_setpoint&#39;: -0.4,
+    &#39;e4cv_omega&#39;: -135.000000053027,
+    &#39;e4cv_chi&#39;: -159.999999971042,
+    &#39;e4cv_phi&#39;: -45.0,
+    &#39;e4cv_tth&#39;: -90.000000106054,
+    &#39;psi&#39;: 20.0},
+   &#39;timestamps&#39;: {&#39;noisy_det&#39;: 1722267945.3946135,
+    &#39;e4cv_h&#39;: 1722267943.77197,
+    &#39;e4cv_h_setpoint&#39;: 1722267943.77199,
+    &#39;e4cv_k&#39;: 1722267943.7720666,
+    &#39;e4cv_k_setpoint&#39;: 1722267943.772079,
+    &#39;e4cv_l&#39;: 1722267943.7721512,
+    &#39;e4cv_l_setpoint&#39;: 1722267943.7721653,
+    &#39;e4cv_omega&#39;: 1722267945.6577127,
+    &#39;e4cv_chi&#39;: 1722267945.657715,
+    &#39;e4cv_phi&#39;: 1722267945.6577175,
+    &#39;e4cv_tth&#39;: 1722267945.6577194,
+    &#39;psi&#39;: 1722267945.6534114},
+   &#39;seq_num&#39;: 5,
+   &#39;filled&#39;: {},
+   &#39;descriptor&#39;: &#39;b2ab0c0c-a8fb-4485-8c6e-2beb2c7c2815&#39;}),
+ (&#39;event&#39;,
+  {&#39;uid&#39;: &#39;5557b140-c418-4acd-9cef-98085579ef34&#39;,
+   &#39;time&#39;: 1722267945.6634862,
+   &#39;data&#39;: {&#39;noisy_det&#39;: 0.9914172247089457,
+    &#39;e4cv_h&#39;: 0.999999999505,
+    &#39;e4cv_h_setpoint&#39;: -1,
+    &#39;e4cv_k&#39;: -1.36e-10,
+    &#39;e4cv_k_setpoint&#39;: 1.1,
+    &#39;e4cv_l&#39;: 0.999999999072,
+    &#39;e4cv_l_setpoint&#39;: -0.4,
+    &#39;e4cv_omega&#39;: -134.999999972824,
+    &#39;e4cv_chi&#39;: -155.999999985058,
+    &#39;e4cv_phi&#39;: -45.0,
+    &#39;e4cv_tth&#39;: -89.999999918471,
+    &#39;psi&#39;: 24.0},
+   &#39;timestamps&#39;: {&#39;noisy_det&#39;: 1722267945.3946135,
+    &#39;e4cv_h&#39;: 1722267943.77197,
+    &#39;e4cv_h_setpoint&#39;: 1722267943.77199,
+    &#39;e4cv_k&#39;: 1722267943.7720666,
+    &#39;e4cv_k_setpoint&#39;: 1722267943.772079,
+    &#39;e4cv_l&#39;: 1722267943.7721512,
+    &#39;e4cv_l_setpoint&#39;: 1722267943.7721653,
+    &#39;e4cv_omega&#39;: 1722267945.6633036,
+    &#39;e4cv_chi&#39;: 1722267945.6633062,
+    &#39;e4cv_phi&#39;: 1722267945.6633081,
+    &#39;e4cv_tth&#39;: 1722267945.6633098,
+    &#39;psi&#39;: 1722267945.659396},
+   &#39;seq_num&#39;: 6,
+   &#39;filled&#39;: {},
+   &#39;descriptor&#39;: &#39;b2ab0c0c-a8fb-4485-8c6e-2beb2c7c2815&#39;}),
+ (&#39;event&#39;,
+  {&#39;uid&#39;: &#39;6062c223-f683-4b6b-8ce5-4806a09ff5f6&#39;,
+   &#39;time&#39;: 1722267945.6694927,
+   &#39;data&#39;: {&#39;noisy_det&#39;: 0.9914172247089457,
+    &#39;e4cv_h&#39;: 0.999999999984,
+    &#39;e4cv_h_setpoint&#39;: -1,
+    &#39;e4cv_k&#39;: -1.95e-10,
+    &#39;e4cv_k_setpoint&#39;: 1.1,
+    &#39;e4cv_l&#39;: 0.999999999043,
+    &#39;e4cv_l_setpoint&#39;: -0.4,
+    &#39;e4cv_omega&#39;: -134.999999988933,
+    &#39;e4cv_chi&#39;: -151.999999981706,
+    &#39;e4cv_phi&#39;: -44.999999987886,
+    &#39;e4cv_tth&#39;: -89.999999944253,
+    &#39;psi&#39;: 28.0},
+   &#39;timestamps&#39;: {&#39;noisy_det&#39;: 1722267945.3946135,
+    &#39;e4cv_h&#39;: 1722267943.77197,
+    &#39;e4cv_h_setpoint&#39;: 1722267943.77199,
+    &#39;e4cv_k&#39;: 1722267943.7720666,
+    &#39;e4cv_k_setpoint&#39;: 1722267943.772079,
+    &#39;e4cv_l&#39;: 1722267943.7721512,
+    &#39;e4cv_l_setpoint&#39;: 1722267943.7721653,
+    &#39;e4cv_omega&#39;: 1722267945.6693122,
+    &#39;e4cv_chi&#39;: 1722267945.6693149,
+    &#39;e4cv_phi&#39;: 1722267945.6693165,
+    &#39;e4cv_tth&#39;: 1722267945.6693182,
+    &#39;psi&#39;: 1722267945.665359},
+   &#39;seq_num&#39;: 7,
+   &#39;filled&#39;: {},
+   &#39;descriptor&#39;: &#39;b2ab0c0c-a8fb-4485-8c6e-2beb2c7c2815&#39;}),
+ (&#39;event&#39;,
+  {&#39;uid&#39;: &#39;fbe3920e-853c-46f3-8a8f-b4072bde0734&#39;,
+   &#39;time&#39;: 1722267945.6750998,
+   &#39;data&#39;: {&#39;noisy_det&#39;: 0.9914172247089457,
+    &#39;e4cv_h&#39;: 1.000000000452,
+    &#39;e4cv_h_setpoint&#39;: -1,
+    &#39;e4cv_k&#39;: -1.24e-10,
+    &#39;e4cv_k_setpoint&#39;: 1.1,
+    &#39;e4cv_l&#39;: 1.000000000547,
+    &#39;e4cv_l_setpoint&#39;: -0.4,
+    &#39;e4cv_omega&#39;: -135.000000038118,
+    &#39;e4cv_chi&#39;: -148.00000003013,
+    &#39;e4cv_phi&#39;: -45.000000010772,
+    &#39;e4cv_tth&#39;: -90.000000057214,
+    &#39;psi&#39;: 32.0},
+   &#39;timestamps&#39;: {&#39;noisy_det&#39;: 1722267945.3946135,
+    &#39;e4cv_h&#39;: 1722267943.77197,
+    &#39;e4cv_h_setpoint&#39;: 1722267943.77199,
+    &#39;e4cv_k&#39;: 1722267943.7720666,
+    &#39;e4cv_k_setpoint&#39;: 1722267943.772079,
+    &#39;e4cv_l&#39;: 1722267943.7721512,
+    &#39;e4cv_l_setpoint&#39;: 1722267943.7721653,
+    &#39;e4cv_omega&#39;: 1722267945.6748447,
+    &#39;e4cv_chi&#39;: 1722267945.6748476,
+    &#39;e4cv_phi&#39;: 1722267945.6748493,
+    &#39;e4cv_tth&#39;: 1722267945.6748514,
+    &#39;psi&#39;: 1722267945.6708949},
+   &#39;seq_num&#39;: 8,
+   &#39;filled&#39;: {},
+   &#39;descriptor&#39;: &#39;b2ab0c0c-a8fb-4485-8c6e-2beb2c7c2815&#39;}),
+ (&#39;event&#39;,
+  {&#39;uid&#39;: &#39;9a0bddca-30ee-4909-98a1-a19e9700c571&#39;,
+   &#39;time&#39;: 1722267945.6810298,
+   &#39;data&#39;: {&#39;noisy_det&#39;: 0.9914172247089457,
+    &#39;e4cv_h&#39;: 0.999999999991,
+    &#39;e4cv_h_setpoint&#39;: -1,
+    &#39;e4cv_k&#39;: 1.85e-10,
+    &#39;e4cv_k_setpoint&#39;: 1.1,
+    &#39;e4cv_l&#39;: 1.000000001035,
+    &#39;e4cv_l_setpoint&#39;: -0.4,
+    &#39;e4cv_omega&#39;: -135.000000016623,
+    &#39;e4cv_chi&#39;: -143.999999972978,
+    &#39;e4cv_phi&#39;: -45.000000019602,
+    &#39;e4cv_tth&#39;: -90.00000005876,
+    &#39;psi&#39;: 36.0},
+   &#39;timestamps&#39;: {&#39;noisy_det&#39;: 1722267945.3946135,
+    &#39;e4cv_h&#39;: 1722267943.77197,
+    &#39;e4cv_h_setpoint&#39;: 1722267943.77199,
+    &#39;e4cv_k&#39;: 1722267943.7720666,
+    &#39;e4cv_k_setpoint&#39;: 1722267943.772079,
+    &#39;e4cv_l&#39;: 1722267943.7721512,
+    &#39;e4cv_l_setpoint&#39;: 1722267943.7721653,
+    &#39;e4cv_omega&#39;: 1722267945.6808696,
+    &#39;e4cv_chi&#39;: 1722267945.6808722,
+    &#39;e4cv_phi&#39;: 1722267945.6808736,
+    &#39;e4cv_tth&#39;: 1722267945.6808755,
+    &#39;psi&#39;: 1722267945.6768785},
+   &#39;seq_num&#39;: 9,
+   &#39;filled&#39;: {},
+   &#39;descriptor&#39;: &#39;b2ab0c0c-a8fb-4485-8c6e-2beb2c7c2815&#39;}),
+ (&#39;event&#39;,
+  {&#39;uid&#39;: &#39;81c83876-6c9a-4e6a-997c-59a0590a50b0&#39;,
+   &#39;time&#39;: 1722267945.6870415,
+   &#39;data&#39;: {&#39;noisy_det&#39;: 0.9914172247089457,
+    &#39;e4cv_h&#39;: 0.99999999994,
+    &#39;e4cv_h_setpoint&#39;: -1,
+    &#39;e4cv_k&#39;: -1.17e-10,
+    &#39;e4cv_k_setpoint&#39;: 1.1,
+    &#39;e4cv_l&#39;: 1.00000000006,
+    &#39;e4cv_l_setpoint&#39;: -0.4,
+    &#39;e4cv_omega&#39;: -135.000000007347,
+    &#39;e4cv_chi&#39;: -139.999999974084,
+    &#39;e4cv_phi&#39;: -45.000000009081,
+    &#39;e4cv_tth&#39;: -90.0,
+    &#39;psi&#39;: 40.0},
+   &#39;timestamps&#39;: {&#39;noisy_det&#39;: 1722267945.3946135,
+    &#39;e4cv_h&#39;: 1722267943.77197,
+    &#39;e4cv_h_setpoint&#39;: 1722267943.77199,
+    &#39;e4cv_k&#39;: 1722267943.7720666,
+    &#39;e4cv_k_setpoint&#39;: 1722267943.772079,
+    &#39;e4cv_l&#39;: 1722267943.7721512,
+    &#39;e4cv_l_setpoint&#39;: 1722267943.7721653,
+    &#39;e4cv_omega&#39;: 1722267945.6868267,
+    &#39;e4cv_chi&#39;: 1722267945.6868298,
+    &#39;e4cv_phi&#39;: 1722267945.686832,
+    &#39;e4cv_tth&#39;: 1722267945.6868334,
+    &#39;psi&#39;: 1722267945.6825068},
+   &#39;seq_num&#39;: 10,
+   &#39;filled&#39;: {},
+   &#39;descriptor&#39;: &#39;b2ab0c0c-a8fb-4485-8c6e-2beb2c7c2815&#39;}),
+ (&#39;event&#39;,
+  {&#39;uid&#39;: &#39;2a9d3164-8786-4165-8c82-d23a7e8dba20&#39;,
+   &#39;time&#39;: 1722267945.697664,
+   &#39;data&#39;: {&#39;noisy_det&#39;: 0.9914172247089457,
+    &#39;e4cv_h&#39;: 1.000000000676,
+    &#39;e4cv_h_setpoint&#39;: -1,
+    &#39;e4cv_k&#39;: 2.24e-10,
+    &#39;e4cv_k_setpoint&#39;: 1.1,
+    &#39;e4cv_l&#39;: 1.000000000408,
+    &#39;e4cv_l_setpoint&#39;: -0.4,
+    &#39;e4cv_omega&#39;: -135.000000017972,
+    &#39;e4cv_chi&#39;: -135.999999949146,
+    &#39;e4cv_phi&#39;: -44.999999982917,
+    &#39;e4cv_tth&#39;: -90.000000062118,
+    &#39;psi&#39;: 44.0},
+   &#39;timestamps&#39;: {&#39;noisy_det&#39;: 1722267945.3946135,
+    &#39;e4cv_h&#39;: 1722267943.77197,
+    &#39;e4cv_h_setpoint&#39;: 1722267943.77199,
+    &#39;e4cv_k&#39;: 1722267943.7720666,
+    &#39;e4cv_k_setpoint&#39;: 1722267943.772079,
+    &#39;e4cv_l&#39;: 1722267943.7721512,
+    &#39;e4cv_l_setpoint&#39;: 1722267943.7721653,
+    &#39;e4cv_omega&#39;: 1722267945.6974528,
+    &#39;e4cv_chi&#39;: 1722267945.6974554,
+    &#39;e4cv_phi&#39;: 1722267945.6974573,
+    &#39;e4cv_tth&#39;: 1722267945.6974595,
+    &#39;psi&#39;: 1722267945.68872},
+   &#39;seq_num&#39;: 11,
+   &#39;filled&#39;: {},
+   &#39;descriptor&#39;: &#39;b2ab0c0c-a8fb-4485-8c6e-2beb2c7c2815&#39;}),
+ (&#39;stop&#39;,
+  {&#39;uid&#39;: &#39;caf8d84d-ff3c-44e3-ba07-bd4e6ef5c58f&#39;,
+   &#39;time&#39;: 1722267945.6990013,
+   &#39;run_start&#39;: &#39;4207283c-fc7a-4767-8984-54cbb82ed28a&#39;,
+   &#39;exit_status&#39;: &#39;success&#39;,
+   &#39;reason&#39;: &#39;&#39;,
+   &#39;num_events&#39;: {&#39;primary&#39;: 11}})]
 </pre></div></div>
 </div>
 </section>
@@ -980,7 +1439,7 @@ generator plan_b [&#39;54de771b&#39;] (scan num: 89)
   <div class="sidebar-secondary-item">
 
   <div class="tocsection sourcelink">
-    <a href="../_sources/examples/demo_scan_hkl.ipynb.txt">
+    <a href="../_sources/examples/demo_scan_hkl_hklpy2.ipynb.txt">
       <i class="fa-solid fa-file-lines"></i> Show Source
     </a>
   </div>

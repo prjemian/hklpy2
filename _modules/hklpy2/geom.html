@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../_static/documentation_options.js?v=eb5c2190"></script>
+    <script src="../../_static/documentation_options.js?v=691131a4"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/tabs.js?v=3030b3cb"></script>
@@ -353,7 +353,7 @@ document.write(`
 <span class="sd">.. rubric:: Support</span>
 <span class="sd">.. autosummary::</span>
 
-<span class="sd">    ~MixinAutoAssignAxes</span>
+<span class="sd">    ~MixinSimulator</span>
 <span class="sd">    ~MixinHkl</span>
 <span class="sd">    ~MixinQ</span>
 <span class="sd">&quot;&quot;&quot;</span>
@@ -373,9 +373,9 @@ document.write(`
 <span class="s2">    E6C</span>
 <span class="s2">    K4CV</span>
 <span class="s2">    K6C</span>
-<span class="s2">    MixinAutoAssignAxes</span>
 <span class="s2">    MixinHkl</span>
 <span class="s2">    MixinQ</span>
+<span class="s2">    MixinSimulator</span>
 <span class="s2">    Petra3_p09_eh2</span>
 <span class="s2">    Petra3_p23_4c</span>
 <span class="s2">    Petra3_p23_6c</span>
@@ -391,13 +391,18 @@ document.write(`
 <span class="n">H_OR_N</span> <span class="o">=</span> <span class="n">Kind</span><span class="o">.</span><span class="n">hinted</span> <span class="o">|</span> <span class="n">Kind</span><span class="o">.</span><span class="n">normal</span>
 
 
-<div class="viewcode-block" id="MixinAutoAssignAxes">
-<a class="viewcode-back" href="../../api/geom.html#hklpy2.geom.MixinAutoAssignAxes">[docs]</a>
-<span class="k">class</span> <span class="nc">MixinAutoAssignAxes</span><span class="p">(</span><span class="n">Device</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Automatically assigns diffractometer axes.&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="MixinSimulator">
+<a class="viewcode-back" href="../../api/geom.html#hklpy2.geom.MixinSimulator">[docs]</a>
+<span class="k">class</span> <span class="nc">MixinSimulator</span><span class="p">(</span><span class="n">Device</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Mixin used by simulators.</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="sd">    - Supplies default &#39;prefix&#39; argument.</span>
+<span class="sd">    - Automatically assigns diffractometer axes.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prefix</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">prefix</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">auto_assign_axes</span><span class="p">()</span></div>
 
 
@@ -597,7 +602,7 @@ document.write(`
 
 <div class="viewcode-block" id="SimulatedE4CV">
 <a class="viewcode-back" href="../../api/geom.html#hklpy2.geom.SimulatedE4CV">[docs]</a>
-<span class="k">class</span> <span class="nc">SimulatedE4CV</span><span class="p">(</span><span class="n">MixinAutoAssignAxes</span><span class="p">,</span> <span class="n">E4CV</span><span class="p">,</span> <span class="n">MixinHkl</span><span class="p">):</span>
+<span class="k">class</span> <span class="nc">SimulatedE4CV</span><span class="p">(</span><span class="n">MixinSimulator</span><span class="p">,</span> <span class="n">E4CV</span><span class="p">,</span> <span class="n">MixinHkl</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Eulerian 4-circle, hkl_soleil, E4CV, engine=&quot;hkl&quot;, simulated rotary axes.</span>
 
@@ -613,7 +618,7 @@ document.write(`
 
 <div class="viewcode-block" id="SimulatedE6C">
 <a class="viewcode-back" href="../../api/geom.html#hklpy2.geom.SimulatedE6C">[docs]</a>
-<span class="k">class</span> <span class="nc">SimulatedE6C</span><span class="p">(</span><span class="n">MixinAutoAssignAxes</span><span class="p">,</span> <span class="n">E6C</span><span class="p">,</span> <span class="n">MixinHkl</span><span class="p">):</span>
+<span class="k">class</span> <span class="nc">SimulatedE6C</span><span class="p">(</span><span class="n">MixinSimulator</span><span class="p">,</span> <span class="n">E6C</span><span class="p">,</span> <span class="n">MixinHkl</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Eulerian 6-circle, *hkl_soleil*, E6C, engine=&quot;hkl&quot;, simulated rotary axes.</span>
 
@@ -631,7 +636,7 @@ document.write(`
 
 <div class="viewcode-block" id="SimulatedK4CV">
 <a class="viewcode-back" href="../../api/geom.html#hklpy2.geom.SimulatedK4CV">[docs]</a>
-<span class="k">class</span> <span class="nc">SimulatedK4CV</span><span class="p">(</span><span class="n">MixinAutoAssignAxes</span><span class="p">,</span> <span class="n">K4CV</span><span class="p">,</span> <span class="n">MixinHkl</span><span class="p">):</span>
+<span class="k">class</span> <span class="nc">SimulatedK4CV</span><span class="p">(</span><span class="n">MixinSimulator</span><span class="p">,</span> <span class="n">K4CV</span><span class="p">,</span> <span class="n">MixinHkl</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Kappa 4-circle, hkl_soleil, K4CV, engine=&quot;hkl&quot;, simulated rotary axes.</span>
 
@@ -647,7 +652,7 @@ document.write(`
 
 <div class="viewcode-block" id="SimulatedK6C">
 <a class="viewcode-back" href="../../api/geom.html#hklpy2.geom.SimulatedK6C">[docs]</a>
-<span class="k">class</span> <span class="nc">SimulatedK6C</span><span class="p">(</span><span class="n">MixinAutoAssignAxes</span><span class="p">,</span> <span class="n">K6C</span><span class="p">,</span> <span class="n">MixinHkl</span><span class="p">):</span>
+<span class="k">class</span> <span class="nc">SimulatedK6C</span><span class="p">(</span><span class="n">MixinSimulator</span><span class="p">,</span> <span class="n">K6C</span><span class="p">,</span> <span class="n">MixinHkl</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Kappa 6-circle, hkl_soleil, K6C, engine=&quot;hkl&quot;, simulated rotary axes.</span>
 
@@ -665,7 +670,7 @@ document.write(`
 
 <div class="viewcode-block" id="SimulatedTheta2Theta">
 <a class="viewcode-back" href="../../api/geom.html#hklpy2.geom.SimulatedTheta2Theta">[docs]</a>
-<span class="k">class</span> <span class="nc">SimulatedTheta2Theta</span><span class="p">(</span><span class="n">MixinAutoAssignAxes</span><span class="p">,</span> <span class="n">Theta2Theta</span><span class="p">,</span> <span class="n">MixinQ</span><span class="p">):</span>
+<span class="k">class</span> <span class="nc">SimulatedTheta2Theta</span><span class="p">(</span><span class="n">MixinSimulator</span><span class="p">,</span> <span class="n">Theta2Theta</span><span class="p">,</span> <span class="n">MixinQ</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    2-circle, *th_tth*, TH TTH Q, simulated rotary axes.</span>
 <span class="sd">    </span>

@@ -35,7 +35,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 4,
+   "execution_count": 1,
    "metadata": {},
    "outputs": [],
    "source": [
@@ -52,7 +52,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 5,
+   "execution_count": 2,
    "metadata": {},
    "outputs": [
     {
@@ -67,7 +67,7 @@
        " 'emergence': Engine(parameters=['x', 'y', 'z'], pseudo_axes=OrderedDict([('emergence', 0.0), ('azimuth', 0.0)]), mode='emergence', modes=['emergence'], units='user')}"
       ]
      },
-     "execution_count": 5,
+     "execution_count": 2,
      "metadata": {},
      "output_type": "execute_result"
     }
@@ -100,7 +100,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 6,
+   "execution_count": 3,
    "metadata": {},
    "outputs": [
     {
@@ -111,7 +111,7 @@
        "       [ 6.42854457e-01,  7.65988346e-01, -8.62667415e-17]])"
       ]
      },
-     "execution_count": 6,
+     "execution_count": 3,
      "metadata": {},
      "output_type": "execute_result"
     }
@@ -135,7 +135,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 7,
+   "execution_count": 4,
    "metadata": {},
    "outputs": [
     {
@@ -161,7 +161,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 8,
+   "execution_count": 5,
    "metadata": {},
    "outputs": [
     {
@@ -186,7 +186,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 9,
+   "execution_count": 6,
    "metadata": {},
    "outputs": [
     {
@@ -211,7 +211,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 10,
+   "execution_count": 7,
    "metadata": {},
    "outputs": [
     {
@@ -241,7 +241,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 11,
+   "execution_count": 8,
    "metadata": {},
    "outputs": [],
    "source": [
@@ -270,7 +270,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 12,
+   "execution_count": 9,
    "metadata": {},
    "outputs": [
     {
@@ -297,7 +297,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 13,
+   "execution_count": 10,
    "metadata": {},
    "outputs": [
     {
@@ -305,8 +305,36 @@
      "output_type": "stream",
      "text": [
       "e6c_psi.position=SimulatedPsiE6CPseudoPos(psi=12.000007801823596)\n",
-      "e6c_psi.real_position=SimulatedPsiE6CRealPos(mu=0.0, omega=66.39160677520167, chi=-80.22618091661815, phi=-78.00866699932374, gamma=0.0, delta=24.50984451740515)\n"
+      "e6c_psi.real_position=SimulatedPsiE6CRealPos(mu=0.0, omega=66.39160677520167, chi=-80.22618091661815, phi=-78.00866699932374, gamma=0.0, delta=24.50984451740515)\n",
+      "===================== ================== =========\n",
+      "term                  value              axis_type\n",
+      "===================== ================== =========\n",
+      "diffractometer        e6c_psi                     \n",
+      "sample name           vibranium                   \n",
+      "energy (keV)          8.05092                     \n",
+      "wavelength (angstrom) 1.54000                     \n",
+      "calc engine           psi                         \n",
+      "mode                  psi_vertical                \n",
+      "psi                   12.000007801823596 pseudo   \n",
+      "mu                    0.0                real     \n",
+      "omega                 66.39160677520167  real     \n",
+      "chi                   -80.22618091661815 real     \n",
+      "phi                   -78.00866699932374 real     \n",
+      "gamma                 0.0                real     \n",
+      "delta                 24.50984451740515  real     \n",
+      "===================== ================== =========\n",
+      "\n"
      ]
+    },
+    {
+     "data": {
+      "text/plain": [
+       "<pyRestTable.rest_table.Table at 0x7f4b67c60ad0>"
+      ]
+     },
+     "execution_count": 10,
+     "metadata": {},
+     "output_type": "execute_result"
     }
    ],
    "source": [
@@ -316,7 +344,8 @@
     "for axis in p_111._fields:  # move all reals to the (111) reflection\n",
     "    getattr(e6c_psi, axis).move(getattr(p_111, axis))\n",
     "print(f\"{e6c_psi.position=}\")\n",
-    "print(f\"{e6c_psi.real_position=}\")"
+    "print(f\"{e6c_psi.real_position=}\")\n",
+    "e6c_psi.wh()"
    ]
   }
  ],

@@ -33,7 +33,7 @@ cross-reference map in an IPython console with just a few commands
 
     In [6]: from hklpy2 import SimulatedTheta2Theta
 
-    In [7]: twoc = SimulatedTheta2Theta("", name="twoc")
+    In [7]: twoc = SimulatedTheta2Theta(name="twoc")
 
     In [8]: twoc.operator.axes_xref
     Out[8]: {'q': 'q', 'theta': 'th', 'ttheta': 'tth'}
@@ -73,7 +73,7 @@ We set that up in the ``__init__()`` method of our new class::
 
 Create a Python object that uses this class::
 
-    twoc = S1D1("", name="twoc")
+    twoc = S1D1(name="twoc")
 
 Show the mapping between user-defined axes and axis names used by the |solver|::
 
@@ -121,7 +121,7 @@ and ``reals=["theta", "ttheta"]`` parts where we define the mapping.
 
 Create the diffractometer::
 
-    twoc = MyTwoC("", name="twoc")
+    twoc = MyTwoC(name="twoc")
 
 What are the axes names used by this diffractometer?::
 

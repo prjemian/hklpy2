@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Refine lattice from 3 reflections &#8212; hklpy2 0.0</title>
+    <title>APS POLAR diffractometer &#8212; hklpy2 0.0</title>
   
   
   
@@ -46,11 +46,11 @@
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'examples/demo_refine_lattice';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'examples/polar-psi-hklpy2';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="WIP: Scan in \((hkl)\) coordinates" href="demo_scan_hkl_hklpy2.html" />
-    <link rel="prev" title="UB matrix : Set directly" href="demo_UB_set.html" />
+    <link rel="next" title="Demo: hkl_soleil Python API" href="zz_demo_libhkl_python_api.html" />
+    <link rel="prev" title="Compute \(\psi\) with APS POLAR geometry" href="polar-psi-hklpy.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -290,13 +290,13 @@ document.write(`
 
 <li class="toctree-l2"><a class="reference internal" href="demo_UB_calc.html">UB matrix : calculate from 2 reflections.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="demo_UB_set.html">UB matrix : Set directly</a></li>
-<li class="toctree-l2 current active"><a class="current reference internal" href="#">Refine lattice from 3 reflections</a></li>
+<li class="toctree-l2"><a class="reference internal" href="demo_refine_lattice.html">Refine lattice from 3 reflections</a></li>
 <li class="toctree-l2"><a class="reference internal" href="demo_scan_hkl_hklpy2.html">WIP: Scan in <span class="math notranslate nohighlight">\((hkl)\)</span> coordinates</a></li>
 <li class="toctree-l2"><a class="reference internal" href="diffract.html">Diffractometer Axis Names</a></li>
 <li class="toctree-l2"><a class="reference internal" href="e6c-psi-hklpy.html">Set and compute <span class="math notranslate nohighlight">\(\psi\)</span> (psi)</a></li>
 
 <li class="toctree-l2"><a class="reference internal" href="polar-psi-hklpy.html">Compute <span class="math notranslate nohighlight">\(\psi\)</span> with APS POLAR geometry</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polar-psi-hklpy2.html">APS POLAR diffractometer</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">APS POLAR diffractometer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="zz_demo_libhkl_python_api.html">Demo: hkl_soleil Python API</a></li>
 </ul>
 </details></li>
@@ -345,7 +345,7 @@ document.write(`
     
     <li class="breadcrumb-item"><a href="../examples.html" class="nav-link">Examples</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page">Refine...</li>
+    <li class="breadcrumb-item active" aria-current="page">APS POLAR...</li>
   </ul>
 </nav>
 </div>
@@ -362,138 +362,190 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="Refine-lattice-from-3-reflections">
-<h1>Refine lattice from 3 reflections<a class="headerlink" href="#Refine-lattice-from-3-reflections" title="Link to this heading">#</a></h1>
-<p><strong>NOTE</strong>: work-in-progress</p>
-<p>The lattice parameters of a sample can be computed from a set of 3 or more reflections if the <strong>solver</strong> provides such a method. The hkl_soleil solver uses a simplex. The computed lattice is likely the lowest symmetry since the parameters are refined to meet best the observed reflections.</p>
-<section id="Create-a-diffractometer-object">
-<h2>Create a diffractometer object<a class="headerlink" href="#Create-a-diffractometer-object" title="Link to this heading">#</a></h2>
-<p>First, create a diffractometer object that uses the <code class="docutils literal notranslate"><span class="pre">&quot;hkl_soleil&quot;</span></code> solver with the <code class="docutils literal notranslate"><span class="pre">&quot;hkl&quot;</span></code> computation engine. This solver provides support for many diffractometer geometries. This example will use the simulated 4-circle geometry from the solver’s <code class="docutils literal notranslate"><span class="pre">&quot;E4CV&quot;</span></code>.</p>
+  <section id="APS-POLAR-diffractometer">
+<h1>APS POLAR diffractometer<a class="headerlink" href="#APS-POLAR-diffractometer" title="Link to this heading">#</a></h1>
+<p><em>Geometry development.</em></p>
+<section id="Questions">
+<h2>Questions<a class="headerlink" href="#Questions" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>How to get &amp; set <span class="math notranslate nohighlight">\(\psi\)</span> (psi)?</p></li>
+</ul>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">hklpy2</span> <span class="kn">import</span> <span class="n">SimulatedE4CV</span>
-
-<span class="n">diffractometer</span> <span class="o">=</span> <span class="n">SimulatedE4CV</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;diffractometer&quot;</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># import hkl</span>
+<span class="kn">import</span> <span class="nn">hklpy2</span>
+<span class="kn">import</span> <span class="nn">pyRestTable</span>
 </pre></div>
 </div>
-</div>
-<section id="Defaults">
-<h3>Defaults<a class="headerlink" href="#Defaults" title="Link to this heading">#</a></h3>
-<p>The diffractometer object starts with a default sample. The structure is cubic (<span class="math notranslate nohighlight">\(a=b=c\)</span>, 90 degree corners).</p>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diffractometer</span><span class="o">.</span><span class="n">sample</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
-</pre></div>
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-Sample(name=&#39;sample&#39;, lattice=Lattice(a=1, system=&#39;cubic&#39;))
-</pre></div></div>
 </div>
 </section>
-</section>
-<section id="Add-3-reflections">
-<h2>Add 3 reflections<a class="headerlink" href="#Add-3-reflections" title="Link to this heading">#</a></h2>
-<p>At least three reflections are needed to refine the lattice parameters. Since we do not specify the wavelength, the support assumes the diffractometer’s current wavelength.</p>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diffractometer</span><span class="o">.</span><span class="n">wavelength</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
-</pre></div>
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-1.0
-</pre></div></div>
-</div>
-<p>Add three non-parallel reflections. Here, just the values of the pseudos and reals are specified as Python tuples, in the exact order expected by the <em>solver</em> geometry.</p>
+<section id="Start-with-a-4-circle">
+<h2>Start with a 4-circle<a class="headerlink" href="#Start-with-a-4-circle" title="Link to this heading">#</a></h2>
 <div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Where_Mixin</span><span class="p">:</span>
+    <span class="n">digits</span> <span class="o">=</span> <span class="mi">5</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">wh</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Print tables of pseudos, reals, &amp; extras.&quot;&quot;&quot;</span>
+
+        <span class="k">def</span> <span class="nf">print_table</span><span class="p">(</span><span class="n">names</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">names</span><span class="p">):</span>
+                <span class="n">t</span> <span class="o">=</span> <span class="n">pyRestTable</span><span class="o">.</span><span class="n">Table</span><span class="p">()</span>
+                <span class="n">row</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">names</span><span class="p">:</span>
+                    <span class="n">t</span><span class="o">.</span><span class="n">labels</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">names</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+                        <span class="n">value</span> <span class="o">=</span> <span class="n">names</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">value</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span><span class="o">.</span><span class="n">position</span>
+                    <span class="n">row</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">digits</span><span class="p">))</span>
+                <span class="n">t</span><span class="o">.</span><span class="n">addRow</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">title</span><span class="p">):</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+
+        <span class="n">print_table</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pseudo_axis_names</span><span class="p">,</span> <span class="s2">&quot;pseudos&quot;</span><span class="p">)</span>
+        <span class="n">print_table</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">real_axis_names</span><span class="p">,</span> <span class="s2">&quot;reals&quot;</span><span class="p">)</span>
+        <span class="n">print_table</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">extras</span><span class="p">,</span> <span class="s2">&quot;extras&quot;</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">SimDiffractometer</span><span class="p">(</span><span class="n">hklpy2</span><span class="o">.</span><span class="n">SimulatedE4CV</span><span class="p">,</span> <span class="n">Where_Mixin</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gonio</span> <span class="o">=</span> <span class="n">hklpy2</span><span class="o">.</span><span class="n">SimulatedE4CV</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;gonio&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">r100</span> <span class="o">=</span> <span class="n">diffractometer</span><span class="o">.</span><span class="n">add_reflection</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="o">-</span><span class="mf">145.451</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mf">69.0966</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;(100)&quot;</span><span class="p">)</span>
-<span class="n">r010</span> <span class="o">=</span> <span class="n">diffractometer</span><span class="o">.</span><span class="n">add_reflection</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="o">-</span><span class="mf">145.451</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">85</span><span class="p">,</span> <span class="mf">69.0966</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;(010)&quot;</span><span class="p">)</span>
-<span class="n">r001</span> <span class="o">=</span> <span class="n">diffractometer</span><span class="o">.</span><span class="n">add_reflection</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="o">-</span><span class="mf">145.451</span><span class="p">,</span> <span class="o">-</span><span class="mi">85</span><span class="p">,</span> <span class="o">-</span><span class="mi">95</span><span class="p">,</span> <span class="mf">69.0966</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;(001)&quot;</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">gonio</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">solver</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">gonio</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">engines</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">gonio</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">modes</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
-</section>
-<section id="Compute-refined-lattice">
-<h2>Compute refined lattice<a class="headerlink" href="#Compute-refined-lattice" title="Link to this heading">#</a></h2>
-<p>Compute the lattice refined with these three reflections. Notice that the refined lattice is triclinic and not the original cubic symmetry.</p>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+gonio.operator.solver=HklSolver(name=&#39;hkl_soleil&#39;, version=&#39;5.0.0.3511&#39;, geometry=&#39;E4CV&#39;, engine_name=&#39;hkl&#39;, mode=&#39;bissector&#39;)
+gonio.operator.solver.engines=[&#39;hkl&#39;, &#39;psi&#39;, &#39;q&#39;, &#39;incidence&#39;, &#39;emergence&#39;]
+gonio.operator.solver.modes=[&#39;bissector&#39;, &#39;constant_omega&#39;, &#39;constant_chi&#39;, &#39;constant_phi&#39;, &#39;double_diffraction&#39;, &#39;psi_constant&#39;]
+</pre></div></div>
+</div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">lattice</span> <span class="o">=</span> <span class="n">diffractometer</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">refine_lattice</span><span class="p">([</span><span class="n">r100</span><span class="p">,</span> <span class="n">r010</span><span class="p">,</span> <span class="n">r001</span><span class="p">])</span>
-<span class="n">lattice</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gonio</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">gonio</span><span class="o">.</span><span class="n">digits</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="n">gonio</span><span class="o">.</span><span class="n">wh</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Lattice(a=0.885, b=0.8953, c=0.8987, alpha=79.9999, beta=85.0196, gamma=89.5632, system=&#39;triclinic&#39;)
+wavelength=1.0
+h=1.0 k=1.0 l=0
+omega=-45.0 chi=-45.0 phi=-90.0 tth=-90.0
 </pre></div></div>
 </div>
-<p>The <code class="docutils literal notranslate"><span class="pre">refine_lattice()</span></code> method returns the refined lattice but does not actually change the sample lattice:</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diffractometer</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">lattice</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gonio</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">mode</span> <span class="o">=</span> <span class="s2">&quot;psi_constant&quot;</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">gonio</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">solver</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Lattice(a=1, system=&#39;cubic&#39;)
+gonio.operator.solver=HklSolver(name=&#39;hkl_soleil&#39;, version=&#39;5.0.0.3511&#39;, geometry=&#39;E4CV&#39;, engine_name=&#39;hkl&#39;, mode=&#39;psi_constant&#39;)
 </pre></div></div>
 </div>
-</section>
-<section id="Change-the-sample-lattice">
-<h2>Change the sample lattice<a class="headerlink" href="#Change-the-sample-lattice" title="Link to this heading">#</a></h2>
-<p>The sample lattice can be changed with the refined lattice:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diffractometer</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">lattice</span> <span class="o">=</span> <span class="n">lattice</span>
-<span class="n">diffractometer</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">lattice</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gonio</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">extras</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">h2</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">k2</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">l2</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">gonio</span><span class="o">.</span><span class="n">wh</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+wavelength=1.0
+h=1.0 k=1.0 l=0
+omega=-45.0 chi=-45.0 phi=-90.0 tth=-90.0
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gonio</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">extras</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">h2</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">k2</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">l2</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">psi</span><span class="o">=</span><span class="mi">45</span><span class="p">)</span>
+<span class="n">gonio</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Lattice(a=0.885, b=0.8953, c=0.8987, alpha=79.9999, beta=85.0196, gamma=89.5632, system=&#39;triclinic&#39;)
+SimulatedE4CVRealPos(omega=-135.000000002085, chi=170.264389683157, phi=-45.000000001994, tth=-89.999999999919)
 </pre></div></div>
 </div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gonio</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">extras</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">h2</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">k2</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">l2</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">psi</span><span class="o">=</span><span class="mi">45</span><span class="p">)</span>
+<span class="n">gonio</span><span class="o">.</span><span class="n">inverse</span><span class="p">(</span><span class="mi">45</span><span class="p">,</span> <span class="o">-</span><span class="mi">170</span><span class="p">,</span> <span class="mi">135</span><span class="p">,</span> <span class="o">-</span><span class="mi">90</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+SimulatedE4CVPseudoPos(h=1.0, k=0, l=1.0)
+</pre></div></div>
+</div>
+<p>Now, use a second diffractometer object with the <code class="docutils literal notranslate"><span class="pre">&quot;psi&quot;</span></code> engine. Fix reals and pseudos, compute <span class="math notranslate nohighlight">\(\psi\)</span>.</p>
+<p>Repeat with Petra3_p09_eh2</p>
+<p>Repeat with E6C</p>
+<p>Repeat with APS POLAR</p>
 </section>
 </section>
 
@@ -508,20 +560,20 @@ Lattice(a=0.885, b=0.8953, c=0.8987, alpha=79.9999, beta=85.0196, gamma=89.5632,
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="demo_UB_set.html"
+       href="polar-psi-hklpy.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">UB matrix : Set directly</p>
+        <p class="prev-next-title">Compute <span class="math notranslate nohighlight">\(\psi\)</span> with APS POLAR geometry</p>
       </div>
     </a>
     <a class="right-next"
-       href="demo_scan_hkl_hklpy2.html"
+       href="zz_demo_libhkl_python_api.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">WIP: Scan in <span class="math notranslate nohighlight">\((hkl)\)</span> coordinates</p>
+        <p class="prev-next-title">Demo: hkl_soleil Python API</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -543,20 +595,15 @@ Lattice(a=0.885, b=0.8953, c=0.8987, alpha=79.9999, beta=85.0196, gamma=89.5632,
   </div>
   <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Create-a-diffractometer-object">Create a diffractometer object</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Defaults">Defaults</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Add-3-reflections">Add 3 reflections</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Compute-refined-lattice">Compute refined lattice</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Change-the-sample-lattice">Change the sample lattice</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Questions">Questions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Start-with-a-4-circle">Start with a 4-circle</a></li>
 </ul>
   </nav></div>
 
   <div class="sidebar-secondary-item">
 
   <div class="tocsection sourcelink">
-    <a href="../_sources/examples/demo_refine_lattice.ipynb.txt">
+    <a href="../_sources/examples/polar-psi-hklpy2.ipynb.txt">
       <i class="fa-solid fa-file-lines"></i> Show Source
     </a>
   </div>
