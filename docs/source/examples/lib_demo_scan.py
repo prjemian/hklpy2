@@ -14,6 +14,19 @@ from hklpy2 import SolverError
 from ophyd import Signal
 
 
+class DocCollector:
+    """RE callback to collect all documents from the bluesky RunEngine."""
+
+    def __init__(self):
+        self.documents = []
+
+    def receiver(self, key, doc):
+        self.documents.append((key, doc))
+
+
+collector = DocCollector()
+
+
 def chunk(it, size):
     """Return tuples of 'size' from list 'it'."""
     it = iter(it)
@@ -117,9 +130,7 @@ def again(
 ):
     # validations
     if not isinstance(dfrct, DiffractometerBase):
-        raise ValueError(
-            f"'dfrct' must be a hklpy2 Diffractometer. Received {dfrct!r}"
-        )
+        raise ValueError(f"'dfrct' must be a hklpy2 Diffractometer. Received {dfrct!r}")
     if num is None:
         if len(args) % 3 != 1:
             raise ValueError(
@@ -155,7 +166,9 @@ def again(
     # assignments
     forwardTransformation = reals is None
     signals = [Signal(name=k, value=start) for k, start, _ in scan_parms]
-    series = {k: numpy.linspace(start, finish, num=num) for k, start, finish in scan_parms}
+    series = {
+        k: numpy.linspace(start, finish, num=num) for k, start, finish in scan_parms
+    }
     controls = list(set(detectors + [dfrct] + signals))
 
     _md = {}
