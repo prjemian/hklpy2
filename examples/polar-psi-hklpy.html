@@ -31,7 +31,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=fd3f3429" />
     <link rel="stylesheet" type="text/css" href="../_static/tabs.css?v=a5c4661c" />
-    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=87e54e7c" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
     <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
@@ -39,7 +39,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=691131a4"></script>
+    <script src="../_static/documentation_options.js?v=1557763b"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
@@ -387,7 +387,7 @@ document.write(`
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-libhkl.VERSION=&#39;5.0.0.3511&#39;
+libhkl.VERSION=&#39;5.0.0.3517&#39;
 &#39;APS POLAR&#39; in libhkl.factories()=True
 </pre></div></div>
 </div>
@@ -464,7 +464,7 @@ delta                 0                                 real
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;pyRestTable.rest_table.Table at 0x7fd1c33265d0&gt;
+&lt;pyRestTable.rest_table.Table at 0x7fe1e016fa10&gt;
 </pre></div></div>
 </div>
 <p>Check the <code class="docutils literal notranslate"><span class="pre">&quot;psi</span> <span class="pre">constant</span> <span class="pre">vertical&quot;</span></code> mode is available.</p>
@@ -670,8 +670,147 @@ polar_psi.engine.parameters=[&#39;h2&#39;, &#39;k2&#39;, &#39;l2&#39;]
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">polar_psi</span><span class="o">.</span><span class="n">calc</span><span class="o">.</span><span class="n">new_sample</span><span class="p">(</span><span class="n">polar</span><span class="o">.</span><span class="n">calc</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">lattice</span><span class="o">=</span><span class="n">polar</span><span class="o">.</span><span class="n">calc</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">lattice</span><span class="p">)</span>
-<span class="n">polar_psi</span><span class="o">.</span><span class="n">calc</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">UB</span> <span class="o">=</span> <span class="n">polar</span><span class="o">.</span><span class="n">UB</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
-<span class="n">polar_psi</span><span class="o">.</span><span class="n">engine</span><span class="o">.</span><span class="n">_engine</span><span class="o">.</span><span class="n">parameters_values_set</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+HklSample(name=&#39;vibranium&#39;, lattice=LatticeTuple(a=6.283185307179586, b=6.283185307179586, c=6.283185307179586, alpha=90.0, beta=90.0, gamma=90.0), ux=Parameter(name=&#39;None (internally: ux)&#39;, limits=(min=-180.0, max=180.0), value=0.0, fit=True, inverted=False, units=&#39;Degree&#39;), uy=Parameter(name=&#39;None (internally: uy)&#39;, limits=(min=-180.0, max=180.0), value=0.0, fit=True, inverted=False, units=&#39;Degree&#39;), uz=Parameter(name=&#39;None (internally: uz)&#39;, limits=(min=-180.0, max=180.0), value=0.0, fit=True, inverted=False, units=&#39;Degree&#39;), U=array([[1., 0., 0.],
+       [0., 1., 0.],
+       [0., 0., 1.]]), UB=array([[ 1.000000e+00, -6.123234e-17, -6.123234e-17],
+       [ 0.000000e+00,  1.000000e+00, -6.123234e-17],
+       [ 0.000000e+00,  0.000000e+00,  1.000000e+00]]), reflections=[])
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">polar</span><span class="o">.</span><span class="n">tau</span><span class="o">.</span><span class="n">position</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+-32.90008532040592
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Sync_UB_Matrix</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Copy the UB matrix from source to target diffractometers.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">:</span> <span class="n">Diffractometer</span><span class="p">,</span> <span class="n">target</span><span class="p">:</span> <span class="n">Diffractometer</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">source</span> <span class="o">=</span> <span class="n">source</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">target</span> <span class="o">=</span> <span class="n">target</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">UB</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sync_callback</span><span class="p">)</span>
+
+        <span class="c1"># initialize</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sync_callback</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">UB</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
+
+    <span class="k">def</span> <span class="nf">cleanup</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Remove all our subscriptions to ophyd objects.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">UB</span><span class="o">.</span><span class="n">clear_sub</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sync_callback</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">sync_callback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;sync_callback: </span><span class="si">{</span><span class="n">value</span><span class="si">=!r}</span><span class="s2">  </span><span class="si">{</span><span class="n">kwargs</span><span class="si">=!r}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">ub_source</span> <span class="o">=</span> <span class="n">value</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Copy UB=</span><span class="si">{</span><span class="n">ub_source</span><span class="si">=}</span><span class="s2"> from </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> to </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">target</span><span class="o">.</span><span class="n">UB</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">ub_source</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">axis</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">real_positioners</span><span class="o">.</span><span class="n">_fields</span><span class="p">:</span>
+            <span class="n">ptarget</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">target</span><span class="p">,</span> <span class="n">axis</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">ptarget</span><span class="p">,</span> <span class="n">SoftPositioner</span><span class="p">):</span>
+                <span class="c1"># If the target is a simulated motor, sync it with the source.</span>
+                <span class="n">psource</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="p">,</span> <span class="n">axis</span><span class="p">)</span>
+                <span class="n">ptarget</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="n">psource</span><span class="o">.</span><span class="n">position</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Sync </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">target</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">axis</span><span class="si">}</span><span class="s2">=</span><span class="si">{</span><span class="n">ptarget</span><span class="o">.</span><span class="n">position</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">sync_UB</span><span class="o">.</span><span class="n">cleanup</span><span class="p">()</span>
+<span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+    <span class="k">pass</span>
+<span class="n">sync_UB</span> <span class="o">=</span> <span class="n">Sync_UB_Matrix</span><span class="p">(</span><span class="n">polar</span><span class="p">,</span> <span class="n">polar_psi</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Copy UB=ub_source=array([[-0.09059697, -0.63502298,  0.76716231],
+       [ 0.48177505, -0.70213807, -0.52430423],
+       [ 0.8715991 ,  0.32209928,  0.36954981]]) from polar to polar
+Sync polar_psi.tau=-32.90008532040592
+Sync polar_psi.mu=-13.629264133644595
+Sync polar_psi.chi=63.55364766315855
+Sync polar_psi.phi=-108.99636837096102
+Sync polar_psi.gamma=-24.509844491665444
+Sync polar_psi.delta=49.32236362782608
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># # test it</span>
+<span class="c1"># polar.UB.put(polar_psi.UB.get())</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="c1"># polar_psi.calc.sample.UB = polar.UB.get()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">polar</span><span class="o">.</span><span class="n">UB</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">polar_psi</span><span class="o">.</span><span class="n">UB</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">polar</span><span class="o">.</span><span class="n">UB</span><span class="o">.</span><span class="n">get</span><span class="p">(),</span><span class="w"> </span><span class="n">polar_psi</span><span class="o">.</span><span class="n">UB</span><span class="o">.</span><span class="n">get</span><span class="p">(),</span><span class="w"> </span><span class="n">rtol</span><span class="o">=</span><span class="mf">0.001</span><span class="p">)</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">polar</span><span class="o">.</span><span class="n">UB</span><span class="o">.</span><span class="n">get</span><span class="p">(),</span><span class="w"> </span><span class="n">polar_psi</span><span class="o">.</span><span class="n">UB</span><span class="o">.</span><span class="n">get</span><span class="p">(),</span><span class="w"> </span><span class="n">rtol</span><span class="o">=</span><span class="mf">0.000_1</span><span class="p">)</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">polar</span><span class="o">.</span><span class="n">UB</span><span class="o">.</span><span class="n">get</span><span class="p">(),</span><span class="w"> </span><span class="n">polar_psi</span><span class="o">.</span><span class="n">UB</span><span class="o">.</span><span class="n">get</span><span class="p">(),</span><span class="w"> </span><span class="n">rtol</span><span class="o">=</span><span class="mf">0.000_01</span><span class="p">)</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">polar</span><span class="o">.</span><span class="n">UB</span><span class="o">.</span><span class="n">get</span><span class="p">(),</span><span class="w"> </span><span class="n">polar_psi</span><span class="o">.</span><span class="n">UB</span><span class="o">.</span><span class="n">get</span><span class="p">(),</span><span class="w"> </span><span class="n">rtol</span><span class="o">=</span><span class="mf">0.000_001</span><span class="p">)</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">polar</span><span class="o">.</span><span class="n">UB</span><span class="o">.</span><span class="n">get</span><span class="p">(),</span><span class="w"> </span><span class="n">polar_psi</span><span class="o">.</span><span class="n">UB</span><span class="o">.</span><span class="n">get</span><span class="p">(),</span><span class="w"> </span><span class="n">rtol</span><span class="o">=</span><span class="mf">0.000_000_1</span><span class="p">)</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+polar.UB.get()=array([[-0.09059697, -0.63502298,  0.76716231],
+       [ 0.48177505, -0.70213807, -0.52430423],
+       [ 0.8715991 ,  0.32209928,  0.36954981]])
+polar_psi.UB.get()=array([[-0.09059754, -0.63502231,  0.76716084],
+       [ 0.48177391, -0.70213845, -0.5243048 ],
+       [ 0.87159986,  0.32209872,  0.36954883]])
+np.allclose(polar.UB.get(), polar_psi.UB.get(), rtol=0.001)=True
+np.allclose(polar.UB.get(), polar_psi.UB.get(), rtol=0.000_1)=True
+np.allclose(polar.UB.get(), polar_psi.UB.get(), rtol=0.000_01)=True
+np.allclose(polar.UB.get(), polar_psi.UB.get(), rtol=0.000_001)=False
+np.allclose(polar.UB.get(), polar_psi.UB.get(), rtol=0.000_000_1)=False
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">polar_psi</span><span class="o">.</span><span class="n">engine</span><span class="o">.</span><span class="n">_engine</span><span class="o">.</span><span class="n">parameters_values_set</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">axis</span> <span class="ow">in</span> <span class="n">p_111</span><span class="o">.</span><span class="n">_fields</span><span class="p">:</span>  <span class="c1"># move all reals to the (111) reflection</span>
     <span class="nb">getattr</span><span class="p">(</span><span class="n">polar_psi</span><span class="p">,</span> <span class="n">axis</span><span class="p">)</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">p_111</span><span class="p">,</span> <span class="n">axis</span><span class="p">))</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">polar_psi</span><span class="o">.</span><span class="n">position</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -686,6 +825,24 @@ polar_psi.engine.parameters=[&#39;h2&#39;, &#39;k2&#39;, &#39;l2&#39;]
 <div class="highlight"><pre>
 polar_psi.position=SimulatedApsPolarPsiPseudoPos(psi=12.000080866657878)
 polar_psi.real_position=SimulatedApsPolarPsiRealPos(tau=-32.90008532040592, mu=-13.629264133644595, chi=63.55364766315855, phi=-108.99636837096102, gamma=-24.509844491665444, delta=49.32236362782608)
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">polar</span><span class="o">.</span><span class="n">calc</span><span class="o">.</span><span class="n">engines</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;hkl&#39;: Engine(parameters=[&#39;h2&#39;, &#39;k2&#39;, &#39;l2&#39;, &#39;psi&#39;], pseudo_axes=OrderedDict([(&#39;h&#39;, 1.0000000014935722), (&#39;k&#39;, 0.9999999989977246), (&#39;l&#39;, 0.9999999962820191)]), mode=&#39;psi constant vertical&#39;, modes=[&#39;4-circles constant phi horizontal&#39;, &#39;zaxis + alpha-fixed&#39;, &#39;zaxis + beta-fixed&#39;, &#39;zaxis + alpha=beta&#39;, &#39;4-circles bissecting horizontal&#39;, &#39;4-circles constant mu horizontal&#39;, &#39;4-circles constant chi horizontal&#39;, &#39;lifting detector mu&#39;, &#39;lifting detector mu&#39;, &#39;lifting detector chi&#39;, &#39;lifting detector phi&#39;, &#39;psi constant horizontal&#39;, &#39;psi constant vertical&#39;], units=&#39;user&#39;),
+ &#39;psi&#39;: Engine(parameters=[&#39;h2&#39;, &#39;k2&#39;, &#39;l2&#39;], pseudo_axes=OrderedDict([(&#39;psi&#39;, 104.73784859388705)]), mode=&#39;psi_vertical&#39;, modes=[&#39;psi_vertical&#39;], units=&#39;user&#39;)}
 </pre></div></div>
 </div>
 </section>
@@ -786,7 +943,7 @@ polar_psi.real_position=SimulatedApsPolarPsiRealPos(tau=-32.90008532040592, mu=-
         <div class="footer-item">
 
   <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.0.2.
     <br/>
   </p>
 </div>
