@@ -117,18 +117,9 @@ class Lattice:
         Standard representation of lattice.
         """
         system = self.crystal_system
-        parms = {
-            "cubic": ["a"],
-            "hexagonal": "a c gamma".split(),
-            "rhombohedral": "a alpha".split(),
-            "tetragonal": "a c".split(),
-            "orthorhombic": "a b c".split(),
-            "monoclinic": "a b c beta".split(),
-            "triclinic": "a b c alpha beta gamma".split(),
-        }[system]
-        parameters = [f"{k}={round(getattr(self, k), self.digits)}" for k in parms]
-        parameters.append(f"{system=!r}")
-        return "Lattice(" + ", ".join(parameters) + ")"
+        parms = [f"{k}={round(v)}" for k, v in self.to_dict(system).items()]
+        parms.append(f"{system=!r}")
+        return "Lattice(" + ", ".join(parms) + ")"
 
     # ---- get/set properties
 
@@ -164,9 +155,7 @@ class Lattice:
             return edges(ref, ref, ref)
 
         # filter by testing symmetry elements from lowest system first
-        if not very_close(self.alpha, 90) and not very_close(
-            self.alpha, self.beta
-        ):
+        if not very_close(self.alpha, 90) and not very_close(self.alpha, self.beta):
             # no need to compare alpha != gamma
             return CrystalSystem.triclinic.name
 
@@ -200,7 +189,9 @@ class Lattice:
         if all_angles(90) and all_edges(self.a):
             return CrystalSystem.cubic.name
 
-        raise ValueError(f"Unrecognized crystal system: {self=!r}")
+        raise ValueError(
+            f"Unrecognized crystal system: {self.to_dict('unrecognized')!r}"
+        )
 
     @property
     def digits(self) -> int:
@@ -210,3 +201,17 @@ class Lattice:
     @digits.setter
     def digits(self, value: int):
         self._digits = value
+
+    def to_dict(self, system: str):
+        """Return a dictionary with the lattice parameters for this crystal system."""
+        all = "a b c alpha beta gamma".split()
+        parms = {
+            "cubic": ["a"],
+            "hexagonal": "a c gamma".split(),
+            "rhombohedral": "a alpha".split(),
+            "tetragonal": "a c".split(),
+            "orthorhombic": "a b c".split(),
+            "monoclinic": "a b c beta".split(),
+            "triclinic": all,
+        }.get(system, all)
+        return {k: getattr(self, k) for k in parms}
