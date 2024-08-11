@@ -22,6 +22,7 @@ Diffractometer Geometries.
 .. rubric:: Special-Use Diffractometer Geometries
 .. autosummary::
 
+    ~ApsPolar
     ~Petra3_p09_eh2
     ~Petra3_p23_4c
     ~Petra3_p23_6c
@@ -45,6 +46,7 @@ from ophyd import SoftPositioner
 from .diffract import DiffractometerBase
 
 __all__ = """
+    ApsPolar
     E4CV
     E6C
     K4CV
@@ -104,6 +106,23 @@ class MixinQ(Device):
     """
 
     q = Cpt(PseudoSingle, "", kind="hinted")  # noqa: E741
+
+
+class ApsPolar(DiffractometerBase, MixinHkl):
+    """
+    6-circle, hkl_soleil, APS POLAR, engine="hkl".
+
+    :class:`~hklpy2.backends.hkl_soleil.HklSolver`
+    """
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(
+            *args,
+            solver="hkl_soleil",
+            geometry="APS POLAR",
+            solver_kwargs={"engine": "hkl"},
+            **kwargs,
+        )
 
 
 class E4CV(DiffractometerBase, MixinHkl):
