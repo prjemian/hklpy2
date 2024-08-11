@@ -1,31 +1,49 @@
+from contextlib import nullcontext as does_not_raise
 import pytest
 
 from ..lattice import Lattice
 
 
 @pytest.mark.parametrize(
-    "system, a, others",
+    "system, a, others, context, reason",
     [
-        ["cubic", 5, dict()],
-        ["hexagonal", 4, dict(c=3, gamma=120)],
-        ["rhombohedral", 4, dict(alpha=80.2)],
-        ["rhombohedral", 4, dict(alpha=120)],
-        ["tetragonal", 4, dict(c=3)],
-        ["orthorhombic", 4, dict(b=5, c=3)],
-        ["monoclinic", 4, dict(b=5, c=3, beta=75)],
-        ["triclinic", 4, dict(b=5, c=3, alpha=75, beta=85, gamma=95)],
-    ]
+        ["cubic", 5, dict(), does_not_raise(), None],
+        ["hexagonal", 4, dict(c=3, gamma=120), does_not_raise(), None],
+        ["rhombohedral", 4, dict(alpha=80.2), does_not_raise(), None],
+        ["rhombohedral", 4, dict(alpha=120), does_not_raise(), None],
+        ["tetragonal", 4, dict(c=3), does_not_raise(), None],
+        ["orthorhombic", 4, dict(b=5, c=3), does_not_raise(), None],
+        ["monoclinic", 4, dict(b=5, c=3, beta=75), does_not_raise(), None],
+        [
+            "triclinic",
+            4,
+            dict(b=5, c=3, alpha=75, beta=85, gamma=95),
+            does_not_raise(),
+            None,
+        ],
+        [
+            "hexagonal",
+            4,
+            dict(gamma=120),  # hexagonal needs a != c
+            pytest.raises(ValueError),
+            "Unrecognized crystal system:",
+        ],
+    ],
 )
-def test_repr(system, a, others):
+def test_repr(system, a, others, context, reason):
     lattice = Lattice(a, **others)
     assert lattice is not None
 
-    rep = repr(lattice)
-    assert rep.startswith("Lattice(")
-    assert "a=" in rep
-    assert "system=" in rep
-    assert repr(system) in rep, f"{system=!r} lattice={rep!r}"
-    assert rep.endswith(")")
+    with context as info:
+        rep = repr(lattice)
+        assert rep.startswith("Lattice(")
+        assert "a=" in rep
+        assert "system=" in rep
+        assert repr(system) in rep, f"{system=!r} lattice={rep!r}"
+        assert rep.endswith(")")
+    if reason is not None:
+        assert reason in str(info.value)
+
 
 @pytest.mark.parametrize(
     "args, kwargs, expected",
@@ -49,6 +67,7 @@ def test_crystal_classes(args, kwargs, expected):
     latt = Lattice(*args, **kwargs)
     assert isinstance(latt, Lattice)
     assert list(latt._asdict().values()) == list(expected), f"{latt=}"
+
 
 def test_equal():
     l1 = Lattice(4.000_1)
