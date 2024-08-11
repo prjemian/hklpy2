@@ -41,6 +41,7 @@ class Operations:
 
     .. autosummary::
 
+        ~_asdict
         ~add_reflection
         ~add_sample
         ~assign_axes
@@ -78,6 +79,23 @@ class Operations:
         if default_sample:
             # first sample is cubic, no reflections
             self.add_sample(DEFAULT_SAMPLE_NAME, 1)
+
+    def _asdict(self):
+        """Describe the diffractometer as a dictionary."""
+        return {
+            "name": self.diffractometer.name,
+            "geometry": self.geometry,
+            "axes_xref": self.axes_xref,
+            "pseudo_axes": self.diffractometer.pseudo_axis_names,
+            "real_axes": self.diffractometer.real_axis_names,
+            # "extras": self.solver.extras,  # TODO: not in all backends
+            "sample_name": self.sample.name,
+            "samples": {k: v._asdict() for k, v in self._samples.items()},
+            "solver_name": self.solver.name,
+            "solver_version": self.solver.version,
+            "solver_mode": self.solver.mode,
+            "solver_repr": repr(self.solver),
+        }
 
     def add_reflection(
         self,
