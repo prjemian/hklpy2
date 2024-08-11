@@ -121,6 +121,13 @@ class Operations:
         from .operations.reflection import Reflection
 
         reverse = self.axes_xref_reversed
+        # fmt: off
+        if len(reverse) == 0:
+            raise OperationsError(
+                "Did you forget to call `assign_axes()`"
+                " or `auto_assign_axes()`?"
+            )
+        # fmt: on
         pnames = [reverse[k] for k in self.solver.pseudo_axis_names]
         rnames = [reverse[k] for k in self.solver.real_axis_names]
         pdict = self.standardize_pseudos(pseudos, pnames)
