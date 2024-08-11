@@ -1,12 +1,13 @@
 """Test the hklpy2.ops module."""
 
 import pytest
+
 from ..geom import SimulatedTheta2Theta
 from . import models
 
 
 @pytest.mark.parametrize(
-    "dmodel, dname, key, value",
+    "dclass, dname, key, value",
     [
         [models.Fourc, "fourc", "name", "fourc"],
         [models.Fourc, "fourc", "axes_xref", {}],
@@ -27,10 +28,11 @@ from . import models
         [SimulatedTheta2Theta, "t2t", "solver_name", "th_tth"],
     ],
 )
-def test_asdict(dmodel, dname, key, value):
-    fourc = dmodel(name=dname)
+def test_asdict(dclass, dname, key, value):
+    fourc = dclass(name=dname)
 
     db = fourc.operator._asdict()
+    assert db["name"] == dname
     assert key in db, f"{key=!r}  {db=!r}"
     if value is not None:
         assert value == db[key], f"{value=!r}  {db=!r}"
