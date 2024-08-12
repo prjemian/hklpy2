@@ -15,10 +15,11 @@ From **hklpy**, these TODO items:
 - _set_constraints
 """
 
+from abc import ABC
+from abc import abstractmethod
 from typing import Dict
 from typing import List
 from typing import Union
-from abc import ABC, abstractmethod
 
 NUMERIC = Union[int, float]
 

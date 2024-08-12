@@ -1,7 +1,8 @@
-from contextlib import nullcontext as does_not_raise
 import pytest
 
-from ..constraints import ConstraintBase, LimitsConstraint, AxisConstraints
+from ..constraints import AxisConstraints
+from ..constraints import ConstraintBase
+from ..constraints import LimitsConstraint
 
 
 def test_ConstraintBase():

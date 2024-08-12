@@ -13,6 +13,7 @@ import logging
 
 from . import Hklpy2Error
 from . import SolverBase
+from .operations.constraints import AxisConstraints
 from .operations.lattice import Lattice
 from .operations.misc import solver_factory
 from .operations.misc import unique_name
@@ -75,6 +76,7 @@ class Operations:
         self._sample_name = None
         self._samples = {}
         self._solver = None
+        self.constraints = None
 
         if default_sample:
             # first sample is cubic, no reflections
@@ -82,20 +84,24 @@ class Operations:
 
     def _asdict(self):
         """Describe the diffractometer as a dictionary."""
-        return {
+        config = {
             "name": self.diffractometer.name,
             "geometry": self.geometry,
             "axes_xref": self.axes_xref,
             "pseudo_axes": self.diffractometer.pseudo_axis_names,
             "real_axes": self.diffractometer.real_axis_names,
-            # "extras": self.solver.extras,  # TODO: not in all backends
             "sample_name": self.sample.name,
             "samples": {k: v._asdict() for k, v in self._samples.items()},
+            "constraints": self.constraints._asdict(),
             "solver_name": self.solver.name,
             "solver_version": self.solver.version,
             "solver_mode": self.solver.mode,
             "solver_repr": repr(self.solver),
         }
+        if self.solver.name == "hkl_soleil":
+            config["engine_name"] = self.solver.engine_name
+            config["extras"] = self.solver.extras
+        return config
 
     def add_reflection(
         self,
@@ -217,6 +223,7 @@ class Operations:
         self.axes_xref = {}
         reference(pseudos, solver.pseudo_axis_names)
         reference(reals, solver.real_axis_names)
+        self.constraints = AxisConstraints(self.diffractometer.real_axis_names)
         logger.debug("axes_xref=%r", self.axes_xref)
 
     def _axes_names_s2d(self, axis_dict: dict[str, float]) -> dict[str, float]:
@@ -313,7 +320,8 @@ class Operations:
         solutions = []
         for solution in forwards:
             reals.update(self._axes_names_s2d(solution))  # Update with new values.
-            solutions.append(self.diffractometer.RealPosition(**reals))
+            if self.constraints.valid(**reals):
+                solutions.append(self.diffractometer.RealPosition(**reals))
         return solutions
 
     def inverse(self, reals, wavelength: float = None) -> dict:
