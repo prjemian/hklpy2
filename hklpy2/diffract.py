@@ -305,16 +305,16 @@ class DiffractometerBase(PseudoPositioner):
                 value = 0  # do not show as "-0"
             return f"{label}={value}"
 
-        def show_axes(names):
+        def print_axes(names):
             print(" ".join([wh_round(nm, getattr(self, nm).position) for nm in names]))
 
         if full:
             print(f"diffractometer={self.name!r}")
             print(f"{self.sample}")
             print(f"{self.operator.solver}")
+        print_axes(self.pseudo_axis_names)
         print(f"wavelength={self.wavelength.get()}")
-        show_axes(self.pseudo_axis_names)
-        show_axes(self.real_axis_names)
+        print_axes(self.real_axis_names)
 
         extras = self.operator.solver.extras
         if len(extras) > 0:
