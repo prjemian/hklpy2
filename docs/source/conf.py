@@ -54,6 +54,19 @@ html_theme = "pydata_sphinx_theme"
 html_title = f"{project} {version}"
 html_static_path = ["_static"]
 
+html_context = {
+    "github_user": "prjemian",
+    "github_repo": "hklpy2",
+    "github_version": "main",
+    "doc_path": "docs",
+}
+
+html_theme_options = {
+    "github_url": "https://github.com/prjemian/hklpy2",
+    "use_edit_page_button": True,
+    "navbar_align": "content", 
+}
+
 
 # -- Options for autodoc ---------------------------------------------------
 
