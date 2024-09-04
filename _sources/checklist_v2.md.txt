@@ -104,10 +104,10 @@ It could be re-organized.
   * [x] transformation : forward (pseudos -> reals)
   * [x] transformation : inverse (reals -> pseudos)
 * Backends - feature support
-  * [ ] hkl_soleil (libhkl)
+  * [x] hkl_soleil (libhkl)
     * [x] axes : expected pseudos
     * [x] axes : expected reals
-    * [ ] extra parameters
+    * [x] extra parameters
     * [x] geometry : list all available geometries
     * [x] geometry : set
     * [x] list available solvers

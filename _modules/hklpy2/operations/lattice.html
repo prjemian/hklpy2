@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../../_static/documentation_options.js?v=1557763b"></script>
+    <script src="../../../_static/documentation_options.js?v=f986be20"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/tabs.js?v=3030b3cb"></script>
@@ -183,6 +183,22 @@ document.write(`
 `);
 </script></div>
       
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/prjemian/hklpy2" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
     </div>
     
   </div>
@@ -264,6 +280,22 @@ document.write(`
   </button>
 `);
 </script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/prjemian/hklpy2" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
         
       </div>
     
@@ -396,6 +428,7 @@ document.write(`
 <span class="sd">        ~__eq__</span>
 <span class="sd">        ~__repr__</span>
 <span class="sd">        ~crystal_system</span>
+<span class="sd">        ~system_parameter_names</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
@@ -449,18 +482,30 @@ document.write(`
 <span class="sd">        Standard representation of lattice.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">system</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">crystal_system</span>
-        <span class="n">parms</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="n">parm_names</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">system_parameter_names</span><span class="p">(</span><span class="n">system</span><span class="p">)</span>
+        <span class="n">parms</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">=</span><span class="si">{</span><span class="nb">round</span><span class="p">(</span><span class="n">v</span><span class="p">,</span><span class="w"> </span><span class="bp">self</span><span class="o">.</span><span class="n">digits</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_asdict</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">parm_names</span>
+        <span class="p">]</span>
+        <span class="n">parms</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">system</span><span class="si">=!r}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="s2">&quot;Lattice(&quot;</span> <span class="o">+</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">parms</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;)&quot;</span>
+
+<div class="viewcode-block" id="Lattice.system_parameter_names">
+<a class="viewcode-back" href="../../../api/lattice.html#hklpy2.operations.lattice.Lattice.system_parameter_names">[docs]</a>
+    <span class="k">def</span> <span class="nf">system_parameter_names</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">system</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return list of lattice parameter names for this crystal system.&quot;&quot;&quot;</span>
+        <span class="nb">all</span> <span class="o">=</span> <span class="s2">&quot;a b c alpha beta gamma&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+        <span class="k">return</span> <span class="p">{</span>
             <span class="s2">&quot;cubic&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;a&quot;</span><span class="p">],</span>
             <span class="s2">&quot;hexagonal&quot;</span><span class="p">:</span> <span class="s2">&quot;a c gamma&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">(),</span>
             <span class="s2">&quot;rhombohedral&quot;</span><span class="p">:</span> <span class="s2">&quot;a alpha&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">(),</span>
             <span class="s2">&quot;tetragonal&quot;</span><span class="p">:</span> <span class="s2">&quot;a c&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">(),</span>
             <span class="s2">&quot;orthorhombic&quot;</span><span class="p">:</span> <span class="s2">&quot;a b c&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">(),</span>
             <span class="s2">&quot;monoclinic&quot;</span><span class="p">:</span> <span class="s2">&quot;a b c beta&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">(),</span>
-            <span class="s2">&quot;triclinic&quot;</span><span class="p">:</span> <span class="s2">&quot;a b c alpha beta gamma&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">(),</span>
-        <span class="p">}[</span><span class="n">system</span><span class="p">]</span>
-        <span class="n">parameters</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">=</span><span class="si">{</span><span class="nb">round</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">),</span><span class="w"> </span><span class="bp">self</span><span class="o">.</span><span class="n">digits</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">parms</span><span class="p">]</span>
-        <span class="n">parameters</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">system</span><span class="si">=!r}</span><span class="s2">&quot;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="s2">&quot;Lattice(&quot;</span> <span class="o">+</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">parameters</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;)&quot;</span>
+            <span class="s2">&quot;triclinic&quot;</span><span class="p">:</span> <span class="nb">all</span><span class="p">,</span>
+        <span class="p">}</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">system</span><span class="p">,</span> <span class="nb">all</span><span class="p">)</span></div>
+
 
     <span class="c1"># ---- get/set properties</span>
 
@@ -496,9 +541,7 @@ document.write(`
             <span class="k">return</span> <span class="n">edges</span><span class="p">(</span><span class="n">ref</span><span class="p">,</span> <span class="n">ref</span><span class="p">,</span> <span class="n">ref</span><span class="p">)</span>
 
         <span class="c1"># filter by testing symmetry elements from lowest system first</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">very_close</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">alpha</span><span class="p">,</span> <span class="mi">90</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">very_close</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">alpha</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">beta</span>
-        <span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">very_close</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">alpha</span><span class="p">,</span> <span class="mi">90</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">very_close</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">alpha</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">beta</span><span class="p">):</span>
             <span class="c1"># no need to compare alpha != gamma</span>
             <span class="k">return</span> <span class="n">CrystalSystem</span><span class="o">.</span><span class="n">triclinic</span><span class="o">.</span><span class="n">name</span>
 
@@ -532,7 +575,7 @@ document.write(`
         <span class="k">if</span> <span class="n">all_angles</span><span class="p">(</span><span class="mi">90</span><span class="p">)</span> <span class="ow">and</span> <span class="n">all_edges</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">CrystalSystem</span><span class="o">.</span><span class="n">cubic</span><span class="o">.</span><span class="n">name</span>
 
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unrecognized crystal system: </span><span class="si">{</span><span class="bp">self</span><span class="si">=!r}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unrecognized crystal system: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_asdict</span><span class="p">()</span><span class="si">!r}</span><span class="s2">&quot;</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">digits</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>

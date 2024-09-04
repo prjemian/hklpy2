@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=1557763b"></script>
+    <script src="../_static/documentation_options.js?v=f986be20"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
@@ -185,6 +185,22 @@ document.write(`
 `);
 </script></div>
       
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/prjemian/hklpy2" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
     </div>
     
   </div>
@@ -268,6 +284,22 @@ document.write(`
   </button>
 `);
 </script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/prjemian/hklpy2" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
         
       </div>
     
@@ -356,18 +388,128 @@ document.write(`
                   
   <section id="constraints">
 <span id="api-constraints"></span><span id="index-0"></span><h1>Constraints<a class="headerlink" href="#constraints" title="Link to this heading">#</a></h1>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>This module is not available yet.</p>
-</div>
-<p>Computation of the real-space axis positions given a set of
-reciprocal-space coordinates can have many solutions. One or more
-constraints (Constraint) (a.k.a, cut points), together with a choice of
-operating <em>mode</em>, can be applied to:</p>
+<p>Computation of the real-space axis positions given a set of reciprocal-space
+coordinates can have many solutions. One or more constraints (Constraint)
+(a.k.a, cut points), together with a choice of operating <em>mode</em>, can:</p>
 <ul class="simple">
-<li><p>limit the range of <code class="docutils literal notranslate"><span class="pre">forward()</span></code> solutions accepted for that positioner</p></li>
-<li><p>declare the value to use when the positioner should be kept constant</p></li>
+<li><p>Limit the range of <code class="docutils literal notranslate"><span class="pre">forward()</span></code> solutions accepted for that positioner.</p></li>
+<li><p>Declare the value to use when the positioner should be kept constant. (not implemented yet)</p></li>
 </ul>
+<section id="module-hklpy2.operations.constraints">
+<span id="source-code-documentation"></span><h2>Source Code Documentation<a class="headerlink" href="#module-hklpy2.operations.constraints" title="Link to this heading">#</a></h2>
+<p>Limitations on acceptable positions from computed ‘forward()’ solutions.</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.operations.constraints.AxisConstraints" title="hklpy2.operations.constraints.AxisConstraints"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AxisConstraints</span></code></a>(reals)</p></td>
+<td><p>Constraints for every (real) axis of the diffractometer.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.operations.constraints.ConstraintBase" title="hklpy2.operations.constraints.ConstraintBase"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ConstraintBase</span></code></a>()</p></td>
+<td><p>Base class for all constraints for selecting 'forward()' solutions.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.operations.constraints.LimitsConstraint" title="hklpy2.operations.constraints.LimitsConstraint"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LimitsConstraint</span></code></a>([low_limit, high_limit])</p></td>
+<td><p>Value must fall between low &amp; high limits.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>From <strong>hklpy</strong>, these TODO items:</p>
+<ul class="simple">
+<li><p>_constraints_dict</p></li>
+<li><p>_constraints_for_databroker</p></li>
+<li><p>_push_current_constraints</p></li>
+<li><p>_set_constraints</p></li>
+</ul>
+<dl class="py class">
+<dt class="sig sig-object py" id="hklpy2.operations.constraints.AxisConstraints">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">hklpy2.operations.constraints.</span></span><span class="sig-name descname"><span class="pre">AxisConstraints</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">reals</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.12)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hklpy2/operations/constraints.html#AxisConstraints"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.operations.constraints.AxisConstraints" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Constraints for every (real) axis of the diffractometer.</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.operations.constraints.AxisConstraints._asdict" title="hklpy2.operations.constraints.AxisConstraints._asdict"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_asdict</span></code></a>()</p></td>
+<td><p>Return a new dict which maps field names to their values.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.operations.constraints.AxisConstraints.valid" title="hklpy2.operations.constraints.AxisConstraints.valid"><code class="xref py py-obj docutils literal notranslate"><span class="pre">valid</span></code></a>(**reals)</p></td>
+<td><p>Do all axis values satisfy their constraints?</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="hklpy2.operations.constraints.AxisConstraints._asdict">
+<span class="sig-name descname"><span class="pre">_asdict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hklpy2/operations/constraints.html#AxisConstraints._asdict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.operations.constraints.AxisConstraints._asdict" title="Link to this definition">#</a></dt>
+<dd><p>Return a new dict which maps field names to their values.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="hklpy2.operations.constraints.AxisConstraints.valid">
+<span class="sig-name descname"><span class="pre">valid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">reals</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.12)"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><span class="pre">int</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><span class="pre">bool</span></a></span></span><a class="reference internal" href="../_modules/hklpy2/operations/constraints.html#AxisConstraints.valid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.operations.constraints.AxisConstraints.valid" title="Link to this definition">#</a></dt>
+<dd><p>Do all axis values satisfy their constraints?</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="hklpy2.operations.constraints.ConstraintBase">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">hklpy2.operations.constraints.</span></span><span class="sig-name descname"><span class="pre">ConstraintBase</span></span><a class="reference internal" href="../_modules/hklpy2/operations/constraints.html#ConstraintBase"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.operations.constraints.ConstraintBase" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/abc.html#abc.ABC" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></a></p>
+<p>Base class for all constraints for selecting ‘forward()’ solutions.</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.operations.constraints.ConstraintBase._asdict" title="hklpy2.operations.constraints.ConstraintBase._asdict"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_asdict</span></code></a>()</p></td>
+<td><p>Return a new dict which maps field names to their values.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.operations.constraints.ConstraintBase.valid" title="hklpy2.operations.constraints.ConstraintBase.valid"><code class="xref py py-obj docutils literal notranslate"><span class="pre">valid</span></code></a>(value)</p></td>
+<td><p>Does value satisfy this constraint?</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="hklpy2.operations.constraints.ConstraintBase._asdict">
+<span class="sig-name descname"><span class="pre">_asdict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hklpy2/operations/constraints.html#ConstraintBase._asdict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.operations.constraints.ConstraintBase._asdict" title="Link to this definition">#</a></dt>
+<dd><p>Return a new dict which maps field names to their values.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="hklpy2.operations.constraints.ConstraintBase.valid">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">valid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><span class="pre">int</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><span class="pre">float</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><span class="pre">bool</span></a></span></span><a class="reference internal" href="../_modules/hklpy2/operations/constraints.html#ConstraintBase.valid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.operations.constraints.ConstraintBase.valid" title="Link to this definition">#</a></dt>
+<dd><p>Does value satisfy this constraint?</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="hklpy2.operations.constraints.LimitsConstraint">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">hklpy2.operations.constraints.</span></span><span class="sig-name descname"><span class="pre">LimitsConstraint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">low_limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-180</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">high_limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">180</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hklpy2/operations/constraints.html#LimitsConstraint"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.operations.constraints.LimitsConstraint" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#hklpy2.operations.constraints.ConstraintBase" title="hklpy2.operations.constraints.ConstraintBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">ConstraintBase</span></code></a></p>
+<p>Value must fall between low &amp; high limits.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>low_limit</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><em>float</em></a>) – Lowest acceptable value for this axis when computing real-space solutions
+from given reciprocal-space positions.</p></li>
+<li><p><strong>high_limit</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><em>float</em></a>) – Highest acceptable value for this axis when computing real-space solutions
+from given reciprocal-space positions.</p></li>
+<li><p><strong>autosummary::</strong> (<em>..</em>) – ~valid</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="hklpy2.operations.constraints.LimitsConstraint._asdict">
+<span class="sig-name descname"><span class="pre">_asdict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#hklpy2.operations.constraints.LimitsConstraint._asdict" title="Link to this definition">#</a></dt>
+<dd><p>Return a new dict which maps field names to their values.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="hklpy2.operations.constraints.LimitsConstraint.valid">
+<span class="sig-name descname"><span class="pre">valid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><span class="pre">int</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><span class="pre">float</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><span class="pre">bool</span></a></span></span><a class="reference internal" href="../_modules/hklpy2/operations/constraints.html#LimitsConstraint.valid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.operations.constraints.LimitsConstraint.valid" title="Link to this definition">#</a></dt>
+<dd><p>True if low &lt;= value &lt;= high.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
 </section>
 
 
@@ -407,6 +549,51 @@ operating <em>mode</em>, can be applied to:</p>
               
                 <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
 
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-hklpy2.operations.constraints">Source Code Documentation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.operations.constraints.AxisConstraints"><code class="docutils literal notranslate"><span class="pre">AxisConstraints</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.operations.constraints.AxisConstraints._asdict"><code class="docutils literal notranslate"><span class="pre">AxisConstraints._asdict()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.operations.constraints.AxisConstraints.valid"><code class="docutils literal notranslate"><span class="pre">AxisConstraints.valid()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.operations.constraints.ConstraintBase"><code class="docutils literal notranslate"><span class="pre">ConstraintBase</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.operations.constraints.ConstraintBase._asdict"><code class="docutils literal notranslate"><span class="pre">ConstraintBase._asdict()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.operations.constraints.ConstraintBase.valid"><code class="docutils literal notranslate"><span class="pre">ConstraintBase.valid()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.operations.constraints.LimitsConstraint"><code class="docutils literal notranslate"><span class="pre">LimitsConstraint</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.operations.constraints.LimitsConstraint._asdict"><code class="docutils literal notranslate"><span class="pre">LimitsConstraint._asdict()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.operations.constraints.LimitsConstraint.valid"><code class="docutils literal notranslate"><span class="pre">LimitsConstraint.valid()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+
+  
+  <div class="tocsection editthispage">
+    <a href="https://github.com/prjemian/hklpy2/edit/main/docs/api/constraints.rst">
+      <i class="fa-solid fa-pencil"></i>
+      
+      
+        
+          Edit on GitHub
+        
+      
+    </a>
+  </div>
+</div>
 
   <div class="sidebar-secondary-item">
 

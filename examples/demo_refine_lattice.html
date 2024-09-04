@@ -32,14 +32,14 @@
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=fd3f3429" />
     <link rel="stylesheet" type="text/css" href="../_static/tabs.css?v=a5c4661c" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
-    <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=1557763b"></script>
+    <script src="../_static/documentation_options.js?v=f986be20"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
@@ -49,8 +49,8 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'examples/demo_refine_lattice';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="WIP: Scan in \((hkl)\) coordinates" href="demo_scan_hkl_hklpy2.html" />
-    <link rel="prev" title="UB matrix : Set directly" href="demo_UB_set.html" />
+    <link rel="next" title="Diffractometer Axis Names" href="diffract.html" />
+    <link rel="prev" title="Scan \(\psi\) at fixed \(Q\) and \(hkl_2\)" href="demo_psi_scan_hklpy.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -188,6 +188,22 @@ document.write(`
 `);
 </script></div>
       
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/prjemian/hklpy2" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
     </div>
     
   </div>
@@ -272,6 +288,22 @@ document.write(`
 `);
 </script></div>
         
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/prjemian/hklpy2" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
       </div>
     
   </div>
@@ -290,13 +322,11 @@ document.write(`
 
 <li class="toctree-l2"><a class="reference internal" href="demo_UB_calc.html">UB matrix : calculate from 2 reflections.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="demo_UB_set.html">UB matrix : Set directly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="demo_psi_scan_hklpy.html">Scan <span class="math notranslate nohighlight">\(\psi\)</span> at fixed <span class="math notranslate nohighlight">\(Q\)</span> and <span class="math notranslate nohighlight">\(hkl_2\)</span></a></li>
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">Refine lattice from 3 reflections</a></li>
-<li class="toctree-l2"><a class="reference internal" href="demo_scan_hkl_hklpy2.html">WIP: Scan in <span class="math notranslate nohighlight">\((hkl)\)</span> coordinates</a></li>
 <li class="toctree-l2"><a class="reference internal" href="diffract.html">Diffractometer Axis Names</a></li>
 <li class="toctree-l2"><a class="reference internal" href="e6c-psi-hklpy.html">Set and compute <span class="math notranslate nohighlight">\(\psi\)</span> (psi)</a></li>
 
-<li class="toctree-l2"><a class="reference internal" href="polar-psi-hklpy.html">Compute <span class="math notranslate nohighlight">\(\psi\)</span> with APS POLAR geometry</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polar-psi-hklpy2.html">APS POLAR diffractometer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="zz_demo_libhkl_python_api.html">Demo: hkl_soleil Python API</a></li>
 </ul>
 </details></li>
@@ -508,20 +538,20 @@ Lattice(a=0.885, b=0.8953, c=0.8987, alpha=79.9999, beta=85.0196, gamma=89.5632,
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="demo_UB_set.html"
+       href="demo_psi_scan_hklpy.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">UB matrix : Set directly</p>
+        <p class="prev-next-title">Scan <span class="math notranslate nohighlight">\(\psi\)</span> at fixed <span class="math notranslate nohighlight">\(Q\)</span> and <span class="math notranslate nohighlight">\(hkl_2\)</span></p>
       </div>
     </a>
     <a class="right-next"
-       href="demo_scan_hkl_hklpy2.html"
+       href="diffract.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">WIP: Scan in <span class="math notranslate nohighlight">\((hkl)\)</span> coordinates</p>
+        <p class="prev-next-title">Diffractometer Axis Names</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -552,6 +582,22 @@ Lattice(a=0.885, b=0.8953, c=0.8987, alpha=79.9999, beta=85.0196, gamma=89.5632,
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Change-the-sample-lattice">Change the sample lattice</a></li>
 </ul>
   </nav></div>
+
+  <div class="sidebar-secondary-item">
+
+  
+  <div class="tocsection editthispage">
+    <a href="https://github.com/prjemian/hklpy2/edit/main/docs/examples/demo_refine_lattice.ipynb">
+      <i class="fa-solid fa-pencil"></i>
+      
+      
+        
+          Edit on GitHub
+        
+      
+    </a>
+  </div>
+</div>
 
   <div class="sidebar-secondary-item">
 

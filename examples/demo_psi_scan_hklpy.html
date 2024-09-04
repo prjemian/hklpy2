@@ -1,0 +1,953 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Scan \(\psi\) at fixed \(Q\) and \(hkl_2\) &#8212; hklpy2 0.0</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=fd3f3429" />
+    <link rel="stylesheet" type="text/css" href="../_static/tabs.css?v=a5c4661c" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=f986be20"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'examples/demo_psi_scan_hklpy';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Refine lattice from 3 reflections" href="demo_refine_lattice.html" />
+    <link rel="prev" title="UB matrix : Set directly" href="demo_UB_set.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">hklpy2 0.0</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../guide.html">
+    User Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../api.html">
+    API
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/prjemian/hklpy2" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../guide.html">
+    User Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../api.html">
+    API
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/prjemian/hklpy2" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../design-discussion.html">Design for hklpy2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../checklist_v2.html">Feature Checklist for v2</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../examples.html">Examples</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="demo.html">Demonstrate <strong>hklpy2</strong>’s API</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="demo_UB_calc.html">UB matrix : calculate from 2 reflections.</a></li>
+<li class="toctree-l2"><a class="reference internal" href="demo_UB_set.html">UB matrix : Set directly</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Scan <span class="math notranslate nohighlight">\(\psi\)</span> at fixed <span class="math notranslate nohighlight">\(Q\)</span> and <span class="math notranslate nohighlight">\(hkl_2\)</span></a></li>
+<li class="toctree-l2"><a class="reference internal" href="demo_refine_lattice.html">Refine lattice from 3 reflections</a></li>
+<li class="toctree-l2"><a class="reference internal" href="diffract.html">Diffractometer Axis Names</a></li>
+<li class="toctree-l2"><a class="reference internal" href="e6c-psi-hklpy.html">Set and compute <span class="math notranslate nohighlight">\(\psi\)</span> (psi)</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="zz_demo_libhkl_python_api.html">Demo: hkl_soleil Python API</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../guide.html" class="nav-link">User Guide</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="../examples.html" class="nav-link">Examples</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">Scan <span...</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="Scan-\psi-at-fixed-Q-and-hkl_2">
+<h1>Scan <span class="math notranslate nohighlight">\(\psi\)</span> at fixed <span class="math notranslate nohighlight">\(Q\)</span> and <span class="math notranslate nohighlight">\(hkl_2\)</span><a class="headerlink" href="#Scan-\psi-at-fixed-Q-and-hkl_2" title="Link to this heading">#</a></h1>
+<p>This <strong>hklpy</strong> notebook demonstrates a diffractometer scan of angle <span class="math notranslate nohighlight">\(\psi\)</span>, the expected angle between vector <span class="math notranslate nohighlight">\(Q\)</span> and a reference vector <span class="math notranslate nohighlight">\(hkl_2\)</span>. In this schematic, the X-ray beam is in blue, <span class="math notranslate nohighlight">\(Q\)</span> is green, <span class="math notranslate nohighlight">\(hkl_2\)</span> is read, <span class="math notranslate nohighlight">\(\psi\)</span> is in black (on the sample’s surface), and the principle axes are also black:</p>
+<p><img alt="7d4cbdfd32eb4dba913cc1b7583223ac" class="no-scaled-link" src="../_images/psi-angle.png" style="width: 400px;" /></p>
+<p>First, setup bluesky and build the diffractometer object.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">bluesky</span> <span class="kn">import</span> <span class="n">plan_stubs</span> <span class="k">as</span> <span class="n">bps</span>
+<span class="kn">from</span> <span class="nn">bluesky</span> <span class="kn">import</span> <span class="n">preprocessors</span> <span class="k">as</span> <span class="n">bpp</span>
+<span class="kn">from</span> <span class="nn">bluesky</span> <span class="kn">import</span> <span class="n">RunEngine</span><span class="p">,</span> <span class="n">plan_stubs</span> <span class="k">as</span> <span class="n">bps</span>
+<span class="kn">from</span> <span class="nn">bluesky.callbacks.best_effort</span> <span class="kn">import</span> <span class="n">BestEffortCallback</span>
+<span class="kn">from</span> <span class="nn">hkl</span> <span class="kn">import</span> <span class="n">A_KEV</span>
+<span class="kn">from</span> <span class="nn">hkl</span> <span class="kn">import</span> <span class="n">new_lattice</span>
+<span class="kn">from</span> <span class="nn">hkl</span> <span class="kn">import</span> <span class="n">SimulatedE4CV</span>
+<span class="kn">from</span> <span class="nn">hkl.diffract</span> <span class="kn">import</span> <span class="n">Diffractometer</span>
+<span class="kn">from</span> <span class="nn">hkl.util</span> <span class="kn">import</span> <span class="n">libhkl</span>
+<span class="kn">from</span> <span class="nn">ophyd</span> <span class="kn">import</span> <span class="n">Signal</span>
+<span class="kn">from</span> <span class="nn">ophyd.sim</span> <span class="kn">import</span> <span class="n">noisy_det</span>
+<span class="kn">import</span> <span class="nn">databroker</span>
+<span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">import</span> <span class="nn">numpy</span>
+
+<span class="n">bec</span> <span class="o">=</span> <span class="n">BestEffortCallback</span><span class="p">()</span>
+<span class="n">cat</span> <span class="o">=</span> <span class="n">databroker</span><span class="o">.</span><span class="n">temp</span><span class="p">()</span><span class="o">.</span><span class="n">v2</span>
+<span class="n">RE</span> <span class="o">=</span> <span class="n">RunEngine</span><span class="p">()</span>
+<span class="n">RE</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="n">cat</span><span class="o">.</span><span class="n">v1</span><span class="o">.</span><span class="n">insert</span><span class="p">)</span>
+<span class="n">RE</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="n">bec</span><span class="p">)</span>
+<span class="n">bec</span><span class="o">.</span><span class="n">disable_plots</span><span class="p">()</span>
+
+<span class="n">UserUnits</span> <span class="o">=</span> <span class="n">libhkl</span><span class="o">.</span><span class="n">UnitEnum</span><span class="o">.</span><span class="n">USER</span>
+
+<span class="n">diffractometer</span> <span class="o">=</span> <span class="n">SimulatedE4CV</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;diffractometer&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>Configure the real-space axes so they are reported in LiveTable. Also, the orientation reflections should be reported with other configuration information, not as primary data.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">diffractometer</span><span class="o">.</span><span class="n">real_positioners</span><span class="p">:</span>
+    <span class="n">item</span><span class="o">.</span><span class="n">kind</span> <span class="o">=</span> <span class="s2">&quot;hinted&quot;</span>
+<span class="n">diffractometer</span><span class="o">.</span><span class="n">reflections</span><span class="o">.</span><span class="n">kind</span> <span class="o">=</span> <span class="s2">&quot;config&quot;</span>
+</pre></div>
+</div>
+</div>
+<p>Add a sample of <em>vibranium</em>. The cubic lattice constant is exactly <span class="math notranslate nohighlight">\(2\pi\)</span>.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diffractometer</span><span class="o">.</span><span class="n">calc</span><span class="o">.</span><span class="n">new_sample</span><span class="p">(</span><span class="s2">&quot;vibranium&quot;</span><span class="p">,</span> <span class="n">lattice</span><span class="o">=</span><span class="n">new_lattice</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+HklSample(name=&#39;vibranium&#39;, lattice=LatticeTuple(a=6.283185307179586, b=6.283185307179586, c=6.283185307179586, alpha=90.0, beta=90.0, gamma=90.0), ux=Parameter(name=&#39;None (internally: ux)&#39;, limits=(min=-180.0, max=180.0), value=0.0, fit=True, inverted=False, units=&#39;Degree&#39;), uy=Parameter(name=&#39;None (internally: uy)&#39;, limits=(min=-180.0, max=180.0), value=0.0, fit=True, inverted=False, units=&#39;Degree&#39;), uz=Parameter(name=&#39;None (internally: uz)&#39;, limits=(min=-180.0, max=180.0), value=0.0, fit=True, inverted=False, units=&#39;Degree&#39;), U=array([[1., 0., 0.],
+       [0., 1., 0.],
+       [0., 0., 1.]]), UB=array([[ 1.000000e+00, -6.123234e-17, -6.123234e-17],
+       [ 0.000000e+00,  1.000000e+00, -6.123234e-17],
+       [ 0.000000e+00,  0.000000e+00,  1.000000e+00]]), reflections=[])
+</pre></div></div>
+</div>
+<p>Set the diffractometer’s wavelength by setting the X-ray photon energy. Orient the sample with two observed reflections and compute the <span class="math notranslate nohighlight">\(UB\)</span> orientation matrix.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diffractometer</span><span class="o">.</span><span class="n">energy</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">A_KEV</span> <span class="o">/</span> <span class="mf">1.54</span><span class="p">)</span>  <span class="c1"># (8.0509 keV)</span>
+
+<span class="n">om</span> <span class="o">=</span> <span class="mf">29.35355</span>
+<span class="n">tth</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">om</span>
+<span class="n">r1</span> <span class="o">=</span> <span class="n">diffractometer</span><span class="o">.</span><span class="n">calc</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">add_reflection</span><span class="p">(</span>
+    <span class="mi">4</span><span class="p">,</span>
+    <span class="mi">0</span><span class="p">,</span>
+    <span class="mi">0</span><span class="p">,</span>
+    <span class="n">position</span><span class="o">=</span><span class="n">diffractometer</span><span class="o">.</span><span class="n">calc</span><span class="o">.</span><span class="n">Position</span><span class="p">(</span><span class="n">tth</span><span class="o">=</span><span class="n">tth</span><span class="p">,</span> <span class="n">omega</span><span class="o">=</span><span class="n">om</span><span class="p">,</span> <span class="n">chi</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">phi</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
+<span class="p">)</span>
+
+<span class="n">r2</span> <span class="o">=</span> <span class="n">diffractometer</span><span class="o">.</span><span class="n">calc</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">add_reflection</span><span class="p">(</span>
+    <span class="mi">0</span><span class="p">,</span>
+    <span class="mi">4</span><span class="p">,</span>
+    <span class="mi">0</span><span class="p">,</span>
+    <span class="n">position</span><span class="o">=</span><span class="n">diffractometer</span><span class="o">.</span><span class="n">calc</span><span class="o">.</span><span class="n">Position</span><span class="p">(</span><span class="n">tth</span><span class="o">=</span><span class="n">tth</span><span class="p">,</span> <span class="n">omega</span><span class="o">=</span><span class="n">om</span><span class="p">,</span> <span class="n">chi</span><span class="o">=</span><span class="mi">90</span><span class="p">,</span> <span class="n">phi</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
+<span class="p">)</span>
+
+<span class="n">diffractometer</span><span class="o">.</span><span class="n">calc</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">compute_UB</span><span class="p">(</span><span class="n">r1</span><span class="p">,</span> <span class="n">r2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+array([[-5.55111433e-17, -1.11022287e-16, -1.00000000e+00],
+       [ 0.00000000e+00,  1.00000000e+00, -1.72254627e-16],
+       [ 1.00000000e+00, -6.12323400e-17, -1.16743483e-16]])
+</pre></div></div>
+</div>
+<section id="bluesky-plan_stub-to-move-\psi">
+<h2>bluesky plan_stub to move <span class="math notranslate nohighlight">\(\psi\)</span><a class="headerlink" href="#bluesky-plan_stub-to-move-\psi" title="Link to this heading">#</a></h2>
+<p>Create a bluesky plan stub to move <span class="math notranslate nohighlight">\(\psi\)</span> given <span class="math notranslate nohighlight">\(hkl_2\)</span> and <span class="math notranslate nohighlight">\(Q\)</span>.</p>
+<details><p>This plan stub has been generalized to set all the extra parameters. It makes no assumption about any specific diffractometer geometry. The default <code class="docutils literal notranslate"><span class="pre">mode</span></code> can be changed with a keyword argument. When using keyword <code class="docutils literal notranslate"><span class="pre">test=True</span></code>, the number of <code class="docutils literal notranslate"><span class="pre">digits</span></code> reported can be changed with a keyword argument.</p>
+<p>It is helpful to have a separate plan stub (a plan that does not generate any data streams) to perform the steps needed to change the <span class="math notranslate nohighlight">\(\psi\)</span> value. For the forward computation (hkl to angles), the procedure is:</p>
+<ol class="arabic simple">
+<li><p>select the diffractometer mode</p></li>
+<li><p>set the extra parameters (<span class="math notranslate nohighlight">\(hkl_2\)</span> and <span class="math notranslate nohighlight">\(\psi\)</span>)</p></li>
+<li><p>compute angles from <code class="docutils literal notranslate"><span class="pre">forward(Q)</span></code></p></li>
+<li><p>move diffractometer to the computed angles</p></li>
+</ol>
+</details><p><strong>NOTE</strong>: The <span class="math notranslate nohighlight">\(\psi\)</span> rotation angle is an <em>extra</em> diffractometer parameter, only available as defined by certain diffractometer modes. It is not defined as an ophyd <code class="docutils literal notranslate"><span class="pre">Signal</span></code> object. It cannot be scanned directly with any of the standard bluesky plans, nor can it be moved with <code class="docutils literal notranslate"><span class="pre">bps.mv()</span></code>. A custom plan is needed to scan <span class="math notranslate nohighlight">\(\psi\)</span>.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">move_psi_forward</span><span class="p">(</span>
+    <span class="n">dfrct</span><span class="p">:</span> <span class="n">Diffractometer</span><span class="p">,</span>
+    <span class="n">Q</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>  <span class="c1"># (h, k, l)</span>
+    <span class="n">extras</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>  <span class="c1"># (h2, k2, l2, psi)</span>
+    <span class="n">mode</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;psi_constant&quot;</span><span class="p">,</span>
+    <span class="n">test</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">digits</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Set extras and compute forward solution given &#39;Q&#39; &amp; reference reflection &#39;hkl_2&#39;.</span>
+
+<span class="sd">    EXAMPLE::</span>
+
+<span class="sd">        RE(</span>
+<span class="sd">            move_psi_forward(</span>
+<span class="sd">                diffractometer,</span>
+<span class="sd">                Q=dict(h=2, k=1, l=0),</span>
+<span class="sd">                extras=dict(h2=2, k2=2, l2=0, psi=25),</span>
+<span class="sd">            )</span>
+<span class="sd">        )</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">dfrct</span><span class="o">.</span><span class="n">engine</span><span class="o">.</span><span class="n">mode</span> <span class="o">=</span> <span class="n">mode</span>
+    <span class="n">extras</span> <span class="o">=</span> <span class="p">[</span><span class="n">extras</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">dfrct</span><span class="o">.</span><span class="n">calc</span><span class="o">.</span><span class="n">parameters</span><span class="p">]</span>
+    <span class="n">dfrct</span><span class="o">.</span><span class="n">calc</span><span class="o">.</span><span class="n">engine</span><span class="o">.</span><span class="n">_engine</span><span class="o">.</span><span class="n">parameters_values_set</span><span class="p">(</span><span class="n">extras</span><span class="p">,</span> <span class="n">UserUnits</span><span class="p">)</span>
+
+    <span class="c1"># TODO: When test=True, can any moves be avoided?</span>
+    <span class="n">solution</span> <span class="o">=</span> <span class="n">dfrct</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">Q</span><span class="o">.</span><span class="n">values</span><span class="p">()))</span>
+
+    <span class="n">reals</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># convert to ophyd real positioner objects</span>
+    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">solution</span><span class="o">.</span><span class="n">_asdict</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">reals</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">dfrct</span><span class="p">,</span> <span class="n">k</span><span class="p">))</span>
+        <span class="n">reals</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">test</span><span class="p">:</span>
+
+        <span class="k">def</span> <span class="nf">pos_dict</span><span class="p">(</span><span class="n">pos_tuple</span><span class="p">):</span>
+            <span class="c1"># fmt: off</span>
+            <span class="k">return</span> <span class="p">{</span>
+                <span class="n">k</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">digits</span><span class="p">)</span> <span class="ow">or</span> <span class="mi">0</span>
+                <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">pos_tuple</span><span class="o">.</span><span class="n">_asdict</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+            <span class="p">}</span>
+            <span class="c1"># fmt: on</span>
+
+        <span class="n">result</span> <span class="o">=</span> <span class="n">pos_dict</span><span class="p">(</span><span class="n">dfrct</span><span class="o">.</span><span class="n">position</span><span class="p">)</span>
+        <span class="n">result</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">pos_dict</span><span class="p">(</span><span class="n">dfrct</span><span class="o">.</span><span class="n">real_position</span><span class="p">))</span>
+        <span class="n">result</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+            <span class="nb">dict</span><span class="p">(</span>
+                <span class="nb">zip</span><span class="p">(</span>
+                    <span class="n">dfrct</span><span class="o">.</span><span class="n">calc</span><span class="o">.</span><span class="n">parameters</span><span class="p">,</span>
+                    <span class="n">dfrct</span><span class="o">.</span><span class="n">calc</span><span class="o">.</span><span class="n">engine</span><span class="o">.</span><span class="n">_engine</span><span class="o">.</span><span class="n">parameters_values_get</span><span class="p">(</span><span class="n">UserUnits</span><span class="p">),</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span><span class="o">*</span><span class="n">reals</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="bluesky-plan-to-scan-extra-parameters-such-as-\psi">
+<h2>bluesky plan to scan extra parameters such as <span class="math notranslate nohighlight">\(\psi\)</span><a class="headerlink" href="#bluesky-plan-to-scan-extra-parameters-such-as-\psi" title="Link to this heading">#</a></h2>
+<p>Create a generalized bluesky plan that can scan <span class="math notranslate nohighlight">\(\psi\)</span> given <span class="math notranslate nohighlight">\(Q\)</span> &amp; <span class="math notranslate nohighlight">\(hkl_2\)</span>. The values of <span class="math notranslate nohighlight">\(hkl_2\)</span> are described as constants in the <code class="docutils literal notranslate"><span class="pre">extras</span></code> input dictionary. The <code class="docutils literal notranslate"><span class="pre">axis</span></code> parameter is <code class="docutils literal notranslate"><span class="pre">psi</span></code> in this example. The <code class="docutils literal notranslate"><span class="pre">pseudos</span></code> parameter contains the values of <span class="math notranslate nohighlight">\(Q\)</span>.</p>
+<p>Do not provide a <code class="docutils literal notranslate"><span class="pre">reals</span></code> keyword. That’s a future feature. It must remain at the default value of <code class="docutils literal notranslate"><span class="pre">None</span></code> for this example.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">scan_extra_parameter</span><span class="p">(</span>
+    <span class="n">dfrct</span><span class="p">:</span> <span class="n">Diffractometer</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">detectors</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[],</span>
+    <span class="n">axis</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>  <span class="c1"># name of extra parameter to be scanned</span>
+    <span class="n">start</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">finish</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">num</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">pseudos</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>  <span class="c1"># h, k, l</span>
+    <span class="n">reals</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>  <span class="c1"># angles</span>
+    <span class="n">extras</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{},</span>  <span class="c1"># define all but the &#39;axis&#39;, these will remain constant</span>
+    <span class="n">md</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Scan one (or more) extra diffractometer parameter(s), such as psi.</span>
+
+<span class="sd">    - iterate extras as decribed:</span>
+<span class="sd">        - set extras</span>
+<span class="sd">        - solution = forward(pseudos)</span>
+<span class="sd">        - move to solution</span>
+<span class="sd">        - trigger detectors</span>
+<span class="sd">        - read all controls</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># if pseudos is None and reals is None:</span>
+    <span class="c1">#     raise SolverError(&quot;Must define either pseudos or reals.&quot;)</span>
+    <span class="c1"># if pseudos is not None and reals is not None:</span>
+    <span class="c1">#     raise SolverError(&quot;Cannot define both pseudos and reals.&quot;)</span>
+    <span class="n">forwardTransformation</span> <span class="o">=</span> <span class="n">reals</span> <span class="ow">is</span> <span class="kc">None</span>
+
+    <span class="n">_md</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;diffractometer&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">dfrct</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+            <span class="s2">&quot;geometry&quot;</span><span class="p">:</span> <span class="n">dfrct</span><span class="o">.</span><span class="n">calc</span><span class="o">.</span><span class="n">geometry_name</span><span class="p">,</span>
+            <span class="s2">&quot;engine&quot;</span><span class="p">:</span> <span class="n">dfrct</span><span class="o">.</span><span class="n">engine</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+            <span class="s2">&quot;mode&quot;</span><span class="p">:</span> <span class="n">dfrct</span><span class="o">.</span><span class="n">engine</span><span class="o">.</span><span class="n">mode</span><span class="p">,</span>
+            <span class="s2">&quot;extra_axes&quot;</span><span class="p">:</span> <span class="n">dfrct</span><span class="o">.</span><span class="n">calc</span><span class="o">.</span><span class="n">parameters</span><span class="p">,</span>
+        <span class="p">},</span>
+        <span class="s2">&quot;axis&quot;</span><span class="p">:</span> <span class="n">axis</span><span class="p">,</span>
+        <span class="s2">&quot;start&quot;</span><span class="p">:</span> <span class="n">start</span><span class="p">,</span>
+        <span class="s2">&quot;finish&quot;</span><span class="p">:</span> <span class="n">finish</span><span class="p">,</span>
+        <span class="s2">&quot;num&quot;</span><span class="p">:</span> <span class="n">num</span><span class="p">,</span>
+        <span class="s2">&quot;pseudos&quot;</span><span class="p">:</span> <span class="n">pseudos</span><span class="p">,</span>
+        <span class="s2">&quot;reals&quot;</span><span class="p">:</span> <span class="n">reals</span><span class="p">,</span>
+        <span class="s2">&quot;extras&quot;</span><span class="p">:</span> <span class="n">extras</span><span class="p">,</span>
+        <span class="s2">&quot;transformation&quot;</span><span class="p">:</span> <span class="s2">&quot;forward&quot;</span> <span class="k">if</span> <span class="n">forwardTransformation</span> <span class="k">else</span> <span class="s2">&quot;inverse&quot;</span><span class="p">,</span>
+    <span class="p">}</span>
+    <span class="n">_md</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">md</span> <span class="ow">or</span> <span class="p">{})</span>
+
+    <span class="c1"># Make a Signal for psi so it can be reported in LiveTable and any stored data.</span>
+    <span class="n">signal</span> <span class="o">=</span> <span class="n">Signal</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">axis</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">start</span><span class="p">)</span>
+    <span class="n">all_controls</span> <span class="o">=</span> <span class="n">detectors</span>
+    <span class="n">all_controls</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dfrct</span><span class="p">)</span>
+    <span class="n">all_controls</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">signal</span><span class="p">)</span>
+    <span class="c1"># TODO: controls.append(extras_device)  # TODO: need Device to report ALL extras</span>
+    <span class="n">all_controls</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">all_controls</span><span class="p">))</span>
+
+    <span class="nd">@bpp</span><span class="o">.</span><span class="n">stage_decorator</span><span class="p">(</span><span class="n">detectors</span><span class="p">)</span>
+    <span class="nd">@bpp</span><span class="o">.</span><span class="n">run_decorator</span><span class="p">(</span><span class="n">md</span><span class="o">=</span><span class="n">_md</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">_inner</span><span class="p">():</span>
+        <span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">numpy</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">finish</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="n">num</span><span class="p">):</span>
+            <span class="c1"># note the new position for reporting later</span>
+            <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+
+            <span class="c1"># move</span>
+            <span class="n">extras</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">axis</span><span class="p">:</span> <span class="n">value</span><span class="p">})</span>
+            <span class="k">if</span> <span class="n">forwardTransformation</span><span class="p">:</span>
+                <span class="k">yield from</span> <span class="n">move_psi_forward</span><span class="p">(</span><span class="n">dfrct</span><span class="p">,</span> <span class="n">Q</span><span class="o">=</span><span class="n">pseudos</span><span class="p">,</span> <span class="n">extras</span><span class="o">=</span><span class="n">extras</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">pass</span>  <span class="c1"># TODO: inverse</span>
+
+            <span class="c1"># trigger</span>
+            <span class="n">group</span> <span class="o">=</span> <span class="s2">&quot;scan_extra_parameter_detectors&quot;</span>
+            <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">detectors</span><span class="p">:</span>
+                <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">trigger</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">group</span><span class="o">=</span><span class="n">group</span><span class="p">)</span>
+            <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">wait</span><span class="p">(</span><span class="n">group</span><span class="o">=</span><span class="n">group</span><span class="p">)</span>
+
+            <span class="c1"># read &amp; record the data point</span>
+            <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="s2">&quot;primary&quot;</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">all_controls</span><span class="p">:</span>
+                <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+            <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="p">(</span><span class="k">yield from</span> <span class="n">_inner</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<p>Scan <span class="math notranslate nohighlight">\(\psi\)</span> over a wide range in coarse steps. This example chooses <span class="math notranslate nohighlight">\(Q=(210)\)</span> and <span class="math notranslate nohighlight">\(hkl_2=(220)\)</span>. Save the <code class="docutils literal notranslate"><span class="pre">uid</span></code> from the scan for later reference.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">uid</span><span class="p">,</span> <span class="o">=</span> <span class="n">RE</span><span class="p">(</span>
+    <span class="n">scan_extra_parameter</span><span class="p">(</span>
+        <span class="n">diffractometer</span><span class="p">,</span>
+        <span class="n">detectors</span><span class="o">=</span><span class="p">[</span><span class="n">noisy_det</span><span class="p">,],</span>
+        <span class="n">pseudos</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">h</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">l</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
+        <span class="n">axis</span><span class="o">=</span><span class="s2">&quot;psi&quot;</span><span class="p">,</span>
+        <span class="n">start</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+        <span class="n">finish</span><span class="o">=</span><span class="mi">175</span><span class="p">,</span>
+        <span class="n">num</span><span class="o">=</span><span class="mi">19</span><span class="p">,</span>
+        <span class="n">extras</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">h2</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">k2</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">l2</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
+    <span class="p">),</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+
+
+Transient Scan ID: 1     Time: 2024-09-04 00:29:51
+Persistent Unique Scan ID: &#39;1c749cd0-a59f-4611-9b54-b030b29f6407&#39;
+New stream: &#39;primary&#39;
++-----------+------------+------------+------------+------------------+------------------+------------------+----------------------+--------------------+--------------------+--------------------+
+|   seq_num |       time |  noisy_det |        psi | diffractometer_h | diffractometer_k | diffractometer_l | diffractometer_omega | diffractometer_chi | diffractometer_phi | diffractometer_tth |
++-----------+------------+------------+------------+------------------+------------------+------------------+----------------------+--------------------+--------------------+--------------------+
+|         1 | 00:29:51.4 |      0.933 |      0.000 |            2.000 |            1.000 |           -0.000 |               47.531 |            -90.000 |             90.000 |            -31.808 |
+|         2 | 00:29:51.4 |      0.999 |      9.722 |            2.000 |            1.000 |           -0.000 |               47.198 |            -98.687 |             85.618 |            -31.808 |
+|         3 | 00:29:51.4 |      0.938 |     19.444 |            2.000 |            1.000 |           -0.000 |               46.161 |           -107.322 |             81.028 |            -31.808 |
+|         4 | 00:29:51.4 |      1.040 |     29.167 |            2.000 |            1.000 |           -0.000 |               44.300 |           -115.843 |             75.985 |            -31.808 |
+|         5 | 00:29:51.4 |      0.918 |     38.889 |            2.000 |            1.000 |           -0.000 |               41.380 |           -124.162 |             70.165 |            -31.808 |
+|         6 | 00:29:51.5 |      1.001 |     48.611 |            2.000 |            1.000 |           -0.000 |               36.998 |           -132.147 |             63.094 |            -31.808 |
+|         7 | 00:29:51.5 |      1.011 |     58.333 |            2.000 |            1.000 |           -0.000 |               30.492 |           -139.576 |             54.056 |            -31.808 |
+|         8 | 00:29:51.6 |      0.935 |     68.056 |            2.000 |            1.000 |            0.000 |               20.871 |           -146.060 |             42.016 |            -31.808 |
+|         9 | 00:29:51.6 |      0.901 |     77.778 |            2.000 |            1.000 |           -0.000 |                7.044 |           -150.945 |             25.844 |            -31.808 |
+|        10 | 00:29:51.7 |      1.067 |     87.500 |            2.000 |            1.000 |            0.000 |              -10.918 |           -153.326 |              5.576 |            -31.808 |
+|        11 | 00:29:51.7 |      1.088 |     97.222 |            2.000 |            1.000 |            0.000 |              -30.018 |           -152.540 |            -15.821 |            -31.808 |
+|        12 | 00:29:51.7 |      0.906 |    106.944 |            2.000 |            1.000 |           -0.000 |              -46.142 |           -148.826 |            -34.265 |            -31.808 |
+|        13 | 00:29:51.7 |      1.026 |    116.667 |            2.000 |            1.000 |            0.000 |              -57.815 |           -143.062 |            -48.316 |            -31.808 |
+|        14 | 00:29:51.7 |      0.974 |    126.389 |            2.000 |            1.000 |            0.000 |              -65.780 |           -136.056 |            -58.749 |            -31.808 |
+|        15 | 00:29:51.7 |      1.093 |    136.111 |            2.000 |            1.000 |           -0.000 |              -71.152 |           -128.321 |            -66.723 |            -31.808 |
+|        16 | 00:29:51.7 |      0.996 |    145.833 |            2.000 |            1.000 |            0.000 |              -74.760 |           -120.153 |            -73.115 |            -31.808 |
+|        17 | 00:29:51.7 |      1.007 |    155.556 |            2.000 |            1.000 |            0.000 |              -77.127 |           -111.723 |            -78.509 |            -31.808 |
+|        18 | 00:29:51.7 |      1.045 |    165.278 |            2.000 |            1.000 |            0.000 |              -78.566 |           -103.138 |            -83.298 |            -31.808 |
+|        19 | 00:29:51.7 |      1.035 |    175.000 |            2.000 |            1.000 |            0.000 |              -79.252 |            -94.471 |            -87.759 |            -31.808 |
++-----------+------------+------------+------------+------------------+------------------+------------------+----------------------+--------------------+--------------------+--------------------+
+generator scan_extra_parameter [&#39;1c749cd0&#39;] (scan num: 1)
+
+
+
+</pre></div></div>
+</div>
+<p>Get the run data from the catalog using the <code class="docutils literal notranslate"><span class="pre">uid</span></code> as an index. View the metadata from that run.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">run</span> <span class="o">=</span> <span class="n">cat</span><span class="p">[</span><span class="n">uid</span><span class="p">]</span>
+<span class="n">run</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;start&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Start({&#39;axis&#39;: &#39;psi&#39;,
+ &#39;diffractometer&#39;: {&#39;engine&#39;: &#39;hkl&#39;,
+                    &#39;extra_axes&#39;: [],
+                    &#39;geometry&#39;: &#39;E4CV&#39;,
+                    &#39;mode&#39;: &#39;bissector&#39;,
+                    &#39;name&#39;: &#39;diffractometer&#39;},
+ &#39;extras&#39;: {&#39;h2&#39;: 2, &#39;k2&#39;: 2, &#39;l2&#39;: 0},
+ &#39;finish&#39;: 175,
+ &#39;num&#39;: 19,
+ &#39;plan_name&#39;: &#39;scan_extra_parameter&#39;,
+ &#39;plan_type&#39;: &#39;generator&#39;,
+ &#39;pseudos&#39;: {&#39;h&#39;: 2, &#39;k&#39;: 1, &#39;l&#39;: 0},
+ &#39;reals&#39;: None,
+ &#39;scan_id&#39;: 1,
+ &#39;start&#39;: 0,
+ &#39;time&#39;: 1725427791.3530302,
+ &#39;transformation&#39;: &#39;forward&#39;,
+ &#39;uid&#39;: &#39;1c749cd0-a59f-4611-9b54-b030b29f6407&#39;,
+ &#39;versions&#39;: {&#39;bluesky&#39;: &#39;1.13.0a3&#39;, &#39;ophyd&#39;: &#39;1.9.0&#39;}})
+</pre></div></div>
+</div>
+<p>Create plots of each diffractometer <em>real</em> axis <em>v</em>. <span class="math notranslate nohighlight">\(\psi\)</span> to show how the axes moved during the scan. Use the axis names as recorded in the databroker catalog.</p>
+<p><strong>Note</strong>: Detector axes (such as <code class="docutils literal notranslate"><span class="pre">tth</span></code>) remain constant as shown in the LiveTable. The plots show variations in the 8th decimal place due to machine precision.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">apstools.utils</span> <span class="kn">import</span> <span class="n">plotxy</span>
+
+<span class="n">title</span> <span class="o">=</span> <span class="s2">&quot;$Q=(210)$ and $hkl_2=(220)$&quot;</span>
+<span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">diffractometer</span><span class="o">.</span><span class="n">real_positioners</span><span class="p">:</span>
+    <span class="n">plotxy</span><span class="p">(</span><span class="n">run</span><span class="p">,</span> <span class="s2">&quot;psi&quot;</span><span class="p">,</span> <span class="n">item</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">stats</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/home/beams/JEMIAN/.conda/envs/bluesky_2024_2/lib/python3.11/site-packages/databroker/intake_xarray_core/base.py:23: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  &#39;dims&#39;: dict(self._ds.dims),
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/examples_demo_psi_scan_hklpy_17_1.png" src="../_images/examples_demo_psi_scan_hklpy_17_1.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/examples_demo_psi_scan_hklpy_17_2.png" src="../_images/examples_demo_psi_scan_hklpy_17_2.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/examples_demo_psi_scan_hklpy_17_3.png" src="../_images/examples_demo_psi_scan_hklpy_17_3.png" />
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/examples_demo_psi_scan_hklpy_17_4.png" src="../_images/examples_demo_psi_scan_hklpy_17_4.png" />
+</div>
+</div>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="demo_UB_set.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">UB matrix : Set directly</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="demo_refine_lattice.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Refine lattice from 3 reflections</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bluesky-plan_stub-to-move-\psi">bluesky plan_stub to move <span class="math notranslate nohighlight">\(\psi\)</span></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bluesky-plan-to-scan-extra-parameters-such-as-\psi">bluesky plan to scan extra parameters such as <span class="math notranslate nohighlight">\(\psi\)</span></a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+
+  
+  <div class="tocsection editthispage">
+    <a href="https://github.com/prjemian/hklpy2/edit/main/docs/examples/demo_psi_scan_hklpy.ipynb">
+      <i class="fa-solid fa-pencil"></i>
+      
+      
+        
+          Edit on GitHub
+        
+      
+    </a>
+  </div>
+</div>
+
+  <div class="sidebar-secondary-item">
+
+  <div class="tocsection sourcelink">
+    <a href="../_sources/examples/demo_psi_scan_hklpy.ipynb.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2023-2024, Argonne National Laboratory.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.0.2.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.15.4.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>
