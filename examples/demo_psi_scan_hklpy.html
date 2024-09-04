@@ -39,7 +39,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=f986be20"></script>
+    <script src="../_static/documentation_options.js?v=28ae97f3"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
@@ -395,7 +395,7 @@ document.write(`
   <section id="Scan-\psi-at-fixed-Q-and-hkl_2">
 <h1>Scan <span class="math notranslate nohighlight">\(\psi\)</span> at fixed <span class="math notranslate nohighlight">\(Q\)</span> and <span class="math notranslate nohighlight">\(hkl_2\)</span><a class="headerlink" href="#Scan-\psi-at-fixed-Q-and-hkl_2" title="Link to this heading">#</a></h1>
 <p>This <strong>hklpy</strong> notebook demonstrates a diffractometer scan of angle <span class="math notranslate nohighlight">\(\psi\)</span>, the expected angle between vector <span class="math notranslate nohighlight">\(Q\)</span> and a reference vector <span class="math notranslate nohighlight">\(hkl_2\)</span>. In this schematic, the X-ray beam is in blue, <span class="math notranslate nohighlight">\(Q\)</span> is green, <span class="math notranslate nohighlight">\(hkl_2\)</span> is read, <span class="math notranslate nohighlight">\(\psi\)</span> is in black (on the sample’s surface), and the principle axes are also black:</p>
-<p><img alt="7d4cbdfd32eb4dba913cc1b7583223ac" class="no-scaled-link" src="../_images/psi-angle.png" style="width: 400px;" /></p>
+<p><img alt="e824b84d3fa9450c89a121d023d869de" class="no-scaled-link" src="../_images/psi-angle.png" style="width: 400px;" /></p>
 <p>First, setup bluesky and build the diffractometer object.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
@@ -403,7 +403,7 @@ document.write(`
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">bluesky</span> <span class="kn">import</span> <span class="n">plan_stubs</span> <span class="k">as</span> <span class="n">bps</span>
 <span class="kn">from</span> <span class="nn">bluesky</span> <span class="kn">import</span> <span class="n">preprocessors</span> <span class="k">as</span> <span class="n">bpp</span>
-<span class="kn">from</span> <span class="nn">bluesky</span> <span class="kn">import</span> <span class="n">RunEngine</span><span class="p">,</span> <span class="n">plan_stubs</span> <span class="k">as</span> <span class="n">bps</span>
+<span class="kn">from</span> <span class="nn">bluesky</span> <span class="kn">import</span> <span class="n">RunEngine</span>
 <span class="kn">from</span> <span class="nn">bluesky.callbacks.best_effort</span> <span class="kn">import</span> <span class="n">BestEffortCallback</span>
 <span class="kn">from</span> <span class="nn">hkl</span> <span class="kn">import</span> <span class="n">A_KEV</span>
 <span class="kn">from</span> <span class="nn">hkl</span> <span class="kn">import</span> <span class="n">new_lattice</span>
