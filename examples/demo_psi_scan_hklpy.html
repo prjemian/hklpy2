@@ -39,7 +39,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=28ae97f3"></script>
+    <script src="../_static/documentation_options.js?v=ce72f5bc"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
@@ -394,8 +394,36 @@ document.write(`
                   
   <section id="Scan-\psi-at-fixed-Q-and-hkl_2">
 <h1>Scan <span class="math notranslate nohighlight">\(\psi\)</span> at fixed <span class="math notranslate nohighlight">\(Q\)</span> and <span class="math notranslate nohighlight">\(hkl_2\)</span><a class="headerlink" href="#Scan-\psi-at-fixed-Q-and-hkl_2" title="Link to this heading">#</a></h1>
-<p>This <strong>hklpy</strong> notebook demonstrates a diffractometer scan of angle <span class="math notranslate nohighlight">\(\psi\)</span>, the expected angle between vector <span class="math notranslate nohighlight">\(Q\)</span> and a reference vector <span class="math notranslate nohighlight">\(hkl_2\)</span>. In this schematic, the X-ray beam is in blue, <span class="math notranslate nohighlight">\(Q\)</span> is green, <span class="math notranslate nohighlight">\(hkl_2\)</span> is read, <span class="math notranslate nohighlight">\(\psi\)</span> is in black (on the sample’s surface), and the principle axes are also black:</p>
-<p><img alt="e824b84d3fa9450c89a121d023d869de" class="no-scaled-link" src="../_images/psi-angle.png" style="width: 400px;" /></p>
+<p>This <strong>hklpy</strong> notebook demonstrates a diffractometer scan of angle <span class="math notranslate nohighlight">\(\psi\)</span>, the component of the reference vector (<span class="math notranslate nohighlight">\(hkl_2\)</span>) that is perpendicular to the scattering vector (<span class="math notranslate nohighlight">\(Q\)</span>). In this schematic:</p>
+<p><img alt="58f81ee943d449618013809f94b6eb99" class="no-scaled-link" src="../_images/psi-angle.png" style="width: 400px;" /></p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>color</p></th>
+<th class="head"><p>description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>blue</p></td>
+<td><p>incoming and exiting X-ray beams</p></td>
+</tr>
+<tr class="row-odd"><td><p>green</p></td>
+<td><p>scattering vector (<span class="math notranslate nohighlight">\(Q\)</span>)</p></td>
+</tr>
+<tr class="row-even"><td><p>red</p></td>
+<td><p>reference vector (<span class="math notranslate nohighlight">\(hkl_2\)</span>)</p></td>
+</tr>
+<tr class="row-odd"><td><p>black</p></td>
+<td><p>rotation (<span class="math notranslate nohighlight">\(\psi\)</span>) around <span class="math notranslate nohighlight">\(Q\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>black</p></td>
+<td><p>principle cartesian axes</p></td>
+</tr>
+<tr class="row-odd"><td><p>dark gray</p></td>
+<td><p>sample</p></td>
+</tr>
+</tbody>
+</table>
+</div>
 <p>First, setup bluesky and build the diffractometer object.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
@@ -431,7 +459,7 @@ document.write(`
 </div>
 <p>Configure the real-space axes so they are reported in LiveTable. Also, the orientation reflections should be reported with other configuration information, not as primary data.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">diffractometer</span><span class="o">.</span><span class="n">real_positioners</span><span class="p">:</span>
@@ -442,7 +470,7 @@ document.write(`
 </div>
 <p>Add a sample of <em>vibranium</em>. The cubic lattice constant is exactly <span class="math notranslate nohighlight">\(2\pi\)</span>.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diffractometer</span><span class="o">.</span><span class="n">calc</span><span class="o">.</span><span class="n">new_sample</span><span class="p">(</span><span class="s2">&quot;vibranium&quot;</span><span class="p">,</span> <span class="n">lattice</span><span class="o">=</span><span class="n">new_lattice</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">))</span>
@@ -450,7 +478,7 @@ document.write(`
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -464,7 +492,7 @@ HklSample(name=&#39;vibranium&#39;, lattice=LatticeTuple(a=6.283185307179586, b=
 </div>
 <p>Set the diffractometer’s wavelength by setting the X-ray photon energy. Orient the sample with two observed reflections and compute the <span class="math notranslate nohighlight">\(UB\)</span> orientation matrix.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diffractometer</span><span class="o">.</span><span class="n">energy</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">A_KEV</span> <span class="o">/</span> <span class="mf">1.54</span><span class="p">)</span>  <span class="c1"># (8.0509 keV)</span>
@@ -490,7 +518,7 @@ HklSample(name=&#39;vibranium&#39;, lattice=LatticeTuple(a=6.283185307179586, b=
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -513,7 +541,7 @@ array([[-5.55111433e-17, -1.11022287e-16, -1.00000000e+00],
 </ol>
 </details><p><strong>NOTE</strong>: The <span class="math notranslate nohighlight">\(\psi\)</span> rotation angle is an <em>extra</em> diffractometer parameter, only available as defined by certain diffractometer modes. It is not defined as an ophyd <code class="docutils literal notranslate"><span class="pre">Signal</span></code> object. It cannot be scanned directly with any of the standard bluesky plans, nor can it be moved with <code class="docutils literal notranslate"><span class="pre">bps.mv()</span></code>. A custom plan is needed to scan <span class="math notranslate nohighlight">\(\psi\)</span>.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">move_psi_forward</span><span class="p">(</span>
@@ -580,7 +608,7 @@ array([[-5.55111433e-17, -1.11022287e-16, -1.00000000e+00],
 <p>Create a generalized bluesky plan that can scan <span class="math notranslate nohighlight">\(\psi\)</span> given <span class="math notranslate nohighlight">\(Q\)</span> &amp; <span class="math notranslate nohighlight">\(hkl_2\)</span>. The values of <span class="math notranslate nohighlight">\(hkl_2\)</span> are described as constants in the <code class="docutils literal notranslate"><span class="pre">extras</span></code> input dictionary. The <code class="docutils literal notranslate"><span class="pre">axis</span></code> parameter is <code class="docutils literal notranslate"><span class="pre">psi</span></code> in this example. The <code class="docutils literal notranslate"><span class="pre">pseudos</span></code> parameter contains the values of <span class="math notranslate nohighlight">\(Q\)</span>.</p>
 <p>Do not provide a <code class="docutils literal notranslate"><span class="pre">reals</span></code> keyword. That’s a future feature. It must remain at the default value of <code class="docutils literal notranslate"><span class="pre">None</span></code> for this example.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">scan_extra_parameter</span><span class="p">(</span>
@@ -695,33 +723,33 @@ array([[-5.55111433e-17, -1.11022287e-16, -1.00000000e+00],
 <div class="highlight"><pre>
 
 
-Transient Scan ID: 1     Time: 2024-09-04 00:29:51
-Persistent Unique Scan ID: &#39;1c749cd0-a59f-4611-9b54-b030b29f6407&#39;
+Transient Scan ID: 1     Time: 2024-09-04 17:30:55
+Persistent Unique Scan ID: &#39;211f4289-cf2e-4325-b56f-3d7d418a51a6&#39;
 New stream: &#39;primary&#39;
-+-----------+------------+------------+------------+------------------+------------------+------------------+----------------------+--------------------+--------------------+--------------------+
-|   seq_num |       time |  noisy_det |        psi | diffractometer_h | diffractometer_k | diffractometer_l | diffractometer_omega | diffractometer_chi | diffractometer_phi | diffractometer_tth |
-+-----------+------------+------------+------------+------------------+------------------+------------------+----------------------+--------------------+--------------------+--------------------+
-|         1 | 00:29:51.4 |      0.933 |      0.000 |            2.000 |            1.000 |           -0.000 |               47.531 |            -90.000 |             90.000 |            -31.808 |
-|         2 | 00:29:51.4 |      0.999 |      9.722 |            2.000 |            1.000 |           -0.000 |               47.198 |            -98.687 |             85.618 |            -31.808 |
-|         3 | 00:29:51.4 |      0.938 |     19.444 |            2.000 |            1.000 |           -0.000 |               46.161 |           -107.322 |             81.028 |            -31.808 |
-|         4 | 00:29:51.4 |      1.040 |     29.167 |            2.000 |            1.000 |           -0.000 |               44.300 |           -115.843 |             75.985 |            -31.808 |
-|         5 | 00:29:51.4 |      0.918 |     38.889 |            2.000 |            1.000 |           -0.000 |               41.380 |           -124.162 |             70.165 |            -31.808 |
-|         6 | 00:29:51.5 |      1.001 |     48.611 |            2.000 |            1.000 |           -0.000 |               36.998 |           -132.147 |             63.094 |            -31.808 |
-|         7 | 00:29:51.5 |      1.011 |     58.333 |            2.000 |            1.000 |           -0.000 |               30.492 |           -139.576 |             54.056 |            -31.808 |
-|         8 | 00:29:51.6 |      0.935 |     68.056 |            2.000 |            1.000 |            0.000 |               20.871 |           -146.060 |             42.016 |            -31.808 |
-|         9 | 00:29:51.6 |      0.901 |     77.778 |            2.000 |            1.000 |           -0.000 |                7.044 |           -150.945 |             25.844 |            -31.808 |
-|        10 | 00:29:51.7 |      1.067 |     87.500 |            2.000 |            1.000 |            0.000 |              -10.918 |           -153.326 |              5.576 |            -31.808 |
-|        11 | 00:29:51.7 |      1.088 |     97.222 |            2.000 |            1.000 |            0.000 |              -30.018 |           -152.540 |            -15.821 |            -31.808 |
-|        12 | 00:29:51.7 |      0.906 |    106.944 |            2.000 |            1.000 |           -0.000 |              -46.142 |           -148.826 |            -34.265 |            -31.808 |
-|        13 | 00:29:51.7 |      1.026 |    116.667 |            2.000 |            1.000 |            0.000 |              -57.815 |           -143.062 |            -48.316 |            -31.808 |
-|        14 | 00:29:51.7 |      0.974 |    126.389 |            2.000 |            1.000 |            0.000 |              -65.780 |           -136.056 |            -58.749 |            -31.808 |
-|        15 | 00:29:51.7 |      1.093 |    136.111 |            2.000 |            1.000 |           -0.000 |              -71.152 |           -128.321 |            -66.723 |            -31.808 |
-|        16 | 00:29:51.7 |      0.996 |    145.833 |            2.000 |            1.000 |            0.000 |              -74.760 |           -120.153 |            -73.115 |            -31.808 |
-|        17 | 00:29:51.7 |      1.007 |    155.556 |            2.000 |            1.000 |            0.000 |              -77.127 |           -111.723 |            -78.509 |            -31.808 |
-|        18 | 00:29:51.7 |      1.045 |    165.278 |            2.000 |            1.000 |            0.000 |              -78.566 |           -103.138 |            -83.298 |            -31.808 |
-|        19 | 00:29:51.7 |      1.035 |    175.000 |            2.000 |            1.000 |            0.000 |              -79.252 |            -94.471 |            -87.759 |            -31.808 |
-+-----------+------------+------------+------------+------------------+------------------+------------------+----------------------+--------------------+--------------------+--------------------+
-generator scan_extra_parameter [&#39;1c749cd0&#39;] (scan num: 1)
++-----------+------------+------------+------------------+------------------+------------------+----------------------+--------------------+--------------------+--------------------+------------+
+|   seq_num |       time |        psi | diffractometer_h | diffractometer_k | diffractometer_l | diffractometer_omega | diffractometer_chi | diffractometer_phi | diffractometer_tth |  noisy_det |
++-----------+------------+------------+------------------+------------------+------------------+----------------------+--------------------+--------------------+--------------------+------------+
+|         1 | 17:30:55.1 |      0.000 |            2.000 |            1.000 |           -0.000 |               47.531 |            -90.000 |             90.000 |            -31.808 |      1.054 |
+|         2 | 17:30:55.1 |      9.722 |            2.000 |            1.000 |           -0.000 |               47.198 |            -98.687 |             85.618 |            -31.808 |      1.028 |
+|         3 | 17:30:55.2 |     19.444 |            2.000 |            1.000 |           -0.000 |               46.161 |           -107.322 |             81.028 |            -31.808 |      0.993 |
+|         4 | 17:30:55.3 |     29.167 |            2.000 |            1.000 |           -0.000 |               44.300 |           -115.843 |             75.985 |            -31.808 |      1.011 |
+|         5 | 17:30:55.3 |     38.889 |            2.000 |            1.000 |           -0.000 |               41.380 |           -124.162 |             70.165 |            -31.808 |      0.977 |
+|         6 | 17:30:55.3 |     48.611 |            2.000 |            1.000 |           -0.000 |               36.998 |           -132.147 |             63.094 |            -31.808 |      1.076 |
+|         7 | 17:30:55.4 |     58.333 |            2.000 |            1.000 |           -0.000 |               30.492 |           -139.576 |             54.056 |            -31.808 |      0.911 |
+|         8 | 17:30:55.4 |     68.056 |            2.000 |            1.000 |            0.000 |               20.871 |           -146.060 |             42.016 |            -31.808 |      1.049 |
+|         9 | 17:30:55.4 |     77.778 |            2.000 |            1.000 |           -0.000 |                7.044 |           -150.945 |             25.844 |            -31.808 |      1.035 |
+|        10 | 17:30:55.4 |     87.500 |            2.000 |            1.000 |            0.000 |              -10.918 |           -153.326 |              5.576 |            -31.808 |      0.936 |
+|        11 | 17:30:55.4 |     97.222 |            2.000 |            1.000 |            0.000 |              -30.018 |           -152.540 |            -15.821 |            -31.808 |      1.093 |
+|        12 | 17:30:55.4 |    106.944 |            2.000 |            1.000 |           -0.000 |              -46.142 |           -148.826 |            -34.265 |            -31.808 |      1.010 |
+|        13 | 17:30:55.5 |    116.667 |            2.000 |            1.000 |            0.000 |              -57.815 |           -143.062 |            -48.316 |            -31.808 |      0.970 |
+|        14 | 17:30:55.5 |    126.389 |            2.000 |            1.000 |            0.000 |              -65.780 |           -136.056 |            -58.749 |            -31.808 |      0.971 |
+|        15 | 17:30:55.5 |    136.111 |            2.000 |            1.000 |           -0.000 |              -71.152 |           -128.321 |            -66.723 |            -31.808 |      1.094 |
+|        16 | 17:30:55.5 |    145.833 |            2.000 |            1.000 |            0.000 |              -74.760 |           -120.153 |            -73.115 |            -31.808 |      1.092 |
+|        17 | 17:30:55.5 |    155.556 |            2.000 |            1.000 |            0.000 |              -77.127 |           -111.723 |            -78.509 |            -31.808 |      1.073 |
+|        18 | 17:30:55.5 |    165.278 |            2.000 |            1.000 |            0.000 |              -78.566 |           -103.138 |            -83.298 |            -31.808 |      0.972 |
+|        19 | 17:30:55.5 |    175.000 |            2.000 |            1.000 |            0.000 |              -79.252 |            -94.471 |            -87.759 |            -31.808 |      1.065 |
++-----------+------------+------------+------------------+------------------+------------------+----------------------+--------------------+--------------------+--------------------+------------+
+generator scan_extra_parameter [&#39;211f4289&#39;] (scan num: 1)
 
 
 
@@ -758,9 +786,9 @@ Start({&#39;axis&#39;: &#39;psi&#39;,
  &#39;reals&#39;: None,
  &#39;scan_id&#39;: 1,
  &#39;start&#39;: 0,
- &#39;time&#39;: 1725427791.3530302,
+ &#39;time&#39;: 1725489055.0375087,
  &#39;transformation&#39;: &#39;forward&#39;,
- &#39;uid&#39;: &#39;1c749cd0-a59f-4611-9b54-b030b29f6407&#39;,
+ &#39;uid&#39;: &#39;211f4289-cf2e-4325-b56f-3d7d418a51a6&#39;,
  &#39;versions&#39;: {&#39;bluesky&#39;: &#39;1.13.0a3&#39;, &#39;ophyd&#39;: &#39;1.9.0&#39;}})
 </pre></div></div>
 </div>
