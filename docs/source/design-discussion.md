@@ -20,7 +20,7 @@ Redesign of the Diffractometer object.
 - easy to use different *engines* (such as `hkl`, `qper_qpar`, `emergence`, ...)
 - user can choose different names for any of the diffractometer axes
 
-## Design ideas
+## Design ideas (from 2020 RFP)
 
 This is a starting format for suggestions, but it may become clear that a different format to describe our requirements is necessary.
 
@@ -95,9 +95,11 @@ It should be easy to switch between solvers at run time so that new things can b
 
 As listed in *hklpy* issues:
 
-- [design conversation for an hkl solver API](https://github.com/bluesky/hklpy/issues/14)
-- [requirements RFP](https://github.com/bluesky/hklpy/issues/47)
-- [requirements](https://docs.google.com/document/d/1QHNc1usAH3DoIHvtqVJTmHI0Q5lbwC4zimRLurOGiWE/edit)
+- (2020) [design conversation for an hkl solver API](https://github.com/bluesky/hklpy/issues/14)
+- (2020) Requirements [RFP](https://github.com/bluesky/hklpy/issues/47)
+- (2020) [requirements](https://docs.google.com/document/d/1QHNc1usAH3DoIHvtqVJTmHI0Q5lbwC4zimRLurOGiWE/edit)
+  
+  See above section *Design ideas (from 2020 RFP)* for a copy of the collected requirements.
 
 ## Additional Solvers
 
@@ -105,9 +107,9 @@ As listed in *hklpy* issues.
 
 - [*ad-hoc* geometries](https://github.com/bluesky/hklpy/issues/244)
 - [diffcalc](https://github.com/bluesky/hklpy/issues/163)
-- [TwoC unknown](https://github.com/bluesky/hklpy/issues/165)
+- [TwoC unknown in libhkl](https://github.com/bluesky/hklpy/issues/165)
 - [xrayutilities](https://github.com/bluesky/hklpy/issues/162)
-- SPEC server
+- [SPEC server](https://github.com/bluesky/hklpy/issues/341)
 
 ## Python entrypoints
 
