@@ -5,11 +5,19 @@ from ..constraints import ConstraintBase
 from ..constraints import LimitsConstraint
 
 
-def test_ConstraintBase():
+def test_raises():
     with pytest.raises(TypeError) as excuse:
         ConstraintBase()
     assert "Can't instantiate abstract class" in str(excuse)
 
+    with pytest.raises(ValueError) as excuse:
+        LimitsConstraint(0, 1)
+    assert "Must provide a value" in str(excuse)
+
+    c = LimitsConstraint(0, 1, key="test")
+    with pytest.raises(KeyError) as excuse:
+        c.valid()
+    assert "did not include this constraint" in str(excuse)
 
 @pytest.mark.parametrize(
     "lo, hi, value, result",
@@ -26,15 +34,15 @@ def test_ConstraintBase():
     ],
 )
 def test_LimitsConstraint(lo, hi, value, result):
-    c = LimitsConstraint(lo, hi)
-    assert len(c._asdict()) == 2
+    c = LimitsConstraint(lo, hi, key="axis")
+    assert len(c._asdict()) == 3
 
     text = repr(c)
-    assert text.startswith("LimitsConstraint(")
+    assert " <= " in text
 
     assert c.low_limit == lo or -180, f"{c!r}"
     assert c.high_limit == hi or 180, f"{c!r}"
-    assert c.valid(value) == result, f"{c!r}"
+    assert c.valid(axis=value) == result, f"{c!r}"
 
 
 @pytest.mark.parametrize(
@@ -46,7 +54,7 @@ def test_LimitsConstraint(lo, hi, value, result):
 )
 def test_AxisConstraints(reals, result):
     ac = AxisConstraints(list(reals.keys()))
-    assert len(ac.axes) == len(reals)
+    assert len(ac) == len(reals)
     assert len(ac._asdict()) == len(reals), f"{ac._asdict()!r}"
     assert ac.valid(**reals) == result
 
@@ -55,4 +63,4 @@ def test_AxisConstraintsKeys():
     ac = AxisConstraints("tinker evers chance".split())
     with pytest.raises(KeyError) as excuse:
         ac.valid(you=0, me=0)
-    assert "Must use the same keys" in str(excuse)
+    assert "did not include this constraint" in str(excuse)

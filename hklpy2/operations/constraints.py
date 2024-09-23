@@ -41,13 +41,19 @@ class ConstraintBase(ABC):
         return {k: getattr(self, k) for k in self._fields}
 
     def __repr__(self) -> str:
-        "Return a nicely formatted representation string."
+        "Return a nicely-formatted representation string."
         content = [f"{k}={v}" for k, v in self._asdict().items()]
         return f"{self.__class__.__name__}({', '.join(content)})"
 
     @abstractmethod
-    def valid(self, value: NUMERIC) -> bool:
-        """Does value satisfy this constraint?"""
+    def valid(self, **values: Dict[str, NUMERIC]) -> bool:
+        """
+        Is this constraint satisifed by current value(s)?
+
+        PARAMETERS
+
+        values *dict*: Dictionary of current axis: value pairs for comparison.
+        """
         return True
 
 
@@ -63,25 +69,51 @@ class LimitsConstraint(ConstraintBase):
     high_limit : float
         Highest acceptable value for this axis when computing real-space solutions
         from given reciprocal-space positions.
+    key : str
+        Name of the axis for these limits.
 
     .. autosummary::
 
         ~valid
     """
 
-    def __init__(self, low_limit=-180, high_limit=180):
+    def __init__(self, low_limit=-180, high_limit=180, key=None):
+        if key is None:
+            raise ValueError("Must provide a value for 'key'.")
+
+        self.key = key
+        self._fields = "key low_limit high_limit".split()
+
         if low_limit is None:
             low_limit = -180
         if high_limit is None:
             high_limit = 180
-        limits = list(map(float, [low_limit, high_limit]))
-        self.low_limit = min(limits)
-        self.high_limit = max(limits)
-        self._fields = "low_limit high_limit".split()
 
-    def valid(self, value: NUMERIC) -> bool:
-        """True if low <= value <= high."""
-        return self.low_limit <= value <= self.high_limit
+        # fmt: off
+        self.low_limit, self.high_limit = sorted(
+            map(float, [low_limit, high_limit])
+        )
+        # fmt: on
+
+    def __repr__(self) -> str:
+        "Return a nicely-formatted representation string."
+        return f"{self.low_limit} <= {self.key} <= {self.high_limit}"
+
+    def valid(self, **values: Dict[str, NUMERIC]) -> bool:
+        """
+        True if low <= value <= high.
+
+        PARAMETERS
+
+        reals *dict*: Dictionary of current axis: value pairs for comparison.
+        """
+        if self.key not in values:
+            raise KeyError(
+                f"Supplied values ({values!r}) did not include this"
+                f" constraint's key {self.key!r}."
+            )
+
+        return self.low_limit <= values[self.key] <= self.high_limit
 
 
 class AxisConstraints:
@@ -94,22 +126,21 @@ class AxisConstraints:
         ~valid
     """
 
-    def __init__(self, reals: List[str] ):
-        self.axes = {k: [LimitsConstraint()] for k in reals}
-        self.stack = []  # TODO:
+    def __init__(self, reals: List[str]):
+        self._db = [LimitsConstraint(key=k) for k in reals]
+
+    def __len__(self) -> int:
+        return len(self._db)
+
+    def __str__(self) -> str:
+        "Return content as a nicely-formatted string."
+        return str([repr(c) for c in self._db])
 
     def _asdict(self):
         """Return a new dict which maps field names to their values."""
-        return {k: [c._asdict() for c in self.axes[k]] for k in self.axes.keys()}
+        return [c._asdict() for c in self._db]
 
     def valid(self, **reals: Dict[str, NUMERIC]) -> bool:
-        """Do all axis values satisfy their constraints?"""
-        if sorted(reals.keys()) != sorted(self.axes.keys()):
-            raise KeyError(f"Must use the same keys: {list(self.axes.keys())}")
-
-        for key, value in reals.items():
-            for constraint in self.axes[key]:
-                if not constraint.valid(value):
-                    return False
-
-        return True
+        """Are all constraints satisfied?"""
+        findings = [constraint.valid(**reals) for constraint in self._db]
+        return False not in findings
