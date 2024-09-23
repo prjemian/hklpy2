@@ -295,8 +295,8 @@ def test_diffractometer_wh(capsys):
     captured = capsys.readouterr()
     lines = captured.out.splitlines()
     assert len(lines) == 3, f"{captured.out=}"
-    assert lines[0].startswith("wavelength=")
-    assert lines[1].startswith("h=")
+    assert lines[1].startswith("wavelength=")
+    assert lines[0].startswith("h=")
     assert lines[2].startswith("omega=")
 
     e4cv.wh(full=True)
@@ -306,7 +306,9 @@ def test_diffractometer_wh(capsys):
     assert lines[0].startswith("diffractometer=")
     assert lines[1].startswith("Sample(name=")
     assert lines[2].startswith("HklSolver(name")
-    assert lines[3].startswith("wavelength=")
+    assert lines[3].startswith("h=")
+    assert lines[4].startswith("wavelength=")
+    assert lines[5].startswith("omega=")
 
     # TODO: extra axis names
 
