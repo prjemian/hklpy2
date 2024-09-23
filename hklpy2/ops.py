@@ -316,12 +316,14 @@ class Operations:
         reals = {  # Original values.
             axis[0]: 0 for axis in self.diffractometer._get_real_positioners()
         }
-        forwards = self.solver.forward(self._axes_names_d2s(pdict))
+
+        # Filter just the solutions that fit the constraints.
         solutions = []
-        for solution in forwards:
+        for solution in self.solver.forward(self._axes_names_d2s(pdict)):
             reals.update(self._axes_names_s2d(solution))  # Update with new values.
             if self.constraints.valid(**reals):
                 solutions.append(self.diffractometer.RealPosition(**reals))
+
         return solutions
 
     def inverse(self, reals, wavelength: float = None) -> dict:
