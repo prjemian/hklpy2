@@ -84,6 +84,9 @@ It could be re-organized.
     * [x] inverse (reals -> pseudos)
   * user friendliness
     * [ ] features from hklpy
+  * [x] position targets
+    * [ ] numpy arrays
+    * [x] scalars
 * Operations-Solver interface transactions API
   * [x] axes : assignment : automatic
   * [x] axes : assignment : named
@@ -103,7 +106,11 @@ It could be re-organized.
   * [x] solver : set
   * [x] transformation : forward (pseudos -> reals)
   * [x] transformation : inverse (reals -> pseudos)
+* Performance
+  * [ ] minimum 2,000 `inverse()` operations/second
+  * [ ] minimum 2,000 `forward()` operations/second
 * Backends - feature support
+  * [ ] diffcalc_dls
   * [x] hkl_soleil (libhkl)
     * [x] axes : expected pseudos
     * [x] axes : expected reals
@@ -128,6 +135,7 @@ It could be re-organized.
     * [x] transformation : forward (pseudos -> reals)
     * [x] transformation : inverse (reals -> pseudos)
   * [ ] no_op
+  * [ ] spec
   * [x] th_tth
     * axes : expected 
       * [x] pseudos
