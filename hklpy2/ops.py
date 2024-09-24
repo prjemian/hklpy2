@@ -87,20 +87,27 @@ class Operations:
         config = {
             "name": self.diffractometer.name,
             "geometry": self.geometry,
-            "axes_xref": self.axes_xref,
-            "pseudo_axes": self.diffractometer.pseudo_axis_names,
-            "real_axes": self.diffractometer.real_axis_names,
+            "axes": {
+                "pseudo_axes": self.diffractometer.pseudo_axis_names,
+                "real_axes": self.diffractometer.real_axis_names,
+                "axes_xref": self.axes_xref,
+            },
             "sample_name": self.sample.name,
             "samples": {k: v._asdict() for k, v in self._samples.items()},
             "constraints": self.constraints._asdict(),
-            "solver_name": self.solver.name,
-            "solver_version": self.solver.version,
-            "solver_mode": self.solver.mode,
-            "solver_repr": repr(self.solver),
+            "solver": {
+                "name": self.solver.name,
+                "version": self.solver.version,
+                "mode": self.solver.mode,
+                "description": repr(self.solver),
+                "real_axes": self.solver.real_axis_names,
+            },
         }
+
         if self.solver.name == "hkl_soleil":
-            config["engine_name"] = self.solver.engine_name
-            config["extras"] = self.solver.extras
+            config["engine"] = self.solver.engine_name
+            config["axes"]["extra_axes"] = self.solver.extras
+
         return config
 
     def add_reflection(
@@ -284,7 +291,8 @@ class Operations:
         The method of Busing & Levy, Acta Cryst 22 (1967) 457.
         """
 
-        def get_reflection(r):
+        def _get(r):
+            """Given a reference, get the Reflection object."""
             if isinstance(r, Reflection):
                 return r
             reflection = self.sample.reflections.get(r)
@@ -295,7 +303,9 @@ class Operations:
                 )
             return reflection
 
-        self.solver.calculate_UB(get_reflection(r1), get_reflection(r2))
+        two_reflections = [_get(r1), _get(r2)]
+        self.sample.reflections.set_orientation_reflections(two_reflections)
+        self.solver.calculate_UB(*two_reflections)
         self.sample.U = self.solver.U
         self.sample.UB = self.solver.UB
 

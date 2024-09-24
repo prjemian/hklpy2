@@ -3,7 +3,7 @@
 This is a first-cut checklist for the v2 release.
 It could be re-organized.
 
-* community wish list
+* [ ] community wish list
   * [ ] user-requested changes
   * [x] move libhkl to be a replaceable back-end computation library
   * [ ] easy to save/restore configuration
@@ -44,14 +44,14 @@ It could be re-organized.
     * [x] [modify existing sample](https://github.com/bluesky/hklpy/issues/157)
     * [ ] [control display precision in `wh()` and `pa()`](https://github.com/bluesky/hklpy/issues/179)
     * [ ] [crystallographic *zones*](https://github.com/bluesky/hklpy/issues/291)
-* Solvers
+* [ ] Solvers
   * [x] `libhkl`
   * [ ] [*ad-hoc* geometries](https://github.com/bluesky/hklpy/issues/244)
   * [ ] [diffcalc](https://github.com/bluesky/hklpy/issues/163)
   * [ ] [TwoC unknown](https://github.com/bluesky/hklpy/issues/165)
   * [ ] [xrayutilities](https://github.com/bluesky/hklpy/issues/162)
   * [ ] [SPEC server](https://certif.com/spec_help/server.html)
-* Documentation
+* [ ] Documentation
   * [ ] Choosing the default `forward()` solution.
   * [ ] documentation from hklpy.
   * [x] How to calculate UB from 2 reflections.
@@ -59,7 +59,7 @@ It could be re-organized.
   * [ ] How to migrate from hklpy v1.
   * [x] How to refine lattice from 3 reflections.
   * [x] How to set UB directly.
-* Diffractometer-Operations API
+* [ ] Diffractometer-Operations API
   * [x] solver:
   * [x] geometry:
   * [x] samples:
@@ -87,7 +87,7 @@ It could be re-organized.
   * [x] position targets
     * [ ] numpy arrays
     * [x] scalars
-* Operations-Solver interface transactions API
+* [ ] Operations-Solver interface transactions API
   * [x] axes : assignment : automatic
   * [x] axes : assignment : named
   * [x] axes : convert names between diffractometer and solver
@@ -97,6 +97,8 @@ It could be re-organized.
   * [x] geometry : get
   * [x] geometry : set
   * [x] orientation : calculate UB from 2 reflections
+  * [x] orientation : export
+  * [ ] orientation : restore
   * [x] reflection : add
   * [x] sample : add
   * [x] sample : get
@@ -106,10 +108,10 @@ It could be re-organized.
   * [x] solver : set
   * [x] transformation : forward (pseudos -> reals)
   * [x] transformation : inverse (reals -> pseudos)
-* Performance
+* [ ] Performance
   * [ ] minimum 2,000 `inverse()` operations/second
   * [ ] minimum 2,000 `forward()` operations/second
-* Backends - feature support
+* [ ] Backends - feature support
   * [ ] diffcalc_dls
   * [x] hkl_soleil (libhkl)
     * [x] axes : expected pseudos

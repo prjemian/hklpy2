@@ -10,15 +10,15 @@ See the API documentation for details.
 
 .. autosummary::
 
-    ~hklpy2.backends.hkl_soleil.HklSolver
-    ~hklpy2.backends.no_op.NoOpSolver
-    ~hklpy2.backends.th_tth_q.ThTthSolver
+    ~hkl_soleil.HklSolver
+    ~no_op.NoOpSolver
+    ~th_tth_q.ThTthSolver
 
 .. rubric:: Base class for all solvers
 
 .. autosummary::
 
-    ~hklpy2.backends.base.SolverBase
+    ~base.SolverBase
 """
 
 from .base import SolverBase  # noqa: F401
