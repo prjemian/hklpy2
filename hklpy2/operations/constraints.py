@@ -38,16 +38,16 @@ class ConstraintBase(ABC):
     _fields: List[str] = []
     label: str = UNDEFINED_LABEL
 
+    def __repr__(self) -> str:
+        """Return a nicely-formatted string."""
+        content = [f"{k}={v}" for k, v in self._asdict().items()]
+        return f"{self.__class__.__name__}({', '.join(content)})"
+
     def _asdict(self):
         """Return a new dict which maps field names to their values."""
         result = {k: getattr(self, k) for k in self._fields}
         result["class"] = self.__class__.__name__
         return result
-
-    def __str__(self) -> str:
-        "Return a nicely-formatted string."
-        content = [f"{k}={v}" for k, v in self._asdict().items()]
-        return f"{self.__class__.__name__}({', '.join(content)})"
 
     @abstractmethod
     def valid(self, **values: Dict[str, NUMERIC]) -> bool:
@@ -56,7 +56,7 @@ class ConstraintBase(ABC):
 
         PARAMETERS
 
-        values *dict*: 
+        values *dict*:
             Dictionary of current 'axis: value' pairs for comparison.
         """
         return True
@@ -100,8 +100,8 @@ class LimitsConstraint(ConstraintBase):
         )
         # fmt: on
 
-    def __str__(self) -> str:
-        "Return a nicely-formatted string."
+    def __repr__(self) -> str:
+        """Return a nicely-formatted string."""
         return f"{self.low_limit} <= {self.label} <= {self.high_limit}"
 
     def valid(self, **values: Dict[str, NUMERIC]) -> bool:
@@ -110,7 +110,7 @@ class LimitsConstraint(ConstraintBase):
 
         PARAMETERS
 
-        reals *dict*: 
+        reals *dict*:
             Dictionary of current 'axis: value' pairs for comparison.
         """
         if self.label not in values:
@@ -122,7 +122,7 @@ class LimitsConstraint(ConstraintBase):
         return self.low_limit <= values[self.label] <= self.high_limit
 
 
-class RealAxisConstraints:
+class RealAxisConstraints(dict):
     """
     Constraints for every (real) axis of the diffractometer.
 
@@ -133,20 +133,18 @@ class RealAxisConstraints:
     """
 
     def __init__(self, reals: List[str]):
-        self._db = {k: LimitsConstraint(label=k) for k in reals}
+        for k in reals:
+            self[k] = LimitsConstraint(label=k)
 
-    def __len__(self) -> int:
-        return len(self._db)
-
-    def __str__(self) -> str:
-        "Return content as a nicely-formatted string."
-        return str([str(c) for c in self._db.values()])
+    def __repr__(self) -> str:
+        """Return a nicely-formatted string."""
+        return str([str(c) for c in self.values()])
 
     def _asdict(self):
-        """Return a new dict which maps field names to their values."""
-        return {k: c._asdict() for k, c in self._db.items()}
+        """Return all constraints as a dictionary."""
+        return {k: c._asdict() for k, c in self.items()}
 
     def valid(self, **reals: Dict[str, NUMERIC]) -> bool:
         """Are all constraints satisfied?"""
-        findings = [constraint.valid(**reals) for constraint in self._db.values()]
+        findings = [constraint.valid(**reals) for constraint in self.values()]
         return False not in findings
