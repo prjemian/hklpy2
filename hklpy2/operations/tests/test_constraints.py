@@ -1,8 +1,8 @@
 import pytest
 
-from ..constraints import RealAxisConstraints
 from ..constraints import ConstraintBase
 from ..constraints import LimitsConstraint
+from ..constraints import RealAxisConstraints
 
 
 def test_raises():
@@ -18,6 +18,7 @@ def test_raises():
     with pytest.raises(KeyError) as excuse:
         c.valid()
     assert "did not include this constraint" in str(excuse)
+
 
 @pytest.mark.parametrize(
     "lo, hi, value, result",

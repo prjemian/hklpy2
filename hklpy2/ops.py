@@ -105,7 +105,7 @@ class Operations:
         }
 
         if self.solver.name == "hkl_soleil":
-            config["engine"] = self.solver.engine_name
+            config["solver"]["engine"] = self.solver.engine_name
             config["axes"]["extra_axes"] = self.solver.extras
 
         return config
