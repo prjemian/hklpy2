@@ -13,7 +13,7 @@ import logging
 
 from . import Hklpy2Error
 from . import SolverBase
-from .operations.constraints import AxisConstraints
+from .operations.constraints import RealAxisConstraints
 from .operations.lattice import Lattice
 from .operations.misc import solver_factory
 from .operations.misc import unique_name
@@ -223,7 +223,7 @@ class Operations:
         self.axes_xref = {}
         reference(pseudos, solver.pseudo_axis_names)
         reference(reals, solver.real_axis_names)
-        self.constraints = AxisConstraints(self.diffractometer.real_axis_names)
+        self.constraints = RealAxisConstraints(self.diffractometer.real_axis_names)
         logger.debug("axes_xref=%r", self.axes_xref)
 
     def _axes_names_s2d(self, axis_dict: dict[str, float]) -> dict[str, float]:

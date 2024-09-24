@@ -3,7 +3,7 @@ Limitations on acceptable positions from computed 'forward()' solutions.
 
 .. autosummary::
 
-    ~AxisConstraints
+    ~RealAxisConstraints
     ~ConstraintBase
     ~LimitsConstraint
 
@@ -40,10 +40,12 @@ class ConstraintBase(ABC):
 
     def _asdict(self):
         """Return a new dict which maps field names to their values."""
-        return {k: getattr(self, k) for k in self._fields}
+        result = {k: getattr(self, k) for k in self._fields}
+        result["class"] = self.__class__.__name__
+        return result
 
     def __str__(self) -> str:
-        "Return a nicely-formatted representation string."
+        "Return a nicely-formatted string."
         content = [f"{k}={v}" for k, v in self._asdict().items()]
         return f"{self.__class__.__name__}({', '.join(content)})"
 
@@ -99,7 +101,7 @@ class LimitsConstraint(ConstraintBase):
         # fmt: on
 
     def __str__(self) -> str:
-        "Return a nicely-formatted representation string."
+        "Return a nicely-formatted string."
         return f"{self.low_limit} <= {self.label} <= {self.high_limit}"
 
     def valid(self, **values: Dict[str, NUMERIC]) -> bool:
@@ -120,7 +122,7 @@ class LimitsConstraint(ConstraintBase):
         return self.low_limit <= values[self.label] <= self.high_limit
 
 
-class AxisConstraints:
+class RealAxisConstraints:
     """
     Constraints for every (real) axis of the diffractometer.
 
@@ -131,20 +133,20 @@ class AxisConstraints:
     """
 
     def __init__(self, reals: List[str]):
-        self._db = [LimitsConstraint(label=k) for k in reals]
+        self._db = {k: LimitsConstraint(label=k) for k in reals}
 
     def __len__(self) -> int:
         return len(self._db)
 
     def __str__(self) -> str:
         "Return content as a nicely-formatted string."
-        return str([str(c) for c in self._db])
+        return str([str(c) for c in self._db.values()])
 
     def _asdict(self):
         """Return a new dict which maps field names to their values."""
-        return {c.label: c._asdict() for c in self._db}
+        return {k: c._asdict() for k, c in self._db.items()}
 
     def valid(self, **reals: Dict[str, NUMERIC]) -> bool:
         """Are all constraints satisfied?"""
-        findings = [constraint.valid(**reals) for constraint in self._db]
+        findings = [constraint.valid(**reals) for constraint in self._db.values()]
         return False not in findings

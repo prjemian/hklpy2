@@ -1,6 +1,6 @@
 import pytest
 
-from ..constraints import AxisConstraints
+from ..constraints import RealAxisConstraints
 from ..constraints import ConstraintBase
 from ..constraints import LimitsConstraint
 
@@ -35,7 +35,7 @@ def test_raises():
 )
 def test_LimitsConstraint(lo, hi, value, result):
     c = LimitsConstraint(lo, hi, label="axis")
-    assert len(c._asdict()) == 3
+    assert len(c._asdict()) == 4
 
     text = str(c)
     assert " <= " in text
@@ -52,15 +52,15 @@ def test_LimitsConstraint(lo, hi, value, result):
         [{"aa": 0, "bb": 200, "cc": 0}, False],
     ],
 )
-def test_AxisConstraints(reals, result):
-    ac = AxisConstraints(list(reals.keys()))
+def test_RealAxisConstraints(reals, result):
+    ac = RealAxisConstraints(list(reals.keys()))
     assert len(ac) == len(reals)
     assert len(ac._asdict()) == len(reals), f"{ac._asdict()!r}"
     assert ac.valid(**reals) == result
 
 
-def test_AxisConstraintsKeys():
-    ac = AxisConstraints("tinker evers chance".split())
+def test_RealAxisConstraintsKeys():
+    ac = RealAxisConstraints("tinker evers chance".split())
     with pytest.raises(KeyError) as excuse:
         ac.valid(you=0, me=0)
     assert "did not include this constraint" in str(excuse)
