@@ -22,6 +22,7 @@ from typing import List
 from typing import Union
 
 NUMERIC = Union[int, float]
+UNDEFINED_LABEL = "undefined"
 
 
 class ConstraintBase(ABC):
@@ -35,12 +36,13 @@ class ConstraintBase(ABC):
     """
 
     _fields: List[str] = []
+    label: str = UNDEFINED_LABEL
 
     def _asdict(self):
         """Return a new dict which maps field names to their values."""
         return {k: getattr(self, k) for k in self._fields}
 
-    def __repr__(self) -> str:
+    def __str__(self) -> str:
         "Return a nicely-formatted representation string."
         content = [f"{k}={v}" for k, v in self._asdict().items()]
         return f"{self.__class__.__name__}({', '.join(content)})"
@@ -52,7 +54,8 @@ class ConstraintBase(ABC):
 
         PARAMETERS
 
-        values *dict*: Dictionary of current axis: value pairs for comparison.
+        values *dict*: 
+            Dictionary of current 'axis: value' pairs for comparison.
         """
         return True
 
@@ -69,7 +72,7 @@ class LimitsConstraint(ConstraintBase):
     high_limit : float
         Highest acceptable value for this axis when computing real-space solutions
         from given reciprocal-space positions.
-    key : str
+    label : str
         Name of the axis for these limits.
 
     .. autosummary::
@@ -77,12 +80,12 @@ class LimitsConstraint(ConstraintBase):
         ~valid
     """
 
-    def __init__(self, low_limit=-180, high_limit=180, key=None):
-        if key is None:
-            raise ValueError("Must provide a value for 'key'.")
+    def __init__(self, low_limit=-180, high_limit=180, label=None):
+        if label is None:
+            raise ValueError("Must provide a value for 'label'.")
 
-        self.key = key
-        self._fields = "key low_limit high_limit".split()
+        self.label = label
+        self._fields = "label low_limit high_limit".split()
 
         if low_limit is None:
             low_limit = -180
@@ -95,9 +98,9 @@ class LimitsConstraint(ConstraintBase):
         )
         # fmt: on
 
-    def __repr__(self) -> str:
+    def __str__(self) -> str:
         "Return a nicely-formatted representation string."
-        return f"{self.low_limit} <= {self.key} <= {self.high_limit}"
+        return f"{self.low_limit} <= {self.label} <= {self.high_limit}"
 
     def valid(self, **values: Dict[str, NUMERIC]) -> bool:
         """
@@ -105,15 +108,16 @@ class LimitsConstraint(ConstraintBase):
 
         PARAMETERS
 
-        reals *dict*: Dictionary of current axis: value pairs for comparison.
+        reals *dict*: 
+            Dictionary of current 'axis: value' pairs for comparison.
         """
-        if self.key not in values:
+        if self.label not in values:
             raise KeyError(
                 f"Supplied values ({values!r}) did not include this"
-                f" constraint's key {self.key!r}."
+                f" constraint's label {self.label!r}."
             )
 
-        return self.low_limit <= values[self.key] <= self.high_limit
+        return self.low_limit <= values[self.label] <= self.high_limit
 
 
 class AxisConstraints:
@@ -127,18 +131,18 @@ class AxisConstraints:
     """
 
     def __init__(self, reals: List[str]):
-        self._db = [LimitsConstraint(key=k) for k in reals]
+        self._db = [LimitsConstraint(label=k) for k in reals]
 
     def __len__(self) -> int:
         return len(self._db)
 
     def __str__(self) -> str:
         "Return content as a nicely-formatted string."
-        return str([repr(c) for c in self._db])
+        return str([str(c) for c in self._db])
 
     def _asdict(self):
         """Return a new dict which maps field names to their values."""
-        return [c._asdict() for c in self._db]
+        return {c.label: c._asdict() for c in self._db}
 
     def valid(self, **reals: Dict[str, NUMERIC]) -> bool:
         """Are all constraints satisfied?"""

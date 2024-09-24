@@ -14,7 +14,7 @@ def test_raises():
         LimitsConstraint(0, 1)
     assert "Must provide a value" in str(excuse)
 
-    c = LimitsConstraint(0, 1, key="test")
+    c = LimitsConstraint(0, 1, label="test")
     with pytest.raises(KeyError) as excuse:
         c.valid()
     assert "did not include this constraint" in str(excuse)
@@ -34,10 +34,10 @@ def test_raises():
     ],
 )
 def test_LimitsConstraint(lo, hi, value, result):
-    c = LimitsConstraint(lo, hi, key="axis")
+    c = LimitsConstraint(lo, hi, label="axis")
     assert len(c._asdict()) == 3
 
-    text = repr(c)
+    text = str(c)
     assert " <= " in text
 
     assert c.low_limit == lo or -180, f"{c!r}"
