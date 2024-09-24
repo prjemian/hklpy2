@@ -93,7 +93,7 @@ It could be re-organized.
   * [x] axes : convert names between diffractometer and solver
   * [x] axes : expected pseudos
   * [x] axes : expected reals
-  * [ ] constraints
+  * [x] constraints
   * [x] geometry : get
   * [x] geometry : set
   * [x] orientation : calculate UB from 2 reflections
