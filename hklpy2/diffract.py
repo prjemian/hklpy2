@@ -308,6 +308,8 @@ class DiffractometerBase(PseudoPositioner):
             print(f"diffractometer={self.name!r}")
             print(f"{self.sample}")
             print(f"{self.operator.solver}")
+            # TODO: reflections
+            # TODO: constraints
         print_axes(self.pseudo_axis_names)
         print(f"wavelength={self.wavelength.get()}")
         print_axes(self.real_axis_names)

@@ -6,7 +6,7 @@ It could be re-organized.
 * [ ] community wish list
   * [ ] user-requested changes
   * [x] move libhkl to be a replaceable back-end computation library
-  * [ ] easy to save/restore configuration
+  * [x] easy to save/restore configuration
   * [ ] easy to use different *engines*
     * [ ] documentation
     * [ ] example(s)
@@ -19,7 +19,7 @@ It could be re-organized.
     * [x] user can choose different names for any of the diffractometer axes
   * [~] Default diffractometer geometries
   * [ ] Bragg Peak optimization tools
-  * [ ] Defining orientation matrix or matrices (set UB)
+  * [x] Defining orientation matrix or matrices (set UB)
   * [x] Simulating diffraction and diffractometer modes
   * [x] Built in reciprocal space plans (or scans)
   * [x] Choice of calculation engines other than the hkl C package
@@ -65,9 +65,9 @@ It could be re-organized.
   * [x] samples:
   * [x] lattice:
   * [x] reflections:
-  * [ ] configuration:
-    * [ ] export
-    * [ ] restore
+  * [x] configuration:
+    * [x] export
+    * [x] restore
   * axes
     * pseudos
       * [x] dict
@@ -87,7 +87,7 @@ It could be re-organized.
   * [x] position targets
     * [ ] numpy arrays
     * [x] scalars
-* [ ] Operations-Solver interface transactions API
+* [x] Operations-Solver interface transactions API
   * [x] axes : assignment : automatic
   * [x] axes : assignment : named
   * [x] axes : convert names between diffractometer and solver
@@ -98,7 +98,7 @@ It could be re-organized.
   * [x] geometry : set
   * [x] orientation : calculate UB from 2 reflections
   * [x] orientation : export
-  * [ ] orientation : restore
+  * [x] orientation : restore
   * [x] reflection : add
   * [x] sample : add
   * [x] sample : get
