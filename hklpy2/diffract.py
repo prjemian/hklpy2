@@ -15,6 +15,7 @@ from ophyd.pseudopos import pseudo_position_argument
 from ophyd.pseudopos import real_position_argument
 from ophyd.signal import AttributeSignal
 
+from .operations.misc import roundoff
 from .operations.reflection import Reflection
 from .operations.sample import Sample
 from .ops import Operations
@@ -296,10 +297,7 @@ class DiffractometerBase(PseudoPositioner):
         """Concise report of the current diffractometer positions."""
 
         def wh_round(label, value):
-            value = round(value, ndigits=digits)
-            if value == 0:
-                value = 0  # do not show as "-0"
-            return f"{label}={value}"
+            return f"{label}={roundoff(value, digits)}"
 
         def print_axes(names):
             print(" ".join([wh_round(nm, getattr(self, nm).position) for nm in names]))

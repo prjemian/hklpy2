@@ -9,6 +9,7 @@ Miscellaneous Support.
     ~get_solver
     ~load_yaml
     ~load_yaml_file
+    ~roundoff
     ~solver_factory
     ~solvers
     ~unique_name
@@ -148,6 +149,14 @@ def load_yaml_file(file):
     if not path.exists():
         raise FileExistsError(f"YAML file '{path}' does not exist.")
     return load_yaml(open(path, "r").read())
+
+
+def roundoff(value, digits=4):
+    """Round a number to specified precision."""
+    value = round(value, ndigits=digits)
+    if value == 0:
+        value = 0  # do not show as "-0"
+    return value
 
 
 def solver_factory(solver_name: str, geometry: str, **kwargs):
