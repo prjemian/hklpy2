@@ -159,7 +159,7 @@ def test_orientation():
     ), f"{fourc.wavelength.get()=!r}"
     assert fourc.operator.sample.reflections.order == "(400) (040)".split()
 
-    result = fourc.operator.calcUB(*fourc.operator.sample.reflections.order)
+    result = fourc.operator.calc_UB(*fourc.operator.sample.reflections.order)
     assert result is None
 
     UB = fourc.operator.solver.UB

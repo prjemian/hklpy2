@@ -45,7 +45,7 @@ class Operations:
         ~add_sample
         ~assign_axes
         ~auto_assign_axes
-        ~calcUB
+        ~calc_UB
         ~export
         ~forward
         ~inverse
@@ -299,7 +299,7 @@ class Operations:
 
         logger.debug("axes_xref=%r", self.axes_xref)
 
-    def calcUB(self, r1: [Reflection, str], r2: [Reflection, str]) -> None:
+    def calc_UB(self, r1: [Reflection, str], r2: [Reflection, str]) -> None:
         """
         Calculate the UB (orientation) matrix with two reflections.
 
