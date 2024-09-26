@@ -4,7 +4,6 @@ Lattice parameters for a single crystal.
 .. autosummary::
 
     ~Lattice
-    ~LatticeError
     ~SI_LATTICE_PARAMETER
     ~SI_LATTICE_PARAMETER_UNCERTAINTY
 """
@@ -13,7 +12,7 @@ import enum
 import logging
 import math
 
-from .. import Hklpy2Error
+from .misc import LatticeError
 from .misc import compare_float_dicts
 
 logger = logging.getLogger(__name__)
@@ -45,10 +44,6 @@ CrystalSystem = enum.Enum(  # in order from lowest symmetry
 )
 
 
-class LatticeError(Hklpy2Error):
-    """Custom exceptions from the :mod:`hklpy2.operations.lattice` module."""
-
-
 class Lattice:
     """
     Crystal lattice parameters.
@@ -64,6 +59,7 @@ class Lattice:
     .. autosummary::
 
         ~_asdict
+        ~_fromdict
         ~__eq__
         ~__repr__
         ~crystal_system
@@ -87,18 +83,6 @@ class Lattice:
         self.beta = beta or alpha
         self.gamma = gamma or alpha
         self.digits = digits
-
-    def _asdict(self):
-        """Return a new dict which maps lattice constant names and values."""
-        # note: name is identical to namedtuple._asdict method
-        return {
-            "a": self.a,
-            "b": self.b,
-            "c": self.c,
-            "alpha": self.alpha,
-            "beta": self.beta,
-            "gamma": self.gamma,
-        }
 
     def __eq__(self, latt):
         """
@@ -126,6 +110,24 @@ class Lattice:
         ]
         parms.append(f"{system=!r}")
         return "Lattice(" + ", ".join(parms) + ")"
+
+    def _asdict(self):
+        """Return a new dict which maps lattice constant names and values."""
+        # note: name is identical to namedtuple._asdict method
+        return {
+            "a": self.a,
+            "b": self.b,
+            "c": self.c,
+            "alpha": self.alpha,
+            "beta": self.beta,
+            "gamma": self.gamma,
+            # "digits": self.digits,
+        }
+
+    def _fromdict(self, config):
+        """Redefine lattice from a (configuration) dictionary."""
+        for k in "a b c alpha beta gamma".split():
+            setattr(self, k, config[k])
 
     def system_parameter_names(self, system: str):
         """Return list of lattice parameter names for this crystal system."""
@@ -208,7 +210,7 @@ class Lattice:
         if all_angles(90) and all_edges(self.a):
             return CrystalSystem.cubic.name
 
-        raise ValueError(f"Unrecognized crystal system: {self._asdict()!r}")
+        raise LatticeError(f"Unrecognized crystal system: {self._asdict()!r}")
 
     @property
     def digits(self) -> int:

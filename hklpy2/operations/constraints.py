@@ -1,5 +1,5 @@
 """
-Limitations on acceptable positions from computed 'forward()' solutions.
+Limitations on acceptable positions for computed 'forward()' solutions.
 
 .. autosummary::
 
@@ -20,6 +20,9 @@ from abc import abstractmethod
 from typing import Dict
 from typing import List
 from typing import Union
+
+from .misc import ConfigurationError
+from .misc import ConstraintsError
 
 NUMERIC = Union[int, float]
 UNDEFINED_LABEL = "undefined"
@@ -48,6 +51,23 @@ class ConstraintBase(ABC):
         result = {k: getattr(self, k) for k in self._fields}
         result["class"] = self.__class__.__name__
         return result
+
+    def _fromdict(self, config):
+        """Redefine this constraint from a (configuration) dictionary."""
+        if self.label != config["label"] or self.__class__.__name__ != config["class"]:
+            raise ConfigurationError(
+                f"Wrong configuration for {self.__class__.__name__}({self.label!r})."
+                f" Received configuration: {config!r}"
+            )
+        for k in self._fields:
+            if k in config:
+                setattr(self, k, config[k])
+            else:
+                raise ConfigurationError(
+                    f"Missing key for {self.__class__.__name__}({self.label!r})."
+                    f" Expected key: {k!r}."
+                    f" Received configuration: {config!r}"
+                )
 
     @abstractmethod
     def valid(self, **values: Dict[str, NUMERIC]) -> bool:
@@ -79,12 +99,13 @@ class LimitsConstraint(ConstraintBase):
 
     .. autosummary::
 
+        ~limits
         ~valid
     """
 
     def __init__(self, low_limit=-180, high_limit=180, label=None):
         if label is None:
-            raise ValueError("Must provide a value for 'label'.")
+            raise ConstraintsError("Must provide a value for 'label'.")
 
         self.label = label
         self._fields = "label low_limit high_limit".split()
@@ -104,6 +125,17 @@ class LimitsConstraint(ConstraintBase):
         """Return a nicely-formatted string."""
         return f"{self.low_limit} <= {self.label} <= {self.high_limit}"
 
+    @property
+    def limits(self):
+        """Return the low and high limits of this constraint."""
+        return (self.low_limit, self.high_limit)
+
+    @limits.setter
+    def limits(self, values):
+        if len(values) != 2:
+            raise ConstraintsError(f"Use exactly two values.  Received: {values!r}")
+        self.low_limit, self.high_limit = sorted(map(float, values))
+
     def valid(self, **values: Dict[str, NUMERIC]) -> bool:
         """
         True if low <= value <= high.
@@ -114,7 +146,7 @@ class LimitsConstraint(ConstraintBase):
             Dictionary of current 'axis: value' pairs for comparison.
         """
         if self.label not in values:
-            raise KeyError(
+            raise ConstraintsError(
                 f"Supplied values ({values!r}) did not include this"
                 f" constraint's label {self.label!r}."
             )
@@ -129,6 +161,7 @@ class RealAxisConstraints(dict):
     .. autosummary::
 
         ~_asdict
+        ~_fromdict
         ~valid
     """
 
@@ -143,6 +176,11 @@ class RealAxisConstraints(dict):
     def _asdict(self):
         """Return all constraints as a dictionary."""
         return {k: c._asdict() for k, c in self.items()}
+
+    def _fromdict(self, config):
+        """Redefine existing constraints from a (configuration) dictionary."""
+        for k, v in config.items():
+            self[k]._fromdict(v)
 
     def valid(self, **reals: Dict[str, NUMERIC]) -> bool:
         """Are all constraints satisfied?"""

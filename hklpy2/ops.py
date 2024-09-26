@@ -11,22 +11,19 @@ library.
 
 import logging
 
-from . import Hklpy2Error
 from . import SolverBase
+from .operations.configure import Configuration
 from .operations.constraints import RealAxisConstraints
 from .operations.lattice import Lattice
+from .operations.misc import OperationsError
 from .operations.misc import solver_factory
 from .operations.misc import unique_name
 from .operations.reflection import Reflection
 from .operations.sample import Sample
 
-__all__ = "Operations OperationsError".split()
+__all__ = ["Operations"]
 logger = logging.getLogger(__name__)
 DEFAULT_SAMPLE_NAME = "sample"
-
-
-class OperationsError(Hklpy2Error):
-    """Custom exceptions from :class:`~Operations`."""
 
 
 class Operations:
@@ -43,15 +40,20 @@ class Operations:
     .. autosummary::
 
         ~_asdict
+        ~_fromdict
         ~add_reflection
         ~add_sample
         ~assign_axes
         ~auto_assign_axes
         ~calcUB
+        ~export
         ~forward
         ~inverse
         ~refine_lattice
         ~remove_sample
+        ~reset_constraints
+        ~reset_samples
+        ~restore
         ~set_solver
         ~standardize_pseudos
         ~standardize_reals
@@ -77,6 +79,7 @@ class Operations:
         self._samples = {}
         self._solver = None
         self.constraints = None
+        self.configuration = None
 
         if default_sample:
             # first sample is cubic, no reflections
@@ -109,6 +112,15 @@ class Operations:
             config["axes"]["extra_axes"] = self.solver.extras
 
         return config
+
+    def _fromdict(self, config):
+        """Redefine diffractometer from a (configuration) dictionary."""
+        for key, sample in config["samples"].items():
+            self.add_sample(key, 1, replace=True)._fromdict(sample)
+
+        self.constraints._fromdict(config["constraints"])
+        # TODO: mode
+        # TODO: extras
 
     def add_reflection(
         self,
@@ -230,8 +242,9 @@ class Operations:
         self.axes_xref = {}
         reference(pseudos, solver.pseudo_axis_names)
         reference(reals, solver.real_axis_names)
-        self.constraints = RealAxisConstraints(self.diffractometer.real_axis_names)
+        self.reset_constraints()
         logger.debug("axes_xref=%r", self.axes_xref)
+        self.configuration = Configuration(self.diffractometer)
 
     def _axes_names_s2d(self, axis_dict: dict[str, float]) -> dict[str, float]:
         """Convert keys of axis dictionary from solver to diffractometer."""
@@ -308,6 +321,19 @@ class Operations:
         self.solver.calculate_UB(*two_reflections)
         self.sample.U = self.solver.U
         self.sample.UB = self.solver.UB
+
+    def export(self, file, comment=""):
+        """
+        Export the diffractometer configuration to a YAML file.
+
+        Example::
+
+            import hklpy2
+
+            e4cv = hklpy2.SimulatedE4CV(name="e4cv")
+            e4cv.operator.export("e4cv-config.yml", comment="example")
+        """
+        self.configuration.export(file, comment)
 
     def forward(self, pseudos: tuple, wavelength: float = None) -> list:
         """Compute [{names:reals}] from {names: pseudos} (hkl -> angles)."""
@@ -393,6 +419,49 @@ class Operations:
         """Remove the named sample.  No error if name is not known."""
         if name in self.samples:
             self._samples.pop(name)
+
+    def reset_constraints(self):
+        """Restore diffractometer constraints to default settings."""
+        self.constraints = RealAxisConstraints(self.diffractometer.real_axis_names)
+
+    def reset_samples(self):
+        """Restore diffractometer samples to default settings."""
+        # Remove all the samples.
+        while len(self.samples) > 0:
+            self.remove_sample(list(self.samples)[-1])
+        # Create the default sample.
+        self.add_sample(DEFAULT_SAMPLE_NAME, 1)
+
+    def restore(self, file, clear=True, restore_constraints=True):
+        """
+        Restore the diffractometer configuration to a YAML file.
+
+        Example::
+
+            import hklpy2
+
+            e4cv = hklpy2.SimulatedE4CV(name="e4cv")
+            e4cv.operator.restore("e4cv-config.yml")
+
+        PARAMETERS
+
+        file *str* or *pathlib.Path* object:
+            Name (or pathlib object) of diffractometer configuration YAML file.
+        clear *bool*:
+            If ``True`` (default), remove any previous configuration of the
+            diffractometer and reset it to default values before restoring the
+            configuration.
+
+            If ``False``, sample reflections will be append with all reflections
+            included in the configuration data for that sample.  Existing
+            reflections will not be changed.  The user may need to edit the
+            list of reflections after ``restore(clear=False)``.
+        restore_constraints *bool*:
+            If ``True`` (default), restore any constraints provided.
+
+        Note: Can't name this method "import", it's a reserved Python word.
+        """
+        self.configuration.restore(file, clear, restore_constraints)
 
     def set_solver(
         self,

@@ -3,6 +3,8 @@ from contextlib import nullcontext as does_not_raise
 import pytest
 
 from ..lattice import Lattice
+from ..lattice import LatticeError
+from ..misc import load_yaml
 
 
 @pytest.mark.parametrize(
@@ -26,7 +28,7 @@ from ..lattice import Lattice
             "hexagonal",
             4,
             dict(gamma=120),  # hexagonal needs a != c
-            pytest.raises(ValueError),
+            pytest.raises(LatticeError),
             "Unrecognized crystal system:",
         ],
     ],
@@ -60,9 +62,7 @@ def test_repr(system, a, others, context, reason):
 )
 def test_crystal_classes(args, kwargs, expected):
     """
-    Test that correct lattices are created for high-symmetry systems.
-
-    Test each of the 7 crystal lattice types.
+    Test each of the 7 crystal lattice types for correct lattices.
     """
     assert isinstance(expected, (list, tuple))
     latt = Lattice(*args, **kwargs)
@@ -78,3 +78,26 @@ def test_equal():
 
     l1.digits = 4
     assert l1 != l2
+
+
+def test_fromdict():
+    text = """
+      a: 3
+      b: 4
+      c: 5
+      alpha: 75.0
+      beta: 85.0
+      gamma: 91.0
+    """
+    config = load_yaml(text)
+    assert isinstance(config, dict), f"{config=!r}"
+    for k in "a b c alpha beta gamma".split():
+        assert k in config, f"{k=!r}  {config=!r}"
+
+    lattice = Lattice(1)
+    for k in "a b c alpha beta gamma".split():
+        assert getattr(lattice, k) != config[k], f"{k=!r}  {lattice=!r}"
+
+    lattice._fromdict(config)
+    for k in "a b c alpha beta gamma".split():
+        assert getattr(lattice, k) == config[k], f"{k=!r}  {lattice=!r}"

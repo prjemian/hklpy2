@@ -3,6 +3,7 @@ from contextlib import nullcontext as does_not_raise
 import pytest
 
 from ..lattice import Lattice
+from ..misc import load_yaml
 from ..misc import unique_name
 from ..reflection import ReflectionsDict
 from ..sample import Sample
@@ -88,3 +89,106 @@ def test_reflections_fail(sim):
     with pytest.raises(TypeError) as reason:
         sim.sample.reflections = None
     assert "Must supply ReflectionsDict" in str(reason)
+
+
+def test_fromdict(sim):
+    text = """
+    name: vibranium
+    lattice:
+      a: 6.283185307179586
+      b: 6.283185307179586
+      c: 6.283185307179586
+      alpha: 90.0
+      beta: 90.0
+      gamma: 90.0
+    reflections:
+      r400:
+        name: r400
+        geometry: E4CV
+        pseudos:
+          h: 4
+          k: 0
+          l: 0
+        reals:
+          omega: -145.451
+          chi: 0
+          phi: 0
+          tth: 69.066
+        wavelength: 1.54
+        digits: 4
+      r040:
+        name: r040
+        geometry: E4CV
+        pseudos:
+          h: 0
+          k: 4
+          l: 0
+        reals:
+          omega: -145.451
+          chi: 0
+          phi: 90
+          tth: 69.066
+        wavelength: 1.54
+        digits: 4
+      r004:
+        name: r004
+        geometry: E4CV
+        pseudos:
+          h: 0
+          k: 0
+          l: 4
+        reals:
+          omega: -145.451
+          chi: 90
+          phi: 0
+          tth: 69.066
+        wavelength: 1.54
+        digits: 4
+    reflections_order:
+    - r040
+    - r004
+    U:
+    - - 0.000279252677
+      - -0.999999961009
+      - -2.2e-11
+    - - -7.7982e-08
+      - -0.0
+      - -1.0
+    - - 0.999999961009
+      - 0.000279252677
+      - -7.7982e-08
+    UB:
+    - - 0.000279252677
+      - -0.999999961009
+      - -2.2e-11
+    - - -7.7982e-08
+      - 0.0
+      - -1.0
+    - - 0.999999961009
+      - 0.000279252677
+      - -7.7982e-08
+    digits: 6
+    """
+    config = load_yaml(text)
+    assert isinstance(config, dict), f"{config=!r}"
+    assert len(config) == 7
+
+    cfg_latt = Lattice(1)
+    cfg_latt._fromdict(config["lattice"])
+    sample = Sample(sim.operator, "unit", Lattice(1))
+    assert sample.name != config["name"]
+    assert sample.digits != config["digits"]
+    assert sample.lattice != cfg_latt, f"{sample.lattice=!r}  {cfg_latt=!r}"
+    assert len(sample.reflections) == 0
+    assert len(sample.reflections.order) == 0
+    assert sample.U != config["U"]
+    assert sample.UB != config["UB"]
+
+    sample._fromdict(config)
+    assert sample.name == config["name"]
+    assert sample.digits == config["digits"]
+    assert sample.lattice == cfg_latt, f"{sample.lattice=!r}  {cfg_latt=!r}"
+    assert len(sample.reflections) == 3
+    assert sample.reflections.order == config["reflections_order"]
+    assert sample.U == config["U"]
+    assert sample.UB == config["UB"]

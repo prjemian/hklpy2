@@ -15,7 +15,6 @@ from ophyd.pseudopos import pseudo_position_argument
 from ophyd.pseudopos import real_position_argument
 from ophyd.signal import AttributeSignal
 
-from . import Hklpy2Error
 from .operations.reflection import Reflection
 from .operations.sample import Sample
 from .ops import Operations
@@ -45,9 +44,6 @@ def pick_first_item(now: tuple, solutions: list):
     """
     return solutions[0]
 
-
-class DiffractometerError(Hklpy2Error):
-    """Custom exceptions from a :class:`~DiffractometerBase` subclass."""
 
 
 class DiffractometerBase(PseudoPositioner):

@@ -6,8 +6,8 @@ from contextlib import nullcontext as does_not_raise
 import pytest
 
 from ..diffract import DiffractometerBase
-from ..diffract import DiffractometerError
 from ..diffract import pick_first_item
+from ..operations.misc import DiffractometerError
 from ..operations.reflection import ReflectionError
 from ..operations.sample import Sample
 from ..ops import DEFAULT_SAMPLE_NAME

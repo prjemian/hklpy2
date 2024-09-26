@@ -15,7 +15,8 @@ Associates diffractometer angles (real-space) with crystalline reciprocal-space
 
 import logging
 
-from .. import Hklpy2Error
+from .misc import ConfigurationError
+from .misc import ReflectionError
 from .misc import check_value_in_list
 from .misc import compare_float_dicts
 
@@ -23,10 +24,6 @@ logger = logging.getLogger(__name__)
 
 UNUSED_REFLECTION = "unused"
 """Identifies an unused reflection in the ReflectionsDict."""
-
-
-class ReflectionError(Hklpy2Error):
-    """Custom exceptions from the :mod:`hklpy2.operations.reflection` module."""
 
 
 class Reflection:
@@ -56,6 +53,7 @@ class Reflection:
 
         ~__eq__
         ~_asdict
+        ~_fromdict
         ~_validate_pseudos
         ~_validate_reals
         ~_validate_wavelength
@@ -87,14 +85,46 @@ class Reflection:
         self.wavelength = wavelength
 
     def _asdict(self):
-        """Describe the reflection as a dictionary."""
+        """Describe this reflection as a dictionary."""
         return {
             "name": self.name,
             "geometry": self.geometry,
             "pseudos": self.pseudos,
             "reals": self.reals,
             "wavelength": self.wavelength,
+            "digits": self.digits,
         }
+
+    def _fromdict(self, config):
+        """Redefine this reflection from a (configuration) dictionary."""
+        if config.get("name") != self.name:
+            raise ConfigurationError(
+                f"Mismatched name for reflection {self.name!r}."
+                f" Received configuration: {config!r}"
+            )
+        if config.get("geometry") != self.geometry:
+            raise ConfigurationError(
+                f"Mismatched geometry for reflection {self.name!r}."
+                f" Expected geometry: {self.geometry!r}."
+                f" Received configuration: {config!r}"
+            )
+        if list(self.pseudos) != list(config["pseudos"]):
+            raise ConfigurationError(
+                f"Mismatched pseudo axis names for reflection {self.name!r}."
+                f" Expected: {list(self.pseudos)!r}."
+                f" Received: {list(config['pseudos'])!r}"
+            )
+        if list(self.reals) != list(config["reals"]):
+            raise ConfigurationError(
+                f"Mismatched real axis names for reflection {self.name!r}."
+                f" Expected: {list(self.reals)!r}."
+                f" Received: {list(config['reals'])!r}"
+            )
+
+        self.digits = config.get("digits", self.digits)
+        self.wavelength = config.get("wavelength", self.wavelength)
+        self.pseudos = config["pseudos"]
+        self.reals = config["reals"]
 
     def __repr__(self):
         """
@@ -130,7 +160,7 @@ class Reflection:
         for key in self.pseudo_axis_names:
             if key not in value:
                 # fmt: off
-                raise KeyError(
+                raise ReflectionError(
                     f"Missing pseudo axis {key!r}."
                     f" Required names: {self.pseudo_axis_names!r}"
                 )
@@ -145,7 +175,7 @@ class Reflection:
         for key in self.real_axis_names:
             if key not in value:
                 # fmt: off
-                raise KeyError(
+                raise ReflectionError(
                     f"Missing real axis {key!r}."
                     f" Required names: {self.real_axis_names!r}"
                 )
@@ -217,6 +247,7 @@ class ReflectionsDict(dict):
     .. autosummary::
 
         ~_asdict
+        ~_fromdict
         ~_validate_reflection
         ~add
         ~order
@@ -246,19 +277,26 @@ class ReflectionsDict(dict):
         Order by reflections order.
         """
         self.prune()
-        result = {}
-        # Ordered reflections first, numbers start from zero.
-        for i, k in enumerate(self.order):
-            refl = self[k]._asdict()
-            refl["order"] = i
-            result[self[k].name] = refl
-        # Then, any unused reflections.
-        for k in self.keys():
-            if k not in self.order:
-                refl = self[k]._asdict()
-                refl["order"] = UNUSED_REFLECTION
-                result[self[k].name] = refl
-        return result
+        return {v.name: v._asdict() for v in self.values()}
+
+    def _fromdict(self, config):
+        """Add or redefine reflections from a (configuration) dictionary."""
+        for k, refl_config in config.items():
+            reflection = Reflection(
+                refl_config["name"],
+                refl_config["pseudos"],
+                refl_config["reals"],
+                wavelength=refl_config["wavelength"],
+                geometry=refl_config["wavelength"],
+                pseudo_axis_names=list(
+                    refl_config["pseudos"]
+                ),  # TODO: What if axes names in wrong sequence?
+                real_axis_names=list(
+                    refl_config["reals"]
+                ),  # TODO: What if axes renamed?
+                digits=refl_config["digits"],  # TODO: Optional?
+            )
+            self.add(reflection, replace=True)
 
     def set_orientation_reflections(
         self,

@@ -1,0 +1,168 @@
+#hklpy2 configuration file
+
+_header:
+  datetime: '2024-09-25 12:50:28.232913'
+  energy_units: keV
+  energy: 8.050921976530415
+  hklpy2_version: 0.0.25.dev80+g1b7412b.d20240925
+  python_class: SimulatedE4CV
+  source_type: X-ray
+  wavelength_units: angstrom
+  wavelength: 1.54
+  file: dev_e4cv_orient.yml
+  comment: 'example: two samples, one oriented'
+name: e4cv
+geometry: E4CV
+axes:
+  pseudo_axes:
+  - h
+  - k
+  - l
+  real_axes:
+  - omega
+  - chi
+  - phi
+  - tth
+  axes_xref:
+    h: h
+    k: k
+    l: l
+    omega: omega
+    chi: chi
+    phi: phi
+    tth: tth
+  extra_axes: {}
+sample_name: vibranium
+samples:
+  sample:
+    name: sample
+    lattice:
+      a: 1
+      b: 1
+      c: 1
+      alpha: 90.0
+      beta: 90.0
+      gamma: 90.0
+    reflections: {}
+    reflections_order: []
+    U: &id001
+    - - 1
+      - 0
+      - 0
+    - - 0
+      - 1
+      - 0
+    - - 0
+      - 0
+      - 1
+    UB: *id001
+    digits: 4
+  vibranium:
+    name: vibranium
+    lattice:
+      a: 6.283185307179586
+      b: 6.283185307179586
+      c: 6.283185307179586
+      alpha: 90.0
+      beta: 90.0
+      gamma: 90.0
+    reflections:
+      r400:
+        name: r400
+        geometry: E4CV
+        pseudos:
+          h: 4
+          k: 0
+          l: 0
+        reals:
+          omega: -145.451
+          chi: 0
+          phi: 0
+          tth: 69.066
+        wavelength: 1.54
+        digits: 4
+      r040:
+        name: r040
+        geometry: E4CV
+        pseudos:
+          h: 0
+          k: 4
+          l: 0
+        reals:
+          omega: -145.451
+          chi: 0
+          phi: 90
+          tth: 69.066
+        wavelength: 1.54
+        digits: 4
+      r004:
+        name: r004
+        geometry: E4CV
+        pseudos:
+          h: 0
+          k: 0
+          l: 4
+        reals:
+          omega: -145.451
+          chi: 90
+          phi: 0
+          tth: 69.066
+        wavelength: 1.54
+        digits: 4
+    reflections_order:
+    - r040
+    - r004
+    U:
+    - - 0.000279252677
+      - -0.999999961009
+      - -2.2e-11
+    - - -7.7982e-08
+      - -0.0
+      - -1.0
+    - - 0.999999961009
+      - 0.000279252677
+      - -7.7982e-08
+    UB:
+    - - 0.000279252677
+      - -0.999999961009
+      - -2.2e-11
+    - - -7.7982e-08
+      - 0.0
+      - -1.0
+    - - 0.999999961009
+      - 0.000279252677
+      - -7.7982e-08
+    digits: 4
+constraints:
+  omega:
+    label: omega
+    low_limit: -180.2
+    high_limit: 180.2
+    class: LimitsConstraint
+  chi:
+    label: chi
+    low_limit: -180.2
+    high_limit: 180.2
+    class: LimitsConstraint
+  phi:
+    label: phi
+    low_limit: -180.2
+    high_limit: 180.2
+    class: LimitsConstraint
+  tth:
+    label: tth
+    low_limit: -180.2
+    high_limit: 180.2
+    class: LimitsConstraint
+solver:
+  name: hkl_soleil
+  version: 5.0.0.3512
+  mode: bissector
+  description: HklSolver(name='hkl_soleil', version='5.0.0.3512', geometry='E4CV',
+    engine_name='hkl', mode='bissector')
+  real_axes:
+  - omega
+  - chi
+  - phi
+  - tth
+  engine: hkl

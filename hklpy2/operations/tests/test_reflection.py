@@ -2,6 +2,7 @@ from contextlib import nullcontext as does_not_raise
 
 import pytest
 
+from ..misc import load_yaml
 from ..reflection import Reflection
 from ..reflection import ReflectionError
 from ..reflection import ReflectionsDict
@@ -79,7 +80,7 @@ r_5 = ["r5", {"a": 1, "b": 4}, dict(c=1, d=2), 1, "abcd", ["a", "b"], ["c", "d"]
             "E4CV",
             "h k l".split(),
             "omega chi phi tth".split(),
-            pytest.raises(KeyError),
+            pytest.raises(ValueError),
             "pseudo axis 'hh' unknown",
         ],
         [
@@ -90,7 +91,7 @@ r_5 = ["r5", {"a": 1, "b": 4}, dict(c=1, d=2), 1, "abcd", ["a", "b"], ["c", "d"]
             "E4CV",
             "h k l".split(),
             "omega chi phi tth".split(),
-            pytest.raises(KeyError),
+            pytest.raises(ValueError),
             "pseudo axis 'm' unknown",
         ],
         [
@@ -112,7 +113,7 @@ r_5 = ["r5", {"a": 1, "b": 4}, dict(c=1, d=2), 1, "abcd", ["a", "b"], ["c", "d"]
             "E4CV",
             "h k l".split(),
             "omega chi phi tth".split(),
-            pytest.raises(KeyError),
+            pytest.raises(ValueError),
             "real axis 'theta' unknown",
         ],
         [
@@ -189,7 +190,7 @@ r_5 = ["r5", {"a": 1, "b": 4}, dict(c=1, d=2), 1, "abcd", ["a", "b"], ["c", "d"]
             "E4CV",
             "h k l".split(),
             "omega chi phi tth".split(),
-            pytest.raises(KeyError),
+            pytest.raises(ReflectionError),
             "Missing pseudo axis",
         ],
         [
@@ -200,7 +201,7 @@ r_5 = ["r5", {"a": 1, "b": 4}, dict(c=1, d=2), 1, "abcd", ["a", "b"], ["c", "d"]
             "E4CV",
             "h k l".split(),
             "omega chi phi tth".split(),
-            pytest.raises(KeyError),
+            pytest.raises(ReflectionError),
             "Missing real axis",
         ],
     ],
@@ -345,3 +346,47 @@ def test_swap():
     assert db.order == "r5 r4".split(), f"{db.order=!r}"
     db.swap()
     assert db.order == "r4 r5".split(), f"{db.order=!r}"
+
+
+def test_fromdict():
+    text = """
+        name: r400
+        geometry: E4CV
+        pseudos:
+          h: 4
+          k: 0
+          l: 0
+        reals:
+          omega: -145.451
+          chi: 0
+          phi: 0
+          tth: 69.066
+        wavelength: 1.54
+        digits: 4
+    """
+    config = load_yaml(text)
+    assert isinstance(config, dict), f"{config=!r}"
+    assert "name" in config, f"{config=!r}"
+
+    refl = Reflection(
+        config["name"],
+        config["pseudos"],
+        config["reals"],
+        config["wavelength"],
+        config["geometry"],
+        list(config["pseudos"]),
+        list(config["reals"]),
+        digits=config["digits"],
+    )
+    assert refl is not None
+
+    db = ReflectionsDict()
+    assert len(db._asdict()) == 0
+
+    db._fromdict({config["name"]: config})
+    assert len(db._asdict()) == 1
+    assert config["name"] in db
+
+    db._fromdict({config["name"]: config})
+    assert len(db._asdict()) == 1
+    assert config["name"] in db

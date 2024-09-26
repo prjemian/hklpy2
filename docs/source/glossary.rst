@@ -36,6 +36,17 @@ Glossary
   (with *lattice* & *reflection(s)*).
 
 ..  index::
+    !definition; constraint
+    !constraint
+
+:constraint: Limitations on acceptable positions for a *diffractometer's*
+  computed ``forward()`` solutions (from $hkl$ to angles).  A *solver's*
+  ``forward()`` computation returns a list of solutions, where a solution
+  is the set of real-space angles that position the *diffractometer* to the 
+  desired $hkl$ value.  A constraint can be used to reject solutions for
+  undesired angles.
+
+..  index::
     !definition; crystal
     !crystal
 

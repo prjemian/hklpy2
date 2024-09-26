@@ -2,14 +2,36 @@
 diffractometers
 """
 
+import math
+import pathlib
+
 from ophyd import Component as Cpt
 from ophyd import Kind
 from ophyd import PseudoSingle
 from ophyd import SoftPositioner
 
 from ..diffract import DiffractometerBase
+from ..operations.misc import load_yaml_file
 
+E4CV_CONFIG_FILE = pathlib.Path(__file__).parent / "e4cv_orient.yml"
 HN = Kind.hinted | Kind.normal
+
+
+def e4cv_config():
+    return load_yaml_file(E4CV_CONFIG_FILE)
+
+
+def add_oriented_vibranium_to_e4cv(e4cv):
+    e4cv.add_sample("vibranium", 2 * math.pi, digits=3, replace=True)
+    e4cv.wavelength.put(1.54)
+    e4cv.add_reflection((4, 0, 0), dict(omega=-145.451, chi=0, phi=0, tth=69.066), name="r400")
+    r040 = e4cv.add_reflection((0, 4, 0), (-145.451, 0, 90, 69.066), name="r040")
+    r004 = e4cv.add_reflection((0, 0, 4), (-145.451, 90, 0, 69.066), name="r004")
+    e4cv.operator.calcUB(r040, r004)
+
+    for constraint in e4cv.operator.constraints.values():
+        if "limits" in dir(constraint):
+            constraint.limits = (-180.2, 180.2)  # just a little different
 
 
 class Fourc(DiffractometerBase):

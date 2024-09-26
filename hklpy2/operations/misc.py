@@ -1,22 +1,44 @@
 """
 Miscellaneous Support.
 
+.. rubric: Functions
 .. autosummary::
 
     ~check_value_in_list
     ~compare_float_dicts
-    ~SOLVER_ENTRYPOINT_GROUP
-    ~SolverError
     ~get_solver
-    ~solvers
+    ~load_yaml
+    ~load_yaml_file
     ~solver_factory
+    ~solvers
     ~unique_name
+
+.. rubric: Symbols
+.. autosummary::
+
+    ~SOLVER_ENTRYPOINT_GROUP
+
+.. rubric: Custom Exceptions
+.. autosummary::
+
+    ~ConfigurationError
+    ~ConstraintsError
+    ~DiffractometerError
+    ~LatticeError
+    ~OperationsError
+    ~ReflectionError
+    ~SampleError
+    ~SolverError
+    ~WavelengthError
 """
 
 import logging
 import math
+import pathlib
 import uuid
 from importlib.metadata import entry_points
+
+import yaml
 
 from .. import Hklpy2Error
 
@@ -25,18 +47,55 @@ logger = logging.getLogger(__name__)
 SOLVER_ENTRYPOINT_GROUP = "hklpy2.solver"
 """Name by which |hklpy2| backend |solver| classes are grouped."""
 
+# Custom exceptions
+
+
+class ConfigurationError(Hklpy2Error):
+    """Custom exceptions from :mod:`hklpy2.operations.configure`."""
+
+
+class ConstraintsError(Hklpy2Error):
+    """Custom exceptions from :mod:`hklpy2.operations.constraints`."""
+
+
+class DiffractometerError(Hklpy2Error):
+    """Custom exceptions from :class:`~DiffractometerBase`."""
+
+
+class LatticeError(Hklpy2Error):
+    """Custom exceptions from :mod:`hklpy2.operations.lattice`."""
+
+
+class OperationsError(Hklpy2Error):
+    """Custom exceptions from :class:`~Operations`."""
+
+
+class ReflectionError(Hklpy2Error):
+    """Custom exceptions from :mod:`hklpy2.operations.reflection`."""
+
+
+class SampleError(Hklpy2Error):
+    """Custom exceptions from :mod:`hklpy2.operations.sample`."""
+
 
 class SolverError(Hklpy2Error):
     """Custom exceptions from a |solver|."""
 
 
+class WavelengthError(Hklpy2Error):
+    """Custom exceptions from :mod:`hklpy2.wavelength_support`."""
+
+
+# Functions
+
+
 def check_value_in_list(title, value, examples, blank_ok=False):
-    """Raise KeyError exception if value is not in the list of examples."""
+    """Raise ValueError exception if value is not in the list of examples."""
     if blank_ok:
         examples.append("")
     if value not in examples:
         msg = f"{title} {value!r} unknown. Pick one of: {examples!r}"
-        raise KeyError(msg)
+        raise ValueError(msg)
 
 
 def compare_float_dicts(a1, a2, tol=1e-4):
@@ -45,10 +104,10 @@ def compare_float_dicts(a1, a2, tol=1e-4):
     """
     if tol <= 0:
         raise ValueError("received {tol=}, should be tol >0")
-    
+
     if sorted(a1.keys()) != sorted(a2.keys()):
         return False
-    
+
     tests = [True]
     for k, v in a1.items():
         if isinstance(v, float):
@@ -77,6 +136,18 @@ def get_solver(solver_name):
         raise SolverError(f"{solver_name=!r} unknown.  Pick one of: {solvers()!r}")
     entries = entry_points(group=SOLVER_ENTRYPOINT_GROUP)
     return entries[solver_name].load()
+
+
+def load_yaml(text: str):
+    """Load YAML from text."""
+    return yaml.load(text, yaml.Loader)
+
+
+def load_yaml_file(file):
+    path = pathlib.Path(file)
+    if not path.exists():
+        raise FileExistsError(f"YAML file '{path}' does not exist.")
+    return load_yaml(open(path, "r").read())
 
 
 def solver_factory(solver_name: str, geometry: str, **kwargs):

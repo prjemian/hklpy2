@@ -9,7 +9,6 @@ Supports compatible unit conversions.
     ~ConstantMonochromaticWavelength
     ~MonochromaticXrayWavelength
     ~WavelengthBase
-    ~WavelengthError
 """
 
 import logging
@@ -18,7 +17,7 @@ from abc import abstractmethod
 
 import pint
 
-from . import Hklpy2Error
+from .operations.misc import WavelengthError
 
 logger = logging.getLogger(__name__)
 
@@ -41,8 +40,6 @@ X-ray voltage wavelength product (:math:`h \\nu`), per NIST standard.
 """
 
 
-class WavelengthError(Hklpy2Error):
-    """Custom exceptions from the :mod:`hklpy2.wavelength_support` module."""
 
 
 class WavelengthBase(ABC):

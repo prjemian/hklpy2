@@ -11,16 +11,12 @@ A Crystalline Sample.
 
 import logging
 
-from .. import Hklpy2Error
 from .lattice import Lattice
+from .misc import SampleError
 from .misc import unique_name
 from .reflection import ReflectionsDict
 
 logger = logging.getLogger(__name__)
-
-
-class SampleError(Hklpy2Error):
-    """Custom exceptions from the :mod:`hklpy2.operations.sample` module."""
 
 
 class Sample:
@@ -75,9 +71,21 @@ class Sample:
             "name": self.name,
             "lattice": self.lattice._asdict(),
             "reflections": self.reflections._asdict(),
+            "reflections_order": self.reflections.order,
             "U": self.U,
             "UB": self.UB,
+            "digits": self.digits,
         }
+
+    def _fromdict(self, config):
+        """Redefine sample from a (configuration) dictionary."""
+        self.name = config["name"]
+        self.digits = config["digits"]
+        self.lattice._fromdict(config["lattice"])
+        self.reflections._fromdict(config["reflections"])
+        self.reflections.order = config["reflections_order"]
+        self.U = config["U"]
+        self.UB = config["UB"]
 
     def refine_lattice(self):
         """Refine the lattice parameters from 3 or more reflections."""
@@ -87,6 +95,15 @@ class Sample:
         # self.operator.refineLattice()  # TODO
 
     # --------- get/set properties
+
+    @property
+    def digits(self):
+        """Sample crystal lattice."""
+        return self.lattice.digits
+
+    @digits.setter
+    def digits(self, value):
+        self.lattice.digits = value
 
     @property
     def lattice(self):
@@ -125,7 +142,7 @@ class Sample:
     def U(self) -> list[list[float]]:
         """Return the matrix, U, crystal orientation on the diffractometer."""
         return self._U
-    
+
     @U.setter
     def U(self, value: list[list[float]]):
         self._U = value
@@ -140,7 +157,7 @@ class Sample:
         * :math:`U` - rotation matrix, relative orientation of crystal on diffractometer
         """
         return self._UB
-    
+
     @UB.setter
     def UB(self, value: list[list[float]]):
         # TODO: validate

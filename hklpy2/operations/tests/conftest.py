@@ -1,4 +1,15 @@
+
 import pytest
+
+
+@pytest.fixture
+def fourc():
+    from ... import SimulatedE4CV
+    from ...tests.models import add_oriented_vibranium_to_e4cv
+
+    fourc = SimulatedE4CV(name="fourc")
+    add_oriented_vibranium_to_e4cv(fourc)
+    yield fourc
 
 
 @pytest.fixture
