@@ -155,10 +155,7 @@ def load_yaml_file(file):
 
 def roundoff(value, digits=4):
     """Round a number to specified precision."""
-    value = round(value, ndigits=digits)
-    if value == 0:
-        value = 0  # do not show as "-0"
-    return value
+    return round(value, ndigits=digits) or 0  # "-0" becomes "0"
 
 
 def solver_factory(solver_name: str, geometry: str, **kwargs):

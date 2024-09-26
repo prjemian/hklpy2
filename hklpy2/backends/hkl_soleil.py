@@ -40,6 +40,7 @@ from .. import SolverError
 from .. import check_value_in_list
 from ..operations.lattice import Lattice
 from ..operations.misc import IDENTITY_MATRIX_3X3
+from ..operations.misc import roundoff
 from ..operations.misc import unique_name
 from ..operations.reflection import Reflection
 from ..operations.sample import Sample
@@ -69,9 +70,9 @@ LIBHKL_USER_UNITS = LIBHKL_UNITS["user"]
 ROUNDOFF_DIGITS = 12
 
 
-def _roundoff(values, digits=ROUNDOFF_DIGITS):
-    """Prevent underflows and '-0'."""
-    return [round(v, digits) or 0 for v in values]
+def roundoff_list(values, digits=ROUNDOFF_DIGITS):
+    """Prevent underflows and '-0' for all numbers in a list."""
+    return [roundoff(v, digits) for v in values]
 
 
 def hkl_euler_matrix(euler_x, euler_y, euler_z):
@@ -342,7 +343,7 @@ class HklSolver(SolverBase):
             sol = dict(
                 zip(
                     geo.axis_names_get(),
-                    _roundoff(geo.axis_values_get(LIBHKL_USER_UNITS)),
+                    roundoff_list(geo.axis_values_get(LIBHKL_USER_UNITS)),
                 )
             )
             solutions.append(sol)
@@ -388,7 +389,7 @@ class HklSolver(SolverBase):
         pdict = dict(
             zip(
                 self.engine.pseudo_axis_names_get(),
-                _roundoff(self.engine.pseudo_axis_values_get(LIBHKL_USER_UNITS)),
+                roundoff_list(self.engine.pseudo_axis_values_get(LIBHKL_USER_UNITS)),
             )
         )
         return pdict
