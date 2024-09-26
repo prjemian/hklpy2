@@ -1,60 +1,70 @@
 [build-system]
-requires = [
-  "setuptools_scm[toml]>=8",
-  "setuptools>=64.0",
-]
+requires = ["setuptools_scm[toml]>=8", "setuptools>=64.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "hklpy2"
 description = "2nd generation diffractometer controls for the Bluesky Framework."
-authors = [
-  { name="Pete Jemian", email="prjemian+hklpy2@gmail.com" },
-]
-maintainers = [
-  { name="Pete Jemian", email="prjemian+hklpy2@gmail.com" },
-]
+authors = [{ name = "Pete Jemian", email = "prjemian+hklpy2@gmail.com" }]
+maintainers = [{ name = "Pete Jemian", email = "prjemian+hklpy2@gmail.com" }]
 dynamic = ["version"]
 readme = "README.md"
 requires-python = ">=3.10"
 keywords = ["bluesky", "diffraction", "diffractometer"]
 # https://packaging.python.org/en/latest/specifications/declaring-project-metadata/?highlight=license
-license = {file = "LICENSE"}
+license = { file = "LICENSE" }
 # https://pypi.org/classifiers/
 classifiers = [
-    "Development Status :: 2 - Pre-Alpha",
-    "Environment :: Console",
-    "Environment :: OpenStack",
-    "Intended Audience :: Science/Research",
-    "License :: Freely Distributable",
-    "License :: Public Domain",
-    "Operating System :: OS Independent",
-    "Programming Language :: Python :: 3.12",
-    "Programming Language :: Python :: 3.11",
-    "Programming Language :: Python :: 3.10",
-    "Programming Language :: Python :: 3",
-    "Programming Language :: Python",
-    "Topic :: Scientific/Engineering",
+  "Development Status :: 2 - Pre-Alpha",
+  "Environment :: Console",
+  "Environment :: OpenStack",
+  "Intended Audience :: Science/Research",
+  "License :: Freely Distributable",
+  "License :: Public Domain",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python",
+  "Topic :: Scientific/Engineering",
 ]
 
 dependencies = [
   "numpy",
   "ophyd",
-  "packaging",  # ophyd needs this
+  "packaging", # ophyd needs this
   "pint",
 ]
 
 [project.entry-points."hklpy2.solver"]
 no_op = "hklpy2.backends.no_op:NoOpSolver"
-hkl_soleil = "hklpy2.backends.hkl_soleil:HklSolver"  # TODO: linux
+hkl_soleil = "hklpy2.backends.hkl_soleil:HklSolver" # TODO: linux
 th_tth = "hklpy2.backends.th_tth_q:ThTthSolver"
+
+[project.optional-dependencies]
+dev = ["build", "isort", "mypy", "pre-commit", "pytest", "ruff"]
+doc = [
+  "ipython",
+  "markupsafe",
+  "myst-parser",
+  "nbsphinx",
+  "ophyd",
+  "pydata-sphinx-theme",
+  "setuptools >=69",
+  "setuptools-scm >=8",
+  "sphinx >=7",
+  "sphinx-design",
+  "sphinx-tabs",
+]
+all = ["hklpy2[dev,doc]"]
 
 [project.urls]
 "Homepage" = "https://prjemian.github.io/hklpy2"
 "Bug Tracker" = "https://github.com/prjemian/hklpy2/issues"
 
 [tool.black]
-line-length = 115  # matches the value of 'max-line-length' in .flake8
+line-length = 115 # matches the value of 'max-line-length' in .flake8
 target-version = ['py312']
 include = '\.pyi?$'
 exclude = '''
@@ -81,19 +91,17 @@ extend-ignore = ["E501"]
 
 [tool.isort]
 profile = "black"
-force_single_line  = "True"
+force_single_line = "True"
 line_length = 115
 multi_line_output = "NOQA"
 src_paths = ["hkl"]
 
 [tool.pytest.ini_options]
-addopts = [
-    "--import-mode=importlib",
-]
+addopts = ["--import-mode=importlib"]
 filterwarnings = [
-    # Both these warnings come from 'site-packages/epics/ca.py', via ophyd.
-    "ignore:.*pkg_resources is deprecated as an API.*:DeprecationWarning",
-    "ignore:.*pkg_resources.declare_namespace*:DeprecationWarning",
+  # Both these warnings come from 'site-packages/epics/ca.py', via ophyd.
+  "ignore:.*pkg_resources is deprecated as an API.*:DeprecationWarning",
+  "ignore:.*pkg_resources.declare_namespace*:DeprecationWarning",
 ]
 
 [tool.setuptools_scm]
