@@ -98,7 +98,7 @@ As listed in *hklpy* issues:
 - (2020) [design conversation for an hkl solver API](https://github.com/bluesky/hklpy/issues/14)
 - (2020) Requirements [RFP](https://github.com/bluesky/hklpy/issues/47)
 - (2020) [requirements](https://docs.google.com/document/d/1QHNc1usAH3DoIHvtqVJTmHI0Q5lbwC4zimRLurOGiWE/edit)
-  
+
   See above section *Design ideas (from 2020 RFP)* for a copy of the collected requirements.
 
 ## Additional Solvers

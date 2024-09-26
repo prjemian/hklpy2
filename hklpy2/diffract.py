@@ -46,7 +46,6 @@ def pick_first_item(now: tuple, solutions: list):
     return solutions[0]
 
 
-
 class DiffractometerBase(PseudoPositioner):
     """
     Base class for all diffractometers.
@@ -130,7 +129,7 @@ class DiffractometerBase(PseudoPositioner):
 
     def __init__(
         self,
-        prefix:str="",
+        prefix: str = "",
         *,
         solver: str = None,
         geometry: str = None,

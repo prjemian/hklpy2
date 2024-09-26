@@ -77,7 +77,7 @@ class MixinSimulator(Device):
     - Automatically assigns diffractometer axes.
     """
 
-    def __init__(self, prefix:str="", **kwargs):
+    def __init__(self, prefix: str = "", **kwargs):
         super().__init__(prefix, **kwargs)
         self.operator.auto_assign_axes()
 
@@ -247,7 +247,7 @@ class Petra3_p23_6c(DiffractometerBase, MixinHkl):
 class Theta2Theta(DiffractometerBase):
     """
     2-circle, th_tth, TH TTH Q.
-    
+
     NOTE:  For demonstration purposes.  Needs testing.
 
     :class:`~hklpy2.backends.th_tth_q.ThTthSolver`
@@ -321,7 +321,7 @@ class SimulatedK6C(MixinSimulator, K6C, MixinHkl):
 class SimulatedTheta2Theta(MixinSimulator, Theta2Theta, MixinQ):
     """
     2-circle, *th_tth*, TH TTH Q, simulated rotary axes.
-    
+
     NOTE:  For demonstration purposes.  Needs testing.
 
     :class:`~hklpy2.backends.th_tth_q.ThTthSolver`

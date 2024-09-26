@@ -6,9 +6,9 @@
 Crystal Lattice
 ==================
 
-Record a sample's crystalline :index:`lattice` parameters: 
-:math:`a, b, c, \alpha, \beta, \gamma`.  The 
-:class:`~hklpy2.operations.lattice.Lattice()` interface  
+Record a sample's crystalline :index:`lattice` parameters:
+:math:`a, b, c, \alpha, \beta, \gamma`.  The
+:class:`~hklpy2.operations.lattice.Lattice()` interface
 simplifies entry of parameters for high-symmetry crystal systems.
 
 .. rubric:: Examples of the Seven 3-D Crystal Systems (highest to lowest symmetry)
@@ -62,4 +62,3 @@ Source Code Documentation
     :private-members:
     :show-inheritance:
     :inherited-members:
-

@@ -14,7 +14,7 @@ from ..misc import roundoff
         [123456, -4, "120000"],
         [1.23456e-10, 4, "0"],
         [1.23456e-10, 12, "1.23e-10"],
-    ]
+    ],
 )
 def test_roundoff(value, digits, expected_text):
     result = roundoff(value, digits)

@@ -9,7 +9,7 @@ SolverBase
 
 .. caution:: work-in-progress
 
-.. TODO: 
+.. TODO:
     - Describe the responsibilities of a |solver|.
     - Define the terms expected (add to glossary.).
     - Note that solvers provide different features: additions and not availables

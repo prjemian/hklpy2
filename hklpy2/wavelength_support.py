@@ -40,8 +40,6 @@ X-ray voltage wavelength product (:math:`h \\nu`), per NIST standard.
 """
 
 
-
-
 class WavelengthBase(ABC):
     """
     Base for all wavelength (:math:`\\lambda`) classes.

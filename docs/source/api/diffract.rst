@@ -111,4 +111,3 @@ Inherited members, from ``ophyd.PseudoPositioner``
 .. automodule:: hklpy2.diffract
     :inherited-members:
     :no-index:
-

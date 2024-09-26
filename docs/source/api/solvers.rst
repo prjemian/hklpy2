@@ -45,9 +45,9 @@ using the ``"hklpy2.solver"`` group.  Here's an example from |hklpy2|'s
 .. _api.solvers.set:
 
 How to select a Solver
-----------------------  
+----------------------
 
-To list all available |solver| classes (by their entry point name), 
+To list all available |solver| classes (by their entry point name),
 call :func:`~hklpy2.backends.base.solvers()`.
 This example shows the |solver| classes supplied with |hklpy2|::
 
@@ -74,7 +74,7 @@ selects the |libhkl| |solver| (using its entry point name: ``"hkl_soleil"``)::
     >>> from hklpy2 import get_solver
     >>> Solver = get_solver("hkl_soleil")
     >>> print(f"{Solver=}")
-    Solver=<class 'hklpy2.backends.hkl_soleil.HklSolver'>  
+    Solver=<class 'hklpy2.backends.hkl_soleil.HklSolver'>
 
 .. _api.solvers.howto:
 
@@ -120,4 +120,3 @@ Source Code Documentation
     :private-members:
     :show-inheritance:
     :inherited-members:
-

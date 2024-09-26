@@ -373,7 +373,7 @@ class Operations:
         )
         # fmt: off
         pseudos = {  # Original values.
-                axis[0]: 0 
+                axis[0]: 0
                 for axis in self.diffractometer._get_pseudo_positioners()
         }
         # fmt: on

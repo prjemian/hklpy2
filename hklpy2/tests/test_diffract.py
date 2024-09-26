@@ -40,7 +40,7 @@ def test_DiffractometerBase():
     [
         [Fourc, 3, 4, None, None, {}, [], []],
         [AugmentedFourc, 7, 8, None, None, {}, [], []],
-        [MultiAxis99, 9, 9, "hkl_soleil", "E4CV", {}, [],[]],
+        [MultiAxis99, 9, 9, "hkl_soleil", "E4CV", {}, [], []],
         [
             MultiAxis99,
             9,
@@ -311,4 +311,3 @@ def test_diffractometer_wh(capsys):
     assert lines[5].startswith("omega=")
 
     # TODO: extra axis names
-

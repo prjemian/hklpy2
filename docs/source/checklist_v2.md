@@ -139,7 +139,7 @@ It could be re-organized.
   * [ ] no_op
   * [ ] spec
   * [x] th_tth
-    * axes : expected 
+    * axes : expected
       * [x] pseudos
       * [x] reals
     * geometry

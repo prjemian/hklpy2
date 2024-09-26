@@ -8,7 +8,7 @@ User Friendliness
 
 .. note:: This module is not available yet.
 
-Make it easier for users (especially SPEC users) to learn and remember 
+Make it easier for users (especially SPEC users) to learn and remember
 the tools in Bluesky’s |hklpy2| package.
 
 ..
@@ -20,4 +20,3 @@ the tools in Bluesky’s |hklpy2| package.
         :private-members:
         :show-inheritance:
         :inherited-members:
-

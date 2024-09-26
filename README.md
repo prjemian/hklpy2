@@ -21,6 +21,6 @@ Framework](https://blueskyproject.io).
 - design: [API](/docs/source/api.rst), [considerations](/docs/source//design-discussion.md), [checklist](/docs/source/checklist_v2.md)
 - **hklpy**, v1: [docs](https://blueskyproject.io/hklpy/), [source](https://github.com/bluesky/hklpy)
 - **libhkl**: [docs](https://people.debian.org/~picca/hkl/hkl.html),  [source](https://repo.or.cz/hkl.git)
-- acknowledgement: 
+- acknowledgement:
   "This product includes software produced by UChicago Argonne,
   LLC under Contract No. DE-AC02-06CH11357 with the Department of Energy."

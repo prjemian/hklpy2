@@ -26,7 +26,7 @@ Let's a few examples of diffractometers built with user-defined names.
 Pre-built Diffractometer class
 +++++++++++++++++++++++++++++++++++++
 
-The pre-built diffractometer simulators automatically 
+The pre-built diffractometer simulators automatically
 map axis names from diffractometer to |solver|.  Let's show this
 cross-reference map in an IPython console with just a few commands
 (using :class:`~hklpy2.geom.SimulatedTheta2Theta`)::
@@ -44,12 +44,12 @@ Custom Diffractometer class
 +++++++++++++++++++++++++++++++++++++
 
 Construct a 2-circle diffractometer, one axis for the sample
-and one axis for the detector.  We can use the 
+and one axis for the detector.  We can use the
 :class:`~hklpy2.geom.MixinQ` class to define a ``q`` pseudo-axis.
 
 In addition to defining the diffractometer axes, we can choose the
 |solver| to use with our diffractometer.
-The ``th_tth`` |solver| has a :class:`~hklpy2.backends.th_tth_q.ThTthSolver` 
+The ``th_tth`` |solver| has a :class:`~hklpy2.backends.th_tth_q.ThTthSolver`
 with a ``"TH TTH Q"`` geometry that fits our design.
 We set that up in the ``__init__()`` method of our new class::
 
@@ -150,7 +150,7 @@ to |solver| axis names (as defined in our MyTwoC class above)::
     >>> twoc.operator.axes_xref
     {'q': 'q', 'theta': 'th', 'ttheta': 'tth'}
 
-..  index:: 
+..  index::
     !auto-assign axes
     !axis names
 .. _diffract_axes.auto-assign:
