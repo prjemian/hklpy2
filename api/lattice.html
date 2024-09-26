@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=22ff2de5"></script>
+    <script src="../_static/documentation_options.js?v=2a4e8f4f"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
@@ -313,6 +313,7 @@ document.write(`
      aria-label="Section Navigation">
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
   <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="configure.html">Configure</a></li>
 <li class="toctree-l1"><a class="reference internal" href="constraints.html">Constraints</a></li>
 <li class="toctree-l1"><a class="reference internal" href="diffract.html">Diffractometer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="geom.html">Diffractometer Geometries</a></li>
@@ -514,13 +515,10 @@ simplifies entry of parameters for high-symmetry crystal systems.</p>
 <tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.operations.lattice.Lattice" title="hklpy2.operations.lattice.Lattice"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Lattice</span></code></a>(a[, b, c, alpha, beta, gamma, digits])</p></td>
 <td><p>Crystal lattice parameters.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.operations.lattice.LatticeError" title="hklpy2.operations.lattice.LatticeError"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LatticeError</span></code></a></p></td>
-<td><p>Custom exceptions from the <a class="reference internal" href="#module-hklpy2.operations.lattice" title="hklpy2.operations.lattice"><code class="xref py py-mod docutils literal notranslate"><span class="pre">hklpy2.operations.lattice</span></code></a> module.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.operations.lattice.SI_LATTICE_PARAMETER" title="hklpy2.operations.lattice.SI_LATTICE_PARAMETER"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SI_LATTICE_PARAMETER</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.operations.lattice.SI_LATTICE_PARAMETER" title="hklpy2.operations.lattice.SI_LATTICE_PARAMETER"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SI_LATTICE_PARAMETER</span></code></a></p></td>
 <td><p>2018 CODATA recommended lattice parameter of silicon, Angstrom.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.operations.lattice.SI_LATTICE_PARAMETER_UNCERTAINTY" title="hklpy2.operations.lattice.SI_LATTICE_PARAMETER_UNCERTAINTY"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SI_LATTICE_PARAMETER_UNCERTAINTY</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.operations.lattice.SI_LATTICE_PARAMETER_UNCERTAINTY" title="hklpy2.operations.lattice.SI_LATTICE_PARAMETER_UNCERTAINTY"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SI_LATTICE_PARAMETER_UNCERTAINTY</span></code></a></p></td>
 <td><p>2018 CODATA reported uncertainty of <a class="reference internal" href="#hklpy2.operations.lattice.SI_LATTICE_PARAMETER" title="hklpy2.operations.lattice.SI_LATTICE_PARAMETER"><code class="xref py py-data docutils literal notranslate"><span class="pre">SI_LATTICE_PARAMETER</span></code></a>.</p></td>
 </tr>
 </tbody>
@@ -552,16 +550,19 @@ simplifies entry of parameters for high-symmetry crystal systems.</p>
 <tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.operations.lattice.Lattice._asdict" title="hklpy2.operations.lattice.Lattice._asdict"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_asdict</span></code></a>()</p></td>
 <td><p>Return a new dict which maps lattice constant names and values.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">__eq__</span></code>(latt)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.operations.lattice.Lattice._fromdict" title="hklpy2.operations.lattice.Lattice._fromdict"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_fromdict</span></code></a>(config)</p></td>
+<td><p>Redefine lattice from a (configuration) dictionary.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">__eq__</span></code>(latt)</p></td>
 <td><p>Compare two lattices for equality.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">__repr__</span></code>()</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">__repr__</span></code>()</p></td>
 <td><p>Standard representation of lattice.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.operations.lattice.Lattice.crystal_system" title="hklpy2.operations.lattice.Lattice.crystal_system"><code class="xref py py-obj docutils literal notranslate"><span class="pre">crystal_system</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.operations.lattice.Lattice.crystal_system" title="hklpy2.operations.lattice.Lattice.crystal_system"><code class="xref py py-obj docutils literal notranslate"><span class="pre">crystal_system</span></code></a></p></td>
 <td><p>The crystal system of this lattice.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.operations.lattice.Lattice.system_parameter_names" title="hklpy2.operations.lattice.Lattice.system_parameter_names"><code class="xref py py-obj docutils literal notranslate"><span class="pre">system_parameter_names</span></code></a>(system)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.operations.lattice.Lattice.system_parameter_names" title="hklpy2.operations.lattice.Lattice.system_parameter_names"><code class="xref py py-obj docutils literal notranslate"><span class="pre">system_parameter_names</span></code></a>(system)</p></td>
 <td><p>Return list of lattice parameter names for this crystal system.</p></td>
 </tr>
 </tbody>
@@ -571,6 +572,12 @@ simplifies entry of parameters for high-symmetry crystal systems.</p>
 <dt class="sig sig-object py" id="hklpy2.operations.lattice.Lattice._asdict">
 <span class="sig-name descname"><span class="pre">_asdict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hklpy2/operations/lattice.html#Lattice._asdict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.operations.lattice.Lattice._asdict" title="Link to this definition">#</a></dt>
 <dd><p>Return a new dict which maps lattice constant names and values.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="hklpy2.operations.lattice.Lattice._fromdict">
+<span class="sig-name descname"><span class="pre">_fromdict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hklpy2/operations/lattice.html#Lattice._fromdict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.operations.lattice.Lattice._fromdict" title="Link to this definition">#</a></dt>
+<dd><p>Redefine lattice from a (configuration) dictionary.</p>
 </dd></dl>
 
 <dl class="py property">
@@ -593,27 +600,6 @@ simplifies entry of parameters for high-symmetry crystal systems.</p>
 <dt class="sig sig-object py" id="hklpy2.operations.lattice.Lattice.system_parameter_names">
 <span class="sig-name descname"><span class="pre">system_parameter_names</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">system</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hklpy2/operations/lattice.html#Lattice.system_parameter_names"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.operations.lattice.Lattice.system_parameter_names" title="Link to this definition">#</a></dt>
 <dd><p>Return list of lattice parameter names for this crystal system.</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py exception">
-<dt class="sig sig-object py" id="hklpy2.operations.lattice.LatticeError">
-<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">hklpy2.operations.lattice.</span></span><span class="sig-name descname"><span class="pre">LatticeError</span></span><a class="reference internal" href="../_modules/hklpy2/operations/lattice.html#LatticeError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.operations.lattice.LatticeError" title="Link to this definition">#</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Hklpy2Error</span></code></p>
-<p>Custom exceptions from the <a class="reference internal" href="#module-hklpy2.operations.lattice" title="hklpy2.operations.lattice"><code class="xref py py-mod docutils literal notranslate"><span class="pre">hklpy2.operations.lattice</span></code></a> module.</p>
-<dl class="py method">
-<dt class="sig sig-object py" id="hklpy2.operations.lattice.LatticeError.add_note">
-<span class="sig-name descname"><span class="pre">add_note</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#hklpy2.operations.lattice.LatticeError.add_note" title="Link to this definition">#</a></dt>
-<dd><p>Exception.add_note(note) –
-add a note to the exception</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="hklpy2.operations.lattice.LatticeError.with_traceback">
-<span class="sig-name descname"><span class="pre">with_traceback</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#hklpy2.operations.lattice.LatticeError.with_traceback" title="Link to this definition">#</a></dt>
-<dd><p>Exception.with_traceback(tb) –
-set self.__traceback__ to tb and return self.</p>
 </dd></dl>
 
 </dd></dl>
@@ -688,14 +674,10 @@ set self.__traceback__ to tb and return self.</p>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.operations.lattice.CrystalSystem"><code class="docutils literal notranslate"><span class="pre">CrystalSystem</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.operations.lattice.Lattice"><code class="docutils literal notranslate"><span class="pre">Lattice</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.operations.lattice.Lattice._asdict"><code class="docutils literal notranslate"><span class="pre">Lattice._asdict()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.operations.lattice.Lattice._fromdict"><code class="docutils literal notranslate"><span class="pre">Lattice._fromdict()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.operations.lattice.Lattice.crystal_system"><code class="docutils literal notranslate"><span class="pre">Lattice.crystal_system</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.operations.lattice.Lattice.digits"><code class="docutils literal notranslate"><span class="pre">Lattice.digits</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.operations.lattice.Lattice.system_parameter_names"><code class="docutils literal notranslate"><span class="pre">Lattice.system_parameter_names()</span></code></a></li>
-</ul>
-</li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.operations.lattice.LatticeError"><code class="docutils literal notranslate"><span class="pre">LatticeError</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.operations.lattice.LatticeError.add_note"><code class="docutils literal notranslate"><span class="pre">LatticeError.add_note()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.operations.lattice.LatticeError.with_traceback"><code class="docutils literal notranslate"><span class="pre">LatticeError.with_traceback()</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.operations.lattice.SI_LATTICE_PARAMETER"><code class="docutils literal notranslate"><span class="pre">SI_LATTICE_PARAMETER</span></code></a></li>

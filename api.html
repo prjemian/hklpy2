@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="_static/documentation_options.js?v=22ff2de5"></script>
+    <script src="_static/documentation_options.js?v=2a4e8f4f"></script>
     <script src="_static/doctools.js?v=9a2dae69"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/design-tabs.js?v=f930bc37"></script>
@@ -48,7 +48,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'api';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Constraints" href="api/constraints.html" />
+    <link rel="next" title="Configure" href="api/configure.html" />
     <link rel="prev" title="Glossary" href="glossary.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -313,6 +313,7 @@ document.write(`
      aria-label="Section Navigation">
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
   <div class="bd-toc-item navbar-nav"><ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="api/configure.html">Configure</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api/constraints.html">Constraints</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api/diffract.html">Diffractometer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api/geom.html">Diffractometer Geometries</a></li>
@@ -400,11 +401,18 @@ document.write(`
 </figure>
 <div class="toctree-wrapper compound">
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="api/configure.html">Configure</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/configure.html#module-hklpy2.operations.configure">Source Code Documentation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/configure.html#hklpy2.operations.configure.Configuration"><code class="docutils literal notranslate"><span class="pre">Configuration</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="api/constraints.html">Constraints</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="api/constraints.html#module-hklpy2.operations.constraints">Source Code Documentation</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="api/constraints.html#hklpy2.operations.constraints.AxisConstraints"><code class="docutils literal notranslate"><span class="pre">AxisConstraints</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/constraints.html#hklpy2.operations.constraints.ConstraintBase"><code class="docutils literal notranslate"><span class="pre">ConstraintBase</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/constraints.html#hklpy2.operations.constraints.LimitsConstraint"><code class="docutils literal notranslate"><span class="pre">LimitsConstraint</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/constraints.html#hklpy2.operations.constraints.RealAxisConstraints"><code class="docutils literal notranslate"><span class="pre">RealAxisConstraints</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -444,7 +452,6 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="api/lattice.html#module-hklpy2.operations.lattice">Source Code Documentation</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="api/lattice.html#hklpy2.operations.lattice.CrystalSystem"><code class="docutils literal notranslate"><span class="pre">CrystalSystem</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/lattice.html#hklpy2.operations.lattice.Lattice"><code class="docutils literal notranslate"><span class="pre">Lattice</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/lattice.html#hklpy2.operations.lattice.LatticeError"><code class="docutils literal notranslate"><span class="pre">LatticeError</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/lattice.html#hklpy2.operations.lattice.SI_LATTICE_PARAMETER"><code class="docutils literal notranslate"><span class="pre">SI_LATTICE_PARAMETER</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/lattice.html#hklpy2.operations.lattice.SI_LATTICE_PARAMETER_UNCERTAINTY"><code class="docutils literal notranslate"><span class="pre">SI_LATTICE_PARAMETER_UNCERTAINTY</span></code></a></li>
 </ul>
@@ -454,7 +461,6 @@ document.write(`
 <li class="toctree-l1"><a class="reference internal" href="api/ops.html">Operations</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="api/ops.html#module-hklpy2.ops">Source Code Documentation</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="api/ops.html#hklpy2.ops.Operations"><code class="docutils literal notranslate"><span class="pre">Operations</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/ops.html#hklpy2.ops.OperationsError"><code class="docutils literal notranslate"><span class="pre">OperationsError</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -462,7 +468,6 @@ document.write(`
 <li class="toctree-l1"><a class="reference internal" href="api/reflection.html">Orientation Reflection</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="api/reflection.html#module-hklpy2.operations.reflection">Source Code Documentation</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="api/reflection.html#hklpy2.operations.reflection.Reflection"><code class="docutils literal notranslate"><span class="pre">Reflection</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/reflection.html#hklpy2.operations.reflection.ReflectionError"><code class="docutils literal notranslate"><span class="pre">ReflectionError</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/reflection.html#hklpy2.operations.reflection.ReflectionsDict"><code class="docutils literal notranslate"><span class="pre">ReflectionsDict</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/reflection.html#hklpy2.operations.reflection.UNUSED_REFLECTION"><code class="docutils literal notranslate"><span class="pre">UNUSED_REFLECTION</span></code></a></li>
 </ul>
@@ -472,7 +477,6 @@ document.write(`
 <li class="toctree-l1"><a class="reference internal" href="api/sample.html">Crystalline Sample</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="api/sample.html#module-hklpy2.operations.sample">Source Code Documentation</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="api/sample.html#hklpy2.operations.sample.Sample"><code class="docutils literal notranslate"><span class="pre">Sample</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/sample.html#hklpy2.operations.sample.SampleError"><code class="docutils literal notranslate"><span class="pre">SampleError</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -490,7 +494,6 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="api/wavelength_support.html#hklpy2.wavelength_support.ConstantMonochromaticWavelength"><code class="docutils literal notranslate"><span class="pre">ConstantMonochromaticWavelength</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/wavelength_support.html#hklpy2.wavelength_support.MonochromaticXrayWavelength"><code class="docutils literal notranslate"><span class="pre">MonochromaticXrayWavelength</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/wavelength_support.html#hklpy2.wavelength_support.WavelengthBase"><code class="docutils literal notranslate"><span class="pre">WavelengthBase</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/wavelength_support.html#hklpy2.wavelength_support.WavelengthError"><code class="docutils literal notranslate"><span class="pre">WavelengthError</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/wavelength_support.html#hklpy2.wavelength_support.XRAY_ENERGY_EQUIVALENT_"><code class="docutils literal notranslate"><span class="pre">XRAY_ENERGY_EQUIVALENT_</span></code></a></li>
 </ul>
 </li>
@@ -498,11 +501,20 @@ document.write(`
 </li>
 <li class="toctree-l1"><a class="reference internal" href="api/z_misc.html">Miscellaneous Support</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="api/z_misc.html#module-hklpy2.operations.misc">Source Code Documentation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/z_misc.html#hklpy2.operations.misc.ConfigurationError"><code class="docutils literal notranslate"><span class="pre">ConfigurationError</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/z_misc.html#hklpy2.operations.misc.ConstraintsError"><code class="docutils literal notranslate"><span class="pre">ConstraintsError</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/z_misc.html#hklpy2.operations.misc.DiffractometerError"><code class="docutils literal notranslate"><span class="pre">DiffractometerError</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/z_misc.html#hklpy2.operations.misc.LatticeError"><code class="docutils literal notranslate"><span class="pre">LatticeError</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/z_misc.html#hklpy2.operations.misc.OperationsError"><code class="docutils literal notranslate"><span class="pre">OperationsError</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/z_misc.html#hklpy2.operations.misc.ReflectionError"><code class="docutils literal notranslate"><span class="pre">ReflectionError</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/z_misc.html#hklpy2.operations.misc.SOLVER_ENTRYPOINT_GROUP"><code class="docutils literal notranslate"><span class="pre">SOLVER_ENTRYPOINT_GROUP</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/z_misc.html#hklpy2.operations.misc.SampleError"><code class="docutils literal notranslate"><span class="pre">SampleError</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/z_misc.html#hklpy2.operations.misc.SolverError"><code class="docutils literal notranslate"><span class="pre">SolverError</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/z_misc.html#hklpy2.operations.misc.WavelengthError"><code class="docutils literal notranslate"><span class="pre">WavelengthError</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/z_misc.html#hklpy2.operations.misc.check_value_in_list"><code class="docutils literal notranslate"><span class="pre">check_value_in_list()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/z_misc.html#hklpy2.operations.misc.compare_float_dicts"><code class="docutils literal notranslate"><span class="pre">compare_float_dicts()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/z_misc.html#hklpy2.operations.misc.get_solver"><code class="docutils literal notranslate"><span class="pre">get_solver()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/z_misc.html#hklpy2.operations.misc.load_yaml"><code class="docutils literal notranslate"><span class="pre">load_yaml()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/z_misc.html#hklpy2.operations.misc.solver_factory"><code class="docutils literal notranslate"><span class="pre">solver_factory()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/z_misc.html#hklpy2.operations.misc.solvers"><code class="docutils literal notranslate"><span class="pre">solvers()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/z_misc.html#hklpy2.operations.misc.unique_name"><code class="docutils literal notranslate"><span class="pre">unique_name()</span></code></a></li>
@@ -535,11 +547,11 @@ document.write(`
       </div>
     </a>
     <a class="right-next"
-       href="api/constraints.html"
+       href="api/configure.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Constraints</p>
+        <p class="prev-next-title">Configure</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>

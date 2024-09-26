@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=22ff2de5"></script>
+    <script src="../_static/documentation_options.js?v=2a4e8f4f"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
@@ -313,6 +313,7 @@ document.write(`
      aria-label="Section Navigation">
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
   <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="configure.html">Configure</a></li>
 <li class="toctree-l1"><a class="reference internal" href="constraints.html">Constraints</a></li>
 <li class="toctree-l1"><a class="reference internal" href="diffract.html">Diffractometer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="geom.html">Diffractometer Geometries</a></li>
@@ -407,9 +408,6 @@ document.write(`
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.wavelength_support.WavelengthBase" title="hklpy2.wavelength_support.WavelengthBase"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WavelengthBase</span></code></a>(*[, units])</p></td>
 <td><p>Base for all wavelength (<span class="math notranslate nohighlight">\(\lambda\)</span>) classes.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.wavelength_support.WavelengthError" title="hklpy2.wavelength_support.WavelengthError"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WavelengthError</span></code></a></p></td>
-<td><p>Custom exceptions from the <a class="reference internal" href="#module-hklpy2.wavelength_support" title="hklpy2.wavelength_support"><code class="xref py py-mod docutils literal notranslate"><span class="pre">hklpy2.wavelength_support</span></code></a> module.</p></td>
 </tr>
 </tbody>
 </table>
@@ -585,27 +583,6 @@ document.write(`
 
 </dd></dl>
 
-<dl class="py exception">
-<dt class="sig sig-object py" id="hklpy2.wavelength_support.WavelengthError">
-<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">hklpy2.wavelength_support.</span></span><span class="sig-name descname"><span class="pre">WavelengthError</span></span><a class="reference internal" href="../_modules/hklpy2/wavelength_support.html#WavelengthError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.wavelength_support.WavelengthError" title="Link to this definition">#</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Hklpy2Error</span></code></p>
-<p>Custom exceptions from the <a class="reference internal" href="#module-hklpy2.wavelength_support" title="hklpy2.wavelength_support"><code class="xref py py-mod docutils literal notranslate"><span class="pre">hklpy2.wavelength_support</span></code></a> module.</p>
-<dl class="py method">
-<dt class="sig sig-object py" id="hklpy2.wavelength_support.WavelengthError.add_note">
-<span class="sig-name descname"><span class="pre">add_note</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#hklpy2.wavelength_support.WavelengthError.add_note" title="Link to this definition">#</a></dt>
-<dd><p>Exception.add_note(note) –
-add a note to the exception</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="hklpy2.wavelength_support.WavelengthError.with_traceback">
-<span class="sig-name descname"><span class="pre">with_traceback</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#hklpy2.wavelength_support.WavelengthError.with_traceback" title="Link to this definition">#</a></dt>
-<dd><p>Exception.with_traceback(tb) –
-set self.__traceback__ to tb and return self.</p>
-</dd></dl>
-
-</dd></dl>
-
 <dl class="py data">
 <dt class="sig sig-object py" id="hklpy2.wavelength_support.XRAY_ENERGY_EQUIVALENT_">
 <span class="sig-prename descclassname"><span class="pre">hklpy2.wavelength_support.</span></span><span class="sig-name descname"><span class="pre">XRAY_ENERGY_EQUIVALENT_</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">806554.3937</span></em><a class="headerlink" href="#hklpy2.wavelength_support.XRAY_ENERGY_EQUIVALENT_" title="Link to this definition">#</a></dt>
@@ -690,11 +667,6 @@ set self.__traceback__ to tb and return self.</p>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.wavelength_support.WavelengthBase.spectrum_type"><code class="docutils literal notranslate"><span class="pre">WavelengthBase.spectrum_type</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.wavelength_support.WavelengthBase.wavelength"><code class="docutils literal notranslate"><span class="pre">WavelengthBase.wavelength</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.wavelength_support.WavelengthBase.wavelength_units"><code class="docutils literal notranslate"><span class="pre">WavelengthBase.wavelength_units</span></code></a></li>
-</ul>
-</li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.wavelength_support.WavelengthError"><code class="docutils literal notranslate"><span class="pre">WavelengthError</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.wavelength_support.WavelengthError.add_note"><code class="docutils literal notranslate"><span class="pre">WavelengthError.add_note()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.wavelength_support.WavelengthError.with_traceback"><code class="docutils literal notranslate"><span class="pre">WavelengthError.with_traceback()</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.wavelength_support.XRAY_ENERGY_EQUIVALENT_"><code class="docutils literal notranslate"><span class="pre">XRAY_ENERGY_EQUIVALENT_</span></code></a></li>

@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../_static/documentation_options.js?v=22ff2de5"></script>
+    <script src="../../_static/documentation_options.js?v=2a4e8f4f"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/tabs.js?v=3030b3cb"></script>
@@ -367,25 +367,19 @@ document.write(`
 
 <span class="kn">import</span> <span class="nn">logging</span>
 
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">Hklpy2Error</span>
 <span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">SolverBase</span>
-<span class="kn">from</span> <span class="nn">.operations.constraints</span> <span class="kn">import</span> <span class="n">AxisConstraints</span>
+<span class="kn">from</span> <span class="nn">.operations.configure</span> <span class="kn">import</span> <span class="n">Configuration</span>
+<span class="kn">from</span> <span class="nn">.operations.constraints</span> <span class="kn">import</span> <span class="n">RealAxisConstraints</span>
 <span class="kn">from</span> <span class="nn">.operations.lattice</span> <span class="kn">import</span> <span class="n">Lattice</span>
+<span class="kn">from</span> <span class="nn">.operations.misc</span> <span class="kn">import</span> <span class="n">OperationsError</span>
 <span class="kn">from</span> <span class="nn">.operations.misc</span> <span class="kn">import</span> <span class="n">solver_factory</span>
 <span class="kn">from</span> <span class="nn">.operations.misc</span> <span class="kn">import</span> <span class="n">unique_name</span>
 <span class="kn">from</span> <span class="nn">.operations.reflection</span> <span class="kn">import</span> <span class="n">Reflection</span>
 <span class="kn">from</span> <span class="nn">.operations.sample</span> <span class="kn">import</span> <span class="n">Sample</span>
 
-<span class="n">__all__</span> <span class="o">=</span> <span class="s2">&quot;Operations OperationsError&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Operations&quot;</span><span class="p">]</span>
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 <span class="n">DEFAULT_SAMPLE_NAME</span> <span class="o">=</span> <span class="s2">&quot;sample&quot;</span>
-
-
-<div class="viewcode-block" id="OperationsError">
-<a class="viewcode-back" href="../../api/ops.html#hklpy2.ops.OperationsError">[docs]</a>
-<span class="k">class</span> <span class="nc">OperationsError</span><span class="p">(</span><span class="n">Hklpy2Error</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Custom exceptions from :class:`~Operations`.&quot;&quot;&quot;</span></div>
-
 
 
 <div class="viewcode-block" id="Operations">
@@ -404,15 +398,20 @@ document.write(`
 <span class="sd">    .. autosummary::</span>
 
 <span class="sd">        ~_asdict</span>
+<span class="sd">        ~_fromdict</span>
 <span class="sd">        ~add_reflection</span>
 <span class="sd">        ~add_sample</span>
 <span class="sd">        ~assign_axes</span>
 <span class="sd">        ~auto_assign_axes</span>
 <span class="sd">        ~calcUB</span>
+<span class="sd">        ~export</span>
 <span class="sd">        ~forward</span>
 <span class="sd">        ~inverse</span>
 <span class="sd">        ~refine_lattice</span>
 <span class="sd">        ~remove_sample</span>
+<span class="sd">        ~reset_constraints</span>
+<span class="sd">        ~reset_samples</span>
+<span class="sd">        ~restore</span>
 <span class="sd">        ~set_solver</span>
 <span class="sd">        ~standardize_pseudos</span>
 <span class="sd">        ~standardize_reals</span>
@@ -438,6 +437,7 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">_samples</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_solver</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">constraints</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">configuration</span> <span class="o">=</span> <span class="kc">None</span>
 
         <span class="k">if</span> <span class="n">default_sample</span><span class="p">:</span>
             <span class="c1"># first sample is cubic, no reflections</span>
@@ -450,22 +450,41 @@ document.write(`
         <span class="n">config</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">diffractometer</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
             <span class="s2">&quot;geometry&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">geometry</span><span class="p">,</span>
-            <span class="s2">&quot;axes_xref&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">axes_xref</span><span class="p">,</span>
-            <span class="s2">&quot;pseudo_axes&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">diffractometer</span><span class="o">.</span><span class="n">pseudo_axis_names</span><span class="p">,</span>
-            <span class="s2">&quot;real_axes&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">diffractometer</span><span class="o">.</span><span class="n">real_axis_names</span><span class="p">,</span>
+            <span class="s2">&quot;axes&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;pseudo_axes&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">diffractometer</span><span class="o">.</span><span class="n">pseudo_axis_names</span><span class="p">,</span>
+                <span class="s2">&quot;real_axes&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">diffractometer</span><span class="o">.</span><span class="n">real_axis_names</span><span class="p">,</span>
+                <span class="s2">&quot;axes_xref&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">axes_xref</span><span class="p">,</span>
+            <span class="p">},</span>
             <span class="s2">&quot;sample_name&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
             <span class="s2">&quot;samples&quot;</span><span class="p">:</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span><span class="o">.</span><span class="n">_asdict</span><span class="p">()</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_samples</span><span class="o">.</span><span class="n">items</span><span class="p">()},</span>
             <span class="s2">&quot;constraints&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">constraints</span><span class="o">.</span><span class="n">_asdict</span><span class="p">(),</span>
-            <span class="s2">&quot;solver_name&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
-            <span class="s2">&quot;solver_version&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">version</span><span class="p">,</span>
-            <span class="s2">&quot;solver_mode&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">mode</span><span class="p">,</span>
-            <span class="s2">&quot;solver_repr&quot;</span><span class="p">:</span> <span class="nb">repr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="p">),</span>
+            <span class="s2">&quot;solver&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                <span class="s2">&quot;version&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">version</span><span class="p">,</span>
+                <span class="s2">&quot;mode&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">mode</span><span class="p">,</span>
+                <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="nb">repr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="p">),</span>
+                <span class="s2">&quot;real_axes&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">real_axis_names</span><span class="p">,</span>
+            <span class="p">},</span>
         <span class="p">}</span>
+
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;hkl_soleil&quot;</span><span class="p">:</span>
-            <span class="n">config</span><span class="p">[</span><span class="s2">&quot;engine_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">engine_name</span>
-            <span class="n">config</span><span class="p">[</span><span class="s2">&quot;extras&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">extras</span>
+            <span class="n">config</span><span class="p">[</span><span class="s2">&quot;solver&quot;</span><span class="p">][</span><span class="s2">&quot;engine&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">engine_name</span>
+            <span class="n">config</span><span class="p">[</span><span class="s2">&quot;axes&quot;</span><span class="p">][</span><span class="s2">&quot;extra_axes&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">extras</span>
+
         <span class="k">return</span> <span class="n">config</span></div>
 
+
+<div class="viewcode-block" id="Operations._fromdict">
+<a class="viewcode-back" href="../../api/ops.html#hklpy2.ops.Operations._fromdict">[docs]</a>
+    <span class="k">def</span> <span class="nf">_fromdict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Redefine diffractometer from a (configuration) dictionary.&quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">sample</span> <span class="ow">in</span> <span class="n">config</span><span class="p">[</span><span class="s2">&quot;samples&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">add_sample</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">_fromdict</span><span class="p">(</span><span class="n">sample</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">constraints</span><span class="o">.</span><span class="n">_fromdict</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;constraints&quot;</span><span class="p">])</span></div>
+
+        <span class="c1"># TODO: mode</span>
+        <span class="c1"># TODO: extras</span>
 
 <div class="viewcode-block" id="Operations.add_reflection">
 <a class="viewcode-back" href="../../api/ops.html#hklpy2.ops.Operations.add_reflection">[docs]</a>
@@ -595,8 +614,9 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">axes_xref</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="n">reference</span><span class="p">(</span><span class="n">pseudos</span><span class="p">,</span> <span class="n">solver</span><span class="o">.</span><span class="n">pseudo_axis_names</span><span class="p">)</span>
         <span class="n">reference</span><span class="p">(</span><span class="n">reals</span><span class="p">,</span> <span class="n">solver</span><span class="o">.</span><span class="n">real_axis_names</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">constraints</span> <span class="o">=</span> <span class="n">AxisConstraints</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">diffractometer</span><span class="o">.</span><span class="n">real_axis_names</span><span class="p">)</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;axes_xref=</span><span class="si">%r</span><span class="s2">&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">axes_xref</span><span class="p">)</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reset_constraints</span><span class="p">()</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;axes_xref=</span><span class="si">%r</span><span class="s2">&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">axes_xref</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">configuration</span> <span class="o">=</span> <span class="n">Configuration</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">diffractometer</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="Operations._axes_names_s2d">
@@ -668,7 +688,8 @@ document.write(`
 <span class="sd">        The method of Busing &amp; Levy, Acta Cryst 22 (1967) 457.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="k">def</span> <span class="nf">get_reflection</span><span class="p">(</span><span class="n">r</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">_get</span><span class="p">(</span><span class="n">r</span><span class="p">):</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;Given a reference, get the Reflection object.&quot;&quot;&quot;</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">Reflection</span><span class="p">):</span>
                 <span class="k">return</span> <span class="n">r</span>
             <span class="n">reflection</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">reflections</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
@@ -679,9 +700,27 @@ document.write(`
                 <span class="p">)</span>
             <span class="k">return</span> <span class="n">reflection</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">calculate_UB</span><span class="p">(</span><span class="n">get_reflection</span><span class="p">(</span><span class="n">r1</span><span class="p">),</span> <span class="n">get_reflection</span><span class="p">(</span><span class="n">r2</span><span class="p">))</span>
+        <span class="n">two_reflections</span> <span class="o">=</span> <span class="p">[</span><span class="n">_get</span><span class="p">(</span><span class="n">r1</span><span class="p">),</span> <span class="n">_get</span><span class="p">(</span><span class="n">r2</span><span class="p">)]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">reflections</span><span class="o">.</span><span class="n">set_orientation_reflections</span><span class="p">(</span><span class="n">two_reflections</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">calculate_UB</span><span class="p">(</span><span class="o">*</span><span class="n">two_reflections</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">U</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">U</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">UB</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">UB</span></div>
+
+
+<div class="viewcode-block" id="Operations.export">
+<a class="viewcode-back" href="../../api/ops.html#hklpy2.ops.Operations.export">[docs]</a>
+    <span class="k">def</span> <span class="nf">export</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file</span><span class="p">,</span> <span class="n">comment</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Export the diffractometer configuration to a YAML file.</span>
+
+<span class="sd">        Example::</span>
+
+<span class="sd">            import hklpy2</span>
+
+<span class="sd">            e4cv = hklpy2.SimulatedE4CV(name=&quot;e4cv&quot;)</span>
+<span class="sd">            e4cv.operator.export(&quot;e4cv-config.yml&quot;, comment=&quot;example&quot;)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">configuration</span><span class="o">.</span><span class="n">export</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">comment</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="Operations.forward">
@@ -703,12 +742,14 @@ document.write(`
         <span class="n">reals</span> <span class="o">=</span> <span class="p">{</span>  <span class="c1"># Original values.</span>
             <span class="n">axis</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">axis</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">diffractometer</span><span class="o">.</span><span class="n">_get_real_positioners</span><span class="p">()</span>
         <span class="p">}</span>
-        <span class="n">forwards</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_axes_names_d2s</span><span class="p">(</span><span class="n">pdict</span><span class="p">))</span>
+
+        <span class="c1"># Filter just the solutions that fit the constraints.</span>
         <span class="n">solutions</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">for</span> <span class="n">solution</span> <span class="ow">in</span> <span class="n">forwards</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">solution</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_axes_names_d2s</span><span class="p">(</span><span class="n">pdict</span><span class="p">)):</span>
             <span class="n">reals</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_axes_names_s2d</span><span class="p">(</span><span class="n">solution</span><span class="p">))</span>  <span class="c1"># Update with new values.</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">constraints</span><span class="o">.</span><span class="n">valid</span><span class="p">(</span><span class="o">**</span><span class="n">reals</span><span class="p">):</span>
                 <span class="n">solutions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">diffractometer</span><span class="o">.</span><span class="n">RealPosition</span><span class="p">(</span><span class="o">**</span><span class="n">reals</span><span class="p">))</span>
+
         <span class="k">return</span> <span class="n">solutions</span></div>
 
 
@@ -777,6 +818,58 @@ document.write(`
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Remove the named sample.  No error if name is not known.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">samples</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_samples</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">name</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Operations.reset_constraints">
+<a class="viewcode-back" href="../../api/ops.html#hklpy2.ops.Operations.reset_constraints">[docs]</a>
+    <span class="k">def</span> <span class="nf">reset_constraints</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Restore diffractometer constraints to default settings.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">constraints</span> <span class="o">=</span> <span class="n">RealAxisConstraints</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">diffractometer</span><span class="o">.</span><span class="n">real_axis_names</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Operations.reset_samples">
+<a class="viewcode-back" href="../../api/ops.html#hklpy2.ops.Operations.reset_samples">[docs]</a>
+    <span class="k">def</span> <span class="nf">reset_samples</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Restore diffractometer samples to default settings.&quot;&quot;&quot;</span>
+        <span class="c1"># Remove all the samples.</span>
+        <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">samples</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">remove_sample</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">samples</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+        <span class="c1"># Create the default sample.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_sample</span><span class="p">(</span><span class="n">DEFAULT_SAMPLE_NAME</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Operations.restore">
+<a class="viewcode-back" href="../../api/ops.html#hklpy2.ops.Operations.restore">[docs]</a>
+    <span class="k">def</span> <span class="nf">restore</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file</span><span class="p">,</span> <span class="n">clear</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">restore_constraints</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Restore the diffractometer configuration to a YAML file.</span>
+
+<span class="sd">        Example::</span>
+
+<span class="sd">            import hklpy2</span>
+
+<span class="sd">            e4cv = hklpy2.SimulatedE4CV(name=&quot;e4cv&quot;)</span>
+<span class="sd">            e4cv.operator.restore(&quot;e4cv-config.yml&quot;)</span>
+
+<span class="sd">        PARAMETERS</span>
+
+<span class="sd">        file *str* or *pathlib.Path* object:</span>
+<span class="sd">            Name (or pathlib object) of diffractometer configuration YAML file.</span>
+<span class="sd">        clear *bool*:</span>
+<span class="sd">            If ``True`` (default), remove any previous configuration of the</span>
+<span class="sd">            diffractometer and reset it to default values before restoring the</span>
+<span class="sd">            configuration.</span>
+
+<span class="sd">            If ``False``, sample reflections will be append with all reflections</span>
+<span class="sd">            included in the configuration data for that sample.  Existing</span>
+<span class="sd">            reflections will not be changed.  The user may need to edit the</span>
+<span class="sd">            list of reflections after ``restore(clear=False)``.</span>
+<span class="sd">        restore_constraints *bool*:</span>
+<span class="sd">            If ``True`` (default), restore any constraints provided.</span>
+
+<span class="sd">        Note: Can&#39;t name this method &quot;import&quot;, it&#39;s a reserved Python word.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">configuration</span><span class="o">.</span><span class="n">restore</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">clear</span><span class="p">,</span> <span class="n">restore_constraints</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="Operations.set_solver">

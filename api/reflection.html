@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=22ff2de5"></script>
+    <script src="../_static/documentation_options.js?v=2a4e8f4f"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
@@ -313,6 +313,7 @@ document.write(`
      aria-label="Section Navigation">
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
   <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="configure.html">Configure</a></li>
 <li class="toctree-l1"><a class="reference internal" href="constraints.html">Constraints</a></li>
 <li class="toctree-l1"><a class="reference internal" href="diffract.html">Diffractometer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="geom.html">Diffractometer Geometries</a></li>
@@ -418,8 +419,8 @@ in <em>degrees</em>.</p>
 <tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.operations.reflection.Reflection" title="hklpy2.operations.reflection.Reflection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Reflection</span></code></a>(name, pseudos, reals, wavelength, ...)</p></td>
 <td><p>Coordinates real and pseudo axes.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.operations.reflection.ReflectionError" title="hklpy2.operations.reflection.ReflectionError"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ReflectionError</span></code></a></p></td>
-<td><p>Custom exceptions from the <a class="reference internal" href="#module-hklpy2.operations.reflection" title="hklpy2.operations.reflection"><code class="xref py py-mod docutils literal notranslate"><span class="pre">hklpy2.operations.reflection</span></code></a> module.</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">ReflectionError</span></code></p></td>
+<td><p>Custom exceptions from <a class="reference internal" href="#module-hklpy2.operations.reflection" title="hklpy2.operations.reflection"><code class="xref py py-mod docutils literal notranslate"><span class="pre">hklpy2.operations.reflection</span></code></a>.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.operations.reflection.ReflectionsDict" title="hklpy2.operations.reflection.ReflectionsDict"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ReflectionsDict</span></code></a>(*args, **kwargs)</p></td>
 <td><p>Dictionary of Reflections.</p></td>
@@ -460,24 +461,27 @@ part of a “reflection”.</p>
 <td><p>Compare this reflection with another for equality.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.operations.reflection.Reflection._asdict" title="hklpy2.operations.reflection.Reflection._asdict"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_asdict</span></code></a>()</p></td>
-<td><p>Describe the reflection as a dictionary.</p></td>
+<td><p>Describe this reflection as a dictionary.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.operations.reflection.Reflection._validate_pseudos" title="hklpy2.operations.reflection.Reflection._validate_pseudos"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_validate_pseudos</span></code></a>(value)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.operations.reflection.Reflection._fromdict" title="hklpy2.operations.reflection.Reflection._fromdict"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_fromdict</span></code></a>(config)</p></td>
+<td><p>Redefine this reflection from a (configuration) dictionary.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.operations.reflection.Reflection._validate_pseudos" title="hklpy2.operations.reflection.Reflection._validate_pseudos"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_validate_pseudos</span></code></a>(value)</p></td>
 <td><p>Raise Exception if pseudos do not match expectations.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.operations.reflection.Reflection._validate_reals" title="hklpy2.operations.reflection.Reflection._validate_reals"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_validate_reals</span></code></a>(value)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.operations.reflection.Reflection._validate_reals" title="hklpy2.operations.reflection.Reflection._validate_reals"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_validate_reals</span></code></a>(value)</p></td>
 <td><p>Raise Exception if reals do not match expectations.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.operations.reflection.Reflection._validate_wavelength" title="hklpy2.operations.reflection.Reflection._validate_wavelength"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_validate_wavelength</span></code></a>(value)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.operations.reflection.Reflection._validate_wavelength" title="hklpy2.operations.reflection.Reflection._validate_wavelength"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_validate_wavelength</span></code></a>(value)</p></td>
 <td><p>Raise exception if pseudos do not match expectations.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.operations.reflection.Reflection.pseudos" title="hklpy2.operations.reflection.Reflection.pseudos"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pseudos</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.operations.reflection.Reflection.pseudos" title="hklpy2.operations.reflection.Reflection.pseudos"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pseudos</span></code></a></p></td>
 <td><p>Ordered dictionary of diffractometer's reciprocal-space axes.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.operations.reflection.Reflection.reals" title="hklpy2.operations.reflection.Reflection.reals"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reals</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.operations.reflection.Reflection.reals" title="hklpy2.operations.reflection.Reflection.reals"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reals</span></code></a></p></td>
 <td><p>Ordered dictionary of diffractometer's real-space axes.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.operations.reflection.Reflection.wavelength" title="hklpy2.operations.reflection.Reflection.wavelength"><code class="xref py py-obj docutils literal notranslate"><span class="pre">wavelength</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.operations.reflection.Reflection.wavelength" title="hklpy2.operations.reflection.Reflection.wavelength"><code class="xref py py-obj docutils literal notranslate"><span class="pre">wavelength</span></code></a></p></td>
 <td><p>Wavelength of reflection.</p></td>
 </tr>
 </tbody>
@@ -486,7 +490,13 @@ part of a “reflection”.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="hklpy2.operations.reflection.Reflection._asdict">
 <span class="sig-name descname"><span class="pre">_asdict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hklpy2/operations/reflection.html#Reflection._asdict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.operations.reflection.Reflection._asdict" title="Link to this definition">#</a></dt>
-<dd><p>Describe the reflection as a dictionary.</p>
+<dd><p>Describe this reflection as a dictionary.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="hklpy2.operations.reflection.Reflection._fromdict">
+<span class="sig-name descname"><span class="pre">_fromdict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hklpy2/operations/reflection.html#Reflection._fromdict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.operations.reflection.Reflection._fromdict" title="Link to this definition">#</a></dt>
+<dd><p>Redefine this reflection from a (configuration) dictionary.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -535,27 +545,6 @@ part of a “reflection”.</p>
 
 </dd></dl>
 
-<dl class="py exception">
-<dt class="sig sig-object py" id="hklpy2.operations.reflection.ReflectionError">
-<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">hklpy2.operations.reflection.</span></span><span class="sig-name descname"><span class="pre">ReflectionError</span></span><a class="reference internal" href="../_modules/hklpy2/operations/reflection.html#ReflectionError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.operations.reflection.ReflectionError" title="Link to this definition">#</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Hklpy2Error</span></code></p>
-<p>Custom exceptions from the <a class="reference internal" href="#module-hklpy2.operations.reflection" title="hklpy2.operations.reflection"><code class="xref py py-mod docutils literal notranslate"><span class="pre">hklpy2.operations.reflection</span></code></a> module.</p>
-<dl class="py method">
-<dt class="sig sig-object py" id="hklpy2.operations.reflection.ReflectionError.add_note">
-<span class="sig-name descname"><span class="pre">add_note</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#hklpy2.operations.reflection.ReflectionError.add_note" title="Link to this definition">#</a></dt>
-<dd><p>Exception.add_note(note) –
-add a note to the exception</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="hklpy2.operations.reflection.ReflectionError.with_traceback">
-<span class="sig-name descname"><span class="pre">with_traceback</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#hklpy2.operations.reflection.ReflectionError.with_traceback" title="Link to this definition">#</a></dt>
-<dd><p>Exception.with_traceback(tb) –
-set self.__traceback__ to tb and return self.</p>
-</dd></dl>
-
-</dd></dl>
-
 <dl class="py class">
 <dt class="sig sig-object py" id="hklpy2.operations.reflection.ReflectionsDict">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">hklpy2.operations.reflection.</span></span><span class="sig-name descname"><span class="pre">ReflectionsDict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hklpy2/operations/reflection.html#ReflectionsDict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.operations.reflection.ReflectionsDict" title="Link to this definition">#</a></dt>
@@ -566,25 +555,28 @@ set self.__traceback__ to tb and return self.</p>
 <tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.operations.reflection.ReflectionsDict._asdict" title="hklpy2.operations.reflection.ReflectionsDict._asdict"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_asdict</span></code></a>()</p></td>
 <td><p>Describe the reflections list as an ordered dictionary.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.operations.reflection.ReflectionsDict._validate_reflection" title="hklpy2.operations.reflection.ReflectionsDict._validate_reflection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_validate_reflection</span></code></a>(reflection, replace)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.operations.reflection.ReflectionsDict._fromdict" title="hklpy2.operations.reflection.ReflectionsDict._fromdict"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_fromdict</span></code></a>(config)</p></td>
+<td><p>Add or redefine reflections from a (configuration) dictionary.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.operations.reflection.ReflectionsDict._validate_reflection" title="hklpy2.operations.reflection.ReflectionsDict._validate_reflection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_validate_reflection</span></code></a>(reflection, replace)</p></td>
 <td><p>Validate the new reflection.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.operations.reflection.ReflectionsDict.add" title="hklpy2.operations.reflection.ReflectionsDict.add"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add</span></code></a>(reflection[, replace])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.operations.reflection.ReflectionsDict.add" title="hklpy2.operations.reflection.ReflectionsDict.add"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add</span></code></a>(reflection[, replace])</p></td>
 <td><p>Add a single orientation reflection.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.operations.reflection.ReflectionsDict.order" title="hklpy2.operations.reflection.ReflectionsDict.order"><code class="xref py py-obj docutils literal notranslate"><span class="pre">order</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.operations.reflection.ReflectionsDict.order" title="hklpy2.operations.reflection.ReflectionsDict.order"><code class="xref py py-obj docutils literal notranslate"><span class="pre">order</span></code></a></p></td>
 <td><p>Ordered list of reflection names used for orientation.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.operations.reflection.ReflectionsDict.prune" title="hklpy2.operations.reflection.ReflectionsDict.prune"><code class="xref py py-obj docutils literal notranslate"><span class="pre">prune</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.operations.reflection.ReflectionsDict.prune" title="hklpy2.operations.reflection.ReflectionsDict.prune"><code class="xref py py-obj docutils literal notranslate"><span class="pre">prune</span></code></a>()</p></td>
 <td><p>Remove any undefined reflections from order list.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.operations.reflection.ReflectionsDict.set_orientation_reflections" title="hklpy2.operations.reflection.ReflectionsDict.set_orientation_reflections"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_orientation_reflections</span></code></a>(reflections)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.operations.reflection.ReflectionsDict.set_orientation_reflections" title="hklpy2.operations.reflection.ReflectionsDict.set_orientation_reflections"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_orientation_reflections</span></code></a>(reflections)</p></td>
 <td><p>Designate the order of the reflections to be used.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.operations.reflection.ReflectionsDict.setor" title="hklpy2.operations.reflection.ReflectionsDict.setor"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setor</span></code></a>(reflections)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.operations.reflection.ReflectionsDict.setor" title="hklpy2.operations.reflection.ReflectionsDict.setor"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setor</span></code></a>(reflections)</p></td>
 <td><p>Common alias for <a class="reference internal" href="#hklpy2.operations.reflection.ReflectionsDict.set_orientation_reflections" title="hklpy2.operations.reflection.ReflectionsDict.set_orientation_reflections"><code class="xref py py-meth docutils literal notranslate"><span class="pre">set_orientation_reflections()</span></code></a>.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.operations.reflection.ReflectionsDict.swap" title="hklpy2.operations.reflection.ReflectionsDict.swap"><code class="xref py py-obj docutils literal notranslate"><span class="pre">swap</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.operations.reflection.ReflectionsDict.swap" title="hklpy2.operations.reflection.ReflectionsDict.swap"><code class="xref py py-obj docutils literal notranslate"><span class="pre">swap</span></code></a>()</p></td>
 <td><p>Swap the two named orientation reflections.</p></td>
 </tr>
 </tbody>
@@ -595,6 +587,12 @@ set self.__traceback__ to tb and return self.</p>
 <span class="sig-name descname"><span class="pre">_asdict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hklpy2/operations/reflection.html#ReflectionsDict._asdict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.operations.reflection.ReflectionsDict._asdict" title="Link to this definition">#</a></dt>
 <dd><p>Describe the reflections list as an ordered dictionary.</p>
 <p>Order by reflections order.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="hklpy2.operations.reflection.ReflectionsDict._fromdict">
+<span class="sig-name descname"><span class="pre">_fromdict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hklpy2/operations/reflection.html#ReflectionsDict._fromdict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.operations.reflection.ReflectionsDict._fromdict" title="Link to this definition">#</a></dt>
+<dd><p>Add or redefine reflections from a (configuration) dictionary.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -777,6 +775,7 @@ In either case, this is followed by: for k in F:  D[k] = F[k]</p>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-hklpy2.operations.reflection">Source Code Documentation</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.operations.reflection.Reflection"><code class="docutils literal notranslate"><span class="pre">Reflection</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.operations.reflection.Reflection._asdict"><code class="docutils literal notranslate"><span class="pre">Reflection._asdict()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.operations.reflection.Reflection._fromdict"><code class="docutils literal notranslate"><span class="pre">Reflection._fromdict()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.operations.reflection.Reflection._validate_pseudos"><code class="docutils literal notranslate"><span class="pre">Reflection._validate_pseudos()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.operations.reflection.Reflection._validate_reals"><code class="docutils literal notranslate"><span class="pre">Reflection._validate_reals()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.operations.reflection.Reflection._validate_wavelength"><code class="docutils literal notranslate"><span class="pre">Reflection._validate_wavelength()</span></code></a></li>
@@ -786,13 +785,9 @@ In either case, this is followed by: for k in F:  D[k] = F[k]</p>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.operations.reflection.Reflection.wavelength"><code class="docutils literal notranslate"><span class="pre">Reflection.wavelength</span></code></a></li>
 </ul>
 </li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.operations.reflection.ReflectionError"><code class="docutils literal notranslate"><span class="pre">ReflectionError</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.operations.reflection.ReflectionError.add_note"><code class="docutils literal notranslate"><span class="pre">ReflectionError.add_note()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.operations.reflection.ReflectionError.with_traceback"><code class="docutils literal notranslate"><span class="pre">ReflectionError.with_traceback()</span></code></a></li>
-</ul>
-</li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.operations.reflection.ReflectionsDict"><code class="docutils literal notranslate"><span class="pre">ReflectionsDict</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.operations.reflection.ReflectionsDict._asdict"><code class="docutils literal notranslate"><span class="pre">ReflectionsDict._asdict()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.operations.reflection.ReflectionsDict._fromdict"><code class="docutils literal notranslate"><span class="pre">ReflectionsDict._fromdict()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.operations.reflection.ReflectionsDict._validate_reflection"><code class="docutils literal notranslate"><span class="pre">ReflectionsDict._validate_reflection()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.operations.reflection.ReflectionsDict.add"><code class="docutils literal notranslate"><span class="pre">ReflectionsDict.add()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.operations.reflection.ReflectionsDict.clear"><code class="docutils literal notranslate"><span class="pre">ReflectionsDict.clear()</span></code></a></li>

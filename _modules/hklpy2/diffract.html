@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../_static/documentation_options.js?v=22ff2de5"></script>
+    <script src="../../_static/documentation_options.js?v=2a4e8f4f"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/tabs.js?v=3030b3cb"></script>
@@ -371,7 +371,6 @@ document.write(`
 <span class="kn">from</span> <span class="nn">ophyd.pseudopos</span> <span class="kn">import</span> <span class="n">real_position_argument</span>
 <span class="kn">from</span> <span class="nn">ophyd.signal</span> <span class="kn">import</span> <span class="n">AttributeSignal</span>
 
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">Hklpy2Error</span>
 <span class="kn">from</span> <span class="nn">.operations.reflection</span> <span class="kn">import</span> <span class="n">Reflection</span>
 <span class="kn">from</span> <span class="nn">.operations.sample</span> <span class="kn">import</span> <span class="n">Sample</span>
 <span class="kn">from</span> <span class="nn">.ops</span> <span class="kn">import</span> <span class="n">Operations</span>
@@ -401,9 +400,6 @@ document.write(`
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">solutions</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 
-
-<span class="k">class</span> <span class="nc">DiffractometerError</span><span class="p">(</span><span class="n">Hklpy2Error</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Custom exceptions from a :class:`~DiffractometerBase` subclass.&quot;&quot;&quot;</span>
 
 
 <div class="viewcode-block" id="DiffractometerBase">
@@ -687,6 +683,8 @@ document.write(`
             <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;diffractometer=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">!r}</span><span class="s2">&quot;</span><span class="p">)</span>
             <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">sample</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
             <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">solver</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="c1"># TODO: reflections</span>
+            <span class="c1"># TODO: constraints</span>
         <span class="n">print_axes</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pseudo_axis_names</span><span class="p">)</span>
         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;wavelength=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">wavelength</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="n">print_axes</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">real_axis_names</span><span class="p">)</span>

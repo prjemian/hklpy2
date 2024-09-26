@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../../_static/documentation_options.js?v=22ff2de5"></script>
+    <script src="../../../_static/documentation_options.js?v=2a4e8f4f"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/tabs.js?v=3030b3cb"></script>
@@ -360,7 +360,6 @@ document.write(`
 <span class="sd">.. autosummary::</span>
 
 <span class="sd">    ~Lattice</span>
-<span class="sd">    ~LatticeError</span>
 <span class="sd">    ~SI_LATTICE_PARAMETER</span>
 <span class="sd">    ~SI_LATTICE_PARAMETER_UNCERTAINTY</span>
 <span class="sd">&quot;&quot;&quot;</span>
@@ -369,7 +368,7 @@ document.write(`
 <span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">import</span> <span class="nn">math</span>
 
-<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">Hklpy2Error</span>
+<span class="kn">from</span> <span class="nn">.misc</span> <span class="kn">import</span> <span class="n">LatticeError</span>
 <span class="kn">from</span> <span class="nn">.misc</span> <span class="kn">import</span> <span class="n">compare_float_dicts</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
@@ -401,13 +400,6 @@ document.write(`
 <span class="p">)</span>
 
 
-<div class="viewcode-block" id="LatticeError">
-<a class="viewcode-back" href="../../../api/lattice.html#hklpy2.operations.lattice.LatticeError">[docs]</a>
-<span class="k">class</span> <span class="nc">LatticeError</span><span class="p">(</span><span class="n">Hklpy2Error</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Custom exceptions from the :mod:`hklpy2.operations.lattice` module.&quot;&quot;&quot;</span></div>
-
-
-
 <div class="viewcode-block" id="Lattice">
 <a class="viewcode-back" href="../../../api/lattice.html#hklpy2.operations.lattice.Lattice">[docs]</a>
 <span class="k">class</span> <span class="nc">Lattice</span><span class="p">:</span>
@@ -425,6 +417,7 @@ document.write(`
 <span class="sd">    .. autosummary::</span>
 
 <span class="sd">        ~_asdict</span>
+<span class="sd">        ~_fromdict</span>
 <span class="sd">        ~__eq__</span>
 <span class="sd">        ~__repr__</span>
 <span class="sd">        ~crystal_system</span>
@@ -448,21 +441,6 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">beta</span> <span class="o">=</span> <span class="n">beta</span> <span class="ow">or</span> <span class="n">alpha</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">gamma</span> <span class="o">=</span> <span class="n">gamma</span> <span class="ow">or</span> <span class="n">alpha</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">digits</span> <span class="o">=</span> <span class="n">digits</span>
-
-<div class="viewcode-block" id="Lattice._asdict">
-<a class="viewcode-back" href="../../../api/lattice.html#hklpy2.operations.lattice.Lattice._asdict">[docs]</a>
-    <span class="k">def</span> <span class="nf">_asdict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return a new dict which maps lattice constant names and values.&quot;&quot;&quot;</span>
-        <span class="c1"># note: name is identical to namedtuple._asdict method</span>
-        <span class="k">return</span> <span class="p">{</span>
-            <span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="p">,</span>
-            <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">b</span><span class="p">,</span>
-            <span class="s2">&quot;c&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">c</span><span class="p">,</span>
-            <span class="s2">&quot;alpha&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">alpha</span><span class="p">,</span>
-            <span class="s2">&quot;beta&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">beta</span><span class="p">,</span>
-            <span class="s2">&quot;gamma&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">gamma</span><span class="p">,</span>
-        <span class="p">}</span></div>
-
 
     <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">latt</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -490,6 +468,30 @@ document.write(`
         <span class="p">]</span>
         <span class="n">parms</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">system</span><span class="si">=!r}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="s2">&quot;Lattice(&quot;</span> <span class="o">+</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">parms</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;)&quot;</span>
+
+<div class="viewcode-block" id="Lattice._asdict">
+<a class="viewcode-back" href="../../../api/lattice.html#hklpy2.operations.lattice.Lattice._asdict">[docs]</a>
+    <span class="k">def</span> <span class="nf">_asdict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return a new dict which maps lattice constant names and values.&quot;&quot;&quot;</span>
+        <span class="c1"># note: name is identical to namedtuple._asdict method</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="p">,</span>
+            <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">b</span><span class="p">,</span>
+            <span class="s2">&quot;c&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">c</span><span class="p">,</span>
+            <span class="s2">&quot;alpha&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">alpha</span><span class="p">,</span>
+            <span class="s2">&quot;beta&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">beta</span><span class="p">,</span>
+            <span class="s2">&quot;gamma&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">gamma</span><span class="p">,</span>
+            <span class="c1"># &quot;digits&quot;: self.digits,</span>
+        <span class="p">}</span></div>
+
+
+<div class="viewcode-block" id="Lattice._fromdict">
+<a class="viewcode-back" href="../../../api/lattice.html#hklpy2.operations.lattice.Lattice._fromdict">[docs]</a>
+    <span class="k">def</span> <span class="nf">_fromdict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Redefine lattice from a (configuration) dictionary.&quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="s2">&quot;a b c alpha beta gamma&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">():</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">config</span><span class="p">[</span><span class="n">k</span><span class="p">])</span></div>
+
 
 <div class="viewcode-block" id="Lattice.system_parameter_names">
 <a class="viewcode-back" href="../../../api/lattice.html#hklpy2.operations.lattice.Lattice.system_parameter_names">[docs]</a>
@@ -575,7 +577,7 @@ document.write(`
         <span class="k">if</span> <span class="n">all_angles</span><span class="p">(</span><span class="mi">90</span><span class="p">)</span> <span class="ow">and</span> <span class="n">all_edges</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">CrystalSystem</span><span class="o">.</span><span class="n">cubic</span><span class="o">.</span><span class="n">name</span>
 
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unrecognized crystal system: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_asdict</span><span class="p">()</span><span class="si">!r}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="n">LatticeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unrecognized crystal system: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_asdict</span><span class="p">()</span><span class="si">!r}</span><span class="s2">&quot;</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">digits</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>

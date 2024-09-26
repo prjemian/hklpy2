@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Crystalline Sample &#8212; hklpy2 0.0</title>
+    <title>Configure &#8212; hklpy2 0.0</title>
   
   
   
@@ -43,13 +43,11 @@
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
-    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'api/sample';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'api/configure';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Solvers" href="solvers.html" />
-    <link rel="prev" title="Orientation Reflection" href="reflection.html" />
+    <link rel="next" title="Constraints" href="constraints.html" />
+    <link rel="prev" title="API" href="../api.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -313,14 +311,14 @@ document.write(`
      aria-label="Section Navigation">
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
   <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="configure.html">Configure</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Configure</a></li>
 <li class="toctree-l1"><a class="reference internal" href="constraints.html">Constraints</a></li>
 <li class="toctree-l1"><a class="reference internal" href="diffract.html">Diffractometer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="geom.html">Diffractometer Geometries</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lattice.html">Crystal Lattice</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ops.html">Operations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="reflection.html">Orientation Reflection</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Crystalline Sample</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sample.html">Crystalline Sample</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="solvers.html">Solvers</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="backends/base.html">SolverBase</a></li>
 <li class="toctree-l2"><a class="reference internal" href="backends/hkl_soleil.html">hkl_soleil (HklSolver)</a></li>
@@ -372,7 +370,7 @@ document.write(`
     
     <li class="breadcrumb-item"><a href="../api.html" class="nav-link">API</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page">Crystalline Sample</li>
+    <li class="breadcrumb-item active" aria-current="page">Configure</li>
   </ul>
 </nav>
 </div>
@@ -389,121 +387,113 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="crystalline-sample">
-<span id="api-sample"></span><h1>Crystalline Sample<a class="headerlink" href="#crystalline-sample" title="Link to this heading">#</a></h1>
-<section id="module-hklpy2.operations.sample">
-<span id="source-code-documentation"></span><h2>Source Code Documentation<a class="headerlink" href="#module-hklpy2.operations.sample" title="Link to this heading">#</a></h2>
-<p>A Crystalline Sample.</p>
+  <section id="configure">
+<span id="api-configure"></span><span id="index-0"></span><h1>Configure<a class="headerlink" href="#configure" title="Link to this heading">#</a></h1>
+<p>Export and restore the sample UB matrix and other diffractometer configuration.</p>
+<section id="module-hklpy2.operations.configure">
+<span id="source-code-documentation"></span><h2>Source Code Documentation<a class="headerlink" href="#module-hklpy2.operations.configure" title="Link to this heading">#</a></h2>
+<p>Export and restore diffractometer configurations.</p>
 <div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.operations.sample.Sample" title="hklpy2.operations.sample.Sample"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Sample</span></code></a>(operator, name, lattice)</p></td>
-<td><p>A crystalline sample mounted on a diffractometer.</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">SampleError</span></code></p></td>
-<td><p>Custom exceptions from <a class="reference internal" href="#module-hklpy2.operations.sample" title="hklpy2.operations.sample"><code class="xref py py-mod docutils literal notranslate"><span class="pre">hklpy2.operations.sample</span></code></a>.</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.operations.configure.Configuration" title="hklpy2.operations.configure.Configuration"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Configuration</span></code></a>(diffractometer)</p></td>
+<td><p>Manage diffractometer configurations.</p></td>
 </tr>
 </tbody>
 </table>
+</div>
+<p>From <strong>hklpy</strong>, these TODO items:</p>
+<ul class="simple">
+<li><p>bluesky runs support</p></li>
+<li><p>stack support</p></li>
+<li><p>set constraints</p></li>
+</ul>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p># <a class="reference external" href="https://pyyaml.org/wiki/PyYAMLDocumentation">https://pyyaml.org/wiki/PyYAMLDocumentation</a></p>
 </div>
 <dl class="py class">
-<dt class="sig sig-object py" id="hklpy2.operations.sample.Sample">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">hklpy2.operations.sample.</span></span><span class="sig-name descname"><span class="pre">Sample</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">operator</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">lattice</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="lattice.html#hklpy2.operations.lattice.Lattice" title="hklpy2.operations.lattice.Lattice"><span class="pre">Lattice</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hklpy2/operations/sample.html#Sample"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.operations.sample.Sample" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py" id="hklpy2.operations.configure.Configuration">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">hklpy2.operations.configure.</span></span><span class="sig-name descname"><span class="pre">Configuration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">diffractometer</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hklpy2/operations/configure.html#Configuration"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.operations.configure.Configuration" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
-<p>A crystalline sample mounted on a diffractometer.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Internal use only.</p>
-</div>
-<p class="rubric">Python Methods</p>
+<p>Manage diffractometer configurations.</p>
 <div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.operations.sample.Sample.refine_lattice" title="hklpy2.operations.sample.Sample.refine_lattice"><code class="xref py py-obj docutils literal notranslate"><span class="pre">refine_lattice</span></code></a>()</p></td>
-<td><p>Refine the lattice parameters from 3 or more reflections.</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.operations.configure.Configuration._asdict" title="hklpy2.operations.configure.Configuration._asdict"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_asdict</span></code></a>()</p></td>
+<td><p>Return diffractometer's configuration as a dict.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.operations.configure.Configuration._fromdict" title="hklpy2.operations.configure.Configuration._fromdict"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_fromdict</span></code></a>(config[, clear, restore_constraints])</p></td>
+<td><p>Restore diffractometer's configuration from a dict.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.operations.configure.Configuration._valid" title="hklpy2.operations.configure.Configuration._valid"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_valid</span></code></a>(config)</p></td>
+<td><p>Validate incoming configuration for current diffractometer.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.operations.configure.Configuration.export" title="hklpy2.operations.configure.Configuration.export"><code class="xref py py-obj docutils literal notranslate"><span class="pre">export</span></code></a>(file[, comment])</p></td>
+<td><p>Export the diffractometer configuration to a YAML file.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.operations.configure.Configuration.restore" title="hklpy2.operations.configure.Configuration.restore"><code class="xref py py-obj docutils literal notranslate"><span class="pre">restore</span></code></a>(file[, clear, restore_constraints])</p></td>
+<td><p>Restore the diffractometer configuration to a YAML file.</p></td>
 </tr>
 </tbody>
 </table>
 </div>
-<p class="rubric">Python Properties</p>
-<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
-<tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.operations.sample.Sample._asdict" title="hklpy2.operations.sample.Sample._asdict"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_asdict</span></code></a>()</p></td>
-<td><p>Describe the sample as a dictionary.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.operations.sample.Sample.lattice" title="hklpy2.operations.sample.Sample.lattice"><code class="xref py py-obj docutils literal notranslate"><span class="pre">lattice</span></code></a></p></td>
-<td><p>Sample crystal lattice.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.operations.sample.Sample.name" title="hklpy2.operations.sample.Sample.name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></a></p></td>
-<td><p>Sample name.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.operations.sample.Sample.reflections" title="hklpy2.operations.sample.Sample.reflections"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reflections</span></code></a></p></td>
-<td><p>Ordered dictionary of orientation reflections.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.operations.sample.Sample.U" title="hklpy2.operations.sample.Sample.U"><code class="xref py py-obj docutils literal notranslate"><span class="pre">U</span></code></a></p></td>
-<td><p>Return the matrix, U, crystal orientation on the diffractometer.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.operations.sample.Sample.UB" title="hklpy2.operations.sample.Sample.UB"><code class="xref py py-obj docutils literal notranslate"><span class="pre">UB</span></code></a></p></td>
-<td><p>Return the crystal orientation matrix, UB.</p></td>
-</tr>
-</tbody>
-</table>
+<dl class="py method">
+<dt class="sig sig-object py" id="hklpy2.operations.configure.Configuration._asdict">
+<span class="sig-name descname"><span class="pre">_asdict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.12)"><span class="pre">dict</span></a></span></span><a class="reference internal" href="../_modules/hklpy2/operations/configure.html#Configuration._asdict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.operations.configure.Configuration._asdict" title="Link to this definition">#</a></dt>
+<dd><p>Return diffractometer’s configuration as a dict.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="hklpy2.operations.configure.Configuration._fromdict">
+<span class="sig-name descname"><span class="pre">_fromdict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.12)"><span class="pre">dict</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">clear</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">restore_constraints</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hklpy2/operations/configure.html#Configuration._fromdict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.operations.configure.Configuration._fromdict" title="Link to this definition">#</a></dt>
+<dd><p>Restore diffractometer’s configuration from a dict.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="hklpy2.operations.configure.Configuration._valid">
+<span class="sig-name descname"><span class="pre">_valid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hklpy2/operations/configure.html#Configuration._valid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.operations.configure.Configuration._valid" title="Link to this definition">#</a></dt>
+<dd><p>Validate incoming configuration for current diffractometer.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="hklpy2.operations.configure.Configuration.export">
+<span class="sig-name descname"><span class="pre">export</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">comment</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hklpy2/operations/configure.html#Configuration.export"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.operations.configure.Configuration.export" title="Link to this definition">#</a></dt>
+<dd><p>Export the diffractometer configuration to a YAML file.</p>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">hklpy2</span>
+
+<span class="n">e4cv</span> <span class="o">=</span> <span class="n">hklpy2</span><span class="o">.</span><span class="n">SimulatedE4CV</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;e4cv&quot;</span><span class="p">)</span>
+<span class="n">e4cv</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">configuration</span><span class="o">.</span><span class="n">export</span><span class="p">(</span><span class="s2">&quot;e4cv-config.yml&quot;</span><span class="p">,</span> <span class="n">comment</span><span class="o">=</span><span class="s2">&quot;example&quot;</span><span class="p">)</span>
+</pre></div>
 </div>
-<dl class="py property">
-<dt class="sig sig-object py" id="hklpy2.operations.sample.Sample.U">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">U</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.12)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.12)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#hklpy2.operations.sample.Sample.U" title="Link to this definition">#</a></dt>
-<dd><p>Return the matrix, U, crystal orientation on the diffractometer.</p>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="hklpy2.operations.sample.Sample.UB">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">UB</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.12)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.12)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#hklpy2.operations.sample.Sample.UB" title="Link to this definition">#</a></dt>
-<dd><p>Return the crystal orientation matrix, UB.</p>
-<ul class="simple">
-<li><p><span class="math notranslate nohighlight">\(UB\)</span> - orientation matrix</p></li>
-<li><p><span class="math notranslate nohighlight">\(B\)</span> - crystal lattice on the diffractometer</p></li>
-<li><p><span class="math notranslate nohighlight">\(U\)</span> - rotation matrix, relative orientation of crystal on diffractometer</p></li>
-</ul>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="hklpy2.operations.sample.Sample._asdict">
-<span class="sig-name descname"><span class="pre">_asdict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hklpy2/operations/sample.html#Sample._asdict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.operations.sample.Sample._asdict" title="Link to this definition">#</a></dt>
-<dd><p>Describe the sample as a dictionary.</p>
-</dd></dl>
+<dt class="sig sig-object py" id="hklpy2.operations.configure.Configuration.restore">
+<span class="sig-name descname"><span class="pre">restore</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clear</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">restore_constraints</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hklpy2/operations/configure.html#Configuration.restore"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.operations.configure.Configuration.restore" title="Link to this definition">#</a></dt>
+<dd><p>Restore the diffractometer configuration to a YAML file.</p>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">hklpy2</span>
 
-<dl class="py method">
-<dt class="sig sig-object py" id="hklpy2.operations.sample.Sample._fromdict">
-<span class="sig-name descname"><span class="pre">_fromdict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hklpy2/operations/sample.html#Sample._fromdict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.operations.sample.Sample._fromdict" title="Link to this definition">#</a></dt>
-<dd><p>Redefine sample from a (configuration) dictionary.</p>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="hklpy2.operations.sample.Sample.digits">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">digits</span></span><a class="headerlink" href="#hklpy2.operations.sample.Sample.digits" title="Link to this definition">#</a></dt>
-<dd><p>Sample crystal lattice.</p>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="hklpy2.operations.sample.Sample.lattice">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">lattice</span></span><a class="headerlink" href="#hklpy2.operations.sample.Sample.lattice" title="Link to this definition">#</a></dt>
-<dd><p>Sample crystal lattice.</p>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="hklpy2.operations.sample.Sample.name">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#hklpy2.operations.sample.Sample.name" title="Link to this definition">#</a></dt>
-<dd><p>Sample name.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="hklpy2.operations.sample.Sample.refine_lattice">
-<span class="sig-name descname"><span class="pre">refine_lattice</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hklpy2/operations/sample.html#Sample.refine_lattice"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.operations.sample.Sample.refine_lattice" title="Link to this definition">#</a></dt>
-<dd><p>Refine the lattice parameters from 3 or more reflections.</p>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="hklpy2.operations.sample.Sample.reflections">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">reflections</span></span><a class="headerlink" href="#hklpy2.operations.sample.Sample.reflections" title="Link to this definition">#</a></dt>
-<dd><p>Ordered dictionary of orientation reflections.</p>
+<span class="n">e4cv</span> <span class="o">=</span> <span class="n">hklpy2</span><span class="o">.</span><span class="n">SimulatedE4CV</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;e4cv&quot;</span><span class="p">)</span>
+<span class="n">e4cv</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">configuration</span><span class="o">.</span><span class="n">restore</span><span class="p">(</span><span class="s2">&quot;e4cv-config.yml&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>PARAMETERS</p>
+<dl>
+<dt>file <em>str</em> or <em>pathlib.Path</em> object:</dt><dd><p>Name (or pathlib object) of diffractometer configuration YAML file.</p>
+</dd>
+<dt>clear <em>bool</em>:</dt><dd><p>If <code class="docutils literal notranslate"><span class="pre">True</span></code> (default), remove any previous configuration of the
+diffractometer and reset it to default values before restoring the
+configuration.</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">False</span></code>, sample reflections will be append with all reflections
+included in the configuration data for that sample.  Existing
+reflections will not be changed.  The user may need to edit the
+list of reflections after <code class="docutils literal notranslate"><span class="pre">restore(clear=False)</span></code>.</p>
+</dd>
+<dt>restore_constraints <em>bool</em>:</dt><dd><p>If <code class="docutils literal notranslate"><span class="pre">True</span></code> (default), restore any constraints provided.</p>
+</dd>
+</dl>
+<p>Note: Can’t name this method “import”, it’s a reserved Python word.</p>
 </dd></dl>
 
 </dd></dl>
@@ -522,20 +512,20 @@ document.write(`
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="reflection.html"
+       href="../api.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Orientation Reflection</p>
+        <p class="prev-next-title">API</p>
       </div>
     </a>
     <a class="right-next"
-       href="solvers.html"
+       href="constraints.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Solvers</p>
+        <p class="prev-next-title">Constraints</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -557,17 +547,13 @@ document.write(`
   </div>
   <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-hklpy2.operations.sample">Source Code Documentation</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.operations.sample.Sample"><code class="docutils literal notranslate"><span class="pre">Sample</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.operations.sample.Sample.U"><code class="docutils literal notranslate"><span class="pre">Sample.U</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.operations.sample.Sample.UB"><code class="docutils literal notranslate"><span class="pre">Sample.UB</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.operations.sample.Sample._asdict"><code class="docutils literal notranslate"><span class="pre">Sample._asdict()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.operations.sample.Sample._fromdict"><code class="docutils literal notranslate"><span class="pre">Sample._fromdict()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.operations.sample.Sample.digits"><code class="docutils literal notranslate"><span class="pre">Sample.digits</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.operations.sample.Sample.lattice"><code class="docutils literal notranslate"><span class="pre">Sample.lattice</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.operations.sample.Sample.name"><code class="docutils literal notranslate"><span class="pre">Sample.name</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.operations.sample.Sample.refine_lattice"><code class="docutils literal notranslate"><span class="pre">Sample.refine_lattice()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.operations.sample.Sample.reflections"><code class="docutils literal notranslate"><span class="pre">Sample.reflections</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-hklpy2.operations.configure">Source Code Documentation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.operations.configure.Configuration"><code class="docutils literal notranslate"><span class="pre">Configuration</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.operations.configure.Configuration._asdict"><code class="docutils literal notranslate"><span class="pre">Configuration._asdict()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.operations.configure.Configuration._fromdict"><code class="docutils literal notranslate"><span class="pre">Configuration._fromdict()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.operations.configure.Configuration._valid"><code class="docutils literal notranslate"><span class="pre">Configuration._valid()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.operations.configure.Configuration.export"><code class="docutils literal notranslate"><span class="pre">Configuration.export()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.operations.configure.Configuration.restore"><code class="docutils literal notranslate"><span class="pre">Configuration.restore()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -579,7 +565,7 @@ document.write(`
 
   
   <div class="tocsection editthispage">
-    <a href="https://github.com/prjemian/hklpy2/edit/main/docs/api/sample.rst">
+    <a href="https://github.com/prjemian/hklpy2/edit/main/docs/api/configure.rst">
       <i class="fa-solid fa-pencil"></i>
       
       
@@ -594,7 +580,7 @@ document.write(`
   <div class="sidebar-secondary-item">
 
   <div class="tocsection sourcelink">
-    <a href="../_sources/api/sample.rst.txt">
+    <a href="../_sources/api/configure.rst.txt">
       <i class="fa-solid fa-file-lines"></i> Show Source
     </a>
   </div>

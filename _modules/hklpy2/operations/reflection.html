@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../../_static/documentation_options.js?v=22ff2de5"></script>
+    <script src="../../../_static/documentation_options.js?v=2a4e8f4f"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/tabs.js?v=3030b3cb"></script>
@@ -371,7 +371,8 @@ document.write(`
 
 <span class="kn">import</span> <span class="nn">logging</span>
 
-<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">Hklpy2Error</span>
+<span class="kn">from</span> <span class="nn">.misc</span> <span class="kn">import</span> <span class="n">ConfigurationError</span>
+<span class="kn">from</span> <span class="nn">.misc</span> <span class="kn">import</span> <span class="n">ReflectionError</span>
 <span class="kn">from</span> <span class="nn">.misc</span> <span class="kn">import</span> <span class="n">check_value_in_list</span>
 <span class="kn">from</span> <span class="nn">.misc</span> <span class="kn">import</span> <span class="n">compare_float_dicts</span>
 
@@ -379,13 +380,6 @@ document.write(`
 
 <span class="n">UNUSED_REFLECTION</span> <span class="o">=</span> <span class="s2">&quot;unused&quot;</span>
 <span class="sd">&quot;&quot;&quot;Identifies an unused reflection in the ReflectionsDict.&quot;&quot;&quot;</span>
-
-
-<div class="viewcode-block" id="ReflectionError">
-<a class="viewcode-back" href="../../../api/reflection.html#hklpy2.operations.reflection.ReflectionError">[docs]</a>
-<span class="k">class</span> <span class="nc">ReflectionError</span><span class="p">(</span><span class="n">Hklpy2Error</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Custom exceptions from the :mod:`hklpy2.operations.reflection` module.&quot;&quot;&quot;</span></div>
-
 
 
 <div class="viewcode-block" id="Reflection">
@@ -417,6 +411,7 @@ document.write(`
 
 <span class="sd">        ~__eq__</span>
 <span class="sd">        ~_asdict</span>
+<span class="sd">        ~_fromdict</span>
 <span class="sd">        ~_validate_pseudos</span>
 <span class="sd">        ~_validate_reals</span>
 <span class="sd">        ~_validate_wavelength</span>
@@ -450,14 +445,49 @@ document.write(`
 <div class="viewcode-block" id="Reflection._asdict">
 <a class="viewcode-back" href="../../../api/reflection.html#hklpy2.operations.reflection.Reflection._asdict">[docs]</a>
     <span class="k">def</span> <span class="nf">_asdict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Describe the reflection as a dictionary.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Describe this reflection as a dictionary.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="p">{</span>
             <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
             <span class="s2">&quot;geometry&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">geometry</span><span class="p">,</span>
             <span class="s2">&quot;pseudos&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">pseudos</span><span class="p">,</span>
             <span class="s2">&quot;reals&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">reals</span><span class="p">,</span>
             <span class="s2">&quot;wavelength&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">wavelength</span><span class="p">,</span>
+            <span class="s2">&quot;digits&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">digits</span><span class="p">,</span>
         <span class="p">}</span></div>
+
+
+<div class="viewcode-block" id="Reflection._fromdict">
+<a class="viewcode-back" href="../../../api/reflection.html#hklpy2.operations.reflection.Reflection._fromdict">[docs]</a>
+    <span class="k">def</span> <span class="nf">_fromdict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Redefine this reflection from a (configuration) dictionary.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">)</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">ConfigurationError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Mismatched name for reflection </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">!r}</span><span class="s2">.&quot;</span>
+                <span class="sa">f</span><span class="s2">&quot; Received configuration: </span><span class="si">{</span><span class="n">config</span><span class="si">!r}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;geometry&quot;</span><span class="p">)</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">geometry</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">ConfigurationError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Mismatched geometry for reflection </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">!r}</span><span class="s2">.&quot;</span>
+                <span class="sa">f</span><span class="s2">&quot; Expected geometry: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">geometry</span><span class="si">!r}</span><span class="s2">.&quot;</span>
+                <span class="sa">f</span><span class="s2">&quot; Received configuration: </span><span class="si">{</span><span class="n">config</span><span class="si">!r}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pseudos</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">list</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;pseudos&quot;</span><span class="p">]):</span>
+            <span class="k">raise</span> <span class="n">ConfigurationError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Mismatched pseudo axis names for reflection </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">!r}</span><span class="s2">.&quot;</span>
+                <span class="sa">f</span><span class="s2">&quot; Expected: </span><span class="si">{</span><span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pseudos</span><span class="p">)</span><span class="si">!r}</span><span class="s2">.&quot;</span>
+                <span class="sa">f</span><span class="s2">&quot; Received: </span><span class="si">{</span><span class="nb">list</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;pseudos&#39;</span><span class="p">])</span><span class="si">!r}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">reals</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">list</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;reals&quot;</span><span class="p">]):</span>
+            <span class="k">raise</span> <span class="n">ConfigurationError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Mismatched real axis names for reflection </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">!r}</span><span class="s2">.&quot;</span>
+                <span class="sa">f</span><span class="s2">&quot; Expected: </span><span class="si">{</span><span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">reals</span><span class="p">)</span><span class="si">!r}</span><span class="s2">.&quot;</span>
+                <span class="sa">f</span><span class="s2">&quot; Received: </span><span class="si">{</span><span class="nb">list</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;reals&#39;</span><span class="p">])</span><span class="si">!r}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">digits</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;digits&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">digits</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">wavelength</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;wavelength&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">wavelength</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pseudos</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s2">&quot;pseudos&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reals</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s2">&quot;reals&quot;</span><span class="p">]</span></div>
 
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -496,7 +526,7 @@ document.write(`
         <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">pseudo_axis_names</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">value</span><span class="p">:</span>
                 <span class="c1"># fmt: off</span>
-                <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span>
+                <span class="k">raise</span> <span class="n">ReflectionError</span><span class="p">(</span>
                     <span class="sa">f</span><span class="s2">&quot;Missing pseudo axis </span><span class="si">{</span><span class="n">key</span><span class="si">!r}</span><span class="s2">.&quot;</span>
                     <span class="sa">f</span><span class="s2">&quot; Required names: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">pseudo_axis_names</span><span class="si">!r}</span><span class="s2">&quot;</span>
                 <span class="p">)</span></div>
@@ -514,7 +544,7 @@ document.write(`
         <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">real_axis_names</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">value</span><span class="p">:</span>
                 <span class="c1"># fmt: off</span>
-                <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span>
+                <span class="k">raise</span> <span class="n">ReflectionError</span><span class="p">(</span>
                     <span class="sa">f</span><span class="s2">&quot;Missing real axis </span><span class="si">{</span><span class="n">key</span><span class="si">!r}</span><span class="s2">.&quot;</span>
                     <span class="sa">f</span><span class="s2">&quot; Required names: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">real_axis_names</span><span class="si">!r}</span><span class="s2">&quot;</span>
                 <span class="p">)</span></div>
@@ -593,6 +623,7 @@ document.write(`
 <span class="sd">    .. autosummary::</span>
 
 <span class="sd">        ~_asdict</span>
+<span class="sd">        ~_fromdict</span>
 <span class="sd">        ~_validate_reflection</span>
 <span class="sd">        ~add</span>
 <span class="sd">        ~order</span>
@@ -624,19 +655,29 @@ document.write(`
 <span class="sd">        Order by reflections order.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">prune</span><span class="p">()</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="c1"># Ordered reflections first, numbers start from zero.</span>
-        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">order</span><span class="p">):</span>
-            <span class="n">refl</span> <span class="o">=</span> <span class="bp">self</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">_asdict</span><span class="p">()</span>
-            <span class="n">refl</span><span class="p">[</span><span class="s2">&quot;order&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span>
-            <span class="n">result</span><span class="p">[</span><span class="bp">self</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">refl</span>
-        <span class="c1"># Then, any unused reflections.</span>
-        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-            <span class="k">if</span> <span class="n">k</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">order</span><span class="p">:</span>
-                <span class="n">refl</span> <span class="o">=</span> <span class="bp">self</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">_asdict</span><span class="p">()</span>
-                <span class="n">refl</span><span class="p">[</span><span class="s2">&quot;order&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">UNUSED_REFLECTION</span>
-                <span class="n">result</span><span class="p">[</span><span class="bp">self</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">refl</span>
-        <span class="k">return</span> <span class="n">result</span></div>
+        <span class="k">return</span> <span class="p">{</span><span class="n">v</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="n">v</span><span class="o">.</span><span class="n">_asdict</span><span class="p">()</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">()}</span></div>
+
+
+<div class="viewcode-block" id="ReflectionsDict._fromdict">
+<a class="viewcode-back" href="../../../api/reflection.html#hklpy2.operations.reflection.ReflectionsDict._fromdict">[docs]</a>
+    <span class="k">def</span> <span class="nf">_fromdict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add or redefine reflections from a (configuration) dictionary.&quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">refl_config</span> <span class="ow">in</span> <span class="n">config</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">reflection</span> <span class="o">=</span> <span class="n">Reflection</span><span class="p">(</span>
+                <span class="n">refl_config</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">],</span>
+                <span class="n">refl_config</span><span class="p">[</span><span class="s2">&quot;pseudos&quot;</span><span class="p">],</span>
+                <span class="n">refl_config</span><span class="p">[</span><span class="s2">&quot;reals&quot;</span><span class="p">],</span>
+                <span class="n">wavelength</span><span class="o">=</span><span class="n">refl_config</span><span class="p">[</span><span class="s2">&quot;wavelength&quot;</span><span class="p">],</span>
+                <span class="n">geometry</span><span class="o">=</span><span class="n">refl_config</span><span class="p">[</span><span class="s2">&quot;wavelength&quot;</span><span class="p">],</span>
+                <span class="n">pseudo_axis_names</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span>
+                    <span class="n">refl_config</span><span class="p">[</span><span class="s2">&quot;pseudos&quot;</span><span class="p">]</span>
+                <span class="p">),</span>  <span class="c1"># TODO: What if axes names in wrong sequence?</span>
+                <span class="n">real_axis_names</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span>
+                    <span class="n">refl_config</span><span class="p">[</span><span class="s2">&quot;reals&quot;</span><span class="p">]</span>
+                <span class="p">),</span>  <span class="c1"># TODO: What if axes renamed?</span>
+                <span class="n">digits</span><span class="o">=</span><span class="n">refl_config</span><span class="p">[</span><span class="s2">&quot;digits&quot;</span><span class="p">],</span>  <span class="c1"># TODO: Optional?</span>
+            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">reflection</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="ReflectionsDict.set_orientation_reflections">
