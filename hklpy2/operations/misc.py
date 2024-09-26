@@ -17,6 +17,7 @@ Miscellaneous Support.
 .. rubric: Symbols
 .. autosummary::
 
+    ~IDENTITY_MATRIX_3X3
     ~SOLVER_ENTRYPOINT_GROUP
 
 .. rubric: Custom Exceptions
@@ -45,6 +46,7 @@ from .. import Hklpy2Error
 
 logger = logging.getLogger(__name__)
 
+IDENTITY_MATRIX_3X3 = [[1, 0, 0], [0, 1, 0], [0, 0, 1]]
 SOLVER_ENTRYPOINT_GROUP = "hklpy2.solver"
 """Name by which |hklpy2| backend |solver| classes are grouped."""
 

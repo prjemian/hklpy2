@@ -49,8 +49,8 @@ class Sample:
         name: str,
         lattice: Lattice,
     ) -> None:
-        from ..backends.base import IDENTITY_MATRIX_3X3
         from ..ops import Operations
+        from .misc import IDENTITY_MATRIX_3X3
 
         if not isinstance(operator, Operations):
             raise TypeError(f"Unexpected type {operator=!r}, expected Operations")

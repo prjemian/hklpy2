@@ -12,13 +12,11 @@ from abc import abstractmethod
 
 from .. import __version__
 from ..operations.lattice import Lattice
+from ..operations.misc import IDENTITY_MATRIX_3X3
 from ..operations.reflection import Reflection
 from ..operations.sample import Sample
 
 logger = logging.getLogger(__name__)
-
-# TODO: move to misc
-IDENTITY_MATRIX_3X3 = [[1, 0, 0], [0, 1, 0], [0, 0, 1]]
 
 
 class SolverBase(ABC):

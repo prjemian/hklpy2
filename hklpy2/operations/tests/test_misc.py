@@ -1,5 +1,7 @@
 import pytest
+
 from ..misc import roundoff
+
 
 @pytest.mark.parametrize(
     "value, digits, expected_text",

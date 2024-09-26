@@ -106,6 +106,8 @@ class Operations:
                 "real_axes": self.solver.real_axis_names,
             },
         }
+        # TODO: mode
+        # TODO: extras
 
         if self.solver.name == "hkl_soleil":
             config["solver"]["engine"] = self.solver.engine_name

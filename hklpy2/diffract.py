@@ -232,7 +232,6 @@ class DiffractometerBase(PseudoPositioner):
         """Compute real-space coordinates from pseudos (hkl -> angles)."""
         logger.debug("forward: pseudos=%r", pseudos)
         solutions = self.operator.forward(pseudos, wavelength=wavelength)
-        # TODO: constraints
         return self._forward_solution(self.real_position, solutions)
 
     @real_position_argument

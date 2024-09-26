@@ -87,7 +87,8 @@ def scan_extra_parameter(
     controls = detectors
     controls.append(dfrct)
     controls.append(signal)
-    # TODO: controls.append(extras_device)  # TODO: need Device to report ALL extras
+    # TODO: controls.append(extras_device)
+    # TODO: need Device to report ALL extras
     controls = list(set(controls))
 
     @bpp.stage_decorator(detectors)
