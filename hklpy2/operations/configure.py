@@ -47,7 +47,7 @@ class Configuration:
         from ..__init__ import __version__
 
         dfrct = self.diffractometer  # local shortcut
-        config = {
+        config = {  # TODO: move to operator._asdict()
             "_header": {
                 "datetime": str(datetime.datetime.now()),
                 "energy_units": dfrct._wavelength.energy_units,
@@ -74,7 +74,8 @@ class Configuration:
             e4cv.operator.configuration.export("e4cv-config.yml", comment="example")
         """
         path = pathlib.Path(file)
-        config = self._asdict()
+        config = self._asdict()  # TODO: call operator._asdict() directly
+        # TODO: could pass additional header content as kwargs
         config["_header"]["file"] = str(file)
         config["_header"]["comment"] = str(comment)
         dump = yaml.dump(
@@ -162,7 +163,7 @@ class Configuration:
                 "engine mismatch: incoming=%r existing=%r",
             )
         compare(
-            config.get("geometry"),
+            config.get("geometry"),  # TODO: geometry belongs in solver section
             self.diffractometer.operator.solver.geometry,
             "geometry mismatch: incoming=%r existing=%r",
         )

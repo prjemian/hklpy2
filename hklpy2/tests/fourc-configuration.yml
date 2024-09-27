@@ -1,0 +1,131 @@
+#hklpy2 configuration file
+
+_header:
+  datetime: '2024-09-26 17:15:41.875799'
+  energy_units: keV
+  energy: 11.363646219141787
+  hklpy2_version: 0.0.25.dev88+g6e0f270.d20240926
+  python_class: Fourc
+  source_type: X-ray
+  wavelength_units: angstrom
+  wavelength: 1.09106
+  file: fourc-configuration.yml
+  comment: 'E4CV with Fourc axes names and vibranium orientation'
+name: fourc
+geometry: E4CV
+axes:
+  pseudo_axes:
+  - h
+  - k
+  - l
+  real_axes:
+  - theta
+  - chi
+  - phi
+  - ttheta
+  axes_xref:
+    h: h
+    k: k
+    l: l
+    theta: omega
+    chi: chi
+    phi: phi
+    ttheta: tth
+  extra_axes: {}
+sample_name: vibranium
+samples:
+  vibranium:
+    name: vibranium
+    lattice:
+      a: 6.283185307179586
+      b: 6.283185307179586
+      c: 6.283185307179586
+      alpha: 90.0
+      beta: 90.0
+      gamma: 90.0
+    reflections:
+      r1:
+        name: r1
+        geometry: E4CV
+        pseudos:
+          h: 2
+          k: 0
+          l: 0
+        reals:
+          theta: 10
+          chi: 0
+          phi: 0
+          ttheta: 20
+        wavelength: 1.09106
+        digits: 4
+      r2:
+        name: r2
+        geometry: E4CV
+        pseudos:
+          h: 0
+          k: 2
+          l: 0
+        reals:
+          theta: 10
+          chi: 90
+          phi: 0
+          ttheta: 20
+        wavelength: 1.09106
+        digits: 4
+    reflections_order:
+    - r1
+    - r2
+    U:
+    - - -0.0
+      - -0.0
+      - -1.0
+    - - 0.0
+      - 1.0
+      - -0.0
+    - - 1.0
+      - -0.0
+      - -0.0
+    UB:
+    - - -0.0
+      - -0.0
+      - -1.0
+    - - 0.0
+      - 1.0
+      - -0.0
+    - - 1.0
+      - -0.0
+      - -0.0
+    digits: 3
+constraints:
+  theta:
+    label: theta
+    low_limit: -180.0
+    high_limit: 180.0
+    class: LimitsConstraint
+  chi:
+    label: chi
+    low_limit: -180.0
+    high_limit: 180.0
+    class: LimitsConstraint
+  phi:
+    label: phi
+    low_limit: -180.0
+    high_limit: 180.0
+    class: LimitsConstraint
+  ttheta:
+    label: ttheta
+    low_limit: -180.0
+    high_limit: 180.0
+    class: LimitsConstraint
+solver:
+  name: hkl_soleil
+  version: 5.0.0.3512
+  mode: bissector
+  description: HklSolver(name='hkl_soleil', version='5.0.0.3512', geometry='E4CV',
+    engine_name='hkl', mode='bissector')
+  real_axes:
+  - omega
+  - chi
+  - phi
+  - tth
+  engine: hkl

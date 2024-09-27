@@ -89,7 +89,7 @@ class Operations:
         """Describe the diffractometer as a dictionary."""
         config = {
             "name": self.diffractometer.name,
-            "geometry": self.geometry,
+            "geometry": self.geometry,  # TODO: geometry belongs in solver section
             "axes": {
                 "pseudo_axes": self.diffractometer.pseudo_axis_names,
                 "real_axes": self.diffractometer.real_axis_names,
