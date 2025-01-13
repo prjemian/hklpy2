@@ -69,6 +69,7 @@ class DiffractometerBase(PseudoPositioner):
 
     .. autosummary::
 
+        ~configuration
         ~geometry
         ~solver
         ~wavelength
@@ -87,7 +88,6 @@ class DiffractometerBase(PseudoPositioner):
     .. rubric:: Python Properties
 
     .. autosummary::
-
         ~pseudo_axis_names
         ~real_axis_names
         ~sample
@@ -99,6 +99,15 @@ class DiffractometerBase(PseudoPositioner):
     # _pseudo = []  # List of pseudo-space objects.
     # _real = []  # List of real-space objects.
     # This code does NOT redefine them.
+
+    configuration = Cpt(
+        AttributeSignal,
+        attr="_configuration",
+        doc="Diffractometer configuration details (including orientation).",
+        write_access=True,
+        kind="config",
+    )
+    """Diffractometer configuration details."""
 
     geometry = Cpt(
         AttributeSignal,
@@ -225,6 +234,24 @@ class DiffractometerBase(PseudoPositioner):
         not be assigned.
         """
         self.operator.auto_assign_axes()
+
+    @property
+    def _configuration(self) -> dict:
+        """Diffractometer configuration (orientation)."""
+        return self.operator._asdict()
+
+    @_configuration.setter
+    def _configuration(self, config: dict) -> dict:
+        """
+        Diffractometer configuration (orientation).
+
+        PARAMETERS
+
+        config: dict
+            Dictionary of diffractometer configuration, geometry, constraints,
+            samples, reflections, orientations, solver, ...
+        """
+        return self.operator._fromdict(config)
 
     @pseudo_position_argument
     def forward(self, pseudos: dict, wavelength: float = None) -> tuple:

@@ -87,6 +87,8 @@ class Operations:
 
     def _asdict(self):
         """Describe the diffractometer as a dictionary."""
+        if not hasattr(self.diffractometer, "name"):
+            return {}  # Ophyd Device not initialized yet.  Empty dict is OK.
         config = {
             "name": self.diffractometer.name,
             "geometry": self.geometry,  # TODO: geometry belongs in solver section
