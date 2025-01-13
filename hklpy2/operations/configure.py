@@ -14,7 +14,6 @@ From **hklpy**, these TODO items:
 .. seealso:: # https://pyyaml.org/wiki/PyYAMLDocumentation
 """
 
-import datetime
 import logging
 import pathlib
 
@@ -44,23 +43,7 @@ class Configuration:
 
     def _asdict(self) -> dict:
         """Return diffractometer's configuration as a dict."""
-        from ..__init__ import __version__
-
-        dfrct = self.diffractometer  # local shortcut
-        config = {  # TODO: move to operator._asdict()
-            "_header": {
-                "datetime": str(datetime.datetime.now()),
-                "energy_units": dfrct._wavelength.energy_units,
-                "energy": dfrct._wavelength.energy,
-                "hklpy2_version": __version__,
-                "python_class": dfrct.__class__.__name__,
-                "source_type": dfrct._wavelength.source_type,
-                "wavelength_units": dfrct._wavelength.wavelength_units,
-                "wavelength": dfrct._wavelength.wavelength,
-            },
-        }
-        config.update(dfrct.operator._asdict())
-        return config
+        return self.diffractometer.operator._asdict()
 
     def export(self, file, comment=""):
         """

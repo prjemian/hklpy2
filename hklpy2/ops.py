@@ -9,6 +9,7 @@ library.
     ~Operations
 """
 
+import datetime
 import logging
 
 from . import SolverBase
@@ -87,9 +88,21 @@ class Operations:
 
     def _asdict(self):
         """Describe the diffractometer as a dictionary."""
+        from .__init__ import __version__
+
         if not hasattr(self.diffractometer, "name"):
             return {}  # Ophyd Device not initialized yet.  Empty dict is OK.
         config = {
+            "_header": {
+                "datetime": str(datetime.datetime.now()),
+                "energy_units": self._wavelength.energy_units,
+                "energy": self._wavelength.energy,
+                "hklpy2_version": __version__,
+                "python_class": self.__class__.__name__,
+                "source_type": self._wavelength.source_type,
+                "wavelength_units": self._wavelength.wavelength_units,
+                "wavelength": self._wavelength.wavelength,
+            },
             "name": self.diffractometer.name,
             "geometry": self.geometry,  # TODO: geometry belongs in solver section
             "axes": {
