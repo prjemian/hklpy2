@@ -1,20 +1,26 @@
 """Test the hklpy2.ops module."""
 
+import uuid
+
 import pytest
 
 from ..geom import SimulatedTheta2Theta
 from . import models
 
+SKIP_VALUE_TEST = str(uuid.uuid4())
+
 
 @pytest.mark.parametrize(
     "dclass, dname, keypath, value",
     [
+        [models.Fourc, "fourc", "_header", SKIP_VALUE_TEST],
         [models.Fourc, "fourc", "name", "fourc"],
         [models.Fourc, "fourc", "axes.axes_xref", {}],
         [models.Fourc, "fourc", "geometry", "E4CV"],
         [models.Fourc, "fourc", "solver.name", "hkl_soleil"],
-        [models.Fourc, "fourc", "samples", None],
-        [models.Fourc, "fourc", "solver.version", None],
+        [models.Fourc, "fourc", "samples", SKIP_VALUE_TEST],
+        [models.Fourc, "fourc", "solver.version", SKIP_VALUE_TEST],
+        [SimulatedTheta2Theta, "t2t", "_header", SKIP_VALUE_TEST],
         [SimulatedTheta2Theta, "t2t", "name", "t2t"],
         [
             SimulatedTheta2Theta,
@@ -33,11 +39,10 @@ def test_asdict(dclass, dname, keypath, value):
 
     db = fourc.operator._asdict()
     assert db["name"] == dname
-    # assert "_header" not in db  # _header is added by 'configure' module
 
     for k in keypath.split("."):
         db = db.get(k)  # narrow the search
         assert db is not None, f"{k=!r}"
 
-    if value is not None:
+    if value != SKIP_VALUE_TEST:
         assert value == db, f"{value=!r}  {db=!r}"
