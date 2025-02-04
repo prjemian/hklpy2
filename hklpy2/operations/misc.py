@@ -47,6 +47,8 @@ from .. import Hklpy2Error
 logger = logging.getLogger(__name__)
 
 IDENTITY_MATRIX_3X3 = [[1, 0, 0], [0, 1, 0], [0, 0, 1]]
+"""Identity matrix, 2-D, 3 rows, 3 columns."""
+
 SOLVER_ENTRYPOINT_GROUP = "hklpy2.solver"
 """Name by which |hklpy2| backend |solver| classes are grouped."""
 
@@ -147,6 +149,7 @@ def load_yaml(text: str):
 
 
 def load_yaml_file(file):
+    """Return contents of a YAML file as a Python object."""
     path = pathlib.Path(file)
     if not path.exists():
         raise FileExistsError(f"YAML file '{path}' does not exist.")

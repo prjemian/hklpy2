@@ -5,11 +5,18 @@
 
 # flake8: noqa
 
+from importlib.metadata import version
 import pathlib
 import sys
+import tomllib
 
-docs_source = pathlib.Path(__file__).parent
-sys.path.insert(0, str(docs_source.parent.parent))
+root_path = pathlib.Path(__file__).parent.parent.parent
+
+with open(root_path / "pyproject.toml", "rb") as fp:
+    toml = tomllib.load(fp)
+metadata = toml["project"]
+
+sys.path.insert(0, str(root_path))
 
 # imports here for sphinx to build the documents without many WARNINGS.
 import hklpy2
@@ -17,12 +24,18 @@ import hklpy2
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
-project = "hklpy2"
-copyright = "2023-2024, Argonne National Laboratory"
-# author = 'Bluesky team'
+project = metadata["name"]
+github_url = metadata["urls"]["source"]
+copyright = toml["tool"]["copyright"]["copyright"]
+author = metadata["authors"][0]["name"]
+description = metadata["description"]
 release = hklpy2.__version__
-version = ".".join(release.split(".")[:2])
 today_fmt = "%Y-%m-%d %H:%M"
+
+# -- Special handling for version numbers ---------------------------------------------------
+# https://github.com/pypa/setuptools_scm#usage-from-sphinx
+release = version(project)
+version = ".".join(release.split(".")[:2])
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration

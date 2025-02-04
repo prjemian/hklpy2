@@ -1,11 +1,14 @@
 [build-system]
-requires = ["setuptools_scm[toml]>=8", "setuptools>=64.0"]
+requires = ["setuptools_scm[toml]>=8", "setuptools>=70.1"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "hklpy2"
 description = "2nd generation diffractometer controls for the Bluesky Framework."
-authors = [{ name = "Pete Jemian", email = "prjemian+hklpy2@gmail.com" }]
+authors = [
+  { name = "Bluesky Team" },
+  { name = "Pete Jemian", email = "prjemian+hklpy2@gmail.com" },
+]
 maintainers = [{ name = "Pete Jemian", email = "prjemian+hklpy2@gmail.com" }]
 dynamic = ["version"]
 readme = "README.md"
@@ -51,7 +54,7 @@ doc = [
   "nbsphinx",
   "ophyd",
   "pydata-sphinx-theme",
-  "setuptools >=69",
+  "setuptools >=70.1",
   "setuptools-scm >=8",
   "sphinx >=7",
   "sphinx-design",
@@ -60,8 +63,9 @@ doc = [
 all = ["hklpy2[dev,doc]"]
 
 [project.urls]
-"Homepage" = "https://prjemian.github.io/hklpy2"
-"Bug Tracker" = "https://github.com/prjemian/hklpy2/issues"
+homepage = "https://prjemian.github.io/hklpy2"
+issues = "https://github.com/prjemian/hklpy2/issues"
+source = "https://github.com/prjemian/hklpy2"
 
 [tool.black]
 line-length = 115 # matches the value of 'max-line-length' in .flake8
@@ -84,6 +88,9 @@ exclude = '''
   | hkl/_version.py
 )
 '''
+
+[tool.copyright]
+copyright = "2023-2025, Argonne National Laboratory"
 
 [tool.flake8]
 max-line-length = 115
