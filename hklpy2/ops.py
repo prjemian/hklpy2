@@ -90,18 +90,20 @@ class Operations:
         """Describe the diffractometer as a dictionary."""
         from .__init__ import __version__
 
-        if not hasattr(self.diffractometer, "name"):
+        dfrct = self.diffractometer
+        if not hasattr(dfrct, "name") or not hasattr(dfrct, "_wavelength"):
             return {}  # Ophyd Device not initialized yet.  Empty dict is OK.
+
         config = {
             "_header": {
                 "datetime": str(datetime.datetime.now()),
-                "energy_units": self._wavelength.energy_units,
-                "energy": self._wavelength.energy,
+                "energy_units": dfrct._wavelength.energy_units,
+                "energy": dfrct._wavelength.energy,
                 "hklpy2_version": __version__,
-                "python_class": self.__class__.__name__,
-                "source_type": self._wavelength.source_type,
-                "wavelength_units": self._wavelength.wavelength_units,
-                "wavelength": self._wavelength.wavelength,
+                "python_class": dfrct.__class__.__name__,
+                "source_type": dfrct._wavelength.source_type,
+                "wavelength_units": dfrct._wavelength.wavelength_units,
+                "wavelength": dfrct._wavelength.wavelength,
             },
             "name": self.diffractometer.name,
             "geometry": self.geometry,  # TODO: geometry belongs in solver section

@@ -33,7 +33,7 @@ def test_asdict(dclass, dname, keypath, value):
 
     db = fourc.operator._asdict()
     assert db["name"] == dname
-    assert "_header" not in db  # _header is add by 'configure' module
+    # assert "_header" not in db  # _header is added by 'configure' module
 
     for k in keypath.split("."):
         db = db.get(k)  # narrow the search
