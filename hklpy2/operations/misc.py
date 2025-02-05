@@ -23,7 +23,7 @@ Miscellaneous Support.
 .. rubric: Custom Preprocessors
 .. autosummary::
 
-    ~DiffractometerConfigurationRunWrapper
+    ~ConfigurationRunWrapper
 
 .. rubric: Custom Exceptions
 .. autosummary::
@@ -47,7 +47,6 @@ from importlib.metadata import entry_points
 
 import yaml
 
-from .. import DiffractometerBase
 from .. import Hklpy2Error
 
 logger = logging.getLogger(__name__)
@@ -100,111 +99,129 @@ class WavelengthError(Hklpy2Error):
 # Custom preprocessors
 
 
-class DiffractometerConfigurationRunWrapper:
+class ConfigurationRunWrapper:
     """
-    Write configuration of diffractometer(s) to a bluesky run.
+    Write configuration of supported device(s) to a bluesky run.
 
     EXAMPLE::
 
-        dcrw = DiffractometerConfigurationRunWrapper(sim4c2)
-        RE.preprocessors.append(dcrw.wrapper)
-        RE(bp.rel_scan(sim4c2.pseudo_positioners, sim4c2.chi, -.1, .1, 3))
+        crw = ConfigurationRunWrapper(sim4c2)
+        RE.preprocessors.append(crw.wrapper)
+        RE(bp.rel_scan([noisy], m1, -1.2, 1.2, 11))
+
+    Disable the preprocessor::
+
+        crw.enable = False  # 'True' to enable
+
+    Remove the last preprocessor::
+
         RE.preprocessors.pop()
+
+    Add another diffractometer::
+
+        crw.devices.append(e4cv)
 
     .. autosummary::
 
-        ~KNOWN_DIFFRACTOMETERS
-        ~diffractometer_names
-        ~diffractometers
+        ~device_names
+        ~devices
         ~enable
+        ~known_bases
         ~start_key
         ~validate
         ~wrapper
     """
 
-    KNOWN_DIFFRACTOMETERS = (DiffractometerBase,)
-    """
-    Known diffractometer base classes.
+    devices = []
+    """List of devices to be reported."""
 
-    Any diffractometer (base class) that reports its configuration dictionary in
+    known_bases = []
+    """
+    Known device base classes.
+
+    Any device (base class) that reports its configuration dictionary in
     the `.read_configuration()` method can be added to this tuple.
     """
 
-    diffractometers = []
-    """List of diffractometers to be reported."""
-
-    start_key = "diffractometer"
+    start_key = "diffractometers"
     """Top-level key in run's metadata dictionary."""
 
-    def __init__(self, *devices):
+    def __init__(self, *devices, knowns=None):
         """
         Constructor.
 
         EXAMPLES::
 
-            DiffractometerConfigurationRunWrapper(sim4c)
-            DiffractometerConfigurationRunWrapper(e4cv, e6c)
+            ConfigurationRunWrapper(sim4c)
+            ConfigurationRunWrapper(e4cv, e6c)
 
         PARAMETERS
 
         devices : list
-            List of hklpy2 diffractometer objects.
+            List of supported objects to be reported.
+        knowns : list
+            List of base classes that identify supported objects.
+            (default: :class:`hklpy2.DiffractometerBase`)
         """
-        self.validate(devices)
-        self.diffractometers = list(devices)
+        from .. import DiffractometerBase as hklpy2_DiffractometerBase
+
         self.enable = True
+        self.known_bases = knowns or [hklpy2_DiffractometerBase]
+        self.validate(devices)
+        self.devices = list(devices)
 
     @property
-    def diffractometer_names(self) -> [str]:
-        """Return list of configured diffractometer names."""
-        return [dev.name for dev in self.diffractometers]
-
-    def disable(self):
-        """Do not write diffractometer configuration."""
-        self._enable = False
+    def device_names(self) -> [str]:
+        """Return list of configured device names."""
+        return [dev.name for dev in self.devices]
 
     @property
     def enable(self) -> bool:
-        """Is it permitted to write diffractometer configuration?"""
+        """Is it permitted to write device configuration?"""
         return self._enable
 
     @enable.setter
     def enable(self, state: bool) -> None:
-        """Set permit to write diffractometer configuration."""
+        """Set permit to write configuration."""
         self._enable = state
 
-    def validate(self, devices):
-        """Verify all are recognized diffractometer objects."""
+    def validate(self, devices) -> None:
+        """Verify all are recognized objects."""
         for dev in devices:
-            if not isinstance(dev, self.KNOWN_DIFFRACTOMETERS):
-                raise TypeError(f"{dev} is not a known Diffractometer object.")
+            if not isinstance(dev, tuple(self.known_bases)):
+                raise TypeError(f"{dev} is not a recognized object.")
 
     def wrapper(self, plan):
         """
         Bluesky plan wrapper (preprocessor).
 
-        Writes diffractometer(s) configuration to start document metadata.
+        Writes device(s) configuration to start document metadata.
 
         Example::
 
-            dcrw = DiffractometerConfigurationRunWrapper(e4cv)
-            RE.preprocessors.append(dcrw.wrapper)
+            crw = ConfigurationRunWrapper(e4cv)
+            RE.preprocessors.append(crw.wrapper)
         """
         from bluesky import preprocessors as bpp
 
-        if not self._enable or len(self.diffractometers) == 0:
+        if not self._enable or len(self.devices) == 0:
             # Nothing to do here, move on.
             return (yield from plan)
 
-        self.validate(self.diffractometers)
-        md = {
-            self.start_key: {
-                dev.name: dev.read_configuration()
-                # orientation details
-                for dev in self.diffractometers
-            }
+        self.validate(self.devices)
+
+        # TODO: consider allowing ophyd-async to succeed, too
+        # cfg = {}
+        # for dev in self.devices:
+        #     cdict = yield from bps.configure(dev)
+        #     cfg[dev.name] = cdict[-1]
+
+        cfg = {
+            dev.name: dev.read_configuration()
+            # orientation details
+            for dev in self.devices
         }
-        return (yield from bpp.inject_md_wrapper(plan, md))
+        return (yield from bpp.inject_md_wrapper(plan, {self.start_key: cfg}))
 
 
 # Functions
