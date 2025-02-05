@@ -13,14 +13,20 @@ SKIP_EXACT_VALUE_TEST = str(uuid.uuid4())
 @pytest.mark.parametrize(
     "dclass, dname, keypath, value",
     [
+        # spot checks
         [models.Fourc, "fourc", "_header", SKIP_EXACT_VALUE_TEST],
+        [models.Fourc, "fourc", "_header.datetime", SKIP_EXACT_VALUE_TEST],
+        [models.Fourc, "fourc", "_header.wavelength", SKIP_EXACT_VALUE_TEST],
         [models.Fourc, "fourc", "name", "fourc"],
         [models.Fourc, "fourc", "axes.axes_xref", {}],
         [models.Fourc, "fourc", "geometry", "E4CV"],
         [models.Fourc, "fourc", "solver.name", "hkl_soleil"],
         [models.Fourc, "fourc", "samples", SKIP_EXACT_VALUE_TEST],
         [models.Fourc, "fourc", "solver.version", SKIP_EXACT_VALUE_TEST],
+        #
         [SimulatedTheta2Theta, "t2t", "_header", SKIP_EXACT_VALUE_TEST],
+        [SimulatedTheta2Theta, "t2t", "_header.datetime", SKIP_EXACT_VALUE_TEST],
+        [SimulatedTheta2Theta, "t2t", "_header.wavelength", SKIP_EXACT_VALUE_TEST],
         [SimulatedTheta2Theta, "t2t", "name", "t2t"],
         [
             SimulatedTheta2Theta,
