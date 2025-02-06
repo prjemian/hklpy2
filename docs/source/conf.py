@@ -104,6 +104,7 @@ autodoc_default_options = {
     "exclude-members": autodoc_exclude_members,
 }
 autodoc_mock_imports = """
+    bluesky
     gi
     ophyd
     pint
