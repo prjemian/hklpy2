@@ -117,10 +117,16 @@ jobs:
     steps:
       - name: Gather coverage and report to Coveralls
         run: |
-          echo "Finally!"
-          pip3 install --upgrade coveralls
+          set -vxeuo pipefail
+          sudo apt-get install git
+          python3 -m pip3 install \
+            --no-cache-dir \
+            --root-user-action ignore \
+            --upgrade pip coveralls
           # debug mode: output prepared json and reported files list to stdout
           # https://coveralls-python.readthedocs.io/en/latest/troubleshooting.html
+          #
+          echo "Finally!"
           coveralls debug
           coveralls --service=github --finish
         env:
