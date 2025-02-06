@@ -119,6 +119,7 @@ jobs:
         run: |
           set -vxeuo pipefail
           apt-get -y update && apt-get install -y git
+          which git
           python3 -m pip install \
             --no-cache-dir \
             --root-user-action ignore \
@@ -129,7 +130,7 @@ jobs:
           # debug mode: output prepared json and reported files list to stdout
           # https://coveralls-python.readthedocs.io/en/latest/troubleshooting.html
           #
-          coveralls debug
+          # coveralls debug
           coveralls --service=github --finish
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
