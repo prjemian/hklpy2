@@ -119,14 +119,16 @@ jobs:
         run: |
           set -vxeuo pipefail
           apt-get -y update && apt-get install -y git
-          python3 -m pip3 install \
+          python3 -m pip install \
             --no-cache-dir \
             --root-user-action ignore \
             --upgrade pip coveralls
+          #
+          echo "Finally!"
+          #
           # debug mode: output prepared json and reported files list to stdout
           # https://coveralls-python.readthedocs.io/en/latest/troubleshooting.html
           #
-          echo "Finally!"
           coveralls debug
           coveralls --service=github --finish
         env:
