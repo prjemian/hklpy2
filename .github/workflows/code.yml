@@ -97,6 +97,7 @@ jobs:
       # https://github.com/TheKevJames/coveralls-python
       shell: bash -l {0}
       run: |
+        set -vxeuo pipefail
         micromamba list cover
         micromamba list git
         which coveralls
