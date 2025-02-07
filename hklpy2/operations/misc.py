@@ -217,7 +217,6 @@ class ConfigurationRunWrapper:
         #     cfg[dev.name] = cdict[-1]
 
         cfg = {
-            # dev.name: dev.read_configuration()
             dev.name: dev.operator._asdict()  # TODO: generalize
             # orientation details
             for dev in self.devices
