@@ -148,7 +148,7 @@ class Configuration:
                 "engine mismatch: incoming=%r existing=%r",
             )
         compare(
-            config.get("geometry"),  # TODO: geometry belongs in solver section
+            config.get("solver", {}).get("geometry"),
             self.diffractometer.operator.solver.geometry,
             "geometry mismatch: incoming=%r existing=%r",
         )

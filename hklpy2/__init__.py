@@ -35,6 +35,7 @@ from .diffract import DiffractometerBase  # noqa: E402, F401
 from .geom import *  # noqa: E402, F401, F403
 from .operations.configure import Configuration  # noqa: E402, F401
 from .operations.lattice import SI_LATTICE_PARAMETER  # noqa: E402, F401
+from .operations.misc import ConfigurationRunWrapper  # noqa: E402, F401
 from .operations.misc import SOLVER_ENTRYPOINT_GROUP  # noqa: E402, F401
 from .operations.misc import SolverError  # noqa: E402, F401
 from .operations.misc import check_value_in_list  # noqa: E402, F401
