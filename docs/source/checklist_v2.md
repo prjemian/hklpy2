@@ -58,6 +58,7 @@ It could be re-organized.
   * [ ] How to hold axes fixed during `forward()` transformation.
   * [ ] How to migrate from hklpy v1.
   * [x] How to refine lattice from 3 reflections.
+  * [x] How to save & restore diffractometer configuration (includes orientation).
   * [x] How to set UB directly.
 * [ ] Diffractometer-Operations API
   * [x] solver:
