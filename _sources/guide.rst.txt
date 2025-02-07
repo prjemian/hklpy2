@@ -27,5 +27,5 @@ User Guide
     .. grid-item-card:: :material-regular:`install_desktop;3em` :ref:`install`
     .. grid-item-card:: :material-outlined:`list;3em` :ref:`glossary`
 
-      * :doc:`examples/demo`
+      * :doc:`examples/_api_demo`
       * :doc:`examples/diffract`

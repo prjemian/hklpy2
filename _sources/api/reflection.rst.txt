@@ -10,7 +10,7 @@ An orientation :index:`reflection` is a peak intensity (typically an
 observation) due to diffraction from a specific orientation of a crystalline
 sample with respect to the incident radiation. The reflection occurs for a
 precise alignment of the sample's crystalline planes and diffractometer axes
-with the incoming radiation. 
+with the incoming radiation.
 
 The coordinates of two (or more) reflections are used to compute a sample's
 :math:`UB` :index:`orientation matrix`.  :math:`UB` transforms between the

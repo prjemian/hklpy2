@@ -15,32 +15,33 @@
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="../../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link href="../../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
-  
-  <link href="../../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
-
-    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a746c00c" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=fd3f3429" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/tabs.css?v=a5c4661c" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
   
+  <!-- So that users can add custom icons -->
+  <script src="../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
-<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
-  <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../../../_static/documentation_options.js?v=6f29c908"></script>
-    <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../../_static/documentation_options.js?v=18e62e18"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
-    <script src="../../../_static/tabs.js?v=3030b3cb"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/hklpy2/operations/misc';</script>
@@ -48,6 +49,7 @@
     <link rel="search" title="Search" href="../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="0.0" />
   </head>
   
   
@@ -63,19 +65,8 @@
     <i class="fa-solid fa-arrow-up"></i>Back to top</button>
 
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-primary-sidebar-checkbox"/>
-  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
-  
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-secondary-sidebar-checkbox"/>
-  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
-  
-  <div class="search-button__wrapper">
-    <div class="search-button__overlay"></div>
-    <div class="search-button__search-container">
+  <dialog id="pst-search-dialog">
+    
 <form class="bd-search d-flex align-items-center"
       action="../../../search.html"
       method="get">
@@ -83,7 +74,6 @@
   <input type="search"
          class="form-control"
          name="q"
-         id="search-input"
          placeholder="Search the docs ..."
          aria-label="Search the docs ..."
          autocomplete="off"
@@ -91,8 +81,8 @@
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form></div>
-  </div>
+</form>
+  </dialog>
 
   <div class="pst-async-banner-revealer d-none">
   <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
@@ -159,29 +149,21 @@
         <div class="navbar-item navbar-persistent--container">
           
 
- <script>
- document.write(`
-   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span class="search-button__default-text">Search</span>
-    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-   </button>
- `);
- </script>
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
         </div>
       
       
         <div class="navbar-item">
 
-<script>
-document.write(`
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
-    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
-    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
-  </button>
-`);
-</script></div>
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
       
         <div class="navbar-item"><ul class="navbar-icon-links"
     aria-label="Icon Links">
@@ -206,15 +188,11 @@ document.write(`
   
     <div class="navbar-persistent--mobile">
 
- <script>
- document.write(`
-   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span class="search-button__default-text">Search</span>
-    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-   </button>
- `);
- </script>
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
     </div>
   
 
@@ -231,7 +209,8 @@ document.write(`
       
         
       
-      <div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
         
 
   
@@ -271,15 +250,11 @@ document.write(`
         
           <div class="navbar-item">
 
-<script>
-document.write(`
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
-    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
-    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
-  </button>
-`);
-</script></div>
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
         
           <div class="navbar-item"><ul class="navbar-icon-links"
     aria-label="Icon Links">
@@ -303,9 +278,14 @@ document.write(`
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
   </div>
-  
-  <div id="rtd-footer-container"></div>
 
 
       </div>
@@ -323,8 +303,6 @@ document.write(`
       
         <div class="header-article-item">
 
-
-
 <nav aria-label="Breadcrumb" class="d-print-none">
   <ul class="bd-breadcrumbs">
     
@@ -336,7 +314,7 @@ document.write(`
     
     <li class="breadcrumb-item"><a href="../../index.html" class="nav-link">Module code</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page">hklpy2.opera...</li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">hklpy2.operations.misc</span></li>
   </ul>
 </nav>
 </div>
@@ -373,7 +351,13 @@ document.write(`
 <span class="sd">.. rubric: Symbols</span>
 <span class="sd">.. autosummary::</span>
 
+<span class="sd">    ~IDENTITY_MATRIX_3X3</span>
 <span class="sd">    ~SOLVER_ENTRYPOINT_GROUP</span>
+
+<span class="sd">.. rubric: Custom Preprocessors</span>
+<span class="sd">.. autosummary::</span>
+
+<span class="sd">    ~ConfigurationRunWrapper</span>
 
 <span class="sd">.. rubric: Custom Exceptions</span>
 <span class="sd">.. autosummary::</span>
@@ -389,17 +373,20 @@ document.write(`
 <span class="sd">    ~WavelengthError</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">import</span> <span class="nn">logging</span>
-<span class="kn">import</span> <span class="nn">math</span>
-<span class="kn">import</span> <span class="nn">pathlib</span>
-<span class="kn">import</span> <span class="nn">uuid</span>
-<span class="kn">from</span> <span class="nn">importlib.metadata</span> <span class="kn">import</span> <span class="n">entry_points</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pathlib</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">uuid</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">importlib.metadata</span><span class="w"> </span><span class="kn">import</span> <span class="n">entry_points</span>
 
-<span class="kn">import</span> <span class="nn">yaml</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">yaml</span>
 
-<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">Hklpy2Error</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">..</span><span class="w"> </span><span class="kn">import</span> <span class="n">Hklpy2Error</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+<span class="n">IDENTITY_MATRIX_3X3</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]]</span>
+<span class="sd">&quot;&quot;&quot;Identity matrix, 2-D, 3 rows, 3 columns.&quot;&quot;&quot;</span>
 
 <span class="n">SOLVER_ENTRYPOINT_GROUP</span> <span class="o">=</span> <span class="s2">&quot;hklpy2.solver&quot;</span>
 <span class="sd">&quot;&quot;&quot;Name by which |hklpy2| backend |solver| classes are grouped.&quot;&quot;&quot;</span>
@@ -409,64 +396,202 @@ document.write(`
 
 <div class="viewcode-block" id="ConfigurationError">
 <a class="viewcode-back" href="../../../api/z_misc.html#hklpy2.operations.misc.ConfigurationError">[docs]</a>
-<span class="k">class</span> <span class="nc">ConfigurationError</span><span class="p">(</span><span class="n">Hklpy2Error</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">ConfigurationError</span><span class="p">(</span><span class="n">Hklpy2Error</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Custom exceptions from :mod:`hklpy2.operations.configure`.&quot;&quot;&quot;</span></div>
 
 
 
 <div class="viewcode-block" id="ConstraintsError">
 <a class="viewcode-back" href="../../../api/z_misc.html#hklpy2.operations.misc.ConstraintsError">[docs]</a>
-<span class="k">class</span> <span class="nc">ConstraintsError</span><span class="p">(</span><span class="n">Hklpy2Error</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">ConstraintsError</span><span class="p">(</span><span class="n">Hklpy2Error</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Custom exceptions from :mod:`hklpy2.operations.constraints`.&quot;&quot;&quot;</span></div>
 
 
 
 <div class="viewcode-block" id="DiffractometerError">
 <a class="viewcode-back" href="../../../api/z_misc.html#hklpy2.operations.misc.DiffractometerError">[docs]</a>
-<span class="k">class</span> <span class="nc">DiffractometerError</span><span class="p">(</span><span class="n">Hklpy2Error</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">DiffractometerError</span><span class="p">(</span><span class="n">Hklpy2Error</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Custom exceptions from :class:`~DiffractometerBase`.&quot;&quot;&quot;</span></div>
 
 
 
 <div class="viewcode-block" id="LatticeError">
 <a class="viewcode-back" href="../../../api/z_misc.html#hklpy2.operations.misc.LatticeError">[docs]</a>
-<span class="k">class</span> <span class="nc">LatticeError</span><span class="p">(</span><span class="n">Hklpy2Error</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">LatticeError</span><span class="p">(</span><span class="n">Hklpy2Error</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Custom exceptions from :mod:`hklpy2.operations.lattice`.&quot;&quot;&quot;</span></div>
 
 
 
 <div class="viewcode-block" id="OperationsError">
 <a class="viewcode-back" href="../../../api/z_misc.html#hklpy2.operations.misc.OperationsError">[docs]</a>
-<span class="k">class</span> <span class="nc">OperationsError</span><span class="p">(</span><span class="n">Hklpy2Error</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">OperationsError</span><span class="p">(</span><span class="n">Hklpy2Error</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Custom exceptions from :class:`~Operations`.&quot;&quot;&quot;</span></div>
 
 
 
 <div class="viewcode-block" id="ReflectionError">
 <a class="viewcode-back" href="../../../api/z_misc.html#hklpy2.operations.misc.ReflectionError">[docs]</a>
-<span class="k">class</span> <span class="nc">ReflectionError</span><span class="p">(</span><span class="n">Hklpy2Error</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">ReflectionError</span><span class="p">(</span><span class="n">Hklpy2Error</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Custom exceptions from :mod:`hklpy2.operations.reflection`.&quot;&quot;&quot;</span></div>
 
 
 
 <div class="viewcode-block" id="SampleError">
 <a class="viewcode-back" href="../../../api/z_misc.html#hklpy2.operations.misc.SampleError">[docs]</a>
-<span class="k">class</span> <span class="nc">SampleError</span><span class="p">(</span><span class="n">Hklpy2Error</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">SampleError</span><span class="p">(</span><span class="n">Hklpy2Error</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Custom exceptions from :mod:`hklpy2.operations.sample`.&quot;&quot;&quot;</span></div>
 
 
 
 <div class="viewcode-block" id="SolverError">
 <a class="viewcode-back" href="../../../api/z_misc.html#hklpy2.operations.misc.SolverError">[docs]</a>
-<span class="k">class</span> <span class="nc">SolverError</span><span class="p">(</span><span class="n">Hklpy2Error</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">SolverError</span><span class="p">(</span><span class="n">Hklpy2Error</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Custom exceptions from a |solver|.&quot;&quot;&quot;</span></div>
 
 
 
 <div class="viewcode-block" id="WavelengthError">
 <a class="viewcode-back" href="../../../api/z_misc.html#hklpy2.operations.misc.WavelengthError">[docs]</a>
-<span class="k">class</span> <span class="nc">WavelengthError</span><span class="p">(</span><span class="n">Hklpy2Error</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">WavelengthError</span><span class="p">(</span><span class="n">Hklpy2Error</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Custom exceptions from :mod:`hklpy2.wavelength_support`.&quot;&quot;&quot;</span></div>
+
+
+
+<span class="c1"># Custom preprocessors</span>
+
+
+<div class="viewcode-block" id="ConfigurationRunWrapper">
+<a class="viewcode-back" href="../../../api/z_misc.html#hklpy2.operations.misc.ConfigurationRunWrapper">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ConfigurationRunWrapper</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Write configuration of supported device(s) to a bluesky run.</span>
+
+<span class="sd">    EXAMPLE::</span>
+
+<span class="sd">        crw = ConfigurationRunWrapper(sim4c2)</span>
+<span class="sd">        RE.preprocessors.append(crw.wrapper)</span>
+<span class="sd">        RE(bp.rel_scan([noisy], m1, -1.2, 1.2, 11))</span>
+
+<span class="sd">    Disable the preprocessor::</span>
+
+<span class="sd">        crw.enable = False  # &#39;True&#39; to enable</span>
+
+<span class="sd">    Remove the last preprocessor::</span>
+
+<span class="sd">        RE.preprocessors.pop()</span>
+
+<span class="sd">    Add another diffractometer::</span>
+
+<span class="sd">        crw.devices.append(e4cv)</span>
+
+<span class="sd">    .. autosummary::</span>
+
+<span class="sd">        ~device_names</span>
+<span class="sd">        ~devices</span>
+<span class="sd">        ~enable</span>
+<span class="sd">        ~known_bases</span>
+<span class="sd">        ~start_key</span>
+<span class="sd">        ~validate</span>
+<span class="sd">        ~wrapper</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">devices</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;List of devices to be reported.&quot;&quot;&quot;</span>
+
+    <span class="n">known_bases</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Known device base classes.</span>
+
+<span class="sd">    Any device (base class) that reports its configuration dictionary in</span>
+<span class="sd">    the `.read_configuration()` method can be added to this tuple.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">start_key</span> <span class="o">=</span> <span class="s2">&quot;diffractometers&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Top-level key in run&#39;s metadata dictionary.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">devices</span><span class="p">,</span> <span class="n">knowns</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Constructor.</span>
+
+<span class="sd">        EXAMPLES::</span>
+
+<span class="sd">            ConfigurationRunWrapper(sim4c)</span>
+<span class="sd">            ConfigurationRunWrapper(e4cv, e6c)</span>
+
+<span class="sd">        PARAMETERS</span>
+
+<span class="sd">        devices : list</span>
+<span class="sd">            List of supported objects to be reported.</span>
+<span class="sd">        knowns : list</span>
+<span class="sd">            List of base classes that identify supported objects.</span>
+<span class="sd">            (default: :class:`hklpy2.DiffractometerBase`)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">..</span><span class="w"> </span><span class="kn">import</span> <span class="n">DiffractometerBase</span> <span class="k">as</span> <span class="n">hklpy2_DiffractometerBase</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">enable</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">known_bases</span> <span class="o">=</span> <span class="n">knowns</span> <span class="ow">or</span> <span class="p">[</span><span class="n">hklpy2_DiffractometerBase</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="n">devices</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">devices</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">devices</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">device_names</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return list of configured device names.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">dev</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">dev</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">devices</span><span class="p">]</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">enable</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Is it permitted to write device configuration?&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_enable</span>
+
+    <span class="nd">@enable</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">enable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set permit to write configuration.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_enable</span> <span class="o">=</span> <span class="n">state</span>
+
+<div class="viewcode-block" id="ConfigurationRunWrapper.validate">
+<a class="viewcode-back" href="../../../api/z_misc.html#hklpy2.operations.misc.ConfigurationRunWrapper.validate">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">validate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">devices</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Verify all are recognized objects.&quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">dev</span> <span class="ow">in</span> <span class="n">devices</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dev</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">known_bases</span><span class="p">)):</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">dev</span><span class="si">}</span><span class="s2"> is not a recognized object.&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="ConfigurationRunWrapper.wrapper">
+<a class="viewcode-back" href="../../../api/z_misc.html#hklpy2.operations.misc.ConfigurationRunWrapper.wrapper">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">wrapper</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">plan</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Bluesky plan wrapper (preprocessor).</span>
+
+<span class="sd">        Writes device(s) configuration to start document metadata.</span>
+
+<span class="sd">        Example::</span>
+
+<span class="sd">            crw = ConfigurationRunWrapper(e4cv)</span>
+<span class="sd">            RE.preprocessors.append(crw.wrapper)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">bluesky</span><span class="w"> </span><span class="kn">import</span> <span class="n">preprocessors</span> <span class="k">as</span> <span class="n">bpp</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_enable</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">devices</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="c1"># Nothing to do here, move on.</span>
+            <span class="k">return</span> <span class="p">(</span><span class="k">yield from</span> <span class="n">plan</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">devices</span><span class="p">)</span>
+
+        <span class="c1"># TODO: consider allowing ophyd-async to succeed (separate issue)</span>
+        <span class="c1"># cfg = {}</span>
+        <span class="c1"># for dev in self.devices:</span>
+        <span class="c1">#     cdict = yield from bps.configure(dev)</span>
+        <span class="c1">#     cfg[dev.name] = cdict[-1]</span>
+
+        <span class="n">cfg</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="c1"># TODO: generalize (separate issue)</span>
+            <span class="n">dev</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="n">dev</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">_asdict</span><span class="p">()</span>
+            <span class="c1"># orientation details</span>
+            <span class="k">for</span> <span class="n">dev</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">devices</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="p">(</span><span class="k">yield from</span> <span class="n">bpp</span><span class="o">.</span><span class="n">inject_md_wrapper</span><span class="p">(</span><span class="n">plan</span><span class="p">,</span> <span class="p">{</span><span class="bp">self</span><span class="o">.</span><span class="n">start_key</span><span class="p">:</span> <span class="n">cfg</span><span class="p">}))</span></div>
+</div>
 
 
 
@@ -475,7 +600,7 @@ document.write(`
 
 <div class="viewcode-block" id="check_value_in_list">
 <a class="viewcode-back" href="../../../api/z_misc.html#hklpy2.operations.misc.check_value_in_list">[docs]</a>
-<span class="k">def</span> <span class="nf">check_value_in_list</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">examples</span><span class="p">,</span> <span class="n">blank_ok</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">check_value_in_list</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">examples</span><span class="p">,</span> <span class="n">blank_ok</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Raise ValueError exception if value is not in the list of examples.&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">blank_ok</span><span class="p">:</span>
         <span class="n">examples</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
@@ -487,7 +612,7 @@ document.write(`
 
 <div class="viewcode-block" id="compare_float_dicts">
 <a class="viewcode-back" href="../../../api/z_misc.html#hklpy2.operations.misc.compare_float_dicts">[docs]</a>
-<span class="k">def</span> <span class="nf">compare_float_dicts</span><span class="p">(</span><span class="n">a1</span><span class="p">,</span> <span class="n">a2</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">compare_float_dicts</span><span class="p">(</span><span class="n">a1</span><span class="p">,</span> <span class="n">a2</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Compare two dictionaries.  Values are all floats.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -514,7 +639,7 @@ document.write(`
 
 <div class="viewcode-block" id="get_solver">
 <a class="viewcode-back" href="../../../api/z_misc.html#hklpy2.operations.misc.get_solver">[docs]</a>
-<span class="k">def</span> <span class="nf">get_solver</span><span class="p">(</span><span class="n">solver_name</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_solver</span><span class="p">(</span><span class="n">solver_name</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Load a Solver class from a named entry point.</span>
 
@@ -533,33 +658,34 @@ document.write(`
 
 <div class="viewcode-block" id="load_yaml">
 <a class="viewcode-back" href="../../../api/z_misc.html#hklpy2.operations.misc.load_yaml">[docs]</a>
-<span class="k">def</span> <span class="nf">load_yaml</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">load_yaml</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Load YAML from text.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">yaml</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">yaml</span><span class="o">.</span><span class="n">Loader</span><span class="p">)</span></div>
 
 
 
-<span class="k">def</span> <span class="nf">load_yaml_file</span><span class="p">(</span><span class="n">file</span><span class="p">):</span>
+<div class="viewcode-block" id="load_yaml_file">
+<a class="viewcode-back" href="../../../api/z_misc.html#hklpy2.operations.misc.load_yaml_file">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">load_yaml_file</span><span class="p">(</span><span class="n">file</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return contents of a YAML file as a Python object.&quot;&quot;&quot;</span>
     <span class="n">path</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
         <span class="k">raise</span> <span class="ne">FileExistsError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;YAML file &#39;</span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">&#39; does not exist.&quot;</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">load_yaml</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+    <span class="k">return</span> <span class="n">load_yaml</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">())</span></div>
+
 
 
 <div class="viewcode-block" id="roundoff">
 <a class="viewcode-back" href="../../../api/z_misc.html#hklpy2.operations.misc.roundoff">[docs]</a>
-<span class="k">def</span> <span class="nf">roundoff</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">digits</span><span class="o">=</span><span class="mi">4</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">roundoff</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">digits</span><span class="o">=</span><span class="mi">4</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Round a number to specified precision.&quot;&quot;&quot;</span>
-    <span class="n">value</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">ndigits</span><span class="o">=</span><span class="n">digits</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">value</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="n">value</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># do not show as &quot;-0&quot;</span>
-    <span class="k">return</span> <span class="n">value</span></div>
+    <span class="k">return</span> <span class="nb">round</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">ndigits</span><span class="o">=</span><span class="n">digits</span><span class="p">)</span> <span class="ow">or</span> <span class="mi">0</span>  <span class="c1"># &quot;-0&quot; becomes &quot;0&quot;</span></div>
 
 
 
 <div class="viewcode-block" id="solver_factory">
 <a class="viewcode-back" href="../../../api/z_misc.html#hklpy2.operations.misc.solver_factory">[docs]</a>
-<span class="k">def</span> <span class="nf">solver_factory</span><span class="p">(</span><span class="n">solver_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">geometry</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">solver_factory</span><span class="p">(</span><span class="n">solver_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">geometry</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Create a |solver| object with geometry and axes.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -570,7 +696,7 @@ document.write(`
 
 <div class="viewcode-block" id="solvers">
 <a class="viewcode-back" href="../../../api/z_misc.html#hklpy2.operations.misc.solvers">[docs]</a>
-<span class="k">def</span> <span class="nf">solvers</span><span class="p">():</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">solvers</span><span class="p">():</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Dictionary of available Solver classes, mapped by entry point name.</span>
 
@@ -591,7 +717,7 @@ document.write(`
 
 <div class="viewcode-block" id="unique_name">
 <a class="viewcode-back" href="../../../api/z_misc.html#hklpy2.operations.misc.unique_name">[docs]</a>
-<span class="k">def</span> <span class="nf">unique_name</span><span class="p">(</span><span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="mi">7</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">unique_name</span><span class="p">(</span><span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="mi">7</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Short, unique name, first 7 (at most) characters of a unique, random uuid.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -626,8 +752,8 @@ document.write(`
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
-<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
@@ -638,7 +764,7 @@ document.write(`
 
   <p class="copyright">
     
-      © Copyright 2023-2024, Argonne National Laboratory.
+      © Copyright 2023-2025, Argonne National Laboratory.
       <br/>
     
   </p>
@@ -647,7 +773,7 @@ document.write(`
         <div class="footer-item">
 
   <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.0.2.
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
     <br/>
   </p>
 </div>
@@ -660,7 +786,8 @@ document.write(`
       
         <div class="footer-item">
 <p class="theme-version">
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.15.4.
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
 </p></div>
       
     </div>

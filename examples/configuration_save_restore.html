@@ -1,0 +1,1258 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Diffractometer Configuration – Save and Restore &#8212; hklpy2 0.0</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=18e62e18"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'examples/configuration_save_restore';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="UB matrix : calculate from 2 reflections." href="demo_UB_calc.html" />
+    <link rel="prev" title="Demonstrate hklpy2’s API" href="_api_demo.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="0.0" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">hklpy2 0.0</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../guide.html">
+    User Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../api.html">
+    API
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/prjemian/hklpy2" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../guide.html">
+    User Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../api.html">
+    API
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/prjemian/hklpy2" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../design-discussion.html">Design for hklpy2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../checklist_v2.html">Feature Checklist for v2</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../examples.html">Examples</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="_api_demo.html">Demonstrate <strong>hklpy2</strong>’s API</a></li>
+
+
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Diffractometer Configuration – Save and Restore</a></li>
+<li class="toctree-l2"><a class="reference internal" href="demo_UB_calc.html">UB matrix : calculate from 2 reflections.</a></li>
+<li class="toctree-l2"><a class="reference internal" href="demo_UB_set.html">UB matrix : Set directly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="demo_psi_scan_hklpy.html">Scan <span class="math notranslate nohighlight">\(\psi\)</span> at fixed <span class="math notranslate nohighlight">\(Q\)</span> and <span class="math notranslate nohighlight">\(hkl_2\)</span> with <strong>hklpy</strong> (v1)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="demo_refine_lattice.html">Refine lattice from 3 reflections</a></li>
+<li class="toctree-l2"><a class="reference internal" href="diffract.html">Diffractometer Axis Names</a></li>
+<li class="toctree-l2"><a class="reference internal" href="e6c-psi-hklpy.html">Set and compute <span class="math notranslate nohighlight">\(\psi\)</span> (psi)</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="zz_demo_libhkl_python_api.html">Demo: hkl_soleil Python API</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../guide.html" class="nav-link">User Guide</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="../examples.html" class="nav-link">Examples</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Diffractometer Configuration – Save and Restore</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="Diffractometer-Configuration----Save-and-Restore">
+<h1>Diffractometer Configuration – Save and Restore<a class="headerlink" href="#Diffractometer-Configuration----Save-and-Restore" title="Link to this heading">#</a></h1>
+<p>This document shows examples that save and restore the configuration details of a diffractometer. The configuration can be saved to a <a class="reference internal" href="#Files"><span class="std std-ref">file</span></a>. Also, the configuration can be saved in a bluesky <a class="reference internal" href="#Run"><span class="std std-ref">run</span></a> (with the run’s metadata). The details include:</p>
+<ul class="simple">
+<li><p>diffractometer name</p></li>
+<li><p>axes</p>
+<ul>
+<li><p>real-space axis names</p></li>
+<li><p>mapping to canonical real-space axes known to the solver</p></li>
+<li><p>reciprocal-space axis names</p></li>
+<li><p>any extra axes, as used by the solver</p></li>
+</ul>
+</li>
+<li><p>sample(s)</p>
+<ul>
+<li><p>lattice</p></li>
+<li><p>orientation</p></li>
+<li><p>reflections</p></li>
+</ul>
+</li>
+<li><p>constraints</p></li>
+<li><p>solver</p>
+<ul>
+<li><p>geometry</p></li>
+<li><p>real-space axes</p></li>
+<li><p>mode</p></li>
+<li><p>version</p></li>
+</ul>
+</li>
+<li><p>_header (date &amp; time, energy, wavelength, source type, version)</p></li>
+</ul>
+<p>With these configuration details, it should be possible to recover a diffractometer orientation from a previous run or from file storage.</p>
+<section id="Files">
+<h2>Files<a class="headerlink" href="#Files" title="Link to this heading">#</a></h2>
+<p>Create a simulated 4-circle diffractometer.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">hklpy2</span><span class="w"> </span><span class="kn">import</span> <span class="n">SimulatedE4CV</span>
+
+<span class="n">sim4c</span> <span class="o">=</span> <span class="n">SimulatedE4CV</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;sim4c&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>Add a <em>vibranium</em> sample and describe its orientation.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
+
+<span class="n">sim4c</span><span class="o">.</span><span class="n">add_sample</span><span class="p">(</span><span class="s2">&quot;vibranium&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">digits</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">sim4c</span><span class="o">.</span><span class="n">add_reflection</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">20</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;r1&quot;</span><span class="p">)</span>
+<span class="n">sim4c</span><span class="o">.</span><span class="n">add_reflection</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="o">-</span><span class="mi">90</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">20</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;r2&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">sim4c</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">reflections</span><span class="o">.</span><span class="n">order</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">sim4c</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">reflections</span><span class="p">[</span><span class="n">r</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">sim4c</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">calc_UB</span><span class="p">(</span><span class="o">*</span><span class="n">sim4c</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">reflections</span><span class="o">.</span><span class="n">order</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Reflection(name=&#39;r1&#39;, geometry=&#39;E4CV&#39;, pseudos={&#39;h&#39;: 1, &#39;k&#39;: 0, &#39;l&#39;: 0}, reals={&#39;omega&#39;: 10, &#39;chi&#39;: 0, &#39;phi&#39;: 0, &#39;tth&#39;: 20}, wavelength=1.0, digits=4)
+Reflection(name=&#39;r2&#39;, geometry=&#39;E4CV&#39;, pseudos={&#39;h&#39;: 0, &#39;k&#39;: 1, &#39;l&#39;: 0}, reals={&#39;omega&#39;: 10, &#39;chi&#39;: -90, &#39;phi&#39;: 0, &#39;tth&#39;: 20}, wavelength=1.0, digits=4)
+</pre></div></div>
+</div>
+<p>Show details about the diffractometer configuration:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sim4c</span><span class="o">.</span><span class="n">_configuration</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;_header&#39;: {&#39;datetime&#39;: &#39;2025-02-07 14:23:10.571915&#39;,
+  &#39;energy_units&#39;: &#39;keV&#39;,
+  &#39;energy&#39;: 12.398419843856837,
+  &#39;hklpy2_version&#39;: &#39;0.0.25.dev109+g371a538.d20250207&#39;,
+  &#39;python_class&#39;: &#39;SimulatedE4CV&#39;,
+  &#39;source_type&#39;: &#39;X-ray&#39;,
+  &#39;wavelength_units&#39;: &#39;angstrom&#39;,
+  &#39;wavelength&#39;: 1.0},
+ &#39;name&#39;: &#39;sim4c&#39;,
+ &#39;axes&#39;: {&#39;pseudo_axes&#39;: [&#39;h&#39;, &#39;k&#39;, &#39;l&#39;],
+  &#39;real_axes&#39;: [&#39;omega&#39;, &#39;chi&#39;, &#39;phi&#39;, &#39;tth&#39;],
+  &#39;axes_xref&#39;: {&#39;h&#39;: &#39;h&#39;,
+   &#39;k&#39;: &#39;k&#39;,
+   &#39;l&#39;: &#39;l&#39;,
+   &#39;omega&#39;: &#39;omega&#39;,
+   &#39;chi&#39;: &#39;chi&#39;,
+   &#39;phi&#39;: &#39;phi&#39;,
+   &#39;tth&#39;: &#39;tth&#39;},
+  &#39;extra_axes&#39;: {}},
+ &#39;sample_name&#39;: &#39;vibranium&#39;,
+ &#39;samples&#39;: {&#39;sample&#39;: {&#39;name&#39;: &#39;sample&#39;,
+   &#39;lattice&#39;: {&#39;a&#39;: 1,
+    &#39;b&#39;: 1,
+    &#39;c&#39;: 1,
+    &#39;alpha&#39;: 90.0,
+    &#39;beta&#39;: 90.0,
+    &#39;gamma&#39;: 90.0},
+   &#39;reflections&#39;: {},
+   &#39;reflections_order&#39;: [],
+   &#39;U&#39;: [[1, 0, 0], [0, 1, 0], [0, 0, 1]],
+   &#39;UB&#39;: [[1, 0, 0], [0, 1, 0], [0, 0, 1]],
+   &#39;digits&#39;: 4},
+  &#39;vibranium&#39;: {&#39;name&#39;: &#39;vibranium&#39;,
+   &#39;lattice&#39;: {&#39;a&#39;: 6.283185307179586,
+    &#39;b&#39;: 6.283185307179586,
+    &#39;c&#39;: 6.283185307179586,
+    &#39;alpha&#39;: 90.0,
+    &#39;beta&#39;: 90.0,
+    &#39;gamma&#39;: 90.0},
+   &#39;reflections&#39;: {&#39;r1&#39;: {&#39;name&#39;: &#39;r1&#39;,
+     &#39;geometry&#39;: &#39;E4CV&#39;,
+     &#39;pseudos&#39;: {&#39;h&#39;: 1, &#39;k&#39;: 0, &#39;l&#39;: 0},
+     &#39;reals&#39;: {&#39;omega&#39;: 10, &#39;chi&#39;: 0, &#39;phi&#39;: 0, &#39;tth&#39;: 20},
+     &#39;wavelength&#39;: 1.0,
+     &#39;digits&#39;: 4},
+    &#39;r2&#39;: {&#39;name&#39;: &#39;r2&#39;,
+     &#39;geometry&#39;: &#39;E4CV&#39;,
+     &#39;pseudos&#39;: {&#39;h&#39;: 0, &#39;k&#39;: 1, &#39;l&#39;: 0},
+     &#39;reals&#39;: {&#39;omega&#39;: 10, &#39;chi&#39;: -90, &#39;phi&#39;: 0, &#39;tth&#39;: 20},
+     &#39;wavelength&#39;: 1.0,
+     &#39;digits&#39;: 4}},
+   &#39;reflections_order&#39;: [&#39;r1&#39;, &#39;r2&#39;],
+   &#39;U&#39;: [[-0.0, -0.0, 1.0], [0.0, -1.0, -0.0], [1.0, -0.0, 0.0]],
+   &#39;UB&#39;: [[-0.0, -0.0, 1.0], [0.0, -1.0, 0.0], [1.0, -0.0, -0.0]],
+   &#39;digits&#39;: 3}},
+ &#39;constraints&#39;: {&#39;omega&#39;: {&#39;label&#39;: &#39;omega&#39;,
+   &#39;low_limit&#39;: -180.0,
+   &#39;high_limit&#39;: 180.0,
+   &#39;class&#39;: &#39;LimitsConstraint&#39;},
+  &#39;chi&#39;: {&#39;label&#39;: &#39;chi&#39;,
+   &#39;low_limit&#39;: -180.0,
+   &#39;high_limit&#39;: 180.0,
+   &#39;class&#39;: &#39;LimitsConstraint&#39;},
+  &#39;phi&#39;: {&#39;label&#39;: &#39;phi&#39;,
+   &#39;low_limit&#39;: -180.0,
+   &#39;high_limit&#39;: 180.0,
+   &#39;class&#39;: &#39;LimitsConstraint&#39;},
+  &#39;tth&#39;: {&#39;label&#39;: &#39;tth&#39;,
+   &#39;low_limit&#39;: -180.0,
+   &#39;high_limit&#39;: 180.0,
+   &#39;class&#39;: &#39;LimitsConstraint&#39;}},
+ &#39;solver&#39;: {&#39;name&#39;: &#39;hkl_soleil&#39;,
+  &#39;description&#39;: &#34;HklSolver(name=&#39;hkl_soleil&#39;, version=&#39;5.1.2&#39;, geometry=&#39;E4CV&#39;, engine_name=&#39;hkl&#39;, mode=&#39;bissector&#39;)&#34;,
+  &#39;geometry&#39;: &#39;E4CV&#39;,
+  &#39;mode&#39;: &#39;bissector&#39;,
+  &#39;real_axes&#39;: [&#39;omega&#39;, &#39;chi&#39;, &#39;phi&#39;, &#39;tth&#39;],
+  &#39;version&#39;: &#39;5.1.2&#39;,
+  &#39;engine&#39;: &#39;hkl&#39;}}
+</pre></div></div>
+</div>
+<section id="Export-(save)-the-configuration">
+<h3>Export (save) the configuration<a class="headerlink" href="#Export-(save)-the-configuration" title="Link to this heading">#</a></h3>
+<p>Save the <code class="docutils literal notranslate"><span class="pre">sim4c</span></code> configuration (with vibranium sample orientation) to a <a class="reference external" href="https://yaml.org">YAML</a> file in the current working directory: <code class="docutils literal notranslate"><span class="pre">dev_e4cv-vibranium.yml</span></code>. (Here, we choose to identify file by including the diffractometer geometry as part of the file name. The <code class="docutils literal notranslate"><span class="pre">dev_</span></code> prefix is an additional arbitrary choice, you could choose a completely different file name.)</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sim4c</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">export</span><span class="p">(</span><span class="s2">&quot;dev_e4cv-vibranium.yml&quot;</span><span class="p">,</span> <span class="n">comment</span><span class="o">=</span><span class="s2">&quot;example&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>Let’s look at that file. Then, compare it with the <code class="docutils literal notranslate"><span class="pre">sim4c._configuration</span></code> reported above.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">pycat</span> dev_e4cv-vibranium.yml
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-red-fg">#hklpy2 configuration file</span>
+
+_header<span class="ansi-blue-fg">:</span>
+  datetime<span class="ansi-blue-fg">:</span> <span class="ansi-blue-fg">&#39;2025-02-07 14:23:10.720323&#39;</span>
+  energy_units<span class="ansi-blue-fg">:</span> keV
+  energy<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">12.398419843856837</span>
+  hklpy2_version<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">0.0</span><span class="ansi-cyan-fg">.25</span><span class="ansi-blue-fg">.</span>dev109<span class="ansi-blue-fg">+</span>g371a538<span class="ansi-blue-fg">.</span>d20250207
+  python_class<span class="ansi-blue-fg">:</span> SimulatedE4CV
+  source_type<span class="ansi-blue-fg">:</span> X<span class="ansi-blue-fg">-</span>ray
+  wavelength_units<span class="ansi-blue-fg">:</span> angstrom
+  wavelength<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">1.0</span>
+  file<span class="ansi-blue-fg">:</span> dev_e4cv<span class="ansi-blue-fg">-</span>vibranium<span class="ansi-blue-fg">.</span>yml
+  comment<span class="ansi-blue-fg">:</span> example
+name<span class="ansi-blue-fg">:</span> sim4c
+axes<span class="ansi-blue-fg">:</span>
+  pseudo_axes<span class="ansi-blue-fg">:</span>
+  <span class="ansi-blue-fg">-</span> h
+  <span class="ansi-blue-fg">-</span> k
+  <span class="ansi-blue-fg">-</span> l
+  real_axes<span class="ansi-blue-fg">:</span>
+  <span class="ansi-blue-fg">-</span> omega
+  <span class="ansi-blue-fg">-</span> chi
+  <span class="ansi-blue-fg">-</span> phi
+  <span class="ansi-blue-fg">-</span> tth
+  axes_xref<span class="ansi-blue-fg">:</span>
+    h<span class="ansi-blue-fg">:</span> h
+    k<span class="ansi-blue-fg">:</span> k
+    l<span class="ansi-blue-fg">:</span> l
+    omega<span class="ansi-blue-fg">:</span> omega
+    chi<span class="ansi-blue-fg">:</span> chi
+    phi<span class="ansi-blue-fg">:</span> phi
+    tth<span class="ansi-blue-fg">:</span> tth
+  extra_axes<span class="ansi-blue-fg">:</span> <span class="ansi-blue-fg">{</span><span class="ansi-blue-fg">}</span>
+sample_name<span class="ansi-blue-fg">:</span> vibranium
+samples<span class="ansi-blue-fg">:</span>
+  sample<span class="ansi-blue-fg">:</span>
+    name<span class="ansi-blue-fg">:</span> sample
+    lattice<span class="ansi-blue-fg">:</span>
+      a<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">1</span>
+      b<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">1</span>
+      c<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">1</span>
+      alpha<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">90.0</span>
+      beta<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">90.0</span>
+      gamma<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">90.0</span>
+    reflections<span class="ansi-blue-fg">:</span> <span class="ansi-blue-fg">{</span><span class="ansi-blue-fg">}</span>
+    reflections_order<span class="ansi-blue-fg">:</span> <span class="ansi-blue-fg">[</span><span class="ansi-blue-fg">]</span>
+    U<span class="ansi-blue-fg">:</span> <span class="ansi-blue-fg">&amp;</span>id001
+    <span class="ansi-blue-fg">-</span> <span class="ansi-blue-fg">-</span> <span class="ansi-cyan-fg">1</span>
+      <span class="ansi-blue-fg">-</span> <span class="ansi-cyan-fg">0</span>
+      <span class="ansi-blue-fg">-</span> <span class="ansi-cyan-fg">0</span>
+    <span class="ansi-blue-fg">-</span> <span class="ansi-blue-fg">-</span> <span class="ansi-cyan-fg">0</span>
+      <span class="ansi-blue-fg">-</span> <span class="ansi-cyan-fg">1</span>
+      <span class="ansi-blue-fg">-</span> <span class="ansi-cyan-fg">0</span>
+    <span class="ansi-blue-fg">-</span> <span class="ansi-blue-fg">-</span> <span class="ansi-cyan-fg">0</span>
+      <span class="ansi-blue-fg">-</span> <span class="ansi-cyan-fg">0</span>
+      <span class="ansi-blue-fg">-</span> <span class="ansi-cyan-fg">1</span>
+    UB<span class="ansi-blue-fg">:</span> <span class="ansi-blue-fg">*</span>id001
+    digits<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">4</span>
+  vibranium<span class="ansi-blue-fg">:</span>
+    name<span class="ansi-blue-fg">:</span> vibranium
+    lattice<span class="ansi-blue-fg">:</span>
+      a<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">6.283185307179586</span>
+      b<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">6.283185307179586</span>
+      c<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">6.283185307179586</span>
+      alpha<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">90.0</span>
+      beta<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">90.0</span>
+      gamma<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">90.0</span>
+    reflections<span class="ansi-blue-fg">:</span>
+      r1<span class="ansi-blue-fg">:</span>
+        name<span class="ansi-blue-fg">:</span> r1
+        geometry<span class="ansi-blue-fg">:</span> E4CV
+        pseudos<span class="ansi-blue-fg">:</span>
+          h<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">1</span>
+          k<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">0</span>
+          l<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">0</span>
+        reals<span class="ansi-blue-fg">:</span>
+          omega<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">10</span>
+          chi<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">0</span>
+          phi<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">0</span>
+          tth<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">20</span>
+        wavelength<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">1.0</span>
+        digits<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">4</span>
+      r2<span class="ansi-blue-fg">:</span>
+        name<span class="ansi-blue-fg">:</span> r2
+        geometry<span class="ansi-blue-fg">:</span> E4CV
+        pseudos<span class="ansi-blue-fg">:</span>
+          h<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">0</span>
+          k<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">1</span>
+          l<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">0</span>
+        reals<span class="ansi-blue-fg">:</span>
+          omega<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">10</span>
+          chi<span class="ansi-blue-fg">:</span> <span class="ansi-blue-fg">-</span><span class="ansi-cyan-fg">90</span>
+          phi<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">0</span>
+          tth<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">20</span>
+        wavelength<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">1.0</span>
+        digits<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">4</span>
+    reflections_order<span class="ansi-blue-fg">:</span>
+    <span class="ansi-blue-fg">-</span> r1
+    <span class="ansi-blue-fg">-</span> r2
+    U<span class="ansi-blue-fg">:</span>
+    <span class="ansi-blue-fg">-</span> <span class="ansi-blue-fg">-</span> <span class="ansi-blue-fg">-</span><span class="ansi-cyan-fg">0.0</span>
+      <span class="ansi-blue-fg">-</span> <span class="ansi-blue-fg">-</span><span class="ansi-cyan-fg">0.0</span>
+      <span class="ansi-blue-fg">-</span> <span class="ansi-cyan-fg">1.0</span>
+    <span class="ansi-blue-fg">-</span> <span class="ansi-blue-fg">-</span> <span class="ansi-cyan-fg">0.0</span>
+      <span class="ansi-blue-fg">-</span> <span class="ansi-blue-fg">-</span><span class="ansi-cyan-fg">1.0</span>
+      <span class="ansi-blue-fg">-</span> <span class="ansi-blue-fg">-</span><span class="ansi-cyan-fg">0.0</span>
+    <span class="ansi-blue-fg">-</span> <span class="ansi-blue-fg">-</span> <span class="ansi-cyan-fg">1.0</span>
+      <span class="ansi-blue-fg">-</span> <span class="ansi-blue-fg">-</span><span class="ansi-cyan-fg">0.0</span>
+      <span class="ansi-blue-fg">-</span> <span class="ansi-cyan-fg">0.0</span>
+    UB<span class="ansi-blue-fg">:</span>
+    <span class="ansi-blue-fg">-</span> <span class="ansi-blue-fg">-</span> <span class="ansi-blue-fg">-</span><span class="ansi-cyan-fg">0.0</span>
+      <span class="ansi-blue-fg">-</span> <span class="ansi-blue-fg">-</span><span class="ansi-cyan-fg">0.0</span>
+      <span class="ansi-blue-fg">-</span> <span class="ansi-cyan-fg">1.0</span>
+    <span class="ansi-blue-fg">-</span> <span class="ansi-blue-fg">-</span> <span class="ansi-cyan-fg">0.0</span>
+      <span class="ansi-blue-fg">-</span> <span class="ansi-blue-fg">-</span><span class="ansi-cyan-fg">1.0</span>
+      <span class="ansi-blue-fg">-</span> <span class="ansi-cyan-fg">0.0</span>
+    <span class="ansi-blue-fg">-</span> <span class="ansi-blue-fg">-</span> <span class="ansi-cyan-fg">1.0</span>
+      <span class="ansi-blue-fg">-</span> <span class="ansi-blue-fg">-</span><span class="ansi-cyan-fg">0.0</span>
+      <span class="ansi-blue-fg">-</span> <span class="ansi-blue-fg">-</span><span class="ansi-cyan-fg">0.0</span>
+    digits<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">3</span>
+constraints<span class="ansi-blue-fg">:</span>
+  omega<span class="ansi-blue-fg">:</span>
+    label<span class="ansi-blue-fg">:</span> omega
+    low_limit<span class="ansi-blue-fg">:</span> <span class="ansi-blue-fg">-</span><span class="ansi-cyan-fg">180.0</span>
+    high_limit<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">180.0</span>
+    <span class="ansi-green-fg">class</span><span class="ansi-blue-fg">:</span> LimitsConstraint
+  chi<span class="ansi-blue-fg">:</span>
+    label<span class="ansi-blue-fg">:</span> chi
+    low_limit<span class="ansi-blue-fg">:</span> <span class="ansi-blue-fg">-</span><span class="ansi-cyan-fg">180.0</span>
+    high_limit<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">180.0</span>
+    <span class="ansi-green-fg">class</span><span class="ansi-blue-fg">:</span> LimitsConstraint
+  phi<span class="ansi-blue-fg">:</span>
+    label<span class="ansi-blue-fg">:</span> phi
+    low_limit<span class="ansi-blue-fg">:</span> <span class="ansi-blue-fg">-</span><span class="ansi-cyan-fg">180.0</span>
+    high_limit<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">180.0</span>
+    <span class="ansi-green-fg">class</span><span class="ansi-blue-fg">:</span> LimitsConstraint
+  tth<span class="ansi-blue-fg">:</span>
+    label<span class="ansi-blue-fg">:</span> tth
+    low_limit<span class="ansi-blue-fg">:</span> <span class="ansi-blue-fg">-</span><span class="ansi-cyan-fg">180.0</span>
+    high_limit<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">180.0</span>
+    <span class="ansi-green-fg">class</span><span class="ansi-blue-fg">:</span> LimitsConstraint
+solver<span class="ansi-blue-fg">:</span>
+  name<span class="ansi-blue-fg">:</span> hkl_soleil
+  description<span class="ansi-blue-fg">:</span> HklSolver<span class="ansi-blue-fg">(</span>name<span class="ansi-blue-fg">=</span><span class="ansi-blue-fg">&#39;hkl_soleil&#39;</span><span class="ansi-blue-fg">,</span> version<span class="ansi-blue-fg">=</span><span class="ansi-blue-fg">&#39;5.1.2&#39;</span><span class="ansi-blue-fg">,</span> geometry<span class="ansi-blue-fg">=</span><span class="ansi-blue-fg">&#39;E4CV&#39;</span><span class="ansi-blue-fg">,</span> engine_name<span class="ansi-blue-fg">=</span><span class="ansi-blue-fg">&#39;hkl&#39;</span><span class="ansi-blue-fg">,</span>
+    mode<span class="ansi-blue-fg">=</span><span class="ansi-blue-fg">&#39;bissector&#39;</span><span class="ansi-blue-fg">)</span>
+  geometry<span class="ansi-blue-fg">:</span> E4CV
+  mode<span class="ansi-blue-fg">:</span> bissector
+  real_axes<span class="ansi-blue-fg">:</span>
+  <span class="ansi-blue-fg">-</span> omega
+  <span class="ansi-blue-fg">-</span> chi
+  <span class="ansi-blue-fg">-</span> phi
+  <span class="ansi-blue-fg">-</span> tth
+  version<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">5.1</span><span class="ansi-cyan-fg">.2</span>
+  engine<span class="ansi-blue-fg">:</span> hkl
+</pre></div></div>
+</div>
+</section>
+<section id="Restore-(load)-Configuration">
+<h3>Restore (load) Configuration<a class="headerlink" href="#Restore-(load)-Configuration" title="Link to this heading">#</a></h3>
+<p>To demonstrate restore, let’s start again with an unconfigured diffractometer. We’ll just recreate the <code class="docutils literal notranslate"><span class="pre">sim4c</span></code> object. There will only be the default <code class="docutils literal notranslate"><span class="pre">sample</span></code>.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sim4c</span> <span class="o">=</span> <span class="n">SimulatedE4CV</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;sim4c&quot;</span><span class="p">)</span>
+<span class="n">sim4c</span><span class="o">.</span><span class="n">samples</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;sample&#39;: Sample(name=&#39;sample&#39;, lattice=Lattice(a=1, system=&#39;cubic&#39;))}
+</pre></div></div>
+</div>
+<p>Restore the configuration from the <code class="docutils literal notranslate"><span class="pre">dev_e4cv-vibranium.yml</span></code> file.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sim4c</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">restore</span><span class="p">(</span><span class="s2">&quot;dev_e4cv-vibranium.yml&quot;</span><span class="p">,</span> <span class="n">clear</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>Show the samples again:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sim4c</span><span class="o">.</span><span class="n">samples</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;sample&#39;: Sample(name=&#39;sample&#39;, lattice=Lattice(a=1, system=&#39;cubic&#39;)),
+ &#39;vibranium&#39;: Sample(name=&#39;vibranium&#39;, lattice=Lattice(a=6.283, system=&#39;cubic&#39;))}
+</pre></div></div>
+</div>
+<p>Show the full configuration report again:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sim4c</span><span class="o">.</span><span class="n">_configuration</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;_header&#39;: {&#39;datetime&#39;: &#39;2025-02-07 14:23:10.806091&#39;,
+  &#39;energy_units&#39;: &#39;keV&#39;,
+  &#39;energy&#39;: 12.398419843856837,
+  &#39;hklpy2_version&#39;: &#39;0.0.25.dev109+g371a538.d20250207&#39;,
+  &#39;python_class&#39;: &#39;SimulatedE4CV&#39;,
+  &#39;source_type&#39;: &#39;X-ray&#39;,
+  &#39;wavelength_units&#39;: &#39;angstrom&#39;,
+  &#39;wavelength&#39;: 1.0},
+ &#39;name&#39;: &#39;sim4c&#39;,
+ &#39;axes&#39;: {&#39;pseudo_axes&#39;: [&#39;h&#39;, &#39;k&#39;, &#39;l&#39;],
+  &#39;real_axes&#39;: [&#39;omega&#39;, &#39;chi&#39;, &#39;phi&#39;, &#39;tth&#39;],
+  &#39;axes_xref&#39;: {&#39;h&#39;: &#39;h&#39;,
+   &#39;k&#39;: &#39;k&#39;,
+   &#39;l&#39;: &#39;l&#39;,
+   &#39;omega&#39;: &#39;omega&#39;,
+   &#39;chi&#39;: &#39;chi&#39;,
+   &#39;phi&#39;: &#39;phi&#39;,
+   &#39;tth&#39;: &#39;tth&#39;},
+  &#39;extra_axes&#39;: {}},
+ &#39;sample_name&#39;: &#39;vibranium&#39;,
+ &#39;samples&#39;: {&#39;sample&#39;: {&#39;name&#39;: &#39;sample&#39;,
+   &#39;lattice&#39;: {&#39;a&#39;: 1,
+    &#39;b&#39;: 1,
+    &#39;c&#39;: 1,
+    &#39;alpha&#39;: 90.0,
+    &#39;beta&#39;: 90.0,
+    &#39;gamma&#39;: 90.0},
+   &#39;reflections&#39;: {},
+   &#39;reflections_order&#39;: [],
+   &#39;U&#39;: [[1, 0, 0], [0, 1, 0], [0, 0, 1]],
+   &#39;UB&#39;: [[1, 0, 0], [0, 1, 0], [0, 0, 1]],
+   &#39;digits&#39;: 4},
+  &#39;vibranium&#39;: {&#39;name&#39;: &#39;vibranium&#39;,
+   &#39;lattice&#39;: {&#39;a&#39;: 6.283185307179586,
+    &#39;b&#39;: 6.283185307179586,
+    &#39;c&#39;: 6.283185307179586,
+    &#39;alpha&#39;: 90.0,
+    &#39;beta&#39;: 90.0,
+    &#39;gamma&#39;: 90.0},
+   &#39;reflections&#39;: {&#39;r1&#39;: {&#39;name&#39;: &#39;r1&#39;,
+     &#39;geometry&#39;: 1.0,
+     &#39;pseudos&#39;: {&#39;h&#39;: 1, &#39;k&#39;: 0, &#39;l&#39;: 0},
+     &#39;reals&#39;: {&#39;omega&#39;: 10, &#39;chi&#39;: 0, &#39;phi&#39;: 0, &#39;tth&#39;: 20},
+     &#39;wavelength&#39;: 1.0,
+     &#39;digits&#39;: 4},
+    &#39;r2&#39;: {&#39;name&#39;: &#39;r2&#39;,
+     &#39;geometry&#39;: 1.0,
+     &#39;pseudos&#39;: {&#39;h&#39;: 0, &#39;k&#39;: 1, &#39;l&#39;: 0},
+     &#39;reals&#39;: {&#39;omega&#39;: 10, &#39;chi&#39;: -90, &#39;phi&#39;: 0, &#39;tth&#39;: 20},
+     &#39;wavelength&#39;: 1.0,
+     &#39;digits&#39;: 4}},
+   &#39;reflections_order&#39;: [&#39;r1&#39;, &#39;r2&#39;],
+   &#39;U&#39;: [[-0.0, -0.0, 1.0], [0.0, -1.0, -0.0], [1.0, -0.0, 0.0]],
+   &#39;UB&#39;: [[-0.0, -0.0, 1.0], [0.0, -1.0, 0.0], [1.0, -0.0, -0.0]],
+   &#39;digits&#39;: 3}},
+ &#39;constraints&#39;: {&#39;omega&#39;: {&#39;label&#39;: &#39;omega&#39;,
+   &#39;low_limit&#39;: -180.0,
+   &#39;high_limit&#39;: 180.0,
+   &#39;class&#39;: &#39;LimitsConstraint&#39;},
+  &#39;chi&#39;: {&#39;label&#39;: &#39;chi&#39;,
+   &#39;low_limit&#39;: -180.0,
+   &#39;high_limit&#39;: 180.0,
+   &#39;class&#39;: &#39;LimitsConstraint&#39;},
+  &#39;phi&#39;: {&#39;label&#39;: &#39;phi&#39;,
+   &#39;low_limit&#39;: -180.0,
+   &#39;high_limit&#39;: 180.0,
+   &#39;class&#39;: &#39;LimitsConstraint&#39;},
+  &#39;tth&#39;: {&#39;label&#39;: &#39;tth&#39;,
+   &#39;low_limit&#39;: -180.0,
+   &#39;high_limit&#39;: 180.0,
+   &#39;class&#39;: &#39;LimitsConstraint&#39;}},
+ &#39;solver&#39;: {&#39;name&#39;: &#39;hkl_soleil&#39;,
+  &#39;description&#39;: &#34;HklSolver(name=&#39;hkl_soleil&#39;, version=&#39;5.1.2&#39;, geometry=&#39;E4CV&#39;, engine_name=&#39;hkl&#39;, mode=&#39;bissector&#39;)&#34;,
+  &#39;geometry&#39;: &#39;E4CV&#39;,
+  &#39;mode&#39;: &#39;bissector&#39;,
+  &#39;real_axes&#39;: [&#39;omega&#39;, &#39;chi&#39;, &#39;phi&#39;, &#39;tth&#39;],
+  &#39;version&#39;: &#39;5.1.2&#39;,
+  &#39;engine&#39;: &#39;hkl&#39;}}
+</pre></div></div>
+</div>
+</section>
+</section>
+<section id="Run">
+<h2>Run<a class="headerlink" href="#Run" title="Link to this heading">#</a></h2>
+<p>The configuration of one or more diffractometers can be saved to the metadata of each run. To save the configuration(s), an instance of the <a class="reference external" href="https://prjemian.github.io/hklpy2/api/z_misc.html">ConfigurationRunWrapper</a> <a class="reference external" href="https://blueskyproject.io/bluesky/main/plans.html#supplemental-data">preprocessor</a> is added to the <code class="docutils literal notranslate"><span class="pre">RE</span></code>.</p>
+<p>This example uses one diffractometer, an Eulerian 4-circle named <code class="docutils literal notranslate"><span class="pre">sim4c</span></code>.</p>
+<p>First, create a simulated 4-circle diffractometer. We’ll load the orientation from the <code class="docutils literal notranslate"><span class="pre">dev_e4cv-vibranium.yml</span></code> file we created above.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">hklpy2</span><span class="w"> </span><span class="kn">import</span> <span class="n">SimulatedE4CV</span>
+
+<span class="n">sim4c</span> <span class="o">=</span> <span class="n">SimulatedE4CV</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;sim4c&quot;</span><span class="p">)</span>
+<span class="n">sim4c</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">restore</span><span class="p">(</span><span class="s2">&quot;dev_e4cv-vibranium.yml&quot;</span><span class="p">,</span> <span class="n">clear</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>Setup bluesky to run standard plans with the <code class="docutils literal notranslate"><span class="pre">RunEngine</span></code>. Also get <code class="docutils literal notranslate"><span class="pre">noisy_det</span></code> from the ophyd simulated detectors. To restore a diffractometer configuration from a previous run, we’ll need a catalog (<code class="docutils literal notranslate"><span class="pre">cat</span></code>) of runs.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">bluesky</span><span class="w"> </span><span class="kn">import</span> <span class="n">RunEngine</span><span class="p">,</span> <span class="n">plans</span> <span class="k">as</span> <span class="n">bp</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ophyd.sim</span><span class="w"> </span><span class="kn">import</span> <span class="n">noisy_det</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">databroker</span>
+
+<span class="n">RE</span> <span class="o">=</span> <span class="n">RunEngine</span><span class="p">()</span>
+<span class="n">cat</span> <span class="o">=</span> <span class="n">databroker</span><span class="o">.</span><span class="n">temp</span><span class="p">()</span><span class="o">.</span><span class="n">v2</span>
+<span class="n">RE</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="n">cat</span><span class="o">.</span><span class="n">v1</span><span class="o">.</span><span class="n">insert</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+0
+</pre></div></div>
+</div>
+<section id="Save-configuration-with-every-run">
+<h3>Save configuration with every run<a class="headerlink" href="#Save-configuration-with-every-run" title="Link to this heading">#</a></h3>
+<p>Create an instance of the <code class="docutils literal notranslate"><span class="pre">ConfigurationRunWrapper</span></code>, adding the <code class="docutils literal notranslate"><span class="pre">sim4c</span></code> diffractometer.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">hklpy2</span><span class="w"> </span><span class="kn">import</span> <span class="n">ConfigurationRunWrapper</span>
+
+<span class="n">crw</span> <span class="o">=</span> <span class="n">ConfigurationRunWrapper</span><span class="p">(</span><span class="n">sim4c</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>Add the <code class="docutils literal notranslate"><span class="pre">crw</span></code> instance to the list of preprocessors that are run by the <code class="docutils literal notranslate"><span class="pre">RE</span></code>. Each one examines the sequence of <code class="docutils literal notranslate"><span class="pre">Msg</span></code> objects internal to the RunEngine. The <code class="docutils literal notranslate"><span class="pre">crw.wrapper</span></code> method will add the <code class="docutils literal notranslate"><span class="pre">sim4c</span></code> diffractometer’s configuration details to every run’s metadata. (Later, we’ll show how to read and restore from that metadata.)</p>
+<p>This configures <code class="docutils literal notranslate"><span class="pre">RE</span></code> to save <code class="docutils literal notranslate"><span class="pre">sim4c</span></code> configuration with every run.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">RE</span><span class="o">.</span><span class="n">preprocessors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">crw</span><span class="o">.</span><span class="n">wrapper</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>Let’s run a <code class="docutils literal notranslate"><span class="pre">count</span></code> plan using the <code class="docutils literal notranslate"><span class="pre">noisy_det</span></code> detector. Keep track of the run’s <code class="docutils literal notranslate"><span class="pre">uid</span></code>, we’ll use that later.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">uids</span> <span class="o">=</span> <span class="n">RE</span><span class="p">(</span><span class="n">bp</span><span class="o">.</span><span class="n">count</span><span class="p">([</span><span class="n">noisy_det</span><span class="p">]))</span>
+</pre></div>
+</div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">sim4c</span></code> configuration is saved as a dictionary with the other metadata under the <code class="docutils literal notranslate"><span class="pre">&quot;diffractometers&quot;</span></code> key. This is a dictionary, with a key for each diffractometer name to be reported. Let’s view the <code class="docutils literal notranslate"><span class="pre">&quot;diffractometers&quot;</span></code> dictionary. (Compare with similar views shown above.)</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">run</span> <span class="o">=</span> <span class="n">cat</span><span class="o">.</span><span class="n">v2</span><span class="p">[</span><span class="n">uids</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+<span class="n">run</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;start&quot;</span><span class="p">][</span><span class="s2">&quot;diffractometers&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;sim4c&#39;: {&#39;_header&#39;: {&#39;datetime&#39;: &#39;2025-02-07 14:23:11.833394&#39;,
+   &#39;energy_units&#39;: &#39;keV&#39;,
+   &#39;energy&#39;: 12.398419843856837,
+   &#39;hklpy2_version&#39;: &#39;0.0.25.dev109+g371a538.d20250207&#39;,
+   &#39;python_class&#39;: &#39;SimulatedE4CV&#39;,
+   &#39;source_type&#39;: &#39;X-ray&#39;,
+   &#39;wavelength_units&#39;: &#39;angstrom&#39;,
+   &#39;wavelength&#39;: 1.0},
+  &#39;name&#39;: &#39;sim4c&#39;,
+  &#39;axes&#39;: {&#39;pseudo_axes&#39;: [&#39;h&#39;, &#39;k&#39;, &#39;l&#39;],
+   &#39;real_axes&#39;: [&#39;omega&#39;, &#39;chi&#39;, &#39;phi&#39;, &#39;tth&#39;],
+   &#39;axes_xref&#39;: {&#39;h&#39;: &#39;h&#39;,
+    &#39;k&#39;: &#39;k&#39;,
+    &#39;l&#39;: &#39;l&#39;,
+    &#39;omega&#39;: &#39;omega&#39;,
+    &#39;chi&#39;: &#39;chi&#39;,
+    &#39;phi&#39;: &#39;phi&#39;,
+    &#39;tth&#39;: &#39;tth&#39;},
+   &#39;extra_axes&#39;: {}},
+  &#39;sample_name&#39;: &#39;vibranium&#39;,
+  &#39;samples&#39;: {&#39;sample&#39;: {&#39;name&#39;: &#39;sample&#39;,
+    &#39;lattice&#39;: {&#39;a&#39;: 1,
+     &#39;b&#39;: 1,
+     &#39;c&#39;: 1,
+     &#39;alpha&#39;: 90.0,
+     &#39;beta&#39;: 90.0,
+     &#39;gamma&#39;: 90.0},
+    &#39;reflections&#39;: {},
+    &#39;reflections_order&#39;: [],
+    &#39;U&#39;: [[1, 0, 0], [0, 1, 0], [0, 0, 1]],
+    &#39;UB&#39;: [[1, 0, 0], [0, 1, 0], [0, 0, 1]],
+    &#39;digits&#39;: 4},
+   &#39;vibranium&#39;: {&#39;name&#39;: &#39;vibranium&#39;,
+    &#39;lattice&#39;: {&#39;a&#39;: 6.283185307179586,
+     &#39;b&#39;: 6.283185307179586,
+     &#39;c&#39;: 6.283185307179586,
+     &#39;alpha&#39;: 90.0,
+     &#39;beta&#39;: 90.0,
+     &#39;gamma&#39;: 90.0},
+    &#39;reflections&#39;: {&#39;r1&#39;: {&#39;name&#39;: &#39;r1&#39;,
+      &#39;geometry&#39;: 1.0,
+      &#39;pseudos&#39;: {&#39;h&#39;: 1, &#39;k&#39;: 0, &#39;l&#39;: 0},
+      &#39;reals&#39;: {&#39;omega&#39;: 10, &#39;chi&#39;: 0, &#39;phi&#39;: 0, &#39;tth&#39;: 20},
+      &#39;wavelength&#39;: 1.0,
+      &#39;digits&#39;: 4},
+     &#39;r2&#39;: {&#39;name&#39;: &#39;r2&#39;,
+      &#39;geometry&#39;: 1.0,
+      &#39;pseudos&#39;: {&#39;h&#39;: 0, &#39;k&#39;: 1, &#39;l&#39;: 0},
+      &#39;reals&#39;: {&#39;omega&#39;: 10, &#39;chi&#39;: -90, &#39;phi&#39;: 0, &#39;tth&#39;: 20},
+      &#39;wavelength&#39;: 1.0,
+      &#39;digits&#39;: 4}},
+    &#39;reflections_order&#39;: [&#39;r1&#39;, &#39;r2&#39;],
+    &#39;U&#39;: [[-0.0, -0.0, 1.0], [0.0, -1.0, -0.0], [1.0, -0.0, 0.0]],
+    &#39;UB&#39;: [[-0.0, -0.0, 1.0], [0.0, -1.0, 0.0], [1.0, -0.0, -0.0]],
+    &#39;digits&#39;: 3}},
+  &#39;constraints&#39;: {&#39;omega&#39;: {&#39;label&#39;: &#39;omega&#39;,
+    &#39;low_limit&#39;: -180.0,
+    &#39;high_limit&#39;: 180.0,
+    &#39;class&#39;: &#39;LimitsConstraint&#39;},
+   &#39;chi&#39;: {&#39;label&#39;: &#39;chi&#39;,
+    &#39;low_limit&#39;: -180.0,
+    &#39;high_limit&#39;: 180.0,
+    &#39;class&#39;: &#39;LimitsConstraint&#39;},
+   &#39;phi&#39;: {&#39;label&#39;: &#39;phi&#39;,
+    &#39;low_limit&#39;: -180.0,
+    &#39;high_limit&#39;: 180.0,
+    &#39;class&#39;: &#39;LimitsConstraint&#39;},
+   &#39;tth&#39;: {&#39;label&#39;: &#39;tth&#39;,
+    &#39;low_limit&#39;: -180.0,
+    &#39;high_limit&#39;: 180.0,
+    &#39;class&#39;: &#39;LimitsConstraint&#39;}},
+  &#39;solver&#39;: {&#39;name&#39;: &#39;hkl_soleil&#39;,
+   &#39;description&#39;: &#34;HklSolver(name=&#39;hkl_soleil&#39;, version=&#39;5.1.2&#39;, geometry=&#39;E4CV&#39;, engine_name=&#39;hkl&#39;, mode=&#39;bissector&#39;)&#34;,
+   &#39;geometry&#39;: &#39;E4CV&#39;,
+   &#39;mode&#39;: &#39;bissector&#39;,
+   &#39;real_axes&#39;: [&#39;omega&#39;, &#39;chi&#39;, &#39;phi&#39;, &#39;tth&#39;],
+   &#39;version&#39;: &#39;5.1.2&#39;,
+   &#39;engine&#39;: &#39;hkl&#39;}}}
+</pre></div></div>
+</div>
+</section>
+<section id="Restore-from-previous-run">
+<h3>Restore from previous run<a class="headerlink" href="#Restore-from-previous-run" title="Link to this heading">#</a></h3>
+<p>To restore from a previous run, we must have a reference to the run (with a <code class="docutils literal notranslate"><span class="pre">uid</span></code>, <code class="docutils literal notranslate"><span class="pre">scan_id</span></code>, run object, …). In the steps below, we’ll use the <code class="docutils literal notranslate"><span class="pre">run</span></code> object from the previous steps.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">run</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+BlueskyRun
+  uid=&#39;164c61b5-4fac-4e83-913b-8e92f3f22d70&#39;
+  exit_status=&#39;success&#39;
+  2025-02-07 14:23:11.836 -- 2025-02-07 14:23:11.862
+  Streams:
+    * primary
+
+</pre></div></div>
+</div>
+<p>Get the configuration of the <code class="docutils literal notranslate"><span class="pre">&quot;sim4c&quot;</span></code> diffractometer.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">e4cv_configuration</span> <span class="o">=</span> <span class="n">run</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;start&quot;</span><span class="p">][</span><span class="s2">&quot;diffractometers&quot;</span><span class="p">][</span><span class="s2">&quot;sim4c&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<p>Let’s recreate <code class="docutils literal notranslate"><span class="pre">sim4c</span></code> to prove when we have recovered the configuration.</p>
+<p>Note: This example uses the same name as before but that is not necessary. The configuration can be restored as long as the solver and geometry match.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sim4c</span> <span class="o">=</span> <span class="n">SimulatedE4CV</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;sim4c&quot;</span><span class="p">)</span>
+<span class="n">sim4c</span><span class="o">.</span><span class="n">samples</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;sample&#39;: Sample(name=&#39;sample&#39;, lattice=Lattice(a=1, system=&#39;cubic&#39;))}
+</pre></div></div>
+</div>
+<p>Restore the configuration (from a previous run) to the <code class="docutils literal notranslate"><span class="pre">sim4c</span></code> diffractometer. Confirm by examining the sample dictionary.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sim4c</span><span class="o">.</span><span class="n">_configuration</span> <span class="o">=</span> <span class="n">e4cv_configuration</span>
+<span class="n">sim4c</span><span class="o">.</span><span class="n">samples</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;sample&#39;: Sample(name=&#39;sample&#39;, lattice=Lattice(a=1, system=&#39;cubic&#39;)),
+ &#39;vibranium&#39;: Sample(name=&#39;vibranium&#39;, lattice=Lattice(a=6.283, system=&#39;cubic&#39;))}
+</pre></div></div>
+</div>
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="_api_demo.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Demonstrate <strong>hklpy2</strong>’s API</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="demo_UB_calc.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">UB matrix : calculate from 2 reflections.</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Files">Files</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Export-(save)-the-configuration">Export (save) the configuration</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Restore-(load)-Configuration">Restore (load) Configuration</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Run">Run</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Save-configuration-with-every-run">Save configuration with every run</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Restore-from-previous-run">Restore from previous run</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+
+  
+  <div class="tocsection editthispage">
+    <a href="https://github.com/prjemian/hklpy2/edit/main/docs/examples/configuration_save_restore.ipynb">
+      <i class="fa-solid fa-pencil"></i>
+      
+      
+        
+          Edit on GitHub
+        
+      
+    </a>
+  </div>
+</div>
+
+  <div class="sidebar-secondary-item">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/examples/configuration_save_restore.ipynb.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2023-2025, Argonne National Laboratory.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

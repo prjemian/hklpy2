@@ -13,4 +13,3 @@ Source Code Documentation
     :members:
     :private-members:
     :show-inheritance:
-
