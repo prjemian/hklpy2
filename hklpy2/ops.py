@@ -106,7 +106,6 @@ class Operations:
                 "wavelength": dfrct._wavelength.wavelength,
             },
             "name": self.diffractometer.name,
-            "geometry": self.geometry,  # TODO: geometry belongs in solver section
             "axes": {
                 "pseudo_axes": self.diffractometer.pseudo_axis_names,
                 "real_axes": self.diffractometer.real_axis_names,
@@ -117,13 +116,13 @@ class Operations:
             "constraints": self.constraints._asdict(),
             "solver": {
                 "name": self.solver.name,
-                "version": self.solver.version,
-                "mode": self.solver.mode,
                 "description": repr(self.solver),
+                "geometry": self.geometry,
+                "mode": self.solver.mode,
                 "real_axes": self.solver.real_axis_names,
+                "version": self.solver.version,
             },
         }
-        # TODO: mode
         # TODO: extras
 
         if self.solver.name == "hkl_soleil":

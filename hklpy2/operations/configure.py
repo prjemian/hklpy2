@@ -57,7 +57,9 @@ class Configuration:
             e4cv.operator.configuration.export("e4cv-config.yml", comment="example")
         """
         path = pathlib.Path(file)
-        config = self._asdict()  # TODO: call operator._asdict() directly
+        config = (
+            self.diffractometer.operator._asdict()
+        )  # TODO: call operator._asdict() directly
         # TODO: could pass additional header content as kwargs
         config["_header"]["file"] = str(file)
         config["_header"]["comment"] = str(comment)

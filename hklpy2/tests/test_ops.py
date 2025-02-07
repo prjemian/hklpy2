@@ -19,7 +19,7 @@ SKIP_EXACT_VALUE_TEST = str(uuid.uuid4())
         [models.Fourc, "fourc", "_header.wavelength", SKIP_EXACT_VALUE_TEST],
         [models.Fourc, "fourc", "name", "fourc"],
         [models.Fourc, "fourc", "axes.axes_xref", {}],
-        [models.Fourc, "fourc", "geometry", "E4CV"],
+        [models.Fourc, "fourc", "solver.geometry", "E4CV"],
         [models.Fourc, "fourc", "solver.name", "hkl_soleil"],
         [models.Fourc, "fourc", "samples", SKIP_EXACT_VALUE_TEST],
         [models.Fourc, "fourc", "solver.version", SKIP_EXACT_VALUE_TEST],
@@ -36,7 +36,7 @@ SKIP_EXACT_VALUE_TEST = str(uuid.uuid4())
         ],
         [SimulatedTheta2Theta, "t2t", "axes.pseudo_axes", ["q"]],
         [SimulatedTheta2Theta, "t2t", "axes.real_axes", ["theta", "ttheta"]],
-        [SimulatedTheta2Theta, "t2t", "geometry", "TH TTH Q"],
+        [SimulatedTheta2Theta, "t2t", "solver.geometry", "TH TTH Q"],
         [SimulatedTheta2Theta, "t2t", "solver.name", "th_tth"],
     ],
 )
