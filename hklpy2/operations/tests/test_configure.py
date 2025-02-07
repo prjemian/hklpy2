@@ -34,7 +34,6 @@ add_oriented_vibranium_to_e4cv(e4cv)
         ["constraints.chi.high_limit", 180.2],
         ["constraints.omega.label", "omega"],
         ["constraints.tth.low_limit", -180.2],
-        ["geometry", e4cv.operator.solver.geometry],
         ["name", e4cv.name],
         ["sample_name", e4cv.operator.sample.name],
         ["samples.sample.lattice.a", 1],
@@ -55,6 +54,7 @@ add_oriented_vibranium_to_e4cv(e4cv)
         ["samples.vibranium.U", e4cv.operator.solver.U],
         ["samples.vibranium.UB", e4cv.operator.solver.UB],
         ["solver.engine", e4cv.operator.solver.engine_name],
+        ["solver.geometry", e4cv.operator.solver.geometry],
         ["solver.mode", e4cv.operator.solver.mode],
         ["solver.name", e4cv.operator.solver.name],
         ["solver.real_axes", e4cv.operator.solver.real_axis_names],
@@ -123,6 +123,10 @@ def test_fromdict(sim, fourc):
                 assert cfg[field] != getattr(
                     constraint, field
                 ), f"{key=!r}  {field=!r}  {constraint=!r}  {cfg=!r}"
+    # A few pre-checks
+    assert "geometry" not in config
+    assert "solver" in config
+    assert "geometry" in config["solver"]
 
     ###
     ### apply the configuration

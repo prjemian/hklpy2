@@ -45,6 +45,7 @@ About
 
 :home: https://prjemian.github.io/hklpy2
 :source: https://github.com/prjemian/hklpy2
+:copyright: (c) 2023-2025, Argonne National Laboratory
 :license: :ref:`license`
 :full version: |release|
 :published: |today|

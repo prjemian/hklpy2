@@ -9,6 +9,7 @@ library.
     ~Operations
 """
 
+import datetime
 import logging
 
 from . import SolverBase
@@ -87,9 +88,24 @@ class Operations:
 
     def _asdict(self):
         """Describe the diffractometer as a dictionary."""
+        from .__init__ import __version__
+
+        dfrct = self.diffractometer
+        if not hasattr(dfrct, "name") or not hasattr(dfrct, "_wavelength"):
+            return {}  # Ophyd Device not initialized yet.  Empty dict is OK.
+
         config = {
+            "_header": {
+                "datetime": str(datetime.datetime.now()),
+                "energy_units": dfrct._wavelength.energy_units,
+                "energy": dfrct._wavelength.energy,
+                "hklpy2_version": __version__,
+                "python_class": dfrct.__class__.__name__,
+                "source_type": dfrct._wavelength.source_type,
+                "wavelength_units": dfrct._wavelength.wavelength_units,
+                "wavelength": dfrct._wavelength.wavelength,
+            },
             "name": self.diffractometer.name,
-            "geometry": self.geometry,  # TODO: geometry belongs in solver section
             "axes": {
                 "pseudo_axes": self.diffractometer.pseudo_axis_names,
                 "real_axes": self.diffractometer.real_axis_names,
@@ -100,13 +116,13 @@ class Operations:
             "constraints": self.constraints._asdict(),
             "solver": {
                 "name": self.solver.name,
-                "version": self.solver.version,
-                "mode": self.solver.mode,
                 "description": repr(self.solver),
+                "geometry": self.geometry,
+                "mode": self.solver.mode,
                 "real_axes": self.solver.real_axis_names,
+                "version": self.solver.version,
             },
         }
-        # TODO: mode
         # TODO: extras
 
         if self.solver.name == "hkl_soleil":

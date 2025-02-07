@@ -58,6 +58,9 @@ jobs:
         cache-environment: true
         cache-environment-key: env-key-${{ matrix.python-version }}
         condarc: |
+          channels:
+            - conda-forge
+            - nodefaults
           channel-priority: flexible
         environment-file: environment.yml
         environment-name: anaconda-test-env-py-${{ matrix.python-version }}
@@ -97,6 +100,7 @@ jobs:
       # https://github.com/TheKevJames/coveralls-python
       shell: bash -l {0}
       run: |
+        set -vxeuo pipefail
         micromamba list cover
         micromamba list git
         which coveralls
@@ -117,11 +121,20 @@ jobs:
     steps:
       - name: Gather coverage and report to Coveralls
         run: |
+          set -vxeuo pipefail
+          apt-get -y update && apt-get install -y git
+          which git
+          python3 -m pip install \
+            --no-cache-dir \
+            --root-user-action ignore \
+            --upgrade pip coveralls
+          #
           echo "Finally!"
-          pip3 install --upgrade coveralls
+          #
           # debug mode: output prepared json and reported files list to stdout
           # https://coveralls-python.readthedocs.io/en/latest/troubleshooting.html
-          coveralls debug
+          #
+          # coveralls debug
           coveralls --service=github --finish
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -288,12 +288,10 @@ class ReflectionsDict(dict):
                 refl_config["reals"],
                 wavelength=refl_config["wavelength"],
                 geometry=refl_config["wavelength"],
-                pseudo_axis_names=list(
-                    refl_config["pseudos"]
-                ),  # TODO: What if axes names in wrong sequence?
-                real_axis_names=list(
-                    refl_config["reals"]
-                ),  # TODO: What if axes renamed?
+                # TODO: What if axes names in wrong sequence?
+                pseudo_axis_names=list(refl_config["pseudos"]),
+                # TODO: What if axes renamed?
+                real_axis_names=list(refl_config["reals"]),
                 digits=refl_config["digits"],  # TODO: Optional?
             )
             self.add(reflection, replace=True)

@@ -14,7 +14,6 @@ From **hklpy**, these TODO items:
 .. seealso:: # https://pyyaml.org/wiki/PyYAMLDocumentation
 """
 
-import datetime
 import logging
 import pathlib
 
@@ -44,23 +43,7 @@ class Configuration:
 
     def _asdict(self) -> dict:
         """Return diffractometer's configuration as a dict."""
-        from ..__init__ import __version__
-
-        dfrct = self.diffractometer  # local shortcut
-        config = {  # TODO: move to operator._asdict()
-            "_header": {
-                "datetime": str(datetime.datetime.now()),
-                "energy_units": dfrct._wavelength.energy_units,
-                "energy": dfrct._wavelength.energy,
-                "hklpy2_version": __version__,
-                "python_class": dfrct.__class__.__name__,
-                "source_type": dfrct._wavelength.source_type,
-                "wavelength_units": dfrct._wavelength.wavelength_units,
-                "wavelength": dfrct._wavelength.wavelength,
-            },
-        }
-        config.update(dfrct.operator._asdict())
-        return config
+        return self.diffractometer.operator._asdict()
 
     def export(self, file, comment=""):
         """
@@ -74,8 +57,7 @@ class Configuration:
             e4cv.operator.configuration.export("e4cv-config.yml", comment="example")
         """
         path = pathlib.Path(file)
-        config = self._asdict()  # TODO: call operator._asdict() directly
-        # TODO: could pass additional header content as kwargs
+        config = self.diffractometer.operator._asdict()
         config["_header"]["file"] = str(file)
         config["_header"]["comment"] = str(comment)
         dump = yaml.dump(
@@ -147,7 +129,8 @@ class Configuration:
 
         def compare(incoming, existing, template):
             if incoming != existing:
-                raise ConfigurationError(template.format(incoming, existing))
+                message = template % (incoming, existing)
+                raise ConfigurationError(message)
                 # logger.warning(template, incoming, existing)
                 # return False
 
@@ -163,7 +146,7 @@ class Configuration:
                 "engine mismatch: incoming=%r existing=%r",
             )
         compare(
-            config.get("geometry"),  # TODO: geometry belongs in solver section
+            config.get("solver", {}).get("geometry"),
             self.diffractometer.operator.solver.geometry,
             "geometry mismatch: incoming=%r existing=%r",
         )
