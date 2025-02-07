@@ -210,14 +210,15 @@ class ConfigurationRunWrapper:
 
         self.validate(self.devices)
 
-        # TODO: consider allowing ophyd-async to succeed, too
+        # TODO: consider allowing ophyd-async to succeed (separate issue)
         # cfg = {}
         # for dev in self.devices:
         #     cdict = yield from bps.configure(dev)
         #     cfg[dev.name] = cdict[-1]
 
         cfg = {
-            dev.name: dev.operator._asdict()  # TODO: generalize
+            # TODO: generalize (separate issue)
+            dev.name: dev.operator._asdict()
             # orientation details
             for dev in self.devices
         }
