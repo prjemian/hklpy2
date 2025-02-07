@@ -123,6 +123,10 @@ def test_fromdict(sim, fourc):
                 assert cfg[field] != getattr(
                     constraint, field
                 ), f"{key=!r}  {field=!r}  {constraint=!r}  {cfg=!r}"
+    # A few pre-checks
+    assert "geometry" not in config
+    assert "solver" in config
+    assert "geometry" in config["solver"]
 
     ###
     ### apply the configuration

@@ -129,7 +129,8 @@ class Configuration:
 
         def compare(incoming, existing, template):
             if incoming != existing:
-                raise ConfigurationError(template.format(incoming, existing))
+                message = template % (incoming, existing)
+                raise ConfigurationError(message)
                 # logger.warning(template, incoming, existing)
                 # return False
 
