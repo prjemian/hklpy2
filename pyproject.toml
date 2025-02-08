@@ -34,10 +34,12 @@ classifiers = [
 ]
 
 dependencies = [
+  "bluesky",
   "numpy",
   "ophyd",
   "packaging", # ophyd needs this
   "pint",
+  "ruamel.yaml",
 ]
 
 [project.entry-points."hklpy2.solver"]
@@ -47,11 +49,9 @@ th_tth = "hklpy2.backends.th_tth_q:ThTthSolver"
 
 [project.optional-dependencies]
 dev = [
-  "bluesky",
   "build",
   "isort",
   "mypy",
-  "ophyd",
   "pre-commit",
   "pytest",
   "ruff",
