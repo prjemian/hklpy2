@@ -202,6 +202,7 @@ class ConfigurationRunWrapper:
             crw = ConfigurationRunWrapper(e4cv)
             RE.preprocessors.append(crw.wrapper)
         """
+        from bluesky import plan_stubs as bps
         from bluesky import preprocessors as bpp
 
         if not self._enable or len(self.devices) == 0:
@@ -210,18 +211,12 @@ class ConfigurationRunWrapper:
 
         self.validate(self.devices)
 
-        # TODO: consider allowing ophyd-async to succeed (separate issue)
-        # cfg = {}
-        # for dev in self.devices:
-        #     cdict = yield from bps.configure(dev)
-        #     cfg[dev.name] = cdict[-1]
+        # Allow ophyd-async to succeed by using 'yield from ...'
+        cfg = {}
+        for dev in self.devices:
+            cdict = yield from bps.configure(dev, {})
+            cfg[dev.name] = cdict[-1]
 
-        cfg = {
-            # TODO: generalize (separate issue)
-            dev.name: dev.operator._asdict()
-            # orientation details
-            for dev in self.devices
-        }
         return (yield from bpp.inject_md_wrapper(plan, {self.start_key: cfg}))
 
 
