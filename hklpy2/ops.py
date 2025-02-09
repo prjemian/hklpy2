@@ -114,7 +114,7 @@ class Operations:
             "sample_name": self.sample.name,
             "samples": {k: v._asdict() for k, v in self._samples.items()},
             "constraints": self.constraints._asdict(),
-            "solver": {
+            "solver": {  # TODO: #8 the solver should supply
                 "name": self.solver.name,
                 "description": repr(self.solver),
                 "geometry": self.geometry,
@@ -123,7 +123,6 @@ class Operations:
                 "version": self.solver.version,
             },
         }
-        # TODO: extras
 
         if self.solver.name == "hkl_soleil":
             config["solver"]["engine"] = self.solver.engine_name
@@ -137,8 +136,7 @@ class Operations:
             self.add_sample(key, 1, replace=True)._fromdict(sample)
 
         self.constraints._fromdict(config["constraints"])
-        # TODO: mode
-        # TODO: extras
+        # TODO: #8 extras & mode
 
     def add_reflection(
         self,
