@@ -267,6 +267,16 @@ class DiffractometerBase(PseudoPositioner):
         pos = self.operator.inverse(reals, wavelength=wavelength)
         return self.PseudoPosition(**pos)  # as created by namedtuple
 
+    def move_reals(self, real_positions) -> None:
+        """Move the real-space axes as specified in 'real_positions'."""
+        for axis_name in real_positions._fields:
+            if axis_name not in self.real_axis_names:
+                raise KeyError(f"{axis_name!r} not in self.real_axis_names")
+        for axis_name in real_positions._fields:
+            hkl_axis = getattr(self, axis_name)
+            position = getattr(real_positions, axis_name)
+            hkl_axis.move(position)
+
     # ---- get/set properties
 
     @property
