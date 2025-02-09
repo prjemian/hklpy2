@@ -15,6 +15,7 @@ Diffractometer Geometries.
 
     ~SimulatedE4CV
     ~SimulatedE6C
+    ~SimulatedE6C_Psi
     ~SimulatedK4CV
     ~SimulatedK6C
     ~SimulatedTheta2Theta
@@ -32,6 +33,7 @@ Diffractometer Geometries.
 
     ~MixinSimulator
     ~MixinHkl
+    ~MixinPsi
     ~MixinQ
 """
 
@@ -59,6 +61,7 @@ __all__ = """
     Petra3_p23_6c
     SimulatedE4CV
     SimulatedE6C
+    SimulatedE6C_Psi
     SimulatedK4CV
     SimulatedK6C
     SimulatedTheta2Theta
@@ -95,9 +98,17 @@ class MixinHkl(Device):
     for each of the real-space axes, in the order required by that geometry.
     """
 
-    h = Cpt(PseudoSingle, "", kind="hinted")
-    k = Cpt(PseudoSingle, "", kind="hinted")
-    l = Cpt(PseudoSingle, "", kind="hinted")  # noqa: E741
+    h = Cpt(PseudoSingle, "", kind=H_OR_N)
+    k = Cpt(PseudoSingle, "", kind=H_OR_N)
+    l = Cpt(PseudoSingle, "", kind=H_OR_N)  # noqa: E741
+
+
+class MixinPsi(Device):
+    """
+    Defines `psi` pseudo-positioner.
+    """
+
+    psi = Cpt(PseudoSingle, "", kind=H_OR_N)  # noqa: E741
 
 
 class MixinQ(Device):
@@ -105,7 +116,7 @@ class MixinQ(Device):
     Defines `q` pseudo-positioner.
     """
 
-    q = Cpt(PseudoSingle, "", kind="hinted")  # noqa: E741
+    q = Cpt(PseudoSingle, "", kind=H_OR_N)  # noqa: E741
 
 
 class ApsPolar(DiffractometerBase, MixinHkl):
@@ -288,6 +299,31 @@ class SimulatedE6C(MixinSimulator, E6C, MixinHkl):
     phi = Cpt(SoftPositioner, limits=(-180, 180), init_pos=0, kind=H_OR_N)
     gamma = Cpt(SoftPositioner, limits=(-180, 180), init_pos=0, kind=H_OR_N)
     delta = Cpt(SoftPositioner, limits=(-180, 180), init_pos=0, kind=H_OR_N)
+
+
+class SimulatedE6C_Psi(MixinSimulator, DiffractometerBase, MixinPsi):
+    """
+    Eulerian 6-circle, *hkl_soleil*, E6C, engine="psi", simulated rotary axes.
+
+    :class:`~hklpy2.backends.hkl_soleil.HklSolver`
+    """
+
+    mu = Cpt(SoftPositioner, limits=(-180, 180), init_pos=0, kind=H_OR_N)
+    omega = Cpt(SoftPositioner, limits=(-180, 180), init_pos=0, kind=H_OR_N)
+    chi = Cpt(SoftPositioner, limits=(-180, 180), init_pos=0, kind=H_OR_N)
+    phi = Cpt(SoftPositioner, limits=(-180, 180), init_pos=0, kind=H_OR_N)
+    gamma = Cpt(SoftPositioner, limits=(-180, 180), init_pos=0, kind=H_OR_N)
+    delta = Cpt(SoftPositioner, limits=(-180, 180), init_pos=0, kind=H_OR_N)
+
+    def __init__(self, prefix: str = "", **kwargs):
+        super().__init__(
+            prefix,
+            solver="hkl_soleil",
+            geometry="E6C",
+            solver_kwargs={"engine": "psi"},
+            **kwargs,
+        )
+        self.operator.auto_assign_axes()
 
 
 class SimulatedK4CV(MixinSimulator, K4CV, MixinHkl):
