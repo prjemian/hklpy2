@@ -69,6 +69,11 @@ def test_ConfigurationRunWrapper(devices, outcome, expect, enabled):
                     assert signal.name not in configs
                     for name in crw.device_names:
                         assert name in configs
+                    for dev in devices:
+                        with does_not_raise() as message:
+                            # Try to restore the configuration
+                            dev.configuration = configs[dev.name]
+                        assert message is None, f"{dev.name=!r} {configs[dev.name]=}"
                 else:
                     assert configs is None
 

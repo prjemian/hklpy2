@@ -67,6 +67,8 @@ class SolverBase(ABC):
 
     .. autosummary::
 
+        ~extra_axis_names
+        ~extras
         ~geometry
         ~lattice
         ~mode
@@ -126,6 +128,13 @@ class SolverBase(ABC):
         """Ordered list of any extra axis names (such as x, y, z)."""
         # Do NOT sort.
         return []
+
+    @property
+    def extras(self) -> dict:
+        """
+        Ordered dictionary of any extra parameters.
+        """
+        return {}
 
     @abstractmethod
     def forward(self, pseudos: dict) -> list[dict[str, float]]:

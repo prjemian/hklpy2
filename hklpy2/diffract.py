@@ -69,7 +69,6 @@ class DiffractometerBase(PseudoPositioner):
 
     .. autosummary::
 
-        ~configuration
         ~geometry
         ~solver
         ~wavelength
@@ -82,12 +81,17 @@ class DiffractometerBase(PseudoPositioner):
         ~add_sample
         ~auto_assign_axes
         ~forward
+        ~full_position
         ~inverse
+        ~move_dict
+        ~move_forward_with_extras
+        ~move_reals
         ~wh
 
     .. rubric:: Python Properties
 
     .. autosummary::
+        ~configuration
         ~pseudo_axis_names
         ~real_axis_names
         ~sample
@@ -99,15 +103,6 @@ class DiffractometerBase(PseudoPositioner):
     # _pseudo = []  # List of pseudo-space objects.
     # _real = []  # List of real-space objects.
     # This code does NOT redefine them.
-
-    configuration = Cpt(
-        AttributeSignal,
-        attr="_configuration",
-        doc="Diffractometer configuration details (including orientation).",
-        write_access=True,
-        kind="config",
-    )
-    """Diffractometer configuration details."""
 
     geometry = Cpt(
         AttributeSignal,
@@ -236,12 +231,12 @@ class DiffractometerBase(PseudoPositioner):
         self.operator.auto_assign_axes()
 
     @property
-    def _configuration(self) -> dict:
+    def configuration(self) -> dict:
         """Diffractometer configuration (orientation)."""
         return self.operator._asdict()
 
-    @_configuration.setter
-    def _configuration(self, config: dict) -> dict:
+    @configuration.setter
+    def configuration(self, config: dict) -> dict:
         """
         Diffractometer configuration (orientation).
 
@@ -260,6 +255,17 @@ class DiffractometerBase(PseudoPositioner):
         solutions = self.operator.forward(pseudos, wavelength=wavelength)
         return self._forward_solution(self.real_position, solutions)
 
+    def full_position(self, digits=4) -> dict:
+        """Return dict with positions of pseudos, reals, & extras."""
+        from .operations.misc import roundoff
+
+        pdict = self.position._asdict()
+        pdict.update(self.real_position._asdict())
+        pdict.update(self.operator.solver.extras)
+        for k in pdict:
+            pdict[k] = roundoff(pdict[k], digits)
+        return pdict
+
     @real_position_argument
     def inverse(self, reals: dict, wavelength: float = None) -> tuple:
         """Compute pseudo-space coordinates from reals (angles -> hkl)."""
@@ -267,8 +273,47 @@ class DiffractometerBase(PseudoPositioner):
         pos = self.operator.inverse(reals, wavelength=wavelength)
         return self.PseudoPosition(**pos)  # as created by namedtuple
 
+    def move_dict(self, axes: dict):
+        """(plan) Move diffractometer axes as described in 'axes' dict."""
+        from bluesky import plan_stubs as bps
+        from .operations.misc import flatten_lists
+
+        # Transform axes dict to args for bps.mv(position, value)
+        moves = list(
+            flatten_lists(
+                [
+                    [getattr(self, k), v]  # move the diffractometer axes
+                    for k, v in axes._asdict().items()
+                ]
+            )
+        )
+        yield from bps.mv(*moves)
+
+    # TODO: ??? @pseudo_position_argument ???
+    def move_forward_with_extras(
+        self,
+        pseudos: dict,  # (h, k, l)
+        extras: dict,  # (h2, k2, l2, psi)
+    ):
+        """
+        (plan stub) Set extras and compute forward solution at fixed Q and extras.
+
+        EXAMPLE::
+
+            RE(
+                move_forward_with_extras(
+                    diffractometer,
+                    Q=dict(h=2, k=1, l=0),
+                    extras=dict(h2=2, k2=2, l2=0, psi=25),
+                )
+            )
+        """
+        self.operator.solver.extras = extras  # must come first
+        solution = self.forward(list(pseudos.values()))
+        yield from self.move_dict(solution)
+
     def move_reals(self, real_positions) -> None:
-        """Move the real-space axes as specified in 'real_positions'."""
+        """(not a plan) Move the real-space axes as specified in 'real_positions'."""
         for axis_name in real_positions._fields:
             if axis_name not in self.real_axis_names:
                 raise KeyError(f"{axis_name!r} not in self.real_axis_names")
