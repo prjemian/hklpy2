@@ -1,11 +1,14 @@
 from contextlib import nullcontext as does_not_raise
 
-from bluesky import plans as bp, RunEngine
-from ophyd import Signal
 import pytest
+from bluesky import RunEngine
+from bluesky import plans as bp
+from ophyd import Signal
 
-from ..misc import roundoff, ConfigurationRunWrapper
-from ... import SimulatedE4CV, SimulatedE6C
+from ... import SimulatedE4CV
+from ... import SimulatedE6C
+from ..misc import ConfigurationRunWrapper
+from ..misc import roundoff
 
 sim4c = SimulatedE4CV(name="sim4c")
 sim6c = SimulatedE6C(name="sim6c")
