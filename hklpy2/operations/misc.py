@@ -41,17 +41,17 @@ Miscellaneous Support.
     ~WavelengthError
 """
 
-from collections.abc import Iterable
 import logging
 import math
 import pathlib
 import uuid
+from collections.abc import Iterable
 from importlib.metadata import entry_points
 
+import yaml
 from ophyd import Component
 from ophyd import Device
 from ophyd import Signal
-import yaml
 
 from .. import Hklpy2Error
 
