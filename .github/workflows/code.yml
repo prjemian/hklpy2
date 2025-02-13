@@ -105,7 +105,7 @@ jobs:
         micromamba list git
         which coveralls
         coveralls debug
-        coveralls --service=github
+        coveralls --service=github --no-fail
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         COVERALLS_FLAG_NAME: ${{ matrix.test-name }}
@@ -135,6 +135,6 @@ jobs:
           # https://coveralls-python.readthedocs.io/en/latest/troubleshooting.html
           #
           # coveralls debug
-          coveralls --service=github --finish
+          coveralls --service=github --finish --no-fail
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
