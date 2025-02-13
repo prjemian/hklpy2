@@ -67,6 +67,8 @@ class SolverBase(ABC):
 
     .. autosummary::
 
+        ~extra_axis_names
+        ~extras
         ~geometry
         ~lattice
         ~mode
@@ -127,6 +129,13 @@ class SolverBase(ABC):
         # Do NOT sort.
         return []
 
+    @property
+    def extras(self) -> dict:
+        """
+        Ordered dictionary of any extra parameters.
+        """
+        return {}
+
     @abstractmethod
     def forward(self, pseudos: dict) -> list[dict[str, float]]:
         """Compute list of solutions(reals) from pseudos (hkl -> [angles])."""
@@ -169,7 +178,8 @@ class SolverBase(ABC):
 
     @abstractmethod
     def inverse(self, reals: dict) -> dict[str, float]:
-        """Compute tuple of pseudos from reals (angles -> hkl)."""
+        """Compute dict of pseudos from reals (angles -> hkl)."""
+        return {}
 
     @property
     def lattice(self) -> object:

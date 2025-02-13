@@ -3,10 +3,26 @@ from contextlib import nullcontext as does_not_raise
 import pytest
 
 from ..misc import load_yaml
+from ..reflection import ConfigurationError
 from ..reflection import Reflection
 from ..reflection import ReflectionError
 from ..reflection import ReflectionsDict
 
+e4cv_r400_config_yaml = """
+    name: r400
+    geometry: E4CV
+    pseudos:
+        h: 4
+        k: 0
+        l: 0
+    reals:
+        omega: -145.451
+        chi: 0
+        phi: 0
+        tth: 69.066
+    wavelength: 1.54
+    digits: 4
+"""
 r100_parms = [
     "(100)",
     dict(h=1, k=0, l=0),
@@ -245,41 +261,49 @@ def test_Reflection(
 
 
 @pytest.mark.parametrize(
-    "parms",
+    "parms, representation, probe, expected",
     [
-        [r100_parms],
-        [r010_parms],
-        [r100_parms, r010_parms],
-        [r_1],
-        [r_2],
-        [r_1, r_4],
+        [[r100_parms], "(100)", does_not_raise(), None],
+        [[r010_parms], "(010)", does_not_raise(), None],
+        [[r100_parms, r010_parms], "(100)", does_not_raise(), None],
+        [[r_1], "r1", does_not_raise(), None],
+        [[r_2], "r2", does_not_raise(), None],
+        [[r_1, r_4], "r4", does_not_raise(), None],
     ],
 )
-def test_ReflectionsDict(parms):
+def test_ReflectionsDict(parms, representation, probe, expected):
     db = ReflectionsDict()
     assert len(db._asdict()) == 0
 
-    for i, refl in enumerate(parms, start=1):
-        with pytest.raises(TypeError) as reason:
-            db.add(refl)
-        assert "Unexpected reflection=" in str(reason)
+    with probe as reason:
+        for i, refl in enumerate(parms, start=1):
+            with pytest.raises(TypeError) as exc:
+                db.add(refl)
+            assert "Unexpected reflection=" in str(exc)
 
-        db.add(Reflection(*refl))
-        assert len(db._asdict()) == i
-        assert len(db.order) == i
+            db.add(Reflection(*refl))
+            assert len(db._asdict()) == i
+            assert len(db.order) == i
 
-        r1 = list(db.values())[0]
-        db.setor([r1])
-        assert len(db._asdict()) == i  # unchanged
-        assert len(db.order) == 1
+            r1 = list(db.values())[0]
+            db.setor([r1])
+            assert len(db._asdict()) == i  # unchanged
+            assert len(db.order) == 1
 
-        db.set_orientation_reflections([r1])
-        assert len(db._asdict()) == i  # unchanged
-        assert len(db.order) == 1
+            db.set_orientation_reflections([r1])
+            assert len(db._asdict()) == i  # unchanged
+            assert len(db.order) == 1
 
-        db.order = [r1.name]
-        assert len(db._asdict()) == i  # unchanged
-        assert len(db.order) == 1
+            db.order = [r1.name]
+            assert len(db._asdict()) == i  # unchanged
+            assert len(db.order) == 1
+
+        assert representation in repr(db)
+
+    if expected is None:
+        assert reason is None
+    else:
+        assert expected in str(reason)
 
 
 @pytest.mark.parametrize(
@@ -330,43 +354,53 @@ def test_duplicate_reflection():
     assert "matches one or more existing" in str(reason), f"{reason=!r}"
 
 
-def test_swap():
+@pytest.mark.parametrize(
+    "reflections, order, probe, expected",
+    [
+        [[r_1, r_4, r_5], ["r1", "r4"], does_not_raise(), None],
+        [[r_1, r_4, r_5], ["r5", "r4"], does_not_raise(), None],
+        [
+            [r_1, r_4, r_5],
+            ["r5"],
+            pytest.raises(ReflectionError),
+            "Need at least two reflections to swap.",
+        ],
+        [
+            [r_1, r_4, r_5],
+            [],
+            pytest.raises(ReflectionError),
+            "Need at least two reflections to swap.",
+        ],
+    ],
+)
+def test_swap(reflections, order, probe, expected):
     db = ReflectionsDict()
-    db.add(Reflection(*r_1))
-    db.add(Reflection(*r_4))
-    db.add(Reflection(*r_5))
-    assert db.order == "r1 r4 r5".split()
+    original_order = []
+    for params in reflections:
+        ref = Reflection(*params)
+        db.add(ref)
+        original_order.append(ref.name)
+    assert db.order == original_order
 
-    db.order = ["r1", "r4"]
-    assert db.order == "r1 r4".split(), f"{db.order=!r}"
-    db.swap()
-    assert db.order == "r4 r1".split(), f"{db.order=!r}"
+    with probe as reason:
+        db.order = order
+        assert db.order == order, f"{db.order=!r}"
+        db.swap()
+        assert db.order == list(reversed(order)), f"{db.order=!r}"
 
-    db.order = "r5", "r4"  # repeat as tuple
-    assert db.order == "r5 r4".split(), f"{db.order=!r}"
-    db.swap()
-    assert db.order == "r4 r5".split(), f"{db.order=!r}"
+    if expected is None:
+        assert reason is None
+    else:
+        assert expected in str(reason)
 
 
-def test_fromdict():
-    text = """
-        name: r400
-        geometry: E4CV
-        pseudos:
-          h: 4
-          k: 0
-          l: 0
-        reals:
-          omega: -145.451
-          chi: 0
-          phi: 0
-          tth: 69.066
-        wavelength: 1.54
-        digits: 4
-    """
-    config = load_yaml(text)
+@pytest.mark.parametrize("config", [load_yaml(e4cv_r400_config_yaml)])
+def test_fromdict(config):
     assert isinstance(config, dict), f"{config=!r}"
     assert "name" in config, f"{config=!r}"
+
+    db = ReflectionsDict()
+    assert len(db._asdict()) == 0
 
     refl = Reflection(
         config["name"],
@@ -380,13 +414,36 @@ def test_fromdict():
     )
     assert refl is not None
 
-    db = ReflectionsDict()
-    assert len(db._asdict()) == 0
-
     db._fromdict({config["name"]: config})
     assert len(db._asdict()) == 1
     assert config["name"] in db
 
-    db._fromdict({config["name"]: config})
-    assert len(db._asdict()) == 1
-    assert config["name"] in db
+    # check that we can restore same config
+    with does_not_raise() as reason:
+        refl._fromdict(config)
+    assert reason is None
+
+    # checks that mismatched Reflection configs raise
+    temp_config = config.copy()
+    temp_config["name"] = "mismatch will raise on refl._fromdict()"
+    with pytest.raises(ConfigurationError) as reason:
+        refl._fromdict(temp_config)
+    assert "Mismatched name for reflection" in str(reason)
+
+    temp_config = config.copy()
+    temp_config["geometry"] = "mismatch will raise on refl._fromdict()"
+    with pytest.raises(ConfigurationError) as reason:
+        refl._fromdict(temp_config)
+    assert "Mismatched geometry for reflection" in str(reason)
+
+    temp_config = config.copy()
+    temp_config["pseudos"] = {"aa": 1, "bb": "two"}
+    with pytest.raises(ConfigurationError) as reason:
+        refl._fromdict(temp_config)
+    assert "Mismatched pseudo axis names for reflection" in str(reason)
+
+    temp_config = config.copy()
+    temp_config["reals"] = {"aa": 1, "bb": "two"}
+    with pytest.raises(ConfigurationError) as reason:
+        refl._fromdict(temp_config)
+    assert "Mismatched real axis names for reflection" in str(reason)

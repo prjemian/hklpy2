@@ -6,6 +6,8 @@ Miscellaneous Support.
 
     ~check_value_in_list
     ~compare_float_dicts
+    ~dict_device_factory
+    ~flatten_lists
     ~get_solver
     ~load_yaml
     ~load_yaml_file
@@ -43,9 +45,13 @@ import logging
 import math
 import pathlib
 import uuid
+from collections.abc import Iterable
 from importlib.metadata import entry_points
 
 import yaml
+from ophyd import Component
+from ophyd import Device
+from ophyd import Signal
 
 from .. import Hklpy2Error
 
@@ -202,7 +208,6 @@ class ConfigurationRunWrapper:
             crw = ConfigurationRunWrapper(e4cv)
             RE.preprocessors.append(crw.wrapper)
         """
-        from bluesky import plan_stubs as bps
         from bluesky import preprocessors as bpp
 
         if not self._enable or len(self.devices) == 0:
@@ -211,11 +216,7 @@ class ConfigurationRunWrapper:
 
         self.validate(self.devices)
 
-        # Allow ophyd-async to succeed by using 'yield from ...'
-        cfg = {}
-        for dev in self.devices:
-            cdict = yield from bps.configure(dev, {})
-            cfg[dev.name] = cdict[-1]
+        cfg = {dev.name: dev.configuration for dev in self.devices}
 
         return (yield from bpp.inject_md_wrapper(plan, {self.start_key: cfg}))
 
@@ -237,7 +238,7 @@ def compare_float_dicts(a1, a2, tol=1e-4):
     Compare two dictionaries.  Values are all floats.
     """
     if tol <= 0:
-        raise ValueError("received {tol=}, should be tol >0")
+        raise ValueError(f"received {tol=}, should be tol >0")
 
     if sorted(a1.keys()) != sorted(a2.keys()):
         return False
@@ -254,6 +255,33 @@ def compare_float_dicts(a1, a2, tol=1e-4):
         if not test:
             return False  # no need to go further
     return False not in tests
+
+
+def dict_device_factory(data: dict, **kwargs):
+    """
+    Create a DictionaryDevice class using the supplied dictionary.
+    """
+    component_dict = {
+        k: Component(Signal, value=v, **kwargs)
+        # metadata={"description": "solver extra axis"},
+        # kind="hinted",
+        for k, v in data.items()
+    }
+    fc = type("DictionaryDevice", (Device,), component_dict)
+    return fc
+
+
+def flatten_lists(xs):
+    """
+    Convert nested lists into single list.
+
+    https://stackoverflow.com/questions/2158395
+    """
+    for x in xs:
+        if isinstance(x, Iterable) and not isinstance(x, (str, bytes)):
+            yield from flatten_lists(x)
+        else:
+            yield x
 
 
 def get_solver(solver_name):

@@ -69,7 +69,6 @@ class DiffractometerBase(PseudoPositioner):
 
     .. autosummary::
 
-        ~configuration
         ~geometry
         ~solver
         ~wavelength
@@ -82,12 +81,18 @@ class DiffractometerBase(PseudoPositioner):
         ~add_sample
         ~auto_assign_axes
         ~forward
+        ~full_position
         ~inverse
+        ~move_dict
+        ~move_forward_with_extras
+        ~move_reals
+        ~scan_extra
         ~wh
 
     .. rubric:: Python Properties
 
     .. autosummary::
+        ~configuration
         ~pseudo_axis_names
         ~real_axis_names
         ~sample
@@ -99,15 +104,6 @@ class DiffractometerBase(PseudoPositioner):
     # _pseudo = []  # List of pseudo-space objects.
     # _real = []  # List of real-space objects.
     # This code does NOT redefine them.
-
-    configuration = Cpt(
-        AttributeSignal,
-        attr="_configuration",
-        doc="Diffractometer configuration details (including orientation).",
-        write_access=True,
-        kind="config",
-    )
-    """Diffractometer configuration details."""
 
     geometry = Cpt(
         AttributeSignal,
@@ -236,12 +232,12 @@ class DiffractometerBase(PseudoPositioner):
         self.operator.auto_assign_axes()
 
     @property
-    def _configuration(self) -> dict:
+    def configuration(self) -> dict:
         """Diffractometer configuration (orientation)."""
         return self.operator._asdict()
 
-    @_configuration.setter
-    def _configuration(self, config: dict) -> dict:
+    @configuration.setter
+    def configuration(self, config: dict) -> dict:
         """
         Diffractometer configuration (orientation).
 
@@ -260,12 +256,195 @@ class DiffractometerBase(PseudoPositioner):
         solutions = self.operator.forward(pseudos, wavelength=wavelength)
         return self._forward_solution(self.real_position, solutions)
 
+    def full_position(self, digits=4) -> dict:
+        """Return dict with positions of pseudos, reals, & extras."""
+        from .operations.misc import roundoff
+
+        pdict = self.position._asdict()
+        pdict.update(self.real_position._asdict())
+        pdict.update(self.operator.solver.extras)
+        for k in pdict:
+            pdict[k] = roundoff(pdict[k], digits)
+        return pdict
+
     @real_position_argument
     def inverse(self, reals: dict, wavelength: float = None) -> tuple:
         """Compute pseudo-space coordinates from reals (angles -> hkl)."""
         logger.debug("inverse: reals=%r", reals)
         pos = self.operator.inverse(reals, wavelength=wavelength)
         return self.PseudoPosition(**pos)  # as created by namedtuple
+
+    def move_dict(self, axes: dict):
+        """(plan) Move diffractometer axes as described in 'axes' dict."""
+        from bluesky import plan_stubs as bps
+
+        from .operations.misc import flatten_lists
+
+        # Transform axes dict to args for bps.mv(position, value)
+        moves = list(
+            flatten_lists(
+                [
+                    [getattr(self, k), v]  # move the diffractometer axes
+                    for k, v in axes._asdict().items()
+                ]
+            )
+        )
+        yield from bps.mv(*moves)
+
+    def move_forward_with_extras(
+        self,
+        pseudos: dict,  # (h, k, l)
+        extras: dict,  # (h2, k2, l2, psi)
+    ):
+        """
+        (plan stub) Set extras and compute forward solution at fixed Q and extras.
+
+        EXAMPLE::
+
+            RE(
+                move_forward_with_extras(
+                    diffractometer,
+                    Q=dict(h=2, k=1, l=0),
+                    extras=dict(h2=2, k2=2, l2=0, psi=25),
+                )
+            )
+        """
+        # TODO: convert input pseudos & reals to positioner objects?
+        self.operator.solver.extras = extras  # must come first
+        solution = self.forward(list(pseudos.values()))
+        yield from self.move_dict(solution)
+
+    @real_position_argument
+    def move_reals(self, real_positions) -> None:
+        """(not a plan) Move the real-space axes as specified in 'real_positions'."""
+        for axis_name in real_positions._fields:
+            hkl_axis = getattr(self, axis_name)
+            position = getattr(real_positions, axis_name)
+            hkl_axis.move(position)
+
+    def scan_extra(
+        self,
+        detectors: list,
+        axis: str = None,  # name of extra parameter to be scanned
+        start: float = None,
+        finish: float = None,
+        num: int = 2,
+        *,
+        pseudos: dict = None,  # h, k, l
+        reals: dict = None,  # angles
+        extras: dict = {},  # define all but the 'axis', these will remain constant
+        fail_on_exception: bool = False,
+        md: dict = None,
+    ):
+        """
+        Scan one extra diffractometer parameter, such as 'psi'.
+
+        * TODO: one **or more** (such as bp.scan)
+        * TODO: support "inverse" transformation scan
+
+        * iterate extra positions as decribed:
+            * set extras
+            * solution = forward(pseudos)
+            * move to solution
+            * acquire (trigger) all controls
+            * read and record all controls
+        """
+        from collections.abc import Iterable
+
+        import numpy
+        from bluesky import plan_stubs as bps
+        from bluesky import preprocessors as bpp
+
+        from .operations.misc import dict_device_factory
+
+        # validate
+        if not isinstance(detectors, Iterable):
+            raise TypeError(f"{detectors=} is not iterable.")
+        if axis not in self.operator.solver.extra_axis_names:
+            raise KeyError(f"{axis!r} not in {self.operator.solver.extra_axis_names}")
+        if pseudos is None and reals is None:
+            raise ValueError("Must define either pseudos or reals.")
+        if pseudos is not None and reals is not None:
+            raise ValueError("Cannot define both pseudos and reals.")
+
+        # FIXME: Inverse transformation
+        if reals is not None:
+            raise NotImplementedError("Inverse transformation.")
+
+        _md = {
+            "diffractometer": {
+                "name": self.name,
+                "geometry": self.operator.solver.geometry,
+                "engine": self.operator.solver.engine_name,
+                "mode": self.operator.solver.mode,
+                "extra_axes": self.operator.solver.extra_axis_names,
+            },
+            "axis": axis,
+            "start": start,
+            "finish": finish,
+            "num": num,
+            "pseudos": pseudos,
+            "reals": reals,
+            "extras": extras,
+            "transformation": "forward" if reals is None else "inverse",
+        }.update(md or {})
+
+        extras[axis] = start
+        extras_class = dict_device_factory(extras)
+        extras_device = extras_class("", name=f"{self.name}_extras", kind="hinted")
+
+        all_controls = detectors
+        all_controls.append(extras_device)
+        all_controls = list(set(all_controls))
+
+        signal = getattr(extras_device, axis)  # Pick the 'axis' Component.
+        signal.kind = "hinted"
+
+        def position_series(start, finish, num):
+            for value in numpy.linspace(start, finish, num=num):
+                yield value
+
+        @bpp.stage_decorator(detectors)
+        @bpp.run_decorator(md=_md)
+        def _inner():
+            for value in position_series(start, finish, num):
+
+                def move_axes(pseudos, reals, extras):
+                    """Move extras, then reals or pseudos, move to the solution."""
+                    if reals is None:
+                        yield from self.move_forward_with_extras(pseudos, extras)
+                    # else:
+                    #     # TODO: Inverse transformation
+                    #     yield from self.inverse_move_with_extras(reals, extras)
+
+                def acquire(objects):
+                    """Tell each object to acquire its data."""
+                    group = "trigger_control_objects"
+                    for item in objects:
+                        yield from bps.trigger(item, group=group)
+                    yield from bps.wait(group=group)
+
+                def record(objects, stream="primary"):
+                    """Read & record each object."""
+                    yield from bps.create(stream)
+                    for item in objects:
+                        yield from bps.read(item)
+                    yield from bps.save()
+
+                # note the new axis position, will report later
+                extras.update({axis: value})
+                yield from bps.mv(signal, value)
+                try:
+                    yield from move_axes(pseudos, reals, extras)
+                    yield from acquire(all_controls)
+                    yield from record(all_controls)
+                except Exception as reason:
+                    if fail_on_exception:
+                        raise reason
+                    else:
+                        print(f"FAIL: {axis}={value} {reason}")
+
+        return (yield from _inner())
 
     # ---- get/set properties
 

@@ -1,6 +1,6 @@
 # Makefile to support common developer commands
 
-all :: isort ruff docs test
+all :: style docs coverage
 
 coverage:
 	coverage run --concurrency=thread --parallel-mode -m pytest -vvv .
@@ -15,8 +15,10 @@ doc :: docs
 isort:
 	isort --sl ./hklpy2
 
-ruff:
-	ruff check
+pre:
+	pre-commit run --all-files
+
+style :: isort pre
 
 test:
 	pytest -vvv
