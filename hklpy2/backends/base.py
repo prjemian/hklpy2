@@ -178,7 +178,8 @@ class SolverBase(ABC):
 
     @abstractmethod
     def inverse(self, reals: dict) -> dict[str, float]:
-        """Compute tuple of pseudos from reals (angles -> hkl)."""
+        """Compute dict of pseudos from reals (angles -> hkl)."""
+        return {}
 
     @property
     def lattice(self) -> object:

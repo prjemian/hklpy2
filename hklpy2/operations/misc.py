@@ -238,7 +238,7 @@ def compare_float_dicts(a1, a2, tol=1e-4):
     Compare two dictionaries.  Values are all floats.
     """
     if tol <= 0:
-        raise ValueError("received {tol=}, should be tol >0")
+        raise ValueError(f"received {tol=}, should be tol >0")
 
     if sorted(a1.keys()) != sorted(a2.keys()):
         return False

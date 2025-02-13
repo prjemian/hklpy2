@@ -291,7 +291,6 @@ class DiffractometerBase(PseudoPositioner):
         )
         yield from bps.mv(*moves)
 
-    # TODO: ??? @pseudo_position_argument ???
     def move_forward_with_extras(
         self,
         pseudos: dict,  # (h, k, l)
@@ -310,15 +309,14 @@ class DiffractometerBase(PseudoPositioner):
                 )
             )
         """
+        # TODO: convert input pseudos & reals to positioner objects?
         self.operator.solver.extras = extras  # must come first
         solution = self.forward(list(pseudos.values()))
         yield from self.move_dict(solution)
 
+    @real_position_argument
     def move_reals(self, real_positions) -> None:
         """(not a plan) Move the real-space axes as specified in 'real_positions'."""
-        for axis_name in real_positions._fields:
-            if axis_name not in self.real_axis_names:
-                raise KeyError(f"{axis_name!r} not in self.real_axis_names")
         for axis_name in real_positions._fields:
             hkl_axis = getattr(self, axis_name)
             position = getattr(real_positions, axis_name)
@@ -335,6 +333,7 @@ class DiffractometerBase(PseudoPositioner):
         pseudos: dict = None,  # h, k, l
         reals: dict = None,  # angles
         extras: dict = {},  # define all but the 'axis', these will remain constant
+        fail_on_exception: bool = False,
         md: dict = None,
     ):
         """
@@ -364,9 +363,13 @@ class DiffractometerBase(PseudoPositioner):
         if axis not in self.operator.solver.extra_axis_names:
             raise KeyError(f"{axis!r} not in {self.operator.solver.extra_axis_names}")
         if pseudos is None and reals is None:
-            raise KeyError("Must define either pseudos or reals.")
+            raise ValueError("Must define either pseudos or reals.")
         if pseudos is not None and reals is not None:
-            raise KeyError("Cannot define both pseudos and reals.")
+            raise ValueError("Cannot define both pseudos and reals.")
+
+        # FIXME: Inverse transformation
+        if reals is not None:
+            raise NotImplementedError("Inverse transformation.")
 
         _md = {
             "diffractometer": {
@@ -410,10 +413,9 @@ class DiffractometerBase(PseudoPositioner):
                     """Move extras, then reals or pseudos, move to the solution."""
                     if reals is None:
                         yield from self.move_forward_with_extras(pseudos, extras)
-                    else:
-                        # TODO: Inverse transformation
-                        # yield from self.inverse_move_with_extras(reals, extras)
-                        raise NotImplementedError("Inverse transformation.")  # yet
+                    # else:
+                    #     # TODO: Inverse transformation
+                    #     yield from self.inverse_move_with_extras(reals, extras)
 
                 def acquire(objects):
                     """Tell each object to acquire its data."""
@@ -437,7 +439,10 @@ class DiffractometerBase(PseudoPositioner):
                     yield from acquire(all_controls)
                     yield from record(all_controls)
                 except Exception as reason:
-                    print(f"FAIL: {axis}={value} {reason}")
+                    if fail_on_exception:
+                        raise reason
+                    else:
+                        print(f"FAIL: {axis}={value} {reason}")
 
         return (yield from _inner())
 
