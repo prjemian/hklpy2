@@ -1,9 +1,13 @@
 """Test the hklpy2.diffract module."""
 
 import math
+from collections import namedtuple
 from contextlib import nullcontext as does_not_raise
 
+import bluesky
 import pytest
+from gi.repository.GLib import GError
+from ophyd.sim import noisy_det
 
 from ..diffract import DiffractometerBase
 from ..diffract import pick_first_item
@@ -14,6 +18,8 @@ from ..ops import DEFAULT_SAMPLE_NAME
 from ..ops import Operations
 from ..wavelength_support import DEFAULT_WAVELENGTH
 from ..wavelength_support import DEFAULT_WAVELENGTH_UNITS
+from .common import HKLPY2_DIR
+from .common import assert_context_result
 from .models import AugmentedFourc
 from .models import Fourc
 from .models import MultiAxis99
@@ -123,11 +129,144 @@ def test_diffractometer_class(
     assert len(dmeter.solver_name) > 0
 
 
-def test_remove_sample():
-    sim = NoOpTh2Th(name="sim")
-    assert len(sim.samples) == 1
-    sim.operator.remove_sample(DEFAULT_SAMPLE_NAME)
-    assert len(sim.samples) == 0
+def test_diffractometer_wh(capsys):
+    from ..geom import SimulatedE4CV
+
+    e4cv = SimulatedE4CV(name="e4cv")
+    e4cv.operator.restore(HKLPY2_DIR / "tests" / "e4cv_orient.yml")
+
+    e4cv.wh()
+    captured = capsys.readouterr()
+    lines = captured.out.splitlines()
+    assert len(lines) == 3, f"{captured.out=}"
+    assert lines[1].startswith("wavelength=")
+    assert lines[0].startswith("h=")
+    assert lines[2].startswith("omega=")
+
+    e4cv.operator.solver.mode = "psi_constant"
+    e4cv.wh(full=True)
+    captured = capsys.readouterr()
+    lines = captured.out.splitlines()
+    expected = """
+        diffractometer=
+        HklSolver(name
+        Sample(name=
+        U=
+        UB=
+    """.strip().split()
+    for _r in e4cv.operator.sample.reflections:
+        expected.append("Reflection(name='")
+    for _r in e4cv.operator.constraints:
+        expected.append("constraint: ")
+    expected.append(f"{e4cv.pseudo_axis_names[0]}=")
+    expected.append("wavelength=")
+    expected.append(f"{e4cv.real_axis_names[0]}=")
+    extra_names = e4cv.operator.solver.extra_axis_names
+    if len(extra_names) > 0:
+        expected.append(f"{extra_names[0]}=")
+    assert len(lines) == len(expected), f"{captured.out=}"
+    for actual, exp in zip(lines, expected):
+        assert actual.startswith(exp)
+
+
+@pytest.mark.parametrize(
+    "mode, keys, context, expected",
+    [
+        ["bissector", "h k l omega chi phi tth".split(), does_not_raise(), None],
+    ],
+)
+def test_full_position(mode, keys, context, expected):
+    from ..geom import SimulatedE4CV
+
+    with context as reason:
+        fourc = SimulatedE4CV(name="fourc")
+        fourc.operator.restore(HKLPY2_DIR / "tests" / "e4cv_orient.yml")
+        fourc.operator.solver.mode = mode
+        pos = fourc.full_position()
+        assert isinstance(pos, dict)
+
+    assert_context_result(expected, reason)
+
+
+@pytest.mark.parametrize(
+    "pseudos, reals, mode, context, expected",
+    [
+        [
+            dict(h=1, k=1, l=0),
+            dict(h2=1, k2=1, l2=1, psi=0),
+            "psi_constant",
+            does_not_raise(),
+            None,
+        ],
+    ],
+)
+def test_move_forward_with_extras(pseudos, reals, mode, context, expected):
+    from ..geom import SimulatedE4CV
+
+    fourc = SimulatedE4CV(name="fourc")
+    fourc.operator.restore(HKLPY2_DIR / "tests" / "e4cv_orient.yml")
+    fourc.operator.solver.mode = mode
+    # fourc.wavelength.put(6)
+    assert fourc.operator.solver.mode == mode
+
+    RE = bluesky.RunEngine()
+
+    with context as reason:
+        RE(fourc.move_forward_with_extras(pseudos, reals))
+
+    assert_context_result(expected, reason)
+
+
+@pytest.mark.parametrize(
+    "pos, context, expected",
+    [
+        [(1, 2, 3, 4), does_not_raise(), None],
+        [{"omega": 1, "chi": 2, "phi": 3, "tth": 4}, does_not_raise(), None],
+        [
+            namedtuple(
+                "RealPosition", "omega chi phi tth".split(), defaults=[1, 2, 3, 4]
+            )(),
+            does_not_raise(),
+            None,
+        ],
+        [(1, 2, 3, 4, 5, 6), pytest.raises(ValueError), "too many args"],
+        [
+            {"omega": 1, "chi": 2, "phi": 3, "delta": -4},
+            pytest.raises(TypeError),
+            "unexpected keyword argument 'delta'",
+        ],
+    ],
+)
+def test_move_reals(pos, context, expected):
+    from ..geom import SimulatedE4CV
+
+    fourc = SimulatedE4CV(name="fourc")
+    with context as reason:
+        fourc.move_reals(pos)
+
+    assert_context_result(expected, reason)
+
+
+def test_null_operator():
+    """Tests special cases when diffractometer.operator is None."""
+    from ..geom import SimulatedE4CV
+
+    fourc = SimulatedE4CV(name="fourc")
+    assert fourc.operator is not None
+    assert len(fourc.samples) > 0
+    assert fourc.sample is not None
+    assert fourc.operator.solver is not None
+    assert fourc.solver_name is not None
+
+    fourc.operator._solver = None
+    assert len(fourc.samples) > 0
+    assert fourc.sample is not None
+    assert fourc.solver_name == ""
+
+    fourc.operator = None
+    assert len(fourc.samples) == 0
+    assert fourc.sample is None
+    assert fourc.solver_name == ""
 
 
 def test_orientation():
@@ -203,20 +342,11 @@ def test_orientation():
     assert math.isclose(result.l, 0, abs_tol=0.02), f"{result=!r}"
 
 
-def test_set_UB():
-    from ..geom import SimulatedE4CV
-
-    UBe = [[0, 0, -1.157], [0, -1.157, 0], [-1.157, 0, 0]]
-    fourc = SimulatedE4CV(name="fourc")
-
-    fourc.operator.solver.UB = UBe
-    UBr = fourc.operator.solver.UB
-    assert len(UBr) == len(UBe)
-
-    result = fourc.inverse(-145, 0, 0, 70, wavelength=1.54)
-    assert math.isclose(result.h, 4.05, abs_tol=0.02), f"{result=!r}"
-    assert math.isclose(result.k, 0, abs_tol=0.02), f"{result=!r}"
-    assert math.isclose(result.l, 0, abs_tol=0.02), f"{result=!r}"
+def test_remove_sample():
+    sim = NoOpTh2Th(name="sim")
+    assert len(sim.samples) == 1
+    sim.operator.remove_sample(DEFAULT_SAMPLE_NAME)
+    assert len(sim.samples) == 0
 
 
 @pytest.mark.parametrize(
@@ -286,35 +416,145 @@ def test_repeated_reflections(
     assert len(e4cv.sample.reflections) == num, f"{e4cv.sample.reflections=!r}"
 
 
-def test_diffractometer_wh(capsys):
+@pytest.mark.parametrize(
+    "scan_kwargs, mode, context, expected",
+    [
+        [
+            dict(
+                detectors=[noisy_det],
+                axis="psi",
+                start=5,
+                finish=10,
+                num=3,
+                pseudos=dict(h=1, k=1, l=0),
+                reals=None,
+                extras=dict(h2=1, k2=1, l2=1, psi=0),
+                fail_on_exception=True,
+            ),
+            "psi_constant",
+            does_not_raise(),
+            None,
+        ],
+        [
+            dict(
+                detectors=[noisy_det],
+                axis="psi",
+                start=5,
+                finish=10,
+                num=3,
+                pseudos=dict(h=2, k=-1, l=0),
+                reals=None,
+                extras=dict(h2=2, k2=2, l2=0, psi=0),
+                fail_on_exception=True,
+            ),
+            "psi_constant",
+            pytest.raises(GError),  # TODO: catch this in the solver and translate?
+            "unreachable hkl",  # hkl-engine-error-quark:
+        ],
+        [
+            dict(
+                detectors=[noisy_det],
+                axis="psi",
+                start=5,
+                finish=10,
+                num=3,
+                pseudos=dict(h=2, k=-1, l=0),
+                reals=None,
+                extras=dict(h2=2, k2=2, l2=0, psi=0),
+                fail_on_exception=False,  # ignore error that failed previous test
+            ),
+            "psi_constant",
+            does_not_raise(),
+            None,
+        ],
+        [
+            dict(
+                detectors=[noisy_det],
+                axis="psi",
+                start=5,
+                finish=10,
+                num=3,
+                pseudos=None,
+                reals=dict(omega=1, chi=2, phi=3, tth=4),
+                extras=dict(h2=2, k2=2, l2=0, psi=5),
+                fail_on_exception=True,
+            ),
+            "psi_constant",
+            pytest.raises(NotImplementedError),
+            "Inverse transformation.",
+        ],
+        [
+            dict(
+                detectors=noisy_det,
+            ),
+            "psi_constant",
+            pytest.raises(TypeError),
+            " is not iterable.",
+        ],
+        [
+            dict(
+                detectors=[noisy_det],
+                axis="oddball",
+            ),
+            "psi_constant",
+            pytest.raises(KeyError),
+            "'oddball' not in ",
+        ],
+        [
+            dict(
+                detectors=[noisy_det],
+                axis="psi",
+                pseudos=None,
+                reals=None,
+            ),
+            "psi_constant",
+            pytest.raises(ValueError),
+            "Must define either pseudos or reals.",
+        ],
+        [
+            dict(
+                detectors=[noisy_det],
+                axis="psi",
+                pseudos=dict(h=2, k=-1, l=0),
+                reals=dict(omega=1, chi=2, phi=3, tth=4),
+            ),
+            "psi_constant",
+            pytest.raises(ValueError),
+            "Cannot define both pseudos and reals.",
+        ],
+    ],
+)
+def test_scan_extra(scan_kwargs, mode, context, expected):
     from ..geom import SimulatedE4CV
 
-    e4cv = SimulatedE4CV(name="e4cv")
+    fourc = SimulatedE4CV(name="fourc")
+    fourc.operator.restore(HKLPY2_DIR / "tests" / "e4cv_orient.yml")
+    fourc.operator.solver.mode = mode
+    assert fourc.operator.solver.mode == mode
 
-    e4cv.wh()
-    captured = capsys.readouterr()
-    lines = captured.out.splitlines()
-    assert len(lines) == 3, f"{captured.out=}"
-    assert lines[1].startswith("wavelength=")
-    assert lines[0].startswith("h=")
-    assert lines[2].startswith("omega=")
+    RE = bluesky.RunEngine()
 
-    e4cv.wh(full=True)
-    captured = capsys.readouterr()
-    lines = captured.out.splitlines()
-    assert len(lines) == 12, f"{captured.out=}"
-    assert lines[0].startswith("diffractometer=")
-    assert lines[1].startswith("HklSolver(name")
-    assert lines[2].startswith("Sample(name=")
-    assert lines[3].startswith("U=")
-    assert lines[4].startswith("UB=")
-    # assert lines[].startswith("Reflection(")
-    assert lines[5].startswith("constraint: ")
-    assert lines[6].startswith("constraint: ")
-    assert lines[7].startswith("constraint: ")
-    assert lines[8].startswith("constraint: ")
-    assert lines[9].startswith("h=")
-    assert lines[10].startswith("wavelength=")
-    assert lines[11].startswith("omega=")
+    if isinstance(scan_kwargs["detectors"], dict):
+        # Avoid the test case where detectors is not iterable
+        scan_kwargs["detectors"].append(fourc)
 
-    # TODO: extra axis names
+    with context as reason:
+        RE(fourc.scan_extra(**scan_kwargs))
+
+    assert_context_result(expected, reason)
+
+
+def test_set_UB():
+    from ..geom import SimulatedE4CV
+
+    UBe = [[0, 0, -1.157], [0, -1.157, 0], [-1.157, 0, 0]]
+    fourc = SimulatedE4CV(name="fourc")
+
+    fourc.operator.solver.UB = UBe
+    UBr = fourc.operator.solver.UB
+    assert len(UBr) == len(UBe)
+
+    result = fourc.inverse(-145, 0, 0, 70, wavelength=1.54)
+    assert math.isclose(result.h, 4.05, abs_tol=0.02), f"{result=!r}"
+    assert math.isclose(result.k, 0, abs_tol=0.02), f"{result=!r}"
+    assert math.isclose(result.l, 0, abs_tol=0.02), f"{result=!r}"
