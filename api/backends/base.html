@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../../_static/documentation_options.js?v=5d650c58"></script>
+    <script src="../../_static/documentation_options.js?v=f4ff16cc"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/design-tabs.js?v=f930bc37"></script>
@@ -436,7 +436,7 @@ as best fits the underlying support library.</p>
 <td><p>Ordered list of the geometry names.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.backends.base.SolverBase.inverse" title="hklpy2.backends.base.SolverBase.inverse"><code class="xref py py-obj docutils literal notranslate"><span class="pre">inverse</span></code></a>(reals)</p></td>
-<td><p>Compute tuple of pseudos from reals (angles -&gt; hkl).</p></td>
+<td><p>Compute dict of pseudos from reals (angles -&gt; hkl).</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.backends.base.SolverBase.pseudo_axis_names" title="hklpy2.backends.base.SolverBase.pseudo_axis_names"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pseudo_axis_names</span></code></a></p></td>
 <td><p>Ordered list of the pseudo axis names (such as h, k, l).</p></td>
@@ -456,6 +456,12 @@ as best fits the underlying support library.</p>
 <p class="rubric">Python Properties</p>
 <div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
 <tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.backends.base.SolverBase.extra_axis_names" title="hklpy2.backends.base.SolverBase.extra_axis_names"><code class="xref py py-obj docutils literal notranslate"><span class="pre">extra_axis_names</span></code></a></p></td>
+<td><p>Ordered list of any extra axis names (such as x, y, z).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.backends.base.SolverBase.extras" title="hklpy2.backends.base.SolverBase.extras"><code class="xref py py-obj docutils literal notranslate"><span class="pre">extras</span></code></a></p></td>
+<td><p>Ordered dictionary of any extra parameters.</p></td>
+</tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.backends.base.SolverBase.geometry" title="hklpy2.backends.base.SolverBase.geometry"><code class="xref py py-obj docutils literal notranslate"><span class="pre">geometry</span></code></a></p></td>
 <td><p>Name of selected diffractometer geometry.</p></td>
 </tr>
@@ -502,6 +508,12 @@ as best fits the underlying support library.</p>
 <dd><p>Ordered list of any extra axis names (such as x, y, z).</p>
 </dd></dl>
 
+<dl class="py property">
+<dt class="sig sig-object py" id="hklpy2.backends.base.SolverBase.extras">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">extras</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><span class="pre">dict</span></a></em><a class="headerlink" href="#hklpy2.backends.base.SolverBase.extras" title="Link to this definition">#</a></dt>
+<dd><p>Ordered dictionary of any extra parameters.</p>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="hklpy2.backends.base.SolverBase.forward">
 <em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pseudos</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><span class="pre">dict</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/hklpy2/backends/base.html#SolverBase.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.backends.base.SolverBase.forward" title="Link to this definition">#</a></dt>
@@ -535,7 +547,7 @@ for each geometry.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="hklpy2.backends.base.SolverBase.inverse">
 <em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">inverse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">reals</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><span class="pre">dict</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/hklpy2/backends/base.html#SolverBase.inverse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.backends.base.SolverBase.inverse" title="Link to this definition">#</a></dt>
-<dd><p>Compute tuple of pseudos from reals (angles -&gt; hkl).</p>
+<dd><p>Compute dict of pseudos from reals (angles -&gt; hkl).</p>
 </dd></dl>
 
 <dl class="py property">
@@ -596,7 +608,7 @@ for each geometry.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="hklpy2.backends.base.SolverBase.version">
-<span class="sig-name descname"><span class="pre">version</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'0.0.25'</span></em><a class="headerlink" href="#hklpy2.backends.base.SolverBase.version" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">version</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'0.0.26.dev21+g98aafa8'</span></em><a class="headerlink" href="#hklpy2.backends.base.SolverBase.version" title="Link to this definition">#</a></dt>
 <dd><p>Version of this Solver.</p>
 </dd></dl>
 
@@ -656,6 +668,7 @@ for each geometry.</p>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.backends.base.SolverBase.addReflection"><code class="docutils literal notranslate"><span class="pre">SolverBase.addReflection()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.backends.base.SolverBase.calculate_UB"><code class="docutils literal notranslate"><span class="pre">SolverBase.calculate_UB()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.backends.base.SolverBase.extra_axis_names"><code class="docutils literal notranslate"><span class="pre">SolverBase.extra_axis_names</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.backends.base.SolverBase.extras"><code class="docutils literal notranslate"><span class="pre">SolverBase.extras</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.backends.base.SolverBase.forward"><code class="docutils literal notranslate"><span class="pre">SolverBase.forward()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.backends.base.SolverBase.geometries"><code class="docutils literal notranslate"><span class="pre">SolverBase.geometries()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.backends.base.SolverBase.geometry"><code class="docutils literal notranslate"><span class="pre">SolverBase.geometry</span></code></a></li>

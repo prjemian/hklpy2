@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../../_static/documentation_options.js?v=5d650c58"></script>
+    <script src="../../_static/documentation_options.js?v=f4ff16cc"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/design-tabs.js?v=f930bc37"></script>
@@ -405,7 +405,6 @@
 
 <span class="sd">    .. autosummary::</span>
 
-<span class="sd">        ~configuration</span>
 <span class="sd">        ~geometry</span>
 <span class="sd">        ~solver</span>
 <span class="sd">        ~wavelength</span>
@@ -418,12 +417,18 @@
 <span class="sd">        ~add_sample</span>
 <span class="sd">        ~auto_assign_axes</span>
 <span class="sd">        ~forward</span>
+<span class="sd">        ~full_position</span>
 <span class="sd">        ~inverse</span>
+<span class="sd">        ~move_dict</span>
+<span class="sd">        ~move_forward_with_extras</span>
+<span class="sd">        ~move_reals</span>
+<span class="sd">        ~scan_extra</span>
 <span class="sd">        ~wh</span>
 
 <span class="sd">    .. rubric:: Python Properties</span>
 
 <span class="sd">    .. autosummary::</span>
+<span class="sd">        ~configuration</span>
 <span class="sd">        ~pseudo_axis_names</span>
 <span class="sd">        ~real_axis_names</span>
 <span class="sd">        ~sample</span>
@@ -435,15 +440,6 @@
     <span class="c1"># _pseudo = []  # List of pseudo-space objects.</span>
     <span class="c1"># _real = []  # List of real-space objects.</span>
     <span class="c1"># This code does NOT redefine them.</span>
-
-    <span class="n">configuration</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span>
-        <span class="n">AttributeSignal</span><span class="p">,</span>
-        <span class="n">attr</span><span class="o">=</span><span class="s2">&quot;_configuration&quot;</span><span class="p">,</span>
-        <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Diffractometer configuration details (including orientation).&quot;</span><span class="p">,</span>
-        <span class="n">write_access</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-        <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">,</span>
-    <span class="p">)</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Diffractometer configuration details.&quot;&quot;&quot;</span>
 
     <span class="n">geometry</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span>
         <span class="n">AttributeSignal</span><span class="p">,</span>
@@ -581,12 +577,12 @@
 
 
     <span class="nd">@property</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">_configuration</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">configuration</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Diffractometer configuration (orientation).&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">_asdict</span><span class="p">()</span>
 
-    <span class="nd">@_configuration</span><span class="o">.</span><span class="n">setter</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">_configuration</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+    <span class="nd">@configuration</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">configuration</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Diffractometer configuration (orientation).</span>
 
@@ -608,6 +604,20 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_forward_solution</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">real_position</span><span class="p">,</span> <span class="n">solutions</span><span class="p">)</span></div>
 
 
+<div class="viewcode-block" id="DiffractometerBase.full_position">
+<a class="viewcode-back" href="../../api/diffract.html#hklpy2.diffract.DiffractometerBase.full_position">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">full_position</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">digits</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return dict with positions of pseudos, reals, &amp; extras.&quot;&quot;&quot;</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">.operations.misc</span><span class="w"> </span><span class="kn">import</span> <span class="n">roundoff</span>
+
+        <span class="n">pdict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">position</span><span class="o">.</span><span class="n">_asdict</span><span class="p">()</span>
+        <span class="n">pdict</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">real_position</span><span class="o">.</span><span class="n">_asdict</span><span class="p">())</span>
+        <span class="n">pdict</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">extras</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">pdict</span><span class="p">:</span>
+            <span class="n">pdict</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">roundoff</span><span class="p">(</span><span class="n">pdict</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="n">digits</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">pdict</span></div>
+
+
 <div class="viewcode-block" id="DiffractometerBase.inverse">
 <a class="viewcode-back" href="../../api/diffract.html#hklpy2.diffract.DiffractometerBase.inverse">[docs]</a>
     <span class="nd">@real_position_argument</span>
@@ -616,6 +626,190 @@
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;inverse: reals=</span><span class="si">%r</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">reals</span><span class="p">)</span>
         <span class="n">pos</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">inverse</span><span class="p">(</span><span class="n">reals</span><span class="p">,</span> <span class="n">wavelength</span><span class="o">=</span><span class="n">wavelength</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">PseudoPosition</span><span class="p">(</span><span class="o">**</span><span class="n">pos</span><span class="p">)</span>  <span class="c1"># as created by namedtuple</span></div>
+
+
+<div class="viewcode-block" id="DiffractometerBase.move_dict">
+<a class="viewcode-back" href="../../api/diffract.html#hklpy2.diffract.DiffractometerBase.move_dict">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">move_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axes</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;(plan) Move diffractometer axes as described in &#39;axes&#39; dict.&quot;&quot;&quot;</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">bluesky</span><span class="w"> </span><span class="kn">import</span> <span class="n">plan_stubs</span> <span class="k">as</span> <span class="n">bps</span>
+
+        <span class="kn">from</span><span class="w"> </span><span class="nn">.operations.misc</span><span class="w"> </span><span class="kn">import</span> <span class="n">flatten_lists</span>
+
+        <span class="c1"># Transform axes dict to args for bps.mv(position, value)</span>
+        <span class="n">moves</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span>
+            <span class="n">flatten_lists</span><span class="p">(</span>
+                <span class="p">[</span>
+                    <span class="p">[</span><span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">),</span> <span class="n">v</span><span class="p">]</span>  <span class="c1"># move the diffractometer axes</span>
+                    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">axes</span><span class="o">.</span><span class="n">_asdict</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+                <span class="p">]</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+        <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span><span class="o">*</span><span class="n">moves</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="DiffractometerBase.move_forward_with_extras">
+<a class="viewcode-back" href="../../api/diffract.html#hklpy2.diffract.DiffractometerBase.move_forward_with_extras">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">move_forward_with_extras</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">pseudos</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>  <span class="c1"># (h, k, l)</span>
+        <span class="n">extras</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>  <span class="c1"># (h2, k2, l2, psi)</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        (plan stub) Set extras and compute forward solution at fixed Q and extras.</span>
+
+<span class="sd">        EXAMPLE::</span>
+
+<span class="sd">            RE(</span>
+<span class="sd">                move_forward_with_extras(</span>
+<span class="sd">                    diffractometer,</span>
+<span class="sd">                    Q=dict(h=2, k=1, l=0),</span>
+<span class="sd">                    extras=dict(h2=2, k2=2, l2=0, psi=25),</span>
+<span class="sd">                )</span>
+<span class="sd">            )</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># TODO: convert input pseudos &amp; reals to positioner objects?</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">extras</span> <span class="o">=</span> <span class="n">extras</span>  <span class="c1"># must come first</span>
+        <span class="n">solution</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">pseudos</span><span class="o">.</span><span class="n">values</span><span class="p">()))</span>
+        <span class="k">yield from</span> <span class="bp">self</span><span class="o">.</span><span class="n">move_dict</span><span class="p">(</span><span class="n">solution</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="DiffractometerBase.move_reals">
+<a class="viewcode-back" href="../../api/diffract.html#hklpy2.diffract.DiffractometerBase.move_reals">[docs]</a>
+    <span class="nd">@real_position_argument</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">move_reals</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">real_positions</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;(not a plan) Move the real-space axes as specified in &#39;real_positions&#39;.&quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">axis_name</span> <span class="ow">in</span> <span class="n">real_positions</span><span class="o">.</span><span class="n">_fields</span><span class="p">:</span>
+            <span class="n">hkl_axis</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axis_name</span><span class="p">)</span>
+            <span class="n">position</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">real_positions</span><span class="p">,</span> <span class="n">axis_name</span><span class="p">)</span>
+            <span class="n">hkl_axis</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="n">position</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="DiffractometerBase.scan_extra">
+<a class="viewcode-back" href="../../api/diffract.html#hklpy2.diffract.DiffractometerBase.scan_extra">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">scan_extra</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">detectors</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span>
+        <span class="n">axis</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>  <span class="c1"># name of extra parameter to be scanned</span>
+        <span class="n">start</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">finish</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">num</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">pseudos</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>  <span class="c1"># h, k, l</span>
+        <span class="n">reals</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>  <span class="c1"># angles</span>
+        <span class="n">extras</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{},</span>  <span class="c1"># define all but the &#39;axis&#39;, these will remain constant</span>
+        <span class="n">fail_on_exception</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">md</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Scan one extra diffractometer parameter, such as &#39;psi&#39;.</span>
+
+<span class="sd">        * TODO: one **or more** (such as bp.scan)</span>
+<span class="sd">        * TODO: support &quot;inverse&quot; transformation scan</span>
+
+<span class="sd">        * iterate extra positions as decribed:</span>
+<span class="sd">            * set extras</span>
+<span class="sd">            * solution = forward(pseudos)</span>
+<span class="sd">            * move to solution</span>
+<span class="sd">            * acquire (trigger) all controls</span>
+<span class="sd">            * read and record all controls</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Iterable</span>
+
+        <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">bluesky</span><span class="w"> </span><span class="kn">import</span> <span class="n">plan_stubs</span> <span class="k">as</span> <span class="n">bps</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">bluesky</span><span class="w"> </span><span class="kn">import</span> <span class="n">preprocessors</span> <span class="k">as</span> <span class="n">bpp</span>
+
+        <span class="kn">from</span><span class="w"> </span><span class="nn">.operations.misc</span><span class="w"> </span><span class="kn">import</span> <span class="n">dict_device_factory</span>
+
+        <span class="c1"># validate</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">detectors</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">detectors</span><span class="si">=}</span><span class="s2"> is not iterable.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">axis</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">extra_axis_names</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">axis</span><span class="si">!r}</span><span class="s2"> not in </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">extra_axis_names</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">pseudos</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">reals</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Must define either pseudos or reals.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">pseudos</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">reals</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Cannot define both pseudos and reals.&quot;</span><span class="p">)</span>
+
+        <span class="c1"># FIXME: Inverse transformation</span>
+        <span class="k">if</span> <span class="n">reals</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Inverse transformation.&quot;</span><span class="p">)</span>
+
+        <span class="n">_md</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;diffractometer&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                <span class="s2">&quot;geometry&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">geometry</span><span class="p">,</span>
+                <span class="s2">&quot;engine&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">engine_name</span><span class="p">,</span>
+                <span class="s2">&quot;mode&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">mode</span><span class="p">,</span>
+                <span class="s2">&quot;extra_axes&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">extra_axis_names</span><span class="p">,</span>
+            <span class="p">},</span>
+            <span class="s2">&quot;axis&quot;</span><span class="p">:</span> <span class="n">axis</span><span class="p">,</span>
+            <span class="s2">&quot;start&quot;</span><span class="p">:</span> <span class="n">start</span><span class="p">,</span>
+            <span class="s2">&quot;finish&quot;</span><span class="p">:</span> <span class="n">finish</span><span class="p">,</span>
+            <span class="s2">&quot;num&quot;</span><span class="p">:</span> <span class="n">num</span><span class="p">,</span>
+            <span class="s2">&quot;pseudos&quot;</span><span class="p">:</span> <span class="n">pseudos</span><span class="p">,</span>
+            <span class="s2">&quot;reals&quot;</span><span class="p">:</span> <span class="n">reals</span><span class="p">,</span>
+            <span class="s2">&quot;extras&quot;</span><span class="p">:</span> <span class="n">extras</span><span class="p">,</span>
+            <span class="s2">&quot;transformation&quot;</span><span class="p">:</span> <span class="s2">&quot;forward&quot;</span> <span class="k">if</span> <span class="n">reals</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="s2">&quot;inverse&quot;</span><span class="p">,</span>
+        <span class="p">}</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">md</span> <span class="ow">or</span> <span class="p">{})</span>
+
+        <span class="n">extras</span><span class="p">[</span><span class="n">axis</span><span class="p">]</span> <span class="o">=</span> <span class="n">start</span>
+        <span class="n">extras_class</span> <span class="o">=</span> <span class="n">dict_device_factory</span><span class="p">(</span><span class="n">extras</span><span class="p">)</span>
+        <span class="n">extras_device</span> <span class="o">=</span> <span class="n">extras_class</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">_extras&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;hinted&quot;</span><span class="p">)</span>
+
+        <span class="n">all_controls</span> <span class="o">=</span> <span class="n">detectors</span>
+        <span class="n">all_controls</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">extras_device</span><span class="p">)</span>
+        <span class="n">all_controls</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">all_controls</span><span class="p">))</span>
+
+        <span class="n">signal</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">extras_device</span><span class="p">,</span> <span class="n">axis</span><span class="p">)</span>  <span class="c1"># Pick the &#39;axis&#39; Component.</span>
+        <span class="n">signal</span><span class="o">.</span><span class="n">kind</span> <span class="o">=</span> <span class="s2">&quot;hinted&quot;</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="nf">position_series</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">finish</span><span class="p">,</span> <span class="n">num</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">numpy</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">finish</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="n">num</span><span class="p">):</span>
+                <span class="k">yield</span> <span class="n">value</span>
+
+        <span class="nd">@bpp</span><span class="o">.</span><span class="n">stage_decorator</span><span class="p">(</span><span class="n">detectors</span><span class="p">)</span>
+        <span class="nd">@bpp</span><span class="o">.</span><span class="n">run_decorator</span><span class="p">(</span><span class="n">md</span><span class="o">=</span><span class="n">_md</span><span class="p">)</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">_inner</span><span class="p">():</span>
+            <span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">position_series</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">finish</span><span class="p">,</span> <span class="n">num</span><span class="p">):</span>
+
+                <span class="k">def</span><span class="w"> </span><span class="nf">move_axes</span><span class="p">(</span><span class="n">pseudos</span><span class="p">,</span> <span class="n">reals</span><span class="p">,</span> <span class="n">extras</span><span class="p">):</span>
+<span class="w">                    </span><span class="sd">&quot;&quot;&quot;Move extras, then reals or pseudos, move to the solution.&quot;&quot;&quot;</span>
+                    <span class="k">if</span> <span class="n">reals</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                        <span class="k">yield from</span> <span class="bp">self</span><span class="o">.</span><span class="n">move_forward_with_extras</span><span class="p">(</span><span class="n">pseudos</span><span class="p">,</span> <span class="n">extras</span><span class="p">)</span>
+                    <span class="c1"># else:</span>
+                    <span class="c1">#     # TODO: Inverse transformation</span>
+                    <span class="c1">#     yield from self.inverse_move_with_extras(reals, extras)</span>
+
+                <span class="k">def</span><span class="w"> </span><span class="nf">acquire</span><span class="p">(</span><span class="n">objects</span><span class="p">):</span>
+<span class="w">                    </span><span class="sd">&quot;&quot;&quot;Tell each object to acquire its data.&quot;&quot;&quot;</span>
+                    <span class="n">group</span> <span class="o">=</span> <span class="s2">&quot;trigger_control_objects&quot;</span>
+                    <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">objects</span><span class="p">:</span>
+                        <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">trigger</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">group</span><span class="o">=</span><span class="n">group</span><span class="p">)</span>
+                    <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">wait</span><span class="p">(</span><span class="n">group</span><span class="o">=</span><span class="n">group</span><span class="p">)</span>
+
+                <span class="k">def</span><span class="w"> </span><span class="nf">record</span><span class="p">(</span><span class="n">objects</span><span class="p">,</span> <span class="n">stream</span><span class="o">=</span><span class="s2">&quot;primary&quot;</span><span class="p">):</span>
+<span class="w">                    </span><span class="sd">&quot;&quot;&quot;Read &amp; record each object.&quot;&quot;&quot;</span>
+                    <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">stream</span><span class="p">)</span>
+                    <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">objects</span><span class="p">:</span>
+                        <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+                    <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+
+                <span class="c1"># note the new axis position, will report later</span>
+                <span class="n">extras</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">axis</span><span class="p">:</span> <span class="n">value</span><span class="p">})</span>
+                <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="k">yield from</span> <span class="n">move_axes</span><span class="p">(</span><span class="n">pseudos</span><span class="p">,</span> <span class="n">reals</span><span class="p">,</span> <span class="n">extras</span><span class="p">)</span>
+                    <span class="k">yield from</span> <span class="n">acquire</span><span class="p">(</span><span class="n">all_controls</span><span class="p">)</span>
+                    <span class="k">yield from</span> <span class="n">record</span><span class="p">(</span><span class="n">all_controls</span><span class="p">)</span>
+                <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">reason</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">fail_on_exception</span><span class="p">:</span>
+                        <span class="k">raise</span> <span class="n">reason</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;FAIL: </span><span class="si">{</span><span class="n">axis</span><span class="si">}</span><span class="s2">=</span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">reason</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="p">(</span><span class="k">yield from</span> <span class="n">_inner</span><span class="p">())</span></div>
 
 
     <span class="c1"># ---- get/set properties</span>

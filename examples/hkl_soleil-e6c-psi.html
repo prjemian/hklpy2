@@ -1,0 +1,1136 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>hkl_soleil E6C \(\psi\) (psi) axis &#8212; hklpy2 0.0</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=f4ff16cc"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'examples/hkl_soleil-e6c-psi';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Refine lattice from 3 reflections" href="lattice_refine.html" />
+    <link rel="prev" title="Diffractometer Axis Names" href="diffract.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="0.0" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">hklpy2 0.0</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../guide.html">
+    User Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../api.html">
+    API
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/prjemian/hklpy2" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../guide.html">
+    User Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../api.html">
+    API
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/prjemian/hklpy2" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../design-discussion.html">Design for hklpy2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../checklist_v2.html">Feature Checklist for v2</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../examples.html">Examples</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="_api_demo.html">Demonstrate <strong>hklpy2</strong>’s API</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="configuration_save_restore.html">Diffractometer Configuration – Save and Restore</a></li>
+<li class="toctree-l2"><a class="reference internal" href="diffract.html">Diffractometer Axis Names</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#"><strong>hkl_soleil</strong> E6C <span class="math notranslate nohighlight">\(\psi\)</span> (psi) axis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lattice_refine.html">Refine lattice from 3 reflections</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ub_calc.html">UB matrix : calculate from 2 reflections.</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ub_set.html">UB matrix : Set directly</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../guide.html" class="nav-link">User Guide</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="../examples.html" class="nav-link">Examples</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis"><strong>hkl_soleil</strong> E6C <span class="math notranslate nohighlight">\(\psi\)</span> (psi) axis</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="hkl_soleil-E6C-\psi-(psi)-axis">
+<h1><strong>hkl_soleil</strong> E6C <span class="math notranslate nohighlight">\(\psi\)</span> (psi) axis<a class="headerlink" href="#hkl_soleil-E6C-\psi-(psi)-axis" title="Link to this heading">#</a></h1>
+<p>Show how to set, compute, and scan <span class="math notranslate nohighlight">\(\psi\)</span> with the E6C diffractometer geometry. Use the <code class="docutils literal notranslate"><span class="pre">hkl_soleil</span></code> solver. Scan <span class="math notranslate nohighlight">\(\psi\)</span> at fixed <span class="math notranslate nohighlight">\(Q\)</span> and <span class="math notranslate nohighlight">\(hkl_2\)</span>.</p>
+<p>Virtual axes, such as <span class="math notranslate nohighlight">\(\psi\)</span>, are features provided by the solver as <em>extras</em>. <em>Extras</em> are not necessarily available in every solver. Consult the solver documentation for details.</p>
+<hr class="docutils" />
+<p><strong>NOTE</strong></p>
+<blockquote>
+<div><p><strong>ⓘ</strong> The demonstrations below rely on features provided by the <code class="docutils literal notranslate"><span class="pre">hkl_soleil</span></code> solver.</p>
+</div></blockquote>
+<hr class="docutils" />
+<section id="Overview">
+<h2>Overview<a class="headerlink" href="#Overview" title="Link to this heading">#</a></h2>
+<p>To work with <span class="math notranslate nohighlight">\(\psi\)</span> we’ll use the <code class="docutils literal notranslate"><span class="pre">&quot;hkl&quot;</span></code> engine of the E6C geometry. To compute <span class="math notranslate nohighlight">\(\psi\)</span> we’ll use the <code class="docutils literal notranslate"><span class="pre">&quot;psi&quot;</span></code> engine. This table summarizes our use:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>engine</p></th>
+<th class="head"><p>how it is used</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">&quot;hkl&quot;</span></code></p></td>
+<td><p>work in reciprocal-space coordinates <span class="math notranslate nohighlight">\(h, k, l\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">&quot;psi&quot;</span></code></p></td>
+<td><p>compute the <span class="math notranslate nohighlight">\(\psi\)</span> rotation angle (not for operations)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<!--
+TODO: compare with APS POLAR geometry
+
+See J. Appl. Cryst. (1999). 32, 943-950, https://doi.org/10.1107/S0021889899007347
+"Angle calculations for a six-circle κ diffractometer"
+G. Thorkildsen, R. H. Mathiesen and H. B. Larsen
+
+Also, DLS has a K6C at I16
+https://indico.psi.ch/event/12738/contributions/38939/attachments/22657/39873/NOBUGS2022_diffcalc_v2.pdf
+--><p><span class="math notranslate nohighlight">\(\psi\)</span> is the rotation of reference vector <span class="math notranslate nohighlight">\(hkl_2\)</span> perpendicular to scattering vector <span class="math notranslate nohighlight">\(Q\)</span>:</p>
+<p><img alt="a14fae6911214f05878f6958c4bc895a" class="no-scaled-link" src="../_images/psi-angle.png" style="width: 400px;" /></p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>color</p></th>
+<th class="head"><p>description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>blue</p></td>
+<td><p>incident and exit X-ray beams</p></td>
+</tr>
+<tr class="row-odd"><td><p>green</p></td>
+<td><p>scattering vector (<span class="math notranslate nohighlight">\(Q\)</span>)</p></td>
+</tr>
+<tr class="row-even"><td><p>red</p></td>
+<td><p>reference vector (<span class="math notranslate nohighlight">\(hkl_2\)</span>)</p></td>
+</tr>
+<tr class="row-odd"><td><p>yellow</p></td>
+<td><p>rotation (<span class="math notranslate nohighlight">\(\psi\)</span>) from <span class="math notranslate nohighlight">\(hkl_2\)</span> around <span class="math notranslate nohighlight">\(Q\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>black</p></td>
+<td><p>principle cartesian axes</p></td>
+</tr>
+<tr class="row-odd"><td><p>gray</p></td>
+<td><p>sample</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<section id="Steps">
+<h3>Steps<a class="headerlink" href="#Steps" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p>With the <code class="docutils literal notranslate"><span class="pre">&quot;hkl&quot;</span></code> engine:</p>
+<ol class="arabic simple">
+<li><p>Orient a crystalline sample with the <code class="docutils literal notranslate"><span class="pre">&quot;hkl&quot;</span></code> engine.</p></li>
+<li><p>Define the azimuthal reflection <span class="math notranslate nohighlight">\(h_2, k_2, l_2\)</span> and a <span class="math notranslate nohighlight">\(\psi\)</span> rotation around that azimuthal reflection.</p></li>
+<li><p>Position the diffractometer for the <span class="math notranslate nohighlight">\(h, k, l\)</span> reflection.</p></li>
+</ol>
+</li>
+<li><p>With the <code class="docutils literal notranslate"><span class="pre">&quot;psi&quot;</span></code> engine:</p>
+<ol class="arabic simple">
+<li><p>Copy sample and orientation information from the <code class="docutils literal notranslate"><span class="pre">&quot;hkl&quot;</span></code> instance.</p></li>
+<li><p>Copy position information:</p>
+<ul class="simple">
+<li><p>This step is necessary since this notebook uses <em>simulated</em> motors.</p></li>
+<li><p>Diffractometers using EPICS motors will do this automatically.</p></li>
+</ul>
+</li>
+<li><p>Compute <code class="docutils literal notranslate"><span class="pre">psi</span></code>.</p></li>
+<li><p>Compare the computed <code class="docutils literal notranslate"><span class="pre">psi</span></code> value with the value set with the <code class="docutils literal notranslate"><span class="pre">&quot;hkl&quot;</span></code> instance.</p></li>
+</ol>
+</li>
+<li><p>Scan <span class="math notranslate nohighlight">\(\psi\)</span> at fixed <span class="math notranslate nohighlight">\(Q\)</span> and <span class="math notranslate nohighlight">\(hkl_2\)</span>.</p></li>
+</ol>
+</section>
+</section>
+<section id="Setup-SimulatedE6C">
+<h2>Setup SimulatedE6C<a class="headerlink" href="#Setup-SimulatedE6C" title="Link to this heading">#</a></h2>
+<p>Create instances of (simulated) E6C for the <code class="docutils literal notranslate"><span class="pre">&quot;hkl&quot;</span></code> and <code class="docutils literal notranslate"><span class="pre">&quot;psi&quot;</span></code> solver engines. Pre-defined simulator classes are available for both engines.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">hklpy2</span><span class="w"> </span><span class="kn">import</span> <span class="n">SimulatedE6C</span><span class="p">,</span> <span class="n">SimulatedE6C_Psi</span>
+
+<span class="n">e6c_hkl</span> <span class="o">=</span> <span class="n">SimulatedE6C</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;e6c_hkl&quot;</span><span class="p">)</span>
+<span class="n">e6c_psi</span> <span class="o">=</span> <span class="n">SimulatedE6C_Psi</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;e6c_psi&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>Show the different calculation engines available for the E6C geometry.</p>
+<hr class="docutils" />
+<p><strong>NOTE</strong></p>
+<blockquote>
+<div><p><strong>ⓘ</strong> The <code class="docutils literal notranslate"><span class="pre">solver</span></code> works at a lower level than ophyd. All the code and structures used by a solver are pure Python code (or calls from Python to lower level libraries.)</p>
+</div></blockquote>
+<hr class="docutils" />
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e6c_hkl</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">engines</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+e6c_hkl.operator.solver.engines=[&#39;hkl&#39;, &#39;psi&#39;, &#39;q2&#39;, &#39;qper_qpar&#39;, &#39;tth2&#39;, &#39;incidence&#39;, &#39;emergence&#39;]
+</pre></div></div>
+</div>
+<p>Show the different operation modes available with each engine for the E6C geometry.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">hkl</span></code> engine has a <code class="docutils literal notranslate"><span class="pre">&quot;psi_constant_vertical&quot;</span></code> mode that can be used to calculate reals given some fixed parameters (UB, wavelength, <span class="math notranslate nohighlight">\((hkl)\)</span>, <span class="math notranslate nohighlight">\((hkl)_2\)</span>, <span class="math notranslate nohighlight">\(\psi\)</span>). The <code class="docutils literal notranslate"><span class="pre">psi</span></code> engine has only one mode.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e6c_hkl</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">modes</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e6c_psi</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">modes</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+e6c_hkl.operator.solver.modes=[&#39;bissector_vertical&#39;, &#39;constant_omega_vertical&#39;, &#39;constant_chi_vertical&#39;, &#39;constant_phi_vertical&#39;, &#39;lifting_detector_phi&#39;, &#39;lifting_detector_omega&#39;, &#39;lifting_detector_mu&#39;, &#39;double_diffraction_vertical&#39;, &#39;bissector_horizontal&#39;, &#39;double_diffraction_horizontal&#39;, &#39;psi_constant_vertical&#39;, &#39;psi_constant_horizontal&#39;, &#39;constant_mu_horizontal&#39;]
+e6c_psi.operator.solver.modes=[&#39;psi_vertical&#39;]
+</pre></div></div>
+</div>
+<p>Show the extra axes available with each mode used by this notebook. (The extras have default values at this time.)</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">psi</span></code> engine has a pseudo axis <code class="docutils literal notranslate"><span class="pre">&quot;psi&quot;</span></code> that can be used to calculate <span class="math notranslate nohighlight">\(\psi\)</span> given some fixed parameters (reals, UB, wavelength, <span class="math notranslate nohighlight">\((hkl)\)</span>, <span class="math notranslate nohighlight">\((hkl)_2\)</span>)</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">e6c_hkl</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">mode</span> <span class="o">=</span> <span class="s2">&quot;bissector_vertical&quot;</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e6c_hkl</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">mode</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e6c_hkl</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">extras</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="n">e6c_hkl</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">mode</span> <span class="o">=</span> <span class="s2">&quot;psi_constant_vertical&quot;</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e6c_hkl</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">mode</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e6c_hkl</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">extras</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># &quot;psi&quot; engine has only one mode, do not need to set it</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e6c_psi</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">mode</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e6c_psi</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">extras</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+e6c_hkl.operator.solver.mode=&#39;bissector_vertical&#39;
+e6c_hkl.operator.solver.extras={}
+e6c_hkl.operator.solver.mode=&#39;psi_constant_vertical&#39;
+e6c_hkl.operator.solver.extras={&#39;h2&#39;: 1.0, &#39;k2&#39;: 0.0, &#39;l2&#39;: 0.0, &#39;psi&#39;: 0.0}
+e6c_psi.operator.solver.mode=&#39;psi_vertical&#39;
+e6c_psi.operator.solver.extras={&#39;h2&#39;: 1.0, &#39;k2&#39;: 1.0, &#39;l2&#39;: 1.0}
+</pre></div></div>
+</div>
+<section id="Define-and-orient-a-sample">
+<h3>Define and orient a sample<a class="headerlink" href="#Define-and-orient-a-sample" title="Link to this heading">#</a></h3>
+<p>The sample for this notebook is crystalline vibranium, with a cubic lattice of exactly <span class="math notranslate nohighlight">\(2\pi\)</span>. With it mounted on oru diffractometer, we have identified two reflections which define its orientation.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
+
+<span class="n">e6c_hkl</span><span class="o">.</span><span class="n">wavelength</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="mf">1.54</span><span class="p">)</span>  <span class="c1"># angstrom (8.0509 keV)</span>
+
+<span class="n">e6c_hkl</span><span class="o">.</span><span class="n">add_sample</span><span class="p">(</span><span class="s2">&quot;vibranium&quot;</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">digits</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+
+<span class="n">e6c_hkl</span><span class="o">.</span><span class="n">add_reflection</span><span class="p">((</span><span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">29.354</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">58.71</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;r400&quot;</span><span class="p">)</span>
+<span class="n">e6c_hkl</span><span class="o">.</span><span class="n">add_reflection</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">29.354</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">92</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">58.71</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;r040&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">e6c_hkl</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">reflections</span><span class="o">.</span><span class="n">order</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e6c_hkl</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">reflections</span><span class="p">[</span><span class="n">r</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">e6c_hkl</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">calc_UB</span><span class="p">(</span><span class="o">*</span><span class="n">e6c_hkl</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">reflections</span><span class="o">.</span><span class="n">order</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e6c_hkl</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">UB</span><span class="si">=!r}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e6c_hkl</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">U</span><span class="si">=!r}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Reflection(name=&#39;r400&#39;, geometry=&#39;E6C&#39;, pseudos={&#39;h&#39;: 4, &#39;k&#39;: 0, &#39;l&#39;: 0}, reals={&#39;mu&#39;: 0, &#39;omega&#39;: 29.354, &#39;chi&#39;: 0, &#39;phi&#39;: 2, &#39;gamma&#39;: 0, &#39;delta&#39;: 58.71}, wavelength=1.54, digits=4)
+Reflection(name=&#39;r040&#39;, geometry=&#39;E6C&#39;, pseudos={&#39;h&#39;: 0, &#39;k&#39;: 4, &#39;l&#39;: 0}, reals={&#39;mu&#39;: 0, &#39;omega&#39;: 29.354, &#39;chi&#39;: 0, &#39;phi&#39;: 92, &#39;gamma&#39;: 0, &#39;delta&#39;: 58.71}, wavelength=1.54, digits=4)
+e6c_hkl.operator.solver.UB=[[0.034882054037, 0.999391435978, -0.0], [0.0, 0.0, 1.0], [0.999391435978, -0.034882054037, -0.0]]
+e6c_hkl.operator.solver.U=[[0.034882054037, 0.999391435978, 0.0], [0.0, 0.0, 1.0], [0.999391435978, -0.034882054037, 0.0]]
+</pre></div></div>
+</div>
+</section>
+<section id="Move-to-the-(111)-orientation">
+<h3>Move to the <span class="math notranslate nohighlight">\((111)\)</span> orientation<a class="headerlink" href="#Move-to-the-(111)-orientation" title="Link to this heading">#</a></h3>
+<p>Before moving the diffractometer, ensure you have selected the desired operating <em>mode</em>.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">e6c_hkl</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">mode</span> <span class="o">=</span> <span class="s2">&quot;bissector_vertical&quot;</span>
+<span class="n">e6c_hkl</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">e6c_hkl</span><span class="o">.</span><span class="n">position</span><span class="p">,</span> <span class="n">e6c_hkl</span><span class="o">.</span><span class="n">real_position</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(SimulatedE6CPseudoPos(h=1.00000000737, k=-8.2488e-08, l=0),
+ SimulatedE6CRealPos(mu=0, omega=7.039253278732, chi=0, phi=1.998995273774, gamma=0, delta=14.078506557465))
+</pre></div></div>
+</div>
+</section>
+</section>
+<section id="Set-{hkl}_2-and-\psi">
+<h2>Set <span class="math notranslate nohighlight">\({hkl}_2\)</span> and <span class="math notranslate nohighlight">\(\psi\)</span><a class="headerlink" href="#Set-{hkl}_2-and-\psi" title="Link to this heading">#</a></h2>
+<p>Show the extra axes available with <code class="docutils literal notranslate"><span class="pre">psi_constant_vertical</span></code> mode.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">e6c_hkl</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">mode</span> <span class="o">=</span> <span class="s2">&quot;psi_constant_vertical&quot;</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e6c_hkl</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">extra_axis_names</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+e6c_hkl.operator.solver.extra_axis_names=[&#39;h2&#39;, &#39;k2&#39;, &#39;l2&#39;, &#39;psi&#39;]
+</pre></div></div>
+</div>
+<p>Set azimuthal reflection <span class="math notranslate nohighlight">\({hkl}_2 = (110)\)</span> and <span class="math notranslate nohighlight">\(\psi=12\)</span>.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">extras</span></code> are described as a Python dictionary with values for each of the parameters.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">e6c_hkl</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">extras</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">h2</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">k2</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">l2</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">psi</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e6c_hkl</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">extras</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+e6c_hkl.operator.solver.extras={&#39;h2&#39;: 1.0, &#39;k2&#39;: 1.0, &#39;l2&#39;: 0.0, &#39;psi&#39;: 12.0}
+</pre></div></div>
+</div>
+<p>Compute the real-axis motor values with the <span class="math notranslate nohighlight">\(Q=(111)\)</span> reflection oriented and <span class="math notranslate nohighlight">\(\psi\)</span> rotation around the azimuthal reflection.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">p_111</span> <span class="o">=</span> <span class="n">e6c_hkl</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">p_111</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+p_111=SimulatedE6CRealPos(mu=0, omega=66.391607045543, chi=99.77381778179, phi=-49.997332854697, gamma=0, delta=24.509844391025)
+</pre></div></div>
+</div>
+<p>Move each real (real-space positioner) to the computed <span class="math notranslate nohighlight">\((111)\)</span> reflection position <code class="docutils literal notranslate"><span class="pre">p_111</span></code>.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">e6c_hkl</span><span class="o">.</span><span class="n">move_reals</span><span class="p">(</span><span class="n">p_111</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e6c_hkl</span><span class="o">.</span><span class="n">position</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e6c_hkl</span><span class="o">.</span><span class="n">real_position</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e6c_hkl</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">extras</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+e6c_hkl.position=SimulatedE6CPseudoPos(h=1.000000009255, k=0.999999994159, l=0.999999984039)
+e6c_hkl.real_position=SimulatedE6CRealPos(mu=0, omega=66.391607045543, chi=99.77381778179, phi=-49.997332854697, gamma=0, delta=24.509844391025)
+e6c_hkl.operator.solver.extras={&#39;h2&#39;: 1.0, &#39;k2&#39;: 1.0, &#39;l2&#39;: 0.0, &#39;psi&#39;: 12.0}
+</pre></div></div>
+</div>
+</section>
+<section id="Compute-\psi-at-fixed-Q-and-hkl_2">
+<h2>Compute <span class="math notranslate nohighlight">\(\psi\)</span> at fixed <span class="math notranslate nohighlight">\(Q\)</span> and <span class="math notranslate nohighlight">\(hkl_2\)</span><a class="headerlink" href="#Compute-\psi-at-fixed-Q-and-hkl_2" title="Link to this heading">#</a></h2>
+<p>We’ll use the <code class="docutils literal notranslate"><span class="pre">&quot;psi&quot;</span></code> engine to compute <span class="math notranslate nohighlight">\(\psi\)</span>, given a sample &amp; orientation, <span class="math notranslate nohighlight">\({hkl}_2\)</span>, and the real-space motor positions.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e6c_psi</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">mode</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e6c_psi</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">extras</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+e6c_psi.operator.solver.mode=&#39;psi_vertical&#39;
+e6c_psi.operator.solver.extras={&#39;h2&#39;: 1.0, &#39;k2&#39;: 1.0, &#39;l2&#39;: 1.0}
+</pre></div></div>
+</div>
+<p>Same sample and lattice</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">e6c_psi</span><span class="o">.</span><span class="n">add_sample</span><span class="p">(</span><span class="s2">&quot;vibranium&quot;</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">digits</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Sample(name=&#39;vibranium&#39;, lattice=Lattice(a=6.28319, system=&#39;cubic&#39;))
+</pre></div></div>
+</div>
+<p>Copy orientation from <code class="docutils literal notranslate"><span class="pre">hkl</span></code> instance. Note the <code class="docutils literal notranslate"><span class="pre">psi</span></code> and <code class="docutils literal notranslate"><span class="pre">hkl</span></code> UB matrices are not exactly equal. Equal to about 5 decimal places.)</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">e6c_psi</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">UB</span> <span class="o">=</span> <span class="n">e6c_hkl</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">UB</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e6c_psi</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">UB</span><span class="si">=!r}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e6c_psi</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">U</span><span class="si">=!r}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e6c_hkl</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">UB</span><span class="si">=!r}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e6c_hkl</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">U</span><span class="si">=!r}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+e6c_psi.operator.solver.UB=[[0.034882112737, 0.999391462637, -7.7669e-08], [-1.1035e-07, 3.7043e-08, 0.999999954315], [0.999391567978, -0.034881973051, -8.4609e-08]]
+e6c_psi.operator.solver.U=[[0.034882108064, 0.999391434092, -3.3171e-08], [-1.1035e-07, 3.7043e-08, 1.0], [0.999391434092, -0.034882108064, 1.11575e-07]]
+e6c_hkl.operator.solver.UB=[[0.034882054037, 0.999391435978, -0.0], [0.0, 0.0, 1.0], [0.999391435978, -0.034882054037, -0.0]]
+e6c_hkl.operator.solver.U=[[0.034882054037, 0.999391435978, 0.0], [0.0, 0.0, 1.0], [0.999391435978, -0.034882054037, 0.0]]
+</pre></div></div>
+</div>
+<p>Set <span class="math notranslate nohighlight">\({hkl}_2=(1, 1, 0)\)</span>. As above, describe these parameters in a Python dictionary.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">e6c_psi</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">extras</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">h2</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">k2</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">l2</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e6c_psi</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">extras</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+e6c_psi.operator.solver.extras={&#39;h2&#39;: 1.0, &#39;k2&#39;: 1.0, &#39;l2&#39;: 0.0}
+</pre></div></div>
+</div>
+<p>Set real-space axis positions from <code class="docutils literal notranslate"><span class="pre">p_111</span></code> (above).</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">e6c_psi</span><span class="o">.</span><span class="n">move_reals</span><span class="p">(</span><span class="n">p_111</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e6c_psi</span><span class="o">.</span><span class="n">pseudo_axis_names</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e6c_psi</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">pseudo_axis_names</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e6c_psi</span><span class="o">.</span><span class="n">position</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e6c_psi</span><span class="o">.</span><span class="n">real_position</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+e6c_psi.pseudo_axis_names=[&#39;psi&#39;]
+e6c_psi.operator.solver.pseudo_axis_names=[&#39;psi&#39;]
+e6c_psi.position=SimulatedE6C_PsiPseudoPos(psi=11.999993753339)
+e6c_psi.real_position=SimulatedE6C_PsiRealPos(mu=0, omega=66.391607045543, chi=99.77381778179, phi=-49.997332854697, gamma=0, delta=24.509844391025)
+</pre></div></div>
+</div>
+<p>Compare <code class="docutils literal notranslate"><span class="pre">hkl</span></code> and <code class="docutils literal notranslate"><span class="pre">psi</span></code> reports.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">e6c_hkl</span><span class="p">)</span>
+<span class="n">e6c_hkl</span><span class="o">.</span><span class="n">wh</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">e6c_psi</span><span class="p">)</span>
+<span class="n">e6c_psi</span><span class="o">.</span><span class="n">wh</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+SimulatedE6C(prefix=&#39;&#39;, name=&#39;e6c_hkl&#39;, settle_time=0.0, timeout=None, egu=&#39;&#39;, limits=(0, 0), source=&#39;computed&#39;, read_attrs=[&#39;h&#39;, &#39;h.readback&#39;, &#39;h.setpoint&#39;, &#39;k&#39;, &#39;k.readback&#39;, &#39;k.setpoint&#39;, &#39;l&#39;, &#39;l.readback&#39;, &#39;l.setpoint&#39;, &#39;mu&#39;, &#39;omega&#39;, &#39;chi&#39;, &#39;phi&#39;, &#39;gamma&#39;, &#39;delta&#39;], configuration_attrs=[&#39;h&#39;, &#39;k&#39;, &#39;l&#39;, &#39;geometry&#39;, &#39;solver&#39;, &#39;wavelength&#39;], concurrent=True)
+h=1.0 k=1.0 l=1.0
+wavelength=1.54
+mu=0 omega=66.3916 chi=99.7738 phi=-49.9973 gamma=0 delta=24.5098
+h2=1.0 k2=1.0 l2=0 psi=12.0
+SimulatedE6C_Psi(prefix=&#39;&#39;, name=&#39;e6c_psi&#39;, settle_time=0.0, timeout=None, egu=&#39;&#39;, limits=(0, 0), source=&#39;computed&#39;, read_attrs=[&#39;psi&#39;, &#39;psi.readback&#39;, &#39;psi.setpoint&#39;, &#39;mu&#39;, &#39;omega&#39;, &#39;chi&#39;, &#39;phi&#39;, &#39;gamma&#39;, &#39;delta&#39;], configuration_attrs=[&#39;psi&#39;, &#39;geometry&#39;, &#39;solver&#39;, &#39;wavelength&#39;], concurrent=True)
+psi=12.0
+wavelength=1.0
+mu=0 omega=66.3916 chi=99.7738 phi=-49.9973 gamma=0 delta=24.5098
+h2=1.0 k2=1.0 l2=0
+</pre></div></div>
+</div>
+</section>
+<section id="Scan-\psi-at-fixed-Q-and-hkl_2">
+<h2>Scan <span class="math notranslate nohighlight">\(\psi\)</span> at fixed <span class="math notranslate nohighlight">\(Q\)</span> and <span class="math notranslate nohighlight">\(hkl_2\)</span><a class="headerlink" href="#Scan-\psi-at-fixed-Q-and-hkl_2" title="Link to this heading">#</a></h2>
+<p>Setup the bluesky tools needed to run scans and review data.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">databroker</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">bluesky</span><span class="w"> </span><span class="kn">import</span> <span class="n">RunEngine</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">bluesky.callbacks.best_effort</span><span class="w"> </span><span class="kn">import</span> <span class="n">BestEffortCallback</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ophyd.sim</span><span class="w"> </span><span class="kn">import</span> <span class="n">noisy_det</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">hklpy2</span><span class="w"> </span><span class="kn">import</span> <span class="n">ConfigurationRunWrapper</span>
+
+<span class="c1"># Save orientation of the diffractometer.</span>
+<span class="n">crw</span> <span class="o">=</span> <span class="n">ConfigurationRunWrapper</span><span class="p">(</span><span class="n">e6c_hkl</span><span class="p">)</span>
+
+<span class="n">bec</span> <span class="o">=</span> <span class="n">BestEffortCallback</span><span class="p">()</span>
+<span class="n">bec</span><span class="o">.</span><span class="n">disable_plots</span><span class="p">()</span>
+<span class="n">cat</span> <span class="o">=</span> <span class="n">databroker</span><span class="o">.</span><span class="n">temp</span><span class="p">()</span><span class="o">.</span><span class="n">v2</span>
+<span class="n">RE</span> <span class="o">=</span> <span class="n">RunEngine</span><span class="p">()</span>
+<span class="n">RE</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="n">cat</span><span class="o">.</span><span class="n">v1</span><span class="o">.</span><span class="n">insert</span><span class="p">)</span>
+<span class="n">RE</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="n">bec</span><span class="p">)</span>
+<span class="n">RE</span><span class="o">.</span><span class="n">preprocessors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">crw</span><span class="o">.</span><span class="n">wrapper</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>Scan <span class="math notranslate nohighlight">\(\psi\)</span> over a wide range in coarse steps.</p>
+<hr class="docutils" />
+<p><strong>NOTE</strong></p>
+<blockquote>
+<div><p><strong>ⓘ</strong> Since <span class="math notranslate nohighlight">\(\psi\)</span> is an <em>extra</em> axis, it is only available with certain operation modes, such as <code class="docutils literal notranslate"><span class="pre">&quot;psi_constant_vertical&quot;</span></code>. Be sure to set that before scanning. The plan will raise a <code class="docutils literal notranslate"><span class="pre">KeyError</span></code> if the axis name is not recognized. Any extra axes are not ophyd objects since they are defined only when certain modes are selected. A custom plan is provided which scans an extra axis, while holding any pseudos or reals, and other extras at constant values.</p>
+</div></blockquote>
+<hr class="docutils" />
+<p>This example chooses <span class="math notranslate nohighlight">\(Q=(210)\)</span> and <span class="math notranslate nohighlight">\(hkl_2=(1 \bar2 0)\)</span>. (The reference <span class="math notranslate nohighlight">\(hkl_2\)</span> was chosen to be perpendicular to <span class="math notranslate nohighlight">\(Q\)</span>.) Save the <code class="docutils literal notranslate"><span class="pre">uid</span></code> from the scan for later reference.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">e6c_hkl</span></code> diffractometer is added as a detector here so that all the positioner values will be available for plotting later.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">e6c_hkl</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">mode</span> <span class="o">=</span> <span class="s2">&quot;psi_constant_vertical&quot;</span>
+<span class="n">uid</span><span class="p">,</span> <span class="o">=</span> <span class="n">RE</span><span class="p">(</span>
+    <span class="n">e6c_hkl</span><span class="o">.</span><span class="n">scan_extra</span><span class="p">(</span>
+        <span class="p">[</span><span class="n">noisy_det</span><span class="p">,</span> <span class="n">e6c_hkl</span><span class="p">],</span>
+        <span class="n">axis</span><span class="o">=</span><span class="s2">&quot;psi&quot;</span><span class="p">,</span>
+        <span class="n">start</span><span class="o">=-</span><span class="mi">170</span><span class="p">,</span>
+        <span class="n">finish</span><span class="o">=</span><span class="mi">178</span><span class="p">,</span>
+        <span class="n">num</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span>
+        <span class="n">pseudos</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">h</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">l</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
+        <span class="n">extras</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">h2</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">k2</span><span class="o">=-</span><span class="mi">2</span><span class="p">,</span> <span class="n">l2</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
+    <span class="p">),</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+
+
+Transient Scan ID: 1     Time: 2025-02-12 18:52:44
+Persistent Unique Scan ID: &#39;fef2e32c-0463-4e34-b5ee-9292c723a6ce&#39;
+New stream: &#39;primary&#39;
++-----------+------------+------------+------------+------------+------------+---------------+-------------+-------------+---------------+---------------+--------------------+------------+
+|   seq_num |       time |  e6c_hkl_h |  e6c_hkl_k |  e6c_hkl_l | e6c_hkl_mu | e6c_hkl_omega | e6c_hkl_chi | e6c_hkl_phi | e6c_hkl_gamma | e6c_hkl_delta | e6c_hkl_extras_psi |  noisy_det |
++-----------+------------+------------+------------+------------+------------+---------------+-------------+-------------+---------------+---------------+--------------------+------------+
+|         1 | 18:52:44.4 |      2.000 |      1.000 |     -0.000 |          0 |       105.904 |      10.000 |     -61.436 |             0 |        31.808 |           -170.000 |      1.004 |
+|         2 | 18:52:44.5 |      2.000 |      1.000 |      0.000 |          0 |       105.904 |      34.857 |     -61.436 |             0 |        31.808 |           -145.143 |      0.989 |
+|         3 | 18:52:44.5 |      2.000 |      1.000 |     -0.000 |          0 |       105.904 |      59.714 |     -61.436 |             0 |        31.808 |           -120.286 |      0.952 |
+|         4 | 18:52:44.5 |      2.000 |      1.000 |     -0.000 |          0 |       105.904 |      84.571 |     -61.436 |             0 |        31.808 |            -95.429 |      0.902 |
+|         5 | 18:52:44.5 |      2.000 |      1.000 |      0.000 |          0 |       105.904 |     109.429 |     -61.436 |             0 |        31.808 |            -70.571 |      0.960 |
+|         6 | 18:52:44.5 |      2.000 |      1.000 |      0.000 |          0 |       105.904 |     134.286 |     -61.436 |             0 |        31.808 |            -45.714 |      1.069 |
+|         7 | 18:52:44.5 |      2.000 |      1.000 |      0.000 |          0 |       105.904 |     159.143 |     -61.436 |             0 |        31.808 |            -20.857 |      0.971 |
+|         8 | 18:52:44.5 |      2.000 |      1.000 |     -0.000 |          0 |       105.904 |    -176.000 |     -61.436 |             0 |        31.808 |              4.000 |      0.963 |
+|         9 | 18:52:44.5 |      2.000 |      1.000 |      0.000 |          0 |       105.904 |    -151.143 |     -61.436 |             0 |        31.808 |             28.857 |      0.960 |
+|        10 | 18:52:44.5 |      2.000 |      1.000 |     -0.000 |          0 |       105.904 |    -126.286 |     -61.436 |             0 |        31.808 |             53.714 |      1.061 |
+|        11 | 18:52:44.5 |      2.000 |      1.000 |      0.000 |          0 |       105.904 |    -101.429 |     -61.436 |             0 |        31.808 |             78.571 |      0.976 |
+|        12 | 18:52:44.5 |      2.000 |      1.000 |     -0.000 |          0 |       105.904 |     -76.571 |     -61.436 |             0 |        31.808 |            103.429 |      0.930 |
+|        13 | 18:52:44.5 |      2.000 |      1.000 |     -0.000 |          0 |       105.904 |     -51.714 |     -61.436 |             0 |        31.808 |            128.286 |      0.944 |
+|        14 | 18:52:44.6 |      2.000 |      1.000 |      0.000 |          0 |       105.904 |     -26.857 |     -61.436 |             0 |        31.808 |            153.143 |      1.087 |
+|        15 | 18:52:44.6 |      2.000 |      1.000 |      0.000 |          0 |       105.904 |      -2.000 |     -61.436 |             0 |        31.808 |            178.000 |      1.081 |
++-----------+------------+------------+------------+------------+------------+---------------+-------------+-------------+---------------+---------------+--------------------+------------+
+generator scan_extra [&#39;fef2e32c&#39;] (scan num: 1)
+
+
+
+</pre></div></div>
+</div>
+<section id="Plot-any-motions">
+<h3>Plot any motions<a class="headerlink" href="#Plot-any-motions" title="Link to this heading">#</a></h3>
+<p>The only real-space axis to be moved by this scan is <span class="math notranslate nohighlight">\(\chi\)</span>. Plot <span class="math notranslate nohighlight">\(\chi\)</span> <em>vs.</em> <span class="math notranslate nohighlight">\(\psi\)</span>.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>axis</p></th>
+<th class="head"><p>data name</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(\chi\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">e6c_hkl_chi</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(\psi\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">e6c_hkl_extras_psi</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr class="docutils" />
+<p><strong>NOTE</strong></p>
+<blockquote>
+<div><p><strong>ⓘ</strong> <em>Extra</em> axes are named with the <code class="docutils literal notranslate"><span class="pre">_extras</span></code> label inserted in the name.</p>
+</div></blockquote>
+<hr class="docutils" />
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">apstools.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">plotxy</span>
+
+<span class="n">run</span> <span class="o">=</span> <span class="n">cat</span><span class="p">[</span><span class="n">uid</span><span class="p">]</span>
+
+<span class="c1"># Compose a title from current conditions.</span>
+<span class="n">pos</span> <span class="o">=</span> <span class="n">e6c_hkl</span><span class="o">.</span><span class="n">full_position</span><span class="p">(</span><span class="n">digits</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">Q</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;(</span><span class="si">{</span><span class="n">pos</span><span class="p">[</span><span class="s1">&#39;h&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">pos</span><span class="p">[</span><span class="s1">&#39;k&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">pos</span><span class="p">[</span><span class="s1">&#39;l&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">)&quot;</span>
+<span class="n">hkl2</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;(</span><span class="si">{</span><span class="n">pos</span><span class="p">[</span><span class="s1">&#39;h2&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">pos</span><span class="p">[</span><span class="s1">&#39;k2&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2"> ,</span><span class="si">{</span><span class="n">pos</span><span class="p">[</span><span class="s1">&#39;l2&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">)&quot;</span>
+<span class="n">title</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;$Q=</span><span class="si">{</span><span class="n">Q</span><span class="si">}</span><span class="s2">$ and $hkl_2=</span><span class="si">{</span><span class="n">hkl2</span><span class="si">}</span><span class="s2">$&quot;</span>
+
+<span class="n">plotxy</span><span class="p">(</span><span class="n">run</span><span class="p">,</span> <span class="s2">&quot;e6c_hkl_extras_psi&quot;</span><span class="p">,</span> <span class="s2">&quot;e6c_hkl_chi&quot;</span><span class="p">,</span> <span class="n">stats</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/home/prjemian/.conda/envs/bluesky_2025_1/lib/python3.11/site-packages/databroker/intake_xarray_core/base.py:23: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  &#39;dims&#39;: dict(self._ds.dims),
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/examples_hkl_soleil-e6c-psi_40_1.png" src="../_images/examples_hkl_soleil-e6c-psi_40_1.png" />
+</div>
+</div>
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="diffract.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Diffractometer Axis Names</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="lattice_refine.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Refine lattice from 3 reflections</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Overview">Overview</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Steps">Steps</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Setup-SimulatedE6C">Setup SimulatedE6C</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Define-and-orient-a-sample">Define and orient a sample</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Move-to-the-(111)-orientation">Move to the <span class="math notranslate nohighlight">\((111)\)</span> orientation</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Set-{hkl}_2-and-\psi">Set <span class="math notranslate nohighlight">\({hkl}_2\)</span> and <span class="math notranslate nohighlight">\(\psi\)</span></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Compute-\psi-at-fixed-Q-and-hkl_2">Compute <span class="math notranslate nohighlight">\(\psi\)</span> at fixed <span class="math notranslate nohighlight">\(Q\)</span> and <span class="math notranslate nohighlight">\(hkl_2\)</span></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Scan-\psi-at-fixed-Q-and-hkl_2">Scan <span class="math notranslate nohighlight">\(\psi\)</span> at fixed <span class="math notranslate nohighlight">\(Q\)</span> and <span class="math notranslate nohighlight">\(hkl_2\)</span></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Plot-any-motions">Plot any motions</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+
+  
+  <div class="tocsection editthispage">
+    <a href="https://github.com/prjemian/hklpy2/edit/main/docs/examples/hkl_soleil-e6c-psi.ipynb">
+      <i class="fa-solid fa-pencil"></i>
+      
+      
+        
+          Edit on GitHub
+        
+      
+    </a>
+  </div>
+</div>
+
+  <div class="sidebar-secondary-item">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/examples/hkl_soleil-e6c-psi.ipynb.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2023-2025, Argonne National Laboratory.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=5d650c58"></script>
+    <script src="../_static/documentation_options.js?v=f4ff16cc"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
@@ -401,13 +401,16 @@
 <tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.geom.SimulatedE6C" title="hklpy2.geom.SimulatedE6C"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SimulatedE6C</span></code></a>([prefix])</p></td>
 <td><p>Eulerian 6-circle, <em>hkl_soleil</em>, E6C, engine=&quot;hkl&quot;, simulated rotary axes.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.geom.SimulatedK4CV" title="hklpy2.geom.SimulatedK4CV"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SimulatedK4CV</span></code></a>([prefix])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.geom.SimulatedE6C_Psi" title="hklpy2.geom.SimulatedE6C_Psi"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SimulatedE6C_Psi</span></code></a>([prefix])</p></td>
+<td><p>Eulerian 6-circle, <em>hkl_soleil</em>, E6C, engine=&quot;psi&quot;, simulated rotary axes.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.geom.SimulatedK4CV" title="hklpy2.geom.SimulatedK4CV"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SimulatedK4CV</span></code></a>([prefix])</p></td>
 <td><p>Kappa 4-circle, hkl_soleil, K4CV, engine=&quot;hkl&quot;, simulated rotary axes.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.geom.SimulatedK6C" title="hklpy2.geom.SimulatedK6C"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SimulatedK6C</span></code></a>([prefix])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.geom.SimulatedK6C" title="hklpy2.geom.SimulatedK6C"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SimulatedK6C</span></code></a>([prefix])</p></td>
 <td><p>Kappa 6-circle, hkl_soleil, K6C, engine=&quot;hkl&quot;, simulated rotary axes.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.geom.SimulatedTheta2Theta" title="hklpy2.geom.SimulatedTheta2Theta"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SimulatedTheta2Theta</span></code></a>([prefix])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.geom.SimulatedTheta2Theta" title="hklpy2.geom.SimulatedTheta2Theta"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SimulatedTheta2Theta</span></code></a>([prefix])</p></td>
 <td><p>2-circle, <em>th_tth</em>, TH TTH Q, simulated rotary axes.</p></td>
 </tr>
 </tbody>
@@ -440,7 +443,10 @@
 <tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.geom.MixinHkl" title="hklpy2.geom.MixinHkl"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MixinHkl</span></code></a>([prefix, kind, read_attrs, ...])</p></td>
 <td><p>Defines <cite>h</cite>, <cite>k</cite>, &amp; <cite>l</cite> pseudo-positioners.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.geom.MixinQ" title="hklpy2.geom.MixinQ"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MixinQ</span></code></a>([prefix, kind, read_attrs, ...])</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">MixinPsi</span></code>([prefix, kind, read_attrs, ...])</p></td>
+<td><p>Defines <cite>psi</cite> pseudo-positioner.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.geom.MixinQ" title="hklpy2.geom.MixinQ"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MixinQ</span></code></a>([prefix, kind, read_attrs, ...])</p></td>
 <td><p>Defines <cite>q</cite> pseudo-positioner.</p></td>
 </tr>
 </tbody>
@@ -561,6 +567,14 @@ for each of the real-space axes, in the order required by that geometry.</p>
 </dd></dl>
 
 <dl class="py class">
+<dt class="sig sig-object py" id="hklpy2.geom.SimulatedE6C_Psi">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">hklpy2.geom.</span></span><span class="sig-name descname"><span class="pre">SimulatedE6C_Psi</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prefix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hklpy2/geom.html#SimulatedE6C_Psi"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.geom.SimulatedE6C_Psi" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#hklpy2.geom.MixinSimulator" title="hklpy2.geom.MixinSimulator"><code class="xref py py-class docutils literal notranslate"><span class="pre">MixinSimulator</span></code></a>, <a class="reference internal" href="diffract.html#hklpy2.diffract.DiffractometerBase" title="hklpy2.diffract.DiffractometerBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">DiffractometerBase</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">MixinPsi</span></code></p>
+<p>Eulerian 6-circle, <em>hkl_soleil</em>, E6C, engine=”psi”, simulated rotary axes.</p>
+<p><a class="reference internal" href="backends/hkl_soleil.html#hklpy2.backends.hkl_soleil.HklSolver" title="hklpy2.backends.hkl_soleil.HklSolver"><code class="xref py py-class docutils literal notranslate"><span class="pre">HklSolver</span></code></a></p>
+</dd></dl>
+
+<dl class="py class">
 <dt class="sig sig-object py" id="hklpy2.geom.SimulatedK4CV">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">hklpy2.geom.</span></span><span class="sig-name descname"><span class="pre">SimulatedK4CV</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prefix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hklpy2/geom.html#SimulatedK4CV"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.geom.SimulatedK4CV" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#hklpy2.geom.MixinSimulator" title="hklpy2.geom.MixinSimulator"><code class="xref py py-class docutils literal notranslate"><span class="pre">MixinSimulator</span></code></a>, <a class="reference internal" href="#hklpy2.geom.K4CV" title="hklpy2.geom.K4CV"><code class="xref py py-class docutils literal notranslate"><span class="pre">K4CV</span></code></a>, <a class="reference internal" href="#hklpy2.geom.MixinHkl" title="hklpy2.geom.MixinHkl"><code class="xref py py-class docutils literal notranslate"><span class="pre">MixinHkl</span></code></a></p>
@@ -658,6 +672,7 @@ for each of the real-space axes, in the order required by that geometry.</p>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.geom.Petra3_p23_6c"><code class="docutils literal notranslate"><span class="pre">Petra3_p23_6c</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.geom.SimulatedE4CV"><code class="docutils literal notranslate"><span class="pre">SimulatedE4CV</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.geom.SimulatedE6C"><code class="docutils literal notranslate"><span class="pre">SimulatedE6C</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.geom.SimulatedE6C_Psi"><code class="docutils literal notranslate"><span class="pre">SimulatedE6C_Psi</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.geom.SimulatedK4CV"><code class="docutils literal notranslate"><span class="pre">SimulatedK4CV</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.geom.SimulatedK6C"><code class="docutils literal notranslate"><span class="pre">SimulatedK6C</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.geom.SimulatedTheta2Theta"><code class="docutils literal notranslate"><span class="pre">SimulatedTheta2Theta</span></code></a></li>

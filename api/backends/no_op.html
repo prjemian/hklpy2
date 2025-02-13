@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../../_static/documentation_options.js?v=5d650c58"></script>
+    <script src="../../_static/documentation_options.js?v=f4ff16cc"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/design-tabs.js?v=f930bc37"></script>
@@ -416,7 +416,7 @@
 <td><p>Ordered list of the geometry names.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.backends.no_op.NoOpSolver.inverse" title="hklpy2.backends.no_op.NoOpSolver.inverse"><code class="xref py py-obj docutils literal notranslate"><span class="pre">inverse</span></code></a>(reals)</p></td>
-<td><p>Compute tuple of pseudos from reals (angles -&gt; hkl).</p></td>
+<td><p>Compute dict of pseudos from reals (angles -&gt; hkl).</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.backends.no_op.NoOpSolver.pseudo_axis_names" title="hklpy2.backends.no_op.NoOpSolver.pseudo_axis_names"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pseudo_axis_names</span></code></a></p></td>
 <td><p>Ordered list of the pseudo axis names (such as h, k, l).</p></td>
@@ -479,6 +479,12 @@
 <dd><p>Ordered list of any extra axis names (such as x, y, z).</p>
 </dd></dl>
 
+<dl class="py property">
+<dt class="sig sig-object py" id="hklpy2.backends.no_op.NoOpSolver.extras">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">extras</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><span class="pre">dict</span></a></em><a class="headerlink" href="#hklpy2.backends.no_op.NoOpSolver.extras" title="Link to this definition">#</a></dt>
+<dd><p>Ordered dictionary of any extra parameters.</p>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="hklpy2.backends.no_op.NoOpSolver.forward">
 <span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pseudos</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><span class="pre">dict</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/hklpy2/backends/no_op.html#NoOpSolver.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.backends.no_op.NoOpSolver.forward" title="Link to this definition">#</a></dt>
@@ -510,7 +516,7 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="hklpy2.backends.no_op.NoOpSolver.inverse">
 <span class="sig-name descname"><span class="pre">inverse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">reals</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><span class="pre">dict</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hklpy2/backends/no_op.html#NoOpSolver.inverse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.backends.no_op.NoOpSolver.inverse" title="Link to this definition">#</a></dt>
-<dd><p>Compute tuple of pseudos from reals (angles -&gt; hkl).</p>
+<dd><p>Compute dict of pseudos from reals (angles -&gt; hkl).</p>
 </dd></dl>
 
 <dl class="py property">
@@ -571,7 +577,7 @@
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="hklpy2.backends.no_op.NoOpSolver.version">
-<span class="sig-name descname"><span class="pre">version</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'0.0.25'</span></em><a class="headerlink" href="#hklpy2.backends.no_op.NoOpSolver.version" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">version</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'0.0.26.dev21+g98aafa8'</span></em><a class="headerlink" href="#hklpy2.backends.no_op.NoOpSolver.version" title="Link to this definition">#</a></dt>
 <dd><p>Version of this Solver.</p>
 </dd></dl>
 
@@ -631,6 +637,7 @@
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.backends.no_op.NoOpSolver.addReflection"><code class="docutils literal notranslate"><span class="pre">NoOpSolver.addReflection()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.backends.no_op.NoOpSolver.calculate_UB"><code class="docutils literal notranslate"><span class="pre">NoOpSolver.calculate_UB()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.backends.no_op.NoOpSolver.extra_axis_names"><code class="docutils literal notranslate"><span class="pre">NoOpSolver.extra_axis_names</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.backends.no_op.NoOpSolver.extras"><code class="docutils literal notranslate"><span class="pre">NoOpSolver.extras</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.backends.no_op.NoOpSolver.forward"><code class="docutils literal notranslate"><span class="pre">NoOpSolver.forward()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.backends.no_op.NoOpSolver.geometries"><code class="docutils literal notranslate"><span class="pre">NoOpSolver.geometries()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.backends.no_op.NoOpSolver.geometry"><code class="docutils literal notranslate"><span class="pre">NoOpSolver.geometry</span></code></a></li>

@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="_static/documentation_options.js?v=5d650c58"></script>
+    <script src="_static/documentation_options.js?v=f4ff16cc"></script>
     <script src="_static/doctools.js?v=9bcbadda"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/design-tabs.js?v=f930bc37"></script>
@@ -361,8 +361,6 @@
 </li>
       <li><a href="api/ops.html#hklpy2.ops.Operations._axes_names_s2d">_axes_names_s2d() (hklpy2.ops.Operations method)</a>
 </li>
-      <li><a href="api/diffract.html#hklpy2.diffract.DiffractometerBase._configuration">_configuration (hklpy2.diffract.DiffractometerBase property)</a>
-</li>
       <li><a href="api/configure.html#hklpy2.operations.configure.Configuration._fromdict">_fromdict() (hklpy2.operations.configure.Configuration method)</a>
 
       <ul>
@@ -509,7 +507,7 @@
 </li>
       <li><a href="api/configure.html#hklpy2.operations.configure.Configuration">Configuration (class in hklpy2.operations.configure)</a>
 </li>
-      <li><a href="api/diffract.html#hklpy2.diffract.DiffractometerBase.configuration">configuration (hklpy2.diffract.DiffractometerBase attribute)</a>
+      <li><a href="api/diffract.html#hklpy2.diffract.DiffractometerBase.configuration">configuration (hklpy2.diffract.DiffractometerBase property)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
@@ -614,6 +612,8 @@
 </li>
       <li><a href="api/z_misc.html#hklpy2.operations.misc.ConfigurationRunWrapper.devices">devices (hklpy2.operations.misc.ConfigurationRunWrapper attribute)</a>
 </li>
+      <li><a href="api/z_misc.html#hklpy2.operations.misc.dict_device_factory">dict_device_factory() (in module hklpy2.operations.misc)</a>
+</li>
       <li><a href="glossary.html#index-7"><strong>diffractometer</strong></a>
 </li>
       <li><a href="api/diffract.html#hklpy2.diffract.DiffractometerBase">DiffractometerBase (class in hklpy2.diffract)</a>
@@ -652,8 +652,6 @@
       </ul></li>
       <li><a href="api/backends/hkl_soleil.html#hklpy2.backends.hkl_soleil.HklSolver.engine_name">engine_name (hklpy2.backends.hkl_soleil.HklSolver property)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/backends/hkl_soleil.html#hklpy2.backends.hkl_soleil.HklSolver.engines">engines (hklpy2.backends.hkl_soleil.HklSolver property)</a>
 </li>
       <li><a href="api/configure.html#hklpy2.operations.configure.Configuration.export">export() (hklpy2.operations.configure.Configuration method)</a>
@@ -662,6 +660,8 @@
         <li><a href="api/ops.html#hklpy2.ops.Operations.export">(hklpy2.ops.Operations method)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="glossary.html#index-9"><strong>extra</strong></a>
 </li>
       <li><a href="api/backends/base.html#hklpy2.backends.base.SolverBase.extra_axis_names">extra_axis_names (hklpy2.backends.base.SolverBase property)</a>
@@ -674,14 +674,24 @@
         <li><a href="api/backends/th_tth_q.html#hklpy2.backends.th_tth_q.ThTthSolver.extra_axis_names">(hklpy2.backends.th_tth_q.ThTthSolver property)</a>
 </li>
       </ul></li>
-      <li><a href="api/backends/hkl_soleil.html#hklpy2.backends.hkl_soleil.HklSolver.extras">extras (hklpy2.backends.hkl_soleil.HklSolver property)</a>
+      <li><a href="api/backends/base.html#hklpy2.backends.base.SolverBase.extras">extras (hklpy2.backends.base.SolverBase property)</a>
+
+      <ul>
+        <li><a href="api/backends/hkl_soleil.html#hklpy2.backends.hkl_soleil.HklSolver.extras">(hklpy2.backends.hkl_soleil.HklSolver property)</a>
 </li>
+        <li><a href="api/backends/no_op.html#hklpy2.backends.no_op.NoOpSolver.extras">(hklpy2.backends.no_op.NoOpSolver property)</a>
+</li>
+        <li><a href="api/backends/th_tth_q.html#hklpy2.backends.th_tth_q.ThTthSolver.extras">(hklpy2.backends.th_tth_q.ThTthSolver property)</a>
+</li>
+      </ul></li>
   </ul></td>
 </tr></table>
 
 <h2 id="F">F</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/z_misc.html#hklpy2.operations.misc.flatten_lists">flatten_lists() (in module hklpy2.operations.misc)</a>
+</li>
       <li><a href="api/backends/base.html#hklpy2.backends.base.SolverBase.forward">forward() (hklpy2.backends.base.SolverBase method)</a>
 
       <ul>
@@ -704,6 +714,8 @@
         <li><a href="api/reflection.html#hklpy2.operations.reflection.ReflectionsDict.fromkeys">(hklpy2.operations.reflection.ReflectionsDict method)</a>
 </li>
       </ul></li>
+      <li><a href="api/diffract.html#hklpy2.diffract.DiffractometerBase.full_position">full_position() (hklpy2.diffract.DiffractometerBase method)</a>
+</li>
   </ul></td>
 </tr></table>
 
@@ -1038,6 +1050,12 @@
 </li>
       <li><a href="api/wavelength_support.html#hklpy2.wavelength_support.MonochromaticXrayWavelength">MonochromaticXrayWavelength (class in hklpy2.wavelength_support)</a>
 </li>
+      <li><a href="api/diffract.html#hklpy2.diffract.DiffractometerBase.move_dict">move_dict() (hklpy2.diffract.DiffractometerBase method)</a>
+</li>
+      <li><a href="api/diffract.html#hklpy2.diffract.DiffractometerBase.move_forward_with_extras">move_forward_with_extras() (hklpy2.diffract.DiffractometerBase method)</a>
+</li>
+      <li><a href="api/diffract.html#hklpy2.diffract.DiffractometerBase.move_reals">move_reals() (hklpy2.diffract.DiffractometerBase method)</a>
+</li>
   </ul></td>
 </tr></table>
 
@@ -1250,6 +1268,8 @@
         <li><a href="api/ops.html#hklpy2.ops.Operations.samples">(hklpy2.ops.Operations property)</a>
 </li>
       </ul></li>
+      <li><a href="api/diffract.html#hklpy2.diffract.DiffractometerBase.scan_extra">scan_extra() (hklpy2.diffract.DiffractometerBase method)</a>
+</li>
       <li><a href="api/reflection.html#hklpy2.operations.reflection.ReflectionsDict.set_orientation_reflections">set_orientation_reflections() (hklpy2.operations.reflection.ReflectionsDict method)</a>
 </li>
       <li><a href="api/ops.html#hklpy2.ops.Operations.set_solver">set_solver() (hklpy2.ops.Operations method)</a>
@@ -1270,12 +1290,16 @@
 </li>
       <li><a href="api/geom.html#hklpy2.geom.SimulatedE6C">SimulatedE6C (class in hklpy2.geom)</a>
 </li>
+      <li><a href="api/geom.html#hklpy2.geom.SimulatedE6C_Psi">SimulatedE6C_Psi (class in hklpy2.geom)</a>
+</li>
       <li><a href="api/geom.html#hklpy2.geom.SimulatedK4CV">SimulatedK4CV (class in hklpy2.geom)</a>
 </li>
       <li><a href="api/geom.html#hklpy2.geom.SimulatedK6C">SimulatedK6C (class in hklpy2.geom)</a>
 </li>
       <li><a href="api/geom.html#hklpy2.geom.SimulatedTheta2Theta">SimulatedTheta2Theta (class in hklpy2.geom)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/solvers.html#index-1"><strong>Solver</strong></a>, <a href="api/backends/base.html#index-1">[1]</a>
 
       <ul>
@@ -1288,8 +1312,6 @@
         <li><a href="api/backends/th_tth_q.html#index-0">ThTthSolver</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="glossary.html#index-21"><strong>solver</strong></a>
 
       <ul>

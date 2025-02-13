@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../../../_static/documentation_options.js?v=5d650c58"></script>
+    <script src="../../../_static/documentation_options.js?v=f4ff16cc"></script>
     <script src="../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -403,6 +403,8 @@
 
 <span class="sd">    .. autosummary::</span>
 
+<span class="sd">        ~extra_axis_names</span>
+<span class="sd">        ~extras</span>
 <span class="sd">        ~geometry</span>
 <span class="sd">        ~lattice</span>
 <span class="sd">        ~mode</span>
@@ -469,6 +471,13 @@
         <span class="c1"># Do NOT sort.</span>
         <span class="k">return</span> <span class="p">[]</span>
 
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">extras</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Ordered dictionary of any extra parameters.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">{}</span>
+
 <div class="viewcode-block" id="SolverBase.forward">
 <a class="viewcode-back" href="../../../api/backends/base.html#hklpy2.backends.base.SolverBase.forward">[docs]</a>
     <span class="nd">@abstractmethod</span>
@@ -519,7 +528,8 @@
 <a class="viewcode-back" href="../../../api/backends/base.html#hklpy2.backends.base.SolverBase.inverse">[docs]</a>
     <span class="nd">@abstractmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">inverse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reals</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute tuple of pseudos from reals (angles -&gt; hkl).&quot;&quot;&quot;</span></div>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute dict of pseudos from reals (angles -&gt; hkl).&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">{}</span></div>
 
 
     <span class="nd">@property</span>
