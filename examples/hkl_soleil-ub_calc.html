@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>UB matrix : calculate from 2 reflections. &#8212; hklpy2 0.0</title>
+    <title>hkl_soleil UB matrix : calculate from 2 reflections. &#8212; hklpy2 0.0</title>
   
   
   
@@ -41,18 +41,18 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=f4ff16cc"></script>
+    <script src="../_static/documentation_options.js?v=01939e74"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'examples/ub_calc';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'examples/hkl_soleil-ub_calc';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="UB matrix : Set directly" href="ub_set.html" />
-    <link rel="prev" title="Refine lattice from 3 reflections" href="lattice_refine.html" />
+    <link rel="next" title="hkl_soleil UB matrix : Set directly" href="hkl_soleil-ub_set.html" />
+    <link rel="prev" title="hkl_soleil Refine lattice from 3 reflections" href="hkl_soleil-lattice_refine.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="0.0" />
@@ -299,9 +299,9 @@
 <li class="toctree-l2"><a class="reference internal" href="configuration_save_restore.html">Diffractometer Configuration – Save and Restore</a></li>
 <li class="toctree-l2"><a class="reference internal" href="diffract.html">Diffractometer Axis Names</a></li>
 <li class="toctree-l2"><a class="reference internal" href="hkl_soleil-e6c-psi.html"><strong>hkl_soleil</strong> E6C <span class="math notranslate nohighlight">\(\psi\)</span> (psi) axis</a></li>
-<li class="toctree-l2"><a class="reference internal" href="lattice_refine.html">Refine lattice from 3 reflections</a></li>
-<li class="toctree-l2 current active"><a class="current reference internal" href="#">UB matrix : calculate from 2 reflections.</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ub_set.html">UB matrix : Set directly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hkl_soleil-lattice_refine.html"><strong>hkl_soleil</strong> Refine lattice from 3 reflections</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#"><strong>hkl_soleil</strong> UB matrix : calculate from 2 reflections.</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hkl_soleil-ub_set.html"><strong>hkl_soleil</strong> UB matrix : Set directly</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
@@ -352,7 +352,7 @@
     
     <li class="breadcrumb-item"><a href="../examples.html" class="nav-link">Examples</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">UB matrix : calculate from 2 reflections.</span></li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis"><strong>hkl_soleil</strong> UB matrix : calculate from 2 reflections.</span></li>
   </ul>
 </nav>
 </div>
@@ -369,8 +369,8 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="UB-matrix-:-calculate-from-2-reflections.">
-<h1>UB matrix : calculate from 2 reflections.<a class="headerlink" href="#UB-matrix-:-calculate-from-2-reflections." title="Link to this heading">#</a></h1>
+  <section id="hkl_soleil-UB-matrix-:-calculate-from-2-reflections.">
+<h1><strong>hkl_soleil</strong> UB matrix : calculate from 2 reflections.<a class="headerlink" href="#hkl_soleil-UB-matrix-:-calculate-from-2-reflections." title="Link to this heading">#</a></h1>
 <p><span class="math notranslate nohighlight">\(UB\)</span> is the 3x3 orientation matrix used to transform coordinates between reciprocal space directions (of the crystal lattice planes) and the rotational axes of the diffractometer.</p>
 <section id="Create-a-diffractometer-object">
 <h2>Create a diffractometer object<a class="headerlink" href="#Create-a-diffractometer-object" title="Link to this heading">#</a></h2>
@@ -522,20 +522,20 @@ SimulatedE4CVRealPos(omega=-119.999999996665, chi=-34.931758281633, phi=-44.8226
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="lattice_refine.html"
+       href="hkl_soleil-lattice_refine.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Refine lattice from 3 reflections</p>
+        <p class="prev-next-title"><strong>hkl_soleil</strong> Refine lattice from 3 reflections</p>
       </div>
     </a>
     <a class="right-next"
-       href="ub_set.html"
+       href="hkl_soleil-ub_set.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">UB matrix : Set directly</p>
+        <p class="prev-next-title"><strong>hkl_soleil</strong> UB matrix : Set directly</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -572,7 +572,7 @@ SimulatedE4CVRealPos(omega=-119.999999996665, chi=-34.931758281633, phi=-44.8226
 
   
   <div class="tocsection editthispage">
-    <a href="https://github.com/prjemian/hklpy2/edit/main/docs/examples/ub_calc.ipynb">
+    <a href="https://github.com/prjemian/hklpy2/edit/main/docs/examples/hkl_soleil-ub_calc.ipynb">
       <i class="fa-solid fa-pencil"></i>
       
       
@@ -588,7 +588,7 @@ SimulatedE4CVRealPos(omega=-119.999999996665, chi=-34.931758281633, phi=-44.8226
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="../_sources/examples/ub_calc.ipynb.txt"
+      <li><a href="../_sources/examples/hkl_soleil-ub_calc.ipynb.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div></div>
