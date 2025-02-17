@@ -53,7 +53,7 @@ class Configuration:
 
             import hklpy2
 
-            e4cv = hklpy2.SimulatedE4CV(name="e4cv")
+            e4cv = hklpy2.diffractometer_factory(name="e4cv")
             e4cv.operator.configuration.export("e4cv-config.yml", comment="example")
         """
         path = pathlib.Path(file)
@@ -78,7 +78,7 @@ class Configuration:
 
             import hklpy2
 
-            e4cv = hklpy2.SimulatedE4CV(name="e4cv")
+            e4cv = hklpy2.diffractometer_factory(name="e4cv")
             e4cv.operator.configuration.restore("e4cv-config.yml")
 
         PARAMETERS

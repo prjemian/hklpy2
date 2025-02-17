@@ -102,7 +102,7 @@ Glossary
 :geometry: The set of *reals* (stacked rotation angles) which
   define a specific *diffractometer*.
   A common distinguishing feature is the number of axes in each stack.
-  For example, the :class:`~hklpy2.geom.E4CV` geometry as 3 sample axes
+  For example, the ``E4CV`` geometry has 3 sample axes
   (``omega``, ``chi``, ``phi``) and 1 detector axis (``tth``).
   In some shorthand reference, this is called "S3D1".
 
