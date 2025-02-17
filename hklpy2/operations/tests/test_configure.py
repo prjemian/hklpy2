@@ -3,7 +3,7 @@ from contextlib import nullcontext as does_not_raise
 
 import pytest
 
-from ... import SimulatedE4CV
+from ... import diffractometer_factory
 from ...__init__ import __version__
 from ...tests.models import E4CV_CONFIG_FILE
 from ...tests.models import add_oriented_vibranium_to_e4cv
@@ -12,7 +12,7 @@ from ..configure import Configuration
 from ..misc import ConfigurationError
 from ..misc import load_yaml_file
 
-e4cv = SimulatedE4CV(name="e4cv")
+e4cv = diffractometer_factory(name="e4cv")
 add_oriented_vibranium_to_e4cv(e4cv)
 
 

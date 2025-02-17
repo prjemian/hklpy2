@@ -4,48 +4,54 @@ import uuid
 
 import pytest
 
-from ..geom import SimulatedTheta2Theta
-from . import models
+from ..diffract import DiffractometerBase
+from ..geom import diffractometer_factory
+from ..ops import Operations
 
 SKIP_EXACT_VALUE_TEST = str(uuid.uuid4())
 
 
 @pytest.mark.parametrize(
-    "dclass, dname, keypath, value",
+    "geometry, solver, name, keypath, value",
     [
-        # spot checks
-        [models.Fourc, "fourc", "_header", SKIP_EXACT_VALUE_TEST],
-        [models.Fourc, "fourc", "_header.datetime", SKIP_EXACT_VALUE_TEST],
-        [models.Fourc, "fourc", "_header.wavelength", SKIP_EXACT_VALUE_TEST],
-        [models.Fourc, "fourc", "name", "fourc"],
-        [models.Fourc, "fourc", "axes.axes_xref", {}],
-        [models.Fourc, "fourc", "solver.geometry", "E4CV"],
-        [models.Fourc, "fourc", "solver.name", "hkl_soleil"],
-        [models.Fourc, "fourc", "samples", SKIP_EXACT_VALUE_TEST],
-        [models.Fourc, "fourc", "solver.version", SKIP_EXACT_VALUE_TEST],
+        ["E4CV", "hkl_soleil", "fourc", "_header", SKIP_EXACT_VALUE_TEST],
+        ["E4CV", "hkl_soleil", "fourc", "_header.datetime", SKIP_EXACT_VALUE_TEST],
+        ["E4CV", "hkl_soleil", "fourc", "_header.wavelength", SKIP_EXACT_VALUE_TEST],
+        ["E4CV", "hkl_soleil", "fourc", "name", "fourc"],
+        ["E4CV", "hkl_soleil", "fourc", "solver.geometry", "E4CV"],
+        ["E4CV", "hkl_soleil", "fourc", "solver.name", "hkl_soleil"],
+        ["E4CV", "hkl_soleil", "fourc", "samples", SKIP_EXACT_VALUE_TEST],
+        ["E4CV", "hkl_soleil", "fourc", "solver.version", SKIP_EXACT_VALUE_TEST],
         #
-        [SimulatedTheta2Theta, "t2t", "_header", SKIP_EXACT_VALUE_TEST],
-        [SimulatedTheta2Theta, "t2t", "_header.datetime", SKIP_EXACT_VALUE_TEST],
-        [SimulatedTheta2Theta, "t2t", "_header.wavelength", SKIP_EXACT_VALUE_TEST],
-        [SimulatedTheta2Theta, "t2t", "name", "t2t"],
+        ["TH TTH Q", "th_tth", "t2t", "_header", SKIP_EXACT_VALUE_TEST],
+        ["TH TTH Q", "th_tth", "t2t", "_header.datetime", SKIP_EXACT_VALUE_TEST],
+        ["TH TTH Q", "th_tth", "t2t", "_header.wavelength", SKIP_EXACT_VALUE_TEST],
+        ["TH TTH Q", "th_tth", "t2t", "name", "t2t"],
         [
-            SimulatedTheta2Theta,
+            "TH TTH Q",
+            "th_tth",
             "t2t",
             "axes.axes_xref",
-            {"q": "q", "theta": "th", "ttheta": "tth"},
+            {"q": "q", "th": "th", "tth": "tth"},
         ],
-        [SimulatedTheta2Theta, "t2t", "axes.pseudo_axes", ["q"]],
-        [SimulatedTheta2Theta, "t2t", "axes.real_axes", ["theta", "ttheta"]],
-        [SimulatedTheta2Theta, "t2t", "solver.geometry", "TH TTH Q"],
-        [SimulatedTheta2Theta, "t2t", "solver.name", "th_tth"],
+        ["TH TTH Q", "th_tth", "t2t", "axes.pseudo_axes", ["q"]],
+        ["TH TTH Q", "th_tth", "t2t", "axes.real_axes", ["th", "tth"]],
+        ["TH TTH Q", "th_tth", "t2t", "solver.geometry", "TH TTH Q"],
+        ["TH TTH Q", "th_tth", "t2t", "solver.name", "th_tth"],
     ],
 )
-def test_asdict(dclass, dname, keypath, value):
+def test_asdict(geometry, solver, name, keypath, value):
     """."""
-    fourc = dclass(name=dname)
+    diffractometer = diffractometer_factory(name=name, geometry=geometry, solver=solver)
+    assert isinstance(
+        diffractometer, DiffractometerBase
+    ), f"{geometry=} {solver=} {name=}"
+    assert isinstance(
+        diffractometer.operator, Operations
+    ), f"{geometry=} {solver=} {name=}"
 
-    db = fourc.operator._asdict()
-    assert db["name"] == dname
+    db = diffractometer.operator._asdict()
+    assert db["name"] == name
 
     # Walk through the keypath, revising the db object at each step
     for k in keypath.split("."):

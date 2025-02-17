@@ -80,7 +80,8 @@ def test_diffractometer_class(
         dmeter.operator.set_solver(solver, gname, **solver_kwargs)
 
     if len(pseudos) == 0:
-        dmeter.auto_assign_axes()
+        if solver is not None:
+            dmeter.auto_assign_axes()
     else:
         dmeter.operator.assign_axes(pseudos, reals)
 
@@ -89,50 +90,51 @@ def test_diffractometer_class(
         assert isinstance(dmeter.position, tuple), f"{type(dmeter.position)=!r}"
         assert isinstance(dmeter.report, dict), f"{type(dmeter.report)=!r}"
 
-    # ophyd components
-    assert isinstance(dmeter.geometry.get(), str)
-    assert isinstance(dmeter.solver.get(), str)
-    assert isinstance(dmeter.wavelength.get(), (float, int))
+    if solver is not None:
+        # ophyd components
+        assert isinstance(dmeter.geometry.get(), str)
+        assert isinstance(dmeter.solver.get(), str)
+        assert isinstance(dmeter.wavelength.get(), (float, int))
 
-    assert len(dmeter.pseudo_positioners) == np
-    assert len(dmeter._pseudo) == np
-    assert len(dmeter.real_positioners) == nr
-    assert len(dmeter._real) == nr
-    assert not dmeter.moving
+        assert len(dmeter.pseudo_positioners) == np
+        assert len(dmeter._pseudo) == np
+        assert len(dmeter.real_positioners) == nr
+        assert len(dmeter._real) == nr
+        assert not dmeter.moving
 
-    # test the wavelength
-    assert math.isclose(
-        dmeter._wavelength.wavelength,
-        dmeter.wavelength.get(),
-        abs_tol=0.001,
-    )
-    assert math.isclose(
-        dmeter._wavelength.wavelength,
-        DEFAULT_WAVELENGTH,
-        abs_tol=0.001,
-    )
-    assert dmeter._wavelength.wavelength_units == DEFAULT_WAVELENGTH_UNITS
+        # test the wavelength
+        assert math.isclose(
+            dmeter._wavelength.wavelength,
+            dmeter.wavelength.get(),
+            abs_tol=0.001,
+        )
+        assert math.isclose(
+            dmeter._wavelength.wavelength,
+            DEFAULT_WAVELENGTH,
+            abs_tol=0.001,
+        )
+        assert dmeter._wavelength.wavelength_units == DEFAULT_WAVELENGTH_UNITS
 
-    assert len(dmeter.samples) == 1
-    assert isinstance(dmeter.sample, Sample)
+        assert len(dmeter.samples) == 1
+        assert isinstance(dmeter.sample, Sample)
 
-    assert isinstance(dmeter.operator, Operations)
-    assert isinstance(dmeter.pseudo_axis_names, list)
-    assert isinstance(dmeter.real_axis_names, list)
+        assert isinstance(dmeter.operator, Operations)
+        assert isinstance(dmeter.pseudo_axis_names, list)
+        assert isinstance(dmeter.real_axis_names, list)
 
-    dmeter.operator.add_sample("test", 5)
-    assert len(dmeter.samples) == 2
-    assert dmeter.sample.name == "test"
+        dmeter.operator.add_sample("test", 5)
+        assert len(dmeter.samples) == 2
+        assert dmeter.sample.name == "test"
 
-    assert dmeter.solver is not None
-    assert isinstance(dmeter.solver_name, str)
-    assert len(dmeter.solver_name) > 0
+        assert dmeter.solver is not None
+        assert isinstance(dmeter.solver_name, str)
+        assert len(dmeter.solver_name) > 0
 
 
 def test_diffractometer_wh(capsys):
-    from ..geom import SimulatedE4CV
+    from ..geom import diffractometer_factory
 
-    e4cv = SimulatedE4CV(name="e4cv")
+    e4cv = diffractometer_factory(name="e4cv")
     e4cv.operator.restore(HKLPY2_DIR / "tests" / "e4cv_orient.yml")
 
     e4cv.wh()
@@ -176,10 +178,10 @@ def test_diffractometer_wh(capsys):
     ],
 )
 def test_full_position(mode, keys, context, expected):
-    from ..geom import SimulatedE4CV
+    from ..geom import diffractometer_factory
 
     with context as reason:
-        fourc = SimulatedE4CV(name="fourc")
+        fourc = diffractometer_factory(name="fourc")
         fourc.operator.restore(HKLPY2_DIR / "tests" / "e4cv_orient.yml")
         fourc.operator.solver.mode = mode
         pos = fourc.full_position()
@@ -201,9 +203,9 @@ def test_full_position(mode, keys, context, expected):
     ],
 )
 def test_move_forward_with_extras(pseudos, reals, mode, context, expected):
-    from ..geom import SimulatedE4CV
+    from ..geom import diffractometer_factory
 
-    fourc = SimulatedE4CV(name="fourc")
+    fourc = diffractometer_factory(name="fourc")
     fourc.operator.restore(HKLPY2_DIR / "tests" / "e4cv_orient.yml")
     fourc.operator.solver.mode = mode
     # fourc.wavelength.put(6)
@@ -238,9 +240,9 @@ def test_move_forward_with_extras(pseudos, reals, mode, context, expected):
     ],
 )
 def test_move_reals(pos, context, expected):
-    from ..geom import SimulatedE4CV
+    from ..geom import diffractometer_factory
 
-    fourc = SimulatedE4CV(name="fourc")
+    fourc = diffractometer_factory(name="fourc")
     with context as reason:
         fourc.move_reals(pos)
 
@@ -249,9 +251,9 @@ def test_move_reals(pos, context, expected):
 
 def test_null_operator():
     """Tests special cases when diffractometer.operator is None."""
-    from ..geom import SimulatedE4CV
+    from ..geom import diffractometer_factory
 
-    fourc = SimulatedE4CV(name="fourc")
+    fourc = diffractometer_factory(name="fourc")
     assert fourc.operator is not None
     assert len(fourc.samples) > 0
     assert fourc.sample is not None
@@ -270,10 +272,10 @@ def test_null_operator():
 
 
 def test_orientation():
-    from ..geom import SimulatedE4CV
+    from ..geom import diffractometer_factory
     from ..operations.lattice import SI_LATTICE_PARAMETER
 
-    fourc = SimulatedE4CV(name="fourc")
+    fourc = diffractometer_factory(name="fourc")
     fourc.add_sample("silicon", SI_LATTICE_PARAMETER)
     fourc.wavelength.put(1.0)
     assert math.isclose(
@@ -392,9 +394,9 @@ def test_remove_sample():
 def test_repeated_reflections(
     name, pseudos, reals, wavelength, replace, num, raiser, excuse
 ):
-    from ..geom import SimulatedE4CV
+    from ..geom import diffractometer_factory
 
-    e4cv = SimulatedE4CV(name="e4cv")
+    e4cv = diffractometer_factory(name="e4cv")
     e4cv.add_reflection(
         dict(h=1, k=0, l=0),
         dict(omega=10, chi=0, phi=0, tth=20),
@@ -525,9 +527,9 @@ def test_repeated_reflections(
     ],
 )
 def test_scan_extra(scan_kwargs, mode, context, expected):
-    from ..geom import SimulatedE4CV
+    from ..geom import diffractometer_factory
 
-    fourc = SimulatedE4CV(name="fourc")
+    fourc = diffractometer_factory(name="fourc")
     fourc.operator.restore(HKLPY2_DIR / "tests" / "e4cv_orient.yml")
     fourc.operator.solver.mode = mode
     assert fourc.operator.solver.mode == mode
@@ -545,10 +547,10 @@ def test_scan_extra(scan_kwargs, mode, context, expected):
 
 
 def test_set_UB():
-    from ..geom import SimulatedE4CV
+    from ..geom import diffractometer_factory
 
     UBe = [[0, 0, -1.157], [0, -1.157, 0], [-1.157, 0, 0]]
-    fourc = SimulatedE4CV(name="fourc")
+    fourc = diffractometer_factory(name="fourc")
 
     fourc.operator.solver.UB = UBe
     UBr = fourc.operator.solver.UB
