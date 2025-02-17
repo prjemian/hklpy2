@@ -25,10 +25,14 @@ Python class                                    Purpose
 In addition to |solver| transactions, the ``.operator`` manages all
 details involving the set of samples and their lattices & reflections.
 
+Here, we use the :func:`hklpy2.geom.diffractometer_factory()` to create a
+simulated 4-circle diffractometer with the ``E4CV`` geometry provided by the
+``hkl_soleil`` |solver|.
+
 EXAMPLE::
 
-    >>> from hklpy2 import SimulatedE4CV
-    >>> e4cv = SimulatedE4CV(name="e4cv")
+    >>> from hklpy2 import diffractometer_factory
+    >>> e4cv = diffractometer_factory(name="e4cv")
     >>> e4cv.operator.sample
     Sample(name='cubic', lattice=Lattice(a=1, b=1, c=1, alpha=90.0, beta=90.0, gamma=90.0))
     >>> e4cv.operator.solver

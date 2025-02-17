@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=01939e74"></script>
+    <script src="../_static/documentation_options.js?v=3fd3ab18"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
@@ -375,23 +375,22 @@ to use any names allowed by ophyd.</p>
 <h2>User-defined axis names<a class="headerlink" href="#user-defined-axis-names" title="Link to this heading">#</a></h2>
 <p>Let’s a few examples of diffractometers built with user-defined names.</p>
 <ul class="simple">
-<li><p><a class="reference internal" href="#diffract-axes-prebuilt-auto-assign"><span class="std std-ref">Pre-built Diffractometer class</span></a> with automatic mapping</p></li>
+<li><p><a class="reference internal" href="#diffract-axes-diffractometer-factory"><span class="std std-ref">Diffractometer Factory Function</span></a> with automatic mapping</p></li>
 <li><p><a class="reference internal" href="#diffract-axes-custom-auto-assign"><span class="std std-ref">Custom Diffractometer class</span></a> with automatic mapping</p></li>
-<li><p><a class="reference internal" href="#diffract-axes-direct-assign"><span class="std std-ref">Custom Diffractometer with additional axes</span></a> where direct the mapping</p></li>
+<li><p><a class="reference internal" href="#diffract-axes-direct-assign"><span class="std std-ref">Custom Diffractometer with additional axes</span></a> with directed mapping</p></li>
 </ul>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
 <p><a class="reference internal" href="#diffract-axes-auto-assign"><span class="std std-ref">Auto-assignment</span></a></p>
 </div>
-<section id="pre-built-diffractometer-class">
-<span id="diffract-axes-prebuilt-auto-assign"></span><h3>Pre-built Diffractometer class<a class="headerlink" href="#pre-built-diffractometer-class" title="Link to this heading">#</a></h3>
-<p>The pre-built diffractometer simulators automatically
-map axis names from diffractometer to <strong>Solver</strong>.  Let’s show this
-cross-reference map in an IPython console with just a few commands
-(using <a class="reference internal" href="../api/geom.html#hklpy2.geom.SimulatedTheta2Theta" title="hklpy2.geom.SimulatedTheta2Theta"><code class="xref py py-class docutils literal notranslate"><span class="pre">SimulatedTheta2Theta</span></code></a>):</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">6</span><span class="p">]:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">hklpy2</span><span class="w"> </span><span class="kn">import</span> <span class="n">SimulatedTheta2Theta</span>
+<section id="diffractometer-factory-function">
+<span id="diffract-axes-diffractometer-factory"></span><h3>Diffractometer Factory Function<a class="headerlink" href="#diffractometer-factory-function" title="Link to this heading">#</a></h3>
+<p>The <a class="reference internal" href="../api/geom.html#hklpy2.geom.diffractometer_factory" title="hklpy2.geom.diffractometer_factory"><code class="xref py py-func docutils literal notranslate"><span class="pre">diffractometer_factory()</span></code></a> function maps axis names from
+diffractometer to <strong>Solver</strong>.  Let’s show this cross-reference map in an IPython
+console with just a few commands:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">6</span><span class="p">]:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">hklpy2</span><span class="w"> </span><span class="kn">import</span> <span class="n">diffractometer_factory</span>
 
-<span class="n">In</span> <span class="p">[</span><span class="mi">7</span><span class="p">]:</span> <span class="n">twoc</span> <span class="o">=</span> <span class="n">SimulatedTheta2Theta</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;twoc&quot;</span><span class="p">)</span>
+<span class="n">In</span> <span class="p">[</span><span class="mi">7</span><span class="p">]:</span> <span class="n">twoc</span> <span class="o">=</span> <span class="n">diffractometer_factory</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;twoc&quot;</span><span class="p">,</span> <span class="n">geometry</span><span class="o">=</span><span class="s2">&quot;TH TTH Q&quot;</span><span class="p">,</span> <span class="n">solver</span><span class="o">=</span><span class="s2">&quot;th_tth&quot;</span><span class="p">)</span>
 
 <span class="n">In</span> <span class="p">[</span><span class="mi">8</span><span class="p">]:</span> <span class="n">twoc</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">axes_xref</span>
 <span class="n">Out</span><span class="p">[</span><span class="mi">8</span><span class="p">]:</span> <span class="p">{</span><span class="s1">&#39;q&#39;</span><span class="p">:</span> <span class="s1">&#39;q&#39;</span><span class="p">,</span> <span class="s1">&#39;theta&#39;</span><span class="p">:</span> <span class="s1">&#39;th&#39;</span><span class="p">,</span> <span class="s1">&#39;ttheta&#39;</span><span class="p">:</span> <span class="s1">&#39;tth&#39;</span><span class="p">}</span>
@@ -400,19 +399,19 @@ cross-reference map in an IPython console with just a few commands
 </section>
 <section id="custom-diffractometer-class">
 <span id="diffract-axes-custom-auto-assign"></span><h3>Custom Diffractometer class<a class="headerlink" href="#custom-diffractometer-class" title="Link to this heading">#</a></h3>
-<p>Construct a 2-circle diffractometer, one axis for the sample
-and one axis for the detector.  We can use the
-<a class="reference internal" href="../api/geom.html#hklpy2.geom.MixinQ" title="hklpy2.geom.MixinQ"><code class="xref py py-class docutils literal notranslate"><span class="pre">MixinQ</span></code></a> class to define a <code class="docutils literal notranslate"><span class="pre">q</span></code> pseudo-axis.</p>
-<p>In addition to defining the diffractometer axes, we can choose the
-<strong>Solver</strong> to use with our diffractometer.
-The <code class="docutils literal notranslate"><span class="pre">th_tth</span></code> <strong>Solver</strong> has a <a class="reference internal" href="../api/backends/th_tth_q.html#hklpy2.backends.th_tth_q.ThTthSolver" title="hklpy2.backends.th_tth_q.ThTthSolver"><code class="xref py py-class docutils literal notranslate"><span class="pre">ThTthSolver</span></code></a>
-with a <code class="docutils literal notranslate"><span class="pre">&quot;TH</span> <span class="pre">TTH</span> <span class="pre">Q&quot;</span></code> geometry that fits our design.
-We set that up in the <code class="docutils literal notranslate"><span class="pre">__init__()</span></code> method of our new class:</p>
+<p>Construct a 2-circle diffractometer, one axis for the sample and one axis for
+the detector.</p>
+<p>In addition to defining the diffractometer axes, we name the <strong>Solver</strong> to use
+with our diffractometer. The <code class="docutils literal notranslate"><span class="pre">th_tth</span></code> <strong>Solver</strong> has a
+<a class="reference internal" href="../api/backends/th_tth_q.html#hklpy2.backends.th_tth_q.ThTthSolver" title="hklpy2.backends.th_tth_q.ThTthSolver"><code class="xref py py-class docutils literal notranslate"><span class="pre">ThTthSolver</span></code></a> with a <code class="docutils literal notranslate"><span class="pre">&quot;TH</span> <span class="pre">TTH</span> <span class="pre">Q&quot;</span></code> geometry
+that fits our design. We set that up in the <code class="docutils literal notranslate"><span class="pre">__init__()</span></code> method of our new
+class:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">hklpy2</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">ophyd</span><span class="w"> </span><span class="kn">import</span> <span class="n">Component</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">ophyd</span><span class="w"> </span><span class="kn">import</span> <span class="n">SoftPositioner</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ophyd</span><span class="w"> </span><span class="kn">import</span> <span class="n">Component</span><span class="p">,</span> <span class="n">PseudoSingle</span><span class="p">,</span> <span class="n">SoftPositioner</span>
 
-<span class="k">class</span><span class="w"> </span><span class="nc">S1D1</span><span class="p">(</span><span class="n">hklpy2</span><span class="o">.</span><span class="n">DiffractometerBase</span><span class="p">,</span> <span class="n">hklpy2</span><span class="o">.</span><span class="n">MixinQ</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">S1D1</span><span class="p">(</span><span class="n">hklpy2</span><span class="o">.</span><span class="n">DiffractometerBase</span><span class="p">):</span>
+
+    <span class="n">q</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">PseudoSingle</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">H_OR_N</span><span class="p">)</span>
 
     <span class="n">sample</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">SoftPositioner</span><span class="p">,</span> <span class="n">init_pos</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
     <span class="n">detector</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">SoftPositioner</span><span class="p">,</span> <span class="n">init_pos</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
@@ -574,7 +573,7 @@ chooses in this case:</p>
   <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#user-defined-axis-names">User-defined axis names</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pre-built-diffractometer-class">Pre-built Diffractometer class</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#diffractometer-factory-function">Diffractometer Factory Function</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#custom-diffractometer-class">Custom Diffractometer class</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#custom-diffractometer-with-additional-axes">Custom Diffractometer with additional axes</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#auto-assignment">Auto-assignment</a></li>

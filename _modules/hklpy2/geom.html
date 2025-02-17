@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../../_static/documentation_options.js?v=01939e74"></script>
+    <script src="../../_static/documentation_options.js?v=3fd3ab18"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/design-tabs.js?v=f930bc37"></script>
@@ -333,48 +333,18 @@
                   
   <h1>Source code for hklpy2.geom</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">Diffractometer Geometries.</span>
+<span class="sd">Create a Diffractometer for any Geometry.</span>
 
-<span class="sd">.. rubric:: Geometries</span>
 <span class="sd">.. autosummary::</span>
 
-<span class="sd">    ~E4CV</span>
-<span class="sd">    ~E6C</span>
-<span class="sd">    ~K4CV</span>
-<span class="sd">    ~K6C</span>
-<span class="sd">    ~Theta2Theta</span>
-
-<span class="sd">.. rubric:: Simulators</span>
-<span class="sd">.. autosummary::</span>
-
-<span class="sd">    ~SimulatedE4CV</span>
-<span class="sd">    ~SimulatedE6C</span>
-<span class="sd">    ~SimulatedE6C_Psi</span>
-<span class="sd">    ~SimulatedK4CV</span>
-<span class="sd">    ~SimulatedK6C</span>
-<span class="sd">    ~SimulatedTheta2Theta</span>
-
-<span class="sd">.. rubric:: Special-Use Diffractometer Geometries</span>
-<span class="sd">.. autosummary::</span>
-
-<span class="sd">    ~ApsPolar</span>
-<span class="sd">    ~Petra3_p09_eh2</span>
-<span class="sd">    ~Petra3_p23_4c</span>
-<span class="sd">    ~Petra3_p23_6c</span>
-
-<span class="sd">.. rubric:: Support</span>
-<span class="sd">.. autosummary::</span>
-
-<span class="sd">    ~MixinSimulator</span>
-<span class="sd">    ~MixinHkl</span>
-<span class="sd">    ~MixinPsi</span>
-<span class="sd">    ~MixinQ</span>
+<span class="sd">    ~diffractometer_class_factory</span>
+<span class="sd">    ~diffractometer_factory</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">ophyd</span><span class="w"> </span><span class="kn">import</span> <span class="n">Component</span> <span class="k">as</span> <span class="n">Cpt</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">ophyd</span><span class="w"> </span><span class="kn">import</span> <span class="n">Device</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ophyd</span><span class="w"> </span><span class="kn">import</span> <span class="n">Component</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ophyd</span><span class="w"> </span><span class="kn">import</span> <span class="n">EpicsMotor</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">ophyd</span><span class="w"> </span><span class="kn">import</span> <span class="n">Kind</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">ophyd</span><span class="w"> </span><span class="kn">import</span> <span class="n">PseudoSingle</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">ophyd</span><span class="w"> </span><span class="kn">import</span> <span class="n">SoftPositioner</span>
@@ -382,376 +352,199 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">.diffract</span><span class="w"> </span><span class="kn">import</span> <span class="n">DiffractometerBase</span>
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">    ApsPolar</span>
-<span class="s2">    E4CV</span>
-<span class="s2">    E6C</span>
-<span class="s2">    K4CV</span>
-<span class="s2">    K6C</span>
-<span class="s2">    MixinHkl</span>
-<span class="s2">    MixinQ</span>
-<span class="s2">    MixinSimulator</span>
-<span class="s2">    Petra3_p09_eh2</span>
-<span class="s2">    Petra3_p23_4c</span>
-<span class="s2">    Petra3_p23_6c</span>
-<span class="s2">    SimulatedE4CV</span>
-<span class="s2">    SimulatedE6C</span>
-<span class="s2">    SimulatedE6C_Psi</span>
-<span class="s2">    SimulatedK4CV</span>
-<span class="s2">    SimulatedK6C</span>
-<span class="s2">    SimulatedTheta2Theta</span>
-<span class="s2">    Theta2Theta</span>
+<span class="s2">    diffractometer_class_factory</span>
+<span class="s2">    diffractometer_factory</span>
 <span class="s2">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 <span class="n">H_OR_N</span> <span class="o">=</span> <span class="n">Kind</span><span class="o">.</span><span class="n">hinted</span> <span class="o">|</span> <span class="n">Kind</span><span class="o">.</span><span class="n">normal</span>
 
 
-<div class="viewcode-block" id="MixinSimulator">
-<a class="viewcode-back" href="../../api/geom.html#hklpy2.geom.MixinSimulator">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">MixinSimulator</span><span class="p">(</span><span class="n">Device</span><span class="p">):</span>
+<div class="viewcode-block" id="diffractometer_class_factory">
+<a class="viewcode-back" href="../../api/geom.html#hklpy2.geom.diffractometer_class_factory">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">diffractometer_class_factory</span><span class="p">(</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">solver</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;hkl_soleil&quot;</span><span class="p">,</span>
+    <span class="n">geometry</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;E4CV&quot;</span><span class="p">,</span>
+    <span class="n">solver_kwargs</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;engine&quot;</span><span class="p">:</span> <span class="s2">&quot;hkl&quot;</span><span class="p">},</span>
+    <span class="n">reals</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{},</span>
+    <span class="n">motor_labels</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;motors&quot;</span><span class="p">],</span>
+    <span class="n">class_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;Hklpy2Diffractometer&quot;</span><span class="p">,</span>
+    <span class="n">class_bases</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[</span><span class="n">DiffractometerBase</span><span class="p">],</span>
+<span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Mixin used by simulators.</span>
+<span class="sd">    Build a custom class for this diffractometer geometry.</span>
 
-<span class="sd">    - Supplies default &#39;prefix&#39; argument.</span>
-<span class="sd">    - Automatically assigns diffractometer axes.</span>
+<span class="sd">    PARAMETERS</span>
+
+<span class="sd">    solver : str</span>
+<span class="sd">        Name of the backend solver providing the geometry. (default: &#39;&quot;hkl_soleil&quot;&#39;)</span>
+<span class="sd">    geometry : str</span>
+<span class="sd">        Name of the diffractometer geometry. (default: &#39;&quot;E4CV&quot;&#39;)</span>
+<span class="sd">    solver_kwargs : str</span>
+<span class="sd">        Additional configuration for the solver. (default: &#39;{&quot;engine&quot;: &quot;hkl&quot;}&#39;)</span>
+<span class="sd">    reals : dict</span>
+<span class="sd">        Specification of the real axis motors.  Dictionary keys are the motor</span>
+<span class="sd">        names, values are the EPICS motor PV for that axis.  If the PV is</span>
+<span class="sd">        &#39;None&#39;, use a simulated positioner.</span>
+
+<span class="sd">        The dictionary can be empty or must have exactly the canonical number of</span>
+<span class="sd">        real axes.  The order of the axes is important.  The names provided will</span>
+<span class="sd">        be mapped to the canonical order defined by the solver.</span>
+
+<span class="sd">        (default: &#39;{}&#39; which means use the canonical names for the real axes and</span>
+<span class="sd">        use simulated positioners)</span>
+<span class="sd">    motor_labels : list</span>
+<span class="sd">        Ophyd object labels for each real positioner. (default: &#39;[&quot;motors&quot;]&#39;)</span>
+<span class="sd">    class_name : str</span>
+<span class="sd">        Name to use for the diffractometer class.</span>
+<span class="sd">        (default: &#39;&quot;Hklpy2Diffractometer&quot;&#39;)</span>
+<span class="sd">    class_bases : list</span>
+<span class="sd">        List of base classes to use for the diffractometer class.</span>
+<span class="sd">        (default: &#39;[DiffractometerBase]&#39;)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">.operations.misc</span><span class="w"> </span><span class="kn">import</span> <span class="n">solver_factory</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prefix</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">prefix</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">auto_assign_axes</span><span class="p">()</span></div>
+    <span class="c1"># The solver object describes its structure. Also verifies the solver is found.</span>
+    <span class="n">solver_object</span> <span class="o">=</span> <span class="n">solver_factory</span><span class="p">(</span><span class="n">solver</span><span class="p">,</span> <span class="n">geometry</span><span class="p">,</span> <span class="o">**</span><span class="n">solver_kwargs</span><span class="p">)</span>
+
+    <span class="n">class_attributes</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">axis</span> <span class="ow">in</span> <span class="n">solver_object</span><span class="o">.</span><span class="n">pseudo_axis_names</span><span class="p">:</span>
+        <span class="n">class_attributes</span><span class="p">[</span><span class="n">axis</span><span class="p">]</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">PseudoSingle</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">H_OR_N</span><span class="p">)</span>
+    <span class="n">real_names</span> <span class="o">=</span> <span class="n">solver_object</span><span class="o">.</span><span class="n">real_axis_names</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">reals</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">solver_object</span><span class="o">.</span><span class="n">real_axis_names</span><span class="p">):</span>
+        <span class="n">real_names</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">reals</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">axis</span> <span class="ow">in</span> <span class="n">real_names</span><span class="p">:</span>
+        <span class="n">pv</span> <span class="o">=</span> <span class="n">reals</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">axis</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">pv</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">attr</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span>
+                <span class="n">SoftPositioner</span><span class="p">,</span>
+                <span class="n">limits</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">180</span><span class="p">,</span> <span class="mi">180</span><span class="p">),</span>
+                <span class="n">init_pos</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                <span class="n">kind</span><span class="o">=</span><span class="n">H_OR_N</span><span class="p">,</span>
+                <span class="n">labels</span><span class="o">=</span><span class="n">motor_labels</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">attr</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsMotor</span><span class="p">,</span> <span class="n">pv</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">H_OR_N</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="n">motor_labels</span><span class="p">)</span>
+        <span class="n">class_attributes</span><span class="p">[</span><span class="n">axis</span><span class="p">]</span> <span class="o">=</span> <span class="n">attr</span>
+
+    <span class="k">return</span> <span class="nb">type</span><span class="p">(</span><span class="n">class_name</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">class_bases</span><span class="p">),</span> <span class="n">class_attributes</span><span class="p">)</span></div>
 
 
 
-<div class="viewcode-block" id="MixinHkl">
-<a class="viewcode-back" href="../../api/geom.html#hklpy2.geom.MixinHkl">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">MixinHkl</span><span class="p">(</span><span class="n">Device</span><span class="p">):</span>
+<div class="viewcode-block" id="diffractometer_factory">
+<a class="viewcode-back" href="../../api/geom.html#hklpy2.geom.diffractometer_factory">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">diffractometer_factory</span><span class="p">(</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">prefix</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="n">solver</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;hkl_soleil&quot;</span><span class="p">,</span>
+    <span class="n">geometry</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;E4CV&quot;</span><span class="p">,</span>
+    <span class="n">solver_kwargs</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;engine&quot;</span><span class="p">:</span> <span class="s2">&quot;hkl&quot;</span><span class="p">},</span>
+    <span class="n">reals</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{},</span>
+    <span class="n">motor_labels</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;motors&quot;</span><span class="p">],</span>
+    <span class="n">labels</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;diffractometer&quot;</span><span class="p">],</span>
+    <span class="n">class_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;Hklpy2Diffractometer&quot;</span><span class="p">,</span>
+    <span class="n">class_bases</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[</span><span class="n">DiffractometerBase</span><span class="p">],</span>
+    <span class="n">auto_assign</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+<span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Defines `h`, `k`, &amp; `l` pseudo-positioners.</span>
+<span class="sd">    Factory function to create a diffractometer instance.</span>
 
-<span class="sd">    .. caution:: These comments need to be updated to |hklpy2|.</span>
+<span class="sd">    EXAMPLES:</span>
 
-<span class="sd">    Use this mixin class with any of the diffractometer geometries to create</span>
-<span class="sd">    your own simulator.  Follow one of the simulators below, such as</span>
-<span class="sd">    :class:`~hkl.geom.SimulatedE4CV`.  You should replace ``E4CV`` with your</span>
-<span class="sd">    geometry&#39;s name.  And, you will need to create ``SoftPositioner`` components</span>
-<span class="sd">    for each of the real-space axes, in the order required by that geometry.</span>
+<span class="sd">    Four-circle diffractometer, vertical orientation, Eulerian rotations,</span>
+<span class="sd">    canonical real axis names, EPICS motor PVs::</span>
+
+<span class="sd">        e4cv = diffractometer_factory(name=&quot;e4cv&quot;,</span>
+<span class="sd">            solver=&quot;hkl_soleil&quot;, geometry=&quot;E4CV&quot;,</span>
+<span class="sd">            reals=dict(omega=&quot;zgp:m1&quot;, chi=&quot;zgp:m2&quot;, phi=&quot;zgp:m3&quot;, tth=&quot;zgp:m4&quot;),</span>
+<span class="sd">        )</span>
+
+<span class="sd">    Four-circle diffractometer, vertical orientation, Eulerian rotations,</span>
+<span class="sd">    custom real axis names, simulated positioners::</span>
+
+<span class="sd">        sim4c = diffractometer_factory(name=&quot;sim4c&quot;,</span>
+<span class="sd">            solver=&quot;hkl_soleil&quot;, geometry=&quot;E4CV&quot;,</span>
+<span class="sd">            reals=dict(uno=None, dos=None, tres=None, cuatro=None),</span>
+<span class="sd">        )</span>
+
+<span class="sd">    (Simplest case to get a simulator.)</span>
+<span class="sd">    Four-circle diffractometer, vertical orientation, Eulerian rotations,</span>
+<span class="sd">    canonical real axis names, simulated positioners (all default settings)::</span>
+
+<span class="sd">        sim4c = diffractometer_factory(name=&quot;sim4c&quot;)</span>
+
+<span class="sd">    Kappa six-circle diffractometer, simulated motors::</span>
+
+<span class="sd">        simk6c = diffractometer_factory(name=&quot;simk6c&quot;,</span>
+<span class="sd">            solver=&quot;hkl_soleil&quot;, geometry=&quot;K6C&quot;</span>
+<span class="sd">        )</span>
+
+<span class="sd">    PARAMETERS</span>
+
+<span class="sd">    prefix : str</span>
+<span class="sd">        EPICS PV prefix (default: empty string)</span>
+<span class="sd">    name : str</span>
+<span class="sd">        Name of the ophyd diffractometer object to be created. (default: &#39;&quot;&quot;&#39;)</span>
+<span class="sd">    solver : str</span>
+<span class="sd">        Name of the backend solver providing the geometry. (default: &#39;&quot;hkl_soleil&quot;&#39;)</span>
+<span class="sd">    geometry : str</span>
+<span class="sd">        Name of the diffractometer geometry. (default: &#39;&quot;E4CV&quot;&#39;)</span>
+<span class="sd">    solver_kwargs : str</span>
+<span class="sd">        Additional configuration for the solver. (default: &#39;{&quot;engine&quot;: &quot;hkl&quot;}&#39;)</span>
+<span class="sd">    reals : dict</span>
+<span class="sd">        Specification of the real axis motors.  Dictionary keys are the motor</span>
+<span class="sd">        names, values are the EPICS motor PV for that axis.  If the PV is</span>
+<span class="sd">        &#39;None&#39;, use a simulated positioner.</span>
+
+<span class="sd">        The dictionary can be empty or must have exactly the canonical number of</span>
+<span class="sd">        real axes.  The order of the axes is important.  The names provided will</span>
+<span class="sd">        be mapped to the canonical order defined by the solver.</span>
+
+<span class="sd">        (default: &#39;{}&#39; which means use the canonical names for the real axes and</span>
+<span class="sd">        use simulated positioners)</span>
+<span class="sd">    motor_labels : list</span>
+<span class="sd">        Ophyd object labels for each real positioner. (default: &#39;[&quot;motors&quot;]&#39;)</span>
+<span class="sd">    labels : list</span>
+<span class="sd">        Ophyd object labels for the diffractometer object. (default: &#39;[&quot;diffractometer&quot;]&#39;)</span>
+<span class="sd">    class_name : str</span>
+<span class="sd">        Name to use for the diffractometer class.</span>
+<span class="sd">        (default: &#39;&quot;Hklpy2Diffractometer&quot;&#39;)</span>
+<span class="sd">    class_bases : list</span>
+<span class="sd">        List of base classes to use for the diffractometer class.</span>
+<span class="sd">        (default: &#39;[DiffractometerBase]&#39;)</span>
+<span class="sd">    auto_assign : bool</span>
+<span class="sd">        When &#39;True&#39;, call :meth:`~hklpy2.diffract.DiffractometerBase.auto_assign_axes()`.</span>
+<span class="sd">        (default: &#39;True&#39;)</span>
+<span class="sd">    kwargs : any</span>
+<span class="sd">        Additional keyword arguments will be added when constructing</span>
+<span class="sd">        the new diffractometer object.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="n">h</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">PseudoSingle</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">H_OR_N</span><span class="p">)</span>
-    <span class="n">k</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">PseudoSingle</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">H_OR_N</span><span class="p">)</span>
-    <span class="n">l</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">PseudoSingle</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">H_OR_N</span><span class="p">)</span>  <span class="c1"># noqa: E741</span></div>
-
-
-
-<span class="k">class</span><span class="w"> </span><span class="nc">MixinPsi</span><span class="p">(</span><span class="n">Device</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Defines `psi` pseudo-positioner.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="n">psi</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">PseudoSingle</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">H_OR_N</span><span class="p">)</span>  <span class="c1"># noqa: E741</span>
-
-
-<div class="viewcode-block" id="MixinQ">
-<a class="viewcode-back" href="../../api/geom.html#hklpy2.geom.MixinQ">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">MixinQ</span><span class="p">(</span><span class="n">Device</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Defines `q` pseudo-positioner.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="n">q</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">PseudoSingle</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">H_OR_N</span><span class="p">)</span>  <span class="c1"># noqa: E741</span></div>
-
-
-
-<div class="viewcode-block" id="ApsPolar">
-<a class="viewcode-back" href="../../api/geom.html#hklpy2.geom.ApsPolar">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">ApsPolar</span><span class="p">(</span><span class="n">DiffractometerBase</span><span class="p">,</span> <span class="n">MixinHkl</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    6-circle, hkl_soleil, APS POLAR, engine=&quot;hkl&quot;.</span>
-
-<span class="sd">    :class:`~hklpy2.backends.hkl_soleil.HklSolver`</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
-            <span class="o">*</span><span class="n">args</span><span class="p">,</span>
-            <span class="n">solver</span><span class="o">=</span><span class="s2">&quot;hkl_soleil&quot;</span><span class="p">,</span>
-            <span class="n">geometry</span><span class="o">=</span><span class="s2">&quot;APS POLAR&quot;</span><span class="p">,</span>
-            <span class="n">solver_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;engine&quot;</span><span class="p">:</span> <span class="s2">&quot;hkl&quot;</span><span class="p">},</span>
-            <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
-        <span class="p">)</span></div>
-
-
-
-<div class="viewcode-block" id="E4CV">
-<a class="viewcode-back" href="../../api/geom.html#hklpy2.geom.E4CV">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">E4CV</span><span class="p">(</span><span class="n">DiffractometerBase</span><span class="p">,</span> <span class="n">MixinHkl</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Eulerian 4-circle, hkl_soleil, E4CV, engine=&quot;hkl&quot;.</span>
-
-<span class="sd">    :class:`~hklpy2.backends.hkl_soleil.HklSolver`</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
-            <span class="o">*</span><span class="n">args</span><span class="p">,</span>
-            <span class="n">solver</span><span class="o">=</span><span class="s2">&quot;hkl_soleil&quot;</span><span class="p">,</span>
-            <span class="n">geometry</span><span class="o">=</span><span class="s2">&quot;E4CV&quot;</span><span class="p">,</span>
-            <span class="n">solver_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;engine&quot;</span><span class="p">:</span> <span class="s2">&quot;hkl&quot;</span><span class="p">},</span>
-            <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
-        <span class="p">)</span></div>
-
-
-
-<div class="viewcode-block" id="E6C">
-<a class="viewcode-back" href="../../api/geom.html#hklpy2.geom.E6C">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">E6C</span><span class="p">(</span><span class="n">DiffractometerBase</span><span class="p">,</span> <span class="n">MixinHkl</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Eulerian 6-circle, hkl_soleil, E6C, engine=&quot;hkl&quot;.</span>
-
-<span class="sd">    :class:`~hklpy2.backends.hkl_soleil.HklSolver`</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
-            <span class="o">*</span><span class="n">args</span><span class="p">,</span>
-            <span class="n">solver</span><span class="o">=</span><span class="s2">&quot;hkl_soleil&quot;</span><span class="p">,</span>
-            <span class="n">geometry</span><span class="o">=</span><span class="s2">&quot;E6C&quot;</span><span class="p">,</span>
-            <span class="n">solver_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;engine&quot;</span><span class="p">:</span> <span class="s2">&quot;hkl&quot;</span><span class="p">},</span>
-            <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
-        <span class="p">)</span></div>
-
-
-
-<div class="viewcode-block" id="K4CV">
-<a class="viewcode-back" href="../../api/geom.html#hklpy2.geom.K4CV">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">K4CV</span><span class="p">(</span><span class="n">DiffractometerBase</span><span class="p">,</span> <span class="n">MixinHkl</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Kappa 4-circle, hkl_soleil, K4CV, engine=&quot;hkl&quot;.</span>
-
-<span class="sd">    :class:`~hklpy2.backends.hkl_soleil.HklSolver`</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
-            <span class="o">*</span><span class="n">args</span><span class="p">,</span>
-            <span class="n">solver</span><span class="o">=</span><span class="s2">&quot;hkl_soleil&quot;</span><span class="p">,</span>
-            <span class="n">geometry</span><span class="o">=</span><span class="s2">&quot;K4CV&quot;</span><span class="p">,</span>
-            <span class="n">solver_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;engine&quot;</span><span class="p">:</span> <span class="s2">&quot;hkl&quot;</span><span class="p">},</span>
-            <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
-        <span class="p">)</span></div>
-
-
-
-<div class="viewcode-block" id="K6C">
-<a class="viewcode-back" href="../../api/geom.html#hklpy2.geom.K6C">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">K6C</span><span class="p">(</span><span class="n">DiffractometerBase</span><span class="p">,</span> <span class="n">MixinHkl</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Kappa 6-circle, hkl_soleil, K6C, engine=&quot;hkl&quot;.</span>
-
-<span class="sd">    :class:`~hklpy2.backends.hkl_soleil.HklSolver`</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
-            <span class="o">*</span><span class="n">args</span><span class="p">,</span>
-            <span class="n">solver</span><span class="o">=</span><span class="s2">&quot;hkl_soleil&quot;</span><span class="p">,</span>
-            <span class="n">geometry</span><span class="o">=</span><span class="s2">&quot;K6C&quot;</span><span class="p">,</span>
-            <span class="n">solver_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;engine&quot;</span><span class="p">:</span> <span class="s2">&quot;hkl&quot;</span><span class="p">},</span>
-            <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
-        <span class="p">)</span></div>
-
-
-
-<div class="viewcode-block" id="Petra3_p09_eh2">
-<a class="viewcode-back" href="../../api/geom.html#hklpy2.geom.Petra3_p09_eh2">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">Petra3_p09_eh2</span><span class="p">(</span><span class="n">DiffractometerBase</span><span class="p">,</span> <span class="n">MixinHkl</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    6-circle, hkl_soleil, PETRA3 P09 EH2, engine=&quot;hkl&quot;.</span>
-
-<span class="sd">    :class:`~hklpy2.backends.hkl_soleil.HklSolver`</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
-            <span class="o">*</span><span class="n">args</span><span class="p">,</span>
-            <span class="n">solver</span><span class="o">=</span><span class="s2">&quot;hkl_soleil&quot;</span><span class="p">,</span>
-            <span class="n">geometry</span><span class="o">=</span><span class="s2">&quot;PETRA3 P09 EH2&quot;</span><span class="p">,</span>
-            <span class="n">solver_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;engine&quot;</span><span class="p">:</span> <span class="s2">&quot;hkl&quot;</span><span class="p">},</span>
-            <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
-        <span class="p">)</span></div>
-
-
-
-<div class="viewcode-block" id="Petra3_p23_4c">
-<a class="viewcode-back" href="../../api/geom.html#hklpy2.geom.Petra3_p23_4c">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">Petra3_p23_4c</span><span class="p">(</span><span class="n">DiffractometerBase</span><span class="p">,</span> <span class="n">MixinHkl</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    4-circle, hkl_soleil, PETRA3 P23 4C, engine=&quot;hkl&quot;.</span>
-
-<span class="sd">    :class:`~hklpy2.backends.hkl_soleil.HklSolver`</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
-            <span class="o">*</span><span class="n">args</span><span class="p">,</span>
-            <span class="n">solver</span><span class="o">=</span><span class="s2">&quot;hkl_soleil&quot;</span><span class="p">,</span>
-            <span class="n">geometry</span><span class="o">=</span><span class="s2">&quot;PETRA3 P23 4C&quot;</span><span class="p">,</span>
-            <span class="n">solver_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;engine&quot;</span><span class="p">:</span> <span class="s2">&quot;hkl&quot;</span><span class="p">},</span>
-            <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
-        <span class="p">)</span></div>
-
-
-
-<div class="viewcode-block" id="Petra3_p23_6c">
-<a class="viewcode-back" href="../../api/geom.html#hklpy2.geom.Petra3_p23_6c">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">Petra3_p23_6c</span><span class="p">(</span><span class="n">DiffractometerBase</span><span class="p">,</span> <span class="n">MixinHkl</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    7-circle, hkl_soleil, PETRA3 P23 6C, engine=&quot;hkl&quot;.</span>
-
-<span class="sd">    :class:`~hklpy2.backends.hkl_soleil.HklSolver`</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
-            <span class="o">*</span><span class="n">args</span><span class="p">,</span>
-            <span class="n">solver</span><span class="o">=</span><span class="s2">&quot;hkl_soleil&quot;</span><span class="p">,</span>
-            <span class="n">geometry</span><span class="o">=</span><span class="s2">&quot;PETRA3 P23 6C&quot;</span><span class="p">,</span>
-            <span class="n">solver_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;engine&quot;</span><span class="p">:</span> <span class="s2">&quot;hkl&quot;</span><span class="p">},</span>
-            <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
-        <span class="p">)</span></div>
-
-
-
-<div class="viewcode-block" id="Theta2Theta">
-<a class="viewcode-back" href="../../api/geom.html#hklpy2.geom.Theta2Theta">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">Theta2Theta</span><span class="p">(</span><span class="n">DiffractometerBase</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    2-circle, th_tth, TH TTH Q.</span>
-
-<span class="sd">    NOTE:  For demonstration purposes.  Needs testing.</span>
-
-<span class="sd">    :class:`~hklpy2.backends.th_tth_q.ThTthSolver`</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
-            <span class="o">*</span><span class="n">args</span><span class="p">,</span>
-            <span class="n">solver</span><span class="o">=</span><span class="s2">&quot;th_tth&quot;</span><span class="p">,</span>
-            <span class="n">geometry</span><span class="o">=</span><span class="s2">&quot;TH TTH Q&quot;</span><span class="p">,</span>
-            <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
-        <span class="p">)</span></div>
-
-
-
-<div class="viewcode-block" id="SimulatedE4CV">
-<a class="viewcode-back" href="../../api/geom.html#hklpy2.geom.SimulatedE4CV">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">SimulatedE4CV</span><span class="p">(</span><span class="n">MixinSimulator</span><span class="p">,</span> <span class="n">E4CV</span><span class="p">,</span> <span class="n">MixinHkl</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Eulerian 4-circle, hkl_soleil, E4CV, engine=&quot;hkl&quot;, simulated rotary axes.</span>
-
-<span class="sd">    :class:`~hklpy2.backends.hkl_soleil.HklSolver`</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="n">omega</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">SoftPositioner</span><span class="p">,</span> <span class="n">limits</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">180</span><span class="p">,</span> <span class="mi">180</span><span class="p">),</span> <span class="n">init_pos</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">H_OR_N</span><span class="p">)</span>
-    <span class="n">chi</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">SoftPositioner</span><span class="p">,</span> <span class="n">limits</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">180</span><span class="p">,</span> <span class="mi">180</span><span class="p">),</span> <span class="n">init_pos</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">H_OR_N</span><span class="p">)</span>
-    <span class="n">phi</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">SoftPositioner</span><span class="p">,</span> <span class="n">limits</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">180</span><span class="p">,</span> <span class="mi">180</span><span class="p">),</span> <span class="n">init_pos</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">H_OR_N</span><span class="p">)</span>
-    <span class="n">tth</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">SoftPositioner</span><span class="p">,</span> <span class="n">limits</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">170</span><span class="p">,</span> <span class="mi">170</span><span class="p">),</span> <span class="n">init_pos</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">H_OR_N</span><span class="p">)</span></div>
-
-
-
-<div class="viewcode-block" id="SimulatedE6C">
-<a class="viewcode-back" href="../../api/geom.html#hklpy2.geom.SimulatedE6C">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">SimulatedE6C</span><span class="p">(</span><span class="n">MixinSimulator</span><span class="p">,</span> <span class="n">E6C</span><span class="p">,</span> <span class="n">MixinHkl</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Eulerian 6-circle, *hkl_soleil*, E6C, engine=&quot;hkl&quot;, simulated rotary axes.</span>
-
-<span class="sd">    :class:`~hklpy2.backends.hkl_soleil.HklSolver`</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="n">mu</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">SoftPositioner</span><span class="p">,</span> <span class="n">limits</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">180</span><span class="p">,</span> <span class="mi">180</span><span class="p">),</span> <span class="n">init_pos</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">H_OR_N</span><span class="p">)</span>
-    <span class="n">omega</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">SoftPositioner</span><span class="p">,</span> <span class="n">limits</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">180</span><span class="p">,</span> <span class="mi">180</span><span class="p">),</span> <span class="n">init_pos</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">H_OR_N</span><span class="p">)</span>
-    <span class="n">chi</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">SoftPositioner</span><span class="p">,</span> <span class="n">limits</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">180</span><span class="p">,</span> <span class="mi">180</span><span class="p">),</span> <span class="n">init_pos</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">H_OR_N</span><span class="p">)</span>
-    <span class="n">phi</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">SoftPositioner</span><span class="p">,</span> <span class="n">limits</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">180</span><span class="p">,</span> <span class="mi">180</span><span class="p">),</span> <span class="n">init_pos</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">H_OR_N</span><span class="p">)</span>
-    <span class="n">gamma</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">SoftPositioner</span><span class="p">,</span> <span class="n">limits</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">180</span><span class="p">,</span> <span class="mi">180</span><span class="p">),</span> <span class="n">init_pos</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">H_OR_N</span><span class="p">)</span>
-    <span class="n">delta</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">SoftPositioner</span><span class="p">,</span> <span class="n">limits</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">180</span><span class="p">,</span> <span class="mi">180</span><span class="p">),</span> <span class="n">init_pos</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">H_OR_N</span><span class="p">)</span></div>
-
-
-
-<div class="viewcode-block" id="SimulatedE6C_Psi">
-<a class="viewcode-back" href="../../api/geom.html#hklpy2.geom.SimulatedE6C_Psi">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">SimulatedE6C_Psi</span><span class="p">(</span><span class="n">MixinSimulator</span><span class="p">,</span> <span class="n">DiffractometerBase</span><span class="p">,</span> <span class="n">MixinPsi</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Eulerian 6-circle, *hkl_soleil*, E6C, engine=&quot;psi&quot;, simulated rotary axes.</span>
-
-<span class="sd">    :class:`~hklpy2.backends.hkl_soleil.HklSolver`</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="n">mu</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">SoftPositioner</span><span class="p">,</span> <span class="n">limits</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">180</span><span class="p">,</span> <span class="mi">180</span><span class="p">),</span> <span class="n">init_pos</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">H_OR_N</span><span class="p">)</span>
-    <span class="n">omega</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">SoftPositioner</span><span class="p">,</span> <span class="n">limits</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">180</span><span class="p">,</span> <span class="mi">180</span><span class="p">),</span> <span class="n">init_pos</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">H_OR_N</span><span class="p">)</span>
-    <span class="n">chi</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">SoftPositioner</span><span class="p">,</span> <span class="n">limits</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">180</span><span class="p">,</span> <span class="mi">180</span><span class="p">),</span> <span class="n">init_pos</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">H_OR_N</span><span class="p">)</span>
-    <span class="n">phi</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">SoftPositioner</span><span class="p">,</span> <span class="n">limits</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">180</span><span class="p">,</span> <span class="mi">180</span><span class="p">),</span> <span class="n">init_pos</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">H_OR_N</span><span class="p">)</span>
-    <span class="n">gamma</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">SoftPositioner</span><span class="p">,</span> <span class="n">limits</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">180</span><span class="p">,</span> <span class="mi">180</span><span class="p">),</span> <span class="n">init_pos</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">H_OR_N</span><span class="p">)</span>
-    <span class="n">delta</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">SoftPositioner</span><span class="p">,</span> <span class="n">limits</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">180</span><span class="p">,</span> <span class="mi">180</span><span class="p">),</span> <span class="n">init_pos</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">H_OR_N</span><span class="p">)</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prefix</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
-            <span class="n">prefix</span><span class="p">,</span>
-            <span class="n">solver</span><span class="o">=</span><span class="s2">&quot;hkl_soleil&quot;</span><span class="p">,</span>
-            <span class="n">geometry</span><span class="o">=</span><span class="s2">&quot;E6C&quot;</span><span class="p">,</span>
-            <span class="n">solver_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;engine&quot;</span><span class="p">:</span> <span class="s2">&quot;psi&quot;</span><span class="p">},</span>
-            <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
-        <span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">auto_assign_axes</span><span class="p">()</span></div>
-
-
-
-<div class="viewcode-block" id="SimulatedK4CV">
-<a class="viewcode-back" href="../../api/geom.html#hklpy2.geom.SimulatedK4CV">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">SimulatedK4CV</span><span class="p">(</span><span class="n">MixinSimulator</span><span class="p">,</span> <span class="n">K4CV</span><span class="p">,</span> <span class="n">MixinHkl</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Kappa 4-circle, hkl_soleil, K4CV, engine=&quot;hkl&quot;, simulated rotary axes.</span>
-
-<span class="sd">    :class:`~hklpy2.backends.hkl_soleil.HklSolver`</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="n">komega</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">SoftPositioner</span><span class="p">,</span> <span class="n">limits</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">180</span><span class="p">,</span> <span class="mi">180</span><span class="p">),</span> <span class="n">init_pos</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">H_OR_N</span><span class="p">)</span>
-    <span class="n">kappa</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">SoftPositioner</span><span class="p">,</span> <span class="n">limits</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">180</span><span class="p">,</span> <span class="mi">180</span><span class="p">),</span> <span class="n">init_pos</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">H_OR_N</span><span class="p">)</span>
-    <span class="n">kphi</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">SoftPositioner</span><span class="p">,</span> <span class="n">limits</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">180</span><span class="p">,</span> <span class="mi">180</span><span class="p">),</span> <span class="n">init_pos</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">H_OR_N</span><span class="p">)</span>
-    <span class="n">tth</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">SoftPositioner</span><span class="p">,</span> <span class="n">limits</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">170</span><span class="p">,</span> <span class="mi">170</span><span class="p">),</span> <span class="n">init_pos</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">H_OR_N</span><span class="p">)</span></div>
-
-
-
-<div class="viewcode-block" id="SimulatedK6C">
-<a class="viewcode-back" href="../../api/geom.html#hklpy2.geom.SimulatedK6C">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">SimulatedK6C</span><span class="p">(</span><span class="n">MixinSimulator</span><span class="p">,</span> <span class="n">K6C</span><span class="p">,</span> <span class="n">MixinHkl</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Kappa 6-circle, hkl_soleil, K6C, engine=&quot;hkl&quot;, simulated rotary axes.</span>
-
-<span class="sd">    :class:`~hklpy2.backends.hkl_soleil.HklSolver`</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="n">mu</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">SoftPositioner</span><span class="p">,</span> <span class="n">limits</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">180</span><span class="p">,</span> <span class="mi">180</span><span class="p">),</span> <span class="n">init_pos</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">H_OR_N</span><span class="p">)</span>
-    <span class="n">komega</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">SoftPositioner</span><span class="p">,</span> <span class="n">limits</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">180</span><span class="p">,</span> <span class="mi">180</span><span class="p">),</span> <span class="n">init_pos</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">H_OR_N</span><span class="p">)</span>
-    <span class="n">kappa</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">SoftPositioner</span><span class="p">,</span> <span class="n">limits</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">180</span><span class="p">,</span> <span class="mi">180</span><span class="p">),</span> <span class="n">init_pos</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">H_OR_N</span><span class="p">)</span>
-    <span class="n">kphi</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">SoftPositioner</span><span class="p">,</span> <span class="n">limits</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">180</span><span class="p">,</span> <span class="mi">180</span><span class="p">),</span> <span class="n">init_pos</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">H_OR_N</span><span class="p">)</span>
-    <span class="n">gamma</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">SoftPositioner</span><span class="p">,</span> <span class="n">limits</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">170</span><span class="p">,</span> <span class="mi">170</span><span class="p">),</span> <span class="n">init_pos</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">H_OR_N</span><span class="p">)</span>
-    <span class="n">delta</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">SoftPositioner</span><span class="p">,</span> <span class="n">limits</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">170</span><span class="p">,</span> <span class="mi">170</span><span class="p">),</span> <span class="n">init_pos</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">H_OR_N</span><span class="p">)</span></div>
-
-
-
-<div class="viewcode-block" id="SimulatedTheta2Theta">
-<a class="viewcode-back" href="../../api/geom.html#hklpy2.geom.SimulatedTheta2Theta">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">SimulatedTheta2Theta</span><span class="p">(</span><span class="n">MixinSimulator</span><span class="p">,</span> <span class="n">Theta2Theta</span><span class="p">,</span> <span class="n">MixinQ</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    2-circle, *th_tth*, TH TTH Q, simulated rotary axes.</span>
-
-<span class="sd">    NOTE:  For demonstration purposes.  Needs testing.</span>
-
-<span class="sd">    :class:`~hklpy2.backends.th_tth_q.ThTthSolver`</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="n">theta</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">SoftPositioner</span><span class="p">,</span> <span class="n">limits</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">),</span> <span class="n">init_pos</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">H_OR_N</span><span class="p">)</span>
-    <span class="n">ttheta</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">SoftPositioner</span><span class="p">,</span> <span class="n">limits</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">15</span><span class="p">,</span> <span class="mi">150</span><span class="p">),</span> <span class="n">init_pos</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">H_OR_N</span><span class="p">)</span></div>
+    <span class="n">DiffractometerClass</span> <span class="o">=</span> <span class="n">diffractometer_class_factory</span><span class="p">(</span>
+        <span class="n">solver</span><span class="o">=</span><span class="n">solver</span><span class="p">,</span>
+        <span class="n">geometry</span><span class="o">=</span><span class="n">geometry</span><span class="p">,</span>
+        <span class="n">solver_kwargs</span><span class="o">=</span><span class="n">solver_kwargs</span><span class="p">,</span>
+        <span class="n">reals</span><span class="o">=</span><span class="n">reals</span><span class="p">,</span>
+        <span class="n">motor_labels</span><span class="o">=</span><span class="n">motor_labels</span><span class="p">,</span>
+        <span class="n">class_name</span><span class="o">=</span><span class="n">class_name</span><span class="p">,</span>
+        <span class="n">class_bases</span><span class="o">=</span><span class="n">class_bases</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">diffractometer</span> <span class="o">=</span> <span class="n">DiffractometerClass</span><span class="p">(</span>
+        <span class="n">prefix</span><span class="p">,</span>
+        <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
+        <span class="n">solver</span><span class="o">=</span><span class="n">solver</span><span class="p">,</span>
+        <span class="n">geometry</span><span class="o">=</span><span class="n">geometry</span><span class="p">,</span>
+        <span class="n">solver_kwargs</span><span class="o">=</span><span class="n">solver_kwargs</span><span class="p">,</span>
+        <span class="n">labels</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">if</span> <span class="n">auto_assign</span><span class="p">:</span>
+        <span class="n">diffractometer</span><span class="o">.</span><span class="n">auto_assign_axes</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">diffractometer</span></div>
 
 </pre></div>
 

@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=01939e74"></script>
+    <script src="../_static/documentation_options.js?v=3fd3ab18"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
@@ -373,7 +373,7 @@
 <h1><strong>hkl_soleil</strong> UB matrix : Set directly<a class="headerlink" href="#hkl_soleil-UB-matrix-:-Set-directly" title="Link to this heading">#</a></h1>
 <p><span class="math notranslate nohighlight">\(UB\)</span> is the 3x3 orientation matrix used to transform coordinates between reciprocal space directions (of the crystal lattice planes) and the rotational axes of the diffractometer.</p>
 <p>It is possible to set <span class="math notranslate nohighlight">\(UB\)</span> directly, as shown below.</p>
-<p>Alternatively, <span class="math notranslate nohighlight">\(UB\)</span> can be <a class="reference external" href="./ub_calc.ipynb">calculated</a> from two non-parallel reflections, using the method of Busing and Levy (<em>Acta Cryst</em> <strong>22</strong> (1967) 457).</p>
+<p>Alternatively, <span class="math notranslate nohighlight">\(UB\)</span> can be <a class="reference internal" href="hkl_soleil-ub_calc.html"><span class="doc">calculated</span></a> from two non-parallel reflections, using the method of Busing and Levy (<em>Acta Cryst</em> <strong>22</strong> (1967) 457).</p>
 <section id="Quick-example">
 <h2>Quick example<a class="headerlink" href="#Quick-example" title="Link to this heading">#</a></h2>
 <p>In <strong>hklpy2</strong>, the <span class="math notranslate nohighlight">\(UB\)</span> matrix is a property of the <em>solver</em>. For a diffractometer object named <code class="docutils literal notranslate"><span class="pre">diffractometer</span></code>, set <span class="math notranslate nohighlight">\(UB\)</span> such as:</p>
@@ -392,9 +392,9 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">hklpy2</span><span class="w"> </span><span class="kn">import</span> <span class="n">SimulatedE4CV</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">hklpy2</span><span class="w"> </span><span class="kn">import</span> <span class="n">diffractometer_factory</span>
 
-<span class="n">diffractometer</span> <span class="o">=</span> <span class="n">SimulatedE4CV</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;diffractometer&quot;</span><span class="p">)</span>
+<span class="n">diffractometer</span> <span class="o">=</span> <span class="n">diffractometer_factory</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;diffractometer&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -474,7 +474,7 @@ Sample(name=&#39;sample&#39;, lattice=Lattice(a=1, system=&#39;cubic&#39;))
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-SimulatedE4CVRealPos(omega=60.000000002716, chi=35.264389682252, phi=44.999999999738, tth=120.000000005433)
+Hklpy2DiffractometerRealPos(omega=60.000000002716, chi=35.264389682252, phi=44.999999999738, tth=120.000000005433)
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
@@ -509,7 +509,7 @@ SimulatedE4CVRealPos(omega=60.000000002716, chi=35.264389682252, phi=44.99999999
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-SimulatedE4CVPseudoPos(h=-1.003252265133, k=0.993463529784, l=-1.003252265133)
+Hklpy2DiffractometerPseudoPos(h=-1.003252265133, k=0.993463529784, l=-1.003252265133)
 </pre></div></div>
 </div>
 </section>
@@ -583,7 +583,7 @@ SimulatedE4CVPseudoPos(h=-1.003252265133, k=0.993463529784, l=-1.003252265133)
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-SimulatedE4CVPseudoPos(h=0.821953663396, k=0.989926119534, l=1.159500990198)
+Hklpy2DiffractometerPseudoPos(h=0.821953663396, k=0.989926119534, l=1.159500990198)
 </pre></div></div>
 </div>
 <p>There can be more than one solution to the <code class="docutils literal notranslate"><span class="pre">forward()</span></code> transformation; many combinations of <em>reals</em> can be represented by the same set of <em>pseudos</em>. A <em>solver</em>’s geometry provides one or <em>modes</em> which provide additional constraints or relationships to limit the <code class="docutils literal notranslate"><span class="pre">forward()</span></code> computation.</p>
@@ -638,7 +638,7 @@ SimulatedE4CVPseudoPos(h=0.821953663396, k=0.989926119534, l=1.159500990198)
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-SimulatedE4CVRealPos(omega=-59.999921375969, chi=-28.211225311916, phi=40.202361982144, tth=-119.999842751938)
+Hklpy2DiffractometerRealPos(omega=-59.999921375969, chi=-28.211225311916, phi=40.202361982144, tth=-119.999842751938)
 </pre></div></div>
 </div>
 </section>
