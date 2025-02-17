@@ -181,14 +181,11 @@ def test_diffractometer_wh(capsys):
             None,
             "e4cv_orient.yml",
         ],
-        # FIXME: #23 next test (has renamed axes) should pass with does_not_raise()
-        # ["bissector", "h k l omega chi phi tth".split(), does_not_raise(), None, "fourc-configuration.yml"],
-        # Bypass now with test that validates as-is.
         [
             "bissector",
             "h k l omega chi phi tth".split(),
-            pytest.raises(KeyError),
-            "",
+            does_not_raise(),
+            None,
             "fourc-configuration.yml",
         ],
     ],

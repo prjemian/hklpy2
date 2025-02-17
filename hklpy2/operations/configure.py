@@ -119,7 +119,18 @@ class Configuration:
             self.diffractometer.operator.reset_constraints()
             self.diffractometer.operator.reset_samples()
 
-        if not restore_constraints:
+        if restore_constraints:
+            controls = {}
+            oper = self.diffractometer.operator  # alias
+            for axis, v in config["constraints"].items():
+                # File might have renamed axes.
+                axis_solver = config["axes"]["axes_xref"][axis]
+                # Local diffractometer might have renamed axes.
+                axis_local = oper.axes_xref_reversed[axis_solver]
+                v["label"] = axis_local
+                controls[axis_local] = v
+            config["constraints"] = controls
+        else:
             config["constraints"] = {}
 
         self.diffractometer.operator._fromdict(config)
