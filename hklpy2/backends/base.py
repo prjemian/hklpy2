@@ -105,6 +105,18 @@ class SolverBase(ABC):
         # fmt: on
         return f"{self.__class__.__name__}({', '.join(args)})"
 
+    @property
+    def _metadata(self) -> dict:
+        """Dictionary with this solver's summary metadata."""
+        return {
+            "name": self.name,
+            "description": repr(self),
+            "geometry": self.geometry,
+            "mode": self.mode,
+            "real_axes": self.real_axis_names,
+            "version": self.version,
+        }
+
     @abstractmethod
     def addReflection(self, reflection: Reflection) -> None:
         """Add coordinates of a diffraction condition (a reflection)."""

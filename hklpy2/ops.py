@@ -114,14 +114,7 @@ class Operations:
             "sample_name": self.sample.name,
             "samples": {k: v._asdict() for k, v in self._samples.items()},
             "constraints": self.constraints._asdict(),
-            "solver": {  # TODO: #8 the solver should supply
-                "name": self.solver.name,
-                "description": repr(self.solver),
-                "geometry": self.geometry,
-                "mode": self.solver.mode,
-                "real_axes": self.solver.real_axis_names,
-                "version": self.solver.version,
-            },
+            "solver": self.colver._metadata,
         }
 
         if self.solver.name == "hkl_soleil":

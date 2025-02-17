@@ -80,3 +80,15 @@ def test_SolverBase_extras():
     assert solver.name == "base"
     assert solver.extra_axis_names == [], f"{solver.extra_axis_names=}"
     assert solver.extras == {}, f"{solver.extras=}"
+
+    md = solver._metadata
+    assert isinstance(md, dict)
+    expected = {
+        "name": solver.name,
+        "description": repr(solver),
+        "geometry": solver.geometry,
+        "mode": solver.mode,
+        "real_axes": solver.real_axis_names,
+        "version": solver.version,
+    }
+    assert md == expected
