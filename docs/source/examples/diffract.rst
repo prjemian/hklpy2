@@ -11,25 +11,24 @@ not required to match any particular |solver| library.  Users are free
 to use any names allowed by ophyd.
 
 User-defined axis names
---------------------------------
+-----------------------
 
 Let's a few examples of diffractometers built with user-defined names.
 
-* :ref:`diffract_axes.prebuilt-auto-assign` with automatic mapping
+* :ref:`diffract_axes.diffractometer-factory` with automatic mapping
 * :ref:`diffract_axes.custom-auto-assign` with automatic mapping
-* :ref:`diffract_axes.direct-assign` where direct the mapping
+* :ref:`diffract_axes.direct-assign` with directed mapping
 
 .. seealso:: :ref:`diffract_axes.auto-assign`
 
-.. _diffract_axes.prebuilt-auto-assign:
+.. _diffract_axes.diffractometer-factory:
 
-Pre-built Diffractometer class
-+++++++++++++++++++++++++++++++++++++
+Diffractometer Factory Function
++++++++++++++++++++++++++++++++
 
-The pre-built diffractometer simulators automatically
-map axis names from diffractometer to |solver|.  Let's show this
-cross-reference map in an IPython console with just a few commands
-(using the :func:`~hklpy2.geom.diffractometer_factory()`)::
+The :func:`~hklpy2.geom.diffractometer_factory()` function maps axis names from
+diffractometer to |solver|.  Let's show this cross-reference map in an IPython
+console with just a few commands::
 
     In [6]: from hklpy2 import diffractometer_factory
 
@@ -43,21 +42,21 @@ cross-reference map in an IPython console with just a few commands
 Custom Diffractometer class
 +++++++++++++++++++++++++++++++++++++
 
-Construct a 2-circle diffractometer, one axis for the sample
-and one axis for the detector.  We can use the
-:class:`~hklpy2.geom.MixinQ` class to define a ``q`` pseudo-axis.
+Construct a 2-circle diffractometer, one axis for the sample and one axis for
+the detector.
 
-In addition to defining the diffractometer axes, we can choose the
-|solver| to use with our diffractometer.
-The ``th_tth`` |solver| has a :class:`~hklpy2.backends.th_tth_q.ThTthSolver`
-with a ``"TH TTH Q"`` geometry that fits our design.
-We set that up in the ``__init__()`` method of our new class::
+In addition to defining the diffractometer axes, we name the |solver| to use
+with our diffractometer. The ``th_tth`` |solver| has a
+:class:`~hklpy2.backends.th_tth_q.ThTthSolver` with a ``"TH TTH Q"`` geometry
+that fits our design. We set that up in the ``__init__()`` method of our new
+class::
 
     import hklpy2
-    from ophyd import Component
-    from ophyd import SoftPositioner
+    from ophyd import Component, PseudoSingle, SoftPositioner
 
-    class S1D1(hklpy2.DiffractometerBase, hklpy2.MixinQ):
+    class S1D1(hklpy2.DiffractometerBase):
+
+        q = Component(PseudoSingle, "", kind=H_OR_N)
 
         sample = Component(SoftPositioner, init_pos=0)
         detector = Component(SoftPositioner, init_pos=0)
