@@ -129,7 +129,7 @@ class Operations:
             self.add_sample(key, 1, replace=True)._fromdict(sample)
 
         self.constraints._fromdict(config["constraints"])
-        # TODO: #8 extras & mode
+        # TODO: mode & extras
 
     def add_reflection(
         self,
