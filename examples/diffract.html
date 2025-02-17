@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=3fd3ab18"></script>
+    <script src="../_static/documentation_options.js?v=9e70f51f"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
@@ -419,7 +419,7 @@ class:</p>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="o">*</span><span class="n">args</span><span class="p">,</span>
-            <span class="n">solver</span><span class="o">=</span><span class="s2">&quot;th_tth&quot;</span><span class="p">,</span>                <span class="c1">#  solver name</span>
+            <span class="n">solver</span><span class="o">=</span><span class="s2">&quot;th_tth&quot;</span><span class="p">,</span>                <span class="c1"># solver name</span>
             <span class="n">geometry</span><span class="o">=</span><span class="s2">&quot;TH TTH Q&quot;</span><span class="p">,</span>            <span class="c1"># solver geometry</span>
             <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
         <span class="p">)</span>
@@ -429,6 +429,18 @@ class:</p>
 <p>Create a Python object that uses this class:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">twoc</span> <span class="o">=</span> <span class="n">S1D1</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;twoc&quot;</span><span class="p">)</span>
 </pre></div>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>Use the <a class="reference internal" href="../api/geom.html#hklpy2.geom.diffractometer_factory" title="hklpy2.geom.diffractometer_factory"><code class="xref py py-func docutils literal notranslate"><span class="pre">hklpy2.geom.diffractometer_factory()</span></code></a> instead:</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">twoc</span> <span class="o">=</span> <span class="n">hklpy2</span><span class="o">.</span><span class="n">diffractometer_factory</span><span class="p">(</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;twoc&quot;</span><span class="p">,</span>
+    <span class="n">geometry</span><span class="o">=</span><span class="s2">&quot;TH TTH Q&quot;</span><span class="p">,</span>
+    <span class="n">solver</span><span class="o">=</span><span class="s2">&quot;th_tth&quot;</span><span class="p">,</span>
+    <span class="n">reals</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">sample</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">detector</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<span class="p">)</span>
+</pre></div>
+</div>
 </div>
 <p>Show the mapping between user-defined axes and axis names used by the <strong>Solver</strong>:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">twoc</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">axes_xref</span><span class="p">)</span>
