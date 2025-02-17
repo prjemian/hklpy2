@@ -64,7 +64,7 @@ class::
         def __init__(self, *args, **kwargs):
             super().__init__(
                 *args,
-                solver="th_tth",                #  solver name
+                solver="th_tth",                # solver name
                 geometry="TH TTH Q",            # solver geometry
                 **kwargs,
             )
@@ -73,6 +73,17 @@ class::
 Create a Python object that uses this class::
 
     twoc = S1D1(name="twoc")
+
+.. tip:: Use the :func:`hklpy2.geom.diffractometer_factory()` instead:
+
+    .. code-block:: Python
+
+        twoc = hklpy2.diffractometer_factory(
+            name="twoc",
+            geometry="TH TTH Q",
+            solver="th_tth",
+            reals=dict(sample=None, detector=None)
+        )
 
 Show the mapping between user-defined axes and axis names used by the |solver|::
 
