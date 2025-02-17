@@ -261,6 +261,13 @@ def diffractometer_factory(
     return diffractometer
 
 
+# FIXME: Such definitions here trigger circular import errors.
+# hkl_soleil solver
+# SimulatedE4CV = diffractometer_class_factory(geometry="E4CV")
+# SimulatedE6C = diffractometer_class_factory(geometry="E6C")
+# SimulatedE6C_Psi = diffractometer_class_factory(geometry="E6C", solver_kwargs={"engine": "psi"})
+
+
 class MixinSimulator(Device):
     """
     Mixin used by simulators.

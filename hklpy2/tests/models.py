@@ -11,6 +11,7 @@ from ophyd import PseudoSingle
 from ophyd import SoftPositioner
 
 from ..diffract import DiffractometerBase
+from ..geom import diffractometer_class_factory
 from ..operations.misc import load_yaml_file
 
 E4CV_CONFIG_FILE = pathlib.Path(__file__).parent / "e4cv_orient.yml"
@@ -36,26 +37,7 @@ def add_oriented_vibranium_to_e4cv(e4cv):
             constraint.limits = (-180.2, 180.2)  # just a little different
 
 
-class Fourc(DiffractometerBase):
-    """Test case."""
-
-    h = Cpt(PseudoSingle, "", kind=HN)  # noqa: E741
-    k = Cpt(PseudoSingle, "", kind=HN)  # noqa: E741
-    l = Cpt(PseudoSingle, "", kind=HN)  # noqa: E741
-
-    theta = Cpt(SoftPositioner, limits=(-180, 180), init_pos=0, kind=HN)
-    chi = Cpt(SoftPositioner, limits=(-180, 180), init_pos=0, kind=HN)
-    phi = Cpt(SoftPositioner, limits=(-180, 180), init_pos=0, kind=HN)
-    ttheta = Cpt(SoftPositioner, limits=(-170, 170), init_pos=0, kind=HN)
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(
-            *args,
-            solver="hkl_soleil",
-            geometry="E4CV",
-            solver_kwargs={"engine": "hkl"},
-            **kwargs,
-        )
+Fourc = diffractometer_class_factory()  # E4CV, hkl_soleil, hkl engine
 
 
 class AugmentedFourc(Fourc):
