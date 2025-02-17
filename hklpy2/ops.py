@@ -114,7 +114,7 @@ class Operations:
             "sample_name": self.sample.name,
             "samples": {k: v._asdict() for k, v in self._samples.items()},
             "constraints": self.constraints._asdict(),
-            "solver": self.colver._metadata,
+            "solver": self.solver._metadata,
         }
 
         if self.solver.name == "hkl_soleil":

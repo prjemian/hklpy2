@@ -112,7 +112,6 @@ class SolverBase(ABC):
             "name": self.name,
             "description": repr(self),
             "geometry": self.geometry,
-            "mode": self.mode,
             "real_axes": self.real_axis_names,
             "version": self.version,
         }

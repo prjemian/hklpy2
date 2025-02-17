@@ -87,7 +87,6 @@ def test_SolverBase_extras():
         "name": solver.name,
         "description": repr(solver),
         "geometry": solver.geometry,
-        "mode": solver.mode,
         "real_axes": solver.real_axis_names,
         "version": solver.version,
     }
