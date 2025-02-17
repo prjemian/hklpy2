@@ -29,11 +29,11 @@ Pre-built Diffractometer class
 The pre-built diffractometer simulators automatically
 map axis names from diffractometer to |solver|.  Let's show this
 cross-reference map in an IPython console with just a few commands
-(using :class:`~hklpy2.geom.SimulatedTheta2Theta`)::
+(using the :func:`~hklpy2.geom.diffractometer_factory()`)::
 
-    In [6]: from hklpy2 import SimulatedTheta2Theta
+    In [6]: from hklpy2 import diffractometer_factory
 
-    In [7]: twoc = SimulatedTheta2Theta(name="twoc")
+    In [7]: twoc = diffractometer_factory(name="twoc", geometry="TH TTH Q", solver="th_tth")
 
     In [8]: twoc.operator.axes_xref
     Out[8]: {'q': 'q', 'theta': 'th', 'ttheta': 'tth'}
