@@ -173,7 +173,7 @@ class ThTthSolver(SolverBase):
 
     def removeAllReflections(self):
         """Remove all reflections."""
-        raise NotImplementedError()  # TODO:
+        raise NotImplementedError()  # TODO: remove all reflections
 
     @property
     def wavelength(self):

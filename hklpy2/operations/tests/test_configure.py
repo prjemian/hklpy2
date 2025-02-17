@@ -55,7 +55,6 @@ add_oriented_vibranium_to_e4cv(e4cv)
         ["samples.vibranium.UB", e4cv.operator.solver.UB],
         ["solver.engine", e4cv.operator.solver.engine_name],
         ["solver.geometry", e4cv.operator.solver.geometry],
-        ["solver.mode", e4cv.operator.solver.mode],
         ["solver.name", e4cv.operator.solver.name],
         ["solver.real_axes", e4cv.operator.solver.real_axis_names],
     ],

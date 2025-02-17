@@ -92,7 +92,7 @@ class Sample:
         if len(self.reflections) < 3:
             raise SampleError("Need 3 or more reflections to refine lattice.")
 
-        # self.operator.refineLattice()  # TODO
+        # self.operator.refineLattice()  # TODO: refine lattice
 
     # --------- get/set properties
 
