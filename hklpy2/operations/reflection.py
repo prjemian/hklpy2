@@ -72,13 +72,21 @@ class Reflection:
         pseudo_axis_names: list,
         real_axis_names: list,
         digits: int = 4,
-        solver: object = None,
+        operator: object = None,
     ) -> None:
-        from ..backends import SolverBase
+        from ..ops import Operations
 
-        if isinstance(solver, SolverBase):
-            # What if axes names in wrong sequence?  What if axes renamed?
-            pass  # TODO #23 validate reflection
+        if isinstance(operator, Operations):
+            # What if axes names in wrong sequence?  Required order is assumed.
+            # What if axes renamed?  All reflections must use the same real_axis_names.
+            axes_diffractometer = operator.diffractometer.real_axis_names
+            axes_solver = operator.solver.real_axis_names
+            if real_axis_names not in (axes_diffractometer, axes_solver):
+                raise ReflectionError(
+                    f"{real_axis_names=}"
+                    f" do not match diffractometer ({axes_diffractometer})"
+                    f" or solver ({axes_solver})."
+                )
 
         self.digits = digits
         self.geometry = geometry
@@ -286,9 +294,22 @@ class ReflectionsDict(dict):
         self.prune()
         return {v.name: v._asdict() for v in self.values()}
 
-    def _fromdict(self, config, solver=None):
+    def _fromdict(self, config, operator=None):
         """Add or redefine reflections from a (configuration) dictionary."""
-        for k, refl_config in config.items():
+        from ..ops import Operations
+
+        for refl_config in config.values():
+            if isinstance(operator, Operations):
+                # Remap the names of all the real axes to the current solver.
+                # Real axes MUST be specified in the order specified by the solver.
+                refl_config["reals"] = {
+                    axis: value
+                    for axis, value in zip(
+                        operator.solver.real_axis_names,
+                        refl_config["reals"].values(),
+                    )
+                }
+
             reflection = Reflection(
                 refl_config["name"],
                 refl_config["pseudos"],
@@ -298,7 +319,7 @@ class ReflectionsDict(dict):
                 pseudo_axis_names=list(refl_config["pseudos"]),
                 real_axis_names=list(refl_config["reals"]),
                 digits=refl_config["digits"],  # TODO: Digits are optional?
-                solver=solver,
+                operator=operator,
             )
             self.add(reflection, replace=True)
 

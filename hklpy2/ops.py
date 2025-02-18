@@ -127,7 +127,7 @@ class Operations:
         """Redefine diffractometer from a (configuration) dictionary."""
         for key, sample in config["samples"].items():
             sample_object = self.add_sample(key, 1, replace=True)
-            sample_object._fromdict(sample, solver=self.solver)
+            sample_object._fromdict(sample, operator=self)
 
         for key, constraint in config["constraints"].items():
             if (
