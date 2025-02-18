@@ -77,10 +77,10 @@ def test_geometries():
 def test_affine():
     """Test the lattice parameter refinement."""
     from ... import SI_LATTICE_PARAMETER
-    from ... import diffractometer_factory
+    from ... import creator
     from ...operations.lattice import SI_LATTICE_PARAMETER_UNCERTAINTY
 
-    e4cv = diffractometer_factory(name="e4cv")
+    e4cv = creator(name="e4cv")
     assert e4cv is not None
 
     e4cv.add_sample("silicon", SI_LATTICE_PARAMETER)

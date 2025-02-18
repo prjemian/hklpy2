@@ -4,7 +4,7 @@ Create a Diffractometer for any Geometry.
 .. autosummary::
 
     ~diffractometer_class_factory
-    ~diffractometer_factory
+    ~creator
 """
 
 import logging
@@ -19,7 +19,7 @@ from .diffract import DiffractometerBase
 
 __all__ = """
     diffractometer_class_factory
-    diffractometer_factory
+    creator
 """.split()
 
 
@@ -98,7 +98,7 @@ def diffractometer_class_factory(
     return type(class_name, tuple(class_bases), class_attributes)
 
 
-def diffractometer_factory(
+def creator(
     *,
     prefix: str = "",
     name: str = "",
@@ -121,7 +121,7 @@ def diffractometer_factory(
     Four-circle diffractometer, vertical orientation, Eulerian rotations,
     canonical real axis names, EPICS motor PVs::
 
-        e4cv = diffractometer_factory(name="e4cv",
+        e4cv = creator(name="e4cv",
             solver="hkl_soleil", geometry="E4CV",
             reals=dict(omega="IOC:m1", chi="IOC:m2", phi="IOC:m3", tth="IOC:m4"),
         )
@@ -129,7 +129,7 @@ def diffractometer_factory(
     Four-circle diffractometer, vertical orientation, Eulerian rotations,
     custom real axis names, simulated positioners::
 
-        sim4c = diffractometer_factory(name="sim4c",
+        sim4c = creator(name="sim4c",
             solver="hkl_soleil", geometry="E4CV",
             reals=dict(uno=None, dos=None, tres=None, cuatro=None),
         )
@@ -138,11 +138,11 @@ def diffractometer_factory(
     Four-circle diffractometer, vertical orientation, Eulerian rotations,
     canonical real axis names, simulated positioners (all default settings)::
 
-        sim4c = diffractometer_factory(name="sim4c")
+        sim4c = creator(name="sim4c")
 
     Kappa six-circle diffractometer, simulated motors::
 
-        simk6c = diffractometer_factory(name="simk6c",
+        simk6c = creator(name="simk6c",
             solver="hkl_soleil", geometry="K6C"
         )
 

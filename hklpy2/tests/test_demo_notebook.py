@@ -109,7 +109,7 @@ def test_as_in_demo_notebook(fourc):
 
 
 def test_add_reflections_simple():
-    fourc = hklpy2.diffractometer_factory(name="fourc")
+    fourc = hklpy2.creator(name="fourc")
     fourc.add_reflection((1, 0, 0), (10, 0, 0, 20), name="r1")
     fourc.add_reflection((0, 1, 0), (10, -90, 0, 20), name="r2")
     assert len(fourc.sample.reflections.order) == 2

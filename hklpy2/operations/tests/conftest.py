@@ -3,10 +3,10 @@ import pytest
 
 @pytest.fixture
 def fourc():
-    from ... import diffractometer_factory
+    from ... import creator
     from ...tests.models import add_oriented_vibranium_to_e4cv
 
-    fourc = diffractometer_factory(name="fourc")
+    fourc = creator(name="fourc")
     add_oriented_vibranium_to_e4cv(fourc)
     yield fourc
 

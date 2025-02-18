@@ -348,7 +348,7 @@ class Operations:
 
             import hklpy2
 
-            e4cv = hklpy2.diffractometer_factory(name="e4cv")
+            e4cv = hklpy2.creator(name="e4cv")
             e4cv.operator.export("e4cv-config.yml", comment="example")
         """
         self.configuration.export(file, comment)
@@ -458,7 +458,7 @@ class Operations:
 
             import hklpy2
 
-            e4cv = hklpy2.diffractometer_factory(name="e4cv")
+            e4cv = hklpy2.creator(name="e4cv")
             e4cv.operator.restore("e4cv-config.yml")
 
         PARAMETERS

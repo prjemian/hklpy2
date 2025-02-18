@@ -11,7 +11,7 @@ import pytest
 from ophyd import EpicsMotor
 from ophyd import SoftPositioner
 
-from ..geom import diffractometer_factory
+from ..geom import creator
 from .common import assert_context_result
 
 HKLPY2_DIR = pathlib.Path(__file__).parent.parent
@@ -57,11 +57,9 @@ HKLPY2_DIR = pathlib.Path(__file__).parent.parent
         [{}, SoftPositioner, does_not_raise(), None],
     ],
 )
-def test_diffractometer_factory_reals(
-    reals, positioner_class, context, expected, config_file
-):
+def test_creator_reals(reals, positioner_class, context, expected, config_file):
     with context as reason:
-        diffractometer = diffractometer_factory(name="diffractometer", reals=reals)
+        diffractometer = creator(name="diffractometer", reals=reals)
         assert diffractometer is not None
         for axis in diffractometer.real_axis_names:
             if len(reals) > 0:
