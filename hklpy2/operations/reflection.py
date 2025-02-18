@@ -79,12 +79,12 @@ class Reflection:
         if isinstance(operator, Operations):
             # What if axes names in wrong sequence?  Required order is assumed.
             # What if axes renamed?  All reflections must use the same real_axis_names.
-            axes_diffractometer = operator.diffractometer.real_axis_names
+            axes_local = operator.diffractometer.real_axis_names
             axes_solver = operator.solver.real_axis_names
-            if real_axis_names not in (axes_diffractometer, axes_solver):
+            if real_axis_names not in (axes_local, axes_solver):
                 raise ReflectionError(
                     f"{real_axis_names=}"
-                    f" do not match diffractometer ({axes_diffractometer})"
+                    f" do not match diffractometer ({axes_local})"
                     f" or solver ({axes_solver})."
                 )
 
@@ -305,6 +305,7 @@ class ReflectionsDict(dict):
                 refl_config["reals"] = {
                     axis: value
                     for axis, value in zip(
+                        # operator.diffractometer.real_axis_names,
                         operator.solver.real_axis_names,
                         refl_config["reals"].values(),
                     )

@@ -77,7 +77,9 @@ def diffractometer_class_factory(
     for axis in solver_object.pseudo_axis_names:
         class_attributes[axis] = Component(PseudoSingle, "", kind=H_OR_N)
     real_names = solver_object.real_axis_names
-    if len(reals) == len(solver_object.real_axis_names):
+    if 0 < len(reals) < len(solver_object.real_axis_names):
+        raise KeyError(f"Expected {len(real_names)} reals, received {reals}.")
+    if len(reals) >= len(solver_object.real_axis_names):
         real_names = list(reals)
     for axis in real_names:
         pv = reals.get(axis)
@@ -121,7 +123,7 @@ def diffractometer_factory(
 
         e4cv = diffractometer_factory(name="e4cv",
             solver="hkl_soleil", geometry="E4CV",
-            reals=dict(omega="zgp:m1", chi="zgp:m2", phi="zgp:m3", tth="zgp:m4"),
+            reals=dict(omega="IOC:m1", chi="IOC:m2", phi="IOC:m3", tth="IOC:m4"),
         )
 
     Four-circle diffractometer, vertical orientation, Eulerian rotations,

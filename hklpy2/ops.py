@@ -138,7 +138,7 @@ class Operations:
                 axis_canonical = config["axes"]["axes_xref"][key]
                 axis_local = self.axes_xref_reversed[axis_canonical]
                 constraint["label"] = axis_local
-        self.constraints._fromdict(config["constraints"], solver=self.solver)
+        self.constraints._fromdict(config["constraints"], operator=self)
 
     def add_reflection(
         self,
