@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=9e70f51f"></script>
+    <script src="../_static/documentation_options.js?v=2cebc65f"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
@@ -396,12 +396,12 @@ a diffractometer.</p>
 </div>
 <p>In addition to <strong>Solver</strong> transactions, the <code class="docutils literal notranslate"><span class="pre">.operator</span></code> manages all
 details involving the set of samples and their lattices &amp; reflections.</p>
-<p>Here, we use the <a class="reference internal" href="geom.html#hklpy2.geom.diffractometer_factory" title="hklpy2.geom.diffractometer_factory"><code class="xref py py-func docutils literal notranslate"><span class="pre">hklpy2.geom.diffractometer_factory()</span></code></a> to create a
+<p>Here, we use the <a class="reference internal" href="geom.html#hklpy2.geom.creator" title="hklpy2.geom.creator"><code class="xref py py-func docutils literal notranslate"><span class="pre">hklpy2.geom.creator()</span></code></a> to create a
 simulated 4-circle diffractometer with the <code class="docutils literal notranslate"><span class="pre">E4CV</span></code> geometry provided by the
 <code class="docutils literal notranslate"><span class="pre">hkl_soleil</span></code> <strong>Solver</strong>.</p>
 <p>EXAMPLE:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">hklpy2</span><span class="w"> </span><span class="kn">import</span> <span class="n">diffractometer_factory</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">e4cv</span> <span class="o">=</span> <span class="n">diffractometer_factory</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;e4cv&quot;</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">hklpy2</span><span class="w"> </span><span class="kn">import</span> <span class="n">creator</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">e4cv</span> <span class="o">=</span> <span class="n">creator</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;e4cv&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">e4cv</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">sample</span>
 <span class="go">Sample(name=&#39;cubic&#39;, lattice=Lattice(a=1, b=1, c=1, alpha=90.0, beta=90.0, gamma=90.0))</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">e4cv</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">solver</span>
@@ -449,7 +449,7 @@ One such example is the <strong>Solver</strong> geometry name:</p>
 <p>Operate the diffractometer using a <strong>Solver</strong> library and geometry.</p>
 <p>Intermediate layer between DiffractometerBase Device and backend <strong>Solver</strong>
 library.</p>
-<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.ops.Operations" title="hklpy2.ops.Operations"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Operations</span></code></a>(diffractometer[, default_sample])</p></td>
 <td><p>Operate the diffractometer using a <strong>Solver</strong>.</p></td>
@@ -459,7 +459,7 @@ library.</p>
 </div>
 <dl class="py class">
 <dt class="sig sig-object py" id="hklpy2.ops.Operations">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">hklpy2.ops.</span></span><span class="sig-name descname"><span class="pre">Operations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">diffractometer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default_sample</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hklpy2/ops.html#Operations"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.ops.Operations" title="Link to this definition">#</a></dt>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">hklpy2.ops.</span></span><span class="sig-name descname"><span class="pre">Operations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">diffractometer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default_sample</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hklpy2/ops.html#Operations"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.ops.Operations" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Operate the diffractometer using a <strong>Solver</strong>.</p>
 <p class="rubric">Parameters</p>
@@ -468,7 +468,7 @@ library.</p>
 <li><p><code class="docutils literal notranslate"><span class="pre">geometry</span></code> (str): Name of the backend <strong>Solver</strong> geometry.</p></li>
 </ul>
 <p class="rubric">Python Methods</p>
-<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.ops.Operations._asdict" title="hklpy2.ops.Operations._asdict"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_asdict</span></code></a>()</p></td>
 <td><p>Describe the diffractometer as a dictionary.</p></td>
@@ -528,7 +528,7 @@ library.</p>
 </table>
 </div>
 <p class="rubric">Python Properties</p>
-<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.ops.Operations.geometry" title="hklpy2.ops.Operations.geometry"><code class="xref py py-obj docutils literal notranslate"><span class="pre">geometry</span></code></a></p></td>
 <td><p>Backend <strong>Solver</strong> geometry name.</p></td>
@@ -544,7 +544,7 @@ library.</p>
 </div>
 <dl class="py class">
 <dt class="sig sig-object py" id="hklpy2.ops.Operations.Sample">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Sample</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">operator</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">lattice</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="lattice.html#hklpy2.operations.lattice.Lattice" title="hklpy2.operations.lattice.Lattice"><span class="pre">Lattice</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#hklpy2.ops.Operations.Sample" title="Link to this definition">#</a></dt>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Sample</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">operator</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">lattice</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="lattice.html#hklpy2.operations.lattice.Lattice" title="hklpy2.operations.lattice.Lattice"><span class="pre">Lattice</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#hklpy2.ops.Operations.Sample" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>A crystalline sample mounted on a diffractometer.</p>
 <div class="admonition note">
@@ -552,7 +552,7 @@ library.</p>
 <p>Internal use only.</p>
 </div>
 <p class="rubric">Python Methods</p>
-<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.ops.Operations.Sample.refine_lattice" title="hklpy2.ops.Operations.Sample.refine_lattice"><code class="xref py py-obj docutils literal notranslate"><span class="pre">refine_lattice</span></code></a>()</p></td>
 <td><p>Refine the lattice parameters from 3 or more reflections.</p></td>
@@ -561,7 +561,7 @@ library.</p>
 </table>
 </div>
 <p class="rubric">Python Properties</p>
-<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.ops.Operations.Sample._asdict" title="hklpy2.ops.Operations.Sample._asdict"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_asdict</span></code></a>()</p></td>
 <td><p>Describe the sample as a dictionary.</p></td>
@@ -586,13 +586,13 @@ library.</p>
 </div>
 <dl class="py property">
 <dt class="sig sig-object py" id="hklpy2.ops.Operations.Sample.U">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">U</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#hklpy2.ops.Operations.Sample.U" title="Link to this definition">#</a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">U</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#hklpy2.ops.Operations.Sample.U" title="Link to this definition">#</a></dt>
 <dd><p>Return the matrix, U, crystal orientation on the diffractometer.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="hklpy2.ops.Operations.Sample.UB">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">UB</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#hklpy2.ops.Operations.Sample.UB" title="Link to this definition">#</a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">UB</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#hklpy2.ops.Operations.Sample.UB" title="Link to this definition">#</a></dt>
 <dd><p>Return the crystal orientation matrix, UB.</p>
 <ul class="simple">
 <li><p><span class="math notranslate nohighlight">\(UB\)</span> - orientation matrix</p></li>
@@ -609,25 +609,25 @@ library.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="hklpy2.ops.Operations.Sample._fromdict">
-<span class="sig-name descname"><span class="pre">_fromdict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#hklpy2.ops.Operations.Sample._fromdict" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">_fromdict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">operator</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#hklpy2.ops.Operations.Sample._fromdict" title="Link to this definition">#</a></dt>
 <dd><p>Redefine sample from a (configuration) dictionary.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="hklpy2.ops.Operations.Sample.digits">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">digits</span></span><a class="headerlink" href="#hklpy2.ops.Operations.Sample.digits" title="Link to this definition">#</a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">digits</span></span><a class="headerlink" href="#hklpy2.ops.Operations.Sample.digits" title="Link to this definition">#</a></dt>
 <dd><p>Sample crystal lattice.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="hklpy2.ops.Operations.Sample.lattice">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">lattice</span></span><a class="headerlink" href="#hklpy2.ops.Operations.Sample.lattice" title="Link to this definition">#</a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">lattice</span></span><a class="headerlink" href="#hklpy2.ops.Operations.Sample.lattice" title="Link to this definition">#</a></dt>
 <dd><p>Sample crystal lattice.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="hklpy2.ops.Operations.Sample.name">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#hklpy2.ops.Operations.Sample.name" title="Link to this definition">#</a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#hklpy2.ops.Operations.Sample.name" title="Link to this definition">#</a></dt>
 <dd><p>Sample name.</p>
 </dd></dl>
 
@@ -639,7 +639,7 @@ library.</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="hklpy2.ops.Operations.Sample.reflections">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">reflections</span></span><a class="headerlink" href="#hklpy2.ops.Operations.Sample.reflections" title="Link to this definition">#</a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">reflections</span></span><a class="headerlink" href="#hklpy2.ops.Operations.Sample.reflections" title="Link to this definition">#</a></dt>
 <dd><p>Ordered dictionary of orientation reflections.</p>
 </dd></dl>
 
@@ -728,7 +728,7 @@ names it expects:</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="hklpy2.ops.Operations.axes_xref_reversed">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">axes_xref_reversed</span></span><a class="headerlink" href="#hklpy2.ops.Operations.axes_xref_reversed" title="Link to this definition">#</a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">axes_xref_reversed</span></span><a class="headerlink" href="#hklpy2.ops.Operations.axes_xref_reversed" title="Link to this definition">#</a></dt>
 <dd><p>Map axis names from solver to diffractometer.</p>
 </dd></dl>
 
@@ -746,7 +746,7 @@ names it expects:</p>
 <p>Example:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">hklpy2</span>
 
-<span class="n">e4cv</span> <span class="o">=</span> <span class="n">hklpy2</span><span class="o">.</span><span class="n">diffractometer_factory</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;e4cv&quot;</span><span class="p">)</span>
+<span class="n">e4cv</span> <span class="o">=</span> <span class="n">hklpy2</span><span class="o">.</span><span class="n">creator</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;e4cv&quot;</span><span class="p">)</span>
 <span class="n">e4cv</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">export</span><span class="p">(</span><span class="s2">&quot;e4cv-config.yml&quot;</span><span class="p">,</span> <span class="n">comment</span><span class="o">=</span><span class="s2">&quot;example&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -760,7 +760,7 @@ names it expects:</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="hklpy2.ops.Operations.geometry">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">geometry</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></em><a class="headerlink" href="#hklpy2.ops.Operations.geometry" title="Link to this definition">#</a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">geometry</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></em><a class="headerlink" href="#hklpy2.ops.Operations.geometry" title="Link to this definition">#</a></dt>
 <dd><p>Backend <strong>Solver</strong> geometry name.</p>
 </dd></dl>
 
@@ -802,7 +802,7 @@ names it expects:</p>
 <p>Example:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">hklpy2</span>
 
-<span class="n">e4cv</span> <span class="o">=</span> <span class="n">hklpy2</span><span class="o">.</span><span class="n">diffractometer_factory</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;e4cv&quot;</span><span class="p">)</span>
+<span class="n">e4cv</span> <span class="o">=</span> <span class="n">hklpy2</span><span class="o">.</span><span class="n">creator</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;e4cv&quot;</span><span class="p">)</span>
 <span class="n">e4cv</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">restore</span><span class="p">(</span><span class="s2">&quot;e4cv-config.yml&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -826,13 +826,13 @@ list of reflections after <code class="docutils literal notranslate"><span class
 
 <dl class="py property">
 <dt class="sig sig-object py" id="hklpy2.ops.Operations.sample">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">sample</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="sample.html#hklpy2.operations.sample.Sample" title="hklpy2.operations.sample.Sample"><span class="pre">Sample</span></a></em><a class="headerlink" href="#hklpy2.ops.Operations.sample" title="Link to this definition">#</a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">sample</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="sample.html#hklpy2.operations.sample.Sample" title="hklpy2.operations.sample.Sample"><span class="pre">Sample</span></a></em><a class="headerlink" href="#hklpy2.ops.Operations.sample" title="Link to this definition">#</a></dt>
 <dd><p>Current Sample (Python object).</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="hklpy2.ops.Operations.samples">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">samples</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><span class="pre">dict</span></a></em><a class="headerlink" href="#hklpy2.ops.Operations.samples" title="Link to this definition">#</a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">samples</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><span class="pre">dict</span></a></em><a class="headerlink" href="#hklpy2.ops.Operations.samples" title="Link to this definition">#</a></dt>
 <dd><p>Sample dictionary.</p>
 </dd></dl>
 
@@ -850,7 +850,7 @@ list of reflections after <code class="docutils literal notranslate"><span class
 
 <dl class="py property">
 <dt class="sig sig-object py" id="hklpy2.ops.Operations.solver">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">solver</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="backends/base.html#hklpy2.backends.base.SolverBase" title="hklpy2.backends.base.SolverBase"><span class="pre">SolverBase</span></a></em><a class="headerlink" href="#hklpy2.ops.Operations.solver" title="Link to this definition">#</a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">solver</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="backends/base.html#hklpy2.backends.base.SolverBase" title="hklpy2.backends.base.SolverBase"><span class="pre">SolverBase</span></a></em><a class="headerlink" href="#hklpy2.ops.Operations.solver" title="Link to this definition">#</a></dt>
 <dd><p>Backend <strong>Solver</strong> object.</p>
 </dd></dl>
 
@@ -1039,7 +1039,7 @@ list of reflections after <code class="docutils literal notranslate"><span class
         <div class="footer-item">
 
   <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.0.
     <br/>
   </p>
 </div>

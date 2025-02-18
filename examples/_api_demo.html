@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=9e70f51f"></script>
+    <script src="../_static/documentation_options.js?v=2cebc65f"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
@@ -393,8 +393,8 @@
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-2025-02-17 11:33:50.444396
-hklpy2.__version__=&#39;0.0.26.dev31+g400ea1c.d20250217&#39;
+2025-02-18 15:29:33.785039
+hklpy2.__version__=&#39;0.0.26.dev46+gcbd9032.d20250218&#39;
 hklpy2.solvers()={&#39;hkl_soleil&#39;: &#39;hklpy2.backends.hkl_soleil:HklSolver&#39;, &#39;no_op&#39;: &#39;hklpy2.backends.no_op:NoOpSolver&#39;, &#39;th_tth&#39;: &#39;hklpy2.backends.th_tth_q:ThTthSolver&#39;}
 </pre></div></div>
 </div>
@@ -403,9 +403,9 @@ hklpy2.solvers()={&#39;hkl_soleil&#39;: &#39;hklpy2.backends.hkl_soleil:HklSolve
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">hklpy2</span><span class="w"> </span><span class="kn">import</span> <span class="n">diffractometer_factory</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">hklpy2</span><span class="w"> </span><span class="kn">import</span> <span class="n">creator</span>
 
-<span class="n">sim4c</span> <span class="o">=</span> <span class="n">diffractometer_factory</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;sim4c&quot;</span><span class="p">)</span>
+<span class="n">sim4c</span> <span class="o">=</span> <span class="n">creator</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;sim4c&quot;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">sim4c</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">sim4c</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">sim4c</span><span class="o">.</span><span class="n">sample</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -440,7 +440,7 @@ sim4c.position=Hklpy2DiffractometerPseudoPos(h=0, k=0, l=0)
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">hklpy2</span>
 
-<span class="n">powder</span> <span class="o">=</span> <span class="n">hklpy2</span><span class="o">.</span><span class="n">diffractometer_factory</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;powder&quot;</span><span class="p">,</span> <span class="n">geometry</span><span class="o">=</span><span class="s2">&quot;TH TTH Q&quot;</span><span class="p">,</span> <span class="n">solver</span><span class="o">=</span><span class="s2">&quot;th_tth&quot;</span><span class="p">)</span>
+<span class="n">powder</span> <span class="o">=</span> <span class="n">hklpy2</span><span class="o">.</span><span class="n">creator</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;powder&quot;</span><span class="p">,</span> <span class="n">geometry</span><span class="o">=</span><span class="s2">&quot;TH TTH Q&quot;</span><span class="p">,</span> <span class="n">solver</span><span class="o">=</span><span class="s2">&quot;th_tth&quot;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">powder</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">powder</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">powder</span><span class="o">.</span><span class="n">sample</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -465,7 +465,7 @@ powder.position=Hklpy2DiffractometerPseudoPos(q=0)
 <section id="Simulated-Fourc">
 <h1>Simulated Fourc<a class="headerlink" href="#Simulated-Fourc" title="Link to this heading">#</a></h1>
 <p>Here, we show the simpler form since all the default parameters will create this 4-circle geometry. Alternatively, we could write:</p>
-<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="n">fourc</span> <span class="o">=</span> <span class="n">hklpy2</span><span class="o">.</span><span class="n">diffractometer_factory</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;fourc&quot;</span><span class="p">,</span> <span class="n">geometry</span><span class="o">=</span><span class="s2">&quot;E4CV&quot;</span><span class="p">,</span> <span class="n">solver</span><span class="o">=</span><span class="s2">&quot;hkl_soleil&quot;</span><span class="p">)</span>
+<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="n">fourc</span> <span class="o">=</span> <span class="n">hklpy2</span><span class="o">.</span><span class="n">creator</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;fourc&quot;</span><span class="p">,</span> <span class="n">geometry</span><span class="o">=</span><span class="s2">&quot;E4CV&quot;</span><span class="p">,</span> <span class="n">solver</span><span class="o">=</span><span class="s2">&quot;hkl_soleil&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 <div class="nbinput nblast docutils container">
@@ -474,7 +474,7 @@ powder.position=Hklpy2DiffractometerPseudoPos(q=0)
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">hklpy2</span>
 
-<span class="n">fourc</span> <span class="o">=</span> <span class="n">hklpy2</span><span class="o">.</span><span class="n">diffractometer_factory</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;fourc&quot;</span><span class="p">)</span>
+<span class="n">fourc</span> <span class="o">=</span> <span class="n">hklpy2</span><span class="o">.</span><span class="n">creator</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;fourc&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -952,7 +952,7 @@ unused attrs
         <div class="footer-item">
 
   <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.0.
     <br/>
   </p>
 </div>

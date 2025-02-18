@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../../_static/documentation_options.js?v=9e70f51f"></script>
+    <script src="../../_static/documentation_options.js?v=2cebc65f"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/design-tabs.js?v=f930bc37"></script>
@@ -338,7 +338,7 @@
 <span class="sd">.. autosummary::</span>
 
 <span class="sd">    ~diffractometer_class_factory</span>
-<span class="sd">    ~diffractometer_factory</span>
+<span class="sd">    ~creator</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
@@ -353,7 +353,7 @@
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">    diffractometer_class_factory</span>
-<span class="s2">    diffractometer_factory</span>
+<span class="s2">    creator</span>
 <span class="s2">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
 
 
@@ -368,6 +368,7 @@
     <span class="n">solver</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;hkl_soleil&quot;</span><span class="p">,</span>
     <span class="n">geometry</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;E4CV&quot;</span><span class="p">,</span>
     <span class="n">solver_kwargs</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;engine&quot;</span><span class="p">:</span> <span class="s2">&quot;hkl&quot;</span><span class="p">},</span>
+    <span class="n">pseudos</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[],</span>
     <span class="n">reals</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{},</span>
     <span class="n">motor_labels</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;motors&quot;</span><span class="p">],</span>
     <span class="n">class_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;Hklpy2Diffractometer&quot;</span><span class="p">,</span>
@@ -384,14 +385,20 @@
 <span class="sd">        Name of the diffractometer geometry. (default: &#39;&quot;E4CV&quot;&#39;)</span>
 <span class="sd">    solver_kwargs : str</span>
 <span class="sd">        Additional configuration for the solver. (default: &#39;{&quot;engine&quot;: &quot;hkl&quot;}&#39;)</span>
+<span class="sd">    pseudos : list</span>
+<span class="sd">        Specification of the names of any pseudo axis positioners</span>
+<span class="sd">        in addition to the ones provided by the solver.</span>
+
+<span class="sd">        (default: &#39;[]&#39; which means no additional pseudo axes)</span>
 <span class="sd">    reals : dict</span>
 <span class="sd">        Specification of the real axis motors.  Dictionary keys are the motor</span>
 <span class="sd">        names, values are the EPICS motor PV for that axis.  If the PV is</span>
 <span class="sd">        &#39;None&#39;, use a simulated positioner.</span>
 
-<span class="sd">        The dictionary can be empty or must have exactly the canonical number of</span>
+<span class="sd">        The dictionary can be empty or must have at least the canonical number of</span>
 <span class="sd">        real axes.  The order of the axes is important.  The names provided will</span>
-<span class="sd">        be mapped to the canonical order defined by the solver.</span>
+<span class="sd">        be mapped to the canonical order defined by the solver.  Components will</span>
+<span class="sd">        be created for any extra *reals*.</span>
 
 <span class="sd">        (default: &#39;{}&#39; which means use the canonical names for the real axes and</span>
 <span class="sd">        use simulated positioners)</span>
@@ -408,12 +415,18 @@
 
     <span class="c1"># The solver object describes its structure. Also verifies the solver is found.</span>
     <span class="n">solver_object</span> <span class="o">=</span> <span class="n">solver_factory</span><span class="p">(</span><span class="n">solver</span><span class="p">,</span> <span class="n">geometry</span><span class="p">,</span> <span class="o">**</span><span class="n">solver_kwargs</span><span class="p">)</span>
-
     <span class="n">class_attributes</span> <span class="o">=</span> <span class="p">{}</span>
+
     <span class="k">for</span> <span class="n">axis</span> <span class="ow">in</span> <span class="n">solver_object</span><span class="o">.</span><span class="n">pseudo_axis_names</span><span class="p">:</span>
         <span class="n">class_attributes</span><span class="p">[</span><span class="n">axis</span><span class="p">]</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">PseudoSingle</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">H_OR_N</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">axis</span> <span class="ow">in</span> <span class="n">pseudos</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">axis</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">solver_object</span><span class="o">.</span><span class="n">pseudo_axis_names</span><span class="p">:</span>
+            <span class="n">class_attributes</span><span class="p">[</span><span class="n">axis</span><span class="p">]</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">PseudoSingle</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">H_OR_N</span><span class="p">)</span>
+
     <span class="n">real_names</span> <span class="o">=</span> <span class="n">solver_object</span><span class="o">.</span><span class="n">real_axis_names</span>
-    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">reals</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">solver_object</span><span class="o">.</span><span class="n">real_axis_names</span><span class="p">):</span>
+    <span class="k">if</span> <span class="mi">0</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">reals</span><span class="p">)</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">solver_object</span><span class="o">.</span><span class="n">real_axis_names</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Expected </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">real_names</span><span class="p">)</span><span class="si">}</span><span class="s2"> reals, received </span><span class="si">{</span><span class="n">reals</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">reals</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="nb">len</span><span class="p">(</span><span class="n">solver_object</span><span class="o">.</span><span class="n">real_axis_names</span><span class="p">):</span>
         <span class="n">real_names</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">reals</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">axis</span> <span class="ow">in</span> <span class="n">real_names</span><span class="p">:</span>
         <span class="n">pv</span> <span class="o">=</span> <span class="n">reals</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">axis</span><span class="p">)</span>
@@ -433,15 +446,16 @@
 
 
 
-<div class="viewcode-block" id="diffractometer_factory">
-<a class="viewcode-back" href="../../api/geom.html#hklpy2.geom.diffractometer_factory">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">diffractometer_factory</span><span class="p">(</span>
+<div class="viewcode-block" id="creator">
+<a class="viewcode-back" href="../../api/geom.html#hklpy2.geom.creator">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">creator</span><span class="p">(</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">prefix</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
     <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
     <span class="n">solver</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;hkl_soleil&quot;</span><span class="p">,</span>
     <span class="n">geometry</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;E4CV&quot;</span><span class="p">,</span>
     <span class="n">solver_kwargs</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;engine&quot;</span><span class="p">:</span> <span class="s2">&quot;hkl&quot;</span><span class="p">},</span>
+    <span class="n">pseudos</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[],</span>
     <span class="n">reals</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{},</span>
     <span class="n">motor_labels</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;motors&quot;</span><span class="p">],</span>
     <span class="n">labels</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;diffractometer&quot;</span><span class="p">],</span>
@@ -458,15 +472,15 @@
 <span class="sd">    Four-circle diffractometer, vertical orientation, Eulerian rotations,</span>
 <span class="sd">    canonical real axis names, EPICS motor PVs::</span>
 
-<span class="sd">        e4cv = diffractometer_factory(name=&quot;e4cv&quot;,</span>
+<span class="sd">        e4cv = creator(name=&quot;e4cv&quot;,</span>
 <span class="sd">            solver=&quot;hkl_soleil&quot;, geometry=&quot;E4CV&quot;,</span>
-<span class="sd">            reals=dict(omega=&quot;zgp:m1&quot;, chi=&quot;zgp:m2&quot;, phi=&quot;zgp:m3&quot;, tth=&quot;zgp:m4&quot;),</span>
+<span class="sd">            reals=dict(omega=&quot;IOC:m1&quot;, chi=&quot;IOC:m2&quot;, phi=&quot;IOC:m3&quot;, tth=&quot;IOC:m4&quot;),</span>
 <span class="sd">        )</span>
 
 <span class="sd">    Four-circle diffractometer, vertical orientation, Eulerian rotations,</span>
 <span class="sd">    custom real axis names, simulated positioners::</span>
 
-<span class="sd">        sim4c = diffractometer_factory(name=&quot;sim4c&quot;,</span>
+<span class="sd">        sim4c = creator(name=&quot;sim4c&quot;,</span>
 <span class="sd">            solver=&quot;hkl_soleil&quot;, geometry=&quot;E4CV&quot;,</span>
 <span class="sd">            reals=dict(uno=None, dos=None, tres=None, cuatro=None),</span>
 <span class="sd">        )</span>
@@ -475,11 +489,11 @@
 <span class="sd">    Four-circle diffractometer, vertical orientation, Eulerian rotations,</span>
 <span class="sd">    canonical real axis names, simulated positioners (all default settings)::</span>
 
-<span class="sd">        sim4c = diffractometer_factory(name=&quot;sim4c&quot;)</span>
+<span class="sd">        sim4c = creator(name=&quot;sim4c&quot;)</span>
 
 <span class="sd">    Kappa six-circle diffractometer, simulated motors::</span>
 
-<span class="sd">        simk6c = diffractometer_factory(name=&quot;simk6c&quot;,</span>
+<span class="sd">        simk6c = creator(name=&quot;simk6c&quot;,</span>
 <span class="sd">            solver=&quot;hkl_soleil&quot;, geometry=&quot;K6C&quot;</span>
 <span class="sd">        )</span>
 
@@ -495,14 +509,20 @@
 <span class="sd">        Name of the diffractometer geometry. (default: &#39;&quot;E4CV&quot;&#39;)</span>
 <span class="sd">    solver_kwargs : str</span>
 <span class="sd">        Additional configuration for the solver. (default: &#39;{&quot;engine&quot;: &quot;hkl&quot;}&#39;)</span>
+<span class="sd">    pseudos : list</span>
+<span class="sd">        Specification of the names of any pseudo axis positioners</span>
+<span class="sd">        in addition to the ones provided by the solver.</span>
+
+<span class="sd">        (default: &#39;[]&#39; which means no additional pseudo axes)</span>
 <span class="sd">    reals : dict</span>
 <span class="sd">        Specification of the real axis motors.  Dictionary keys are the motor</span>
 <span class="sd">        names, values are the EPICS motor PV for that axis.  If the PV is</span>
 <span class="sd">        &#39;None&#39;, use a simulated positioner.</span>
 
-<span class="sd">        The dictionary can be empty or must have exactly the canonical number of</span>
+<span class="sd">        The dictionary can be empty or must have at least the canonical number of</span>
 <span class="sd">        real axes.  The order of the axes is important.  The names provided will</span>
-<span class="sd">        be mapped to the canonical order defined by the solver.</span>
+<span class="sd">        be mapped to the canonical order defined by the solver.  Components will</span>
+<span class="sd">        be created for any extra *reals*.</span>
 
 <span class="sd">        (default: &#39;{}&#39; which means use the canonical names for the real axes and</span>
 <span class="sd">        use simulated positioners)</span>
@@ -527,6 +547,7 @@
         <span class="n">solver</span><span class="o">=</span><span class="n">solver</span><span class="p">,</span>
         <span class="n">geometry</span><span class="o">=</span><span class="n">geometry</span><span class="p">,</span>
         <span class="n">solver_kwargs</span><span class="o">=</span><span class="n">solver_kwargs</span><span class="p">,</span>
+        <span class="n">pseudos</span><span class="o">=</span><span class="n">pseudos</span><span class="p">,</span>
         <span class="n">reals</span><span class="o">=</span><span class="n">reals</span><span class="p">,</span>
         <span class="n">motor_labels</span><span class="o">=</span><span class="n">motor_labels</span><span class="p">,</span>
         <span class="n">class_name</span><span class="o">=</span><span class="n">class_name</span><span class="p">,</span>
@@ -596,7 +617,7 @@
         <div class="footer-item">
 
   <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.0.
     <br/>
   </p>
 </div>

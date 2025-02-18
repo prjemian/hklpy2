@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=9e70f51f"></script>
+    <script src="../_static/documentation_options.js?v=2cebc65f"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
@@ -385,12 +385,12 @@ to use any names allowed by ophyd.</p>
 </div>
 <section id="diffractometer-factory-function">
 <span id="diffract-axes-diffractometer-factory"></span><h3>Diffractometer Factory Function<a class="headerlink" href="#diffractometer-factory-function" title="Link to this heading">#</a></h3>
-<p>The <a class="reference internal" href="../api/geom.html#hklpy2.geom.diffractometer_factory" title="hklpy2.geom.diffractometer_factory"><code class="xref py py-func docutils literal notranslate"><span class="pre">diffractometer_factory()</span></code></a> function maps axis names from
+<p>The <a class="reference internal" href="../api/geom.html#hklpy2.geom.creator" title="hklpy2.geom.creator"><code class="xref py py-func docutils literal notranslate"><span class="pre">creator()</span></code></a> function maps axis names from
 diffractometer to <strong>Solver</strong>.  Let’s show this cross-reference map in an IPython
 console with just a few commands:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">6</span><span class="p">]:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">hklpy2</span><span class="w"> </span><span class="kn">import</span> <span class="n">diffractometer_factory</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">6</span><span class="p">]:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">hklpy2</span><span class="w"> </span><span class="kn">import</span> <span class="n">creator</span>
 
-<span class="n">In</span> <span class="p">[</span><span class="mi">7</span><span class="p">]:</span> <span class="n">twoc</span> <span class="o">=</span> <span class="n">diffractometer_factory</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;twoc&quot;</span><span class="p">,</span> <span class="n">geometry</span><span class="o">=</span><span class="s2">&quot;TH TTH Q&quot;</span><span class="p">,</span> <span class="n">solver</span><span class="o">=</span><span class="s2">&quot;th_tth&quot;</span><span class="p">)</span>
+<span class="n">In</span> <span class="p">[</span><span class="mi">7</span><span class="p">]:</span> <span class="n">twoc</span> <span class="o">=</span> <span class="n">creator</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;twoc&quot;</span><span class="p">,</span> <span class="n">geometry</span><span class="o">=</span><span class="s2">&quot;TH TTH Q&quot;</span><span class="p">,</span> <span class="n">solver</span><span class="o">=</span><span class="s2">&quot;th_tth&quot;</span><span class="p">)</span>
 
 <span class="n">In</span> <span class="p">[</span><span class="mi">8</span><span class="p">]:</span> <span class="n">twoc</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">axes_xref</span>
 <span class="n">Out</span><span class="p">[</span><span class="mi">8</span><span class="p">]:</span> <span class="p">{</span><span class="s1">&#39;q&#39;</span><span class="p">:</span> <span class="s1">&#39;q&#39;</span><span class="p">,</span> <span class="s1">&#39;theta&#39;</span><span class="p">:</span> <span class="s1">&#39;th&#39;</span><span class="p">,</span> <span class="s1">&#39;ttheta&#39;</span><span class="p">:</span> <span class="s1">&#39;tth&#39;</span><span class="p">}</span>
@@ -432,8 +432,8 @@ class:</p>
 </div>
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
-<p>Use the <a class="reference internal" href="../api/geom.html#hklpy2.geom.diffractometer_factory" title="hklpy2.geom.diffractometer_factory"><code class="xref py py-func docutils literal notranslate"><span class="pre">hklpy2.geom.diffractometer_factory()</span></code></a> instead:</p>
-<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">twoc</span> <span class="o">=</span> <span class="n">hklpy2</span><span class="o">.</span><span class="n">diffractometer_factory</span><span class="p">(</span>
+<p>Use the <a class="reference internal" href="../api/geom.html#hklpy2.geom.creator" title="hklpy2.geom.creator"><code class="xref py py-func docutils literal notranslate"><span class="pre">hklpy2.geom.creator()</span></code></a> instead:</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">twoc</span> <span class="o">=</span> <span class="n">hklpy2</span><span class="o">.</span><span class="n">creator</span><span class="p">(</span>
     <span class="n">name</span><span class="o">=</span><span class="s2">&quot;twoc&quot;</span><span class="p">,</span>
     <span class="n">geometry</span><span class="o">=</span><span class="s2">&quot;TH TTH Q&quot;</span><span class="p">,</span>
     <span class="n">solver</span><span class="o">=</span><span class="s2">&quot;th_tth&quot;</span><span class="p">,</span>
@@ -653,7 +653,7 @@ chooses in this case:</p>
         <div class="footer-item">
 
   <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.0.
     <br/>
   </p>
 </div>
