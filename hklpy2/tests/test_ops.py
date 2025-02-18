@@ -5,7 +5,7 @@ import uuid
 import pytest
 
 from ..diffract import DiffractometerBase
-from ..geom import diffractometer_factory
+from ..geom import creator
 from ..ops import Operations
 
 SKIP_EXACT_VALUE_TEST = str(uuid.uuid4())
@@ -42,7 +42,7 @@ SKIP_EXACT_VALUE_TEST = str(uuid.uuid4())
 )
 def test_asdict(geometry, solver, name, keypath, value):
     """."""
-    diffractometer = diffractometer_factory(name=name, geometry=geometry, solver=solver)
+    diffractometer = creator(name=name, geometry=geometry, solver=solver)
     assert isinstance(
         diffractometer, DiffractometerBase
     ), f"{geometry=} {solver=} {name=}"

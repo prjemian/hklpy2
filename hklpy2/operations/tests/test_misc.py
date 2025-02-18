@@ -11,7 +11,7 @@ from ophyd import Signal
 from yaml.parser import ParserError
 from yaml.scanner import ScannerError
 
-from ... import diffractometer_factory
+from ... import creator
 from ...tests.common import HKLPY2_DIR
 from ...tests.common import assert_context_result
 from ..misc import ConfigurationRunWrapper
@@ -23,8 +23,8 @@ from ..misc import get_solver
 from ..misc import load_yaml_file
 from ..misc import roundoff
 
-sim4c = diffractometer_factory(name="sim4c")
-sim6c = diffractometer_factory(name="sim6c", geometry="E6C")
+sim4c = creator(name="sim4c")
+sim6c = creator(name="sim6c", geometry="E6C")
 signal = Signal(name="signal", value=1.234)
 
 

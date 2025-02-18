@@ -26,13 +26,13 @@ Let's a few examples of diffractometers built with user-defined names.
 Diffractometer Factory Function
 +++++++++++++++++++++++++++++++
 
-The :func:`~hklpy2.geom.diffractometer_factory()` function maps axis names from
+The :func:`~hklpy2.geom.creator()` function maps axis names from
 diffractometer to |solver|.  Let's show this cross-reference map in an IPython
 console with just a few commands::
 
-    In [6]: from hklpy2 import diffractometer_factory
+    In [6]: from hklpy2 import creator
 
-    In [7]: twoc = diffractometer_factory(name="twoc", geometry="TH TTH Q", solver="th_tth")
+    In [7]: twoc = creator(name="twoc", geometry="TH TTH Q", solver="th_tth")
 
     In [8]: twoc.operator.axes_xref
     Out[8]: {'q': 'q', 'theta': 'th', 'ttheta': 'tth'}
@@ -74,11 +74,11 @@ Create a Python object that uses this class::
 
     twoc = S1D1(name="twoc")
 
-.. tip:: Use the :func:`hklpy2.geom.diffractometer_factory()` instead:
+.. tip:: Use the :func:`hklpy2.geom.creator()` instead:
 
     .. code-block:: Python
 
-        twoc = hklpy2.diffractometer_factory(
+        twoc = hklpy2.creator(
             name="twoc",
             geometry="TH TTH Q",
             solver="th_tth",

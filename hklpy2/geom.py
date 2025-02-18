@@ -4,7 +4,7 @@ Create a Diffractometer for any Geometry.
 .. autosummary::
 
     ~diffractometer_class_factory
-    ~diffractometer_factory
+    ~creator
 """
 
 import logging
@@ -19,7 +19,7 @@ from .diffract import DiffractometerBase
 
 __all__ = """
     diffractometer_class_factory
-    diffractometer_factory
+    creator
 """.split()
 
 
@@ -32,6 +32,7 @@ def diffractometer_class_factory(
     solver: str = "hkl_soleil",
     geometry: str = "E4CV",
     solver_kwargs: dict = {"engine": "hkl"},
+    pseudos: list = [],
     reals: dict = {},
     motor_labels: list = ["motors"],
     class_name: str = "Hklpy2Diffractometer",
@@ -48,14 +49,20 @@ def diffractometer_class_factory(
         Name of the diffractometer geometry. (default: '"E4CV"')
     solver_kwargs : str
         Additional configuration for the solver. (default: '{"engine": "hkl"}')
+    pseudos : list
+        Specification of the names of any pseudo axis positioners
+        in addition to the ones provided by the solver.
+
+        (default: '[]' which means no additional pseudo axes)
     reals : dict
         Specification of the real axis motors.  Dictionary keys are the motor
         names, values are the EPICS motor PV for that axis.  If the PV is
         'None', use a simulated positioner.
 
-        The dictionary can be empty or must have exactly the canonical number of
+        The dictionary can be empty or must have at least the canonical number of
         real axes.  The order of the axes is important.  The names provided will
-        be mapped to the canonical order defined by the solver.
+        be mapped to the canonical order defined by the solver.  Components will
+        be created for any extra *reals*.
 
         (default: '{}' which means use the canonical names for the real axes and
         use simulated positioners)
@@ -72,12 +79,18 @@ def diffractometer_class_factory(
 
     # The solver object describes its structure. Also verifies the solver is found.
     solver_object = solver_factory(solver, geometry, **solver_kwargs)
-
     class_attributes = {}
+
     for axis in solver_object.pseudo_axis_names:
         class_attributes[axis] = Component(PseudoSingle, "", kind=H_OR_N)
+    for axis in pseudos:
+        if axis not in solver_object.pseudo_axis_names:
+            class_attributes[axis] = Component(PseudoSingle, "", kind=H_OR_N)
+
     real_names = solver_object.real_axis_names
-    if len(reals) == len(solver_object.real_axis_names):
+    if 0 < len(reals) < len(solver_object.real_axis_names):
+        raise KeyError(f"Expected {len(real_names)} reals, received {reals}.")
+    if len(reals) >= len(solver_object.real_axis_names):
         real_names = list(reals)
     for axis in real_names:
         pv = reals.get(axis)
@@ -96,13 +109,14 @@ def diffractometer_class_factory(
     return type(class_name, tuple(class_bases), class_attributes)
 
 
-def diffractometer_factory(
+def creator(
     *,
     prefix: str = "",
     name: str = "",
     solver: str = "hkl_soleil",
     geometry: str = "E4CV",
     solver_kwargs: dict = {"engine": "hkl"},
+    pseudos: list = [],
     reals: dict = {},
     motor_labels: list = ["motors"],
     labels: list = ["diffractometer"],
@@ -119,15 +133,15 @@ def diffractometer_factory(
     Four-circle diffractometer, vertical orientation, Eulerian rotations,
     canonical real axis names, EPICS motor PVs::
 
-        e4cv = diffractometer_factory(name="e4cv",
+        e4cv = creator(name="e4cv",
             solver="hkl_soleil", geometry="E4CV",
-            reals=dict(omega="zgp:m1", chi="zgp:m2", phi="zgp:m3", tth="zgp:m4"),
+            reals=dict(omega="IOC:m1", chi="IOC:m2", phi="IOC:m3", tth="IOC:m4"),
         )
 
     Four-circle diffractometer, vertical orientation, Eulerian rotations,
     custom real axis names, simulated positioners::
 
-        sim4c = diffractometer_factory(name="sim4c",
+        sim4c = creator(name="sim4c",
             solver="hkl_soleil", geometry="E4CV",
             reals=dict(uno=None, dos=None, tres=None, cuatro=None),
         )
@@ -136,11 +150,11 @@ def diffractometer_factory(
     Four-circle diffractometer, vertical orientation, Eulerian rotations,
     canonical real axis names, simulated positioners (all default settings)::
 
-        sim4c = diffractometer_factory(name="sim4c")
+        sim4c = creator(name="sim4c")
 
     Kappa six-circle diffractometer, simulated motors::
 
-        simk6c = diffractometer_factory(name="simk6c",
+        simk6c = creator(name="simk6c",
             solver="hkl_soleil", geometry="K6C"
         )
 
@@ -156,14 +170,20 @@ def diffractometer_factory(
         Name of the diffractometer geometry. (default: '"E4CV"')
     solver_kwargs : str
         Additional configuration for the solver. (default: '{"engine": "hkl"}')
+    pseudos : list
+        Specification of the names of any pseudo axis positioners
+        in addition to the ones provided by the solver.
+
+        (default: '[]' which means no additional pseudo axes)
     reals : dict
         Specification of the real axis motors.  Dictionary keys are the motor
         names, values are the EPICS motor PV for that axis.  If the PV is
         'None', use a simulated positioner.
 
-        The dictionary can be empty or must have exactly the canonical number of
+        The dictionary can be empty or must have at least the canonical number of
         real axes.  The order of the axes is important.  The names provided will
-        be mapped to the canonical order defined by the solver.
+        be mapped to the canonical order defined by the solver.  Components will
+        be created for any extra *reals*.
 
         (default: '{}' which means use the canonical names for the real axes and
         use simulated positioners)
@@ -188,6 +208,7 @@ def diffractometer_factory(
         solver=solver,
         geometry=geometry,
         solver_kwargs=solver_kwargs,
+        pseudos=pseudos,
         reals=reals,
         motor_labels=motor_labels,
         class_name=class_name,

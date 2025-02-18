@@ -132,9 +132,9 @@ def test_diffractometer_class(
 
 
 def test_diffractometer_wh(capsys):
-    from ..geom import diffractometer_factory
+    from ..geom import creator
 
-    e4cv = diffractometer_factory(name="e4cv")
+    e4cv = creator(name="e4cv")
     e4cv.operator.restore(HKLPY2_DIR / "tests" / "e4cv_orient.yml")
 
     e4cv.wh()
@@ -191,12 +191,12 @@ def test_diffractometer_wh(capsys):
     ],
 )
 def test_full_position(mode, keys, context, expected, config_file):
-    from ..geom import diffractometer_factory
+    from ..geom import creator
 
     assert config_file.endswith(".yml")
 
     with context as reason:
-        fourc = diffractometer_factory(name="fourc")
+        fourc = creator(name="fourc")
         fourc.operator.restore(HKLPY2_DIR / "tests" / config_file)
         fourc.operator.solver.mode = mode
         pos = fourc.full_position()
@@ -218,9 +218,9 @@ def test_full_position(mode, keys, context, expected, config_file):
     ],
 )
 def test_move_forward_with_extras(pseudos, reals, mode, context, expected):
-    from ..geom import diffractometer_factory
+    from ..geom import creator
 
-    fourc = diffractometer_factory(name="fourc")
+    fourc = creator(name="fourc")
     fourc.operator.restore(HKLPY2_DIR / "tests" / "e4cv_orient.yml")
     fourc.operator.solver.mode = mode
     # fourc.wavelength.put(6)
@@ -255,9 +255,9 @@ def test_move_forward_with_extras(pseudos, reals, mode, context, expected):
     ],
 )
 def test_move_reals(pos, context, expected):
-    from ..geom import diffractometer_factory
+    from ..geom import creator
 
-    fourc = diffractometer_factory(name="fourc")
+    fourc = creator(name="fourc")
     with context as reason:
         fourc.move_reals(pos)
 
@@ -266,9 +266,9 @@ def test_move_reals(pos, context, expected):
 
 def test_null_operator():
     """Tests special cases when diffractometer.operator is None."""
-    from ..geom import diffractometer_factory
+    from ..geom import creator
 
-    fourc = diffractometer_factory(name="fourc")
+    fourc = creator(name="fourc")
     assert fourc.operator is not None
     assert len(fourc.samples) > 0
     assert fourc.sample is not None
@@ -287,10 +287,10 @@ def test_null_operator():
 
 
 def test_orientation():
-    from ..geom import diffractometer_factory
+    from ..geom import creator
     from ..operations.lattice import SI_LATTICE_PARAMETER
 
-    fourc = diffractometer_factory(name="fourc")
+    fourc = creator(name="fourc")
     fourc.add_sample("silicon", SI_LATTICE_PARAMETER)
     fourc.wavelength.put(1.0)
     assert math.isclose(
@@ -409,9 +409,9 @@ def test_remove_sample():
 def test_repeated_reflections(
     name, pseudos, reals, wavelength, replace, num, raiser, excuse
 ):
-    from ..geom import diffractometer_factory
+    from ..geom import creator
 
-    e4cv = diffractometer_factory(name="e4cv")
+    e4cv = creator(name="e4cv")
     e4cv.add_reflection(
         dict(h=1, k=0, l=0),
         dict(omega=10, chi=0, phi=0, tth=20),
@@ -542,9 +542,9 @@ def test_repeated_reflections(
     ],
 )
 def test_scan_extra(scan_kwargs, mode, context, expected):
-    from ..geom import diffractometer_factory
+    from ..geom import creator
 
-    fourc = diffractometer_factory(name="fourc")
+    fourc = creator(name="fourc")
     fourc.operator.restore(HKLPY2_DIR / "tests" / "e4cv_orient.yml")
     fourc.operator.solver.mode = mode
     assert fourc.operator.solver.mode == mode
@@ -562,10 +562,10 @@ def test_scan_extra(scan_kwargs, mode, context, expected):
 
 
 def test_set_UB():
-    from ..geom import diffractometer_factory
+    from ..geom import creator
 
     UBe = [[0, 0, -1.157], [0, -1.157, 0], [-1.157, 0, 0]]
-    fourc = diffractometer_factory(name="fourc")
+    fourc = creator(name="fourc")
 
     fourc.operator.solver.UB = UBe
     UBr = fourc.operator.solver.UB

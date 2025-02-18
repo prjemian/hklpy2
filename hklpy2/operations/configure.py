@@ -53,7 +53,7 @@ class Configuration:
 
             import hklpy2
 
-            e4cv = hklpy2.diffractometer_factory(name="e4cv")
+            e4cv = hklpy2.creator(name="e4cv")
             e4cv.operator.configuration.export("e4cv-config.yml", comment="example")
         """
         path = pathlib.Path(file)
@@ -78,7 +78,7 @@ class Configuration:
 
             import hklpy2
 
-            e4cv = hklpy2.diffractometer_factory(name="e4cv")
+            e4cv = hklpy2.creator(name="e4cv")
             e4cv.operator.configuration.restore("e4cv-config.yml")
 
         PARAMETERS
@@ -161,7 +161,10 @@ class Configuration:
         )
         compare(
             config.get("axes", {}).get("pseudo_axes"),
-            self.diffractometer.pseudo_axis_names,
+            # ignore any extra pseudos
+            self.diffractometer.pseudo_axis_names[
+                : len(self.diffractometer.operator.solver.pseudo_axis_names)
+            ],
             "pseudo axis mismatch: incoming=%r existing=%r",
         )
         compare(
