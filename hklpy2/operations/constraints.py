@@ -52,13 +52,23 @@ class ConstraintBase(ABC):
         result["class"] = self.__class__.__name__
         return result
 
-    def _fromdict(self, config):
+    def _fromdict(self, config, solver=None):
         """Redefine this constraint from a (configuration) dictionary."""
+        from ..backends import SolverBase
+
         if self.label != config["label"] or self.__class__.__name__ != config["class"]:
             raise ConfigurationError(
                 f"Wrong configuration for {self.__class__.__name__}({self.label!r})."
                 f" Received configuration: {config!r}"
             )
+
+        if isinstance(solver, SolverBase):
+            # Validate with solver.
+            axis = config["label"]
+            if axis not in solver.real_axis_names:
+                raise KeyError(
+                    f"Constraint label {axis=} not in {solver.real_axis_names}."
+                )
         for k in self._fields:
             if k in config:
                 setattr(self, k, config[k])
@@ -177,10 +187,10 @@ class RealAxisConstraints(dict):
         """Return all constraints as a dictionary."""
         return {k: c._asdict() for k, c in self.items()}
 
-    def _fromdict(self, config):
+    def _fromdict(self, config, solver=None):
         """Redefine existing constraints from a (configuration) dictionary."""
         for k, v in config.items():
-            self[k]._fromdict(v)
+            self[k]._fromdict(v, solver=solver)
 
     def valid(self, **reals: Dict[str, NUMERIC]) -> bool:
         """Are all constraints satisfied?"""

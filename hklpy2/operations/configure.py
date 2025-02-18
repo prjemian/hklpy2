@@ -70,7 +70,7 @@ class Configuration:
             y.write("#hklpy2 configuration file\n\n")
             y.write(dump)
 
-    def restore(self, file, clear=True, restore_constraints=True):
+    def restore(self, file, clear=True, restore_constraints=True, solver=None):
         """
         Restore the diffractometer configuration to a YAML file.
 
@@ -123,11 +123,9 @@ class Configuration:
             controls = {}
             oper = self.diffractometer.operator  # alias
             for axis, v in config["constraints"].items():
-                # File might have renamed axes.
-                axis_solver = config["axes"]["axes_xref"][axis]
-                # Local diffractometer might have renamed axes.
-                axis_local = oper.axes_xref_reversed[axis_solver]
-                v["label"] = axis_local
+                axis_canonical = config["axes"]["axes_xref"][axis]
+                axis_local = oper.axes_xref_reversed[axis_canonical]
+                v["label"] = axis_local  # must match
                 controls[axis_local] = v
             config["constraints"] = controls
         else:

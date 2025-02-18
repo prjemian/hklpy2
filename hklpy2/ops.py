@@ -126,10 +126,19 @@ class Operations:
     def _fromdict(self, config):
         """Redefine diffractometer from a (configuration) dictionary."""
         for key, sample in config["samples"].items():
-            self.add_sample(key, 1, replace=True)._fromdict(sample)
+            sample_object = self.add_sample(key, 1, replace=True)
+            sample_object._fromdict(sample, solver=self.solver)
 
-        self.constraints._fromdict(config["constraints"])
-        # TODO: mode & extras
+        for key, constraint in config["constraints"].items():
+            if (
+                constraint["class"] == "LimitsConstraint"
+                and constraint["label"] in config["axes"]["real_axes"]
+            ):
+                # By convention, the 'key' here is the axis name when config was written.
+                axis_canonical = config["axes"]["axes_xref"][key]
+                axis_local = self.axes_xref_reversed[axis_canonical]
+                constraint["label"] = axis_local
+        self.constraints._fromdict(config["constraints"], solver=self.solver)
 
     def add_reflection(
         self,
@@ -470,7 +479,7 @@ class Operations:
 
         Note: Can't name this method "import", it's a reserved Python word.
         """
-        self.configuration.restore(file, clear, restore_constraints)
+        self.configuration.restore(file, clear, restore_constraints, solver=self.solver)
 
     def set_solver(
         self,

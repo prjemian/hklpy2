@@ -77,12 +77,12 @@ class Sample:
             "digits": self.digits,
         }
 
-    def _fromdict(self, config):
+    def _fromdict(self, config, solver=None):
         """Redefine sample from a (configuration) dictionary."""
         self.name = config["name"]
         self.digits = config["digits"]
         self.lattice._fromdict(config["lattice"])
-        self.reflections._fromdict(config["reflections"])
+        self.reflections._fromdict(config["reflections"], solver=solver)
         self.reflections.order = config["reflections_order"]
         self.U = config["U"]
         self.UB = config["UB"]

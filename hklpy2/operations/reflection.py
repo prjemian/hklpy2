@@ -72,7 +72,14 @@ class Reflection:
         pseudo_axis_names: list,
         real_axis_names: list,
         digits: int = 4,
+        solver: object = None,
     ) -> None:
+        from ..backends import SolverBase
+
+        if isinstance(solver, SolverBase):
+            # What if axes names in wrong sequence?  What if axes renamed?
+            pass  # TODO #23 validate reflection
+
         self.digits = digits
         self.geometry = geometry
         self.name = name
@@ -279,7 +286,7 @@ class ReflectionsDict(dict):
         self.prune()
         return {v.name: v._asdict() for v in self.values()}
 
-    def _fromdict(self, config):
+    def _fromdict(self, config, solver=None):
         """Add or redefine reflections from a (configuration) dictionary."""
         for k, refl_config in config.items():
             reflection = Reflection(
@@ -288,11 +295,10 @@ class ReflectionsDict(dict):
                 refl_config["reals"],
                 wavelength=refl_config["wavelength"],
                 geometry=refl_config["wavelength"],
-                # TODO: #23 What if axes names appear in wrong sequence?
                 pseudo_axis_names=list(refl_config["pseudos"]),
-                # TODO: #23 What if axes renamed?
                 real_axis_names=list(refl_config["reals"]),
-                digits=refl_config["digits"],  # TODO: Optional?
+                digits=refl_config["digits"],  # TODO: Digits are optional?
+                solver=solver,
             )
             self.add(reflection, replace=True)
 
