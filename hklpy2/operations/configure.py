@@ -161,7 +161,10 @@ class Configuration:
         )
         compare(
             config.get("axes", {}).get("pseudo_axes"),
-            self.diffractometer.pseudo_axis_names,
+            # ignore any extra pseudos
+            self.diffractometer.pseudo_axis_names[
+                : len(self.diffractometer.operator.solver.pseudo_axis_names)
+            ],
             "pseudo axis mismatch: incoming=%r existing=%r",
         )
         compare(

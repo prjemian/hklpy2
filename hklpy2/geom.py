@@ -32,6 +32,7 @@ def diffractometer_class_factory(
     solver: str = "hkl_soleil",
     geometry: str = "E4CV",
     solver_kwargs: dict = {"engine": "hkl"},
+    pseudos: list = [],
     reals: dict = {},
     motor_labels: list = ["motors"],
     class_name: str = "Hklpy2Diffractometer",
@@ -48,14 +49,20 @@ def diffractometer_class_factory(
         Name of the diffractometer geometry. (default: '"E4CV"')
     solver_kwargs : str
         Additional configuration for the solver. (default: '{"engine": "hkl"}')
+    pseudos : list
+        Specification of the names of any pseudo axis positioners
+        in addition to the ones provided by the solver.
+
+        (default: '[]' which means no additional pseudo axes)
     reals : dict
         Specification of the real axis motors.  Dictionary keys are the motor
         names, values are the EPICS motor PV for that axis.  If the PV is
         'None', use a simulated positioner.
 
-        The dictionary can be empty or must have exactly the canonical number of
+        The dictionary can be empty or must have at least the canonical number of
         real axes.  The order of the axes is important.  The names provided will
-        be mapped to the canonical order defined by the solver.
+        be mapped to the canonical order defined by the solver.  Components will
+        be created for any extra *reals*.
 
         (default: '{}' which means use the canonical names for the real axes and
         use simulated positioners)
@@ -72,10 +79,14 @@ def diffractometer_class_factory(
 
     # The solver object describes its structure. Also verifies the solver is found.
     solver_object = solver_factory(solver, geometry, **solver_kwargs)
-
     class_attributes = {}
+
     for axis in solver_object.pseudo_axis_names:
         class_attributes[axis] = Component(PseudoSingle, "", kind=H_OR_N)
+    for axis in pseudos:
+        if axis not in solver_object.pseudo_axis_names:
+            class_attributes[axis] = Component(PseudoSingle, "", kind=H_OR_N)
+
     real_names = solver_object.real_axis_names
     if 0 < len(reals) < len(solver_object.real_axis_names):
         raise KeyError(f"Expected {len(real_names)} reals, received {reals}.")
@@ -105,6 +116,7 @@ def creator(
     solver: str = "hkl_soleil",
     geometry: str = "E4CV",
     solver_kwargs: dict = {"engine": "hkl"},
+    pseudos: list = [],
     reals: dict = {},
     motor_labels: list = ["motors"],
     labels: list = ["diffractometer"],
@@ -158,14 +170,20 @@ def creator(
         Name of the diffractometer geometry. (default: '"E4CV"')
     solver_kwargs : str
         Additional configuration for the solver. (default: '{"engine": "hkl"}')
+    pseudos : list
+        Specification of the names of any pseudo axis positioners
+        in addition to the ones provided by the solver.
+
+        (default: '[]' which means no additional pseudo axes)
     reals : dict
         Specification of the real axis motors.  Dictionary keys are the motor
         names, values are the EPICS motor PV for that axis.  If the PV is
         'None', use a simulated positioner.
 
-        The dictionary can be empty or must have exactly the canonical number of
+        The dictionary can be empty or must have at least the canonical number of
         real axes.  The order of the axes is important.  The names provided will
-        be mapped to the canonical order defined by the solver.
+        be mapped to the canonical order defined by the solver.  Components will
+        be created for any extra *reals*.
 
         (default: '{}' which means use the canonical names for the real axes and
         use simulated positioners)
@@ -190,6 +208,7 @@ def creator(
         solver=solver,
         geometry=geometry,
         solver_kwargs=solver_kwargs,
+        pseudos=pseudos,
         reals=reals,
         motor_labels=motor_labels,
         class_name=class_name,
