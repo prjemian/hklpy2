@@ -3,8 +3,10 @@ from contextlib import nullcontext as does_not_raise
 
 import pytest
 
-from ... import creator
 from ...__init__ import __version__
+from ...diffract import DiffractometerBase
+from ...geom import creator
+from ...tests.common import assert_context_result
 from ...tests.models import E4CV_CONFIG_FILE
 from ...tests.models import add_oriented_vibranium_to_e4cv
 from ...tests.models import e4cv_config
@@ -14,6 +16,8 @@ from ..misc import load_yaml_file
 
 e4cv = creator(name="e4cv")
 add_oriented_vibranium_to_e4cv(e4cv)
+
+sim2c = creator(name="sim2c", solver="th_tth", geometry="TH TTH Q")
 
 
 @pytest.mark.parametrize(
@@ -92,13 +96,21 @@ def test_Configuration_export(tmp_path):
     assert config["_header"]["comment"] == "testing"
 
 
-def test_fromdict(sim, fourc):
+def test_fromdict():
+    fourc = creator(name="fourc")
+    add_oriented_vibranium_to_e4cv(fourc)
+
     config = e4cv_config()
     assert config.get("name") == "e4cv"
+
+    sim = creator(name="sim", solver="th_tth", geometry="TH TTH Q")
 
     with pytest.raises(ConfigurationError) as reason:
         sim.operator.configuration._fromdict(config)
     assert "solver mismatch" in str(reason)
+
+    fourc = creator(name="fourc")
+    add_oriented_vibranium_to_e4cv(fourc)
 
     assert fourc.name != config["name"]
     assert len(fourc.operator.samples) == 2
@@ -161,17 +173,36 @@ def test_fromdict(sim, fourc):
             ), f"{key=!r}  {field=!r}  {constraint=!r}  {cfg=!r}"
 
 
-def test_restore(sim, fourc):
-    with pytest.raises(ConfigurationError) as reason:
-        sim.operator.configuration.restore(E4CV_CONFIG_FILE)
-    assert "solver mismatch" in str(reason)
-
-    with does_not_raise():
-        fourc.operator.configuration.restore(E4CV_CONFIG_FILE)
-
-    with does_not_raise():
-        fourc.operator.configuration.restore(
+@pytest.mark.parametrize(
+    "diffractometer, clear, restore, file, context, expected",
+    [
+        [e4cv, True, True, E4CV_CONFIG_FILE, does_not_raise(), None],
+        [e4cv, True, False, E4CV_CONFIG_FILE, does_not_raise(), None],
+        [
+            sim2c,
+            True,
+            True,
             E4CV_CONFIG_FILE,
-            clear=True,
-            restore_constraints=False,
+            pytest.raises(ConfigurationError),
+            "solver mismatch",
+        ],
+        [
+            sim2c,
+            True,
+            True,
+            "this file does not exist",
+            pytest.raises(FileExistsError),
+            "this file does not exist",
+        ],
+        [None, True, True, E4CV_CONFIG_FILE, pytest.raises(AssertionError), "False"],
+    ],
+)
+def test_restore(diffractometer, clear, restore, file, context, expected):
+    with context as reason:
+        assert isinstance(diffractometer, DiffractometerBase)
+        diffractometer.operator.configuration.restore(
+            file,
+            clear=clear,
+            restore_constraints=restore,
         )
+    assert_context_result(expected, reason)

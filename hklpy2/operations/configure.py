@@ -131,6 +131,7 @@ class Configuration:
         else:
             config["constraints"] = {}
 
+        # TODO: wavelength & energy units
         self.diffractometer.operator._fromdict(config)
 
     def _valid(self, config):

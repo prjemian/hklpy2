@@ -504,7 +504,7 @@ class DiffractometerBase(PseudoPositioner):
             return f"{label}={roundoff(value, digits)}"
 
         def print_axes(names):
-            print(" ".join([wh_round(nm, getattr(self, nm).position) for nm in names]))
+            print(", ".join([wh_round(nm, getattr(self, nm).position) for nm in names]))
 
         if full:
             print(f"diffractometer={self.name!r}")

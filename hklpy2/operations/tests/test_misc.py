@@ -9,7 +9,6 @@ from ophyd import Component
 from ophyd import Device
 from ophyd import Signal
 from yaml.parser import ParserError
-from yaml.scanner import ScannerError
 
 from ... import creator
 from ...tests.common import HKLPY2_DIR
@@ -147,9 +146,9 @@ def test_get_solver(solver_name, context, expected):
         ],
         [
             # Not a YAML file, not empty
-            HKLPY2_DIR / "operations" / "tests" / "conftest.py",
-            pytest.raises(ScannerError),
-            "mapping values are not allowed here",
+            HKLPY2_DIR / "diffract.py",
+            pytest.raises(ParserError),
+            "expected '<document start>', but found",
             None,
         ],
     ],
@@ -187,7 +186,7 @@ def test_roundoff(value, digits, expected_text):
 
 
 @pytest.mark.parametrize(
-    "devices, outcome, expect",
+    "devices, context, expected",
     [
         [[sim4c], does_not_raise(), None],
         [[sim4c.chi], pytest.raises(TypeError), "SoftPositioner"],
@@ -196,8 +195,8 @@ def test_roundoff(value, digits, expected_text):
     ],
 )
 @pytest.mark.parametrize("enabled", [True, False])
-def test_ConfigurationRunWrapper(devices, outcome, expect, enabled):
-    with outcome as excuse:
+def test_ConfigurationRunWrapper(devices, context, expected, enabled):
+    with context as reason:
         crw = ConfigurationRunWrapper(*devices)
         for dev in devices:
             assert dev in crw.devices
@@ -234,5 +233,4 @@ def test_ConfigurationRunWrapper(devices, outcome, expect, enabled):
                 else:
                     assert configs is None
 
-    if expect is not None:
-        assert expect in str(excuse), f"{excuse=} {expect=}"
+    assert_context_result(expected, reason)

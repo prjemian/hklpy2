@@ -2,8 +2,10 @@ from contextlib import nullcontext as does_not_raise
 
 import pytest
 
-from ..misc import load_yaml
-from ..reflection import ConfigurationError
+from ...geom import creator
+from ...tests.common import assert_context_result
+from ...tests.models import add_oriented_vibranium_to_e4cv
+from ..misc import ConfigurationError
 from ..reflection import Reflection
 from ..reflection import ReflectionError
 from ..reflection import ReflectionsDict
@@ -51,7 +53,7 @@ r_5 = ["r5", {"a": 1, "b": 4}, dict(c=1, d=2), 1, "abcd", ["a", "b"], ["c", "d"]
 
 
 @pytest.mark.parametrize(
-    "name, pseudos, reals, wavelength, geometry, pseudo_axis_names, real_axis_names, probe, expect",
+    "name, pseudos, reals, wavelength, geometry, pseudo_axis_names, real_axis_names, context, expect",
     [
         r100_parms + [does_not_raise(), None],  # good case
         r010_parms + [does_not_raise(), None],  # good case
@@ -230,10 +232,10 @@ def test_Reflection(
     geometry,
     pseudo_axis_names,
     real_axis_names,
-    probe,
+    context,
     expect,
 ):
-    with probe as reason:
+    with context as reason:
         refl = Reflection(
             name,
             pseudos,
@@ -261,7 +263,7 @@ def test_Reflection(
 
 
 @pytest.mark.parametrize(
-    "parms, representation, probe, expected",
+    "parms, representation, context, expected",
     [
         [[r100_parms], "(100)", does_not_raise(), None],
         [[r010_parms], "(010)", does_not_raise(), None],
@@ -271,11 +273,11 @@ def test_Reflection(
         [[r_1, r_4], "r4", does_not_raise(), None],
     ],
 )
-def test_ReflectionsDict(parms, representation, probe, expected):
+def test_ReflectionsDict(parms, representation, context, expected):
     db = ReflectionsDict()
     assert len(db._asdict()) == 0
 
-    with probe as reason:
+    with context as reason:
         for i, refl in enumerate(parms, start=1):
             with pytest.raises(TypeError) as exc:
                 db.add(refl)
@@ -300,14 +302,11 @@ def test_ReflectionsDict(parms, representation, probe, expected):
 
         assert representation in repr(db)
 
-    if expected is None:
-        assert reason is None
-    else:
-        assert expected in str(reason)
+    assert_context_result(expected, reason)
 
 
 @pytest.mark.parametrize(
-    "parms, probe, expect",
+    "parms, context, expected",
     [
         [[r100_parms], does_not_raise(), None],
         [[r010_parms], does_not_raise(), None],
@@ -328,34 +327,38 @@ def test_ReflectionsDict(parms, representation, probe, expected):
         ],
     ],
 )
-def test_IncompatibleReflectionsDict(parms, probe, expect):
+def test_IncompatibleReflectionsDict(parms, context, expected):
     db = ReflectionsDict()
     assert len(db._asdict()) == 0
 
-    with probe as reason:
+    with context as reason:
         for i, refl in enumerate(parms, start=1):
             r = Reflection(*refl)
             assert r is not None
             db.add(r)
             assert len(db) == i
-    if expect is not None:
-        assert expect in str(reason), f"{reason=!r}"
 
-
-def test_duplicate_reflection():
-    db = ReflectionsDict()
-    db.add(Reflection(*r_1))
-    with pytest.raises(ReflectionError) as reason:
-        db.add(Reflection(*r_1))
-    assert "is known." in str(reason), f"{reason=!r}"
-
-    with pytest.raises(ReflectionError) as reason:
-        db.add(Reflection(*r_2))
-    assert "matches one or more existing" in str(reason), f"{reason=!r}"
+    assert_context_result(expected, reason)
 
 
 @pytest.mark.parametrize(
-    "reflections, order, probe, expected",
+    "reflection, context, expected",
+    [
+        [r_1, pytest.raises(ReflectionError), "is known."],
+        [r_2, pytest.raises(ReflectionError), "matches one or more existing"],
+    ],
+)
+def test_duplicate_reflection(reflection, context, expected):
+    with context as reason:
+        db = ReflectionsDict()
+        db.add(Reflection(*r_1))
+        db.add(Reflection(*reflection))
+
+    assert_context_result(expected, reason)
+
+
+@pytest.mark.parametrize(
+    "reflections, order, context, expected",
     [
         [[r_1, r_4, r_5], ["r1", "r4"], does_not_raise(), None],
         [[r_1, r_4, r_5], ["r5", "r4"], does_not_raise(), None],
@@ -373,7 +376,7 @@ def test_duplicate_reflection():
         ],
     ],
 )
-def test_swap(reflections, order, probe, expected):
+def test_swap(reflections, order, context, expected):
     db = ReflectionsDict()
     original_order = []
     for params in reflections:
@@ -382,7 +385,7 @@ def test_swap(reflections, order, probe, expected):
         original_order.append(ref.name)
     assert db.order == original_order
 
-    with probe as reason:
+    with context as reason:
         db.order = order
         assert db.order == order, f"{db.order=!r}"
         db.swap()
@@ -394,56 +397,95 @@ def test_swap(reflections, order, probe, expected):
         assert expected in str(reason)
 
 
-@pytest.mark.parametrize("config", [load_yaml(e4cv_r400_config_yaml)])
-def test_fromdict(config):
-    assert isinstance(config, dict), f"{config=!r}"
-    assert "name" in config, f"{config=!r}"
+@pytest.mark.parametrize(
+    "config, context, expected",
+    [
+        [
+            {
+                "name": "r400",
+                "geometry": "E4CV",
+                "pseudos": {"h": 4, "k": 0, "l": 0},
+                "reals": {"omega": -145.451, "chi": 0, "phi": 0, "tth": 69.066},
+                "wavelength": 1.54,
+                "digits": 4,
+            },
+            does_not_raise(),
+            None,
+        ],
+        [
+            {
+                "name": "wrong_r400",
+                "geometry": "E4CV",
+                "pseudos": {"h": 4, "k": 0, "l": 0},
+                "reals": {"omega": -145.451, "chi": 0, "phi": 0, "tth": 69.066},
+                "wavelength": 1.54,
+                "digits": 4,
+            },
+            pytest.raises(ConfigurationError),
+            "Mismatched name for reflection",
+        ],
+        [
+            {
+                "name": "r400",
+                "geometry": "wrong_E4CV",
+                "pseudos": {"h": 4, "k": 0, "l": 0},
+                "reals": {"omega": -145.451, "chi": 0, "phi": 0, "tth": 69.066},
+                "wavelength": 1.54,
+                "digits": 4,
+            },
+            pytest.raises(ConfigurationError),
+            "Mismatched geometry for reflection",
+        ],
+        [
+            {
+                "name": "r400",
+                "geometry": "E4CV",
+                "pseudos": {"wrong_h": 4, "k": 0, "l": 0},
+                "reals": {"omega": -145.451, "chi": 0, "phi": 0, "tth": 69.066},
+                "wavelength": 1.54,
+                "digits": 4,
+            },
+            pytest.raises(ConfigurationError),
+            "Mismatched pseudo axis names for reflection",
+        ],
+        [
+            {
+                "name": "r400",
+                "geometry": "E4CV",
+                "pseudos": {"h": 4, "k": 0, "l": 0},
+                "reals": {"wrong_omega": -145.451, "chi": 0, "phi": 0, "tth": 69.066},
+                "wavelength": 1.54,
+                "digits": 4,
+            },
+            pytest.raises(ConfigurationError),
+            "Mismatched real axis names for reflection",
+        ],
+    ],
+)
+def test_fromdict(config, context, expected):
+    with context as reason:
+        assert isinstance(config, dict)
+        e4cv = creator(name="e4cv")
+        add_oriented_vibranium_to_e4cv(e4cv)
+        r400 = e4cv.operator.sample.reflections["r400"]
+        assert isinstance(r400, Reflection)
+        r400._fromdict(config)
 
-    db = ReflectionsDict()
-    assert len(db._asdict()) == 0
+    assert_context_result(expected, reason)
 
-    refl = Reflection(
-        config["name"],
-        config["pseudos"],
-        config["reals"],
-        config["wavelength"],
-        config["geometry"],
-        list(config["pseudos"]),
-        list(config["reals"]),
-        digits=config["digits"],
-    )
-    assert refl is not None
 
-    db._fromdict({config["name"]: config})
-    assert len(db._asdict()) == 1
-    assert config["name"] in db
-
-    # check that we can restore same config
-    with does_not_raise() as reason:
-        refl._fromdict(config)
-    assert reason is None
-
-    # checks that mismatched Reflection configs raise
-    temp_config = config.copy()
-    temp_config["name"] = "mismatch will raise on refl._fromdict()"
-    with pytest.raises(ConfigurationError) as reason:
-        refl._fromdict(temp_config)
-    assert "Mismatched name for reflection" in str(reason)
-
-    temp_config = config.copy()
-    temp_config["geometry"] = "mismatch will raise on refl._fromdict()"
-    with pytest.raises(ConfigurationError) as reason:
-        refl._fromdict(temp_config)
-    assert "Mismatched geometry for reflection" in str(reason)
-
-    temp_config = config.copy()
-    temp_config["pseudos"] = {"aa": 1, "bb": "two"}
-    with pytest.raises(ConfigurationError) as reason:
-        refl._fromdict(temp_config)
-    assert "Mismatched pseudo axis names for reflection" in str(reason)
-
-    temp_config = config.copy()
-    temp_config["reals"] = {"aa": 1, "bb": "two"}
-    with pytest.raises(ConfigurationError) as reason:
-        refl._fromdict(temp_config)
-    assert "Mismatched real axis names for reflection" in str(reason)
+def test_wrong_real_names():
+    expected = "do not match diffractometer"
+    with pytest.raises(ReflectionError) as reason:
+        e4cv = creator(name="e4cv")
+        Reflection(
+            name="r400",
+            geometry="E4CV",
+            pseudos={"h": 4, "k": 0, "l": 0},
+            reals={"aaaa_omega": -145.451, "chi": 0, "phi": 0, "tth": 69.066},
+            wavelength=1.54,
+            pseudo_axis_names="h k l".split(),
+            real_axis_names="aaaa_omega chi phi tth".split(),
+            operator=e4cv.operator,
+        )
+    assert_context_result(expected, reason)

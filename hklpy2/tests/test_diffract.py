@@ -367,7 +367,7 @@ def test_remove_sample():
 
 
 @pytest.mark.parametrize(
-    "name, pseudos, reals, wavelength, replace, num, raiser, excuse",
+    "name, pseudos, reals, wavelength, replace, num, context, expected",
     [
         ["(100)", (1, 0, 0), (10, 0, 0, 20), 1, True, 1, does_not_raise(), None],
         [
@@ -407,7 +407,7 @@ def test_remove_sample():
     ],
 )
 def test_repeated_reflections(
-    name, pseudos, reals, wavelength, replace, num, raiser, excuse
+    name, pseudos, reals, wavelength, replace, num, context, expected
 ):
     from ..geom import creator
 
@@ -420,7 +420,7 @@ def test_repeated_reflections(
     )
     assert len(e4cv.sample.reflections) == 1
 
-    with raiser as reason:
+    with context as reason:
         e4cv.add_reflection(
             pseudos,
             reals,
@@ -428,8 +428,7 @@ def test_repeated_reflections(
             wavelength=wavelength,
             replace=replace,
         )
-    if excuse is not None:
-        assert excuse in str(reason), f"{reason=!r}  {excuse=!r}"
+    assert_context_result(expected, reason)
     assert len(e4cv.sample.reflections) == num, f"{e4cv.sample.reflections=!r}"
 
 

@@ -2,13 +2,13 @@ from contextlib import nullcontext as does_not_raise
 
 import pytest
 
+from ...tests.common import assert_context_result
 from ..lattice import Lattice
 from ..lattice import LatticeError
-from ..misc import load_yaml
 
 
 @pytest.mark.parametrize(
-    "system, a, others, context, reason",
+    "system, a, others, context, expected",
     [
         ["cubic", 5, dict(), does_not_raise(), None],
         ["hexagonal", 4, dict(c=3, gamma=120), does_not_raise(), None],
@@ -33,19 +33,18 @@ from ..misc import load_yaml
         ],
     ],
 )
-def test_repr(system, a, others, context, reason):
+def test_repr(system, a, others, context, expected):
     lattice = Lattice(a, **others)
     assert lattice is not None
 
-    with context as info:
+    with context as reason:
         rep = repr(lattice)
         assert rep.startswith("Lattice(")
         assert "a=" in rep
         assert "system=" in rep
         assert repr(system) in rep, f"{system=!r} lattice={rep!r}"
         assert rep.endswith(")")
-    if reason is not None:
-        assert reason in str(info.value)
+    assert_context_result(expected, reason)
 
 
 @pytest.mark.parametrize(
@@ -80,24 +79,68 @@ def test_equal():
     assert l1 != l2
 
 
-def test_fromdict():
-    text = """
-      a: 3
-      b: 4
-      c: 5
-      alpha: 75.0
-      beta: 85.0
-      gamma: 91.0
-    """
-    config = load_yaml(text)
-    assert isinstance(config, dict), f"{config=!r}"
-    for k in "a b c alpha beta gamma".split():
-        assert k in config, f"{k=!r}  {config=!r}"
+@pytest.mark.parametrize(
+    "config, context, expected",
+    [
+        [
+            dict(
+                a=3,
+                b=4,
+                c=5,
+                alpha=75.0,
+                beta=85.0,
+                gamma=95.0,
+            ),
+            does_not_raise(),
+            None,
+        ],
+        [
+            dict(
+                a=3,
+                b=4,
+                c=5,
+                alpha=75.0,
+                beta=85.0,
+                # gamma=95.0,
+            ),
+            pytest.raises(KeyError),
+            "gamma",
+        ],
+        [
+            dict(
+                a=3,
+                b=4,
+                c=5,
+                alpha=75.0,
+                beta=85.0,
+                gamma=95.0,
+                delta=1,  # ignored, no error
+            ),
+            does_not_raise(),
+            None,
+        ],
+        [
+            dict(
+                able=3,
+                baker=4,
+                charlie=5,
+                echo=75.0,
+                foxtrot=85.0,
+                # gamma=95.0,
+            ),
+            pytest.raises(KeyError),
+            "'a'",
+        ],
+    ],
+)
+def test_fromdict(config, context, expected):
+    with context as reason:
+        assert isinstance(config, dict)
+        lattice = Lattice(1)
+        for k in "a b c alpha beta gamma".split():
+            assert getattr(lattice, k) != config[k], f"{k=!r}  {lattice=!r}"
+        lattice._fromdict(config)
+        for k in "a b c alpha beta gamma".split():
+            assert getattr(lattice, k) == config[k], f"{k=!r}  {lattice=!r}"
 
-    lattice = Lattice(1)
-    for k in "a b c alpha beta gamma".split():
-        assert getattr(lattice, k) != config[k], f"{k=!r}  {lattice=!r}"
-
-    lattice._fromdict(config)
-    for k in "a b c alpha beta gamma".split():
-        assert getattr(lattice, k) == config[k], f"{k=!r}  {lattice=!r}"
+    assert_context_result(expected, reason)
