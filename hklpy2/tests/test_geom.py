@@ -86,6 +86,6 @@ def test_creator_reals(
             if len(reals) > 0:
                 assert axis in reals
             assert isinstance(getattr(diffractometer, axis), positioner_class)
-        diffractometer.operator.restore(HKLPY2_DIR / "tests" / config_file)
+        diffractometer.restore(HKLPY2_DIR / "tests" / config_file)
 
     assert_context_result(expected, reason)

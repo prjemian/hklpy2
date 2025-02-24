@@ -200,7 +200,7 @@ def test_fromdict():
 def test_restore(diffractometer, clear, restore, file, context, expected):
     with context as reason:
         assert isinstance(diffractometer, DiffractometerBase)
-        diffractometer.operator.configuration.restore(
+        diffractometer.restore(
             file,
             clear=clear,
             restore_constraints=restore,

@@ -20,7 +20,6 @@ import pathlib
 import yaml
 
 from .misc import ConfigurationError
-from .misc import load_yaml_file
 
 logger = logging.getLogger(__name__)
 
@@ -34,8 +33,6 @@ class Configuration:
         ~_asdict
         ~_fromdict
         ~_valid
-        ~export
-        ~restore
     """
 
     def __init__(self, diffractometer) -> None:
@@ -70,39 +67,6 @@ class Configuration:
             y.write("#hklpy2 configuration file\n\n")
             y.write(dump)
 
-    def restore(self, file, clear=True, restore_constraints=True, solver=None):
-        """
-        Restore the diffractometer configuration to a YAML file.
-
-        Example::
-
-            import hklpy2
-
-            e4cv = hklpy2.creator(name="e4cv")
-            e4cv.operator.configuration.restore("e4cv-config.yml")
-
-        PARAMETERS
-
-        file *str* or *pathlib.Path* object:
-            Name (or pathlib object) of diffractometer configuration YAML file.
-        clear *bool*:
-            If ``True`` (default), remove any previous configuration of the
-            diffractometer and reset it to default values before restoring the
-            configuration.
-
-            If ``False``, sample reflections will be append with all reflections
-            included in the configuration data for that sample.  Existing
-            reflections will not be changed.  The user may need to edit the
-            list of reflections after ``restore(clear=False)``.
-        restore_constraints *bool*:
-            If ``True`` (default), restore any constraints provided.
-
-        Note: Can't name this method "import", it's a reserved Python word.
-        """
-        path = pathlib.Path(file)
-        config = load_yaml_file(path)
-        self._fromdict(config, clear, restore_constraints)
-
     def _fromdict(
         self,
         config: dict,
@@ -128,7 +92,6 @@ class Configuration:
         else:
             config["constraints"] = {}
 
-        # TODO: wavelength & energy units
         self.diffractometer.operator._fromdict(config)
 
     def _valid(self, config):

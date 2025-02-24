@@ -5,6 +5,7 @@ Tests for the NSLS-II 'tardis' (6-circle).
 from contextlib import nullcontext as does_not_raise
 
 import pytest
+from numpy.testing import assert_almost_equal
 
 from ..diffract import DiffractometerBase
 from ..geom import creator
@@ -12,7 +13,7 @@ from .common import TESTS_DIR
 from .common import assert_context_result
 
 TARDIS_CONFIG_YAML = TESTS_DIR / "tardis.yml"
-TARDIS_TEST_MODE = "lifting_detector_mu"
+TARDIS_SOLVER_MODE = "lifting_detector_mu"
 
 
 @pytest.fixture
@@ -33,7 +34,7 @@ def tardis():
     )
     diffractometer._wavelength.energy_units = "eV"
     diffractometer._wavelength.wavelength_units = "angstrom"
-    diffractometer.operator.solver.mode = TARDIS_TEST_MODE
+    diffractometer.operator.solver.mode = TARDIS_SOLVER_MODE
     diffractometer.operator.constraints["gamma"].limits = -5, 180
     return diffractometer
 
@@ -45,36 +46,18 @@ def test_basic(tardis):
         assert isinstance(tardis, DiffractometerBase)
         assert tardis.pseudo_axis_names == "h k l".split()
         assert tardis.real_axis_names == "mu theta chi phi delta gamma".split()
-        assert tardis.operator.solver.mode == TARDIS_TEST_MODE
+        assert tardis.operator.solver.mode == TARDIS_SOLVER_MODE
         assert tardis.operator.constraints["gamma"].limits == (-5, 180)
         assert list(tardis.samples) == ["sample"]
     assert_context_result(expected, reason)
 
 
-# TODO: Combine test_oriented_kcf & test_reachable
-# TODO: Using the samples "KCF" and "esrf_sample",
-# move to each of the reflections in the notebook.
-# esrf_sample:
-#     tardis.wavelength.put(1.61198)
-#     print(f"{tardis.forward(4, 4, 0)=}")
-#     print(f"{tardis.forward(4, 1, 0)=}")
-
-#     tardis.wavelength.put(1.60911)
-#     print(f"{tardis.forward(6, 0, 0)=}")
-
-
-#     tardis.wavelength.put(1.60954)
-#     print(f"{tardis.forward(3, 2, 0)=}")
-#     print(f"{tardis.forward(5, 4, 0)=}")
-#     print(f"{tardis.forward(4, 5, 0)=}")
-# KCF:
-#     tardis.move((0, 0, 1.1))
-# Also, move to each of the reflection positions and check (hkl).
 @pytest.mark.parametrize(
-    "sample, ppos, rpos, context, expected",
+    "sample, wavelength, ppos, rpos, digits, context, expected",
     [
         [
             "KCF",
+            13.317314715359826,
             (0, 0, 1.1),
             (
                 101.56806493825435,
@@ -84,106 +67,154 @@ def test_basic(tardis):
                 42.02226419522791,
                 176.69158155966787,
             ),
+            3,
+            does_not_raise(),
+            None,
+        ],
+        [
+            "esrf_sample",
+            1.60911,
+            (6, 0, 0),
+            (
+                60.993465989902,
+                0.0,
+                0.0,
+                0.0,
+                75.845217742871,
+                -1.583950160798,
+            ),
+            3,
+            does_not_raise(),
+            None,
+        ],
+        [
+            "esrf_sample",
+            1.60954,
+            (3, 2, 0),
+            (
+                26.173823508277,
+                0.0,
+                0.0,
+                0.0,
+                53.052076190366,
+                -0.843799584044,
+            ),
+            3,
+            does_not_raise(),
+            None,
+        ],
+        [
+            "esrf_sample",
+            1.60954,
+            (4, 5, 0),
+            (
+                42.549266257243,
+                0.0,
+                0.0,
+                0.0,
+                106.318942250347,
+                -1.18540715326,
+            ),
+            3,
+            does_not_raise(),
+            None,
+        ],
+        [
+            "esrf_sample",
+            1.60954,
+            (5, 4, 0),
+            (
+                49.892321938069,
+                0.0,
+                0.0,
+                0.0,
+                106.320529873965,
+                -1.42365604908,
+            ),
+            3,
+            does_not_raise(),
+            None,
+        ],
+        [
+            "esrf_sample",
+            1.61198,
+            (4, 1, 0),
+            (
+                40.220,
+                0.0,
+                0.0,
+                0.0,
+                56.097,
+                -1.08366,
+            ),
+            3,
+            does_not_raise(),
+            None,
+        ],
+        [
+            "esrf_sample",
+            1.61198,
+            (4, 4, 0),
+            (
+                38.3762,
+                0.0,
+                0.0,
+                0.0,
+                90.6303,
+                -1.161318,
+            ),
+            3,
             does_not_raise(),
             None,
         ],
     ],
 )
-def test_restore_and_move(tardis, sample, ppos, rpos, context, expected):
+def test_restore_and_move(sample, wavelength, ppos, rpos, digits, context, expected):
     with context as reason:
+        tardis = creator(
+            name="tardis",
+            geometry="E6C",
+            solver="hkl_soleil",
+            reals=dict(
+                theta=None,
+                mu=None,
+                chi=None,
+                phi=None,
+                delta=None,
+                gamma=None,
+            ),
+            labels=["tardis"],
+        )
         assert isinstance(tardis, DiffractometerBase)
-        tardis.operator.restore(TARDIS_CONFIG_YAML, clear=True)
+        tardis.restore(TARDIS_CONFIG_YAML, clear=True)
 
         assert tardis._wavelength.energy_units == "eV"
         assert tardis._wavelength.wavelength_units == "angstrom"
 
+        # set the test parameters
+        tardis.wavelength.put(wavelength)
         tardis.sample = sample
-        # TODO: assert UB matrix matches config
+        tardis.operator.solver.mode = TARDIS_SOLVER_MODE
 
         tardis.move(ppos)
 
-        # TODO: generalize with ppos & rpos
-        # assert round(tardis.h.position, 3) == 0
-        # assert round(tardis.k.position, 3) == 0
-        # assert round(tardis.l.position, 3) == 1.1
-        # assert round(tardis.mu.position, 3) == 101.568
-        # assert round(tardis.theta.position, 3) == 0
-        # assert round(tardis.chi.position, 3) == 0
-        # assert round(tardis.phi.position, 3) == 0
-        # assert round(tardis.delta.position, 3) == -137.978
-        # assert round(tardis.gamma.position, 3) == 3.308
+        for axis, value in zip(tardis.pseudo_positioners, ppos):
+            (
+                assert_almost_equal(
+                    axis.position,
+                    value,
+                    decimal=digits,
+                ),
+                f"{axis=} {value=}",
+            )
+        for axis, value in zip(tardis.real_positioners, rpos):
+            (
+                assert_almost_equal(
+                    axis.position,
+                    value,
+                    decimal=digits,
+                ),
+                f"{axis=} {value=}",
+            )
 
     assert_context_result(expected, reason)
-
-
-# def test_oriented_kcf(tardis):
-#     context = does_not_raise()
-#     expected = None
-#     with context as reason:
-#         assert isinstance(tardis, DiffractometerBase)
-#         tardis.operator.restore(TARDIS_CONFIG_YAML, clear=True)
-#         assert tardis.operator.solver.mode == TARDIS_TEST_MODE
-#         assert tardis.operator.constraints["gamma"].limits == (-5, 180)
-#         assert tardis._wavelength.wavelength_units == "angstrom"
-#         assert tardis._wavelength.energy_units == "eV"
-#         assert list(tardis.samples) == ["sample", "KCF", "esrf_sample"]
-#     assert_context_result(expected, reason)
-
-
-# @pytest.mark.parametrize(
-#     "config, ppos, rpos, context, expected",
-#     [
-#         [
-#             TARDIS_CONFIG_YAML,
-#             (0, 0, 1.1),
-#             (
-#                 101.56806493825435,
-#                 0.0,
-#                 0.0,
-#                 0.0,
-#                 42.02226419522791,
-#                 176.69158155966787,
-#             ),
-#             does_not_raise(),
-#             None,
-#         ],
-#     ],
-# )
-# def test_reachable(tardis, config, ppos, rpos, context, expected):
-#     with context as reason:
-#         assert isinstance(tardis, DiffractometerBase)
-#         tardis.operator.restore(config, clear=True)
-
-#         assert tardis._wavelength.energy_units == "eV"
-#         assert tardis._wavelength.wavelength_units == "angstrom"
-
-#         assert tardis.operator.solver.mode == TARDIS_TEST_MODE
-#         assert tardis.operator.constraints["delta"].limits == (-5, 180)
-#         assert tardis.operator.constraints["gamma"].limits == (-5, 180)
-#         assert tardis._wavelength.wavelength_units == "angstrom"
-#         assert tardis._wavelength.energy_units == "eV"
-#         assert list(tardis.samples) == ["sample", "KCF", "esrf_sample"]
-
-#         if tardis.wavelength.get() == 1:  # FIXME: wavelength & units not restored
-#             tardis.wavelength.put(13.317314715359826)
-#         assert round(tardis._wavelength.energy, 3) == 931.0
-#         assert round(tardis.wavelength.get(), 3) == 13.317
-#         assert tardis.operator.sample.name == "KCF"
-
-#         # FIXME: UB not restored
-#         cfg = load_yaml_file(config)
-#         tardis.operator.solver.UB = cfg["samples"]["KCF"]["UB"]
-#         assert round(tardis.operator.solver.UB[0][0], 6) == 0.728792
-
-#         tardis.move(ppos)
-#         assert round(tardis.h.position, 3) == 0
-#         assert round(tardis.k.position, 3) == 0
-#         assert round(tardis.l.position, 3) == 1.1
-#         assert round(tardis.mu.position, 3) == 101.568
-#         assert round(tardis.theta.position, 3) == 0
-#         assert round(tardis.chi.position, 3) == 0
-#         assert round(tardis.phi.position, 3) == 0
-#         assert round(tardis.delta.position, 3) == -137.978
-#         assert round(tardis.gamma.position, 3) == 3.308
-
-#     assert_context_result(expected, reason)

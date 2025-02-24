@@ -11,6 +11,8 @@ library.
 
 import datetime
 import logging
+from typing import List
+from typing import Union
 
 from . import SolverBase
 from .operations.configure import Configuration
@@ -23,6 +25,8 @@ from .operations.reflection import Reflection
 from .operations.sample import Sample
 
 __all__ = ["Operations"]
+
+Number = Union[int, float]
 logger = logging.getLogger(__name__)
 DEFAULT_SAMPLE_NAME = "sample"
 
@@ -47,14 +51,12 @@ class Operations:
         ~assign_axes
         ~auto_assign_axes
         ~calc_UB
-        ~export
         ~forward
         ~inverse
         ~refine_lattice
         ~remove_sample
         ~reset_constraints
         ~reset_samples
-        ~restore
         ~set_solver
         ~standardize_pseudos
         ~standardize_reals
@@ -97,6 +99,7 @@ class Operations:
         config = {
             "_header": {
                 "datetime": str(datetime.datetime.now()),
+                # FIXME: items should come from wavelength_support ._asdict() method
                 "energy_units": dfrct._wavelength.energy_units,
                 "energy": dfrct._wavelength.energy,
                 "hklpy2_version": __version__,
@@ -128,6 +131,9 @@ class Operations:
         for key, sample in config["samples"].items():
             sample_object = self.add_sample(key, 1, replace=True)
             sample_object._fromdict(sample, operator=self)
+        sname = config.get("sample_name")
+        if sname is not None:
+            self.sample = sname
 
         for key, constraint in config["constraints"].items():
             if (
@@ -315,9 +321,11 @@ class Operations:
 
         logger.debug("axes_xref=%r", self.axes_xref)
 
-    def calc_UB(self, r1: [Reflection, str], r2: [Reflection, str]) -> None:
+    def calc_UB(
+        self, r1: [Reflection, str], r2: [Reflection, str]
+    ) -> List[List[Number]]:
         """
-        Calculate the UB (orientation) matrix with two reflections.
+        Calculate and return the UB (orientation) matrix with two reflections.
 
         The method of Busing & Levy, Acta Cryst 22 (1967) 457.
         """
@@ -339,6 +347,7 @@ class Operations:
         self.solver.calculate_UB(*two_reflections)
         self.sample.U = self.solver.U
         self.sample.UB = self.solver.UB
+        return self.sample.UB
 
     def export(self, file, comment=""):
         """
@@ -449,37 +458,6 @@ class Operations:
             self.remove_sample(list(self.samples)[-1])
         # Create the default sample.
         self.add_sample(DEFAULT_SAMPLE_NAME, 1)
-
-    def restore(self, file, clear=True, restore_constraints=True):
-        """
-        Restore the diffractometer configuration to a YAML file.
-
-        Example::
-
-            import hklpy2
-
-            e4cv = hklpy2.creator(name="e4cv")
-            e4cv.operator.restore("e4cv-config.yml")
-
-        PARAMETERS
-
-        file *str* or *pathlib.Path* object:
-            Name (or pathlib object) of diffractometer configuration YAML file.
-        clear *bool*:
-            If ``True`` (default), remove any previous configuration of the
-            diffractometer and reset it to default values before restoring the
-            configuration.
-
-            If ``False``, sample reflections will be append with all reflections
-            included in the configuration data for that sample.  Existing
-            reflections will not be changed.  The user may need to edit the
-            list of reflections after ``restore(clear=False)``.
-        restore_constraints *bool*:
-            If ``True`` (default), restore any constraints provided.
-
-        Note: Can't name this method "import", it's a reserved Python word.
-        """
-        self.configuration.restore(file, clear, restore_constraints, solver=self.solver)
 
     def set_solver(
         self,
@@ -622,6 +600,12 @@ class Operations:
     @sample.setter
     def sample(self, value: str) -> None:
         self._sample_name = value
+        if self.solver is not None:
+            try:
+                self.solver.U = self.sample.U
+                self.solver.UB = self.sample.UB
+            except AttributeError:
+                pass  # property is not settable
 
     @property
     def samples(self) -> dict:

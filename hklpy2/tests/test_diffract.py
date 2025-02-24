@@ -135,7 +135,7 @@ def test_diffractometer_wh(capsys):
     from ..geom import creator
 
     e4cv = creator(name="e4cv")
-    e4cv.operator.restore(HKLPY2_DIR / "tests" / "e4cv_orient.yml")
+    e4cv.restore(HKLPY2_DIR / "tests" / "e4cv_orient.yml")
 
     e4cv.wh()
     captured = capsys.readouterr()
@@ -197,7 +197,7 @@ def test_full_position(mode, keys, context, expected, config_file):
 
     with context as reason:
         fourc = creator(name="fourc")
-        fourc.operator.restore(HKLPY2_DIR / "tests" / config_file)
+        fourc.restore(HKLPY2_DIR / "tests" / config_file)
         fourc.operator.solver.mode = mode
         pos = fourc.full_position()
         assert isinstance(pos, dict)
@@ -221,7 +221,7 @@ def test_move_forward_with_extras(pseudos, reals, mode, context, expected):
     from ..geom import creator
 
     fourc = creator(name="fourc")
-    fourc.operator.restore(HKLPY2_DIR / "tests" / "e4cv_orient.yml")
+    fourc.restore(HKLPY2_DIR / "tests" / "e4cv_orient.yml")
     fourc.operator.solver.mode = mode
     # fourc.wavelength.put(6)
     assert fourc.operator.solver.mode == mode
@@ -316,7 +316,9 @@ def test_orientation():
     assert fourc.operator.sample.reflections.order == "(400) (040)".split()
 
     result = fourc.operator.calc_UB(*fourc.operator.sample.reflections.order)
-    assert result is None
+    assert isinstance(result, list)
+    assert isinstance(result[0], list)
+    assert isinstance(result[0][0], (float, int))
 
     UB = fourc.operator.solver.UB
     assert len(UB) == 3
@@ -458,7 +460,7 @@ def test_repeated_reflections(
                 start=5,
                 finish=10,
                 num=3,
-                pseudos=dict(h=2, k=-1, l=0),
+                pseudos=dict(h=2, k=-1, l=10),  # l=10 is unreachable
                 reals=None,
                 extras=dict(h2=2, k2=2, l2=0, psi=0),
                 fail_on_exception=True,
@@ -544,7 +546,7 @@ def test_scan_extra(scan_kwargs, mode, context, expected):
     from ..geom import creator
 
     fourc = creator(name="fourc")
-    fourc.operator.restore(HKLPY2_DIR / "tests" / "e4cv_orient.yml")
+    fourc.restore(HKLPY2_DIR / "tests" / "e4cv_orient.yml")
     fourc.operator.solver.mode = mode
     assert fourc.operator.solver.mode == mode
 
