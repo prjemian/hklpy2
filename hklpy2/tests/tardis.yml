@@ -1,16 +1,16 @@
 #hklpy2 configuration file
 
 _header:
-  datetime: '2025-02-23 11:00:11.704638'
+  datetime: '2025-02-24 07:15:04.494795'
   energy_units: eV
-  energy: 930.9999882751769
-  hklpy2_version: 0.0.26.dev50+g37e3eed.d20250223
+  energy: 7703.082771386134
+  hklpy2_version: 0.0.26.dev51+g2b5e600.d20250224
   python_class: Hklpy2Diffractometer
   source_type: X-ray
   wavelength_units: angstrom
-  wavelength: 13.317314715359826
-  file: dev_tardis-kcf.yml
-  comment: NSLS-II tardis with oriented KCF sample
+  wavelength: 1.60954
+  file: dev_tardis-3-samples.yml
+  comment: NSLS-II tardis with oriented KCF & ESRF samples
 name: tardis
 axes:
   pseudo_axes:
@@ -19,7 +19,7 @@ axes:
   - l
   real_axes:
   - theta
-  - omega
+  - mu
   - chi
   - phi
   - delta
@@ -29,13 +29,13 @@ axes:
     k: k
     l: l
     theta: mu
-    omega: omega
+    mu: omega
     chi: chi
     phi: phi
     delta: gamma
     gamma: delta
   extra_axes: {}
-sample_name: KCF
+sample_name: esrf_sample
 samples:
   sample:
     name: sample
@@ -79,7 +79,7 @@ samples:
           l: 1
         reals:
           theta: 48.42718305024724
-          omega: 0.0
+          mu: 0.0
           chi: 0.0
           phi: 0.0
           delta: 115.65436271083637
@@ -95,7 +95,7 @@ samples:
           l: 0
         reals:
           theta: 138.42718305024724
-          omega: 0.0
+          mu: 0.0
           chi: 0.0
           phi: 0.0
           delta: 115.65436271083637
@@ -126,30 +126,96 @@ samples:
       - -0.734401118598
       - 0.024752949397
     digits: 4
+  esrf_sample:
+    name: esrf_sample
+    lattice:
+      a: 9.069
+      b: 9.069
+      c: 10.39
+      alpha: 90.0
+      beta: 90.0
+      gamma: 120
+    reflections:
+      r1:
+        name: r1
+        geometry: E6C
+        pseudos:
+          h: 3
+          k: 3
+          l: 0
+        reals:
+          theta: 25.285
+          mu: 0.0
+          chi: 0.0
+          phi: 0.0
+          delta: 64.449
+          gamma: -0.871
+        wavelength: 1.61198
+        digits: 4
+      r2:
+        name: r2
+        geometry: E6C
+        pseudos:
+          h: 5
+          k: 2
+          l: 0
+        reals:
+          theta: 46.816
+          mu: 0.0
+          chi: 0.0
+          phi: 0.0
+          delta: 79.712
+          gamma: -1.374
+        wavelength: 1.61198
+        digits: 4
+    reflections_order:
+    - r1
+    - r2
+    U:
+    - - 0.391544524019
+      - -0.919974864499
+      - 0.018415602128
+    - - 0.919884370594
+      - 0.391838271968
+      - 0.016598595077
+    - - -0.022486227972
+      - 0.010441135564
+      - 0.999692628881
+    UB:
+    - - 0.313235509421
+      - -0.480759304678
+      - 0.011136539049
+    - - 0.735907238528
+      - 0.639427042267
+      - 0.010037733273
+    - - -0.017988976072
+      - -0.001760659657
+      - 0.604548030557
+    digits: 4
 constraints:
   theta:
     label: theta
-    low_limit: -180.0
-    high_limit: 180.0
+    low_limit: -181.0
+    high_limit: 181.0
     class: LimitsConstraint
-  omega:
-    label: omega
-    low_limit: -180.0
-    high_limit: 180.0
+  mu:
+    label: mu
+    low_limit: 0.0
+    high_limit: 0.0
     class: LimitsConstraint
   chi:
     label: chi
-    low_limit: -180.0
-    high_limit: 180.0
+    low_limit: 0.0
+    high_limit: 0.0
     class: LimitsConstraint
   phi:
     label: phi
-    low_limit: -180.0
-    high_limit: 180.0
+    low_limit: 0.0
+    high_limit: 0.0
     class: LimitsConstraint
   delta:
     label: delta
-    low_limit: -180.0
+    low_limit: -5.0
     high_limit: 180.0
     class: LimitsConstraint
   gamma:
