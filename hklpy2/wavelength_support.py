@@ -46,6 +46,7 @@ class WavelengthBase(ABC):
 
     .. autosummary::
 
+        ~_fromdict
         ~wavelength
         ~wavelength_units
         ~source_type
@@ -66,6 +67,23 @@ class WavelengthBase(ABC):
 
     def __init__(self, *, units: str = None):
         self._wavelength_units = units or DEFAULT_WAVELENGTH_UNITS
+
+    def _fromdict_core(self, config):
+        """Restore most items from config dictionary."""
+        if not isinstance(config, dict):
+            raise TypeError(f"Unrecognized configuration: {config=}")
+        if self.source_type != config["source_type"]:
+            raise ValueError(
+                f"Source type ({config['source_type']})"
+                f" does not match expected {self.source_type}"
+            )
+        self.wavelength_units = config["wavelength_units"]
+        self.energy_units = config["energy_units"]
+
+    def _fromdict(self, config):
+        """Restore configuration from dictionary."""
+        self._fromdict_core(config)
+        self.wavelength = config["wavelength"]
 
     @property
     @abstractmethod
@@ -107,6 +125,10 @@ class ConstantMonochromaticWavelength(WavelengthBase):
     def __init__(self, wavelength: float, **kwargs):
         super().__init__(**kwargs)
         self._wavelength = wavelength
+
+    def _fromdict(self, config):
+        """Restore configuration from dictionary but not wavelength."""
+        self._fromdict_core(config)
 
     @property
     def wavelength(self) -> float:
