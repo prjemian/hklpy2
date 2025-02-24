@@ -100,9 +100,6 @@ class Configuration:
         Note: Can't name this method "import", it's a reserved Python word.
         """
         path = pathlib.Path(file)
-        if not path.exists():
-            raise FileExistsError(f"{path}")
-
         config = load_yaml_file(path)
         self._fromdict(config, clear, restore_constraints)
 
