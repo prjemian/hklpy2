@@ -1,5 +1,5 @@
 """
-Export and restore diffractometer configurations.
+Supports export and restore diffractometer configurations.
 
 .. autosummary::
 
@@ -15,9 +15,6 @@ From **hklpy**, these TODO items:
 """
 
 import logging
-import pathlib
-
-import yaml
 
 from .misc import ConfigurationError
 
@@ -41,31 +38,6 @@ class Configuration:
     def _asdict(self) -> dict:
         """Return diffractometer's configuration as a dict."""
         return self.diffractometer.operator._asdict()
-
-    def export(self, file, comment=""):
-        """
-        Export the diffractometer configuration to a YAML file.
-
-        Example::
-
-            import hklpy2
-
-            e4cv = hklpy2.creator(name="e4cv")
-            e4cv.operator.configuration.export("e4cv-config.yml", comment="example")
-        """
-        path = pathlib.Path(file)
-        config = self.diffractometer.operator._asdict()
-        config["_header"]["file"] = str(file)
-        config["_header"]["comment"] = str(comment)
-        dump = yaml.dump(
-            config,
-            indent=2,
-            default_flow_style=False,
-            sort_keys=False,
-        )
-        with open(path, "w") as y:
-            y.write("#hklpy2 configuration file\n\n")
-            y.write(dump)
 
     def _fromdict(
         self,

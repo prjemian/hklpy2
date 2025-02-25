@@ -85,7 +85,7 @@ def test_Configuration_export(tmp_path):
 
     # write the YAML file
     agent = Configuration(e4cv)
-    agent.export(config_file, comment="testing")
+    agent.diffractometer.export(config_file, comment="testing")
     assert config_file.exists()
 
     # read the YAML file, check for _header.file key

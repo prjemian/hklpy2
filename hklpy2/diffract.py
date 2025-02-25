@@ -10,6 +10,7 @@ Base class for all diffractometers
 import logging
 import pathlib
 
+import yaml
 from ophyd import Component as Cpt
 from ophyd import PseudoPositioner
 from ophyd.pseudopos import pseudo_position_argument
@@ -256,9 +257,30 @@ class DiffractometerBase(PseudoPositioner):
         """
         return self.operator._fromdict(config)
 
-    def export(self, *args, **kwargs):
-        """Export diffractometer configuration to a file."""
-        pass  # TODO:
+    def export(self, file, comment=""):
+        """
+        Export the diffractometer configuration to a YAML file.
+
+        Example::
+
+            import hklpy2
+
+            e4cv = hklpy2.creator(name="e4cv")
+            e4cv.export("e4cv-config.yml", comment="example")
+        """
+        path = pathlib.Path(file)
+        config = self.operator._asdict()
+        config["_header"]["file"] = str(file)
+        config["_header"]["comment"] = str(comment)
+        dump = yaml.dump(
+            config,
+            indent=2,
+            default_flow_style=False,
+            sort_keys=False,
+        )
+        with open(path, "w") as y:
+            y.write("#hklpy2 configuration file\n\n")
+            y.write(dump)
 
     def restore(
         self,
