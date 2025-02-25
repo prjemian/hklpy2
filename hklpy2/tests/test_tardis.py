@@ -218,3 +218,51 @@ def test_restore_and_move(sample, wavelength, ppos, rpos, digits, context, expec
             )
 
     assert_context_result(expected, reason)
+
+
+def test_axis_inversion():
+    tardis = creator(
+        name="tardis",
+        geometry="E6C",
+        solver="hkl_soleil",
+        reals=dict(
+            theta=None,
+            mu=None,
+            chi=None,
+            phi=None,
+            delta=None,
+            gamma=None,
+        ),
+        labels=["tardis"],
+    )
+    assert isinstance(tardis, DiffractometerBase)
+    tardis.restore(TARDIS_CONFIG_YAML, clear=True)
+
+    tardis.wavelength.put(13.317314547644292)
+    tardis.sample = "KCF"
+    tardis.operator.solver.mode = TARDIS_SOLVER_MODE
+
+    # ppos = (0, 0, 1.1)
+    # rpos = (
+    #     101.56806493825435,
+    #     0.0,
+    #     0.0,
+    #     0.0,
+    #     42.02226419522791,
+    #     -176.69158155966787,  # invert gamma for this test
+    # )
+
+    # # TODO: support inverted axes
+    # # hklpy v1 code from here
+    # tardis.calc.inverted_axes = ["gamma"]
+    # tardis.calc.physical_positions = rpos
+
+    # assert not tardis.calc["omega"].inverted
+    # gamma = tardis.calc["gamma"]
+    # assert gamma.inverted
+    # assert_almost_equal(gamma.limits, (-180.0, 5.0))  # inverted from (-5, 180)
+    # gamma.limits = (-180.0, 5.0)
+    # assert_almost_equal(gamma.limits, (-180.0, 5.0))  # inverted from (-5, 180)
+
+    # assert_almost_equal(tardis.calc.physical_positions, rpos)
+    # assert_almost_equal(tardis.calc.inverse(rpos), ppos)
