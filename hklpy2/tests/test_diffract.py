@@ -7,6 +7,7 @@ from contextlib import nullcontext as does_not_raise
 import bluesky
 import pytest
 from gi.repository.GLib import GError
+from numpy.testing import assert_almost_equal
 from ophyd.sim import noisy_det
 
 from ..diffract import DiffractometerBase
@@ -576,3 +577,36 @@ def test_set_UB():
     assert math.isclose(result.h, 4.05, abs_tol=0.02), f"{result=!r}"
     assert math.isclose(result.k, 0, abs_tol=0.02), f"{result=!r}"
     assert math.isclose(result.l, 0, abs_tol=0.02), f"{result=!r}"
+
+
+def test_e4cv_constant_phi():
+    from ..geom import creator
+
+    e4cv = creator(name="e4cv")
+
+    # Approximate the code presented as the example problem.
+    refl = dict(h=1, k=1, l=1)
+
+    e4cv.operator.solver.mode = "constant_phi"
+    CONSTANT_PHI = 23.4567
+    e4cv.phi.move(CONSTANT_PHI)
+
+    e4cv.operator.constraints["phi"] = -180, 180
+
+    # Check that phi is held constant in all forward solutions.
+    solutions = e4cv.operator.solver.forward(refl)
+    assert isinstance(solutions, list)
+    assert len(solutions) > 0
+    for solution in solutions:
+        assert isinstance(solution, dict)
+        assert_almost_equal(solution["phi"], CONSTANT_PHI, 4)
+
+    # FIXME:
+    # >   findings = [constraint.valid(**reals) for constraint in self.values()]
+    # E   AttributeError: 'tuple' object has no attribute 'valid'
+
+    # # Check that phi is held constant in forward()
+    # # Returns a position namedtuple.
+    # position = e4cv.forward(refl)
+    # assert isinstance(position, tuple)
+    # assert_almost_equal(solution.phi, CONSTANT_PHI, 4)
