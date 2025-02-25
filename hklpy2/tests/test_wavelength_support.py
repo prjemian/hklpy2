@@ -2,6 +2,7 @@ import math
 
 import pytest
 
+from ..tests.common import assert_context_result
 from ..wavelength_support import DEFAULT_ENERGY_UNITS
 from ..wavelength_support import DEFAULT_WAVELENGTH_UNITS
 from ..wavelength_support import ConstantMonochromaticWavelength
@@ -9,7 +10,13 @@ from ..wavelength_support import MonochromaticXrayWavelength
 from ..wavelength_support import WavelengthError
 
 
-def test_ConstantMonochromaticWavelength():
+@pytest.mark.parametrize(
+    "context, expected",
+    [
+        [pytest.raises(WavelengthError), "Cannot change constant"],
+    ],
+)
+def test_ConstantMonochromaticWavelength(context, expected):
     wl = ConstantMonochromaticWavelength(1.0)
     assert wl is not None
     assert math.isclose(wl.wavelength, 1.0, abs_tol=0.001)
@@ -20,9 +27,9 @@ def test_ConstantMonochromaticWavelength():
     assert wl.wavelength_units == "nm"
     assert math.isclose(wl.wavelength, 0.1, abs_tol=0.000_1)
 
-    with pytest.raises(WavelengthError) as reason:
+    with context as reason:
         wl.wavelength = 2.0  # try to change it
-    assert "Cannot change constant" in str(reason)
+    assert_context_result(expected, reason)
 
 
 @pytest.mark.parametrize(

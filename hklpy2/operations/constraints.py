@@ -56,10 +56,10 @@ class ConstraintBase(ABC):
         """Redefine this constraint from a (configuration) dictionary."""
         from ..ops import Operations
 
-        if self.label != config["label"] or self.__class__.__name__ != config["class"]:
+        if self.__class__.__name__ != config["class"]:
             raise ConfigurationError(
-                f"Wrong configuration for {self.__class__.__name__}({self.label!r})."
-                f" Received configuration: {config!r}"
+                f"Wrong configuration class {self.__class__.__name__}({self.label!r})."
+                f" Received: {config!r}"
             )
 
         if isinstance(operator, Operations):
@@ -69,8 +69,11 @@ class ConstraintBase(ABC):
             axes_solver = list(operator.solver.real_axis_names)
             if axis not in axes_local + axes_solver:
                 raise KeyError(
-                    f"Constraint label {axis=} not in {axes_local} or {axes_solver}."
+                    f"Constraint label {axis=}"
+                    f" not found in diffractometer reals: {axes_local}"
+                    f" or solver's reals {axes_solver}."
                 )
+
         for k in self._fields:
             if k in config:
                 setattr(self, k, config[k])
@@ -91,7 +94,7 @@ class ConstraintBase(ABC):
         values *dict*:
             Dictionary of current 'axis: value' pairs for comparison.
         """
-        return True
+        # return True
 
 
 class LimitsConstraint(ConstraintBase):

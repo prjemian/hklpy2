@@ -8,13 +8,17 @@ Base class for all diffractometers
 """
 
 import logging
+import pathlib
 
+import yaml
 from ophyd import Component as Cpt
 from ophyd import PseudoPositioner
 from ophyd.pseudopos import pseudo_position_argument
 from ophyd.pseudopos import real_position_argument
 from ophyd.signal import AttributeSignal
 
+from .operations.misc import DiffractometerError
+from .operations.misc import load_yaml_file
 from .operations.misc import roundoff
 from .operations.reflection import Reflection
 from .operations.sample import Sample
@@ -43,6 +47,8 @@ def pick_first_item(now: tuple, solutions: list):
     * ``now`` (*tuple*) : Current position.
     * ``solutions`` (*[tuple]*) : List of positions.
     """
+    if len(solutions) == 0:
+        raise DiffractometerError("No solutions.")
     return solutions[0]
 
 
@@ -80,12 +86,14 @@ class DiffractometerBase(PseudoPositioner):
         ~add_reflection
         ~add_sample
         ~auto_assign_axes
+        ~export
         ~forward
         ~full_position
         ~inverse
         ~move_dict
         ~move_forward_with_extras
         ~move_reals
+        ~restore
         ~scan_extra
         ~wh
 
@@ -125,7 +133,7 @@ class DiffractometerBase(PseudoPositioner):
 
     wavelength = Cpt(
         AttributeSignal,
-        attr="_wavelength.wavelength",
+        attr="_source.wavelength",
         doc="Wavelength of incident radiation.",
         write_access=True,
         kind="config",
@@ -145,7 +153,7 @@ class DiffractometerBase(PseudoPositioner):
     ):
         self._backend = None
         self._forward_solution = pick_first_item
-        self._wavelength = MonochromaticXrayWavelength(DEFAULT_WAVELENGTH)
+        self._source = MonochromaticXrayWavelength(DEFAULT_WAVELENGTH)
 
         self.operator = Operations(self)
 
@@ -248,6 +256,86 @@ class DiffractometerBase(PseudoPositioner):
             samples, reflections, orientations, solver, ...
         """
         return self.operator._fromdict(config)
+
+    def export(self, file, comment=""):
+        """
+        Export the diffractometer configuration to a YAML file.
+
+        Example::
+
+            import hklpy2
+
+            e4cv = hklpy2.creator(name="e4cv")
+            e4cv.export("e4cv-config.yml", comment="example")
+        """
+        path = pathlib.Path(file)
+        config = self.configuration
+        config["_header"].update(dict(file=str(file), comment=str(comment)))
+        dump = yaml.dump(
+            config,
+            indent=2,
+            default_flow_style=False,
+            sort_keys=False,
+        )
+        with open(path, "w") as y:
+            y.write("#hklpy2 configuration file\n\n")
+            y.write(dump)
+
+    def restore(
+        self,
+        config,
+        clear=True,
+        restore_constraints=True,
+        restore_wavelength=True,
+    ):
+        """
+        Restore diffractometer configuration.
+
+        Example::
+
+            import hklpy2
+
+            e4cv = hklpy2.creator(name="e4cv")
+            e4cv.restore("e4cv-config.yml")
+
+        PARAMETERS
+
+        config *dict*, *str*, or *pathlib.Path* object:
+            Dictionary with configuration, or name (str or pathlib object) of
+            diffractometer configuration YAML file.
+        clear *bool*:
+            If ``True`` (default), remove any previous configuration of the
+            diffractometer and reset it to default values before restoring the
+            configuration.
+
+            If ``False``, sample reflections will be append with all reflections
+            included in the configuration data for that sample.  Existing
+            reflections will not be changed.  The user may need to edit the
+            list of reflections after ``restore(clear=False)``.
+        restore_constraints *bool*:
+            If ``True`` (default), restore any constraints provided.
+        restore_wavelength *bool*:
+            If ``True`` (default), restore wavelength.
+
+        Note: Can't name this method "import", it's a reserved Python word.
+        """
+        if isinstance(config, (str, pathlib.Path)):
+            config = load_yaml_file(config)
+        if not isinstance(config, dict):
+            raise TypeError(f"Unrecognized configuration: {config=}")
+        header = config.get("_header")
+        if header is None:
+            raise KeyError("Configuration is missing '_header' key.")
+        # Note: python_class key is not testable, could be anything.
+
+        if restore_wavelength:
+            self._source._fromdict(header)
+
+        self.operator.configuration._fromdict(
+            config,
+            clear=clear,
+            restore_constraints=restore_constraints,
+        )
 
     @pseudo_position_argument
     def forward(self, pseudos: dict, wavelength: float = None) -> tuple:
@@ -504,7 +592,7 @@ class DiffractometerBase(PseudoPositioner):
             return f"{label}={roundoff(value, digits)}"
 
         def print_axes(names):
-            print(" ".join([wh_round(nm, getattr(self, nm).position) for nm in names]))
+            print(", ".join([wh_round(nm, getattr(self, nm).position) for nm in names]))
 
         if full:
             print(f"diffractometer={self.name!r}")

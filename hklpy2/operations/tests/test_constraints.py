@@ -1,9 +1,19 @@
+from contextlib import nullcontext as does_not_raise
+
 import pytest
 
+from ...geom import creator
+from ...tests.common import assert_context_result
 from ..constraints import ConstraintBase
 from ..constraints import ConstraintsError
 from ..constraints import LimitsConstraint
 from ..constraints import RealAxisConstraints
+from ..misc import ConfigurationError
+
+
+class PlainConstraint(ConstraintBase):
+    def valid(self, **values):
+        return True
 
 
 def test_raises():
@@ -61,57 +71,183 @@ def test_RealAxisConstraints(reals, result):
     assert ac.valid(**reals) == result
 
 
-def test_RealAxisConstraintsKeys():
-    ac = RealAxisConstraints("tinker evers chance".split())
-    with pytest.raises(ConstraintsError) as excuse:
-        ac.valid(you=0, me=0)
-    assert "did not include this constraint" in str(excuse)
+@pytest.mark.parametrize(
+    "supplied, kwargs, context, expected",
+    [
+        ["you me".split(), dict(you=0, me=0), does_not_raise(), None],
+        [
+            "tinker evers chance".split(),
+            dict(you=0, me=0),
+            pytest.raises(ConstraintsError),
+            "did not include this constraint",
+        ],
+    ],
+)
+def test_RealAxisConstraintsKeys(supplied, kwargs, context, expected):
+    ac = RealAxisConstraints(supplied)
+    with context as reason:
+        ac.valid(**kwargs)
+    assert_context_result(expected, reason)
 
 
-def test_fromdict():
+@pytest.mark.parametrize(
+    "config, context, expected",
+    [
+        [
+            {
+                "th": {
+                    "class": "LimitsConstraint",
+                    "high_limit": 120.0,
+                    "label": "th",
+                    "low_limit": -5.0,
+                },
+                "tth": {
+                    "class": "LimitsConstraint",
+                    "high_limit": 85.0,
+                    "label": "tth",
+                    "low_limit": 30.0,
+                },
+            },
+            does_not_raise(),
+            None,
+        ],
+        [
+            {
+                "omega": {
+                    "class": "LimitsConstraint",
+                    "high_limit": 85.0,
+                    "label": "omega",
+                    "low_limit": 30.0,
+                },
+            },
+            pytest.raises(KeyError),
+            "omega",
+        ],
+        [
+            {
+                "tth": {
+                    "class": "LimitsConstraint",
+                    # "high_limit": 85.0,
+                    "label": "tth",
+                    "low_limit": 30.0,
+                },
+            },
+            pytest.raises(ConfigurationError),
+            "Missing key for LimitsConstraint",
+        ],
+        [
+            {
+                "tth": {
+                    "class": "LimitsConstraint",
+                    "high_limit": 85.0,
+                    "label": "tth",
+                    # "low_limit": 30.0,
+                },
+            },
+            pytest.raises(ConfigurationError),
+            "Missing key for LimitsConstraint",
+        ],
+        [
+            {
+                "tth": {
+                    "class": "LimitsConstraint",
+                    "high_limit": 85.0,
+                    # "label": "tth",
+                    "low_limit": 30.0,
+                },
+            },
+            pytest.raises(ConfigurationError),
+            " Expected key: 'label'.",
+        ],
+        [
+            {
+                "tth": {
+                    # "class": "LimitsConstraint",
+                    "high_limit": 85.0,
+                    "label": "tth",
+                    "low_limit": 30.0,
+                },
+            },
+            pytest.raises(KeyError),
+            "class",
+        ],
+        [
+            {
+                "tth": {
+                    "class": "LimitsConstraint",
+                    "high_limit": 85.0,
+                    "label": "wrong label",
+                    "low_limit": 30.0,
+                },
+            },
+            does_not_raise(),
+            None,
+        ],
+    ],
+)
+def test_fromdict(config, context, expected):
+    with context as reason:
+        assert isinstance(config, dict)
+        sim2c = creator(name="sim2c", solver="th_tth", geometry="TH TTH Q")
+        ac = sim2c.operator.constraints
+        ac._fromdict(config)
+        for axis in config:
+            assert axis in ac
+            assert ac[axis].low_limit == config[axis]["low_limit"]
+            assert ac[axis].high_limit == config[axis]["high_limit"]
+
+    assert_context_result(expected, reason)
+
+
+def test_fromdict_KeyError():
+    """Edge case: restore custom real which differs from local custom real."""
     config = {
         "class": "LimitsConstraint",
-        "high_limit": 120.0,
-        "label": "chi",
-        "low_limit": -5.0,
+        "high_limit": 85.0,
+        "label": "incoming",
+        "low_limit": 30.0,
     }
-    c = LimitsConstraint(label=config["label"])
-    assert c.label == config["label"]
-    assert c.low_limit != config["low_limit"]
-    assert c.high_limit != config["high_limit"]
+    context = pytest.raises(KeyError)
+    expected = " not found in diffractometer reals: "
+    with context as reason:
+        e4cv = creator(
+            name="e4cv",
+            reals=dict(aaa=None, bbb=None, ccc=None, ddd=None),
+        )
+        constraint = e4cv.operator.constraints["aaa"]
+        constraint._fromdict(config, operator=e4cv.operator)
+    assert_context_result(expected, reason)
 
-    c._fromdict(config)
-    assert c.label == config["label"]
-    assert c.low_limit == config["low_limit"]
-    assert c.high_limit == config["high_limit"]
 
-    config = {
-        "chi": {
-            "class": "LimitsConstraint",
-            "high_limit": 120.0,
-            "label": "chi",
-            "low_limit": -5.0,
-        },
-        "phi": {
-            "class": "LimitsConstraint",
-            "high_limit": 85.0,
-            "label": "phi",
-            "low_limit": 30.0,
-        },
-    }
-    ac = RealAxisConstraints(list(config))
-    assert len(ac) == len(config)
-    assert "chi" in ac
-    assert ac["chi"].low_limit == -180.0
-    assert ac["chi"].high_limit == 180.0
-    assert "phi" in ac
-    assert ac["phi"].low_limit == -180.0
-    assert ac["phi"].high_limit == 180.0
+def test_repr():
+    sim = creator(name="sim", solver="th_tth", geometry="TH TTH Q")
+    rep = repr(sim.operator.constraints)
+    assert rep.startswith("[")
+    assert "-180.0 <= th <= 180.0" in rep
+    assert "-180.0 <= tth <= 180.0" in rep
+    assert rep.endswith("]")
 
-    ac._fromdict(config)
-    assert ac["chi"].low_limit == -5.0
-    assert ac["chi"].high_limit == 120.0
-    assert ac["phi"].low_limit == 30.0
-    assert ac["phi"].high_limit == 85.0
 
-    # TODO: Also test for exceptions.
+def test_limits_property():
+    sim = creator(name="sim", solver="th_tth", geometry="TH TTH Q")
+    constraint = sim.operator.constraints["th"]
+    assert constraint.limits == (-180, 180)
+    constraint.limits = 0, 20.1
+    assert constraint.limits == (0, 20.1)
+
+    expected = "Use exactly two values"
+    with pytest.raises(ConstraintsError) as reason:
+        constraint.limits = 0, 20.1, 3
+    assert_context_result(expected, reason)
+
+
+def test_ConstraintsBase():
+    expected = None
+    with does_not_raise() as reason:
+        constraint = PlainConstraint()
+        rep = repr(constraint)
+        assert rep.startswith("PlainConstraint(")
+        assert "class=" in rep
+        assert rep.endswith(")")
+
+    assert_context_result(expected, reason)

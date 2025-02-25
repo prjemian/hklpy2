@@ -316,7 +316,7 @@ class ReflectionsDict(dict):
                 refl_config["pseudos"],
                 refl_config["reals"],
                 wavelength=refl_config["wavelength"],
-                geometry=refl_config["wavelength"],
+                geometry=refl_config["geometry"],
                 pseudo_axis_names=list(refl_config["pseudos"]),
                 real_axis_names=list(refl_config["reals"]),
                 digits=refl_config["digits"],  # TODO: Digits are optional?
