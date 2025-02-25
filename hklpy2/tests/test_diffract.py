@@ -591,7 +591,7 @@ def test_e4cv_constant_phi():
     CONSTANT_PHI = 23.4567
     e4cv.phi.move(CONSTANT_PHI)
 
-    e4cv.operator.constraints["phi"] = -180, 180
+    e4cv.operator.constraints["phi"].limits = -180, 180
 
     # Check that phi is held constant in all forward solutions.
     solutions = e4cv.operator.solver.forward(refl)
@@ -601,12 +601,8 @@ def test_e4cv_constant_phi():
         assert isinstance(solution, dict)
         assert_almost_equal(solution["phi"], CONSTANT_PHI, 4)
 
-    # FIXME:
-    # >   findings = [constraint.valid(**reals) for constraint in self.values()]
-    # E   AttributeError: 'tuple' object has no attribute 'valid'
-
     # # Check that phi is held constant in forward()
     # # Returns a position namedtuple.
-    # position = e4cv.forward(refl)
-    # assert isinstance(position, tuple)
-    # assert_almost_equal(solution.phi, CONSTANT_PHI, 4)
+    position = e4cv.forward(refl)
+    assert isinstance(position, tuple)
+    assert_almost_equal(position.phi, CONSTANT_PHI, 4)

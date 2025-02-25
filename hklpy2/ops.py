@@ -357,14 +357,13 @@ class Operations:
         self.solver.wavelength = wavelength
 
         # convert namedtuple to dict
-        pdict = dict(zip(pseudos._fields, list(pseudos)))
-        reals = {  # Original values.
-            axis[0]: 0 for axis in self.diffractometer._get_real_positioners()
-        }
+        pdict = pseudos._asdict()
+        reals = self.diffractometer.real_position._asdict()  # Original values.
 
         # Filter just the solutions that fit the constraints.
+        results = self.solver.forward(self._axes_names_d2s(pdict))
         solutions = []
-        for solution in self.solver.forward(self._axes_names_d2s(pdict)):
+        for solution in results:
             reals.update(self._axes_names_s2d(solution))  # Update with new values.
             if self.constraints.valid(**reals):
                 solutions.append(self.diffractometer.RealPosition(**reals))
