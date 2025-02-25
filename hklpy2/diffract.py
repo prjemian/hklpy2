@@ -133,7 +133,7 @@ class DiffractometerBase(PseudoPositioner):
 
     wavelength = Cpt(
         AttributeSignal,
-        attr="_wavelength.wavelength",
+        attr="_source.wavelength",
         doc="Wavelength of incident radiation.",
         write_access=True,
         kind="config",
@@ -153,7 +153,7 @@ class DiffractometerBase(PseudoPositioner):
     ):
         self._backend = None
         self._forward_solution = pick_first_item
-        self._wavelength = MonochromaticXrayWavelength(DEFAULT_WAVELENGTH)
+        self._source = MonochromaticXrayWavelength(DEFAULT_WAVELENGTH)
 
         self.operator = Operations(self)
 
@@ -269,9 +269,8 @@ class DiffractometerBase(PseudoPositioner):
             e4cv.export("e4cv-config.yml", comment="example")
         """
         path = pathlib.Path(file)
-        config = self.operator._asdict()
-        config["_header"]["file"] = str(file)
-        config["_header"]["comment"] = str(comment)
+        config = self.configuration
+        config["_header"].update(dict(file=str(file), comment=str(comment)))
         dump = yaml.dump(
             config,
             indent=2,
@@ -330,7 +329,7 @@ class DiffractometerBase(PseudoPositioner):
         # Note: python_class key is not testable, could be anything.
 
         if restore_wavelength:
-            self._wavelength._fromdict(header)
+            self._source._fromdict(header)
 
         self.operator.configuration._fromdict(
             config,

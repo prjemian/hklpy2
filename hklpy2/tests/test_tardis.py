@@ -32,8 +32,8 @@ def tardis():
             gamma=None,
         ),
     )
-    diffractometer._wavelength.energy_units = "eV"
-    diffractometer._wavelength.wavelength_units = "angstrom"
+    diffractometer._source.energy_units = "eV"
+    diffractometer._source.wavelength_units = "angstrom"
     diffractometer.operator.solver.mode = TARDIS_SOLVER_MODE
     diffractometer.operator.constraints["gamma"].limits = -5, 180
     return diffractometer
@@ -188,8 +188,8 @@ def test_restore_and_move(sample, wavelength, ppos, rpos, digits, context, expec
         assert isinstance(tardis, DiffractometerBase)
         tardis.restore(TARDIS_CONFIG_YAML, clear=True)
 
-        assert tardis._wavelength.energy_units == "eV"
-        assert tardis._wavelength.wavelength_units == "angstrom"
+        assert tardis._source.energy_units == "eV"
+        assert tardis._source.wavelength_units == "angstrom"
 
         # set the test parameters
         tardis.wavelength.put(wavelength)

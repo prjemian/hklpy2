@@ -93,7 +93,7 @@ class Operations:
         from .__init__ import __version__
 
         dfrct = self.diffractometer
-        if not hasattr(dfrct, "name") or not hasattr(dfrct, "_wavelength"):
+        if not hasattr(dfrct, "name") or not hasattr(dfrct, "_source"):
             return {}  # Ophyd Device not initialized yet.  Empty dict is OK.
 
         config = {
@@ -113,7 +113,7 @@ class Operations:
             "constraints": self.constraints._asdict(),
             "solver": self.solver._metadata,
         }
-        config["_header"].update(self.diffractometer._wavelength._asdict())
+        config["_header"].update(self.diffractometer._source._asdict())
 
         if self.solver.name == "hkl_soleil":
             config["solver"]["engine"] = self.solver.engine_name

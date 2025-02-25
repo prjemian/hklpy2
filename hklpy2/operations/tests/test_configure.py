@@ -24,13 +24,13 @@ sim2c = creator(name="sim2c", solver="th_tth", geometry="TH TTH Q")
     "keypath, value",
     [
         ["_header.datetime", None],
-        ["_header.energy_units", e4cv._wavelength.energy_units],
-        ["_header.energy", e4cv._wavelength.energy],
+        ["_header.energy_units", e4cv._source.energy_units],
+        ["_header.energy", e4cv._source.energy],
         ["_header.hklpy2_version", __version__],
         ["_header.python_class", e4cv.__class__.__name__],
-        ["_header.source_type", e4cv._wavelength.source_type],
-        ["_header.wavelength_units", e4cv._wavelength.wavelength_units],
-        ["_header.wavelength", e4cv._wavelength.wavelength],
+        ["_header.source_type", e4cv._source.source_type],
+        ["_header.wavelength_units", e4cv._source.wavelength_units],
+        ["_header.wavelength", e4cv._source.wavelength],
         ["axes.axes_xref", e4cv.operator.axes_xref],
         ["axes.extra_axes", e4cv.operator.solver.extras],
         ["axes.pseudo_axes", e4cv.pseudo_axis_names],
@@ -64,7 +64,7 @@ sim2c = creator(name="sim2c", solver="th_tth", geometry="TH TTH Q")
     ],
 )
 def test_Configuration(keypath, value):
-    agent = Configuration(e4cv)._asdict()
+    agent = Configuration(e4cv).diffractometer.configuration
     assert "_header" in agent, f"{agent=!r}"
     assert "file" not in agent["_header"], f"{agent=!r}"
 

@@ -104,16 +104,16 @@ def test_diffractometer_class(
 
         # test the wavelength
         assert math.isclose(
-            dmeter._wavelength.wavelength,
+            dmeter._source.wavelength,
             dmeter.wavelength.get(),
             abs_tol=0.001,
         )
         assert math.isclose(
-            dmeter._wavelength.wavelength,
+            dmeter._source.wavelength,
             DEFAULT_WAVELENGTH,
             abs_tol=0.001,
         )
-        assert dmeter._wavelength.wavelength_units == DEFAULT_WAVELENGTH_UNITS
+        assert dmeter._source.wavelength_units == DEFAULT_WAVELENGTH_UNITS
 
         assert len(dmeter.samples) == 1
         assert isinstance(dmeter.sample, Sample)
