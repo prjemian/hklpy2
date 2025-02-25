@@ -68,6 +68,16 @@ class WavelengthBase(ABC):
     def __init__(self, *, units: str = None):
         self._wavelength_units = units or DEFAULT_WAVELENGTH_UNITS
 
+    def _asdict(self):
+        """Return source parameters as a dict."""
+        return {
+            "source_type": self.source_type,
+            "energy_units": self.energy_units,
+            "energy": self.energy,
+            "wavelength_units": self.wavelength_units,
+            "wavelength": self.wavelength,
+        }
+
     def _fromdict_core(self, config):
         """Restore most items from config dictionary."""
         if not isinstance(config, dict):

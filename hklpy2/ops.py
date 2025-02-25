@@ -99,14 +99,8 @@ class Operations:
         config = {
             "_header": {
                 "datetime": str(datetime.datetime.now()),
-                # FIXME: items should come from wavelength_support ._asdict() method
-                "energy_units": dfrct._wavelength.energy_units,
-                "energy": dfrct._wavelength.energy,
                 "hklpy2_version": __version__,
                 "python_class": dfrct.__class__.__name__,
-                "source_type": dfrct._wavelength.source_type,
-                "wavelength_units": dfrct._wavelength.wavelength_units,
-                "wavelength": dfrct._wavelength.wavelength,
             },
             "name": self.diffractometer.name,
             "axes": {
@@ -119,6 +113,7 @@ class Operations:
             "constraints": self.constraints._asdict(),
             "solver": self.solver._metadata,
         }
+        config["_header"].update(self.diffractometer._wavelength._asdict())
 
         if self.solver.name == "hkl_soleil":
             config["solver"]["engine"] = self.solver.engine_name
@@ -348,19 +343,6 @@ class Operations:
         self.sample.U = self.solver.U
         self.sample.UB = self.solver.UB
         return self.sample.UB
-
-    def export(self, file, comment=""):
-        """
-        Export the diffractometer configuration to a YAML file.
-
-        Example::
-
-            import hklpy2
-
-            e4cv = hklpy2.creator(name="e4cv")
-            e4cv.operator.export("e4cv-config.yml", comment="example")
-        """
-        self.configuration.export(file, comment)
 
     def forward(self, pseudos: tuple, wavelength: float = None) -> list:
         """Compute [{names:reals}] from {names: pseudos} (hkl -> angles)."""
