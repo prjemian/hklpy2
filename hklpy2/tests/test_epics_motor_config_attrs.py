@@ -63,12 +63,10 @@ motor = EpicsMotor(f"{IOC_PV_PREFIX_GP}{OMEGA_PV}", name="motor")
         [fourc.tth, fourc],
     ],
 )
-def test_i325(attr, motor, parent):
+def test_epics_motor_config_attrs(attr, motor, parent):
     """
     Check the configuration_attrs for EpicsMotor itself and as Component.
     """
-    parent.wait_for_connection()
-    motor.wait_for_connection()
 
     device_configuration = parent.read_configuration()
     device_configuration_keys = sorted(list(device_configuration))
