@@ -32,7 +32,7 @@ sim4c = creator(name="sim4c")
         [3, does_not_raise(), None],
     ],
 )
-def test_hkl_scan(start, h, k, l, digits, context, expected):  # noqa: E741
+def test_pseudos_move(start, h, k, l, digits, context, expected):  # noqa: E741
     with context as reason:
         e4cv = creator(name="e4cv")
         assert len(start) == 3

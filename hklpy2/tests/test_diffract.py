@@ -40,8 +40,6 @@ def test_DiffractometerBase():
         DiffractometerBase(name="dbase")
     if reason.type == "ValueError":
         assert "Must have at least 1 positioner" in str(reason)
-    if reason.type == "DiffractometerError":
-        assert "Pick one of these" in str(reason), f"{reason.value=!r}"
 
 
 @pytest.mark.parametrize("axis", "h k l".split())

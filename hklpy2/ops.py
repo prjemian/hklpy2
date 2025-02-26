@@ -95,8 +95,10 @@ class Operations:
         from .__init__ import __version__
 
         dfrct = self.diffractometer
-        if not hasattr(dfrct, "name") or not hasattr(dfrct, "_source"):
-            return {}  # Ophyd Device not initialized yet.  Empty dict is OK.
+        # 2025-02-26: Apparently not needed, not easy to setup either.
+        #     Retain in comment, just in case...
+        # if not hasattr(dfrct, "name") or not hasattr(dfrct, "_source"):
+        #     return {}  # Ophyd Device not initialized yet.  Empty dict is OK.
 
         config = {
             "_header": {
@@ -211,13 +213,6 @@ class Operations:
         self._validate_pseudos(pseudos)
 
         reverse = self.axes_xref_reversed
-        # fmt: off
-        if len(reverse) == 0:
-            raise OperationsError(
-                "Did you forget to call `assign_axes()`"
-                " or `auto_assign_axes()`?"
-            )
-        # fmt: on
         pnames = [reverse[k] for k in self.solver.pseudo_axis_names]
         rnames = [reverse[k] for k in self.solver.real_axis_names]
         pdict = self.standardize_pseudos(pseudos, pnames)
@@ -286,7 +281,7 @@ class Operations:
                     raise KeyError(f"Unknown {label}={attr!r}.  Known: {keys!r}")
             return keys
 
-        def reference(dnames, snames):
+        def rebuild_axes_xref(dnames, snames):
             for dname, sname in zip(dnames, snames):
                 self.axes_xref[dname] = sname
                 both_p_r.remove(dname)
@@ -305,8 +300,8 @@ class Operations:
         both_p_r = all_pseudos + all_reals
 
         self.axes_xref = {}
-        reference(pseudos, solver.pseudo_axis_names)
-        reference(reals, solver.real_axis_names)
+        rebuild_axes_xref(pseudos, solver.pseudo_axis_names)
+        rebuild_axes_xref(reals, solver.real_axis_names)
         self.reset_constraints()
         logger.debug("axes_xref=%r", self.axes_xref)
         self.configuration = Configuration(self.diffractometer)
@@ -323,6 +318,14 @@ class Operations:
     @property
     def axes_xref_reversed(self):
         """Map axis names from solver to diffractometer."""
+        if len(self.axes_xref) == 0:
+            if self.solver is not None:
+                names = self.solver.pseudo_axis_names + self.solver.real_axis_names
+                if len(names) == 0:
+                    return {}
+            raise OperationsError(
+                "Did you forget to call `assign_axes()` or `auto_assign_axes()`?"
+            )
         return {v: k for k, v in self.axes_xref.items()}
 
     def auto_assign_axes(self):
