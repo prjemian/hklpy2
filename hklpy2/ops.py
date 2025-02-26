@@ -11,6 +11,7 @@ library.
 
 import datetime
 import logging
+from collections.abc import Iterable
 from typing import List
 from typing import Union
 
@@ -46,6 +47,7 @@ class Operations:
 
         ~_asdict
         ~_fromdict
+        ~_validate_pseudos
         ~add_reflection
         ~add_sample
         ~assign_axes
@@ -141,6 +143,48 @@ class Operations:
                 constraint["label"] = axis_local
         self.constraints._fromdict(config["constraints"], operator=self)
 
+    def _validate_pseudos(self, pseudos) -> bool:
+        """Validate that the supplied pseudos are acceptable."""
+        if not isinstance(pseudos, Iterable):
+            raise TypeError(
+                "Pseudos must be tuple, list, or dict."
+                # Always show the input.
+                f"  Received {pseudos!r}"
+            )
+
+        expected_names = [
+            self.axes_xref_reversed[n]  # Use diffractometer's names.
+            # Just the solver's pseudos.
+            for n in self.solver.pseudo_axis_names
+        ]
+        # self.diffractometer.pseudo_axis_names
+        if len(pseudos) != len(expected_names):
+            raise ValueError(
+                f"Expected {len(expected_names)} pseudos,"
+                # Always show the input.
+                f" received {pseudos}"
+            )
+
+        original = pseudos  # Keep the original for reporting.
+        if hasattr(pseudos, "_asdict"):
+            pseudos = pseudos._asdict()
+        if isinstance(pseudos, (list, set, tuple)):
+            # Expect values are provided in canonical order.
+            pseudos = {
+                axis: value
+                # rewrite as dictionary
+                for axis, value in zip(expected_names, pseudos)
+            }
+        if not isinstance(pseudos, dict):
+            raise TypeError(f"Unexpected data type: {original}")
+        for axis in expected_names:
+            if axis not in pseudos:
+                raise ValueError(f"Wrong axis names: received {original}")
+            if not isinstance(pseudos[axis], (float, int)):
+                raise TypeError(f"Must be number, received {original}")
+
+        return True
+
     def add_reflection(
         self,
         pseudos,
@@ -163,6 +207,8 @@ class Operations:
           this name.  (default: ``False``)
         """
         from .operations.reflection import Reflection
+
+        self._validate_pseudos(pseudos)
 
         reverse = self.axes_xref_reversed
         # fmt: off
