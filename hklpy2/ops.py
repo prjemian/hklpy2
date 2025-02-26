@@ -151,6 +151,8 @@ class Operations:
                 # Always show the input.
                 f"  Received {pseudos!r}"
             )
+        if not isinstance(pseudos, (dict, list, set, tuple)):
+            raise TypeError(f"Unexpected data type: {pseudos}")
 
         expected_names = [
             self.axes_xref_reversed[n]  # Use diffractometer's names.
@@ -175,8 +177,6 @@ class Operations:
                 # rewrite as dictionary
                 for axis, value in zip(expected_names, pseudos)
             }
-        if not isinstance(pseudos, dict):
-            raise TypeError(f"Unexpected data type: {original}")
         for axis in expected_names:
             if axis not in pseudos:
                 raise ValueError(f"Wrong axis names: received {original}")

@@ -1,6 +1,7 @@
 """Test the hklpy2.diffract module."""
 
 import math
+from collections import deque
 from collections import namedtuple
 from contextlib import nullcontext as does_not_raise
 
@@ -12,6 +13,7 @@ from ophyd.sim import noisy_det
 
 from ..diffract import DiffractometerBase
 from ..diffract import pick_first_item
+from ..geom import creator
 from ..operations.misc import DiffractometerError
 from ..operations.reflection import ReflectionError
 from ..operations.sample import Sample
@@ -40,6 +42,29 @@ def test_DiffractometerBase():
         assert "Must have at least 1 positioner" in str(reason)
     if reason.type == "DiffractometerError":
         assert "Pick one of these" in str(reason), f"{reason.value=!r}"
+
+
+@pytest.mark.parametrize("axis", "h k l".split())
+@pytest.mark.parametrize(
+    "value, context, expected",
+    [
+        [-1, does_not_raise(), None],
+        [1, does_not_raise(), None],
+        [-1.2, does_not_raise(), None],
+        [1.2, does_not_raise(), None],
+        [12, pytest.raises(GError), "unreachable hkl"],
+        [-12, pytest.raises(GError), "unreachable hkl"],
+    ],
+)
+def test_limits(axis, value, context, expected):
+    with context as reason:
+        fourc = creator(name="fourc")
+        assert hasattr(fourc, axis)
+        pseudo = getattr(fourc, axis)
+        assert pseudo.limits == (0, 0)
+        assert pseudo.check_value(value) is None
+
+    assert_context_result(expected, reason)
 
 
 @pytest.mark.parametrize(
@@ -606,3 +631,45 @@ def test_e4cv_constant_phi():
     position = e4cv.forward(refl)
     assert isinstance(position, tuple)
     assert_almost_equal(position.phi, CONSTANT_PHI, 4)
+
+
+@pytest.mark.parametrize(
+    "miller, context, expected",
+    [
+        [(1, 2, 3), does_not_raise(), None],
+        [dict(h=1, k=2, l=3), does_not_raise(), None],
+        [[1.0, 2.0, 3.0], does_not_raise(), None],
+        [
+            None,
+            pytest.raises(TypeError),
+            "Pseudos must be tuple, list, or dict.",
+        ],
+        [
+            # Tests that h, k, l was omitted, only a position was supplied.
+            # This is one of the problems reported.
+            namedtuple("PosAnything", "a b c d".split())(1, 2, 3, 4),
+            pytest.raises(ValueError),
+            "Expected 3 pseudos, received ",
+        ],
+        [
+            # Tests that wrong name(s) were supplied.
+            namedtuple("PosAnything", "three wrong names".split())(1, 2, 4),
+            pytest.raises(ValueError),
+            "Wrong axis names",
+        ],
+        [("1", 2, 3), pytest.raises(TypeError), "Must be number, received "],
+        [(1, 2, "3"), pytest.raises(TypeError), "Must be number, received "],
+        [([1], 2, 3), pytest.raises(TypeError), "Must be number, received "],
+        [(object, 2, 3), pytest.raises(TypeError), "Must be number, received "],
+        [(None, 2, 3), pytest.raises(TypeError), "Must be number, received "],
+        [((1,), 2, 3), pytest.raises(TypeError), "Must be number, received "],
+        [deque(), pytest.raises(TypeError), "Unexpected data type"],
+    ],
+)
+def test_miller_args(miller, context, expected):
+    """Test the Miller indices arguments: h, k, l."""
+
+    with context as reason:
+        e4cv = creator(name="e4cv")
+        e4cv.add_reflection(miller)
+    assert_context_result(expected, reason)
