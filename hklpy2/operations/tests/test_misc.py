@@ -2,6 +2,7 @@ import pathlib
 import types
 from contextlib import nullcontext as does_not_raise
 
+import databroker
 import pytest
 from bluesky import RunEngine
 from bluesky import plans as bp
@@ -18,13 +19,27 @@ from ..misc import SolverError
 from ..misc import compare_float_dicts
 from ..misc import dict_device_factory
 from ..misc import flatten_lists
+from ..misc import get_run_orientation
 from ..misc import get_solver
+from ..misc import list_orientation_runs
 from ..misc import load_yaml_file
 from ..misc import roundoff
 
 sim4c = creator(name="sim4c")
 sim6c = creator(name="sim6c", geometry="E6C")
 signal = Signal(name="signal", value=1.234)
+
+
+@pytest.fixture
+def cat():
+    return databroker.temp().v2
+
+
+@pytest.fixture
+def RE(cat):
+    engine = RunEngine({})
+    engine.subscribe(cat.v1.insert)
+    return engine
 
 
 @pytest.mark.parametrize(
@@ -234,3 +249,45 @@ def test_ConfigurationRunWrapper(devices, context, expected, enabled):
                     assert configs is None
 
     assert_context_result(expected, reason)
+
+
+@pytest.mark.parametrize("devices", [[], [sim4c], [sim4c, sim6c], [sim6c]])
+def test_list_orientation_runs(devices, cat, RE):
+    det = signal
+    device_names = [d.name for d in devices]
+    crw = ConfigurationRunWrapper(*devices)  # TODO: make a preprocessor decorator
+    RE.preprocessors.append(crw.wrapper)
+
+    def scans():
+        yield from bp.count([det])
+        yield from bp.count([sim4c])
+        yield from bp.count([sim6c])
+        yield from bp.count([sim4c, sim6c])
+
+    uids = RE(scans())
+    scan_ids = [cat[uid].metadata["start"]["scan_id"] for uid in uids]
+    assert scan_ids == [1, 2, 3, 4]
+
+    scan_id = scan_ids[0]
+    assert scan_id == 1
+
+    # test get_run_orientation() for specific diffractometer
+    info = get_run_orientation(cat[1], name="sim4c")
+    assert isinstance(info, dict)
+    if sim4c in devices:
+        assert len(info) > 0
+        assert "_header" in info
+    else:
+        assert len(info) == 0
+
+    runs = list_orientation_runs(cat)
+    assert len(runs) == 4 * len(devices), f"{runs=!r}"
+    if len(devices) > 0:
+        assert scan_id in runs.scan_id.to_list(), f"{runs=!r}"
+
+    runs = runs.T.to_dict()  # simpler to test as dict structure.
+    assert len(runs) == 4 * len(devices), f"{runs=!r}"
+
+    for row in runs.values():
+        assert row["scan_id"] in scan_ids
+        assert row["diffractometer"] in device_names

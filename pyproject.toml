@@ -38,7 +38,9 @@ dependencies = [
   "numpy",
   "ophyd",
   "packaging", # ophyd needs this
+  "pandas",
   "pint",
+  "tqdm",
   "ruamel.yaml",
 ]
 
@@ -50,6 +52,7 @@ th_tth = "hklpy2.backends.th_tth_q:ThTthSolver"
 [project.optional-dependencies]
 dev = [
   "build",
+  "databroker<1.999",  # TODO: upgrade?
   "isort",
   "mypy",
   "pre-commit",
