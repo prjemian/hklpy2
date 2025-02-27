@@ -107,7 +107,9 @@ autodoc_mock_imports = """
     bluesky
     gi
     ophyd
+    pandas
     pint
+    tqdm
 """.split()
 
 # Example configuration for intersphinx: refer to the Python standard library.
