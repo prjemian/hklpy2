@@ -105,6 +105,7 @@ autodoc_default_options = {
 }
 autodoc_mock_imports = """
     bluesky
+    databroker
     gi
     ophyd
     pandas

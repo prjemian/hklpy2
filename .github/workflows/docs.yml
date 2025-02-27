@@ -47,7 +47,10 @@ jobs:
           echo "TMP_DIR=$(mktemp -d)" >> ${GITHUB_ENV}
 
       - name: install pandoc in the OS
-        run: sudo apt-get install pandoc
+        run: |
+          set -vxeuo pipefail
+          sudo apt-get update && \
+          sudo apt-get -y install pandoc
 
       - name: Checkout
         uses: actions/checkout@v4
@@ -59,7 +62,7 @@ jobs:
           python-version: "3.12"
 
       - name: Install Sphinx build requirements
-        run: pip install -r ./docs/requirements.txt
+        run: pip install .[doc]
 
       - name: Install our package
         run: pip install --no-deps -e . -vv
