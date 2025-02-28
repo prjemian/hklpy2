@@ -360,12 +360,13 @@ class ReflectionsDict(dict):
         self.order = [refl for refl in self.order if refl in self]
 
     def swap(self):
-        """Swap the two named orientation reflections."""
+        """Swap the first two orientation reflections."""
         if len(self.order) < 2:
             raise ReflectionError("Need at least two reflections to swap.")
         rname1, rname2 = self.order[:2]
         self._order[0] = rname2
         self._order[1] = rname1
+        return self.order
 
     def _validate_reflection(self, reflection, replace):
         """Validate the new reflection."""

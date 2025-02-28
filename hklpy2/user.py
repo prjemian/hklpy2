@@ -16,12 +16,14 @@ FUNCTIONS
 
 .. autosummary::
 
+    ~add_sample
     ~get_diffractometer
     ~list_samples
-    ~new_lattice
-    ~new_sample
+    ~or_swap
     ~pa
     ~set_diffractometer
+    ~set_lattice
+    ~setor
     ~wh
 """
 
@@ -32,9 +34,11 @@ __all__ = """
     add_sample
     get_diffractometer
     list_samples
+    or_swap
     pa
     set_diffractometer
     set_lattice
+    setor
     wh
 """.split()
 
@@ -45,7 +49,7 @@ logger = logging.getLogger(__name__)
 
 class _SelectedDiffractometer:
     """
-    Maintain the diffractometer selection.
+    Module class to maintain the diffractometer selection.
 
     .. autosummary::
 
@@ -89,8 +93,9 @@ def add_sample(
     beta: float = None,
     gamma: float = None,
     digits: int = 4,
+    replace: bool = False,
 ):
-    """Define a new crystal sample."""
+    """Add a new crystal sample."""
     diffractometer = _choice.diffractometer
     if name in diffractometer.samples:
         logger.warning(
@@ -110,6 +115,7 @@ def add_sample(
             beta=beta,
             gamma=gamma,
             digits=digits,
+            replace=replace,
         )
     return diffractometer.sample
 
@@ -150,6 +156,28 @@ def list_samples(full=False):
         if sample != current_sample:
             preface = "\n" if full else ""
             display(sample, preface)
+
+
+def or_swap():
+    """
+    Swap the first 2 [UB] reflections, re-compute & return new [UB].
+
+    .. note:: The SPEC user community knows this function as ``or_swap``.
+
+    Example::
+
+        # define 2 reflections
+        r400 = hkl.user.setor(4, 0, 0, tth=69.0966, omega=-145.451, chi=0, phi=0, wavelength=1.54)
+        r040 = hkl.user.setor(0, 4, 0, tth=69.0966, omega=-145.451, chi=0, phi=90, wavelength=1.54)
+        # calculate UB
+        hkl.user.calc_UB(r400, r040)
+        # swap the two reflections (and recalculate UB)
+        hkl.user.or_swap()
+    """
+    diffractometer = _choice.diffractometer
+    reflections = diffractometer.sample.reflections.swap()[:2]
+    diffractometer.operator.calc_UB(*reflections)
+    return diffractometer.sample.UB
 
 
 def pa():
@@ -202,6 +230,57 @@ def set_lattice(
         gamma=gamma,
         digits=digits,
     )
+
+
+def setor(h, k, l, *reals, wavelength=None, name=None, **kwreals):  # noqa: E741
+    """
+    Define a crystal reflection and its motor positions.
+
+    * Positions:
+      * Can be omitted (use current values from diffractometer)
+      * Specified by values.  Must use expected order.
+      * Specified by names.  Can appear in any order.
+    * wavelength: when not specified, use the current diffractometer value.
+    * name: when not specified, make up a new name.
+
+    EXAMPLES::
+
+        In [9]: setor(4, 0, 0)
+        Out[9]: Reflection(name='r4', geometry='E4CV', pseudos={'h': 4, 'k': 0, 'l': 0},
+            reals={'omega': -145.451, 'chi': 0, 'phi': 0, 'tth': 69.0966}, wavelength=1.54, digits=4)
+
+        In [11]: setor(0, 4, 0, -145.451, 0, 90, 69.0966, name="r040")
+        Out[11]: Reflection(name='r040', geometry='E4CV', pseudos={'h': 0, 'k': 4, 'l': 0},
+            reals={'omega': -145.451, 'chi': 0, 'phi': 90, 'tth': 69.0966}, wavelength=1.54, digits=4)
+
+        In [11]: setor(0, 0, 4 omega=-145.451, chi=90, phi=0, tth=69.0966, name="r004")
+        Out[11]: Reflection(name='r004', geometry='E4CV', pseudos={'h': 0, 'k': 0, 'l': 4},
+            reals={'omega': -145.451, 'chi': 90, 'phi': 0, 'tth': 69.0966}, wavelength=1.54, digits=4)
+
+    """
+    diffractometer = _choice.diffractometer
+    if len(reals) > 0:  # Real motor positions as values in expected order.
+        # NOTE: Will ignore any kwreals.
+        rpos = reals
+    elif len(kwreals) > 0:  # Real motor positions specified as dict, in any order.
+        rpos = [
+            kwreals[axis]
+            for axis in diffractometer.real_axis_names  # in expected order
+            if axis in kwreals  # only if specified
+        ]
+    else:
+        rpos = diffractometer.real_position
+
+    # NOTE: hkl_soleil/libhkl gets the wavelength on a reflection from the diffractometer.
+    # When the wavelength is set, it calls libhkl directly.
+    # as self._geometry.wavelength_set(wavelength, self._units)
+    # The code here uses that procedure.
+    if wavelength not in (None, 0):
+        diffractometer._source.wavelength = wavelength
+
+    name = name or f"r{1 + len(diffractometer.sample.reflections)}"
+    refl = diffractometer.add_reflection((h, k, l), reals=rpos, name=name)
+    return refl
 
 
 def wh():

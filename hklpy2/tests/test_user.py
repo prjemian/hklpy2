@@ -5,12 +5,15 @@ import pytest
 
 from ..geom import creator
 from ..operations.lattice import SI_LATTICE_PARAMETER
+from ..operations.misc import ReflectionError
 from ..user import add_sample
 from ..user import get_diffractometer
 from ..user import list_samples
+from ..user import or_swap
 from ..user import pa
 from ..user import set_diffractometer
 from ..user import set_lattice
+from ..user import setor
 from ..user import wh
 from .common import TESTS_DIR
 from .common import assert_context_result
@@ -91,6 +94,50 @@ def test_list_samples(fourc, capsys):
     assert "\n{'name': 'sample'," in out
 
 
+@pytest.mark.parametrize(
+    "file, sample, nrefs, or_refs, context, expected",
+    [
+        [
+            TESTS_DIR / "e4cv_orient.yml",
+            "vibranium",
+            3,
+            "r040 r004".split(),
+            does_not_raise(),
+            None,
+        ],
+        [
+            TESTS_DIR / "e4cv_orient.yml",
+            "sample",
+            0,
+            [],
+            pytest.raises(ReflectionError),
+            "Need at least two reflections to swap.",
+        ],
+    ],
+)
+def test_or_swap(fourc, file, sample, nrefs, or_refs, context, expected):
+    with context as reason:
+        fourc.restore(file)
+        set_diffractometer(fourc)
+        diffractometer = get_diffractometer()
+        diffractometer.sample = sample
+        assert diffractometer.sample.name == sample
+        assert len(diffractometer.sample.reflections) == nrefs
+        assert len(or_refs) in (0, 2)
+        assert diffractometer.sample.reflections.order == or_refs
+        UB0 = diffractometer.sample.UB
+
+        UB = or_swap()
+        assert diffractometer.sample.reflections.order == list(reversed(or_refs))
+        assert UB != UB0
+
+        UB = or_swap()
+        assert diffractometer.sample.reflections.order == or_refs
+        assert UB != UB0
+
+    assert_context_result(expected, reason)
+
+
 def test_pa(fourc, capsys):
     set_diffractometer(fourc)
     assert get_diffractometer() == fourc
@@ -119,12 +166,17 @@ def test_pa(fourc, capsys):
     assert out == expected
 
 
-def test_select_diffractometer(fourc):
+def test_set_diffractometer(fourc):
     set_diffractometer()
     assert get_diffractometer() is None
 
     set_diffractometer(fourc)
     assert get_diffractometer() == fourc
+
+    with pytest.raises(TypeError) as reason:
+        set_diffractometer(object())
+    expected = "must be an hklpy2 'DiffractometerBase' subclass"
+    assert_context_result(expected, reason)
 
 
 def test_set_lattice(fourc):
@@ -136,6 +188,38 @@ def test_set_lattice(fourc):
     assert str(sample.lattice) == "Lattice(a=1, system='cubic')"
     set_lattice(2, b=3, c=4)
     assert str(sample.lattice) == "Lattice(a=2, b=3, c=4, system='orthorhombic')"
+
+
+def test_setor(fourc):
+    set_diffractometer(fourc)
+    add_sample("silicon standard", SI_LATTICE_PARAMETER)
+    diffractometer = get_diffractometer()
+
+    assert len(diffractometer.sample.reflections) == 0
+    r400 = setor(4, 0, 0, -145.451, 0, 0, 69.0966, wavelength=1.54)
+    assert len(diffractometer.sample.reflections) == 1
+    assert list(diffractometer.sample.reflections) == [r400.name]
+
+    diffractometer.omega.move(-145.451)
+    diffractometer.chi.move(90)
+    diffractometer.phi.move(0)
+    diffractometer.tth.move(69.0966)
+    r040 = setor(0, 4, 0)
+    assert len(diffractometer.sample.reflections) == 2
+    assert list(diffractometer.sample.reflections) == [r400.name, r040.name]
+
+    r004 = setor(
+        0,
+        0,
+        4,
+        chi=90,
+        omega=-145.451,
+        phi=0,
+        tth=69.0966,
+        name="r004",
+    )
+    assert len(diffractometer.sample.reflections) == 3
+    assert list(diffractometer.sample.reflections) == [r400.name, r040.name, r004.name]
 
 
 def test_wh(fourc, capsys):
