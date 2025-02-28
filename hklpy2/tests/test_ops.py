@@ -7,6 +7,8 @@ import pytest
 from ..diffract import DiffractometerBase
 from ..geom import creator
 from ..ops import Operations
+from ..ops import OperationsError
+from .common import assert_context_result
 
 SKIP_EXACT_VALUE_TEST = str(uuid.uuid4())
 
@@ -62,3 +64,11 @@ def test_asdict(geometry, solver, name, keypath, value):
         assert value is not None  # Anything BUT 'None'
     else:
         assert value == db, f"{value=!r}  {db=!r}"
+
+
+def test_axes_xref_empty():
+    expected = "Did you forget to call `assign_axes()`"
+    with pytest.raises(OperationsError) as reason:
+        e4cv = creator(name="e4cv", auto_assign=False)
+        e4cv.add_reflection((1, 0, 0), (10, 0, 0, 20), name="r1")
+    assert_context_result(expected, reason)

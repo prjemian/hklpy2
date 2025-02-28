@@ -3,6 +3,7 @@
 import pathlib
 
 HKLPY2_DIR = pathlib.Path(__file__).parent.parent
+TESTS_DIR = HKLPY2_DIR / "tests"
 
 
 def assert_context_result(expected, reason):

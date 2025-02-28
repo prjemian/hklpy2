@@ -1,16 +1,19 @@
 """Test the hklpy2.diffract module."""
 
 import math
+from collections import deque
 from collections import namedtuple
 from contextlib import nullcontext as does_not_raise
 
 import bluesky
 import pytest
 from gi.repository.GLib import GError
+from numpy.testing import assert_almost_equal
 from ophyd.sim import noisy_det
 
 from ..diffract import DiffractometerBase
 from ..diffract import pick_first_item
+from ..geom import creator
 from ..operations.misc import DiffractometerError
 from ..operations.reflection import ReflectionError
 from ..operations.sample import Sample
@@ -37,8 +40,29 @@ def test_DiffractometerBase():
         DiffractometerBase(name="dbase")
     if reason.type == "ValueError":
         assert "Must have at least 1 positioner" in str(reason)
-    if reason.type == "DiffractometerError":
-        assert "Pick one of these" in str(reason), f"{reason.value=!r}"
+
+
+@pytest.mark.parametrize("axis", "h k l".split())
+@pytest.mark.parametrize(
+    "value, context, expected",
+    [
+        [-1, does_not_raise(), None],
+        [1, does_not_raise(), None],
+        [-1.2, does_not_raise(), None],
+        [1.2, does_not_raise(), None],
+        [12, pytest.raises(GError), "unreachable hkl"],
+        [-12, pytest.raises(GError), "unreachable hkl"],
+    ],
+)
+def test_limits(axis, value, context, expected):
+    with context as reason:
+        fourc = creator(name="fourc")
+        assert hasattr(fourc, axis)
+        pseudo = getattr(fourc, axis)
+        assert pseudo.limits == (0, 0)
+        assert pseudo.check_value(value) is None
+
+    assert_context_result(expected, reason)
 
 
 @pytest.mark.parametrize(
@@ -104,16 +128,16 @@ def test_diffractometer_class(
 
         # test the wavelength
         assert math.isclose(
-            dmeter._wavelength.wavelength,
+            dmeter._source.wavelength,
             dmeter.wavelength.get(),
             abs_tol=0.001,
         )
         assert math.isclose(
-            dmeter._wavelength.wavelength,
+            dmeter._source.wavelength,
             DEFAULT_WAVELENGTH,
             abs_tol=0.001,
         )
-        assert dmeter._wavelength.wavelength_units == DEFAULT_WAVELENGTH_UNITS
+        assert dmeter._source.wavelength_units == DEFAULT_WAVELENGTH_UNITS
 
         assert len(dmeter.samples) == 1
         assert isinstance(dmeter.sample, Sample)
@@ -135,7 +159,7 @@ def test_diffractometer_wh(capsys):
     from ..geom import creator
 
     e4cv = creator(name="e4cv")
-    e4cv.operator.restore(HKLPY2_DIR / "tests" / "e4cv_orient.yml")
+    e4cv.restore(HKLPY2_DIR / "tests" / "e4cv_orient.yml")
 
     e4cv.wh()
     captured = capsys.readouterr()
@@ -197,7 +221,7 @@ def test_full_position(mode, keys, context, expected, config_file):
 
     with context as reason:
         fourc = creator(name="fourc")
-        fourc.operator.restore(HKLPY2_DIR / "tests" / config_file)
+        fourc.restore(HKLPY2_DIR / "tests" / config_file)
         fourc.operator.solver.mode = mode
         pos = fourc.full_position()
         assert isinstance(pos, dict)
@@ -221,7 +245,7 @@ def test_move_forward_with_extras(pseudos, reals, mode, context, expected):
     from ..geom import creator
 
     fourc = creator(name="fourc")
-    fourc.operator.restore(HKLPY2_DIR / "tests" / "e4cv_orient.yml")
+    fourc.restore(HKLPY2_DIR / "tests" / "e4cv_orient.yml")
     fourc.operator.solver.mode = mode
     # fourc.wavelength.put(6)
     assert fourc.operator.solver.mode == mode
@@ -316,7 +340,9 @@ def test_orientation():
     assert fourc.operator.sample.reflections.order == "(400) (040)".split()
 
     result = fourc.operator.calc_UB(*fourc.operator.sample.reflections.order)
-    assert result is None
+    assert isinstance(result, list)
+    assert isinstance(result[0], list)
+    assert isinstance(result[0][0], (float, int))
 
     UB = fourc.operator.solver.UB
     assert len(UB) == 3
@@ -367,7 +393,7 @@ def test_remove_sample():
 
 
 @pytest.mark.parametrize(
-    "name, pseudos, reals, wavelength, replace, num, raiser, excuse",
+    "name, pseudos, reals, wavelength, replace, num, context, expected",
     [
         ["(100)", (1, 0, 0), (10, 0, 0, 20), 1, True, 1, does_not_raise(), None],
         [
@@ -407,7 +433,7 @@ def test_remove_sample():
     ],
 )
 def test_repeated_reflections(
-    name, pseudos, reals, wavelength, replace, num, raiser, excuse
+    name, pseudos, reals, wavelength, replace, num, context, expected
 ):
     from ..geom import creator
 
@@ -420,7 +446,7 @@ def test_repeated_reflections(
     )
     assert len(e4cv.sample.reflections) == 1
 
-    with raiser as reason:
+    with context as reason:
         e4cv.add_reflection(
             pseudos,
             reals,
@@ -428,8 +454,7 @@ def test_repeated_reflections(
             wavelength=wavelength,
             replace=replace,
         )
-    if excuse is not None:
-        assert excuse in str(reason), f"{reason=!r}  {excuse=!r}"
+    assert_context_result(expected, reason)
     assert len(e4cv.sample.reflections) == num, f"{e4cv.sample.reflections=!r}"
 
 
@@ -459,7 +484,7 @@ def test_repeated_reflections(
                 start=5,
                 finish=10,
                 num=3,
-                pseudos=dict(h=2, k=-1, l=0),
+                pseudos=dict(h=2, k=-1, l=10),  # l=10 is unreachable
                 reals=None,
                 extras=dict(h2=2, k2=2, l2=0, psi=0),
                 fail_on_exception=True,
@@ -545,7 +570,7 @@ def test_scan_extra(scan_kwargs, mode, context, expected):
     from ..geom import creator
 
     fourc = creator(name="fourc")
-    fourc.operator.restore(HKLPY2_DIR / "tests" / "e4cv_orient.yml")
+    fourc.restore(HKLPY2_DIR / "tests" / "e4cv_orient.yml")
     fourc.operator.solver.mode = mode
     assert fourc.operator.solver.mode == mode
 
@@ -575,3 +600,74 @@ def test_set_UB():
     assert math.isclose(result.h, 4.05, abs_tol=0.02), f"{result=!r}"
     assert math.isclose(result.k, 0, abs_tol=0.02), f"{result=!r}"
     assert math.isclose(result.l, 0, abs_tol=0.02), f"{result=!r}"
+
+
+def test_e4cv_constant_phi():
+    from ..geom import creator
+
+    e4cv = creator(name="e4cv")
+
+    # Approximate the code presented as the example problem.
+    refl = dict(h=1, k=1, l=1)
+
+    e4cv.operator.solver.mode = "constant_phi"
+    CONSTANT_PHI = 23.4567
+    e4cv.phi.move(CONSTANT_PHI)
+
+    e4cv.operator.constraints["phi"].limits = -180, 180
+
+    # Check that phi is held constant in all forward solutions.
+    solutions = e4cv.operator.solver.forward(refl)
+    assert isinstance(solutions, list)
+    assert len(solutions) > 0
+    for solution in solutions:
+        assert isinstance(solution, dict)
+        assert_almost_equal(solution["phi"], CONSTANT_PHI, 4)
+
+    # # Check that phi is held constant in forward()
+    # # Returns a position namedtuple.
+    position = e4cv.forward(refl)
+    assert isinstance(position, tuple)
+    assert_almost_equal(position.phi, CONSTANT_PHI, 4)
+
+
+@pytest.mark.parametrize(
+    "miller, context, expected",
+    [
+        [(1, 2, 3), does_not_raise(), None],
+        [dict(h=1, k=2, l=3), does_not_raise(), None],
+        [[1.0, 2.0, 3.0], does_not_raise(), None],
+        [
+            None,
+            pytest.raises(TypeError),
+            "Pseudos must be tuple, list, or dict.",
+        ],
+        [
+            # Tests that h, k, l was omitted, only a position was supplied.
+            # This is one of the problems reported.
+            namedtuple("PosAnything", "a b c d".split())(1, 2, 3, 4),
+            pytest.raises(ValueError),
+            "Expected 3 pseudos, received ",
+        ],
+        [
+            # Tests that wrong name(s) were supplied.
+            namedtuple("PosAnything", "three wrong names".split())(1, 2, 4),
+            pytest.raises(ValueError),
+            "Wrong axis names",
+        ],
+        [("1", 2, 3), pytest.raises(TypeError), "Must be number, received "],
+        [(1, 2, "3"), pytest.raises(TypeError), "Must be number, received "],
+        [([1], 2, 3), pytest.raises(TypeError), "Must be number, received "],
+        [(object, 2, 3), pytest.raises(TypeError), "Must be number, received "],
+        [(None, 2, 3), pytest.raises(TypeError), "Must be number, received "],
+        [((1,), 2, 3), pytest.raises(TypeError), "Must be number, received "],
+        [deque(), pytest.raises(TypeError), "Unexpected data type"],
+    ],
+)
+def test_miller_args(miller, context, expected):
+    """Test the Miller indices arguments: h, k, l."""
+
+    with context as reason:
+        e4cv = creator(name="e4cv")
+        e4cv.add_reflection(miller)
+    assert_context_result(expected, reason)

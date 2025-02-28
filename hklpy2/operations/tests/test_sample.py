@@ -2,21 +2,31 @@ from contextlib import nullcontext as does_not_raise
 
 import pytest
 
+from ...geom import creator
+from ...tests.common import assert_context_result
+from ...tests.models import add_oriented_vibranium_to_e4cv
 from ..lattice import Lattice
 from ..misc import load_yaml
 from ..misc import unique_name
 from ..reflection import ReflectionsDict
 from ..sample import Sample
-
-
-def test_sample_constructor_no_operator():
-    with pytest.raises(TypeError) as reason:
-        Sample(None, "test", Lattice(4))
-    assert "expected Operations" in str(reason), f"{reason=!r}"
+from ..sample import SampleError
 
 
 @pytest.mark.parametrize(
-    "lattice, sname, outcome, expect",
+    "context, expected",
+    [
+        [pytest.raises(TypeError), "expected Operations"],
+    ],
+)
+def test_sample_constructor_no_operator(context, expected):
+    with context as reason:
+        Sample(None, "test", Lattice(4))
+    assert_context_result(expected, reason)
+
+
+@pytest.mark.parametrize(
+    "lattice, sname, context, expect",
     [
         [Lattice(4), "sample name", does_not_raise(), None],
         [Lattice(4), None, does_not_raise(), None],
@@ -47,8 +57,9 @@ def test_sample_constructor_no_operator():
         ],
     ],
 )
-def test_sample_constructor(lattice, sname, outcome, expect, sim):
-    with outcome as excuse:
+def test_sample_constructor(lattice, sname, context, expect):
+    with context as excuse:
+        sim = creator(name="sim", solver="th_tth", geometry="TH TTH Q")
         sample = Sample(sim.operator, sname, lattice)
         assert sample is not None
 
@@ -76,7 +87,8 @@ def test_sample_constructor(lattice, sname, outcome, expect, sim):
         assert expect in str(excuse), f"{excuse=} {expect=}"
 
 
-def test_repr(sim):
+def test_repr():
+    sim = creator(name="sim", solver="th_tth", geometry="TH TTH Q")
     rep = repr(sim.sample)
     assert rep.startswith("Sample(")
     assert "name=" in rep
@@ -85,13 +97,21 @@ def test_repr(sim):
     assert rep.endswith(")")
 
 
-def test_reflections_fail(sim):
-    with pytest.raises(TypeError) as reason:
+@pytest.mark.parametrize(
+    "context, expected",
+    [
+        [pytest.raises(TypeError), "Must supply ReflectionsDict"],
+    ],
+)
+def test_reflections_fail(context, expected):
+    sim = creator(name="sim", solver="th_tth", geometry="TH TTH Q")
+    with context as reason:
         sim.sample.reflections = None
-    assert "Must supply ReflectionsDict" in str(reason)
+    assert_context_result(expected, reason)
 
 
-def test_fromdict(sim):
+def test_fromdict():
+    sim = creator(name="sim", solver="th_tth", geometry="TH TTH Q")
     text = """
     name: vibranium
     lattice:
@@ -173,6 +193,8 @@ def test_fromdict(sim):
     assert isinstance(config, dict), f"{config=!r}"
     assert len(config) == 7
 
+    sim = creator(name="sim", solver="th_tth", geometry="TH TTH Q")
+
     cfg_latt = Lattice(1)
     cfg_latt._fromdict(config["lattice"])
     sample = Sample(sim.operator, "unit", Lattice(1))
@@ -192,3 +214,22 @@ def test_fromdict(sim):
     assert sample.reflections.order == config["reflections_order"]
     assert sample.U == config["U"]
     assert sample.UB == config["UB"]
+
+
+@pytest.mark.parametrize(
+    "remove, context, expected",
+    [
+        [None, does_not_raise(), None],
+        ["r004", pytest.raises(SampleError), ""],
+        ["wrong", pytest.raises(KeyError), ""],
+    ],
+)
+def test_refine(remove, context, expected):
+    with context as reason:
+        e4cv = creator(name="e4cv")
+        add_oriented_vibranium_to_e4cv(e4cv)
+        if remove is not None:
+            e4cv.operator.sample.reflections.pop(remove)
+        e4cv.operator.sample.refine_lattice()
+
+    assert_context_result(expected, reason)

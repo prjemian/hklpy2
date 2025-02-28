@@ -8,7 +8,9 @@ Miscellaneous Support.
     ~compare_float_dicts
     ~dict_device_factory
     ~flatten_lists
+    ~get_run_orientation
     ~get_solver
+    ~list_orientation_runs
     ~load_yaml
     ~load_yaml_file
     ~roundoff
@@ -44,10 +46,13 @@ Miscellaneous Support.
 import logging
 import math
 import pathlib
+import sys
 import uuid
 from collections.abc import Iterable
 from importlib.metadata import entry_points
 
+import pandas as pd
+import tqdm
 import yaml
 from ophyd import Component
 from ophyd import Device
@@ -62,6 +67,8 @@ IDENTITY_MATRIX_3X3 = [[1, 0, 0], [0, 1, 0], [0, 0, 1]]
 
 SOLVER_ENTRYPOINT_GROUP = "hklpy2.solver"
 """Name by which |hklpy2| backend |solver| classes are grouped."""
+
+DEFAULT_START_KEY = "diffractometers"
 
 # Custom exceptions
 
@@ -149,7 +156,7 @@ class ConfigurationRunWrapper:
     the `.read_configuration()` method can be added to this tuple.
     """
 
-    start_key = "diffractometers"
+    start_key = DEFAULT_START_KEY
     """Top-level key in run's metadata dictionary."""
 
     def __init__(self, *devices, knowns=None):
@@ -298,6 +305,163 @@ def get_solver(solver_name):
         raise SolverError(f"{solver_name=!r} unknown.  Pick one of: {solvers()!r}")
     entries = entry_points(group=SOLVER_ENTRYPOINT_GROUP)
     return entries[solver_name].load()
+
+
+def get_run_orientation(run, name=None, start_key=DEFAULT_START_KEY):
+    """
+    Return the orientation information dictionary from a run.
+
+    EXAMPLE::
+
+        In [3]: get_run_orientation(cat[9752], name="sim4c2")
+        Out[3]:
+        {'_header': {'datetime': '2025-02-27 15:54:33.364719',
+        'hklpy2_version': '0.0.26.dev72+gcf9a65a.d20250227',
+        'python_class': 'Hklpy2Diffractometer',
+        'source_type': 'X-ray',
+        'energy_units': 'keV',
+        'energy': 12.398419843856837,
+        'wavelength_units': 'angstrom',
+        'wavelength': 1.0},
+        'name': 'sim4c2',
+        'axes': {'pseudo_axes': ['h', 'k', 'l'],
+        'real_axes': ['omega', 'chi', 'phi', 'tth'],
+        'axes_xref': {'h': 'h',
+        'k': 'k',
+        'l': 'l',
+        'omega': 'omega',
+        'chi': 'chi',
+        'phi': 'phi',
+        'tth': 'tth'},
+        'extra_axes': {}},
+        'sample_name': 'sample',
+        'samples': {'sample': {'name': 'sample',
+        'lattice': {'a': 1,
+            'b': 1,
+            'c': 1,
+            'alpha': 90.0,
+            'beta': 90.0,
+            'gamma': 90.0},
+        'reflections': {},
+        'reflections_order': [],
+        'U': [[1, 0, 0], [0, 1, 0], [0, 0, 1]],
+        'UB': [[1, 0, 0], [0, 1, 0], [0, 0, 1]],
+        'digits': 4}},
+        'constraints': {'omega': {'label': 'omega',
+        'low_limit': -180.0,
+        'high_limit': 180.0,
+        'class': 'LimitsConstraint'},
+        'chi': {'label': 'chi',
+        'low_limit': -180.0,
+        'high_limit': 180.0,
+        'class': 'LimitsConstraint'},
+        'phi': {'label': 'phi',
+        'low_limit': -180.0,
+        'high_limit': 180.0,
+        'class': 'LimitsConstraint'},
+        'tth': {'label': 'tth',
+        'low_limit': -180.0,
+        'high_limit': 180.0,
+        'class': 'LimitsConstraint'}},
+        'solver': {'name': 'hkl_soleil',
+        'description': "HklSolver(name='hkl_soleil', version='5.1.2', geometry='E4CV', engine_name='hkl', mode='bissector')",
+        'geometry': 'E4CV',
+        'real_axes': ['omega', 'chi', 'phi', 'tth'],
+        'version': '5.1.2',
+        'engine': 'hkl'}}
+
+
+    Parameters
+    ----------
+    run : object
+        Bluesky run object.
+    name : str
+        (optional)
+        Name of the diffractometer. (default=None, returns all available.)
+    start_key : str
+        Metadata key where the orientation information is stored in the start
+        document.  (default="diffractometers")
+    """
+    info = run.metadata["start"].get(start_key, {})
+    if isinstance(name, str):
+        info = info.get(name, {})
+    return info
+
+
+def list_orientation_runs(catalog, limit=10, start_key=DEFAULT_START_KEY, **kwargs):
+    """
+    List the runs with orientation information.
+
+    EXAMPLE::
+
+        In [42]: list_orientation_runs(cat, limit=5, date="_header.datetime")
+        Out[42]:
+            scan_id      uid  sample diffractometer geometry      solver                        date
+        0      9752  41f71e9  sample         sim4c2     E4CV  hkl_soleil  2025-02-27 15:54:33.364719
+        1      9751  36e38bc  sample         sim4c2     E4CV  hkl_soleil  2025-02-27 15:54:33.364719
+        2      9750  62e425d  sample         sim4c2     E4CV  hkl_soleil  2025-02-27 15:54:33.364719
+        3      9749  18b11f0  sample         sim4c2     E4CV  hkl_soleil  2025-02-27 15:53:55.958929
+        4      9748  bf9912f  sample         sim4c2     E4CV  hkl_soleil  2025-02-27 15:53:55.958929
+
+    Returns
+    -------
+    Table of orientation runs: Pandas DataFrame object
+
+    Parameters
+    ----------
+    catalog : object
+        Instance of a databroker catalog.
+    limit : int
+        Limit the list to at most ``limit`` runs. (default=10)
+        It could take a long time to search an entire catalog.
+    start_key : str
+        Metadata key where the orientation information is stored in the start
+        document.  (default="diffractometers")
+    **kwargs : dict[str:str]
+        Keyword parameters describing data column names to be displayed. The
+        value of each column name is the dotted path to the orientation
+        information (in the start document's metadata).
+    """
+    buffer = []
+    _count = 0
+    columns = dict(
+        sample="sample_name",
+        diffractometer="name",
+        geometry="solver.geometry",
+        solver="solver.name",
+    )
+    columns.update(**kwargs)
+    limit = min(limit, len(catalog.v2))
+    with tqdm.tqdm(total=limit, file=sys.stdout, leave=False) as progress_bar:
+        for full_uid in catalog.v2:
+            _count += 1
+            run = catalog.v2[full_uid]
+            start_md = run.metadata.get("start", {})
+            info = get_run_orientation(run, start_key=start_key)
+            if info is not None:
+
+                def get_subdict_value(biblio, full_key):
+                    value = biblio
+                    for key in full_key.split("."):
+                        value = (value or {}).get(key)
+                    return value
+
+                for device in sorted(info):
+                    orientation = info[device]
+                    row = dict(
+                        scan_id=start_md.get("scan_id", 0),
+                        uid=full_uid[:7],
+                    )
+                    for f, addr in columns.items():
+                        value = get_subdict_value(orientation, addr)
+                        if value is not None:
+                            row[f] = value
+                    buffer.append(row)
+
+            progress_bar.update()
+            if _count >= limit:
+                break
+    return pd.DataFrame(buffer)
 
 
 def load_yaml(text: str):

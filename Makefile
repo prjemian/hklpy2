@@ -3,7 +3,7 @@
 all :: style docs coverage
 
 coverage:
-	coverage run --concurrency=thread --parallel-mode -m pytest -vvv .
+	coverage run --concurrency=thread --parallel-mode -m pytest -vvv ./hklpy2
 	coverage combine
 	coverage report --precision 3 -m
 
@@ -21,4 +21,4 @@ pre:
 style :: isort pre
 
 test:
-	pytest -vvv
+	pytest -vvv ./hklpy2

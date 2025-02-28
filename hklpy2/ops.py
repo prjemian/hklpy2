@@ -11,6 +11,9 @@ library.
 
 import datetime
 import logging
+from collections.abc import Iterable
+from typing import List
+from typing import Union
 
 from . import SolverBase
 from .operations.configure import Configuration
@@ -23,6 +26,8 @@ from .operations.reflection import Reflection
 from .operations.sample import Sample
 
 __all__ = ["Operations"]
+
+Number = Union[int, float]
 logger = logging.getLogger(__name__)
 DEFAULT_SAMPLE_NAME = "sample"
 
@@ -42,19 +47,18 @@ class Operations:
 
         ~_asdict
         ~_fromdict
+        ~_validate_pseudos
         ~add_reflection
         ~add_sample
         ~assign_axes
         ~auto_assign_axes
         ~calc_UB
-        ~export
         ~forward
         ~inverse
         ~refine_lattice
         ~remove_sample
         ~reset_constraints
         ~reset_samples
-        ~restore
         ~set_solver
         ~standardize_pseudos
         ~standardize_reals
@@ -91,19 +95,16 @@ class Operations:
         from .__init__ import __version__
 
         dfrct = self.diffractometer
-        if not hasattr(dfrct, "name") or not hasattr(dfrct, "_wavelength"):
-            return {}  # Ophyd Device not initialized yet.  Empty dict is OK.
+        # 2025-02-26: Apparently not needed, not easy to setup either.
+        #     Retain in comment, just in case...
+        # if not hasattr(dfrct, "name") or not hasattr(dfrct, "_source"):
+        #     return {}  # Ophyd Device not initialized yet.  Empty dict is OK.
 
         config = {
             "_header": {
                 "datetime": str(datetime.datetime.now()),
-                "energy_units": dfrct._wavelength.energy_units,
-                "energy": dfrct._wavelength.energy,
                 "hklpy2_version": __version__,
                 "python_class": dfrct.__class__.__name__,
-                "source_type": dfrct._wavelength.source_type,
-                "wavelength_units": dfrct._wavelength.wavelength_units,
-                "wavelength": dfrct._wavelength.wavelength,
             },
             "name": self.diffractometer.name,
             "axes": {
@@ -116,6 +117,7 @@ class Operations:
             "constraints": self.constraints._asdict(),
             "solver": self.solver._metadata,
         }
+        config["_header"].update(self.diffractometer._source._asdict())
 
         if self.solver.name == "hkl_soleil":
             config["solver"]["engine"] = self.solver.engine_name
@@ -128,6 +130,9 @@ class Operations:
         for key, sample in config["samples"].items():
             sample_object = self.add_sample(key, 1, replace=True)
             sample_object._fromdict(sample, operator=self)
+        sname = config.get("sample_name")
+        if sname is not None:
+            self.sample = sname
 
         for key, constraint in config["constraints"].items():
             if (
@@ -139,6 +144,48 @@ class Operations:
                 axis_local = self.axes_xref_reversed[axis_canonical]
                 constraint["label"] = axis_local
         self.constraints._fromdict(config["constraints"], operator=self)
+
+    def _validate_pseudos(self, pseudos) -> bool:
+        """Validate that the supplied pseudos are acceptable."""
+        if not isinstance(pseudos, Iterable):
+            raise TypeError(
+                "Pseudos must be tuple, list, or dict."
+                # Always show the input.
+                f"  Received {pseudos!r}"
+            )
+        if not isinstance(pseudos, (dict, list, set, tuple)):
+            raise TypeError(f"Unexpected data type: {pseudos}")
+
+        expected_names = [
+            self.axes_xref_reversed[n]  # Use diffractometer's names.
+            # Just the solver's pseudos.
+            for n in self.solver.pseudo_axis_names
+        ]
+        # self.diffractometer.pseudo_axis_names
+        if len(pseudos) != len(expected_names):
+            raise ValueError(
+                f"Expected {len(expected_names)} pseudos,"
+                # Always show the input.
+                f" received {pseudos}"
+            )
+
+        original = pseudos  # Keep the original for reporting.
+        if hasattr(pseudos, "_asdict"):
+            pseudos = pseudos._asdict()
+        if isinstance(pseudos, (list, set, tuple)):
+            # Expect values are provided in canonical order.
+            pseudos = {
+                axis: value
+                # rewrite as dictionary
+                for axis, value in zip(expected_names, pseudos)
+            }
+        for axis in expected_names:
+            if axis not in pseudos:
+                raise ValueError(f"Wrong axis names: received {original}")
+            if not isinstance(pseudos[axis], (float, int)):
+                raise TypeError(f"Must be number, received {original}")
+
+        return True
 
     def add_reflection(
         self,
@@ -163,14 +210,9 @@ class Operations:
         """
         from .operations.reflection import Reflection
 
+        self._validate_pseudos(pseudos)
+
         reverse = self.axes_xref_reversed
-        # fmt: off
-        if len(reverse) == 0:
-            raise OperationsError(
-                "Did you forget to call `assign_axes()`"
-                " or `auto_assign_axes()`?"
-            )
-        # fmt: on
         pnames = [reverse[k] for k in self.solver.pseudo_axis_names]
         rnames = [reverse[k] for k in self.solver.real_axis_names]
         pdict = self.standardize_pseudos(pseudos, pnames)
@@ -239,7 +281,7 @@ class Operations:
                     raise KeyError(f"Unknown {label}={attr!r}.  Known: {keys!r}")
             return keys
 
-        def reference(dnames, snames):
+        def rebuild_axes_xref(dnames, snames):
             for dname, sname in zip(dnames, snames):
                 self.axes_xref[dname] = sname
                 both_p_r.remove(dname)
@@ -258,8 +300,8 @@ class Operations:
         both_p_r = all_pseudos + all_reals
 
         self.axes_xref = {}
-        reference(pseudos, solver.pseudo_axis_names)
-        reference(reals, solver.real_axis_names)
+        rebuild_axes_xref(pseudos, solver.pseudo_axis_names)
+        rebuild_axes_xref(reals, solver.real_axis_names)
         self.reset_constraints()
         logger.debug("axes_xref=%r", self.axes_xref)
         self.configuration = Configuration(self.diffractometer)
@@ -276,6 +318,14 @@ class Operations:
     @property
     def axes_xref_reversed(self):
         """Map axis names from solver to diffractometer."""
+        if len(self.axes_xref) == 0:
+            if self.solver is not None:
+                names = self.solver.pseudo_axis_names + self.solver.real_axis_names
+                if len(names) == 0:
+                    return {}
+            raise OperationsError(
+                "Did you forget to call `assign_axes()` or `auto_assign_axes()`?"
+            )
         return {v: k for k, v in self.axes_xref.items()}
 
     def auto_assign_axes(self):
@@ -315,9 +365,11 @@ class Operations:
 
         logger.debug("axes_xref=%r", self.axes_xref)
 
-    def calc_UB(self, r1: [Reflection, str], r2: [Reflection, str]) -> None:
+    def calc_UB(
+        self, r1: [Reflection, str], r2: [Reflection, str]
+    ) -> List[List[Number]]:
         """
-        Calculate the UB (orientation) matrix with two reflections.
+        Calculate and return the UB (orientation) matrix with two reflections.
 
         The method of Busing & Levy, Acta Cryst 22 (1967) 457.
         """
@@ -339,19 +391,7 @@ class Operations:
         self.solver.calculate_UB(*two_reflections)
         self.sample.U = self.solver.U
         self.sample.UB = self.solver.UB
-
-    def export(self, file, comment=""):
-        """
-        Export the diffractometer configuration to a YAML file.
-
-        Example::
-
-            import hklpy2
-
-            e4cv = hklpy2.creator(name="e4cv")
-            e4cv.operator.export("e4cv-config.yml", comment="example")
-        """
-        self.configuration.export(file, comment)
+        return self.sample.UB
 
     def forward(self, pseudos: tuple, wavelength: float = None) -> list:
         """Compute [{names:reals}] from {names: pseudos} (hkl -> angles)."""
@@ -366,14 +406,13 @@ class Operations:
         self.solver.wavelength = wavelength
 
         # convert namedtuple to dict
-        pdict = dict(zip(pseudos._fields, list(pseudos)))
-        reals = {  # Original values.
-            axis[0]: 0 for axis in self.diffractometer._get_real_positioners()
-        }
+        pdict = pseudos._asdict()
+        reals = self.diffractometer.real_position._asdict()  # Original values.
 
         # Filter just the solutions that fit the constraints.
+        results = self.solver.forward(self._axes_names_d2s(pdict))
         solutions = []
-        for solution in self.solver.forward(self._axes_names_d2s(pdict)):
+        for solution in results:
             reals.update(self._axes_names_s2d(solution))  # Update with new values.
             if self.constraints.valid(**reals):
                 solutions.append(self.diffractometer.RealPosition(**reals))
@@ -449,37 +488,6 @@ class Operations:
             self.remove_sample(list(self.samples)[-1])
         # Create the default sample.
         self.add_sample(DEFAULT_SAMPLE_NAME, 1)
-
-    def restore(self, file, clear=True, restore_constraints=True):
-        """
-        Restore the diffractometer configuration to a YAML file.
-
-        Example::
-
-            import hklpy2
-
-            e4cv = hklpy2.creator(name="e4cv")
-            e4cv.operator.restore("e4cv-config.yml")
-
-        PARAMETERS
-
-        file *str* or *pathlib.Path* object:
-            Name (or pathlib object) of diffractometer configuration YAML file.
-        clear *bool*:
-            If ``True`` (default), remove any previous configuration of the
-            diffractometer and reset it to default values before restoring the
-            configuration.
-
-            If ``False``, sample reflections will be append with all reflections
-            included in the configuration data for that sample.  Existing
-            reflections will not be changed.  The user may need to edit the
-            list of reflections after ``restore(clear=False)``.
-        restore_constraints *bool*:
-            If ``True`` (default), restore any constraints provided.
-
-        Note: Can't name this method "import", it's a reserved Python word.
-        """
-        self.configuration.restore(file, clear, restore_constraints, solver=self.solver)
 
     def set_solver(
         self,
@@ -622,6 +630,12 @@ class Operations:
     @sample.setter
     def sample(self, value: str) -> None:
         self._sample_name = value
+        if self.solver is not None:
+            try:
+                self.solver.U = self.sample.U
+                self.solver.UB = self.sample.UB
+            except AttributeError:
+                pass  # property is not settable
 
     @property
     def samples(self) -> dict:

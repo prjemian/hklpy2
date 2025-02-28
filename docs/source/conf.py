@@ -105,9 +105,12 @@ autodoc_default_options = {
 }
 autodoc_mock_imports = """
     bluesky
+    databroker
     gi
     ophyd
+    pandas
     pint
+    tqdm
 """.split()
 
 # Example configuration for intersphinx: refer to the Python standard library.
