@@ -63,7 +63,12 @@ class Sample:
         self.reflections = ReflectionsDict()
 
     def __repr__(self):
+        """Brief text representation."""
         return f"Sample(name={self.name!r}, lattice={self.lattice!r})"
+
+    def __str__(self):
+        """Detailed text representation."""
+        return str(self._asdict())
 
     def _asdict(self):
         """Describe the sample as a dictionary."""
