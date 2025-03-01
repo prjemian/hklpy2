@@ -9,8 +9,8 @@ It could be re-organized.
   * [x] easy to save/restore configuration
   * [ ] easy to use different *engines*
     * [ ] documentation
-    * [ ] example(s)
-    * [ ] tests
+    * [x] example(s)
+    * [x] tests
   * Axes
     * [x] Make it easy to provide additional axes
       * [ ] rotation about arbitrary vector
@@ -37,7 +37,7 @@ It could be re-organized.
     * [x] [`addReflection()`, when to use current positions](https://github.com/bluesky/hklpy/issues/219)
     * [x] [avoid duplications](https://github.com/bluesky/hklpy/issues/248)
     * [x] [label each reflection](https://github.com/bluesky/hklpy/issues/293)
-    * [ ] [write orientation reflections with scan](https://github.com/bluesky/hklpy/issues/158),
+    * [x] [write orientation reflections with scan](https://github.com/bluesky/hklpy/issues/158),
       [also](https://github.com/bluesky/hklpy/issues/247)
     * [ ] [`cahkl()` should make nice report when reflection can't be reached](https://github.com/bluesky/hklpy/issues/178)
   * Other
@@ -60,7 +60,7 @@ It could be re-organized.
   * [x] How to refine lattice from 3 reflections.
   * [x] How to save & restore diffractometer configuration (includes orientation).
   * [x] How to set UB directly.
-* [ ] Diffractometer-Operations API
+* [x] Diffractometer-Operations API
   * [x] solver:
   * [x] geometry:
   * [x] samples:
