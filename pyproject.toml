@@ -41,13 +41,14 @@ dependencies = [
   "packaging", # ophyd needs this
   "pandas",
   "pint",
+  "pyRestTable",
   "tqdm",
   "ruamel.yaml",
 ]
 
 [project.entry-points."hklpy2.solver"]
 no_op = "hklpy2.backends.no_op:NoOpSolver"
-hkl_soleil = "hklpy2.backends.hkl_soleil:HklSolver" # TODO: linux
+hkl_soleil = "hklpy2.backends.hkl_soleil:HklSolver" # TODO: mark as linux-only
 th_tth = "hklpy2.backends.th_tth_q:ThTthSolver"
 
 [project.optional-dependencies]

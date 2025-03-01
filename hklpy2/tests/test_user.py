@@ -1,20 +1,28 @@
 import logging
+from collections import namedtuple
 from contextlib import nullcontext as does_not_raise
 
+import numpy.testing
+import pyRestTable
 import pytest
 
 from ..geom import creator
 from ..operations.lattice import SI_LATTICE_PARAMETER
 from ..operations.misc import ReflectionError
 from ..user import add_sample
+from ..user import cahkl
+from ..user import cahkl_table
+from ..user import calc_UB
 from ..user import get_diffractometer
 from ..user import list_samples
 from ..user import or_swap
 from ..user import pa
 from ..user import set_diffractometer
+from ..user import set_energy
 from ..user import set_lattice
 from ..user import setor
 from ..user import wh
+from ..wavelength_support import ConstantMonochromaticWavelength
 from .common import TESTS_DIR
 from .common import assert_context_result
 
@@ -73,6 +81,61 @@ def test_add_sample_exists(fourc, caplog):
     assert "already defined." in caplog.text
     assert "Add 'replace=True' to redefine" in caplog.text
     assert "Call 'set_lattice(a, ...)' to define" in caplog.text
+
+
+def test_cahkl(fourc):
+    fourc.operator.constraints["tth"].limits = (0, 180)
+    for axis in fourc.real_positioners:
+        # Start at zero, make certain cahkl() will not move the motors!
+        axis.move(0)
+
+    set_diffractometer(fourc)
+
+    for axis in fourc.real_positioners:
+        # Verify cahkl() did not move the motors!
+        numpy.testing.assert_approx_equal(axis.position, 0)
+
+    # use the default "main" sample and UB matrix
+    for position, expected in zip(cahkl(1, 0, 0), (30, 0, 90, 60)):
+        assert round(position) == expected
+
+
+def test_cahkl_table(fourc):
+    fourc.operator.constraints["tth"].limits = (0, 180)
+    set_diffractometer(fourc)
+
+    # use the default "main" sample and UB matrix
+    HklTuple = namedtuple("HklTuple", "h k l".split())
+    rlist = [HklTuple(1, 0, 0), HklTuple(0, 1, 0)]
+    table = cahkl_table(*rlist, digits=0)
+    assert isinstance(table, pyRestTable.Table)
+
+    expected = """
+    ========= ======== ===== === === ===
+    (hkl)     solution omega chi phi tth
+    ========= ======== ===== === === ===
+    (1, 0, 0) 0        30    0   90  60
+    (0, 1, 0) 0        30    90  0   60
+    ========= ======== ===== === === ===
+    """.strip().splitlines()
+    for el, rl in list(zip(expected[3:5], str(table).strip().splitlines()[3:5])):
+        # just compare the position values
+        for e, r in list(zip(el.split()[-4:], rl.split()[-4:])):
+            assert float(r) == float(e)
+
+
+def test_calc_UB(fourc):
+    fourc.omega.move(-145.451)
+    fourc.chi.move(90)
+    fourc.phi.move(0)
+    fourc.tth.move(69.0966)
+    set_diffractometer(fourc)
+    add_sample("silicon standard", SI_LATTICE_PARAMETER)
+    r1 = setor(4, 0, 0, tth=69.0966, omega=-145.451, chi=0, phi=0, wavelength=1.54)
+    r2 = setor(0, 4, 0)
+
+    ub = calc_UB(r1, r2)
+    assert isinstance(ub, (list, numpy.ndarray))
 
 
 def test_list_samples(fourc, capsys):
@@ -188,6 +251,41 @@ def test_set_lattice(fourc):
     assert str(sample.lattice) == "Lattice(a=1, system='cubic')"
     set_lattice(2, b=3, c=4)
     assert str(sample.lattice) == "Lattice(a=2, b=3, c=4, system='orthorhombic')"
+
+
+@pytest.mark.parametrize(
+    "energy, units, offset, context, expected",
+    [
+        [8, "keV", 0, does_not_raise(), None],
+        [8.1, "keV", -0.03, does_not_raise(), None],
+        [7500, "eV", 0, does_not_raise(), None],
+        [7100, "eV", 25, does_not_raise(), None],
+    ],
+)
+def test_set_energy(fourc, energy, units, offset, context, expected):
+    with context as reason:
+        set_diffractometer(fourc)
+        source = get_diffractometer()._source
+
+        set_energy(energy, units=units, offset=None)  # TODO: #35
+        # numpy.testing.assert_approx_equal(source.energy_offset, 0)
+        assert source.energy_units == units
+        numpy.testing.assert_approx_equal(source.energy, energy)
+    assert_context_result(expected, reason)
+
+    if offset != 0:  # TODO: #35
+        with pytest.raises(NotImplementedError) as reason:
+            set_energy(energy, units=units, offset=offset)
+        expected = "energy offset not implemented"
+        assert_context_result(expected, reason)
+
+    # Edge case
+    wavelength = source.wavelength
+    get_diffractometer()._source = ConstantMonochromaticWavelength(wavelength)
+    with pytest.raises(TypeError) as reason:
+        set_energy(energy)
+    expected = "'set_energy()' not supported "
+    assert_context_result(expected, reason)
 
 
 def test_setor(fourc):

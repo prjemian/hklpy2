@@ -9,11 +9,15 @@ library.
     ~Operations
 """
 
+# TODO:  #36
+
 import datetime
 import logging
 from collections.abc import Iterable
 from typing import List
 from typing import Union
+
+import pyRestTable
 
 from . import SolverBase
 from .operations.configure import Configuration
@@ -418,6 +422,47 @@ class Operations:
                 solutions.append(self.diffractometer.RealPosition(**reals))
 
         return solutions
+
+    def forward_solutions_table(self, reflections, full=False, digits=5):
+        """
+        Return table of computed solutions for each supplied (hkl) reflection.
+
+        The solutions are calculated using the current UB matrix & constraints.
+
+        Parameters
+        ----------
+        reflections : list of (h, k, l) reflections
+            Each reflection is a tuple of 3 numbers,
+            (h, k, l) of the reflection.
+        full : bool
+            If ``True``, show all solutions.  If ``False``,
+            only show the default solution.
+        digits : int
+            Number of digits to roundoff each position
+            value.  Default is 5.
+        """
+        _table = pyRestTable.Table()
+        motors = self.diffractometer.real_axis_names
+        _table.labels = "(hkl) solution".split() + list(motors)
+        for reflection in reflections:
+            try:
+                solutions = self.forward(reflection)
+            except ValueError as exc:
+                solutions = exc
+            if isinstance(solutions, ValueError):
+                row = [reflection, "none"]
+                row += ["" for m in motors]
+                _table.addRow(row)
+            else:
+                # TODO: get default solution first, then any others
+                # Don't assume (as now) that the defaults is the first.
+                for i, s in enumerate(solutions):
+                    row = [reflection, i]
+                    row += [round(getattr(s, m), digits) for m in motors]
+                    _table.addRow(row)
+                    if not full:
+                        break  # only show the first (default) solution
+        return _table
 
     def inverse(self, reals, wavelength: float = None) -> dict:
         """Compute (pseudos) from {names: reals} (angles -> hkl)."""

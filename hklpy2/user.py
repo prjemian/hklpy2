@@ -17,26 +17,37 @@ FUNCTIONS
 .. autosummary::
 
     ~add_sample
+    ~cahkl
+    ~cahkl_table
+    ~calc_UB
     ~get_diffractometer
     ~list_samples
     ~or_swap
     ~pa
     ~set_diffractometer
+    ~set_energy
     ~set_lattice
     ~setor
     ~wh
 """
 
+from collections import namedtuple
+
 from .diffract import DiffractometerBase
 from .operations.lattice import Lattice
+from .wavelength_support import MonochromaticXrayWavelength
 
 __all__ = """
     add_sample
+    cahkl
+    cahkl_table
+    calc_UB
     get_diffractometer
     list_samples
     or_swap
     pa
     set_diffractometer
+    set_energy
     set_lattice
     setor
     wh
@@ -120,6 +131,46 @@ def add_sample(
     return diffractometer.sample
 
 
+def cahkl(h, k, l):  # noqa: E741
+    """
+    Calculate motor positions for one reflection - DOES NOT MOVE motors.
+
+    Returns a namedtuple.
+    """
+    diffractometer = get_diffractometer()
+    position = namedtuple("Position", "h k l".split())(h, k, l)
+    solutions = diffractometer.operator.forward(position)
+    return diffractometer._forward_solution(diffractometer.real_position, solutions)
+
+
+def cahkl_table(*reflections, digits=5):
+    """
+    Return a table with motor positions for each reflection given.
+
+    Parameters
+    ----------
+    reflections : list(tuple(number,number,number))
+        This is a list of reflections where
+        each reflection is a tuple of 3 numbers
+        specifying (h, k, l) of the reflection
+        to compute the ``forward()`` computation.
+
+        Example:  ``[(1,0,0), (1,1,1)]``
+    digits : int
+        Number of digits to roundoff each position
+        value.  Default is 5.
+    """
+    operator = get_diffractometer().operator
+    HklPosition = namedtuple("HklPosition", "h k l".split())  # TODO: #36
+    reflections = [HklPosition(*r) for r in reflections]
+    return operator.forward_solutions_table(reflections, digits=digits)
+
+
+def calc_UB(r1, r2, wavelength=None):
+    """Compute the UB matrix with two reflections."""
+    return get_diffractometer().operator.calc_UB(r1, r2)
+
+
 def get_diffractometer():
     """Return the currently-selected diffractometer (or ``None``)."""
     try:
@@ -176,8 +227,7 @@ def or_swap():
     """
     diffractometer = _choice.diffractometer
     reflections = diffractometer.sample.reflections.swap()[:2]
-    diffractometer.operator.calc_UB(*reflections)
-    return diffractometer.sample.UB
+    return calc_UB(*reflections)
 
 
 def pa():
@@ -209,6 +259,28 @@ def pa():
 def set_diffractometer(diffractometer: DiffractometerBase = None) -> None:
     """Declare the diffractometer to be used."""
     _choice.diffractometer = diffractometer
+
+
+def set_energy(value, units=None, offset=None):
+    """
+    Set the energy (thus wavelength) to be used (does not change control system value).
+    """
+
+    source = _choice.diffractometer._source
+    if not isinstance(source, MonochromaticXrayWavelength):
+        raise TypeError(
+            f"'set_energy()' not supported for {source!r},"
+            f" requires {MonochromaticXrayWavelength}."
+        )
+    # No ophyd objects in this module.  These are float values using properties.
+    if units is not None:
+        source.energy_units = units
+    if offset is not None:
+        source.energy_offset = offset  # TODO: requires feature addition
+        raise NotImplementedError(
+            "Monochromatic source energy offset not implemented (yet)."
+        )
+    source.energy = value
 
 
 def set_lattice(
