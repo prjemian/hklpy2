@@ -385,7 +385,7 @@ class Operations:
             reflection = self.sample.reflections.get(r)
             if reflection is None:
                 raise KeyError(
-                    f"Reflection {reflection!r} unknown."
+                    f"{reflection!r} unknown."
                     f"  Knowns: {list(self.sample.reflections)!r}"
                 )
             return reflection
@@ -560,10 +560,6 @@ class Operations:
         self._solver.sample = self.sample
         self._solver.wavelength = self.diffractometer.wavelength.get()
         return self._solver
-
-    def _solver_setup(self):
-        """Setup the backend |solver| for a transaction."""
-        self.solver.sample = self.sample
 
     def standardize_pseudos(
         self,
