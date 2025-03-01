@@ -252,7 +252,7 @@ def test_axis_inversion():
     #     -176.69158155966787,  # invert gamma for this test
     # )
 
-    # # TODO: support inverted axes
+    # # TODO: #38 support inverted axes
     # # hklpy v1 code from here
     # tardis.calc.inverted_axes = ["gamma"]
     # tardis.calc.physical_positions = rpos

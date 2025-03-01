@@ -490,7 +490,7 @@ def test_repeated_reflections(
                 fail_on_exception=True,
             ),
             "psi_constant",
-            pytest.raises(GError),  # TODO: catch this in the solver and translate?
+            pytest.raises(GError),  # TODO: #39
             "unreachable hkl",  # hkl-engine-error-quark:
         ],
         [

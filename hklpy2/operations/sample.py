@@ -97,7 +97,7 @@ class Sample:
         if len(self.reflections) < 3:
             raise SampleError("Need 3 or more reflections to refine lattice.")
 
-        # self.operator.refineLattice()  # TODO: refine lattice
+        # self.operator.refineLattice()  # TODO: #40
 
     # --------- get/set properties
 
@@ -165,5 +165,5 @@ class Sample:
 
     @UB.setter
     def UB(self, value: list[list[float]]):
-        # TODO: validate
+        # TODO: #41 validate
         self._UB = value
