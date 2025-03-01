@@ -16,6 +16,7 @@ FUNCTIONS
 
 .. autosummary::
 
+    ~add_reflection
     ~add_sample
     ~cahkl
     ~cahkl_table
@@ -37,7 +38,12 @@ from .diffract import DiffractometerBase
 from .operations.lattice import Lattice
 from .wavelength_support import MonochromaticXrayWavelength
 
+# TODO: remove_sample, remove_reflection
+# TODO: setor alias to add_reflection
+# TODO: pa() should identify reflections used to compute UB
+
 __all__ = """
+    add_reflection
     add_sample
     cahkl
     cahkl_table
@@ -230,7 +236,7 @@ def or_swap():
     return calc_UB(*reflections)
 
 
-def pa():
+def pa(digits=4):
     """
     Report (all) the diffractometer settings.
 
@@ -253,7 +259,7 @@ def pa():
         wavelength=1.54
         omega=0, chi=0, phi=0, tth=0
     """
-    _choice.diffractometer.wh(full=True)
+    _choice.diffractometer.wh(digits=digits, full=True)
 
 
 def set_diffractometer(diffractometer: DiffractometerBase = None) -> None:
@@ -306,12 +312,14 @@ def set_lattice(
 
 def setor(h, k, l, *reals, wavelength=None, name=None, **kwreals):  # noqa: E741
     """
-    Define a crystal reflection and its motor positions.
+    (aka ``add_reflection``) Define a crystal reflection and its motor positions.
 
     * Positions:
+
       * Can be omitted (use current values from diffractometer)
       * Specified by values.  Must use expected order.
       * Specified by names.  Can appear in any order.
+
     * wavelength: when not specified, use the current diffractometer value.
     * name: when not specified, make up a new name.
 
@@ -355,7 +363,7 @@ def setor(h, k, l, *reals, wavelength=None, name=None, **kwreals):  # noqa: E741
     return refl
 
 
-def wh():
+def wh(digits=4):
     """
     Report (brief) where is the diffractometer.
 
@@ -366,4 +374,7 @@ def wh():
         wavelength=1.0
         omega=0, chi=0, phi=0, tth=0
     """
-    _choice.diffractometer.wh(full=False)
+    _choice.diffractometer.wh(digits=digits, full=False)
+
+
+add_reflection = setor
