@@ -9,6 +9,7 @@ import pytest
 from ..geom import creator
 from ..operations.lattice import SI_LATTICE_PARAMETER
 from ..operations.misc import ReflectionError
+from ..ops import OperationsError
 from ..user import add_sample
 from ..user import cahkl
 from ..user import cahkl_table
@@ -17,6 +18,7 @@ from ..user import get_diffractometer
 from ..user import list_samples
 from ..user import or_swap
 from ..user import pa
+from ..user import remove_sample
 from ..user import set_diffractometer
 from ..user import set_energy
 from ..user import set_lattice
@@ -227,6 +229,26 @@ def test_pa(fourc, capsys):
     ]
     assert len(out) == len(expected)
     assert out == expected
+
+
+@pytest.mark.parametrize(
+    "config, pop_sample, next_sample, context, expected",
+    [
+        [TESTS_DIR / "e4cv_orient.yml", "vibranium", "sample", does_not_raise(), None],
+        [TESTS_DIR / "e4cv_orient.yml", "sample", "vibranium", does_not_raise(), None],
+        [None, "sample", None, pytest.raises(OperationsError), "No samples defined"],
+        [None, "vibranium", None, pytest.raises(KeyError), "'vibranium' not in "],
+    ],
+)
+def test_remove_sample(fourc, config, pop_sample, next_sample, context, expected):
+    with context as reason:
+        if config is not None:
+            fourc.restore(config)
+        set_diffractometer(fourc)
+        remove_sample(pop_sample)
+        assert fourc.sample.name == next_sample
+
+    assert_context_result(expected, reason)
 
 
 def test_set_diffractometer(fourc):

@@ -196,3 +196,7 @@ def test_repeat_sample():
         geom.add_sample("sample", 4.1)
     expected = "Sample name='sample' already defined."
     assert_context_result(expected, reason)
+
+
+# FIXME: reset_samples is not tested yet
+# FIXME: remove_sample is not tested yet

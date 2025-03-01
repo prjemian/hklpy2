@@ -24,6 +24,7 @@ FUNCTIONS
     ~get_diffractometer
     ~list_samples
     ~or_swap
+    ~remove_sample
     ~pa
     ~set_diffractometer
     ~set_energy
@@ -36,10 +37,10 @@ from collections import namedtuple
 
 from .diffract import DiffractometerBase
 from .operations.lattice import Lattice
+from .ops import OperationsError
 from .wavelength_support import MonochromaticXrayWavelength
 
 # TODO: remove_sample, remove_reflection
-# TODO: setor alias to add_reflection
 # TODO: pa() should identify reflections used to compute UB
 
 __all__ = """
@@ -52,6 +53,7 @@ __all__ = """
     list_samples
     or_swap
     pa
+    remove_sample
     set_diffractometer
     set_energy
     set_lattice
@@ -260,6 +262,21 @@ def pa(digits=4):
         omega=0, chi=0, phi=0, tth=0
     """
     _choice.diffractometer.wh(digits=digits, full=True)
+
+
+def remove_sample(sample: str, error: bool = True) -> None:
+    """Pop the named sample, set "selected" sample name to a valid one."""
+    diffractometer = get_diffractometer()
+    # TODO: Move all this handling to diffractometer.operator.remove_sample().
+    if error and sample not in diffractometer.samples:
+        raise KeyError(f"{sample=!r} not in {list(diffractometer.samples)}.")
+    diffractometer.operator.remove_sample(sample)
+    if diffractometer.operator._sample_name not in diffractometer.samples:
+        try:
+            diffractometer.operator._sample_name = list(diffractometer.samples)[0]
+        except IndexError:
+            raise OperationsError("No samples defined in {diffractometer.name!r}")
+    # TODO: Return anything?
 
 
 def set_diffractometer(diffractometer: DiffractometerBase = None) -> None:
