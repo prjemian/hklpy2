@@ -1,8 +1,6 @@
 """
 A Crystalline Sample.
 
-.. caution: work-in-progress
-
 .. autosummary::
 
     ~Sample

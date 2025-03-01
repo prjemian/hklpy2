@@ -1,16 +1,19 @@
 """
 Simplified interface for |hklpy2| diffractometer users.
 
-The user must define a diffractometer object, then
-register that object here.  For example::
+Get started with a diffractometer object and
+:func:`~hklpy2.user.set_diffractometer()`.  For example:
 
-    from hklpy2 import creator
-    from hkl.user import *
+.. code-block:: python
+    :linenos:
 
-    e4cv = creator(name="e4cv")
-    set_diffractometer(e4cv)
-    wh()
-    pa()
+    >>> from hklpy2 import creator
+    >>> from hkl.user import *
+    >>>
+    >>> e4cv = creator(name="e4cv")
+    >>> set_diffractometer(e4cv)
+    >>> wh()  # "WHere": brief report
+    >>> pa()  # "Print All": full report
 
 FUNCTIONS
 
@@ -33,6 +36,7 @@ FUNCTIONS
     ~wh
 """
 
+import uuid
 from collections import namedtuple
 
 from .diffract import DiffractometerBase
@@ -40,7 +44,8 @@ from .operations.lattice import Lattice
 from .ops import OperationsError
 from .wavelength_support import MonochromaticXrayWavelength
 
-# TODO: remove_sample, remove_reflection
+# TODO: All features must have **brief** example(s). (EXAMPLES before PARAMETERS)
+# TODO: remove_reflection
 # TODO: pa() should identify reflections used to compute UB
 
 __all__ = """
@@ -114,7 +119,7 @@ def add_sample(
     digits: int = 4,
     replace: bool = False,
 ):
-    """Add a new crystal sample."""
+    """Add (and select) a new crystal sample."""
     diffractometer = _choice.diffractometer
     if name in diffractometer.samples:
         logger.warning(
@@ -189,11 +194,14 @@ def get_diffractometer():
 
 def list_samples(full=False):
     """
-    Print all defined crystal samples, current sample first.
+    Summarize diffractometer's samples, current sample first (marked as ``"> "``).
 
-    EXAMPLE::
+    EXAMPLE:
 
-        In [5]: list_samples()
+    .. code-block:: python
+        :linenos:
+
+        >>> list_samples()
         > Sample(name='vibranium', lattice=Lattice(a=6.2832, system='cubic'))
         Sample(name='sample', lattice=Lattice(a=1, system='cubic'))
     """
@@ -219,19 +227,22 @@ def list_samples(full=False):
 
 def or_swap():
     """
-    Swap the first 2 [UB] reflections, re-compute & return new [UB].
+    Swap the first 2 ORienting reflections, re-compute & return new [UB].
 
     .. note:: The SPEC user community knows this function as ``or_swap``.
 
-    Example::
+    EXAMPLE:
 
-        # define 2 reflections
-        r400 = hkl.user.setor(4, 0, 0, tth=69.0966, omega=-145.451, chi=0, phi=0, wavelength=1.54)
-        r040 = hkl.user.setor(0, 4, 0, tth=69.0966, omega=-145.451, chi=0, phi=90, wavelength=1.54)
-        # calculate UB
-        hkl.user.calc_UB(r400, r040)
-        # swap the two reflections (and recalculate UB)
-        hkl.user.or_swap()
+    .. code-block:: python
+        :linenos:
+
+        >>> # define 2 reflections
+        >>> r400 = hkl.user.setor(4, 0, 0, tth=69.0966, omega=-145.451, chi=0, phi=0, wavelength=1.54)
+        >>> r040 = hkl.user.setor(0, 4, 0, tth=69.0966, omega=-145.451, chi=0, phi=90, wavelength=1.54)
+        >>> # calculate UB
+        >>> hkl.user.calc_UB(r400, r040)
+        >>> # swap the two reflections (and recalculate UB)
+        >>> hkl.user.or_swap()
     """
     diffractometer = _choice.diffractometer
     reflections = diffractometer.sample.reflections.swap()[:2]
@@ -242,7 +253,10 @@ def pa(digits=4):
     """
     Report (all) the diffractometer settings.
 
-    EXAMPLE::
+    EXAMPLE:
+
+    .. code-block:: python
+        :linenos:
 
         >>> pa()
         diffractometer='e4cv'
@@ -265,7 +279,27 @@ def pa(digits=4):
 
 
 def remove_sample(sample: str, error: bool = True) -> None:
-    """Pop the named sample, set "selected" sample name to a valid one."""
+    """
+    Pop the named sample, set "selected" sample name to a valid one.
+
+    EXAMPLE:
+
+    .. code-block:: python
+
+        >>> remove_sample("sample")
+
+    PARAMETERS
+
+    sample: str
+        Name of the sample to be removed.
+    error: bool
+        When ``True`` (default), :class:`~hklpy2.ops.OperationsError` is raised
+        if ``sample`` is not found.  Provide ``error=False`` to skip the exception.
+
+    ..  TODO Verify error=False feature
+        is tested when sample not found. And
+        when no samples remain after pop.
+    """
     diffractometer = get_diffractometer()
     # TODO: Move all this handling to diffractometer.operator.remove_sample().
     if error and sample not in diffractometer.samples:
@@ -276,7 +310,6 @@ def remove_sample(sample: str, error: bool = True) -> None:
             diffractometer.operator._sample_name = list(diffractometer.samples)[0]
         except IndexError:
             raise OperationsError("No samples defined in {diffractometer.name!r}")
-    # TODO: Return anything?
 
 
 def set_diffractometer(diffractometer: DiffractometerBase = None) -> None:
@@ -329,31 +362,60 @@ def set_lattice(
 
 def setor(h, k, l, *reals, wavelength=None, name=None, **kwreals):  # noqa: E741
     """
-    (aka ``add_reflection``) Define a crystal reflection and its motor positions.
+    Define an ORienting reflection (aliases: ``add_reflection``, ``setor``).
 
-    * Positions:
+    A reflection is defined by its reciprocal space coordinates (pseudos) and
+    its motor positions (reals).  For convenience of the user, each reflection
+    is named.
 
-      * Can be omitted (use current values from diffractometer)
-      * Specified by values.  Must use expected order.
-      * Specified by names.  Can appear in any order.
-
-    * wavelength: when not specified, use the current diffractometer value.
-    * name: when not specified, make up a new name.
+    .. note:: The SPEC user community knows this function as ``setor``.
 
     EXAMPLES::
 
-        In [9]: setor(4, 0, 0)
-        Out[9]: Reflection(name='r4', geometry='E4CV', pseudos={'h': 4, 'k': 0, 'l': 0},
+        >>> setor(4, 0, 0)
+        Reflection(name='r_4ad1', geometry='E4CV', pseudos={'h': 4, 'k': 0, 'l': 0},
             reals={'omega': -145.451, 'chi': 0, 'phi': 0, 'tth': 69.0966}, wavelength=1.54, digits=4)
 
-        In [11]: setor(0, 4, 0, -145.451, 0, 90, 69.0966, name="r040")
-        Out[11]: Reflection(name='r040', geometry='E4CV', pseudos={'h': 0, 'k': 4, 'l': 0},
+        >>> setor(0, 4, 0, -145.451, 0, 90, 69.0966, name="r040")
+        Reflection(name='r040', geometry='E4CV', pseudos={'h': 0, 'k': 4, 'l': 0},
             reals={'omega': -145.451, 'chi': 0, 'phi': 90, 'tth': 69.0966}, wavelength=1.54, digits=4)
 
-        In [11]: setor(0, 0, 4 omega=-145.451, chi=90, phi=0, tth=69.0966, name="r004")
-        Out[11]: Reflection(name='r004', geometry='E4CV', pseudos={'h': 0, 'k': 0, 'l': 4},
+        >>> setor(0, 0, 4, omega=-145.451, chi=90, phi=0, tth=69.0966, name="r004")
+        Reflection(name='r004', geometry='E4CV', pseudos={'h': 0, 'k': 0, 'l': 4},
             reals={'omega': -145.451, 'chi': 90, 'phi': 0, 'tth': 69.0966}, wavelength=1.54, digits=4)
 
+    PARAMETERS
+
+    h, k, l: float
+        Reciprocal-space coordinates of this reflection.
+    reals: list[float]
+        (optional)
+        Real-space values of this reflection.  Must provide all values in the
+        order expected by the geometry.
+        See *Positions* tip below.
+    kwreals: dict[str, float]
+        (optional)
+        Real-space axis names and values of this reflection.  Must provide all
+        axes expected by the geometry.
+        See *Positions* tip below.
+    wavelength: float
+        (optional)
+        Wavelength of this reflection.
+        When not specified, use the current diffractometer value.
+    name: str
+        (optional)
+        Reference text identifying this reflection.
+        When not specified, a unique name will be assigned.
+
+    .. tip:: Positions (``reals``, ``kwreals``, **or** omitted entirely):
+
+      * Specified by values (in ``reals``).  Must use expected order.  Will
+        skip ``kwreals`` if also provided.
+      * Specified by names (in ``kwreals``).  Axes, can appear in any order.
+      * ``reals`` and ``kwreals`` can be omitted entirely (use current values
+        from diffractometer)
+
+      See the examples above.
     """
     diffractometer = _choice.diffractometer
     if len(reals) > 0:  # Real motor positions as values in expected order.
@@ -375,7 +437,13 @@ def setor(h, k, l, *reals, wavelength=None, name=None, **kwreals):  # noqa: E741
     if wavelength not in (None, 0):
         diffractometer._source.wavelength = wavelength
 
-    name = name or f"r{1 + len(diffractometer.sample.reflections)}"
+    def make_name():
+        while True:
+            name = f"r_{str(uuid.uuid4())[:4]}"
+            if name not in diffractometer.sample.reflections:
+                return name
+
+    name = name or make_name()
     refl = diffractometer.add_reflection((h, k, l), reals=rpos, name=name)
     return refl
 
@@ -384,7 +452,10 @@ def wh(digits=4):
     """
     Report (brief) where is the diffractometer.
 
-    EXAMPLE::
+    EXAMPLE:
+
+    .. code-block:: python
+        :linenos:
 
         >>> wh()
         h=0, k=0, l=0

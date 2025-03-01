@@ -6,8 +6,6 @@
 Diffractometer
 ==================
 
-.. caution:: work-in-progress
-
 .. index:: !design; diffractometer
 
 :concept: User builds a subclass of
