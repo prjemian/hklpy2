@@ -45,9 +45,6 @@ from .operations.lattice import Lattice
 from .ops import OperationsError
 from .wavelength_support import MonochromaticXrayWavelength
 
-# TODO: remove_reflection
-# TODO: pa() should identify reflections used to compute UB
-
 __all__ = """
     add_reflection
     add_sample

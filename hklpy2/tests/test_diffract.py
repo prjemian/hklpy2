@@ -183,6 +183,7 @@ def test_diffractometer_wh(capsys):
     """.strip().split()
     for _r in e4cv.operator.sample.reflections:
         expected.append("Reflection(name='")
+    expected.append("Orienting reflections: ")
     for _r in e4cv.operator.constraints:
         expected.append("constraint: ")
     expected.append(f"{e4cv.pseudo_axis_names[0]}=")
