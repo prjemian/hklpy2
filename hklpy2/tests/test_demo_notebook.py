@@ -1,7 +1,8 @@
 from math import pi
 
-import hklpy2
 import pytest
+
+import hklpy2
 
 from ..ops import DEFAULT_SAMPLE_NAME
 from .common import assert_context_result

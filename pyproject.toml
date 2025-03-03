@@ -25,9 +25,6 @@ classifiers = [
   "License :: Freely Distributable",
   "License :: Public Domain",
   "Operating System :: OS Independent",
-  "Programming Language :: Python :: 3.12",
-  "Programming Language :: Python :: 3.11",
-  "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3",
   "Programming Language :: Python",
   "Topic :: Scientific/Engineering",
@@ -35,13 +32,14 @@ classifiers = [
 
 dependencies = [
   "bluesky",
-  "databroker <1.999",  # TODO: upgrade?
+  "bluesky_tiled_plugins",
+  "databroker",
   "numpy",
   "ophyd",
-  "packaging", # ophyd needs this
   "pandas",
   "pint",
   "pyRestTable",
+  "tiled",
   "tqdm",
   "ruamel.yaml",
 ]
@@ -54,11 +52,21 @@ th_tth = "hklpy2.backends.th_tth_q:ThTthSolver"
 [project.optional-dependencies]
 dev = [
   "build",
+  "coverage",
+  "coveralls",
   "isort",
   "mypy",
   "pre-commit",
   "pytest",
   "ruff",
+  # databroker 2.0.0b57 needs
+  "bson",
+  "doct",
+  "humanize",
+  "mongomock",
+  "pymongo",
+  # tiled 0.1.0b19 needs
+  "suitcase-mongo",
 ]
 doc = [
   "ipython",
@@ -114,13 +122,13 @@ profile = "black"
 force_single_line = "True"
 line_length = 115
 multi_line_output = "NOQA"
-src_paths = ["hkl"]
+src_paths = ["."]
 
 [tool.pytest.ini_options]
 addopts = ["--import-mode=importlib"]
-filterwarnings = [
-  # Warnings inherited from upstream packages.
-  "ignore:.*'wheel' package is no longer the canonical*:DeprecationWarning",
-]
+# filterwarnings = [
+#   # Warnings inherited from upstream packages.
+#   "ignore:.*'wheel' package is no longer the canonical*:DeprecationWarning",
+# ]
 
 [tool.setuptools_scm]

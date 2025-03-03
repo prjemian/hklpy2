@@ -5,10 +5,10 @@
 
 # flake8: noqa
 
-from importlib.metadata import version
 import pathlib
 import sys
 import tomllib
+from importlib.metadata import version
 
 root_path = pathlib.Path(__file__).parent.parent.parent
 
