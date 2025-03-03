@@ -23,11 +23,11 @@ from . import SolverBase
 from .blocks.configure import Configuration
 from .blocks.constraints import RealAxisConstraints
 from .blocks.lattice import Lattice
-from .blocks.misc import OperationsError
-from .blocks.misc import solver_factory
-from .blocks.misc import unique_name
 from .blocks.reflection import Reflection
 from .blocks.sample import Sample
+from .misc import OperationsError
+from .misc import solver_factory
+from .misc import unique_name
 
 __all__ = ["Operations"]
 

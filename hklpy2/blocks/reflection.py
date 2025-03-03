@@ -15,10 +15,10 @@ Associates diffractometer angles (real-space) with crystalline reciprocal-space
 
 import logging
 
-from .misc import ConfigurationError
-from .misc import ReflectionError
-from .misc import check_value_in_list
-from .misc import compare_float_dicts
+from ..misc import ConfigurationError
+from ..misc import ReflectionError
+from ..misc import check_value_in_list
+from ..misc import compare_float_dicts
 
 logger = logging.getLogger(__name__)
 

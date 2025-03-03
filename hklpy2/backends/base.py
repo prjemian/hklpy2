@@ -12,9 +12,9 @@ from abc import abstractmethod
 
 from .. import __version__
 from ..blocks.lattice import Lattice
-from ..blocks.misc import IDENTITY_MATRIX_3X3
 from ..blocks.reflection import Reflection
 from ..blocks.sample import Sample
+from ..misc import IDENTITY_MATRIX_3X3
 
 logger = logging.getLogger(__name__)
 

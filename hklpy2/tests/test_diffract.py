@@ -11,12 +11,12 @@ from gi.repository.GLib import GError
 from numpy.testing import assert_almost_equal
 from ophyd.sim import noisy_det
 
-from ..blocks.misc import DiffractometerError
 from ..blocks.reflection import ReflectionError
 from ..blocks.sample import Sample
 from ..diffract import DiffractometerBase
 from ..diffract import pick_first_item
 from ..geom import creator
+from ..misc import DiffractometerError
 from ..ops import DEFAULT_SAMPLE_NAME
 from ..ops import Operations
 from ..ops import OperationsError

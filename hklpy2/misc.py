@@ -58,7 +58,7 @@ from ophyd import Component
 from ophyd import Device
 from ophyd import Signal
 
-from .. import Hklpy2Error
+from . import Hklpy2Error
 
 logger = logging.getLogger(__name__)
 
@@ -176,7 +176,7 @@ class ConfigurationRunWrapper:
             List of base classes that identify supported objects.
             (default: :class:`hklpy2.DiffractometerBase`)
         """
-        from .. import DiffractometerBase as hklpy2_DiffractometerBase
+        from .diffract import DiffractometerBase as hklpy2_DiffractometerBase
 
         self.enable = True
         self.known_bases = knowns or [hklpy2_DiffractometerBase]

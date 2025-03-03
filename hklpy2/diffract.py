@@ -17,11 +17,11 @@ from ophyd.pseudopos import pseudo_position_argument
 from ophyd.pseudopos import real_position_argument
 from ophyd.signal import AttributeSignal
 
-from .blocks.misc import DiffractometerError
-from .blocks.misc import load_yaml_file
-from .blocks.misc import roundoff
 from .blocks.reflection import Reflection
 from .blocks.sample import Sample
+from .misc import DiffractometerError
+from .misc import load_yaml_file
+from .misc import roundoff
 from .ops import Operations
 from .wavelength_support import DEFAULT_WAVELENGTH
 from .wavelength_support import MonochromaticXrayWavelength
@@ -346,7 +346,7 @@ class DiffractometerBase(PseudoPositioner):
 
     def full_position(self, digits=4) -> dict:
         """Return dict with positions of pseudos, reals, & extras."""
-        from .blocks.misc import roundoff
+        from .misc import roundoff
 
         pdict = self.position._asdict()
         pdict.update(self.real_position._asdict())
@@ -366,7 +366,7 @@ class DiffractometerBase(PseudoPositioner):
         """(plan) Move diffractometer axes as described in 'axes' dict."""
         from bluesky import plan_stubs as bps
 
-        from .blocks.misc import flatten_lists
+        from .misc import flatten_lists
 
         # Transform axes dict to args for bps.mv(position, value)
         moves = list(
@@ -443,7 +443,7 @@ class DiffractometerBase(PseudoPositioner):
         from bluesky import plan_stubs as bps
         from bluesky import preprocessors as bpp
 
-        from .blocks.misc import dict_device_factory
+        from .misc import dict_device_factory
 
         # validate
         if not isinstance(detectors, Iterable):

@@ -57,7 +57,7 @@ This example shows the |solver| classes supplied with |hklpy2|::
      'no_op': 'hklpy2.backends.no_op:NoOpSolver'}
 
 This is a dictionary, keyed by the solver names.  To create an instance
-of a specific |solver| class, use :func:`~hklpy2.blocks.misc.solver_factory`.
+of a specific |solver| class, use :func:`~hklpy2.misc.solver_factory`.
 In the next example (Linux-only), the first argument, `hkl_soleil`, picks the
 :class:`~hklpy2.backends.hkl_soleil.HklSolver`, the `geometry` keyword
 picks the Eulerian 4-circle geometry with the *hkl* engine::
@@ -68,7 +68,7 @@ picks the Eulerian 4-circle geometry with the *hkl* engine::
     HklSolver(name='hkl_soleil', version='v5.0.0.3434', geometry='E4CV', engine='hkl')
 
 To select a |solver| class without creating an instance, call
-:func:`~hklpy2.blocks.misc.get_solver`. This example
+:func:`~hklpy2.misc.get_solver`. This example
 selects the |libhkl| |solver| (using its entry point name: ``"hkl_soleil"``)::
 
     >>> from hklpy2 import get_solver

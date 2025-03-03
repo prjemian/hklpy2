@@ -12,7 +12,7 @@ Diffractometer
   :class:`~hklpy2.diffract.DiffractometerBase()`, adding a variety of
   positioners as ophyd Components.  In an instance of that subclass, user
   sets :attr:`~hklpy2.diffract.DiffractometerBase.backend_solver` by calling
-  :func:`~hklpy2.blocks.misc.solver_factory`.  In this call, the user specifies the solver,
+  :func:`~hklpy2.misc.solver_factory`.  In this call, the user specifies the solver,
   the geometry, and defines which Components (of the diffractometer) are to be used as
   pseudos and reals.  The backend implements
   :meth:`~hklpy2.backends.base.SolverBase.forward`,
@@ -29,7 +29,7 @@ Diffractometer
       - create instance of :class:`~hklpy2.wavelength_support.WavelengthBase()` subclass
       - create instance of :class:`~hklpy2.backends.base.SolverBase()` subclass
       - set :attr:`~hklpy2.wavelength_support.WavelengthBase.wavelength`
-      - list *available* solvers: (:func:`~hklpy2.blocks.misc.solvers`)
+      - list *available* solvers: (:func:`~hklpy2.misc.solvers`)
       - review saved orientation details
 
     .. grid-item-card:: :material-outlined:`rule;3em` A |solver| is needed to:

@@ -9,9 +9,9 @@ A Crystalline Sample.
 
 import logging
 
+from ..misc import SampleError
+from ..misc import unique_name
 from .lattice import Lattice
-from .misc import SampleError
-from .misc import unique_name
 from .reflection import ReflectionsDict
 
 logger = logging.getLogger(__name__)
@@ -48,8 +48,8 @@ class Sample:
         name: str,
         lattice: Lattice,
     ) -> None:
+        from ..misc import IDENTITY_MATRIX_3X3
         from ..ops import Operations
-        from .misc import IDENTITY_MATRIX_3X3
 
         if not isinstance(core, Operations):
             raise TypeError(f"Unexpected type {core=!r}, expected Operations")

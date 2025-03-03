@@ -6,13 +6,13 @@ import pytest
 from ...__init__ import __version__
 from ...diffract import DiffractometerBase
 from ...geom import creator
+from ...misc import ConfigurationError
+from ...misc import load_yaml_file
 from ...tests.common import assert_context_result
 from ...tests.models import E4CV_CONFIG_FILE
 from ...tests.models import add_oriented_vibranium_to_e4cv
 from ...tests.models import e4cv_config
 from ..configure import Configuration
-from ..misc import ConfigurationError
-from ..misc import load_yaml_file
 
 e4cv = creator(name="e4cv")
 add_oriented_vibranium_to_e4cv(e4cv)

@@ -3,8 +3,8 @@
 # Many features are tested, albeit indrectly, in specific solvers.
 
 from ...blocks.lattice import Lattice
-from ...blocks.misc import IDENTITY_MATRIX_3X3
 from ...blocks.reflection import Reflection
+from ...misc import IDENTITY_MATRIX_3X3
 from ..base import SolverBase
 
 

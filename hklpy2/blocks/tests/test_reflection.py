@@ -3,9 +3,9 @@ from contextlib import nullcontext as does_not_raise
 import pytest
 
 from ...geom import creator
+from ...misc import ConfigurationError
 from ...tests.common import assert_context_result
 from ...tests.models import add_oriented_vibranium_to_e4cv
-from ..misc import ConfigurationError
 from ..reflection import Reflection
 from ..reflection import ReflectionError
 from ..reflection import ReflectionsDict

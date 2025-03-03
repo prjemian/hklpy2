@@ -39,11 +39,11 @@ from .. import SolverBase
 from .. import SolverError
 from .. import check_value_in_list
 from ..blocks.lattice import Lattice
-from ..blocks.misc import IDENTITY_MATRIX_3X3
-from ..blocks.misc import roundoff
-from ..blocks.misc import unique_name
 from ..blocks.reflection import Reflection
 from ..blocks.sample import Sample
+from ..misc import IDENTITY_MATRIX_3X3
+from ..misc import roundoff
+from ..misc import unique_name
 
 if platform.system() != "Linux":
     raise SolverError("'hkl_soleil' only available for linux 64-bit.")

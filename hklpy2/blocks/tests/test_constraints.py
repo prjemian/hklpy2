@@ -3,12 +3,12 @@ from contextlib import nullcontext as does_not_raise
 import pytest
 
 from ...geom import creator
+from ...misc import ConfigurationError
 from ...tests.common import assert_context_result
 from ..constraints import ConstraintBase
 from ..constraints import ConstraintsError
 from ..constraints import LimitsConstraint
 from ..constraints import RealAxisConstraints
-from ..misc import ConfigurationError
 
 
 class PlainConstraint(ConstraintBase):

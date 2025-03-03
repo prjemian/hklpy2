@@ -21,8 +21,8 @@ from typing import Dict
 from typing import List
 from typing import Union
 
-from .misc import ConfigurationError
-from .misc import ConstraintsError
+from ..misc import ConfigurationError
+from ..misc import ConstraintsError
 
 NUMERIC = Union[int, float]
 UNDEFINED_LABEL = "undefined"

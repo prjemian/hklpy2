@@ -16,7 +16,7 @@ From **hklpy**, these TODO items:
 
 import logging
 
-from .misc import ConfigurationError
+from ..misc import ConfigurationError
 
 logger = logging.getLogger(__name__)
 

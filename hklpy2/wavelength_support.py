@@ -17,7 +17,7 @@ from abc import abstractmethod
 
 import pint
 
-from .blocks.misc import WavelengthError
+from .misc import WavelengthError
 
 logger = logging.getLogger(__name__)
 

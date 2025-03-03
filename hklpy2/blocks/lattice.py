@@ -12,8 +12,8 @@ import enum
 import logging
 import math
 
-from .misc import LatticeError
-from .misc import compare_float_dicts
+from ..misc import LatticeError
+from ..misc import compare_float_dicts
 
 logger = logging.getLogger(__name__)
 

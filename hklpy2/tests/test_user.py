@@ -6,8 +6,8 @@ import numpy.testing
 import pytest
 
 from ..blocks.lattice import SI_LATTICE_PARAMETER
-from ..blocks.misc import ReflectionError
 from ..geom import creator
+from ..misc import ReflectionError
 from ..ops import OperationsError
 from ..user import add_sample
 from ..user import cahkl
