@@ -3,7 +3,6 @@ from collections import namedtuple
 from contextlib import nullcontext as does_not_raise
 
 import numpy.testing
-import pyRestTable
 import pytest
 
 from ..geom import creator
@@ -18,6 +17,7 @@ from ..user import get_diffractometer
 from ..user import list_samples
 from ..user import or_swap
 from ..user import pa
+from ..user import remove_reflection
 from ..user import remove_sample
 from ..user import set_diffractometer
 from ..user import set_energy
@@ -102,15 +102,16 @@ def test_cahkl(fourc):
         assert round(position) == expected
 
 
-def test_cahkl_table(fourc):
+def test_cahkl_table(fourc, capsys):
     fourc.operator.constraints["tth"].limits = (0, 180)
     set_diffractometer(fourc)
 
     # use the default "main" sample and UB matrix
     HklTuple = namedtuple("HklTuple", "h k l".split())
     rlist = [HklTuple(1, 0, 0), HklTuple(0, 1, 0)]
-    table = cahkl_table(*rlist, digits=0)
-    assert isinstance(table, pyRestTable.Table)
+    cahkl_table(*rlist, digits=0)
+    out, err = capsys.readouterr()
+    assert len(err) == 0
 
     expected = """
     ========= ======== ===== === === ===
@@ -120,7 +121,7 @@ def test_cahkl_table(fourc):
     (0, 1, 0) 0        30    90  0   60
     ========= ======== ===== === === ===
     """.strip().splitlines()
-    for el, rl in list(zip(expected[3:5], str(table).strip().splitlines()[3:5])):
+    for el, rl in list(zip(expected[3:5], out.strip().splitlines()[3:5])):
         # just compare the position values
         for e, r in list(zip(el.split()[-4:], rl.split()[-4:])):
             assert float(r) == float(e)
@@ -155,8 +156,8 @@ def test_list_samples(fourc, capsys):
     out, err = capsys.readouterr()
     assert len(out) > 0
     assert err == ""
-    assert "> {'name': 'vibranium'," in out
-    assert "\n{'name': 'sample'," in out
+    assert "> Sample(name='vibranium', " in out
+    assert "\nSample(name='sample', " in out
 
 
 @pytest.mark.parametrize(
@@ -232,11 +233,35 @@ def test_pa(fourc, capsys):
 
 
 @pytest.mark.parametrize(
+    "name, error, config, context, expected",
+    [
+        ["r400", True, TESTS_DIR / "e4cv_orient.yml", does_not_raise(), None],
+        ["r400", True, None, pytest.raises(KeyError), "not found"],
+        ["r400", False, None, does_not_raise(), None],
+    ],
+)
+def test_remove_reflection(fourc, name, error, config, context, expected):
+    with context as reason:
+        if config is not None:
+            fourc.restore(config)
+        set_diffractometer(fourc)
+        remove_reflection(name, error=error)
+
+    assert_context_result(expected, reason)
+
+
+@pytest.mark.parametrize(
     "config, pop_sample, next_sample, context, expected",
     [
         [TESTS_DIR / "e4cv_orient.yml", "vibranium", "sample", does_not_raise(), None],
         [TESTS_DIR / "e4cv_orient.yml", "sample", "vibranium", does_not_raise(), None],
-        [None, "sample", None, pytest.raises(OperationsError), "No samples defined"],
+        [
+            None,
+            "sample",
+            None,
+            pytest.raises(OperationsError),
+            "Cannot remove last sample.",
+        ],
         [None, "vibranium", None, pytest.raises(KeyError), "'vibranium' not in "],
     ],
 )

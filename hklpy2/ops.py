@@ -519,8 +519,13 @@ class Operations:
 
     def remove_sample(self, name):
         """Remove the named sample.  No error if name is not known."""
-        if name in self.samples:
-            self._samples.pop(name)
+        if name not in self.samples:
+            raise KeyError(f"{name!r} not in sample list:{list(self.samples)}.")
+        if len(self.samples) == 1:
+            raise OperationsError("Cannot remove last sample.")
+
+        self._samples.pop(name)
+        self._sample_name = list(self.samples)[0]
 
     def reset_constraints(self):
         """Restore diffractometer constraints to default settings."""
@@ -528,9 +533,7 @@ class Operations:
 
     def reset_samples(self):
         """Restore diffractometer samples to default settings."""
-        # Remove all the samples.
-        while len(self.samples) > 0:
-            self.remove_sample(list(self.samples)[-1])
+        self._samples = {}  # Remove all the samples.
         # Create the default sample.
         self.add_sample(DEFAULT_SAMPLE_NAME, 1)
 

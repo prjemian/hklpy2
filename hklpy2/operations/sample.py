@@ -37,6 +37,7 @@ class Sample:
         ~lattice
         ~name
         ~reflections
+        ~remove_reflection
         ~U
         ~UB
     """
@@ -63,10 +64,6 @@ class Sample:
     def __repr__(self):
         """Brief text representation."""
         return f"Sample(name={self.name!r}, lattice={self.lattice!r})"
-
-    def __str__(self):
-        """Detailed text representation."""
-        return str(self._asdict())
 
     def _asdict(self):
         """Describe the sample as a dictionary."""
@@ -96,6 +93,14 @@ class Sample:
             raise SampleError("Need 3 or more reflections to refine lattice.")
 
         # self.operator.refineLattice()  # TODO: #40
+
+    def remove_reflection(self, name: str) -> None:
+        """Remove the named reflection."""
+        if name not in self.reflections:
+            raise KeyError(f"Reflection {name!r} is not found.")
+        self.reflections.pop(name)
+        if name in self.reflections.order:
+            self.reflections.order.remove(name)
 
     # --------- get/set properties
 

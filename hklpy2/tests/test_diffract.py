@@ -19,6 +19,7 @@ from ..operations.reflection import ReflectionError
 from ..operations.sample import Sample
 from ..ops import DEFAULT_SAMPLE_NAME
 from ..ops import Operations
+from ..ops import OperationsError
 from ..wavelength_support import DEFAULT_WAVELENGTH
 from ..wavelength_support import DEFAULT_WAVELENGTH_UNITS
 from .common import HKLPY2_DIR
@@ -388,8 +389,11 @@ def test_orientation():
 def test_remove_sample():
     sim = NoOpTh2Th(name="sim")
     assert len(sim.samples) == 1
-    sim.operator.remove_sample(DEFAULT_SAMPLE_NAME)
-    assert len(sim.samples) == 0
+    try:
+        sim.operator.remove_sample(DEFAULT_SAMPLE_NAME)
+    except OperationsError as reason:
+        assert_context_result("Cannot remove last sample.", reason)
+    assert len(sim.samples) == 1
 
 
 @pytest.mark.parametrize(

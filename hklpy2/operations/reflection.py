@@ -143,14 +143,14 @@ class Reflection:
 
     def __repr__(self):
         """
-        Standard representation of reflection.
+        Standard brief representation of reflection.
         """
-        parameters = []
-        for k, v in self._asdict().items():
-            if isinstance(v, float):
-                v = round(v, self.digits)
-            parameters.append(f"{k}={v!r}")
-        return "Reflection(" + ", ".join(parameters) + ")"
+        pseudos = [
+            f"{k}={round(v, self.digits)}"  # roundoff
+            for k, v in self.pseudos.items()
+        ]
+        guts = [f"name={self.name!r}"] + pseudos
+        return f"{self.__class__.__name__}({', '.join(guts)})"
 
     def __eq__(self, r2):
         """
@@ -276,14 +276,6 @@ class ReflectionsDict(dict):
         super().__init__(*args, **kwargs)
         self._order = []
         self.geometry = None
-
-    def __repr__(self):
-        """
-        Standard representation of reflections list.
-
-        Order numbers start from zero.
-        """
-        return repr(self._asdict())
 
     def _asdict(self):
         """
