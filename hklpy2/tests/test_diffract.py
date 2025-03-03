@@ -178,12 +178,12 @@ def test_diffractometer_wh(capsys):
         diffractometer=
         HklSolver(name
         Sample(name=
-        U=
-        UB=
     """.strip().split()
     for _r in e4cv.operator.sample.reflections:
         expected.append("Reflection(name='")
     expected.append("Orienting reflections: ")
+    expected.append("U=")
+    expected.append("UB=")
     for _r in e4cv.operator.constraints:
         expected.append("constraint: ")
     expected.append(f"{e4cv.pseudo_axis_names[0]}=")
@@ -358,7 +358,7 @@ def test_orientation():
         for j in range(3):
             assert math.isclose(
                 UB[i][j], UBe[i][j], abs_tol=0.005
-            ), f"{i=!r}  {j=!r}  {UB=!r}  {UBe=!r}  {UB=!r}"
+            ), f"{i=!r}  {j=!r}  {UB=!r}  {UBe=!r}"
 
     result = fourc.forward(4, 0, 0)
     assert math.isclose(result.omega, -158.39, abs_tol=0.02), f"{result=!r}"
