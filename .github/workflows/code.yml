@@ -47,6 +47,7 @@ jobs:
           - "3.10"  # not 3.10 which truncates to 3.1
           - "3.11"
           - "3.12"
+          - "3.13"
       max-parallel: 5
 
     steps:
@@ -62,23 +63,23 @@ jobs:
             - conda-forge
             - nodefaults
           channel-priority: flexible
-        environment-file: environment.yml
         environment-name: anaconda-test-env-py-${{ matrix.python-version }}
         create-args: >-
+          bson
+          hkl
+          pyepics
           pytest
           python=${{ matrix.python-version }}
           pyyaml
-          ruamel_yaml
-          yaml
+          ruamel.yaml
           setuptools-scm
+          tiled
+          yaml
 
-    - name: Install code coverage requirements by pip
+    - name: Install source code and all requirements (includes pre-releases)
       run: |
-        # https://github.com/pradyunsg/furo/discussions/308#discussioncomment-3064061
-        pip install coverage coveralls
-
-    - name: Install source code
-      run: pip install -e . --no-deps
+        pip install --pre tiled
+        pip install --pre -e .[all]
 
     - name: Diagnostic
       run: |
