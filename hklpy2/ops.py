@@ -295,7 +295,7 @@ class Operations:
             raise ValueError("Axis name cannot be in more than list.")
 
         dfrct = self.diffractometer
-        solver = dfrct.operator.solver
+        solver = dfrct.core.solver
         if solver is None:
             return  # such as initialization
 
@@ -361,7 +361,7 @@ class Operations:
         all_reals = get_keys(self.diffractometer._get_real_positioners())
         both_p_r = all_pseudos + all_reals
 
-        solver = self.diffractometer.operator.solver
+        solver = self.diffractometer.core.solver
         pseudos = lister(all_pseudos, solver.pseudo_axis_names)
         reals = lister(all_reals, solver.real_axis_names)
 

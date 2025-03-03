@@ -54,7 +54,7 @@ class Sample:
         if not isinstance(operator, Operations):
             raise TypeError(f"Unexpected type {operator=!r}, expected Operations")
         self.name = name or unique_name()
-        self.operator = operator
+        self.core = operator
         self.lattice = lattice
         self.U = IDENTITY_MATRIX_3X3
         self.UB = IDENTITY_MATRIX_3X3
@@ -92,7 +92,7 @@ class Sample:
         if len(self.reflections) < 3:
             raise SampleError("Need 3 or more reflections to refine lattice.")
 
-        # self.operator.refineLattice()  # TODO: #40
+        # self.core.refineLattice()  # TODO: #40
 
     def remove_reflection(self, name: str) -> None:
         """Remove the named reflection."""

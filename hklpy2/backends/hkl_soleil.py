@@ -148,7 +148,7 @@ class HklSolver(SolverBase):
        corresponding axes of the diffractometer, in the order expected by
        the |solver| geometry.  The diffractometer can use names that are
        different from the names expected by the engine here.  The
-       :class:`~hklpys.ops.Operator` class will convert between the two
+       :class:`~hklpys.ops.core` class will convert between the two
        sets of names.
 
     .. rubric:: Python Methods

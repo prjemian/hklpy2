@@ -189,7 +189,7 @@ def test_fromdict(config, context, expected):
     with context as reason:
         assert isinstance(config, dict)
         sim2c = creator(name="sim2c", solver="th_tth", geometry="TH TTH Q")
-        ac = sim2c.operator.constraints
+        ac = sim2c.core.constraints
         ac._fromdict(config)
         for axis in config:
             assert axis in ac
@@ -214,14 +214,14 @@ def test_fromdict_KeyError():
             name="e4cv",
             reals=dict(aaa=None, bbb=None, ccc=None, ddd=None),
         )
-        constraint = e4cv.operator.constraints["aaa"]
-        constraint._fromdict(config, operator=e4cv.operator)
+        constraint = e4cv.core.constraints["aaa"]
+        constraint._fromdict(config, operator=e4cv.core)
     assert_context_result(expected, reason)
 
 
 def test_repr():
     sim = creator(name="sim", solver="th_tth", geometry="TH TTH Q")
-    rep = repr(sim.operator.constraints)
+    rep = repr(sim.core.constraints)
     assert rep.startswith("[")
     assert "-180.0 <= th <= 180.0" in rep
     assert "-180.0 <= tth <= 180.0" in rep
@@ -230,7 +230,7 @@ def test_repr():
 
 def test_limits_property():
     sim = creator(name="sim", solver="th_tth", geometry="TH TTH Q")
-    constraint = sim.operator.constraints["th"]
+    constraint = sim.core.constraints["th"]
     assert constraint.limits == (-180, 180)
     constraint.limits = 0, 20.1
     assert constraint.limits == (0, 20.1)

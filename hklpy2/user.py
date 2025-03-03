@@ -172,7 +172,7 @@ def cahkl(h, k, l):  # noqa: E741
     """
     diffractometer = get_diffractometer()
     position = namedtuple("Position", "h k l".split())(h, k, l)
-    solutions = diffractometer.operator.forward(position)
+    solutions = diffractometer.core.forward(position)
     return diffractometer._forward_solution(diffractometer.real_position, solutions)
 
 
@@ -209,7 +209,7 @@ def cahkl_table(*reflections, digits=5):
         Number of digits to roundoff each position
         value.  Default is 5.
     """
-    operator = get_diffractometer().operator
+    operator = get_diffractometer().core
     HklPosition = namedtuple("HklPosition", "h k l".split())  # TODO: #36
     reflections = [HklPosition(*r) for r in reflections]
     print(operator.forward_solutions_table(reflections, digits=digits))
@@ -232,7 +232,7 @@ def calc_UB(r1, r2, wavelength=None):
         [-1.000000087766, -0.000280008582, 2.82915e-07]]
 
     """
-    return get_diffractometer().operator.calc_UB(r1, r2)
+    return get_diffractometer().core.calc_UB(r1, r2)
 
 
 def get_diffractometer():
@@ -415,7 +415,7 @@ def remove_sample(name: str, error: bool = True) -> None:
     .. seealso:: :func:`~hklpy2.user.add_sample` :func:`~hklpy2.user.list_samples`
     """
     try:
-        get_diffractometer().operator.remove_sample(name)
+        get_diffractometer().core.remove_sample(name)
     except (KeyError, OperationsError) as exinfo:
         if error:
             raise exinfo

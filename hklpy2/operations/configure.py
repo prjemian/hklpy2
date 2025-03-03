@@ -37,7 +37,7 @@ class Configuration:
 
     def _asdict(self) -> dict:
         """Return diffractometer's configuration as a dict."""
-        return self.diffractometer.operator._asdict()
+        return self.diffractometer.core._asdict()
 
     def _fromdict(
         self,
@@ -49,12 +49,12 @@ class Configuration:
         self._valid(config)  # will raise if invalid
 
         if clear:
-            self.diffractometer.operator.reset_constraints()
-            self.diffractometer.operator.reset_samples()
+            self.diffractometer.core.reset_constraints()
+            self.diffractometer.core.reset_samples()
 
         if restore_constraints:
             controls = {}
-            oper = self.diffractometer.operator  # alias
+            oper = self.diffractometer.core  # alias
             for axis, v in config["constraints"].items():
                 axis_canonical = config["axes"]["axes_xref"][axis]
                 axis_local = oper.axes_xref_reversed[axis_canonical]
@@ -64,7 +64,7 @@ class Configuration:
         else:
             config["constraints"] = {}
 
-        self.diffractometer.operator._fromdict(config)
+        self.diffractometer.core._fromdict(config)
 
     def _valid(self, config):
         """Validate incoming configuration for current diffractometer."""
@@ -78,30 +78,30 @@ class Configuration:
 
         compare(
             config.get("solver", {}).get("name"),
-            self.diffractometer.operator.solver.name,
+            self.diffractometer.core.solver.name,
             "solver mismatch: incoming=%r existing=%r",
         )
-        if "engine" in dir(self.diffractometer.operator.solver):
+        if "engine" in dir(self.diffractometer.core.solver):
             compare(
                 config.get("solver", {}).get("engine"),
-                self.diffractometer.operator.solver.engine_name,
+                self.diffractometer.core.solver.engine_name,
                 "engine mismatch: incoming=%r existing=%r",
             )
         compare(
             config.get("solver", {}).get("geometry"),
-            self.diffractometer.operator.solver.geometry,
+            self.diffractometer.core.solver.geometry,
             "geometry mismatch: incoming=%r existing=%r",
         )
         compare(
             config.get("axes", {}).get("pseudo_axes"),
             # ignore any extra pseudos
             self.diffractometer.pseudo_axis_names[
-                : len(self.diffractometer.operator.solver.pseudo_axis_names)
+                : len(self.diffractometer.core.solver.pseudo_axis_names)
             ],
             "pseudo axis mismatch: incoming=%r existing=%r",
         )
         compare(
             config.get("solver", {}).get("real_axes"),
-            self.diffractometer.operator.solver.real_axis_names,
+            self.diffractometer.core.solver.real_axis_names,
             "solver real axis mismatch: incoming=%r existing=%r",
         )

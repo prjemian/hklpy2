@@ -113,7 +113,7 @@ def test_affine():
     assert math.isclose(e4cv.sample.lattice.beta, 90, abs_tol=tol)
     assert math.isclose(e4cv.sample.lattice.gamma, 90, abs_tol=tol)
 
-    refined = e4cv.operator.refine_lattice()
+    refined = e4cv.core.refine_lattice()
 
     # sample lattice was not changed
     assert refined != e4cv.sample.lattice

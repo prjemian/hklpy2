@@ -102,13 +102,13 @@ def test_diffractometer_class(
     dmeter = dclass("", name="goniometer")
     assert dmeter is not None
     if solver is not None:
-        dmeter.operator.set_solver(solver, gname, **solver_kwargs)
+        dmeter.core.set_solver(solver, gname, **solver_kwargs)
 
     if len(pseudos) == 0:
         if solver is not None:
             dmeter.auto_assign_axes()
     else:
-        dmeter.operator.assign_axes(pseudos, reals)
+        dmeter.core.assign_axes(pseudos, reals)
 
     with does_not_raise():
         # These PseudoPositioner properties _must_ work immediately.
@@ -143,11 +143,11 @@ def test_diffractometer_class(
         assert len(dmeter.samples) == 1
         assert isinstance(dmeter.sample, Sample)
 
-        assert isinstance(dmeter.operator, Operations)
+        assert isinstance(dmeter.core, Operations)
         assert isinstance(dmeter.pseudo_axis_names, list)
         assert isinstance(dmeter.real_axis_names, list)
 
-        dmeter.operator.add_sample("test", 5)
+        dmeter.core.add_sample("test", 5)
         assert len(dmeter.samples) == 2
         assert dmeter.sample.name == "test"
 
@@ -170,7 +170,7 @@ def test_diffractometer_wh(capsys):
     assert lines[0].startswith("h=")
     assert lines[2].startswith("omega=")
 
-    e4cv.operator.solver.mode = "psi_constant"
+    e4cv.core.solver.mode = "psi_constant"
     e4cv.wh(full=True)
     captured = capsys.readouterr()
     lines = captured.out.splitlines()
@@ -179,17 +179,17 @@ def test_diffractometer_wh(capsys):
         HklSolver(name
         Sample(name=
     """.strip().split()
-    for _r in e4cv.operator.sample.reflections:
+    for _r in e4cv.core.sample.reflections:
         expected.append("Reflection(name='")
     expected.append("Orienting reflections: ")
     expected.append("U=")
     expected.append("UB=")
-    for _r in e4cv.operator.constraints:
+    for _r in e4cv.core.constraints:
         expected.append("constraint: ")
     expected.append(f"{e4cv.pseudo_axis_names[0]}=")
     expected.append("wavelength=")
     expected.append(f"{e4cv.real_axis_names[0]}=")
-    extra_names = e4cv.operator.solver.extra_axis_names
+    extra_names = e4cv.core.solver.extra_axis_names
     if len(extra_names) > 0:
         expected.append(f"{extra_names[0]}=")
     assert len(lines) == len(expected), f"{captured.out=}"
@@ -224,7 +224,7 @@ def test_full_position(mode, keys, context, expected, config_file):
     with context as reason:
         fourc = creator(name="fourc")
         fourc.restore(HKLPY2_DIR / "tests" / config_file)
-        fourc.operator.solver.mode = mode
+        fourc.core.solver.mode = mode
         pos = fourc.full_position()
         assert isinstance(pos, dict)
 
@@ -248,9 +248,9 @@ def test_move_forward_with_extras(pseudos, reals, mode, context, expected):
 
     fourc = creator(name="fourc")
     fourc.restore(HKLPY2_DIR / "tests" / "e4cv_orient.yml")
-    fourc.operator.solver.mode = mode
+    fourc.core.solver.mode = mode
     # fourc.wavelength.put(6)
-    assert fourc.operator.solver.mode == mode
+    assert fourc.core.solver.mode == mode
 
     RE = bluesky.RunEngine()
 
@@ -291,22 +291,22 @@ def test_move_reals(pos, context, expected):
 
 
 def test_null_operator():
-    """Tests special cases when diffractometer.operator is None."""
+    """Tests special cases when diffractometer.core is None."""
     from ..geom import creator
 
     fourc = creator(name="fourc")
-    assert fourc.operator is not None
+    assert fourc.core is not None
     assert len(fourc.samples) > 0
     assert fourc.sample is not None
-    assert fourc.operator.solver is not None
+    assert fourc.core.solver is not None
     assert fourc.solver_name is not None
 
-    fourc.operator._solver = None
+    fourc.core._solver = None
     assert len(fourc.samples) > 0
     assert fourc.sample is not None
     assert fourc.solver_name == ""
 
-    fourc.operator = None
+    fourc.core = None
     assert len(fourc.samples) == 0
     assert fourc.sample is None
     assert fourc.solver_name == ""
@@ -339,14 +339,14 @@ def test_orientation():
     assert math.isclose(
         fourc.wavelength.get(), 1.0, abs_tol=0.01
     ), f"{fourc.wavelength.get()=!r}"
-    assert fourc.operator.sample.reflections.order == "(400) (040)".split()
+    assert fourc.core.sample.reflections.order == "(400) (040)".split()
 
-    result = fourc.operator.calc_UB(*fourc.operator.sample.reflections.order)
+    result = fourc.core.calc_UB(*fourc.core.sample.reflections.order)
     assert isinstance(result, list)
     assert isinstance(result[0], list)
     assert isinstance(result[0][0], (float, int))
 
-    UB = fourc.operator.solver.UB
+    UB = fourc.core.solver.UB
     assert len(UB) == 3
 
     UBe = [[0, 0, -1.157], [0, -1.157, 0], [-1.157, 0, 0]]
@@ -391,7 +391,7 @@ def test_remove_sample():
     sim = NoOpTh2Th(name="sim")
     assert len(sim.samples) == 1
     try:
-        sim.operator.remove_sample(DEFAULT_SAMPLE_NAME)
+        sim.core.remove_sample(DEFAULT_SAMPLE_NAME)
     except OperationsError as reason:
         assert_context_result("Cannot remove last sample.", reason)
     assert len(sim.samples) == 1
@@ -576,8 +576,8 @@ def test_scan_extra(scan_kwargs, mode, context, expected):
 
     fourc = creator(name="fourc")
     fourc.restore(HKLPY2_DIR / "tests" / "e4cv_orient.yml")
-    fourc.operator.solver.mode = mode
-    assert fourc.operator.solver.mode == mode
+    fourc.core.solver.mode = mode
+    assert fourc.core.solver.mode == mode
 
     RE = bluesky.RunEngine()
 
@@ -597,8 +597,8 @@ def test_set_UB():
     UBe = [[0, 0, -1.157], [0, -1.157, 0], [-1.157, 0, 0]]
     fourc = creator(name="fourc")
 
-    fourc.operator.solver.UB = UBe
-    UBr = fourc.operator.solver.UB
+    fourc.core.solver.UB = UBe
+    UBr = fourc.core.solver.UB
     assert len(UBr) == len(UBe)
 
     result = fourc.inverse(-145, 0, 0, 70, wavelength=1.54)
@@ -615,14 +615,14 @@ def test_e4cv_constant_phi():
     # Approximate the code presented as the example problem.
     refl = dict(h=1, k=1, l=1)
 
-    e4cv.operator.solver.mode = "constant_phi"
+    e4cv.core.solver.mode = "constant_phi"
     CONSTANT_PHI = 23.4567
     e4cv.phi.move(CONSTANT_PHI)
 
-    e4cv.operator.constraints["phi"].limits = -180, 180
+    e4cv.core.constraints["phi"].limits = -180, 180
 
     # Check that phi is held constant in all forward solutions.
-    solutions = e4cv.operator.solver.forward(refl)
+    solutions = e4cv.core.solver.forward(refl)
     assert isinstance(solutions, list)
     assert len(solutions) > 0
     for solution in solutions:
