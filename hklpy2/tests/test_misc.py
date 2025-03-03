@@ -11,9 +11,7 @@ from ophyd import Device
 from ophyd import Signal
 from yaml.parser import ParserError
 
-from ... import creator
-from ...tests.common import HKLPY2_DIR
-from ...tests.common import assert_context_result
+from ..geom import creator
 from ..misc import ConfigurationRunWrapper
 from ..misc import SolverError
 from ..misc import compare_float_dicts
@@ -24,6 +22,8 @@ from ..misc import get_solver
 from ..misc import list_orientation_runs
 from ..misc import load_yaml_file
 from ..misc import roundoff
+from ..tests.common import HKLPY2_DIR
+from ..tests.common import assert_context_result
 
 sim4c = creator(name="sim4c")
 sim6c = creator(name="sim6c", geometry="E6C")

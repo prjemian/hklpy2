@@ -12,7 +12,7 @@ from ophyd import SoftPositioner
 
 from ..diffract import DiffractometerBase
 from ..geom import diffractometer_class_factory
-from ..operations.misc import load_yaml_file
+from ..misc import load_yaml_file
 
 E4CV_CONFIG_FILE = pathlib.Path(__file__).parent / "e4cv_orient.yml"
 HN = Kind.hinted | Kind.normal
@@ -30,9 +30,9 @@ def add_oriented_vibranium_to_e4cv(e4cv):
     )
     r040 = e4cv.add_reflection((0, 4, 0), (-145.451, 0, 90, 69.066), name="r040")
     r004 = e4cv.add_reflection((0, 0, 4), (-145.451, 90, 0, 69.066), name="r004")
-    e4cv.operator.calc_UB(r040, r004)
+    e4cv.core.calc_UB(r040, r004)
 
-    for constraint in e4cv.operator.constraints.values():
+    for constraint in e4cv.core.constraints.values():
         if "limits" in dir(constraint):
             constraint.limits = (-180.2, 180.2)  # just a little different
 

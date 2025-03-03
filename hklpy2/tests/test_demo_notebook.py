@@ -50,18 +50,18 @@ def fourc():
                 solver_kwargs={"engine": "hkl"},
                 **kwargs,
             )
-            self.operator.auto_assign_axes()
+            self.core.auto_assign_axes()
 
     fourc = Fourc(name="fourc")
     yield fourc
 
 
 def test_as_in_demo_notebook(fourc):
-    assert "E4CV" in fourc.operator.solver.geometries()
+    assert "E4CV" in fourc.core.solver.geometries()
     assert fourc.solver.get() == "hkl_soleil"
     assert fourc.geometry.get() == "E4CV"
     assert fourc.wavelength.get() == 1.0
-    assert fourc.operator.axes_xref == {
+    assert fourc.core.axes_xref == {
         "h": "h",
         "k": "k",
         "l": "l",
@@ -73,9 +73,9 @@ def test_as_in_demo_notebook(fourc):
 
     assert fourc.pseudo_axis_names == ["h", "k", "l", "h2", "k2", "l2"]
     assert fourc.real_axis_names == ["theta", "chi", "phi", "ttheta", "psi", "energy"]
-    assert fourc.operator.solver.pseudo_axis_names == ["h", "k", "l"]
-    assert fourc.operator.solver.real_axis_names == ["omega", "chi", "phi", "tth"]
-    assert fourc.operator.solver.extra_axis_names == []
+    assert fourc.core.solver.pseudo_axis_names == ["h", "k", "l"]
+    assert fourc.core.solver.real_axis_names == ["omega", "chi", "phi", "tth"]
+    assert fourc.core.solver.extra_axis_names == []
 
     expected = "{'position': FourcPseudoPos(h=0, k=0, l=0, h2=0, k2=0, l2=0)}"
     assert str(fourc.report) == expected, f"{fourc.report=!r}"
@@ -84,7 +84,7 @@ def test_as_in_demo_notebook(fourc):
     assert fourc.sample.name == DEFAULT_SAMPLE_NAME
 
     try:
-        fourc.operator.remove_sample("vibranium")
+        fourc.core.remove_sample("vibranium")
     except KeyError as reason:
         assert_context_result("not in sample list", reason)
     assert len(fourc.samples) == 1

@@ -3,9 +3,9 @@ from contextlib import nullcontext as does_not_raise
 import pytest
 
 from ...geom import creator
+from ...misc import ConfigurationError
 from ...tests.common import assert_context_result
 from ...tests.models import add_oriented_vibranium_to_e4cv
-from ..misc import ConfigurationError
 from ..reflection import Reflection
 from ..reflection import ReflectionError
 from ..reflection import ReflectionsDict
@@ -465,7 +465,7 @@ def test_fromdict(config, context, expected):
         assert isinstance(config, dict)
         e4cv = creator(name="e4cv")
         add_oriented_vibranium_to_e4cv(e4cv)
-        r400 = e4cv.operator.sample.reflections["r400"]
+        r400 = e4cv.core.sample.reflections["r400"]
         assert isinstance(r400, Reflection)
         r400._fromdict(config)
 
@@ -484,6 +484,6 @@ def test_wrong_real_names():
             wavelength=1.54,
             pseudo_axis_names="h k l".split(),
             real_axis_names="aaaa_omega chi phi tth".split(),
-            operator=e4cv.operator,
+            core=e4cv.core,
         )
     assert_context_result(expected, reason)

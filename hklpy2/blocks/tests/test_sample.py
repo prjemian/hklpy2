@@ -3,11 +3,11 @@ from contextlib import nullcontext as does_not_raise
 import pytest
 
 from ...geom import creator
+from ...misc import load_yaml
+from ...misc import unique_name
 from ...tests.common import assert_context_result
 from ...tests.models import add_oriented_vibranium_to_e4cv
 from ..lattice import Lattice
-from ..misc import load_yaml
-from ..misc import unique_name
 from ..reflection import ReflectionsDict
 from ..sample import Sample
 from ..sample import SampleError
@@ -19,7 +19,7 @@ from ..sample import SampleError
         [pytest.raises(TypeError), "expected Operations"],
     ],
 )
-def test_sample_constructor_no_operator(context, expected):
+def test_sample_constructor_no_core(context, expected):
     with context as reason:
         Sample(None, "test", Lattice(4))
     assert_context_result(expected, reason)
@@ -60,7 +60,7 @@ def test_sample_constructor_no_operator(context, expected):
 def test_sample_constructor(lattice, sname, context, expect):
     with context as excuse:
         sim = creator(name="sim", solver="th_tth", geometry="TH TTH Q")
-        sample = Sample(sim.operator, sname, lattice)
+        sample = Sample(sim.core, sname, lattice)
         assert sample is not None
 
         if sname is None:
@@ -197,7 +197,7 @@ def test_fromdict():
 
     cfg_latt = Lattice(1)
     cfg_latt._fromdict(config["lattice"])
-    sample = Sample(sim.operator, "unit", Lattice(1))
+    sample = Sample(sim.core, "unit", Lattice(1))
     assert sample.name != config["name"]
     assert sample.digits != config["digits"]
     assert sample.lattice != cfg_latt, f"{sample.lattice=!r}  {cfg_latt=!r}"
@@ -229,7 +229,7 @@ def test_refine(remove, context, expected):
         e4cv = creator(name="e4cv")
         add_oriented_vibranium_to_e4cv(e4cv)
         if remove is not None:
-            e4cv.operator.sample.reflections.pop(remove)
-        e4cv.operator.sample.refine_lattice()
+            e4cv.core.sample.reflections.pop(remove)
+        e4cv.core.sample.refine_lattice()
 
     assert_context_result(expected, reason)

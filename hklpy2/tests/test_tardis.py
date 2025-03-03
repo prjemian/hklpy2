@@ -34,8 +34,8 @@ def tardis():
     )
     diffractometer._source.energy_units = "eV"
     diffractometer._source.wavelength_units = "angstrom"
-    diffractometer.operator.solver.mode = TARDIS_SOLVER_MODE
-    diffractometer.operator.constraints["gamma"].limits = -5, 180
+    diffractometer.core.solver.mode = TARDIS_SOLVER_MODE
+    diffractometer.core.constraints["gamma"].limits = -5, 180
     return diffractometer
 
 
@@ -46,8 +46,8 @@ def test_basic(tardis):
         assert isinstance(tardis, DiffractometerBase)
         assert tardis.pseudo_axis_names == "h k l".split()
         assert tardis.real_axis_names == "mu theta chi phi delta gamma".split()
-        assert tardis.operator.solver.mode == TARDIS_SOLVER_MODE
-        assert tardis.operator.constraints["gamma"].limits == (-5, 180)
+        assert tardis.core.solver.mode == TARDIS_SOLVER_MODE
+        assert tardis.core.constraints["gamma"].limits == (-5, 180)
         assert list(tardis.samples) == ["sample"]
     assert_context_result(expected, reason)
 
@@ -194,7 +194,7 @@ def test_restore_and_move(sample, wavelength, ppos, rpos, digits, context, expec
         # set the test parameters
         tardis.wavelength.put(wavelength)
         tardis.sample = sample
-        tardis.operator.solver.mode = TARDIS_SOLVER_MODE
+        tardis.core.solver.mode = TARDIS_SOLVER_MODE
 
         tardis.move(ppos)
 
@@ -240,7 +240,7 @@ def test_axis_inversion():
 
     tardis.wavelength.put(13.317314547644292)
     tardis.sample = "KCF"
-    tardis.operator.solver.mode = TARDIS_SOLVER_MODE
+    tardis.core.solver.mode = TARDIS_SOLVER_MODE
 
     # ppos = (0, 0, 1.1)
     # rpos = (

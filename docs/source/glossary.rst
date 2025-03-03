@@ -139,10 +139,10 @@ Glossary
   range, such that it may be characterized by a single floating point value.
 
 ..  index::
-    !definition; operator
-    !operator
+    !definition; core
+    !core
 
-:operator: The |hklpy2| intermediate software adapter layer between
+:core: The |hklpy2| intermediate software adapter layer between
   :class:`~hklpy2.diffract.DiffractometerBase` (user-facing code) and a
   :class:`~hklpy2.backends.base.SolverBase`.
 

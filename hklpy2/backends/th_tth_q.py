@@ -20,7 +20,7 @@ import math
 from .. import SolverError
 from .. import __version__
 from .. import check_value_in_list
-from ..operations.reflection import Reflection
+from ..blocks.reflection import Reflection
 from .base import SolverBase
 
 logger = logging.getLogger(__name__)
@@ -41,7 +41,7 @@ class ThTthSolver(SolverBase):
 
     Wavelength is specified either directly (``solver.wavelength = 1.0``) or
     by adding at least one :index:`reflection` (see
-    :class:`~hklpy2.operations.reflection.Reflection`).  All
+    :class:`~hklpy2.blocks.reflection.Reflection`).  All
     reflections must have the same :index:`wavelength`.
 
     No orientation matrix is used in this geometry.

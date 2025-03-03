@@ -20,14 +20,14 @@ from typing import Union
 import pyRestTable
 
 from . import SolverBase
-from .operations.configure import Configuration
-from .operations.constraints import RealAxisConstraints
-from .operations.lattice import Lattice
-from .operations.misc import OperationsError
-from .operations.misc import solver_factory
-from .operations.misc import unique_name
-from .operations.reflection import Reflection
-from .operations.sample import Sample
+from .blocks.configure import Configuration
+from .blocks.constraints import RealAxisConstraints
+from .blocks.lattice import Lattice
+from .blocks.reflection import Reflection
+from .blocks.sample import Sample
+from .misc import OperationsError
+from .misc import solver_factory
+from .misc import unique_name
 
 __all__ = ["Operations"]
 
@@ -76,7 +76,7 @@ class Operations:
         ~solver
     """
 
-    from .operations.sample import Sample
+    from .blocks.sample import Sample
 
     def __init__(self, diffractometer, default_sample: bool = True) -> None:
         # axes names cross-reference
@@ -133,7 +133,7 @@ class Operations:
         """Redefine diffractometer from a (configuration) dictionary."""
         for key, sample in config["samples"].items():
             sample_object = self.add_sample(key, 1, replace=True)
-            sample_object._fromdict(sample, operator=self)
+            sample_object._fromdict(sample, core=self)
         sname = config.get("sample_name")
         if sname is not None:
             self.sample = sname
@@ -147,7 +147,7 @@ class Operations:
                 axis_canonical = config["axes"]["axes_xref"][key]
                 axis_local = self.axes_xref_reversed[axis_canonical]
                 constraint["label"] = axis_local
-        self.constraints._fromdict(config["constraints"], operator=self)
+        self.constraints._fromdict(config["constraints"], core=self)
 
     def _validate_pseudos(self, pseudos) -> bool:
         """Validate that the supplied pseudos are acceptable."""
@@ -212,7 +212,7 @@ class Operations:
         * ``replace`` (bool): If ``True``, replace existing reflection of
           this name.  (default: ``False``)
         """
-        from .operations.reflection import Reflection
+        from .blocks.reflection import Reflection
 
         self._validate_pseudos(pseudos)
 
@@ -295,7 +295,7 @@ class Operations:
             raise ValueError("Axis name cannot be in more than list.")
 
         dfrct = self.diffractometer
-        solver = dfrct.operator.solver
+        solver = dfrct.core.solver
         if solver is None:
             return  # such as initialization
 
@@ -361,7 +361,7 @@ class Operations:
         all_reals = get_keys(self.diffractometer._get_real_positioners())
         both_p_r = all_pseudos + all_reals
 
-        solver = self.diffractometer.operator.solver
+        solver = self.diffractometer.core.solver
         pseudos = lister(all_pseudos, solver.pseudo_axis_names)
         reals = lister(all_reals, solver.real_axis_names)
 

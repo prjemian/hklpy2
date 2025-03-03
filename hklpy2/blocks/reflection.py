@@ -15,10 +15,10 @@ Associates diffractometer angles (real-space) with crystalline reciprocal-space
 
 import logging
 
-from .misc import ConfigurationError
-from .misc import ReflectionError
-from .misc import check_value_in_list
-from .misc import compare_float_dicts
+from ..misc import ConfigurationError
+from ..misc import ReflectionError
+from ..misc import check_value_in_list
+from ..misc import compare_float_dicts
 
 logger = logging.getLogger(__name__)
 
@@ -72,15 +72,15 @@ class Reflection:
         pseudo_axis_names: list,
         real_axis_names: list,
         digits: int = 4,
-        operator: object = None,
+        core: object = None,
     ) -> None:
         from ..ops import Operations
 
-        if isinstance(operator, Operations):
+        if isinstance(core, Operations):
             # What if axes names in wrong sequence?  Required order is assumed.
             # What if axes renamed?  All reflections must use the same real_axis_names.
-            axes_local = operator.diffractometer.real_axis_names
-            axes_solver = operator.solver.real_axis_names
+            axes_local = core.diffractometer.real_axis_names
+            axes_solver = core.solver.real_axis_names
             if real_axis_names not in (axes_local, axes_solver):
                 raise ReflectionError(
                     f"{real_axis_names=}"
@@ -286,19 +286,19 @@ class ReflectionsDict(dict):
         self.prune()
         return {v.name: v._asdict() for v in self.values()}
 
-    def _fromdict(self, config, operator=None):
+    def _fromdict(self, config, core=None):
         """Add or redefine reflections from a (configuration) dictionary."""
         from ..ops import Operations
 
         for refl_config in config.values():
-            if isinstance(operator, Operations):
+            if isinstance(core, Operations):
                 # Remap the names of all the real axes to the current solver.
                 # Real axes MUST be specified in the order specified by the solver.
                 refl_config["reals"] = {
                     axis: value
                     for axis, value in zip(
-                        # operator.diffractometer.real_axis_names,
-                        operator.solver.real_axis_names,
+                        # core.diffractometer.real_axis_names,
+                        core.solver.real_axis_names,
                         refl_config["reals"].values(),
                     )
                 }
@@ -312,7 +312,7 @@ class ReflectionsDict(dict):
                 pseudo_axis_names=list(refl_config["pseudos"]),
                 real_axis_names=list(refl_config["reals"]),
                 digits=refl_config["digits"],  # TODO: Digits are optional?
-                operator=operator,
+                core=core,
             )
             self.add(reflection, replace=True)
 
@@ -331,7 +331,7 @@ class ReflectionsDict(dict):
         .. rubric:: Parameters
 
         * ``reflections`` ([Reflection]) : List of
-          :class:`hklpy2.operations.reflection.Reflection` objects.
+          :class:`hklpy2.blocks.reflection.Reflection` objects.
         """
         self.order = [r.name for r in reflections]
 

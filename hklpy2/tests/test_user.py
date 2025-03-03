@@ -5,9 +5,9 @@ from contextlib import nullcontext as does_not_raise
 import numpy.testing
 import pytest
 
+from ..blocks.lattice import SI_LATTICE_PARAMETER
 from ..geom import creator
-from ..operations.lattice import SI_LATTICE_PARAMETER
-from ..operations.misc import ReflectionError
+from ..misc import ReflectionError
 from ..ops import OperationsError
 from ..user import add_sample
 from ..user import cahkl
@@ -86,7 +86,7 @@ def test_add_sample_exists(fourc, caplog):
 
 
 def test_cahkl(fourc):
-    fourc.operator.constraints["tth"].limits = (0, 180)
+    fourc.core.constraints["tth"].limits = (0, 180)
     for axis in fourc.real_positioners:
         # Start at zero, make certain cahkl() will not move the motors!
         axis.move(0)
@@ -103,7 +103,7 @@ def test_cahkl(fourc):
 
 
 def test_cahkl_table(fourc, capsys):
-    fourc.operator.constraints["tth"].limits = (0, 180)
+    fourc.core.constraints["tth"].limits = (0, 180)
     set_diffractometer(fourc)
 
     # use the default "main" sample and UB matrix

@@ -54,11 +54,9 @@ def test_asdict(geometry, solver, name, keypath, value):
     assert isinstance(
         diffractometer, DiffractometerBase
     ), f"{geometry=} {solver=} {name=}"
-    assert isinstance(
-        diffractometer.operator, Operations
-    ), f"{geometry=} {solver=} {name=}"
+    assert isinstance(diffractometer.core, Operations), f"{geometry=} {solver=} {name=}"
 
-    db = diffractometer.operator._asdict()
+    db = diffractometer.core._asdict()
     assert db["name"] == name
 
     # Walk through the keypath, revising the db object at each step
@@ -118,7 +116,7 @@ def test_axes_xref_empty():
 )
 def test_standardize_pseudos(pseudos, names, context, expected):
     with context as reason:
-        fourc.operator.standardize_pseudos(pseudos, names)
+        fourc.core.standardize_pseudos(pseudos, names)
     assert_context_result(expected, reason)
 
 
@@ -162,7 +160,7 @@ def test_standardize_pseudos(pseudos, names, context, expected):
 )
 def test_standardize_reals(reals, names, context, expected):
     with context as reason:
-        fourc.operator.standardize_reals(reals, names)
+        fourc.core.standardize_reals(reals, names)
     assert_context_result(expected, reason)
 
 
@@ -172,7 +170,7 @@ def test_unknown_reflection():
     r1 = setor(1, 0, 0, 10, 0, 0, 20)
 
     with pytest.raises(KeyError) as reason:
-        sim.operator.calc_UB(r1, "r_unknown")
+        sim.core.calc_UB(r1, "r_unknown")
     assert_context_result(" unknown.  Knowns: ", reason)
 
 
@@ -185,7 +183,7 @@ def test_assign_axes_error():
     assert flaky.pseudo_axis_names == "h k l".split()
     assert flaky.real_axis_names == "a b c d".split()
     with pytest.raises(ValueError) as reason:
-        flaky.operator.assign_axes("h k l".split(), "h b c d".split())
+        flaky.core.assign_axes("h k l".split(), "h b c d".split())
     expected = "Axis name cannot be in more than list."
     assert_context_result(expected, reason)
 

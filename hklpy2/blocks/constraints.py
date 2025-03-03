@@ -21,8 +21,8 @@ from typing import Dict
 from typing import List
 from typing import Union
 
-from .misc import ConfigurationError
-from .misc import ConstraintsError
+from ..misc import ConfigurationError
+from ..misc import ConstraintsError
 
 NUMERIC = Union[int, float]
 UNDEFINED_LABEL = "undefined"
@@ -52,7 +52,7 @@ class ConstraintBase(ABC):
         result["class"] = self.__class__.__name__
         return result
 
-    def _fromdict(self, config, operator=None):
+    def _fromdict(self, config, core=None):
         """Redefine this constraint from a (configuration) dictionary."""
         from ..ops import Operations
 
@@ -62,11 +62,11 @@ class ConstraintBase(ABC):
                 f" Received: {config!r}"
             )
 
-        if isinstance(operator, Operations):
+        if isinstance(core, Operations):
             # Validate with solver.
             axis = config["label"]
-            axes_local = list(operator.diffractometer.real_axis_names)
-            axes_solver = list(operator.solver.real_axis_names)
+            axes_local = list(core.diffractometer.real_axis_names)
+            axes_solver = list(core.solver.real_axis_names)
             if axis not in axes_local + axes_solver:
                 raise KeyError(
                     f"Constraint label {axis=}"
@@ -192,10 +192,10 @@ class RealAxisConstraints(dict):
         """Return all constraints as a dictionary."""
         return {k: c._asdict() for k, c in self.items()}
 
-    def _fromdict(self, config, operator=None):
+    def _fromdict(self, config, core=None):
         """Redefine existing constraints from a (configuration) dictionary."""
         for k, v in config.items():
-            self[k]._fromdict(v, operator=operator)
+            self[k]._fromdict(v, core=core)
 
     def valid(self, **reals: Dict[str, NUMERIC]) -> bool:
         """Are all constraints satisfied?"""

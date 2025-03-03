@@ -11,10 +11,10 @@ from abc import ABC
 from abc import abstractmethod
 
 from .. import __version__
-from ..operations.lattice import Lattice
-from ..operations.misc import IDENTITY_MATRIX_3X3
-from ..operations.reflection import Reflection
-from ..operations.sample import Sample
+from ..blocks.lattice import Lattice
+from ..blocks.reflection import Reflection
+from ..blocks.sample import Sample
+from ..misc import IDENTITY_MATRIX_3X3
 
 logger = logging.getLogger(__name__)
 

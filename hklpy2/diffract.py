@@ -17,11 +17,11 @@ from ophyd.pseudopos import pseudo_position_argument
 from ophyd.pseudopos import real_position_argument
 from ophyd.signal import AttributeSignal
 
-from .operations.misc import DiffractometerError
-from .operations.misc import load_yaml_file
-from .operations.misc import roundoff
-from .operations.reflection import Reflection
-from .operations.sample import Sample
+from .blocks.reflection import Reflection
+from .blocks.sample import Sample
+from .misc import DiffractometerError
+from .misc import load_yaml_file
+from .misc import roundoff
 from .ops import Operations
 from .wavelength_support import DEFAULT_WAVELENGTH
 from .wavelength_support import MonochromaticXrayWavelength
@@ -115,7 +115,7 @@ class DiffractometerBase(PseudoPositioner):
 
     geometry = Cpt(
         AttributeSignal,
-        attr="operator.geometry",
+        attr="core.geometry",
         doc="Name of backend |solver| geometry.",
         write_access=False,
         kind="config",
@@ -155,14 +155,14 @@ class DiffractometerBase(PseudoPositioner):
         self._forward_solution = pick_first_item
         self._source = MonochromaticXrayWavelength(DEFAULT_WAVELENGTH)
 
-        self.operator = Operations(self)
+        self.core = Operations(self)
 
         super().__init__(prefix, **kwargs)
 
         if isinstance(solver, str) and isinstance(geometry, str):
-            self.operator.set_solver(solver, geometry, **solver_kwargs)
+            self.core.set_solver(solver, geometry, **solver_kwargs)
 
-        self.operator.assign_axes(pseudos, reals)
+        self.core.assign_axes(pseudos, reals)
 
     def add_reflection(
         self,
@@ -186,7 +186,7 @@ class DiffractometerBase(PseudoPositioner):
         * ``replace`` (bool): If ``True``, replace existing reflection of
           this name.  (default: ``False``)
         """
-        return self.operator.add_reflection(
+        return self.core.add_reflection(
             pseudos, reals, wavelength or self.wavelength.get(), name, replace
         )
 
@@ -203,7 +203,7 @@ class DiffractometerBase(PseudoPositioner):
         replace: bool = False,
     ) -> Sample:
         """Add a new sample."""
-        return self.operator.add_sample(
+        return self.core.add_sample(
             name,
             a,
             b,
@@ -237,12 +237,12 @@ class DiffractometerBase(PseudoPositioner):
         Any diffractometer axes not expected by the |solver| will
         not be assigned.
         """
-        self.operator.auto_assign_axes()
+        self.core.auto_assign_axes()
 
     @property
     def configuration(self) -> dict:
         """Diffractometer configuration (orientation)."""
-        return self.operator._asdict()
+        return self.core._asdict()
 
     @configuration.setter
     def configuration(self, config: dict) -> dict:
@@ -255,7 +255,7 @@ class DiffractometerBase(PseudoPositioner):
             Dictionary of diffractometer configuration, geometry, constraints,
             samples, reflections, orientations, solver, ...
         """
-        return self.operator._fromdict(config)
+        return self.core._fromdict(config)
 
     def export(self, file, comment=""):
         """
@@ -331,7 +331,7 @@ class DiffractometerBase(PseudoPositioner):
         if restore_wavelength:
             self._source._fromdict(header)
 
-        self.operator.configuration._fromdict(
+        self.core.configuration._fromdict(
             config,
             clear=clear,
             restore_constraints=restore_constraints,
@@ -341,16 +341,16 @@ class DiffractometerBase(PseudoPositioner):
     def forward(self, pseudos: dict, wavelength: float = None) -> tuple:
         """Compute real-space coordinates from pseudos (hkl -> angles)."""
         logger.debug("forward: pseudos=%r", pseudos)
-        solutions = self.operator.forward(pseudos, wavelength=wavelength)
+        solutions = self.core.forward(pseudos, wavelength=wavelength)
         return self._forward_solution(self.real_position, solutions)
 
     def full_position(self, digits=4) -> dict:
         """Return dict with positions of pseudos, reals, & extras."""
-        from .operations.misc import roundoff
+        from .misc import roundoff
 
         pdict = self.position._asdict()
         pdict.update(self.real_position._asdict())
-        pdict.update(self.operator.solver.extras)
+        pdict.update(self.core.solver.extras)
         for k in pdict:
             pdict[k] = roundoff(pdict[k], digits)
         return pdict
@@ -359,14 +359,14 @@ class DiffractometerBase(PseudoPositioner):
     def inverse(self, reals: dict, wavelength: float = None) -> tuple:
         """Compute pseudo-space coordinates from reals (angles -> hkl)."""
         logger.debug("inverse: reals=%r", reals)
-        pos = self.operator.inverse(reals, wavelength=wavelength)
+        pos = self.core.inverse(reals, wavelength=wavelength)
         return self.PseudoPosition(**pos)  # as created by namedtuple
 
     def move_dict(self, axes: dict):
         """(plan) Move diffractometer axes as described in 'axes' dict."""
         from bluesky import plan_stubs as bps
 
-        from .operations.misc import flatten_lists
+        from .misc import flatten_lists
 
         # Transform axes dict to args for bps.mv(position, value)
         moves = list(
@@ -398,7 +398,7 @@ class DiffractometerBase(PseudoPositioner):
             )
         """
         # TODO:  #36
-        self.operator.solver.extras = extras  # must come first
+        self.core.solver.extras = extras  # must come first
         solution = self.forward(list(pseudos.values()))
         yield from self.move_dict(solution)
 
@@ -443,13 +443,13 @@ class DiffractometerBase(PseudoPositioner):
         from bluesky import plan_stubs as bps
         from bluesky import preprocessors as bpp
 
-        from .operations.misc import dict_device_factory
+        from .misc import dict_device_factory
 
         # validate
         if not isinstance(detectors, Iterable):
             raise TypeError(f"{detectors=} is not iterable.")
-        if axis not in self.operator.solver.extra_axis_names:
-            raise KeyError(f"{axis!r} not in {self.operator.solver.extra_axis_names}")
+        if axis not in self.core.solver.extra_axis_names:
+            raise KeyError(f"{axis!r} not in {self.core.solver.extra_axis_names}")
         if pseudos is None and reals is None:
             raise ValueError("Must define either pseudos or reals.")
         if pseudos is not None and reals is not None:
@@ -461,10 +461,10 @@ class DiffractometerBase(PseudoPositioner):
         _md = {
             "diffractometer": {
                 "name": self.name,
-                "geometry": self.operator.solver.geometry,
-                "engine": self.operator.solver.engine_name,
-                "mode": self.operator.solver.mode,
-                "extra_axes": self.operator.solver.extra_axis_names,
+                "geometry": self.core.solver.geometry,
+                "engine": self.core.solver.engine_name,
+                "mode": self.core.solver.mode,
+                "extra_axes": self.core.solver.extra_axis_names,
             },
             "axis": axis,
             "start": start,
@@ -561,26 +561,26 @@ class DiffractometerBase(PseudoPositioner):
     @property
     def samples(self):
         """Dictionary of samples."""
-        if self.operator is None:
+        if self.core is None:
             return {}
-        return self.operator.samples
+        return self.core.samples
 
     @property
     def sample(self):
         """Current sample object."""
-        if self.operator is None:
+        if self.core is None:
             return None
-        return self.operator.sample
+        return self.core.sample
 
     @sample.setter
     def sample(self, value: str) -> None:
-        self.operator.sample = value
+        self.core.sample = value
 
     @property
     def solver_name(self):
         """Backend |solver| library name."""
-        if self.operator is not None and self.operator.solver is not None:
-            return self.operator.solver.name
+        if self.core is not None and self.core.solver is not None:
+            return self.core.solver.name
         return ""
 
     def wh(self, digits=4, full=False):
@@ -594,20 +594,20 @@ class DiffractometerBase(PseudoPositioner):
 
         if full:
             print(f"diffractometer={self.name!r}")
-            print(f"{self.operator.solver}")
+            print(f"{self.core.solver}")
             print(f"{self.sample!r}")
             for v in self.sample.reflections.values():
                 print(f"{v}")
             print(f"Orienting reflections: {self.sample.reflections.order}")
-            print(f"U={self.operator.solver.U}")
-            print(f"UB={self.operator.solver.UB}")
-            for v in self.operator.constraints.values():
+            print(f"U={self.core.solver.U}")
+            print(f"UB={self.core.solver.UB}")
+            for v in self.core.constraints.values():
                 print(f"constraint: {v}")
 
         print_axes(self.pseudo_axis_names)
         print(f"wavelength={self.wavelength.get()}")
         print_axes(self.real_axis_names)
 
-        extras = self.operator.solver.extras
+        extras = self.core.solver.extras
         if len(extras) > 0:
             print(" ".join([wh_round(k, v) for k, v in extras.items()]))

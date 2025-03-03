@@ -8,7 +8,7 @@ Crystal Lattice
 
 Record a sample's crystalline :index:`lattice` parameters:
 :math:`a, b, c, \alpha, \beta, \gamma`.  The
-:class:`~hklpy2.operations.lattice.Lattice()` interface
+:class:`~hklpy2.blocks.lattice.Lattice()` interface
 simplifies entry of parameters for high-symmetry crystal systems.
 
 .. rubric:: Examples of the Seven 3-D Crystal Systems (highest to lowest symmetry)
@@ -57,7 +57,7 @@ triclinic       ``Lattice(4, 5, 3, 75., 85., 95.)`` 4 5 3 75    85   95
 Source Code Documentation
 -------------------------
 
-.. automodule:: hklpy2.operations.lattice
+.. automodule:: hklpy2.blocks.lattice
     :members:
     :private-members:
     :show-inheritance:

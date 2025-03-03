@@ -9,9 +9,9 @@ A Crystalline Sample.
 
 import logging
 
+from ..misc import SampleError
+from ..misc import unique_name
 from .lattice import Lattice
-from .misc import SampleError
-from .misc import unique_name
 from .reflection import ReflectionsDict
 
 logger = logging.getLogger(__name__)
@@ -44,17 +44,17 @@ class Sample:
 
     def __init__(
         self,
-        operator,
+        core,
         name: str,
         lattice: Lattice,
     ) -> None:
+        from ..misc import IDENTITY_MATRIX_3X3
         from ..ops import Operations
-        from .misc import IDENTITY_MATRIX_3X3
 
-        if not isinstance(operator, Operations):
-            raise TypeError(f"Unexpected type {operator=!r}, expected Operations")
+        if not isinstance(core, Operations):
+            raise TypeError(f"Unexpected type {core=!r}, expected Operations")
         self.name = name or unique_name()
-        self.operator = operator
+        self.core = core
         self.lattice = lattice
         self.U = IDENTITY_MATRIX_3X3
         self.UB = IDENTITY_MATRIX_3X3
@@ -77,12 +77,12 @@ class Sample:
             "digits": self.digits,
         }
 
-    def _fromdict(self, config, operator=None):
+    def _fromdict(self, config, core=None):
         """Redefine sample from a (configuration) dictionary."""
         self.name = config["name"]
         self.digits = config["digits"]
         self.lattice._fromdict(config["lattice"])
-        self.reflections._fromdict(config["reflections"], operator=operator)
+        self.reflections._fromdict(config["reflections"], core=core)
         self.reflections.order = config["reflections_order"]
         self.U = config["U"]
         self.UB = config["UB"]
@@ -92,7 +92,7 @@ class Sample:
         if len(self.reflections) < 3:
             raise SampleError("Need 3 or more reflections to refine lattice.")
 
-        # self.operator.refineLattice()  # TODO: #40
+        # self.core.refineLattice()  # TODO: #40
 
     def remove_reflection(self, name: str) -> None:
         """Remove the named reflection."""

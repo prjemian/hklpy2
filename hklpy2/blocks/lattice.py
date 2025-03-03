@@ -12,8 +12,8 @@ import enum
 import logging
 import math
 
-from .misc import LatticeError
-from .misc import compare_float_dicts
+from ..misc import LatticeError
+from ..misc import compare_float_dicts
 
 logger = logging.getLogger(__name__)
 
@@ -52,7 +52,7 @@ class Lattice:
 
     EXAMPLE::
 
-        >>> from hklpy2.operations.lattice import Lattice
+        >>> from hklpy2.blocks.lattice import Lattice
         >>> Lattice(4.74, c=9.515, gamma=120)
         Lattice(a=4.74, c=9.515, gamma=120, system='hexagonal')
 

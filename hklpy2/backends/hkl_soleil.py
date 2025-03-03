@@ -38,12 +38,12 @@ import platform
 from .. import SolverBase
 from .. import SolverError
 from .. import check_value_in_list
-from ..operations.lattice import Lattice
-from ..operations.misc import IDENTITY_MATRIX_3X3
-from ..operations.misc import roundoff
-from ..operations.misc import unique_name
-from ..operations.reflection import Reflection
-from ..operations.sample import Sample
+from ..blocks.lattice import Lattice
+from ..blocks.reflection import Reflection
+from ..blocks.sample import Sample
+from ..misc import IDENTITY_MATRIX_3X3
+from ..misc import roundoff
+from ..misc import unique_name
 
 if platform.system() != "Linux":
     raise SolverError("'hkl_soleil' only available for linux 64-bit.")
@@ -148,7 +148,7 @@ class HklSolver(SolverBase):
        corresponding axes of the diffractometer, in the order expected by
        the |solver| geometry.  The diffractometer can use names that are
        different from the names expected by the engine here.  The
-       :class:`~hklpys.ops.Operator` class will convert between the two
+       :class:`~hklpys.ops.core` class will convert between the two
        sets of names.
 
     .. rubric:: Python Methods
