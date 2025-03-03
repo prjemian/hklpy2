@@ -376,8 +376,8 @@ def remove_reflection(name: str, error: bool = True) -> None:
         if ``name`` is not found.  Provide ``error=False`` to skip the exception.
 
     .. seealso:: :func:`~hklpy2.user.add_reflection`,
-         :func:`~hklpy2.user.or_swap`,
-          :func:`~hklpy2.user.setor`
+        :func:`~hklpy2.user.or_swap`,
+        :func:`~hklpy2.user.setor`
     """
     try:
         get_diffractometer().sample.remove_reflection(name)
