@@ -96,6 +96,21 @@ def test_Configuration_export(tmp_path):
     assert config["_header"]["comment"] == "testing"
 
 
+def test_asdict():
+    fourc = creator(name="fourc")
+    add_oriented_vibranium_to_e4cv(fourc)
+
+    cfg = Configuration(e4cv)._asdict()
+    cfg["_header"].pop("datetime", None)
+    for module in (e4cv, e4cv.core):
+        module_config = module.configuration
+        if not isinstance(module_config, dict):
+            module_config = module_config._asdict()
+        module_config["_header"].pop("datetime", None)
+        for section in "".split():
+            assert cfg[section] == module_config[section]
+
+
 def test_fromdict():
     fourc = creator(name="fourc")
     add_oriented_vibranium_to_e4cv(fourc)

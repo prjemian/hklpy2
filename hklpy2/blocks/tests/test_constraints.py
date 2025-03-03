@@ -174,6 +174,18 @@ def test_RealAxisConstraintsKeys(supplied, kwargs, context, expected):
         [
             {
                 "tth": {
+                    "class": "WrongClassLimitsConstraint",
+                    "high_limit": 85.0,
+                    "label": "tth",
+                    "low_limit": 30.0,
+                },
+            },
+            pytest.raises(ConfigurationError),
+            "class",
+        ],
+        [
+            {
+                "tth": {
                     "class": "LimitsConstraint",
                     "high_limit": 85.0,
                     "label": "wrong label",
@@ -245,6 +257,8 @@ def test_ConstraintsBase():
     expected = None
     with does_not_raise() as reason:
         constraint = PlainConstraint()
+        assert constraint.valid(key="ignored", also="ignored")
+
         rep = repr(constraint)
         assert rep.startswith("PlainConstraint(")
         assert "class=" in rep
