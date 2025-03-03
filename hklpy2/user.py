@@ -343,6 +343,7 @@ def pa(digits=4):
         Reflection(name='r400', geometry='E4CV', pseudos={'h': 4, 'k': 0, 'l': 0}, reals={'omega': -145.451, 'chi': 0, 'phi': 0, 'tth': 69.066}, wavelength=1.54, digits=4)
         Reflection(name='r040', geometry='E4CV', pseudos={'h': 0, 'k': 4, 'l': 0}, reals={'omega': -145.451, 'chi': 0, 'phi': 90, 'tth': 69.066}, wavelength=1.54, digits=4)
         Reflection(name='r004', geometry='E4CV', pseudos={'h': 0, 'k': 0, 'l': 4}, reals={'omega': -145.451, 'chi': 90, 'phi': 0, 'tth': 69.066}, wavelength=1.54, digits=4)
+        Orienting reflections: ['r040', 'r004']
         constraint: -180.2 <= omega <= 180.2
         constraint: -180.2 <= chi <= 180.2
         constraint: -180.2 <= phi <= 180.2
