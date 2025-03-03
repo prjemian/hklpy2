@@ -19,6 +19,7 @@ from ..operations.reflection import ReflectionError
 from ..operations.sample import Sample
 from ..ops import DEFAULT_SAMPLE_NAME
 from ..ops import Operations
+from ..ops import OperationsError
 from ..wavelength_support import DEFAULT_WAVELENGTH
 from ..wavelength_support import DEFAULT_WAVELENGTH_UNITS
 from .common import HKLPY2_DIR
@@ -177,11 +178,12 @@ def test_diffractometer_wh(capsys):
         diffractometer=
         HklSolver(name
         Sample(name=
-        U=
-        UB=
     """.strip().split()
     for _r in e4cv.operator.sample.reflections:
         expected.append("Reflection(name='")
+    expected.append("Orienting reflections: ")
+    expected.append("U=")
+    expected.append("UB=")
     for _r in e4cv.operator.constraints:
         expected.append("constraint: ")
     expected.append(f"{e4cv.pseudo_axis_names[0]}=")
@@ -356,7 +358,7 @@ def test_orientation():
         for j in range(3):
             assert math.isclose(
                 UB[i][j], UBe[i][j], abs_tol=0.005
-            ), f"{i=!r}  {j=!r}  {UB=!r}  {UBe=!r}  {UB=!r}"
+            ), f"{i=!r}  {j=!r}  {UB=!r}  {UBe=!r}"
 
     result = fourc.forward(4, 0, 0)
     assert math.isclose(result.omega, -158.39, abs_tol=0.02), f"{result=!r}"
@@ -388,8 +390,11 @@ def test_orientation():
 def test_remove_sample():
     sim = NoOpTh2Th(name="sim")
     assert len(sim.samples) == 1
-    sim.operator.remove_sample(DEFAULT_SAMPLE_NAME)
-    assert len(sim.samples) == 0
+    try:
+        sim.operator.remove_sample(DEFAULT_SAMPLE_NAME)
+    except OperationsError as reason:
+        assert_context_result("Cannot remove last sample.", reason)
+    assert len(sim.samples) == 1
 
 
 @pytest.mark.parametrize(
@@ -490,7 +495,7 @@ def test_repeated_reflections(
                 fail_on_exception=True,
             ),
             "psi_constant",
-            pytest.raises(GError),  # TODO: catch this in the solver and translate?
+            pytest.raises(GError),  # TODO: #39
             "unreachable hkl",  # hkl-engine-error-quark:
         ],
         [

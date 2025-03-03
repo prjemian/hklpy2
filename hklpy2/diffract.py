@@ -397,7 +397,7 @@ class DiffractometerBase(PseudoPositioner):
                 )
             )
         """
-        # TODO: convert input pseudos & reals to positioner objects?
+        # TODO:  #36
         self.operator.solver.extras = extras  # must come first
         solution = self.forward(list(pseudos.values()))
         yield from self.move_dict(solution)
@@ -455,9 +455,8 @@ class DiffractometerBase(PseudoPositioner):
         if pseudos is not None and reals is not None:
             raise ValueError("Cannot define both pseudos and reals.")
 
-        # FIXME: Inverse transformation
         if reals is not None:
-            raise NotImplementedError("Inverse transformation.")
+            raise NotImplementedError("Inverse transformation.")  # FIXME: #37
 
         _md = {
             "diffractometer": {
@@ -501,8 +500,7 @@ class DiffractometerBase(PseudoPositioner):
                     """Move extras, then reals or pseudos, move to the solution."""
                     if reals is None:
                         yield from self.move_forward_with_extras(pseudos, extras)
-                    # else:
-                    #     # TODO: Inverse transformation
+                    # else: # TODO: #37
                     #     yield from self.inverse_move_with_extras(reals, extras)
 
                 def acquire(objects):
@@ -598,10 +596,11 @@ class DiffractometerBase(PseudoPositioner):
             print(f"diffractometer={self.name!r}")
             print(f"{self.operator.solver}")
             print(f"{self.sample!r}")
+            for v in self.sample.reflections.values():
+                print(f"{v}")
+            print(f"Orienting reflections: {self.sample.reflections.order}")
             print(f"U={self.operator.solver.U}")
             print(f"UB={self.operator.solver.UB}")
-            for v in self.operator.sample.reflections.values():
-                print(f"{v}")
             for v in self.operator.constraints.values():
                 print(f"constraint: {v}")
 

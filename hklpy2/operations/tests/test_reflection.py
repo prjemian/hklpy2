@@ -252,14 +252,12 @@ def test_Reflection(
         for k in "name pseudos reals wavelength geometry".split():
             assert k in refl_dict, f"{k=}"
 
-        rep = repr(refl)
-        assert rep.startswith("Reflection(")
-        assert f"{name=!r}" in rep, f"{rep}"
-        assert f"{pseudos=!r}" in rep, f"{rep}"
-        assert f"{reals=!r}" in rep, f"{rep}"
-        assert f"{wavelength=!r}" in rep, f"{rep}"
-        assert f"{geometry=!r}" in rep, f"{rep}"
-        assert rep.endswith(")")
+        text = repr(refl)
+        assert text.startswith("Reflection(")
+        assert f"{name=!r}" in text, f"{text}"
+        for key in refl.pseudos.keys():
+            assert f"{key}=" in text, f"{text}"
+        assert text.endswith(")")
 
 
 @pytest.mark.parametrize(

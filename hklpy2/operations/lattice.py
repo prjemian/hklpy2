@@ -103,13 +103,13 @@ class Lattice:
         """
         system = self.crystal_system
         parm_names = self.system_parameter_names(system)
-        parms = [
+        parameters = [
             f"{k}={round(v, self.digits)}"
             for k, v in self._asdict().items()
             if k in parm_names
         ]
-        parms.append(f"{system=!r}")
-        return "Lattice(" + ", ".join(parms) + ")"
+        parameters.append(f"{system=!r}")
+        return f"{self.__class__.__name__}({', '.join(parameters)})"
 
     def _asdict(self):
         """Return a new dict which maps lattice constant names and values."""

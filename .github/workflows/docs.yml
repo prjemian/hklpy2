@@ -61,11 +61,8 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Install Sphinx build requirements
-        run: pip install .[doc]
-
-      - name: Install our package
-        run: pip install --no-deps -e . -vv
+      - name: Install our package and its requirements
+        run: pip install -e .[doc] -vv
 
       - name: Show Environment variables
         run: |

@@ -143,14 +143,14 @@ class Reflection:
 
     def __repr__(self):
         """
-        Standard representation of reflection.
+        Standard brief representation of reflection.
         """
-        parameters = []
-        for k, v in self._asdict().items():
-            if isinstance(v, float):
-                v = round(v, self.digits)
-            parameters.append(f"{k}={v!r}")
-        return "Reflection(" + ", ".join(parameters) + ")"
+        pseudos = [
+            f"{k}={round(v, self.digits)}"  # roundoff
+            for k, v in self.pseudos.items()
+        ]
+        guts = [f"name={self.name!r}"] + pseudos
+        return f"{self.__class__.__name__}({', '.join(guts)})"
 
     def __eq__(self, r2):
         """
@@ -277,14 +277,6 @@ class ReflectionsDict(dict):
         self._order = []
         self.geometry = None
 
-    def __repr__(self):
-        """
-        Standard representation of reflections list.
-
-        Order numbers start from zero.
-        """
-        return repr(self._asdict())
-
     def _asdict(self):
         """
         Describe the reflections list as an ordered dictionary.
@@ -360,12 +352,13 @@ class ReflectionsDict(dict):
         self.order = [refl for refl in self.order if refl in self]
 
     def swap(self):
-        """Swap the two named orientation reflections."""
+        """Swap the first two orientation reflections."""
         if len(self.order) < 2:
             raise ReflectionError("Need at least two reflections to swap.")
         rname1, rname2 = self.order[:2]
         self._order[0] = rname2
         self._order[1] = rname1
+        return self.order
 
     def _validate_reflection(self, reflection, replace):
         """Validate the new reflection."""

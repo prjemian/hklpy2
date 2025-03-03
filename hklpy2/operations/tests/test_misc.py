@@ -255,7 +255,7 @@ def test_ConfigurationRunWrapper(devices, context, expected, enabled):
 def test_list_orientation_runs(devices, cat, RE):
     det = signal
     device_names = [d.name for d in devices]
-    crw = ConfigurationRunWrapper(*devices)  # TODO: make a preprocessor decorator
+    crw = ConfigurationRunWrapper(*devices)  # TODO: #34 decorator
     RE.preprocessors.append(crw.wrapper)
 
     def scans():
