@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../../../_static/documentation_options.js?v=2cebc65f"></script>
+    <script src="../../../_static/documentation_options.js?v=6a9d8632"></script>
     <script src="../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -342,7 +342,9 @@
 <span class="sd">    ~compare_float_dicts</span>
 <span class="sd">    ~dict_device_factory</span>
 <span class="sd">    ~flatten_lists</span>
+<span class="sd">    ~get_run_orientation</span>
 <span class="sd">    ~get_solver</span>
+<span class="sd">    ~list_orientation_runs</span>
 <span class="sd">    ~load_yaml</span>
 <span class="sd">    ~load_yaml_file</span>
 <span class="sd">    ~roundoff</span>
@@ -378,10 +380,13 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">pathlib</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">uuid</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Iterable</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">importlib.metadata</span><span class="w"> </span><span class="kn">import</span> <span class="n">entry_points</span>
 
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">tqdm</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">yaml</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">ophyd</span><span class="w"> </span><span class="kn">import</span> <span class="n">Component</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">ophyd</span><span class="w"> </span><span class="kn">import</span> <span class="n">Device</span>
@@ -396,6 +401,8 @@
 
 <span class="n">SOLVER_ENTRYPOINT_GROUP</span> <span class="o">=</span> <span class="s2">&quot;hklpy2.solver&quot;</span>
 <span class="sd">&quot;&quot;&quot;Name by which |hklpy2| backend |solver| classes are grouped.&quot;&quot;&quot;</span>
+
+<span class="n">DEFAULT_START_KEY</span> <span class="o">=</span> <span class="s2">&quot;diffractometers&quot;</span>
 
 <span class="c1"># Custom exceptions</span>
 
@@ -512,7 +519,7 @@
 <span class="sd">    the `.read_configuration()` method can be added to this tuple.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">start_key</span> <span class="o">=</span> <span class="s2">&quot;diffractometers&quot;</span>
+    <span class="n">start_key</span> <span class="o">=</span> <span class="n">DEFAULT_START_KEY</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Top-level key in run&#39;s metadata dictionary.&quot;&quot;&quot;</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">devices</span><span class="p">,</span> <span class="n">knowns</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -685,6 +692,169 @@
 
 
 
+<div class="viewcode-block" id="get_run_orientation">
+<a class="viewcode-back" href="../../../api/z_misc.html#hklpy2.operations.misc.get_run_orientation">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_run_orientation</span><span class="p">(</span><span class="n">run</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">start_key</span><span class="o">=</span><span class="n">DEFAULT_START_KEY</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return the orientation information dictionary from a run.</span>
+
+<span class="sd">    EXAMPLE::</span>
+
+<span class="sd">        In [3]: get_run_orientation(cat[9752], name=&quot;sim4c2&quot;)</span>
+<span class="sd">        Out[3]:</span>
+<span class="sd">        {&#39;_header&#39;: {&#39;datetime&#39;: &#39;2025-02-27 15:54:33.364719&#39;,</span>
+<span class="sd">        &#39;hklpy2_version&#39;: &#39;0.0.26.dev72+gcf9a65a.d20250227&#39;,</span>
+<span class="sd">        &#39;python_class&#39;: &#39;Hklpy2Diffractometer&#39;,</span>
+<span class="sd">        &#39;source_type&#39;: &#39;X-ray&#39;,</span>
+<span class="sd">        &#39;energy_units&#39;: &#39;keV&#39;,</span>
+<span class="sd">        &#39;energy&#39;: 12.398419843856837,</span>
+<span class="sd">        &#39;wavelength_units&#39;: &#39;angstrom&#39;,</span>
+<span class="sd">        &#39;wavelength&#39;: 1.0},</span>
+<span class="sd">        &#39;name&#39;: &#39;sim4c2&#39;,</span>
+<span class="sd">        &#39;axes&#39;: {&#39;pseudo_axes&#39;: [&#39;h&#39;, &#39;k&#39;, &#39;l&#39;],</span>
+<span class="sd">        &#39;real_axes&#39;: [&#39;omega&#39;, &#39;chi&#39;, &#39;phi&#39;, &#39;tth&#39;],</span>
+<span class="sd">        &#39;axes_xref&#39;: {&#39;h&#39;: &#39;h&#39;,</span>
+<span class="sd">        &#39;k&#39;: &#39;k&#39;,</span>
+<span class="sd">        &#39;l&#39;: &#39;l&#39;,</span>
+<span class="sd">        &#39;omega&#39;: &#39;omega&#39;,</span>
+<span class="sd">        &#39;chi&#39;: &#39;chi&#39;,</span>
+<span class="sd">        &#39;phi&#39;: &#39;phi&#39;,</span>
+<span class="sd">        &#39;tth&#39;: &#39;tth&#39;},</span>
+<span class="sd">        &#39;extra_axes&#39;: {}},</span>
+<span class="sd">        &#39;sample_name&#39;: &#39;sample&#39;,</span>
+<span class="sd">        &#39;samples&#39;: {&#39;sample&#39;: {&#39;name&#39;: &#39;sample&#39;,</span>
+<span class="sd">        &#39;lattice&#39;: {&#39;a&#39;: 1,</span>
+<span class="sd">            &#39;b&#39;: 1,</span>
+<span class="sd">            &#39;c&#39;: 1,</span>
+<span class="sd">            &#39;alpha&#39;: 90.0,</span>
+<span class="sd">            &#39;beta&#39;: 90.0,</span>
+<span class="sd">            &#39;gamma&#39;: 90.0},</span>
+<span class="sd">        &#39;reflections&#39;: {},</span>
+<span class="sd">        &#39;reflections_order&#39;: [],</span>
+<span class="sd">        &#39;U&#39;: [[1, 0, 0], [0, 1, 0], [0, 0, 1]],</span>
+<span class="sd">        &#39;UB&#39;: [[1, 0, 0], [0, 1, 0], [0, 0, 1]],</span>
+<span class="sd">        &#39;digits&#39;: 4}},</span>
+<span class="sd">        &#39;constraints&#39;: {&#39;omega&#39;: {&#39;label&#39;: &#39;omega&#39;,</span>
+<span class="sd">        &#39;low_limit&#39;: -180.0,</span>
+<span class="sd">        &#39;high_limit&#39;: 180.0,</span>
+<span class="sd">        &#39;class&#39;: &#39;LimitsConstraint&#39;},</span>
+<span class="sd">        &#39;chi&#39;: {&#39;label&#39;: &#39;chi&#39;,</span>
+<span class="sd">        &#39;low_limit&#39;: -180.0,</span>
+<span class="sd">        &#39;high_limit&#39;: 180.0,</span>
+<span class="sd">        &#39;class&#39;: &#39;LimitsConstraint&#39;},</span>
+<span class="sd">        &#39;phi&#39;: {&#39;label&#39;: &#39;phi&#39;,</span>
+<span class="sd">        &#39;low_limit&#39;: -180.0,</span>
+<span class="sd">        &#39;high_limit&#39;: 180.0,</span>
+<span class="sd">        &#39;class&#39;: &#39;LimitsConstraint&#39;},</span>
+<span class="sd">        &#39;tth&#39;: {&#39;label&#39;: &#39;tth&#39;,</span>
+<span class="sd">        &#39;low_limit&#39;: -180.0,</span>
+<span class="sd">        &#39;high_limit&#39;: 180.0,</span>
+<span class="sd">        &#39;class&#39;: &#39;LimitsConstraint&#39;}},</span>
+<span class="sd">        &#39;solver&#39;: {&#39;name&#39;: &#39;hkl_soleil&#39;,</span>
+<span class="sd">        &#39;description&#39;: &quot;HklSolver(name=&#39;hkl_soleil&#39;, version=&#39;5.1.2&#39;, geometry=&#39;E4CV&#39;, engine_name=&#39;hkl&#39;, mode=&#39;bissector&#39;)&quot;,</span>
+<span class="sd">        &#39;geometry&#39;: &#39;E4CV&#39;,</span>
+<span class="sd">        &#39;real_axes&#39;: [&#39;omega&#39;, &#39;chi&#39;, &#39;phi&#39;, &#39;tth&#39;],</span>
+<span class="sd">        &#39;version&#39;: &#39;5.1.2&#39;,</span>
+<span class="sd">        &#39;engine&#39;: &#39;hkl&#39;}}</span>
+
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    run : object</span>
+<span class="sd">        Bluesky run object.</span>
+<span class="sd">    name : str</span>
+<span class="sd">        (optional)</span>
+<span class="sd">        Name of the diffractometer. (default=None, returns all available.)</span>
+<span class="sd">    start_key : str</span>
+<span class="sd">        Metadata key where the orientation information is stored in the start</span>
+<span class="sd">        document.  (default=&quot;diffractometers&quot;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">info</span> <span class="o">=</span> <span class="n">run</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;start&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">start_key</span><span class="p">,</span> <span class="p">{})</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="n">info</span> <span class="o">=</span> <span class="n">info</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="p">{})</span>
+    <span class="k">return</span> <span class="n">info</span></div>
+
+
+
+<div class="viewcode-block" id="list_orientation_runs">
+<a class="viewcode-back" href="../../../api/z_misc.html#hklpy2.operations.misc.list_orientation_runs">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">list_orientation_runs</span><span class="p">(</span><span class="n">catalog</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">start_key</span><span class="o">=</span><span class="n">DEFAULT_START_KEY</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    List the runs with orientation information.</span>
+
+<span class="sd">    EXAMPLE::</span>
+
+<span class="sd">        In [42]: list_orientation_runs(cat, limit=5, date=&quot;_header.datetime&quot;)</span>
+<span class="sd">        Out[42]:</span>
+<span class="sd">            scan_id      uid  sample diffractometer geometry      solver                        date</span>
+<span class="sd">        0      9752  41f71e9  sample         sim4c2     E4CV  hkl_soleil  2025-02-27 15:54:33.364719</span>
+<span class="sd">        1      9751  36e38bc  sample         sim4c2     E4CV  hkl_soleil  2025-02-27 15:54:33.364719</span>
+<span class="sd">        2      9750  62e425d  sample         sim4c2     E4CV  hkl_soleil  2025-02-27 15:54:33.364719</span>
+<span class="sd">        3      9749  18b11f0  sample         sim4c2     E4CV  hkl_soleil  2025-02-27 15:53:55.958929</span>
+<span class="sd">        4      9748  bf9912f  sample         sim4c2     E4CV  hkl_soleil  2025-02-27 15:53:55.958929</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    Table of orientation runs: Pandas DataFrame object</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    catalog : object</span>
+<span class="sd">        Instance of a databroker catalog.</span>
+<span class="sd">    limit : int</span>
+<span class="sd">        Limit the list to at most ``limit`` runs. (default=10)</span>
+<span class="sd">        It could take a long time to search an entire catalog.</span>
+<span class="sd">    start_key : str</span>
+<span class="sd">        Metadata key where the orientation information is stored in the start</span>
+<span class="sd">        document.  (default=&quot;diffractometers&quot;)</span>
+<span class="sd">    **kwargs : dict[str:str]</span>
+<span class="sd">        Keyword parameters describing data column names to be displayed. The</span>
+<span class="sd">        value of each column name is the dotted path to the orientation</span>
+<span class="sd">        information (in the start document&#39;s metadata).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">buffer</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">_count</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">columns</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+        <span class="n">sample</span><span class="o">=</span><span class="s2">&quot;sample_name&quot;</span><span class="p">,</span>
+        <span class="n">diffractometer</span><span class="o">=</span><span class="s2">&quot;name&quot;</span><span class="p">,</span>
+        <span class="n">geometry</span><span class="o">=</span><span class="s2">&quot;solver.geometry&quot;</span><span class="p">,</span>
+        <span class="n">solver</span><span class="o">=</span><span class="s2">&quot;solver.name&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">columns</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="n">limit</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">limit</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">catalog</span><span class="o">.</span><span class="n">v2</span><span class="p">))</span>
+    <span class="k">with</span> <span class="n">tqdm</span><span class="o">.</span><span class="n">tqdm</span><span class="p">(</span><span class="n">total</span><span class="o">=</span><span class="n">limit</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="p">,</span> <span class="n">leave</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="k">as</span> <span class="n">progress_bar</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">full_uid</span> <span class="ow">in</span> <span class="n">catalog</span><span class="o">.</span><span class="n">v2</span><span class="p">:</span>
+            <span class="n">_count</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">run</span> <span class="o">=</span> <span class="n">catalog</span><span class="o">.</span><span class="n">v2</span><span class="p">[</span><span class="n">full_uid</span><span class="p">]</span>
+            <span class="n">start_md</span> <span class="o">=</span> <span class="n">run</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;start&quot;</span><span class="p">,</span> <span class="p">{})</span>
+            <span class="n">info</span> <span class="o">=</span> <span class="n">get_run_orientation</span><span class="p">(</span><span class="n">run</span><span class="p">,</span> <span class="n">start_key</span><span class="o">=</span><span class="n">start_key</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">info</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+
+                <span class="k">def</span><span class="w"> </span><span class="nf">get_subdict_value</span><span class="p">(</span><span class="n">biblio</span><span class="p">,</span> <span class="n">full_key</span><span class="p">):</span>
+                    <span class="n">value</span> <span class="o">=</span> <span class="n">biblio</span>
+                    <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">full_key</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">):</span>
+                        <span class="n">value</span> <span class="o">=</span> <span class="p">(</span><span class="n">value</span> <span class="ow">or</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+                    <span class="k">return</span> <span class="n">value</span>
+
+                <span class="k">for</span> <span class="n">device</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">info</span><span class="p">):</span>
+                    <span class="n">orientation</span> <span class="o">=</span> <span class="n">info</span><span class="p">[</span><span class="n">device</span><span class="p">]</span>
+                    <span class="n">row</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+                        <span class="n">scan_id</span><span class="o">=</span><span class="n">start_md</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;scan_id&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+                        <span class="n">uid</span><span class="o">=</span><span class="n">full_uid</span><span class="p">[:</span><span class="mi">7</span><span class="p">],</span>
+                    <span class="p">)</span>
+                    <span class="k">for</span> <span class="n">f</span><span class="p">,</span> <span class="n">addr</span> <span class="ow">in</span> <span class="n">columns</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                        <span class="n">value</span> <span class="o">=</span> <span class="n">get_subdict_value</span><span class="p">(</span><span class="n">orientation</span><span class="p">,</span> <span class="n">addr</span><span class="p">)</span>
+                        <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                            <span class="n">row</span><span class="p">[</span><span class="n">f</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+                    <span class="n">buffer</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+
+            <span class="n">progress_bar</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">_count</span> <span class="o">&gt;=</span> <span class="n">limit</span><span class="p">:</span>
+                <span class="k">break</span>
+    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">buffer</span><span class="p">)</span></div>
+
+
+
 <div class="viewcode-block" id="load_yaml">
 <a class="viewcode-back" href="../../../api/z_misc.html#hklpy2.operations.misc.load_yaml">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">load_yaml</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
@@ -802,7 +972,7 @@
         <div class="footer-item">
 
   <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.0.
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
     <br/>
   </p>
 </div>

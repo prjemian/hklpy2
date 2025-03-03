@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=2cebc65f"></script>
+    <script src="../_static/documentation_options.js?v=6a9d8632"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
@@ -385,8 +385,14 @@
 <tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.operations.misc.flatten_lists" title="hklpy2.operations.misc.flatten_lists"><code class="xref py py-obj docutils literal notranslate"><span class="pre">flatten_lists</span></code></a>(xs)</p></td>
 <td><p>Convert nested lists into single list.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.operations.misc.get_solver" title="hklpy2.operations.misc.get_solver"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_solver</span></code></a>(solver_name)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.operations.misc.get_run_orientation" title="hklpy2.operations.misc.get_run_orientation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_run_orientation</span></code></a>(run[, name, start_key])</p></td>
+<td><p>Return the orientation information dictionary from a run.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.operations.misc.get_solver" title="hklpy2.operations.misc.get_solver"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_solver</span></code></a>(solver_name)</p></td>
 <td><p>Load a Solver class from a named entry point.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.operations.misc.list_orientation_runs" title="hklpy2.operations.misc.list_orientation_runs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">list_orientation_runs</span></code></a>(catalog[, limit, ...])</p></td>
+<td><p>List the runs with orientation information.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.operations.misc.load_yaml" title="hklpy2.operations.misc.load_yaml"><code class="xref py py-obj docutils literal notranslate"><span class="pre">load_yaml</span></code></a>(text)</p></td>
 <td><p>Load YAML from text.</p></td>
@@ -788,6 +794,82 @@ set self.__traceback__ to tb and return self.</p>
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="hklpy2.operations.misc.get_run_orientation">
+<span class="sig-prename descclassname"><span class="pre">hklpy2.operations.misc.</span></span><span class="sig-name descname"><span class="pre">get_run_orientation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">run</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'diffractometers'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hklpy2/operations/misc.html#get_run_orientation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.operations.misc.get_run_orientation" title="Link to this definition">#</a></dt>
+<dd><p>Return the orientation information dictionary from a run.</p>
+<p>EXAMPLE:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">3</span><span class="p">]:</span> <span class="n">get_run_orientation</span><span class="p">(</span><span class="n">cat</span><span class="p">[</span><span class="mi">9752</span><span class="p">],</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;sim4c2&quot;</span><span class="p">)</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">3</span><span class="p">]:</span>
+<span class="p">{</span><span class="s1">&#39;_header&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;datetime&#39;</span><span class="p">:</span> <span class="s1">&#39;2025-02-27 15:54:33.364719&#39;</span><span class="p">,</span>
+<span class="s1">&#39;hklpy2_version&#39;</span><span class="p">:</span> <span class="s1">&#39;0.0.26.dev72+gcf9a65a.d20250227&#39;</span><span class="p">,</span>
+<span class="s1">&#39;python_class&#39;</span><span class="p">:</span> <span class="s1">&#39;Hklpy2Diffractometer&#39;</span><span class="p">,</span>
+<span class="s1">&#39;source_type&#39;</span><span class="p">:</span> <span class="s1">&#39;X-ray&#39;</span><span class="p">,</span>
+<span class="s1">&#39;energy_units&#39;</span><span class="p">:</span> <span class="s1">&#39;keV&#39;</span><span class="p">,</span>
+<span class="s1">&#39;energy&#39;</span><span class="p">:</span> <span class="mf">12.398419843856837</span><span class="p">,</span>
+<span class="s1">&#39;wavelength_units&#39;</span><span class="p">:</span> <span class="s1">&#39;angstrom&#39;</span><span class="p">,</span>
+<span class="s1">&#39;wavelength&#39;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">},</span>
+<span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;sim4c2&#39;</span><span class="p">,</span>
+<span class="s1">&#39;axes&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;pseudo_axes&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;h&#39;</span><span class="p">,</span> <span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="s1">&#39;l&#39;</span><span class="p">],</span>
+<span class="s1">&#39;real_axes&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;omega&#39;</span><span class="p">,</span> <span class="s1">&#39;chi&#39;</span><span class="p">,</span> <span class="s1">&#39;phi&#39;</span><span class="p">,</span> <span class="s1">&#39;tth&#39;</span><span class="p">],</span>
+<span class="s1">&#39;axes_xref&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;h&#39;</span><span class="p">:</span> <span class="s1">&#39;h&#39;</span><span class="p">,</span>
+<span class="s1">&#39;k&#39;</span><span class="p">:</span> <span class="s1">&#39;k&#39;</span><span class="p">,</span>
+<span class="s1">&#39;l&#39;</span><span class="p">:</span> <span class="s1">&#39;l&#39;</span><span class="p">,</span>
+<span class="s1">&#39;omega&#39;</span><span class="p">:</span> <span class="s1">&#39;omega&#39;</span><span class="p">,</span>
+<span class="s1">&#39;chi&#39;</span><span class="p">:</span> <span class="s1">&#39;chi&#39;</span><span class="p">,</span>
+<span class="s1">&#39;phi&#39;</span><span class="p">:</span> <span class="s1">&#39;phi&#39;</span><span class="p">,</span>
+<span class="s1">&#39;tth&#39;</span><span class="p">:</span> <span class="s1">&#39;tth&#39;</span><span class="p">},</span>
+<span class="s1">&#39;extra_axes&#39;</span><span class="p">:</span> <span class="p">{}},</span>
+<span class="s1">&#39;sample_name&#39;</span><span class="p">:</span> <span class="s1">&#39;sample&#39;</span><span class="p">,</span>
+<span class="s1">&#39;samples&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;sample&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;sample&#39;</span><span class="p">,</span>
+<span class="s1">&#39;lattice&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="s1">&#39;alpha&#39;</span><span class="p">:</span> <span class="mf">90.0</span><span class="p">,</span>
+    <span class="s1">&#39;beta&#39;</span><span class="p">:</span> <span class="mf">90.0</span><span class="p">,</span>
+    <span class="s1">&#39;gamma&#39;</span><span class="p">:</span> <span class="mf">90.0</span><span class="p">},</span>
+<span class="s1">&#39;reflections&#39;</span><span class="p">:</span> <span class="p">{},</span>
+<span class="s1">&#39;reflections_order&#39;</span><span class="p">:</span> <span class="p">[],</span>
+<span class="s1">&#39;U&#39;</span><span class="p">:</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]],</span>
+<span class="s1">&#39;UB&#39;</span><span class="p">:</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]],</span>
+<span class="s1">&#39;digits&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">}},</span>
+<span class="s1">&#39;constraints&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;omega&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="s1">&#39;omega&#39;</span><span class="p">,</span>
+<span class="s1">&#39;low_limit&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mf">180.0</span><span class="p">,</span>
+<span class="s1">&#39;high_limit&#39;</span><span class="p">:</span> <span class="mf">180.0</span><span class="p">,</span>
+<span class="s1">&#39;class&#39;</span><span class="p">:</span> <span class="s1">&#39;LimitsConstraint&#39;</span><span class="p">},</span>
+<span class="s1">&#39;chi&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="s1">&#39;chi&#39;</span><span class="p">,</span>
+<span class="s1">&#39;low_limit&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mf">180.0</span><span class="p">,</span>
+<span class="s1">&#39;high_limit&#39;</span><span class="p">:</span> <span class="mf">180.0</span><span class="p">,</span>
+<span class="s1">&#39;class&#39;</span><span class="p">:</span> <span class="s1">&#39;LimitsConstraint&#39;</span><span class="p">},</span>
+<span class="s1">&#39;phi&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="s1">&#39;phi&#39;</span><span class="p">,</span>
+<span class="s1">&#39;low_limit&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mf">180.0</span><span class="p">,</span>
+<span class="s1">&#39;high_limit&#39;</span><span class="p">:</span> <span class="mf">180.0</span><span class="p">,</span>
+<span class="s1">&#39;class&#39;</span><span class="p">:</span> <span class="s1">&#39;LimitsConstraint&#39;</span><span class="p">},</span>
+<span class="s1">&#39;tth&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="s1">&#39;tth&#39;</span><span class="p">,</span>
+<span class="s1">&#39;low_limit&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mf">180.0</span><span class="p">,</span>
+<span class="s1">&#39;high_limit&#39;</span><span class="p">:</span> <span class="mf">180.0</span><span class="p">,</span>
+<span class="s1">&#39;class&#39;</span><span class="p">:</span> <span class="s1">&#39;LimitsConstraint&#39;</span><span class="p">}},</span>
+<span class="s1">&#39;solver&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;hkl_soleil&#39;</span><span class="p">,</span>
+<span class="s1">&#39;description&#39;</span><span class="p">:</span> <span class="s2">&quot;HklSolver(name=&#39;hkl_soleil&#39;, version=&#39;5.1.2&#39;, geometry=&#39;E4CV&#39;, engine_name=&#39;hkl&#39;, mode=&#39;bissector&#39;)&quot;</span><span class="p">,</span>
+<span class="s1">&#39;geometry&#39;</span><span class="p">:</span> <span class="s1">&#39;E4CV&#39;</span><span class="p">,</span>
+<span class="s1">&#39;real_axes&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;omega&#39;</span><span class="p">,</span> <span class="s1">&#39;chi&#39;</span><span class="p">,</span> <span class="s1">&#39;phi&#39;</span><span class="p">,</span> <span class="s1">&#39;tth&#39;</span><span class="p">],</span>
+<span class="s1">&#39;version&#39;</span><span class="p">:</span> <span class="s1">&#39;5.1.2&#39;</span><span class="p">,</span>
+<span class="s1">&#39;engine&#39;</span><span class="p">:</span> <span class="s1">&#39;hkl&#39;</span><span class="p">}}</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>run</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.13)"><em>object</em></a>) – Bluesky run object.</p></li>
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – (optional)
+Name of the diffractometer. (default=None, returns all available.)</p></li>
+<li><p><strong>start_key</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – Metadata key where the orientation information is stored in the start
+document.  (default=”diffractometers”)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="hklpy2.operations.misc.get_solver">
 <span class="sig-prename descclassname"><span class="pre">hklpy2.operations.misc.</span></span><span class="sig-name descname"><span class="pre">get_solver</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">solver_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hklpy2/operations/misc.html#get_solver"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.operations.misc.get_solver" title="Link to this definition">#</a></dt>
 <dd><p>Load a Solver class from a named entry point.</p>
@@ -796,6 +878,43 @@ set self.__traceback__ to tb and return self.</p>
 <span class="n">libhkl_solver</span> <span class="o">=</span> <span class="n">SolverClass</span><span class="p">()</span>
 </pre></div>
 </div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="hklpy2.operations.misc.list_orientation_runs">
+<span class="sig-prename descclassname"><span class="pre">hklpy2.operations.misc.</span></span><span class="sig-name descname"><span class="pre">list_orientation_runs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">catalog</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'diffractometers'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hklpy2/operations/misc.html#list_orientation_runs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.operations.misc.list_orientation_runs" title="Link to this definition">#</a></dt>
+<dd><p>List the runs with orientation information.</p>
+<p>EXAMPLE:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">42</span><span class="p">]:</span> <span class="n">list_orientation_runs</span><span class="p">(</span><span class="n">cat</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">date</span><span class="o">=</span><span class="s2">&quot;_header.datetime&quot;</span><span class="p">)</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">42</span><span class="p">]:</span>
+    <span class="n">scan_id</span>      <span class="n">uid</span>  <span class="n">sample</span> <span class="n">diffractometer</span> <span class="n">geometry</span>      <span class="n">solver</span>                        <span class="n">date</span>
+<span class="mi">0</span>      <span class="mi">9752</span>  <span class="mi">41</span><span class="n">f71e9</span>  <span class="n">sample</span>         <span class="n">sim4c2</span>     <span class="n">E4CV</span>  <span class="n">hkl_soleil</span>  <span class="mi">2025</span><span class="o">-</span><span class="mi">02</span><span class="o">-</span><span class="mi">27</span> <span class="mi">15</span><span class="p">:</span><span class="mi">54</span><span class="p">:</span><span class="mf">33.364719</span>
+<span class="mi">1</span>      <span class="mi">9751</span>  <span class="mf">36e38</span><span class="n">bc</span>  <span class="n">sample</span>         <span class="n">sim4c2</span>     <span class="n">E4CV</span>  <span class="n">hkl_soleil</span>  <span class="mi">2025</span><span class="o">-</span><span class="mi">02</span><span class="o">-</span><span class="mi">27</span> <span class="mi">15</span><span class="p">:</span><span class="mi">54</span><span class="p">:</span><span class="mf">33.364719</span>
+<span class="mi">2</span>      <span class="mi">9750</span>  <span class="mf">62e425</span><span class="n">d</span>  <span class="n">sample</span>         <span class="n">sim4c2</span>     <span class="n">E4CV</span>  <span class="n">hkl_soleil</span>  <span class="mi">2025</span><span class="o">-</span><span class="mi">02</span><span class="o">-</span><span class="mi">27</span> <span class="mi">15</span><span class="p">:</span><span class="mi">54</span><span class="p">:</span><span class="mf">33.364719</span>
+<span class="mi">3</span>      <span class="mi">9749</span>  <span class="mi">18</span><span class="n">b11f0</span>  <span class="n">sample</span>         <span class="n">sim4c2</span>     <span class="n">E4CV</span>  <span class="n">hkl_soleil</span>  <span class="mi">2025</span><span class="o">-</span><span class="mi">02</span><span class="o">-</span><span class="mi">27</span> <span class="mi">15</span><span class="p">:</span><span class="mi">53</span><span class="p">:</span><span class="mf">55.958929</span>
+<span class="mi">4</span>      <span class="mi">9748</span>  <span class="n">bf9912f</span>  <span class="n">sample</span>         <span class="n">sim4c2</span>     <span class="n">E4CV</span>  <span class="n">hkl_soleil</span>  <span class="mi">2025</span><span class="o">-</span><span class="mi">02</span><span class="o">-</span><span class="mi">27</span> <span class="mi">15</span><span class="p">:</span><span class="mi">53</span><span class="p">:</span><span class="mf">55.958929</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>Table of orientation runs</strong></p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Pandas DataFrame object</p>
+</dd>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>catalog</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.13)"><em>object</em></a>) – Instance of a databroker catalog.</p></li>
+<li><p><strong>limit</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a>) – Limit the list to at most <code class="docutils literal notranslate"><span class="pre">limit</span></code> runs. (default=10)
+It could take a long time to search an entire catalog.</p></li>
+<li><p><strong>start_key</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – Metadata key where the orientation information is stored in the start
+document.  (default=”diffractometers”)</p></li>
+<li><p><strong>**kwargs</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><em>dict</em></a><em>[</em><em>str:str</em><em>]</em>) – Keyword parameters describing data column names to be displayed. The
+value of each column name is the dotted path to the orientation
+information (in the start document’s metadata).</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py function">
@@ -950,7 +1069,9 @@ set self.__traceback__ to tb and return self.</p>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.operations.misc.compare_float_dicts"><code class="docutils literal notranslate"><span class="pre">compare_float_dicts()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.operations.misc.dict_device_factory"><code class="docutils literal notranslate"><span class="pre">dict_device_factory()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.operations.misc.flatten_lists"><code class="docutils literal notranslate"><span class="pre">flatten_lists()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.operations.misc.get_run_orientation"><code class="docutils literal notranslate"><span class="pre">get_run_orientation()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.operations.misc.get_solver"><code class="docutils literal notranslate"><span class="pre">get_solver()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.operations.misc.list_orientation_runs"><code class="docutils literal notranslate"><span class="pre">list_orientation_runs()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.operations.misc.load_yaml"><code class="docutils literal notranslate"><span class="pre">load_yaml()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.operations.misc.load_yaml_file"><code class="docutils literal notranslate"><span class="pre">load_yaml_file()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.operations.misc.roundoff"><code class="docutils literal notranslate"><span class="pre">roundoff()</span></code></a></li>
@@ -1021,7 +1142,7 @@ set self.__traceback__ to tb and return self.</p>
         <div class="footer-item">
 
   <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.0.
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
     <br/>
   </p>
 </div>

@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../../_static/documentation_options.js?v=2cebc65f"></script>
+    <script src="../../_static/documentation_options.js?v=6a9d8632"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/design-tabs.js?v=f930bc37"></script>
@@ -342,13 +342,17 @@
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pathlib</span>
 
+<span class="kn">import</span><span class="w"> </span><span class="nn">yaml</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">ophyd</span><span class="w"> </span><span class="kn">import</span> <span class="n">Component</span> <span class="k">as</span> <span class="n">Cpt</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">ophyd</span><span class="w"> </span><span class="kn">import</span> <span class="n">PseudoPositioner</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">ophyd.pseudopos</span><span class="w"> </span><span class="kn">import</span> <span class="n">pseudo_position_argument</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">ophyd.pseudopos</span><span class="w"> </span><span class="kn">import</span> <span class="n">real_position_argument</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">ophyd.signal</span><span class="w"> </span><span class="kn">import</span> <span class="n">AttributeSignal</span>
 
+<span class="kn">from</span><span class="w"> </span><span class="nn">.operations.misc</span><span class="w"> </span><span class="kn">import</span> <span class="n">DiffractometerError</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.operations.misc</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_yaml_file</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.operations.misc</span><span class="w"> </span><span class="kn">import</span> <span class="n">roundoff</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.operations.reflection</span><span class="w"> </span><span class="kn">import</span> <span class="n">Reflection</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.operations.sample</span><span class="w"> </span><span class="kn">import</span> <span class="n">Sample</span>
@@ -377,6 +381,8 @@
 <span class="sd">    * ``now`` (*tuple*) : Current position.</span>
 <span class="sd">    * ``solutions`` (*[tuple]*) : List of positions.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">solutions</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">DiffractometerError</span><span class="p">(</span><span class="s2">&quot;No solutions.&quot;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">solutions</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 
 
@@ -416,12 +422,14 @@
 <span class="sd">        ~add_reflection</span>
 <span class="sd">        ~add_sample</span>
 <span class="sd">        ~auto_assign_axes</span>
+<span class="sd">        ~export</span>
 <span class="sd">        ~forward</span>
 <span class="sd">        ~full_position</span>
 <span class="sd">        ~inverse</span>
 <span class="sd">        ~move_dict</span>
 <span class="sd">        ~move_forward_with_extras</span>
 <span class="sd">        ~move_reals</span>
+<span class="sd">        ~restore</span>
 <span class="sd">        ~scan_extra</span>
 <span class="sd">        ~wh</span>
 
@@ -461,7 +469,7 @@
 
     <span class="n">wavelength</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span>
         <span class="n">AttributeSignal</span><span class="p">,</span>
-        <span class="n">attr</span><span class="o">=</span><span class="s2">&quot;_wavelength.wavelength&quot;</span><span class="p">,</span>
+        <span class="n">attr</span><span class="o">=</span><span class="s2">&quot;_source.wavelength&quot;</span><span class="p">,</span>
         <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Wavelength of incident radiation.&quot;</span><span class="p">,</span>
         <span class="n">write_access</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
         <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">,</span>
@@ -481,7 +489,7 @@
     <span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_backend</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_forward_solution</span> <span class="o">=</span> <span class="n">pick_first_item</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_wavelength</span> <span class="o">=</span> <span class="n">MonochromaticXrayWavelength</span><span class="p">(</span><span class="n">DEFAULT_WAVELENGTH</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_source</span> <span class="o">=</span> <span class="n">MonochromaticXrayWavelength</span><span class="p">(</span><span class="n">DEFAULT_WAVELENGTH</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">operator</span> <span class="o">=</span> <span class="n">Operations</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 
@@ -594,6 +602,92 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">_fromdict</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
 
+<div class="viewcode-block" id="DiffractometerBase.export">
+<a class="viewcode-back" href="../../api/diffract.html#hklpy2.diffract.DiffractometerBase.export">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">export</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file</span><span class="p">,</span> <span class="n">comment</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Export the diffractometer configuration to a YAML file.</span>
+
+<span class="sd">        Example::</span>
+
+<span class="sd">            import hklpy2</span>
+
+<span class="sd">            e4cv = hklpy2.creator(name=&quot;e4cv&quot;)</span>
+<span class="sd">            e4cv.export(&quot;e4cv-config.yml&quot;, comment=&quot;example&quot;)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">path</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+        <span class="n">config</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">configuration</span>
+        <span class="n">config</span><span class="p">[</span><span class="s2">&quot;_header&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">file</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">file</span><span class="p">),</span> <span class="n">comment</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">comment</span><span class="p">)))</span>
+        <span class="n">dump</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span>
+            <span class="n">config</span><span class="p">,</span>
+            <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+            <span class="n">default_flow_style</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">sort_keys</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">y</span><span class="p">:</span>
+            <span class="n">y</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;#hklpy2 configuration file</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">y</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">dump</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="DiffractometerBase.restore">
+<a class="viewcode-back" href="../../api/diffract.html#hklpy2.diffract.DiffractometerBase.restore">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">restore</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">config</span><span class="p">,</span>
+        <span class="n">clear</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">restore_constraints</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">restore_wavelength</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Restore diffractometer configuration.</span>
+
+<span class="sd">        Example::</span>
+
+<span class="sd">            import hklpy2</span>
+
+<span class="sd">            e4cv = hklpy2.creator(name=&quot;e4cv&quot;)</span>
+<span class="sd">            e4cv.restore(&quot;e4cv-config.yml&quot;)</span>
+
+<span class="sd">        PARAMETERS</span>
+
+<span class="sd">        config *dict*, *str*, or *pathlib.Path* object:</span>
+<span class="sd">            Dictionary with configuration, or name (str or pathlib object) of</span>
+<span class="sd">            diffractometer configuration YAML file.</span>
+<span class="sd">        clear *bool*:</span>
+<span class="sd">            If ``True`` (default), remove any previous configuration of the</span>
+<span class="sd">            diffractometer and reset it to default values before restoring the</span>
+<span class="sd">            configuration.</span>
+
+<span class="sd">            If ``False``, sample reflections will be append with all reflections</span>
+<span class="sd">            included in the configuration data for that sample.  Existing</span>
+<span class="sd">            reflections will not be changed.  The user may need to edit the</span>
+<span class="sd">            list of reflections after ``restore(clear=False)``.</span>
+<span class="sd">        restore_constraints *bool*:</span>
+<span class="sd">            If ``True`` (default), restore any constraints provided.</span>
+<span class="sd">        restore_wavelength *bool*:</span>
+<span class="sd">            If ``True`` (default), restore wavelength.</span>
+
+<span class="sd">        Note: Can&#39;t name this method &quot;import&quot;, it&#39;s a reserved Python word.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">)):</span>
+            <span class="n">config</span> <span class="o">=</span> <span class="n">load_yaml_file</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unrecognized configuration: </span><span class="si">{</span><span class="n">config</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">header</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;_header&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">header</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="s2">&quot;Configuration is missing &#39;_header&#39; key.&quot;</span><span class="p">)</span>
+        <span class="c1"># Note: python_class key is not testable, could be anything.</span>
+
+        <span class="k">if</span> <span class="n">restore_wavelength</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_source</span><span class="o">.</span><span class="n">_fromdict</span><span class="p">(</span><span class="n">header</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">configuration</span><span class="o">.</span><span class="n">_fromdict</span><span class="p">(</span>
+            <span class="n">config</span><span class="p">,</span>
+            <span class="n">clear</span><span class="o">=</span><span class="n">clear</span><span class="p">,</span>
+            <span class="n">restore_constraints</span><span class="o">=</span><span class="n">restore_constraints</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+
 <div class="viewcode-block" id="DiffractometerBase.forward">
 <a class="viewcode-back" href="../../api/diffract.html#hklpy2.diffract.DiffractometerBase.forward">[docs]</a>
     <span class="nd">@pseudo_position_argument</span>
@@ -668,7 +762,7 @@
 <span class="sd">                )</span>
 <span class="sd">            )</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1"># TODO: convert input pseudos &amp; reals to positioner objects?</span>
+        <span class="c1"># TODO:  #36</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">extras</span> <span class="o">=</span> <span class="n">extras</span>  <span class="c1"># must come first</span>
         <span class="n">solution</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">pseudos</span><span class="o">.</span><span class="n">values</span><span class="p">()))</span>
         <span class="k">yield from</span> <span class="bp">self</span><span class="o">.</span><span class="n">move_dict</span><span class="p">(</span><span class="n">solution</span><span class="p">)</span></div>
@@ -732,9 +826,8 @@
         <span class="k">if</span> <span class="n">pseudos</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">reals</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Cannot define both pseudos and reals.&quot;</span><span class="p">)</span>
 
-        <span class="c1"># FIXME: Inverse transformation</span>
         <span class="k">if</span> <span class="n">reals</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Inverse transformation.&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Inverse transformation.&quot;</span><span class="p">)</span>  <span class="c1"># FIXME: #37</span>
 
         <span class="n">_md</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s2">&quot;diffractometer&quot;</span><span class="p">:</span> <span class="p">{</span>
@@ -778,8 +871,7 @@
 <span class="w">                    </span><span class="sd">&quot;&quot;&quot;Move extras, then reals or pseudos, move to the solution.&quot;&quot;&quot;</span>
                     <span class="k">if</span> <span class="n">reals</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                         <span class="k">yield from</span> <span class="bp">self</span><span class="o">.</span><span class="n">move_forward_with_extras</span><span class="p">(</span><span class="n">pseudos</span><span class="p">,</span> <span class="n">extras</span><span class="p">)</span>
-                    <span class="c1"># else:</span>
-                    <span class="c1">#     # TODO: Inverse transformation</span>
+                    <span class="c1"># else: # TODO: #37</span>
                     <span class="c1">#     yield from self.inverse_move_with_extras(reals, extras)</span>
 
                 <span class="k">def</span><span class="w"> </span><span class="nf">acquire</span><span class="p">(</span><span class="n">objects</span><span class="p">):</span>
@@ -872,16 +964,17 @@
             <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">label</span><span class="si">}</span><span class="s2">=</span><span class="si">{</span><span class="n">roundoff</span><span class="p">(</span><span class="n">value</span><span class="p">,</span><span class="w"> </span><span class="n">digits</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
 
         <span class="k">def</span><span class="w"> </span><span class="nf">print_axes</span><span class="p">(</span><span class="n">names</span><span class="p">):</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">wh_round</span><span class="p">(</span><span class="n">nm</span><span class="p">,</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nm</span><span class="p">)</span><span class="o">.</span><span class="n">position</span><span class="p">)</span> <span class="k">for</span> <span class="n">nm</span> <span class="ow">in</span> <span class="n">names</span><span class="p">]))</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">wh_round</span><span class="p">(</span><span class="n">nm</span><span class="p">,</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nm</span><span class="p">)</span><span class="o">.</span><span class="n">position</span><span class="p">)</span> <span class="k">for</span> <span class="n">nm</span> <span class="ow">in</span> <span class="n">names</span><span class="p">]))</span>
 
         <span class="k">if</span> <span class="n">full</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;diffractometer=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">!r}</span><span class="s2">&quot;</span><span class="p">)</span>
             <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">solver</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
             <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">sample</span><span class="si">!r}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">reflections</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Orienting reflections: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">reflections</span><span class="o">.</span><span class="n">order</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
             <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;U=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">U</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
             <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;UB=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">UB</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-            <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">reflections</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
-                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">constraints</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
                 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;constraint: </span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
@@ -944,7 +1037,7 @@
         <div class="footer-item">
 
   <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.0.
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
     <br/>
   </p>
 </div>

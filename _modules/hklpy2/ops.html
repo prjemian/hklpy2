@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../../_static/documentation_options.js?v=2cebc65f"></script>
+    <script src="../../_static/documentation_options.js?v=6a9d8632"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/design-tabs.js?v=f930bc37"></script>
@@ -343,8 +343,15 @@
 <span class="sd">    ~Operations</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
+<span class="c1"># TODO:  #36</span>
+
 <span class="kn">import</span><span class="w"> </span><span class="nn">datetime</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Iterable</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Union</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">pyRestTable</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">SolverBase</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.operations.configure</span><span class="w"> </span><span class="kn">import</span> <span class="n">Configuration</span>
@@ -357,6 +364,8 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">.operations.sample</span><span class="w"> </span><span class="kn">import</span> <span class="n">Sample</span>
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Operations&quot;</span><span class="p">]</span>
+
+<span class="n">Number</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span>
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 <span class="n">DEFAULT_SAMPLE_NAME</span> <span class="o">=</span> <span class="s2">&quot;sample&quot;</span>
 
@@ -378,19 +387,18 @@
 
 <span class="sd">        ~_asdict</span>
 <span class="sd">        ~_fromdict</span>
+<span class="sd">        ~_validate_pseudos</span>
 <span class="sd">        ~add_reflection</span>
 <span class="sd">        ~add_sample</span>
 <span class="sd">        ~assign_axes</span>
 <span class="sd">        ~auto_assign_axes</span>
 <span class="sd">        ~calc_UB</span>
-<span class="sd">        ~export</span>
 <span class="sd">        ~forward</span>
 <span class="sd">        ~inverse</span>
 <span class="sd">        ~refine_lattice</span>
 <span class="sd">        ~remove_sample</span>
 <span class="sd">        ~reset_constraints</span>
 <span class="sd">        ~reset_samples</span>
-<span class="sd">        ~restore</span>
 <span class="sd">        ~set_solver</span>
 <span class="sd">        ~standardize_pseudos</span>
 <span class="sd">        ~standardize_reals</span>
@@ -429,19 +437,16 @@
         <span class="kn">from</span><span class="w"> </span><span class="nn">.__init__</span><span class="w"> </span><span class="kn">import</span> <span class="n">__version__</span>
 
         <span class="n">dfrct</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">diffractometer</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">dfrct</span><span class="p">,</span> <span class="s2">&quot;name&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">dfrct</span><span class="p">,</span> <span class="s2">&quot;_wavelength&quot;</span><span class="p">):</span>
-            <span class="k">return</span> <span class="p">{}</span>  <span class="c1"># Ophyd Device not initialized yet.  Empty dict is OK.</span>
+        <span class="c1"># 2025-02-26: Apparently not needed, not easy to setup either.</span>
+        <span class="c1">#     Retain in comment, just in case...</span>
+        <span class="c1"># if not hasattr(dfrct, &quot;name&quot;) or not hasattr(dfrct, &quot;_source&quot;):</span>
+        <span class="c1">#     return {}  # Ophyd Device not initialized yet.  Empty dict is OK.</span>
 
         <span class="n">config</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s2">&quot;_header&quot;</span><span class="p">:</span> <span class="p">{</span>
                 <span class="s2">&quot;datetime&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()),</span>
-                <span class="s2">&quot;energy_units&quot;</span><span class="p">:</span> <span class="n">dfrct</span><span class="o">.</span><span class="n">_wavelength</span><span class="o">.</span><span class="n">energy_units</span><span class="p">,</span>
-                <span class="s2">&quot;energy&quot;</span><span class="p">:</span> <span class="n">dfrct</span><span class="o">.</span><span class="n">_wavelength</span><span class="o">.</span><span class="n">energy</span><span class="p">,</span>
                 <span class="s2">&quot;hklpy2_version&quot;</span><span class="p">:</span> <span class="n">__version__</span><span class="p">,</span>
                 <span class="s2">&quot;python_class&quot;</span><span class="p">:</span> <span class="n">dfrct</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span>
-                <span class="s2">&quot;source_type&quot;</span><span class="p">:</span> <span class="n">dfrct</span><span class="o">.</span><span class="n">_wavelength</span><span class="o">.</span><span class="n">source_type</span><span class="p">,</span>
-                <span class="s2">&quot;wavelength_units&quot;</span><span class="p">:</span> <span class="n">dfrct</span><span class="o">.</span><span class="n">_wavelength</span><span class="o">.</span><span class="n">wavelength_units</span><span class="p">,</span>
-                <span class="s2">&quot;wavelength&quot;</span><span class="p">:</span> <span class="n">dfrct</span><span class="o">.</span><span class="n">_wavelength</span><span class="o">.</span><span class="n">wavelength</span><span class="p">,</span>
             <span class="p">},</span>
             <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">diffractometer</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
             <span class="s2">&quot;axes&quot;</span><span class="p">:</span> <span class="p">{</span>
@@ -454,6 +459,7 @@
             <span class="s2">&quot;constraints&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">constraints</span><span class="o">.</span><span class="n">_asdict</span><span class="p">(),</span>
             <span class="s2">&quot;solver&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">_metadata</span><span class="p">,</span>
         <span class="p">}</span>
+        <span class="n">config</span><span class="p">[</span><span class="s2">&quot;_header&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">diffractometer</span><span class="o">.</span><span class="n">_source</span><span class="o">.</span><span class="n">_asdict</span><span class="p">())</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;hkl_soleil&quot;</span><span class="p">:</span>
             <span class="n">config</span><span class="p">[</span><span class="s2">&quot;solver&quot;</span><span class="p">][</span><span class="s2">&quot;engine&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">engine_name</span>
@@ -469,6 +475,9 @@
         <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">sample</span> <span class="ow">in</span> <span class="n">config</span><span class="p">[</span><span class="s2">&quot;samples&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="n">sample_object</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">add_sample</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
             <span class="n">sample_object</span><span class="o">.</span><span class="n">_fromdict</span><span class="p">(</span><span class="n">sample</span><span class="p">,</span> <span class="n">operator</span><span class="o">=</span><span class="bp">self</span><span class="p">)</span>
+        <span class="n">sname</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;sample_name&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">sname</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sample</span> <span class="o">=</span> <span class="n">sname</span>
 
         <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">constraint</span> <span class="ow">in</span> <span class="n">config</span><span class="p">[</span><span class="s2">&quot;constraints&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="k">if</span> <span class="p">(</span>
@@ -480,6 +489,51 @@
                 <span class="n">axis_local</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">axes_xref_reversed</span><span class="p">[</span><span class="n">axis_canonical</span><span class="p">]</span>
                 <span class="n">constraint</span><span class="p">[</span><span class="s2">&quot;label&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">axis_local</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">constraints</span><span class="o">.</span><span class="n">_fromdict</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;constraints&quot;</span><span class="p">],</span> <span class="n">operator</span><span class="o">=</span><span class="bp">self</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Operations._validate_pseudos">
+<a class="viewcode-back" href="../../api/ops.html#hklpy2.ops.Operations._validate_pseudos">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_validate_pseudos</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pseudos</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Validate that the supplied pseudos are acceptable.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">pseudos</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                <span class="s2">&quot;Pseudos must be tuple, list, or dict.&quot;</span>
+                <span class="c1"># Always show the input.</span>
+                <span class="sa">f</span><span class="s2">&quot;  Received </span><span class="si">{</span><span class="n">pseudos</span><span class="si">!r}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">pseudos</span><span class="p">,</span> <span class="p">(</span><span class="nb">dict</span><span class="p">,</span> <span class="nb">list</span><span class="p">,</span> <span class="nb">set</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unexpected data type: </span><span class="si">{</span><span class="n">pseudos</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="n">expected_names</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">axes_xref_reversed</span><span class="p">[</span><span class="n">n</span><span class="p">]</span>  <span class="c1"># Use diffractometer&#39;s names.</span>
+            <span class="c1"># Just the solver&#39;s pseudos.</span>
+            <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">pseudo_axis_names</span>
+        <span class="p">]</span>
+        <span class="c1"># self.diffractometer.pseudo_axis_names</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">pseudos</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">expected_names</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Expected </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">expected_names</span><span class="p">)</span><span class="si">}</span><span class="s2"> pseudos,&quot;</span>
+                <span class="c1"># Always show the input.</span>
+                <span class="sa">f</span><span class="s2">&quot; received </span><span class="si">{</span><span class="n">pseudos</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+
+        <span class="n">original</span> <span class="o">=</span> <span class="n">pseudos</span>  <span class="c1"># Keep the original for reporting.</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">pseudos</span><span class="p">,</span> <span class="s2">&quot;_asdict&quot;</span><span class="p">):</span>
+            <span class="n">pseudos</span> <span class="o">=</span> <span class="n">pseudos</span><span class="o">.</span><span class="n">_asdict</span><span class="p">()</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">pseudos</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">set</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
+            <span class="c1"># Expect values are provided in canonical order.</span>
+            <span class="n">pseudos</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="n">axis</span><span class="p">:</span> <span class="n">value</span>
+                <span class="c1"># rewrite as dictionary</span>
+                <span class="k">for</span> <span class="n">axis</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">expected_names</span><span class="p">,</span> <span class="n">pseudos</span><span class="p">)</span>
+            <span class="p">}</span>
+        <span class="k">for</span> <span class="n">axis</span> <span class="ow">in</span> <span class="n">expected_names</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">axis</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">pseudos</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Wrong axis names: received </span><span class="si">{</span><span class="n">original</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">pseudos</span><span class="p">[</span><span class="n">axis</span><span class="p">],</span> <span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">)):</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Must be number, received </span><span class="si">{</span><span class="n">original</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="kc">True</span></div>
 
 
 <div class="viewcode-block" id="Operations.add_reflection">
@@ -507,14 +561,9 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">.operations.reflection</span><span class="w"> </span><span class="kn">import</span> <span class="n">Reflection</span>
 
+        <span class="bp">self</span><span class="o">.</span><span class="n">_validate_pseudos</span><span class="p">(</span><span class="n">pseudos</span><span class="p">)</span>
+
         <span class="n">reverse</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">axes_xref_reversed</span>
-        <span class="c1"># fmt: off</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">reverse</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">OperationsError</span><span class="p">(</span>
-                <span class="s2">&quot;Did you forget to call `assign_axes()`&quot;</span>
-                <span class="s2">&quot; or `auto_assign_axes()`?&quot;</span>
-            <span class="p">)</span>
-        <span class="c1"># fmt: on</span>
         <span class="n">pnames</span> <span class="o">=</span> <span class="p">[</span><span class="n">reverse</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">pseudo_axis_names</span><span class="p">]</span>
         <span class="n">rnames</span> <span class="o">=</span> <span class="p">[</span><span class="n">reverse</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">real_axis_names</span><span class="p">]</span>
         <span class="n">pdict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">standardize_pseudos</span><span class="p">(</span><span class="n">pseudos</span><span class="p">,</span> <span class="n">pnames</span><span class="p">)</span>
@@ -589,7 +638,7 @@
                     <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown </span><span class="si">{</span><span class="n">label</span><span class="si">}</span><span class="s2">=</span><span class="si">{</span><span class="n">attr</span><span class="si">!r}</span><span class="s2">.  Known: </span><span class="si">{</span><span class="n">keys</span><span class="si">!r}</span><span class="s2">&quot;</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">keys</span>
 
-        <span class="k">def</span><span class="w"> </span><span class="nf">reference</span><span class="p">(</span><span class="n">dnames</span><span class="p">,</span> <span class="n">snames</span><span class="p">):</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">rebuild_axes_xref</span><span class="p">(</span><span class="n">dnames</span><span class="p">,</span> <span class="n">snames</span><span class="p">):</span>
             <span class="k">for</span> <span class="n">dname</span><span class="p">,</span> <span class="n">sname</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">dnames</span><span class="p">,</span> <span class="n">snames</span><span class="p">):</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">axes_xref</span><span class="p">[</span><span class="n">dname</span><span class="p">]</span> <span class="o">=</span> <span class="n">sname</span>
                 <span class="n">both_p_r</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">dname</span><span class="p">)</span>
@@ -608,8 +657,8 @@
         <span class="n">both_p_r</span> <span class="o">=</span> <span class="n">all_pseudos</span> <span class="o">+</span> <span class="n">all_reals</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">axes_xref</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="n">reference</span><span class="p">(</span><span class="n">pseudos</span><span class="p">,</span> <span class="n">solver</span><span class="o">.</span><span class="n">pseudo_axis_names</span><span class="p">)</span>
-        <span class="n">reference</span><span class="p">(</span><span class="n">reals</span><span class="p">,</span> <span class="n">solver</span><span class="o">.</span><span class="n">real_axis_names</span><span class="p">)</span>
+        <span class="n">rebuild_axes_xref</span><span class="p">(</span><span class="n">pseudos</span><span class="p">,</span> <span class="n">solver</span><span class="o">.</span><span class="n">pseudo_axis_names</span><span class="p">)</span>
+        <span class="n">rebuild_axes_xref</span><span class="p">(</span><span class="n">reals</span><span class="p">,</span> <span class="n">solver</span><span class="o">.</span><span class="n">real_axis_names</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">reset_constraints</span><span class="p">()</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;axes_xref=</span><span class="si">%r</span><span class="s2">&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">axes_xref</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">configuration</span> <span class="o">=</span> <span class="n">Configuration</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">diffractometer</span><span class="p">)</span></div>
@@ -633,6 +682,14 @@
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">axes_xref_reversed</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Map axis names from solver to diffractometer.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">axes_xref</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">solver</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">names</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">pseudo_axis_names</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">real_axis_names</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">names</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="p">{}</span>
+            <span class="k">raise</span> <span class="n">OperationsError</span><span class="p">(</span>
+                <span class="s2">&quot;Did you forget to call `assign_axes()` or `auto_assign_axes()`?&quot;</span>
+            <span class="p">)</span>
         <span class="k">return</span> <span class="p">{</span><span class="n">v</span><span class="p">:</span> <span class="n">k</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">axes_xref</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
 
 <div class="viewcode-block" id="Operations.auto_assign_axes">
@@ -677,9 +734,11 @@
 
 <div class="viewcode-block" id="Operations.calc_UB">
 <a class="viewcode-back" href="../../api/ops.html#hklpy2.ops.Operations.calc_UB">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">calc_UB</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">r1</span><span class="p">:</span> <span class="p">[</span><span class="n">Reflection</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span> <span class="n">r2</span><span class="p">:</span> <span class="p">[</span><span class="n">Reflection</span><span class="p">,</span> <span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">calc_UB</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">r1</span><span class="p">:</span> <span class="p">[</span><span class="n">Reflection</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span> <span class="n">r2</span><span class="p">:</span> <span class="p">[</span><span class="n">Reflection</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Number</span><span class="p">]]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Calculate the UB (orientation) matrix with two reflections.</span>
+<span class="sd">        Calculate and return the UB (orientation) matrix with two reflections.</span>
 
 <span class="sd">        The method of Busing &amp; Levy, Acta Cryst 22 (1967) 457.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -691,7 +750,7 @@
             <span class="n">reflection</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">reflections</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">reflection</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">&quot;Reflection </span><span class="si">{</span><span class="n">reflection</span><span class="si">!r}</span><span class="s2"> unknown.&quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">reflection</span><span class="si">!r}</span><span class="s2"> unknown.&quot;</span>
                     <span class="sa">f</span><span class="s2">&quot;  Knowns: </span><span class="si">{</span><span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">reflections</span><span class="p">)</span><span class="si">!r}</span><span class="s2">&quot;</span>
                 <span class="p">)</span>
             <span class="k">return</span> <span class="n">reflection</span>
@@ -700,23 +759,8 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">reflections</span><span class="o">.</span><span class="n">set_orientation_reflections</span><span class="p">(</span><span class="n">two_reflections</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">calculate_UB</span><span class="p">(</span><span class="o">*</span><span class="n">two_reflections</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">U</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">U</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">UB</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">UB</span></div>
-
-
-<div class="viewcode-block" id="Operations.export">
-<a class="viewcode-back" href="../../api/ops.html#hklpy2.ops.Operations.export">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">export</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file</span><span class="p">,</span> <span class="n">comment</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Export the diffractometer configuration to a YAML file.</span>
-
-<span class="sd">        Example::</span>
-
-<span class="sd">            import hklpy2</span>
-
-<span class="sd">            e4cv = hklpy2.creator(name=&quot;e4cv&quot;)</span>
-<span class="sd">            e4cv.operator.export(&quot;e4cv-config.yml&quot;, comment=&quot;example&quot;)</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">configuration</span><span class="o">.</span><span class="n">export</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">comment</span><span class="p">)</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">UB</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">UB</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">UB</span></div>
 
 
 <div class="viewcode-block" id="Operations.forward">
@@ -734,19 +778,62 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">wavelength</span> <span class="o">=</span> <span class="n">wavelength</span>
 
         <span class="c1"># convert namedtuple to dict</span>
-        <span class="n">pdict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">pseudos</span><span class="o">.</span><span class="n">_fields</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="n">pseudos</span><span class="p">)))</span>
-        <span class="n">reals</span> <span class="o">=</span> <span class="p">{</span>  <span class="c1"># Original values.</span>
-            <span class="n">axis</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">axis</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">diffractometer</span><span class="o">.</span><span class="n">_get_real_positioners</span><span class="p">()</span>
-        <span class="p">}</span>
+        <span class="n">pdict</span> <span class="o">=</span> <span class="n">pseudos</span><span class="o">.</span><span class="n">_asdict</span><span class="p">()</span>
+        <span class="n">reals</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">diffractometer</span><span class="o">.</span><span class="n">real_position</span><span class="o">.</span><span class="n">_asdict</span><span class="p">()</span>  <span class="c1"># Original values.</span>
 
         <span class="c1"># Filter just the solutions that fit the constraints.</span>
+        <span class="n">results</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_axes_names_d2s</span><span class="p">(</span><span class="n">pdict</span><span class="p">))</span>
         <span class="n">solutions</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">for</span> <span class="n">solution</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_axes_names_d2s</span><span class="p">(</span><span class="n">pdict</span><span class="p">)):</span>
+        <span class="k">for</span> <span class="n">solution</span> <span class="ow">in</span> <span class="n">results</span><span class="p">:</span>
             <span class="n">reals</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_axes_names_s2d</span><span class="p">(</span><span class="n">solution</span><span class="p">))</span>  <span class="c1"># Update with new values.</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">constraints</span><span class="o">.</span><span class="n">valid</span><span class="p">(</span><span class="o">**</span><span class="n">reals</span><span class="p">):</span>
                 <span class="n">solutions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">diffractometer</span><span class="o">.</span><span class="n">RealPosition</span><span class="p">(</span><span class="o">**</span><span class="n">reals</span><span class="p">))</span>
 
         <span class="k">return</span> <span class="n">solutions</span></div>
+
+
+<div class="viewcode-block" id="Operations.forward_solutions_table">
+<a class="viewcode-back" href="../../api/ops.html#hklpy2.ops.Operations.forward_solutions_table">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">forward_solutions_table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reflections</span><span class="p">,</span> <span class="n">full</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">digits</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return table of computed solutions for each supplied (hkl) reflection.</span>
+
+<span class="sd">        The solutions are calculated using the current UB matrix &amp; constraints.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        reflections : list of (h, k, l) reflections</span>
+<span class="sd">            Each reflection is a tuple of 3 numbers,</span>
+<span class="sd">            (h, k, l) of the reflection.</span>
+<span class="sd">        full : bool</span>
+<span class="sd">            If ``True``, show all solutions.  If ``False``,</span>
+<span class="sd">            only show the default solution.</span>
+<span class="sd">        digits : int</span>
+<span class="sd">            Number of digits to roundoff each position</span>
+<span class="sd">            value.  Default is 5.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">_table</span> <span class="o">=</span> <span class="n">pyRestTable</span><span class="o">.</span><span class="n">Table</span><span class="p">()</span>
+        <span class="n">motors</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">diffractometer</span><span class="o">.</span><span class="n">real_axis_names</span>
+        <span class="n">_table</span><span class="o">.</span><span class="n">labels</span> <span class="o">=</span> <span class="s2">&quot;(hkl) solution&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">()</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="n">motors</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">reflection</span> <span class="ow">in</span> <span class="n">reflections</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">solutions</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">reflection</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+                <span class="n">solutions</span> <span class="o">=</span> <span class="n">exc</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">solutions</span><span class="p">,</span> <span class="ne">ValueError</span><span class="p">):</span>
+                <span class="n">row</span> <span class="o">=</span> <span class="p">[</span><span class="n">reflection</span><span class="p">,</span> <span class="s2">&quot;none&quot;</span><span class="p">]</span>
+                <span class="n">row</span> <span class="o">+=</span> <span class="p">[</span><span class="s2">&quot;&quot;</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">motors</span><span class="p">]</span>
+                <span class="n">_table</span><span class="o">.</span><span class="n">addRow</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># TODO: get default solution first, then any others</span>
+                <span class="c1"># Don&#39;t assume (as now) that the defaults is the first.</span>
+                <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">solutions</span><span class="p">):</span>
+                    <span class="n">row</span> <span class="o">=</span> <span class="p">[</span><span class="n">reflection</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span>
+                    <span class="n">row</span> <span class="o">+=</span> <span class="p">[</span><span class="nb">round</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">m</span><span class="p">),</span> <span class="n">digits</span><span class="p">)</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">motors</span><span class="p">]</span>
+                    <span class="n">_table</span><span class="o">.</span><span class="n">addRow</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="n">full</span><span class="p">:</span>
+                        <span class="k">break</span>  <span class="c1"># only show the first (default) solution</span>
+        <span class="k">return</span> <span class="n">_table</span></div>
 
 
 <div class="viewcode-block" id="Operations.inverse">
@@ -812,8 +899,13 @@
 <a class="viewcode-back" href="../../api/ops.html#hklpy2.ops.Operations.remove_sample">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">remove_sample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Remove the named sample.  No error if name is not known.&quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">samples</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_samples</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">name</span><span class="p">)</span></div>
+        <span class="k">if</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">samples</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">!r}</span><span class="s2"> not in sample list:</span><span class="si">{</span><span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">samples</span><span class="p">)</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">samples</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">OperationsError</span><span class="p">(</span><span class="s2">&quot;Cannot remove last sample.&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_samples</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_sample_name</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">samples</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span></div>
 
 
 <div class="viewcode-block" id="Operations.reset_constraints">
@@ -827,45 +919,9 @@
 <a class="viewcode-back" href="../../api/ops.html#hklpy2.ops.Operations.reset_samples">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">reset_samples</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Restore diffractometer samples to default settings.&quot;&quot;&quot;</span>
-        <span class="c1"># Remove all the samples.</span>
-        <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">samples</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">remove_sample</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">samples</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_samples</span> <span class="o">=</span> <span class="p">{}</span>  <span class="c1"># Remove all the samples.</span>
         <span class="c1"># Create the default sample.</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">add_sample</span><span class="p">(</span><span class="n">DEFAULT_SAMPLE_NAME</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span></div>
-
-
-<div class="viewcode-block" id="Operations.restore">
-<a class="viewcode-back" href="../../api/ops.html#hklpy2.ops.Operations.restore">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">restore</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file</span><span class="p">,</span> <span class="n">clear</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">restore_constraints</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Restore the diffractometer configuration to a YAML file.</span>
-
-<span class="sd">        Example::</span>
-
-<span class="sd">            import hklpy2</span>
-
-<span class="sd">            e4cv = hklpy2.creator(name=&quot;e4cv&quot;)</span>
-<span class="sd">            e4cv.operator.restore(&quot;e4cv-config.yml&quot;)</span>
-
-<span class="sd">        PARAMETERS</span>
-
-<span class="sd">        file *str* or *pathlib.Path* object:</span>
-<span class="sd">            Name (or pathlib object) of diffractometer configuration YAML file.</span>
-<span class="sd">        clear *bool*:</span>
-<span class="sd">            If ``True`` (default), remove any previous configuration of the</span>
-<span class="sd">            diffractometer and reset it to default values before restoring the</span>
-<span class="sd">            configuration.</span>
-
-<span class="sd">            If ``False``, sample reflections will be append with all reflections</span>
-<span class="sd">            included in the configuration data for that sample.  Existing</span>
-<span class="sd">            reflections will not be changed.  The user may need to edit the</span>
-<span class="sd">            list of reflections after ``restore(clear=False)``.</span>
-<span class="sd">        restore_constraints *bool*:</span>
-<span class="sd">            If ``True`` (default), restore any constraints provided.</span>
-
-<span class="sd">        Note: Can&#39;t name this method &quot;import&quot;, it&#39;s a reserved Python word.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">configuration</span><span class="o">.</span><span class="n">restore</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">clear</span><span class="p">,</span> <span class="n">restore_constraints</span><span class="p">,</span> <span class="n">solver</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="Operations.set_solver">
@@ -896,13 +952,6 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_solver</span><span class="o">.</span><span class="n">sample</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sample</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_solver</span><span class="o">.</span><span class="n">wavelength</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">diffractometer</span><span class="o">.</span><span class="n">wavelength</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_solver</span></div>
-
-
-<div class="viewcode-block" id="Operations._solver_setup">
-<a class="viewcode-back" href="../../api/ops.html#hklpy2.ops.Operations._solver_setup">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">_solver_setup</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Setup the backend |solver| for a transaction.&quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">sample</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sample</span></div>
 
 
 <div class="viewcode-block" id="Operations.standardize_pseudos">
@@ -1021,6 +1070,12 @@
     <span class="nd">@sample</span><span class="o">.</span><span class="n">setter</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">sample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_sample_name</span> <span class="o">=</span> <span class="n">value</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">solver</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">U</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">U</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">UB</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">UB</span>
+            <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+                <span class="k">pass</span>  <span class="c1"># property is not settable</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">samples</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
@@ -1082,7 +1137,7 @@
         <div class="footer-item">
 
   <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.0.
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
     <br/>
   </p>
 </div>

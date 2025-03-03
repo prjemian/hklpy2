@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=2cebc65f"></script>
+    <script src="../_static/documentation_options.js?v=6a9d8632"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
@@ -371,7 +371,7 @@
 <p>Export and restore the sample UB matrix and other diffractometer configuration.</p>
 <section id="module-hklpy2.operations.configure">
 <span id="source-code-documentation"></span><h2>Source Code Documentation<a class="headerlink" href="#module-hklpy2.operations.configure" title="Link to this heading">#</a></h2>
-<p>Export and restore diffractometer configurations.</p>
+<p>Supports export and restore diffractometer configurations.</p>
 <div class="pst-scrollable-table-container"><table class="autosummary longtable table">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.operations.configure.Configuration" title="hklpy2.operations.configure.Configuration"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Configuration</span></code></a>(diffractometer)</p></td>
@@ -406,12 +406,6 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.operations.configure.Configuration._valid" title="hklpy2.operations.configure.Configuration._valid"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_valid</span></code></a>(config)</p></td>
 <td><p>Validate incoming configuration for current diffractometer.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.operations.configure.Configuration.export" title="hklpy2.operations.configure.Configuration.export"><code class="xref py py-obj docutils literal notranslate"><span class="pre">export</span></code></a>(file[, comment])</p></td>
-<td><p>Export the diffractometer configuration to a YAML file.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.operations.configure.Configuration.restore" title="hklpy2.operations.configure.Configuration.restore"><code class="xref py py-obj docutils literal notranslate"><span class="pre">restore</span></code></a>(file[, clear, restore_constraints, ...])</p></td>
-<td><p>Restore the diffractometer configuration to a YAML file.</p></td>
-</tr>
 </tbody>
 </table>
 </div>
@@ -431,48 +425,6 @@
 <dt class="sig sig-object py" id="hklpy2.operations.configure.Configuration._valid">
 <span class="sig-name descname"><span class="pre">_valid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hklpy2/operations/configure.html#Configuration._valid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.operations.configure.Configuration._valid" title="Link to this definition">#</a></dt>
 <dd><p>Validate incoming configuration for current diffractometer.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="hklpy2.operations.configure.Configuration.export">
-<span class="sig-name descname"><span class="pre">export</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">comment</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hklpy2/operations/configure.html#Configuration.export"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.operations.configure.Configuration.export" title="Link to this definition">#</a></dt>
-<dd><p>Export the diffractometer configuration to a YAML file.</p>
-<p>Example:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">hklpy2</span>
-
-<span class="n">e4cv</span> <span class="o">=</span> <span class="n">hklpy2</span><span class="o">.</span><span class="n">creator</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;e4cv&quot;</span><span class="p">)</span>
-<span class="n">e4cv</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">configuration</span><span class="o">.</span><span class="n">export</span><span class="p">(</span><span class="s2">&quot;e4cv-config.yml&quot;</span><span class="p">,</span> <span class="n">comment</span><span class="o">=</span><span class="s2">&quot;example&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="hklpy2.operations.configure.Configuration.restore">
-<span class="sig-name descname"><span class="pre">restore</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clear</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">restore_constraints</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">solver</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hklpy2/operations/configure.html#Configuration.restore"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.operations.configure.Configuration.restore" title="Link to this definition">#</a></dt>
-<dd><p>Restore the diffractometer configuration to a YAML file.</p>
-<p>Example:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">hklpy2</span>
-
-<span class="n">e4cv</span> <span class="o">=</span> <span class="n">hklpy2</span><span class="o">.</span><span class="n">creator</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;e4cv&quot;</span><span class="p">)</span>
-<span class="n">e4cv</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">configuration</span><span class="o">.</span><span class="n">restore</span><span class="p">(</span><span class="s2">&quot;e4cv-config.yml&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>PARAMETERS</p>
-<dl>
-<dt>file <em>str</em> or <em>pathlib.Path</em> object:</dt><dd><p>Name (or pathlib object) of diffractometer configuration YAML file.</p>
-</dd>
-<dt>clear <em>bool</em>:</dt><dd><p>If <code class="docutils literal notranslate"><span class="pre">True</span></code> (default), remove any previous configuration of the
-diffractometer and reset it to default values before restoring the
-configuration.</p>
-<p>If <code class="docutils literal notranslate"><span class="pre">False</span></code>, sample reflections will be append with all reflections
-included in the configuration data for that sample.  Existing
-reflections will not be changed.  The user may need to edit the
-list of reflections after <code class="docutils literal notranslate"><span class="pre">restore(clear=False)</span></code>.</p>
-</dd>
-<dt>restore_constraints <em>bool</em>:</dt><dd><p>If <code class="docutils literal notranslate"><span class="pre">True</span></code> (default), restore any constraints provided.</p>
-</dd>
-</dl>
-<p>Note: Can’t name this method “import”, it’s a reserved Python word.</p>
 </dd></dl>
 
 </dd></dl>
@@ -532,8 +484,6 @@ list of reflections after <code class="docutils literal notranslate"><span class
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.operations.configure.Configuration._asdict"><code class="docutils literal notranslate"><span class="pre">Configuration._asdict()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.operations.configure.Configuration._fromdict"><code class="docutils literal notranslate"><span class="pre">Configuration._fromdict()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.operations.configure.Configuration._valid"><code class="docutils literal notranslate"><span class="pre">Configuration._valid()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.operations.configure.Configuration.export"><code class="docutils literal notranslate"><span class="pre">Configuration.export()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.operations.configure.Configuration.restore"><code class="docutils literal notranslate"><span class="pre">Configuration.restore()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -600,7 +550,7 @@ list of reflections after <code class="docutils literal notranslate"><span class
         <div class="footer-item">
 
   <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.0.
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
     <br/>
   </p>
 </div>

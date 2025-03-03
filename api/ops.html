@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=2cebc65f"></script>
+    <script src="../_static/documentation_options.js?v=6a9d8632"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
@@ -476,23 +476,23 @@ library.</p>
 <tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.ops.Operations._fromdict" title="hklpy2.ops.Operations._fromdict"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_fromdict</span></code></a>(config)</p></td>
 <td><p>Redefine diffractometer from a (configuration) dictionary.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.ops.Operations.add_reflection" title="hklpy2.ops.Operations.add_reflection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_reflection</span></code></a>(pseudos[, reals, wavelength, ...])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.ops.Operations._validate_pseudos" title="hklpy2.ops.Operations._validate_pseudos"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_validate_pseudos</span></code></a>(pseudos)</p></td>
+<td><p>Validate that the supplied pseudos are acceptable.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.ops.Operations.add_reflection" title="hklpy2.ops.Operations.add_reflection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_reflection</span></code></a>(pseudos[, reals, wavelength, ...])</p></td>
 <td><p>Add a new reflection.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.ops.Operations.add_sample" title="hklpy2.ops.Operations.add_sample"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_sample</span></code></a>(name, a[, b, c, alpha, beta, ...])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.ops.Operations.add_sample" title="hklpy2.ops.Operations.add_sample"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_sample</span></code></a>(name, a[, b, c, alpha, beta, ...])</p></td>
 <td><p>Add a new sample.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.ops.Operations.assign_axes" title="hklpy2.ops.Operations.assign_axes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">assign_axes</span></code></a>(pseudos, reals)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.ops.Operations.assign_axes" title="hklpy2.ops.Operations.assign_axes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">assign_axes</span></code></a>(pseudos, reals)</p></td>
 <td><p>Designate attributes for use by the PseudoPositioner class.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.ops.Operations.auto_assign_axes" title="hklpy2.ops.Operations.auto_assign_axes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">auto_assign_axes</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.ops.Operations.auto_assign_axes" title="hklpy2.ops.Operations.auto_assign_axes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">auto_assign_axes</span></code></a>()</p></td>
 <td><p>Automatically assign diffractometer axes to this solver.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.ops.Operations.calc_UB" title="hklpy2.ops.Operations.calc_UB"><code class="xref py py-obj docutils literal notranslate"><span class="pre">calc_UB</span></code></a>(r1, r2)</p></td>
-<td><p>Calculate the UB (orientation) matrix with two reflections.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.ops.Operations.export" title="hklpy2.ops.Operations.export"><code class="xref py py-obj docutils literal notranslate"><span class="pre">export</span></code></a>(file[, comment])</p></td>
-<td><p>Export the diffractometer configuration to a YAML file.</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.ops.Operations.calc_UB" title="hklpy2.ops.Operations.calc_UB"><code class="xref py py-obj docutils literal notranslate"><span class="pre">calc_UB</span></code></a>(r1, r2)</p></td>
+<td><p>Calculate and return the UB (orientation) matrix with two reflections.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.ops.Operations.forward" title="hklpy2.ops.Operations.forward"><code class="xref py py-obj docutils literal notranslate"><span class="pre">forward</span></code></a>(pseudos[, wavelength])</p></td>
 <td><p>Compute [{names:reals}] from {names: pseudos} (hkl -&gt; angles).</p></td>
@@ -512,16 +512,13 @@ library.</p>
 <tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.ops.Operations.reset_samples" title="hklpy2.ops.Operations.reset_samples"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reset_samples</span></code></a>()</p></td>
 <td><p>Restore diffractometer samples to default settings.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.ops.Operations.restore" title="hklpy2.ops.Operations.restore"><code class="xref py py-obj docutils literal notranslate"><span class="pre">restore</span></code></a>(file[, clear, restore_constraints])</p></td>
-<td><p>Restore the diffractometer configuration to a YAML file.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.ops.Operations.set_solver" title="hklpy2.ops.Operations.set_solver"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_solver</span></code></a>(name, geometry, **kwargs)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.ops.Operations.set_solver" title="hklpy2.ops.Operations.set_solver"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_solver</span></code></a>(name, geometry, **kwargs)</p></td>
 <td><p>Create an instance of the backend <strong>Solver</strong> library and geometry.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.ops.Operations.standardize_pseudos" title="hklpy2.ops.Operations.standardize_pseudos"><code class="xref py py-obj docutils literal notranslate"><span class="pre">standardize_pseudos</span></code></a>(pseudos[, expected])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.ops.Operations.standardize_pseudos" title="hklpy2.ops.Operations.standardize_pseudos"><code class="xref py py-obj docutils literal notranslate"><span class="pre">standardize_pseudos</span></code></a>(pseudos[, expected])</p></td>
 <td><p>Convert user-supplied pseudos into dictionary.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.ops.Operations.standardize_reals" title="hklpy2.ops.Operations.standardize_reals"><code class="xref py py-obj docutils literal notranslate"><span class="pre">standardize_reals</span></code></a>(reals[, expected])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.ops.Operations.standardize_reals" title="hklpy2.ops.Operations.standardize_reals"><code class="xref py py-obj docutils literal notranslate"><span class="pre">standardize_reals</span></code></a>(reals[, expected])</p></td>
 <td><p>Convert user-supplied reals into dictionary.</p></td>
 </tr>
 </tbody>
@@ -575,10 +572,13 @@ library.</p>
 <tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.ops.Operations.Sample.reflections" title="hklpy2.ops.Operations.Sample.reflections"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reflections</span></code></a></p></td>
 <td><p>Ordered dictionary of orientation reflections.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.ops.Operations.Sample.U" title="hklpy2.ops.Operations.Sample.U"><code class="xref py py-obj docutils literal notranslate"><span class="pre">U</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.ops.Operations.Sample.remove_reflection" title="hklpy2.ops.Operations.Sample.remove_reflection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">remove_reflection</span></code></a>(name)</p></td>
+<td><p>Remove the named reflection.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.ops.Operations.Sample.U" title="hklpy2.ops.Operations.Sample.U"><code class="xref py py-obj docutils literal notranslate"><span class="pre">U</span></code></a></p></td>
 <td><p>Return the matrix, U, crystal orientation on the diffractometer.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.ops.Operations.Sample.UB" title="hklpy2.ops.Operations.Sample.UB"><code class="xref py py-obj docutils literal notranslate"><span class="pre">UB</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.ops.Operations.Sample.UB" title="hklpy2.ops.Operations.Sample.UB"><code class="xref py py-obj docutils literal notranslate"><span class="pre">UB</span></code></a></p></td>
 <td><p>Return the crystal orientation matrix, UB.</p></td>
 </tr>
 </tbody>
@@ -643,6 +643,12 @@ library.</p>
 <dd><p>Ordered dictionary of orientation reflections.</p>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="hklpy2.ops.Operations.Sample.remove_reflection">
+<span class="sig-name descname"><span class="pre">remove_reflection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#hklpy2.ops.Operations.Sample.remove_reflection" title="Link to this definition">#</a></dt>
+<dd><p>Remove the named reflection.</p>
+</dd></dl>
+
 </dd></dl>
 
 <dl class="py method">
@@ -670,9 +676,9 @@ library.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="hklpy2.ops.Operations._solver_setup">
-<span class="sig-name descname"><span class="pre">_solver_setup</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hklpy2/ops.html#Operations._solver_setup"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.ops.Operations._solver_setup" title="Link to this definition">#</a></dt>
-<dd><p>Setup the backend <strong>Solver</strong> for a transaction.</p>
+<dt class="sig sig-object py" id="hklpy2.ops.Operations._validate_pseudos">
+<span class="sig-name descname"><span class="pre">_validate_pseudos</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pseudos</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><span class="pre">bool</span></a></span></span><a class="reference internal" href="../_modules/hklpy2/ops.html#Operations._validate_pseudos"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.ops.Operations._validate_pseudos" title="Link to this definition">#</a></dt>
+<dd><p>Validate that the supplied pseudos are acceptable.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -734,28 +740,34 @@ names it expects:</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="hklpy2.ops.Operations.calc_UB">
-<span class="sig-name descname"><span class="pre">calc_UB</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">r1:</span> <span class="pre">[&lt;class</span> <span class="pre">'hklpy2.operations.reflection.Reflection'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'str'&gt;],</span> <span class="pre">r2:</span> <span class="pre">[&lt;class</span> <span class="pre">'hklpy2.operations.reflection.Reflection'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'str'&gt;]</span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/hklpy2/ops.html#Operations.calc_UB"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.ops.Operations.calc_UB" title="Link to this definition">#</a></dt>
-<dd><p>Calculate the UB (orientation) matrix with two reflections.</p>
+<span class="sig-name descname"><span class="pre">calc_UB</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">r1:</span> <span class="pre">[&lt;class</span> <span class="pre">'hklpy2.operations.reflection.Reflection'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'str'&gt;],</span> <span class="pre">r2:</span> <span class="pre">[&lt;class</span> <span class="pre">'hklpy2.operations.reflection.Reflection'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'str'&gt;]</span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.13)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.13)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/hklpy2/ops.html#Operations.calc_UB"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.ops.Operations.calc_UB" title="Link to this definition">#</a></dt>
+<dd><p>Calculate and return the UB (orientation) matrix with two reflections.</p>
 <p>The method of Busing &amp; Levy, Acta Cryst 22 (1967) 457.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="hklpy2.ops.Operations.export">
-<span class="sig-name descname"><span class="pre">export</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">comment</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hklpy2/ops.html#Operations.export"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.ops.Operations.export" title="Link to this definition">#</a></dt>
-<dd><p>Export the diffractometer configuration to a YAML file.</p>
-<p>Example:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">hklpy2</span>
-
-<span class="n">e4cv</span> <span class="o">=</span> <span class="n">hklpy2</span><span class="o">.</span><span class="n">creator</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;e4cv&quot;</span><span class="p">)</span>
-<span class="n">e4cv</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">export</span><span class="p">(</span><span class="s2">&quot;e4cv-config.yml&quot;</span><span class="p">,</span> <span class="n">comment</span><span class="o">=</span><span class="s2">&quot;example&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="hklpy2.ops.Operations.forward">
 <span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pseudos</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.13)"><span class="pre">tuple</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">wavelength</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><span class="pre">list</span></a></span></span><a class="reference internal" href="../_modules/hklpy2/ops.html#Operations.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.ops.Operations.forward" title="Link to this definition">#</a></dt>
 <dd><p>Compute [{names:reals}] from {names: pseudos} (hkl -&gt; angles).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="hklpy2.ops.Operations.forward_solutions_table">
+<span class="sig-name descname"><span class="pre">forward_solutions_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">reflections</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">full</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">digits</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hklpy2/ops.html#Operations.forward_solutions_table"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.ops.Operations.forward_solutions_table" title="Link to this definition">#</a></dt>
+<dd><p>Return table of computed solutions for each supplied (hkl) reflection.</p>
+<p>The solutions are calculated using the current UB matrix &amp; constraints.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>reflections</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><em>list</em></a><em> of </em><em>(</em><em>h</em><em>, </em><em>k</em><em>, </em><em>l</em><em>) </em><em>reflections</em>) – Each reflection is a tuple of 3 numbers,
+(h, k, l) of the reflection.</p></li>
+<li><p><strong>full</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a>) – If <code class="docutils literal notranslate"><span class="pre">True</span></code>, show all solutions.  If <code class="docutils literal notranslate"><span class="pre">False</span></code>,
+only show the default solution.</p></li>
+<li><p><strong>digits</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a>) – Number of digits to roundoff each position
+value.  Default is 5.</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py property">
@@ -793,35 +805,6 @@ names it expects:</p>
 <dt class="sig sig-object py" id="hklpy2.ops.Operations.reset_samples">
 <span class="sig-name descname"><span class="pre">reset_samples</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hklpy2/ops.html#Operations.reset_samples"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.ops.Operations.reset_samples" title="Link to this definition">#</a></dt>
 <dd><p>Restore diffractometer samples to default settings.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="hklpy2.ops.Operations.restore">
-<span class="sig-name descname"><span class="pre">restore</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clear</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">restore_constraints</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hklpy2/ops.html#Operations.restore"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.ops.Operations.restore" title="Link to this definition">#</a></dt>
-<dd><p>Restore the diffractometer configuration to a YAML file.</p>
-<p>Example:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">hklpy2</span>
-
-<span class="n">e4cv</span> <span class="o">=</span> <span class="n">hklpy2</span><span class="o">.</span><span class="n">creator</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;e4cv&quot;</span><span class="p">)</span>
-<span class="n">e4cv</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">restore</span><span class="p">(</span><span class="s2">&quot;e4cv-config.yml&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>PARAMETERS</p>
-<dl>
-<dt>file <em>str</em> or <em>pathlib.Path</em> object:</dt><dd><p>Name (or pathlib object) of diffractometer configuration YAML file.</p>
-</dd>
-<dt>clear <em>bool</em>:</dt><dd><p>If <code class="docutils literal notranslate"><span class="pre">True</span></code> (default), remove any previous configuration of the
-diffractometer and reset it to default values before restoring the
-configuration.</p>
-<p>If <code class="docutils literal notranslate"><span class="pre">False</span></code>, sample reflections will be append with all reflections
-included in the configuration data for that sample.  Existing
-reflections will not be changed.  The user may need to edit the
-list of reflections after <code class="docutils literal notranslate"><span class="pre">restore(clear=False)</span></code>.</p>
-</dd>
-<dt>restore_constraints <em>bool</em>:</dt><dd><p>If <code class="docutils literal notranslate"><span class="pre">True</span></code> (default), restore any constraints provided.</p>
-</dd>
-</dl>
-<p>Note: Can’t name this method “import”, it’s a reserved Python word.</p>
 </dd></dl>
 
 <dl class="py property">
@@ -945,28 +928,28 @@ list of reflections after <code class="docutils literal notranslate"><span class
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.ops.Operations.Sample.name"><code class="docutils literal notranslate"><span class="pre">Operations.Sample.name</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.ops.Operations.Sample.refine_lattice"><code class="docutils literal notranslate"><span class="pre">Operations.Sample.refine_lattice()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.ops.Operations.Sample.reflections"><code class="docutils literal notranslate"><span class="pre">Operations.Sample.reflections</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.ops.Operations.Sample.remove_reflection"><code class="docutils literal notranslate"><span class="pre">Operations.Sample.remove_reflection()</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.ops.Operations._asdict"><code class="docutils literal notranslate"><span class="pre">Operations._asdict()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.ops.Operations._axes_names_d2s"><code class="docutils literal notranslate"><span class="pre">Operations._axes_names_d2s()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.ops.Operations._axes_names_s2d"><code class="docutils literal notranslate"><span class="pre">Operations._axes_names_s2d()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.ops.Operations._fromdict"><code class="docutils literal notranslate"><span class="pre">Operations._fromdict()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.ops.Operations._solver_setup"><code class="docutils literal notranslate"><span class="pre">Operations._solver_setup()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.ops.Operations._validate_pseudos"><code class="docutils literal notranslate"><span class="pre">Operations._validate_pseudos()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.ops.Operations.add_reflection"><code class="docutils literal notranslate"><span class="pre">Operations.add_reflection()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.ops.Operations.add_sample"><code class="docutils literal notranslate"><span class="pre">Operations.add_sample()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.ops.Operations.assign_axes"><code class="docutils literal notranslate"><span class="pre">Operations.assign_axes()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.ops.Operations.auto_assign_axes"><code class="docutils literal notranslate"><span class="pre">Operations.auto_assign_axes()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.ops.Operations.axes_xref_reversed"><code class="docutils literal notranslate"><span class="pre">Operations.axes_xref_reversed</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.ops.Operations.calc_UB"><code class="docutils literal notranslate"><span class="pre">Operations.calc_UB()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.ops.Operations.export"><code class="docutils literal notranslate"><span class="pre">Operations.export()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.ops.Operations.forward"><code class="docutils literal notranslate"><span class="pre">Operations.forward()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.ops.Operations.forward_solutions_table"><code class="docutils literal notranslate"><span class="pre">Operations.forward_solutions_table()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.ops.Operations.geometry"><code class="docutils literal notranslate"><span class="pre">Operations.geometry</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.ops.Operations.inverse"><code class="docutils literal notranslate"><span class="pre">Operations.inverse()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.ops.Operations.refine_lattice"><code class="docutils literal notranslate"><span class="pre">Operations.refine_lattice()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.ops.Operations.remove_sample"><code class="docutils literal notranslate"><span class="pre">Operations.remove_sample()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.ops.Operations.reset_constraints"><code class="docutils literal notranslate"><span class="pre">Operations.reset_constraints()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.ops.Operations.reset_samples"><code class="docutils literal notranslate"><span class="pre">Operations.reset_samples()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.ops.Operations.restore"><code class="docutils literal notranslate"><span class="pre">Operations.restore()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.ops.Operations.sample"><code class="docutils literal notranslate"><span class="pre">Operations.sample</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.ops.Operations.samples"><code class="docutils literal notranslate"><span class="pre">Operations.samples</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.ops.Operations.set_solver"><code class="docutils literal notranslate"><span class="pre">Operations.set_solver()</span></code></a></li>
@@ -1039,7 +1022,7 @@ list of reflections after <code class="docutils literal notranslate"><span class
         <div class="footer-item">
 
   <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.0.
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
     <br/>
   </p>
 </div>

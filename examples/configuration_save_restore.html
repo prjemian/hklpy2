@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=2cebc65f"></script>
+    <script src="../_static/documentation_options.js?v=6a9d8632"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
@@ -300,6 +300,7 @@
 <li class="toctree-l2"><a class="reference internal" href="hkl_soleil-lattice_refine.html"><strong>hkl_soleil</strong> Refine lattice from 3 reflections</a></li>
 <li class="toctree-l2"><a class="reference internal" href="hkl_soleil-ub_calc.html"><strong>hkl_soleil</strong> UB matrix : calculate from 2 reflections.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="hkl_soleil-ub_set.html"><strong>hkl_soleil</strong> UB matrix : Set directly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nslsii-tardis.html">NSLS-II tardis diffractometer</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
@@ -428,13 +429,22 @@
 </pre></div>
 </div>
 </div>
-<div class="nboutput nblast docutils container">
+<div class="nboutput docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 Reflection(name=&#39;r1&#39;, geometry=&#39;E4CV&#39;, pseudos={&#39;h&#39;: 1, &#39;k&#39;: 0, &#39;l&#39;: 0}, reals={&#39;omega&#39;: 10, &#39;chi&#39;: 0, &#39;phi&#39;: 0, &#39;tth&#39;: 20}, wavelength=1.0, digits=4)
 Reflection(name=&#39;r2&#39;, geometry=&#39;E4CV&#39;, pseudos={&#39;h&#39;: 0, &#39;k&#39;: 1, &#39;l&#39;: 0}, reals={&#39;omega&#39;: 10, &#39;chi&#39;: -90, &#39;phi&#39;: 0, &#39;tth&#39;: 20}, wavelength=1.0, digits=4)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[[-0.0, -0.0, 1.0], [0.0, -1.0, 0.0], [1.0, -0.0, -0.0]]
 </pre></div></div>
 </div>
 <p>Show details about the diffractometer configuration:</p>
@@ -452,12 +462,12 @@ Reflection(name=&#39;r2&#39;, geometry=&#39;E4CV&#39;, pseudos={&#39;h&#39;: 0, 
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-{&#39;_header&#39;: {&#39;datetime&#39;: &#39;2025-02-18 15:22:12.551188&#39;,
-  &#39;energy_units&#39;: &#39;keV&#39;,
-  &#39;energy&#39;: 12.398419843856837,
-  &#39;hklpy2_version&#39;: &#39;0.0.26.dev46+gcbd9032.d20250218&#39;,
+{&#39;_header&#39;: {&#39;datetime&#39;: &#39;2025-02-28 08:56:54.748993&#39;,
+  &#39;hklpy2_version&#39;: &#39;0.0.26.dev80+g8b020e4.d20250228&#39;,
   &#39;python_class&#39;: &#39;Hklpy2Diffractometer&#39;,
   &#39;source_type&#39;: &#39;X-ray&#39;,
+  &#39;energy_units&#39;: &#39;keV&#39;,
+  &#39;energy&#39;: 12.398419843856837,
   &#39;wavelength_units&#39;: &#39;angstrom&#39;,
   &#39;wavelength&#39;: 1.0},
  &#39;name&#39;: &#39;sim4c&#39;,
@@ -538,7 +548,7 @@ Reflection(name=&#39;r2&#39;, geometry=&#39;E4CV&#39;, pseudos={&#39;h&#39;: 0, 
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sim4c</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">export</span><span class="p">(</span><span class="s2">&quot;dev_e4cv-vibranium.yml&quot;</span><span class="p">,</span> <span class="n">comment</span><span class="o">=</span><span class="s2">&quot;example&quot;</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sim4c</span><span class="o">.</span><span class="n">export</span><span class="p">(</span><span class="s2">&quot;dev_e4cv-vibranium.yml&quot;</span><span class="p">,</span> <span class="n">comment</span><span class="o">=</span><span class="s2">&quot;example&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -559,12 +569,12 @@ Reflection(name=&#39;r2&#39;, geometry=&#39;E4CV&#39;, pseudos={&#39;h&#39;: 0, 
 <span class="ansi-red-fg">#hklpy2 configuration file</span>
 
 _header<span class="ansi-blue-fg">:</span>
-  datetime<span class="ansi-blue-fg">:</span> <span class="ansi-blue-fg">&#39;2025-02-18 15:22:12.696168&#39;</span>
-  energy_units<span class="ansi-blue-fg">:</span> keV
-  energy<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">12.398419843856837</span>
-  hklpy2_version<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">0.0</span><span class="ansi-cyan-fg">.26</span><span class="ansi-blue-fg">.</span>dev46<span class="ansi-blue-fg">+</span>gcbd9032<span class="ansi-blue-fg">.</span>d20250218
+  datetime<span class="ansi-blue-fg">:</span> <span class="ansi-blue-fg">&#39;2025-02-28 08:56:54.890601&#39;</span>
+  hklpy2_version<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">0.0</span><span class="ansi-cyan-fg">.26</span><span class="ansi-blue-fg">.</span>dev80<span class="ansi-blue-fg">+</span>g8b020e4<span class="ansi-blue-fg">.</span>d20250228
   python_class<span class="ansi-blue-fg">:</span> Hklpy2Diffractometer
   source_type<span class="ansi-blue-fg">:</span> X<span class="ansi-blue-fg">-</span>ray
+  energy_units<span class="ansi-blue-fg">:</span> keV
+  energy<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">12.398419843856837</span>
   wavelength_units<span class="ansi-blue-fg">:</span> angstrom
   wavelength<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">1.0</span>
   file<span class="ansi-blue-fg">:</span> dev_e4cv<span class="ansi-blue-fg">-</span>vibranium<span class="ansi-blue-fg">.</span>yml
@@ -738,7 +748,7 @@ solver<span class="ansi-blue-fg">:</span>
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sim4c</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">restore</span><span class="p">(</span><span class="s2">&quot;dev_e4cv-vibranium.yml&quot;</span><span class="p">,</span> <span class="n">clear</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sim4c</span><span class="o">.</span><span class="n">restore</span><span class="p">(</span><span class="s2">&quot;dev_e4cv-vibranium.yml&quot;</span><span class="p">,</span> <span class="n">clear</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -776,12 +786,12 @@ solver<span class="ansi-blue-fg">:</span>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-{&#39;_header&#39;: {&#39;datetime&#39;: &#39;2025-02-18 15:22:12.834557&#39;,
-  &#39;energy_units&#39;: &#39;keV&#39;,
-  &#39;energy&#39;: 12.398419843856837,
-  &#39;hklpy2_version&#39;: &#39;0.0.26.dev46+gcbd9032.d20250218&#39;,
+{&#39;_header&#39;: {&#39;datetime&#39;: &#39;2025-02-28 08:56:55.024844&#39;,
+  &#39;hklpy2_version&#39;: &#39;0.0.26.dev80+g8b020e4.d20250228&#39;,
   &#39;python_class&#39;: &#39;Hklpy2Diffractometer&#39;,
   &#39;source_type&#39;: &#39;X-ray&#39;,
+  &#39;energy_units&#39;: &#39;keV&#39;,
+  &#39;energy&#39;: 12.398419843856837,
   &#39;wavelength_units&#39;: &#39;angstrom&#39;,
   &#39;wavelength&#39;: 1.0},
  &#39;name&#39;: &#39;sim4c&#39;,
@@ -816,13 +826,13 @@ solver<span class="ansi-blue-fg">:</span>
     &#39;beta&#39;: 90.0,
     &#39;gamma&#39;: 90.0},
    &#39;reflections&#39;: {&#39;r1&#39;: {&#39;name&#39;: &#39;r1&#39;,
-     &#39;geometry&#39;: 1.0,
+     &#39;geometry&#39;: &#39;E4CV&#39;,
      &#39;pseudos&#39;: {&#39;h&#39;: 1, &#39;k&#39;: 0, &#39;l&#39;: 0},
      &#39;reals&#39;: {&#39;omega&#39;: 10, &#39;chi&#39;: 0, &#39;phi&#39;: 0, &#39;tth&#39;: 20},
      &#39;wavelength&#39;: 1.0,
      &#39;digits&#39;: 4},
     &#39;r2&#39;: {&#39;name&#39;: &#39;r2&#39;,
-     &#39;geometry&#39;: 1.0,
+     &#39;geometry&#39;: &#39;E4CV&#39;,
      &#39;pseudos&#39;: {&#39;h&#39;: 0, &#39;k&#39;: 1, &#39;l&#39;: 0},
      &#39;reals&#39;: {&#39;omega&#39;: 10, &#39;chi&#39;: -90, &#39;phi&#39;: 0, &#39;tth&#39;: 20},
      &#39;wavelength&#39;: 1.0,
@@ -869,7 +879,7 @@ solver<span class="ansi-blue-fg">:</span>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">hklpy2</span>
 
 <span class="n">sim4c</span> <span class="o">=</span> <span class="n">hklpy2</span><span class="o">.</span><span class="n">creator</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;sim4c&quot;</span><span class="p">)</span>
-<span class="n">sim4c</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">restore</span><span class="p">(</span><span class="s2">&quot;dev_e4cv-vibranium.yml&quot;</span><span class="p">,</span> <span class="n">clear</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">sim4c</span><span class="o">.</span><span class="n">restore</span><span class="p">(</span><span class="s2">&quot;dev_e4cv-vibranium.yml&quot;</span><span class="p">,</span> <span class="n">clear</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -945,12 +955,12 @@ solver<span class="ansi-blue-fg">:</span>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-{&#39;sim4c&#39;: {&#39;_header&#39;: {&#39;datetime&#39;: &#39;2025-02-18 15:22:13.941402&#39;,
-   &#39;energy_units&#39;: &#39;keV&#39;,
-   &#39;energy&#39;: 12.398419843856837,
-   &#39;hklpy2_version&#39;: &#39;0.0.26.dev46+gcbd9032.d20250218&#39;,
+{&#39;sim4c&#39;: {&#39;_header&#39;: {&#39;datetime&#39;: &#39;2025-02-28 08:56:55.871604&#39;,
+   &#39;hklpy2_version&#39;: &#39;0.0.26.dev80+g8b020e4.d20250228&#39;,
    &#39;python_class&#39;: &#39;Hklpy2Diffractometer&#39;,
    &#39;source_type&#39;: &#39;X-ray&#39;,
+   &#39;energy_units&#39;: &#39;keV&#39;,
+   &#39;energy&#39;: 12.398419843856837,
    &#39;wavelength_units&#39;: &#39;angstrom&#39;,
    &#39;wavelength&#39;: 1.0},
   &#39;name&#39;: &#39;sim4c&#39;,
@@ -985,13 +995,13 @@ solver<span class="ansi-blue-fg">:</span>
      &#39;beta&#39;: 90.0,
      &#39;gamma&#39;: 90.0},
     &#39;reflections&#39;: {&#39;r1&#39;: {&#39;name&#39;: &#39;r1&#39;,
-      &#39;geometry&#39;: 1.0,
+      &#39;geometry&#39;: &#39;E4CV&#39;,
       &#39;pseudos&#39;: {&#39;h&#39;: 1, &#39;k&#39;: 0, &#39;l&#39;: 0},
       &#39;reals&#39;: {&#39;omega&#39;: 10, &#39;chi&#39;: 0, &#39;phi&#39;: 0, &#39;tth&#39;: 20},
       &#39;wavelength&#39;: 1.0,
       &#39;digits&#39;: 4},
      &#39;r2&#39;: {&#39;name&#39;: &#39;r2&#39;,
-      &#39;geometry&#39;: 1.0,
+      &#39;geometry&#39;: &#39;E4CV&#39;,
       &#39;pseudos&#39;: {&#39;h&#39;: 0, &#39;k&#39;: 1, &#39;l&#39;: 0},
       &#39;reals&#39;: {&#39;omega&#39;: 10, &#39;chi&#39;: -90, &#39;phi&#39;: 0, &#39;tth&#39;: 20},
       &#39;wavelength&#39;: 1.0,
@@ -1043,20 +1053,22 @@ solver<span class="ansi-blue-fg">:</span>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 BlueskyRun
-  uid=&#39;c600dfdc-2e74-4776-a93c-ecc1e28e348f&#39;
+  uid=&#39;14b377e7-b7fb-4474-b567-1234508156c7&#39;
   exit_status=&#39;success&#39;
-  2025-02-18 15:22:13.944 -- 2025-02-18 15:22:13.969
+  2025-02-28 08:56:55.873 -- 2025-02-28 08:56:55.898
   Streams:
     * primary
 
 </pre></div></div>
 </div>
-<p>Get the configuration of the <code class="docutils literal notranslate"><span class="pre">&quot;sim4c&quot;</span></code> diffractometer.</p>
+<p>Get the configuration of the <code class="docutils literal notranslate"><span class="pre">&quot;sim4c&quot;</span></code> diffractometer using <code class="docutils literal notranslate"><span class="pre">hklpy2.operations.misc.get_run_orientation()</span></code>.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">e4cv_configuration</span> <span class="o">=</span> <span class="n">run</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;start&quot;</span><span class="p">][</span><span class="s2">&quot;diffractometers&quot;</span><span class="p">][</span><span class="s2">&quot;sim4c&quot;</span><span class="p">]</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">hklpy2.operations.misc</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_run_orientation</span>
+
+<span class="n">e4cv_configuration</span> <span class="o">=</span> <span class="n">get_run_orientation</span><span class="p">(</span><span class="n">run</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;sim4c&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1095,12 +1107,12 @@ BlueskyRun
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-{&#39;_header&#39;: {&#39;datetime&#39;: &#39;2025-02-18 15:22:13.941402&#39;,
-  &#39;energy_units&#39;: &#39;keV&#39;,
-  &#39;energy&#39;: 12.398419843856837,
-  &#39;hklpy2_version&#39;: &#39;0.0.26.dev46+gcbd9032.d20250218&#39;,
+{&#39;_header&#39;: {&#39;datetime&#39;: &#39;2025-02-28 08:56:55.871604&#39;,
+  &#39;hklpy2_version&#39;: &#39;0.0.26.dev80+g8b020e4.d20250228&#39;,
   &#39;python_class&#39;: &#39;Hklpy2Diffractometer&#39;,
   &#39;source_type&#39;: &#39;X-ray&#39;,
+  &#39;energy_units&#39;: &#39;keV&#39;,
+  &#39;energy&#39;: 12.398419843856837,
   &#39;wavelength_units&#39;: &#39;angstrom&#39;,
   &#39;wavelength&#39;: 1.0},
  &#39;name&#39;: &#39;sim4c&#39;,
@@ -1135,13 +1147,13 @@ BlueskyRun
     &#39;beta&#39;: 90.0,
     &#39;gamma&#39;: 90.0},
    &#39;reflections&#39;: {&#39;r1&#39;: {&#39;name&#39;: &#39;r1&#39;,
-     &#39;geometry&#39;: 1.0,
+     &#39;geometry&#39;: &#39;E4CV&#39;,
      &#39;pseudos&#39;: {&#39;h&#39;: 1, &#39;k&#39;: 0, &#39;l&#39;: 0},
      &#39;reals&#39;: {&#39;omega&#39;: 10, &#39;chi&#39;: 0, &#39;phi&#39;: 0, &#39;tth&#39;: 20},
      &#39;wavelength&#39;: 1.0,
      &#39;digits&#39;: 4},
     &#39;r2&#39;: {&#39;name&#39;: &#39;r2&#39;,
-     &#39;geometry&#39;: 1.0,
+     &#39;geometry&#39;: &#39;E4CV&#39;,
      &#39;pseudos&#39;: {&#39;h&#39;: 0, &#39;k&#39;: 1, &#39;l&#39;: 0},
      &#39;reals&#39;: {&#39;omega&#39;: 10, &#39;chi&#39;: -90, &#39;phi&#39;: 0, &#39;tth&#39;: 20},
      &#39;wavelength&#39;: 1.0,
@@ -1316,7 +1328,7 @@ BlueskyRun
         <div class="footer-item">
 
   <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.0.
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
     <br/>
   </p>
 </div>

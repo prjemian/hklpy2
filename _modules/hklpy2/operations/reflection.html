@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../../../_static/documentation_options.js?v=2cebc65f"></script>
+    <script src="../../../_static/documentation_options.js?v=6a9d8632"></script>
     <script src="../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -485,14 +485,14 @@
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Standard representation of reflection.</span>
+<span class="sd">        Standard brief representation of reflection.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">parameters</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_asdict</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">float</span><span class="p">):</span>
-                <span class="n">v</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">digits</span><span class="p">)</span>
-            <span class="n">parameters</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">=</span><span class="si">{</span><span class="n">v</span><span class="si">!r}</span><span class="s2">&quot;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="s2">&quot;Reflection(&quot;</span> <span class="o">+</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">parameters</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;)&quot;</span>
+        <span class="n">pseudos</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">=</span><span class="si">{</span><span class="nb">round</span><span class="p">(</span><span class="n">v</span><span class="p">,</span><span class="w"> </span><span class="bp">self</span><span class="o">.</span><span class="n">digits</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>  <span class="c1"># roundoff</span>
+            <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">pseudos</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+        <span class="p">]</span>
+        <span class="n">guts</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;name=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">!r}</span><span class="s2">&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">pseudos</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">(</span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">guts</span><span class="p">)</span><span class="si">}</span><span class="s2">)&quot;</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">r2</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -631,14 +631,6 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_order</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">geometry</span> <span class="o">=</span> <span class="kc">None</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Standard representation of reflections list.</span>
-
-<span class="sd">        Order numbers start from zero.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="nb">repr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_asdict</span><span class="p">())</span>
-
 <div class="viewcode-block" id="ReflectionsDict._asdict">
 <a class="viewcode-back" href="../../../api/reflection.html#hklpy2.operations.reflection.ReflectionsDict._asdict">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">_asdict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -675,7 +667,7 @@
                 <span class="n">refl_config</span><span class="p">[</span><span class="s2">&quot;pseudos&quot;</span><span class="p">],</span>
                 <span class="n">refl_config</span><span class="p">[</span><span class="s2">&quot;reals&quot;</span><span class="p">],</span>
                 <span class="n">wavelength</span><span class="o">=</span><span class="n">refl_config</span><span class="p">[</span><span class="s2">&quot;wavelength&quot;</span><span class="p">],</span>
-                <span class="n">geometry</span><span class="o">=</span><span class="n">refl_config</span><span class="p">[</span><span class="s2">&quot;wavelength&quot;</span><span class="p">],</span>
+                <span class="n">geometry</span><span class="o">=</span><span class="n">refl_config</span><span class="p">[</span><span class="s2">&quot;geometry&quot;</span><span class="p">],</span>
                 <span class="n">pseudo_axis_names</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">refl_config</span><span class="p">[</span><span class="s2">&quot;pseudos&quot;</span><span class="p">]),</span>
                 <span class="n">real_axis_names</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">refl_config</span><span class="p">[</span><span class="s2">&quot;reals&quot;</span><span class="p">]),</span>
                 <span class="n">digits</span><span class="o">=</span><span class="n">refl_config</span><span class="p">[</span><span class="s2">&quot;digits&quot;</span><span class="p">],</span>  <span class="c1"># TODO: Digits are optional?</span>
@@ -731,12 +723,13 @@
 <div class="viewcode-block" id="ReflectionsDict.swap">
 <a class="viewcode-back" href="../../../api/reflection.html#hklpy2.operations.reflection.ReflectionsDict.swap">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">swap</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Swap the two named orientation reflections.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Swap the first two orientation reflections.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">order</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">ReflectionError</span><span class="p">(</span><span class="s2">&quot;Need at least two reflections to swap.&quot;</span><span class="p">)</span>
         <span class="n">rname1</span><span class="p">,</span> <span class="n">rname2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">order</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_order</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">rname2</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_order</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">rname1</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_order</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">rname1</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">order</span></div>
 
 
 <div class="viewcode-block" id="ReflectionsDict._validate_reflection">
@@ -847,7 +840,7 @@
         <div class="footer-item">
 
   <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.0.
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
     <br/>
   </p>
 </div>

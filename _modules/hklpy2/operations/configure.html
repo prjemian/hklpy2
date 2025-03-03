@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../../../_static/documentation_options.js?v=2cebc65f"></script>
+    <script src="../../../_static/documentation_options.js?v=6a9d8632"></script>
     <script src="../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -333,7 +333,7 @@
                   
   <h1>Source code for hklpy2.operations.configure</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">Export and restore diffractometer configurations.</span>
+<span class="sd">Supports export and restore diffractometer configurations.</span>
 
 <span class="sd">.. autosummary::</span>
 
@@ -349,12 +349,8 @@
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">pathlib</span>
-
-<span class="kn">import</span><span class="w"> </span><span class="nn">yaml</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">.misc</span><span class="w"> </span><span class="kn">import</span> <span class="n">ConfigurationError</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">.misc</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_yaml_file</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
@@ -370,8 +366,6 @@
 <span class="sd">        ~_asdict</span>
 <span class="sd">        ~_fromdict</span>
 <span class="sd">        ~_valid</span>
-<span class="sd">        ~export</span>
-<span class="sd">        ~restore</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">diffractometer</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -382,73 +376,6 @@
     <span class="k">def</span><span class="w"> </span><span class="nf">_asdict</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return diffractometer&#39;s configuration as a dict.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">diffractometer</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">_asdict</span><span class="p">()</span></div>
-
-
-<div class="viewcode-block" id="Configuration.export">
-<a class="viewcode-back" href="../../../api/configure.html#hklpy2.operations.configure.Configuration.export">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">export</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file</span><span class="p">,</span> <span class="n">comment</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Export the diffractometer configuration to a YAML file.</span>
-
-<span class="sd">        Example::</span>
-
-<span class="sd">            import hklpy2</span>
-
-<span class="sd">            e4cv = hklpy2.creator(name=&quot;e4cv&quot;)</span>
-<span class="sd">            e4cv.operator.configuration.export(&quot;e4cv-config.yml&quot;, comment=&quot;example&quot;)</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">path</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
-        <span class="n">config</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">diffractometer</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">_asdict</span><span class="p">()</span>
-        <span class="n">config</span><span class="p">[</span><span class="s2">&quot;_header&quot;</span><span class="p">][</span><span class="s2">&quot;file&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
-        <span class="n">config</span><span class="p">[</span><span class="s2">&quot;_header&quot;</span><span class="p">][</span><span class="s2">&quot;comment&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">comment</span><span class="p">)</span>
-        <span class="n">dump</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span>
-            <span class="n">config</span><span class="p">,</span>
-            <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
-            <span class="n">default_flow_style</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-            <span class="n">sort_keys</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-        <span class="p">)</span>
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">y</span><span class="p">:</span>
-            <span class="n">y</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;#hklpy2 configuration file</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="p">)</span>
-            <span class="n">y</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">dump</span><span class="p">)</span></div>
-
-
-<div class="viewcode-block" id="Configuration.restore">
-<a class="viewcode-back" href="../../../api/configure.html#hklpy2.operations.configure.Configuration.restore">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">restore</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file</span><span class="p">,</span> <span class="n">clear</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">restore_constraints</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">solver</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Restore the diffractometer configuration to a YAML file.</span>
-
-<span class="sd">        Example::</span>
-
-<span class="sd">            import hklpy2</span>
-
-<span class="sd">            e4cv = hklpy2.creator(name=&quot;e4cv&quot;)</span>
-<span class="sd">            e4cv.operator.configuration.restore(&quot;e4cv-config.yml&quot;)</span>
-
-<span class="sd">        PARAMETERS</span>
-
-<span class="sd">        file *str* or *pathlib.Path* object:</span>
-<span class="sd">            Name (or pathlib object) of diffractometer configuration YAML file.</span>
-<span class="sd">        clear *bool*:</span>
-<span class="sd">            If ``True`` (default), remove any previous configuration of the</span>
-<span class="sd">            diffractometer and reset it to default values before restoring the</span>
-<span class="sd">            configuration.</span>
-
-<span class="sd">            If ``False``, sample reflections will be append with all reflections</span>
-<span class="sd">            included in the configuration data for that sample.  Existing</span>
-<span class="sd">            reflections will not be changed.  The user may need to edit the</span>
-<span class="sd">            list of reflections after ``restore(clear=False)``.</span>
-<span class="sd">        restore_constraints *bool*:</span>
-<span class="sd">            If ``True`` (default), restore any constraints provided.</span>
-
-<span class="sd">        Note: Can&#39;t name this method &quot;import&quot;, it&#39;s a reserved Python word.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">path</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
-            <span class="k">raise</span> <span class="ne">FileExistsError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-
-        <span class="n">config</span> <span class="o">=</span> <span class="n">load_yaml_file</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_fromdict</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">clear</span><span class="p">,</span> <span class="n">restore_constraints</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="Configuration._fromdict">
@@ -574,7 +501,7 @@
         <div class="footer-item">
 
   <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.0.
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
     <br/>
   </p>
 </div>

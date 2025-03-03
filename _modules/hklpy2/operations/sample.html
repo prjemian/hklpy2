@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../../../_static/documentation_options.js?v=2cebc65f"></script>
+    <script src="../../../_static/documentation_options.js?v=6a9d8632"></script>
     <script src="../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -335,8 +335,6 @@
 <span></span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">A Crystalline Sample.</span>
 
-<span class="sd">.. caution: work-in-progress</span>
-
 <span class="sd">.. autosummary::</span>
 
 <span class="sd">    ~Sample</span>
@@ -375,6 +373,7 @@
 <span class="sd">        ~lattice</span>
 <span class="sd">        ~name</span>
 <span class="sd">        ~reflections</span>
+<span class="sd">        ~remove_reflection</span>
 <span class="sd">        ~U</span>
 <span class="sd">        ~UB</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -399,6 +398,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">reflections</span> <span class="o">=</span> <span class="n">ReflectionsDict</span><span class="p">()</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Brief text representation.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Sample(name=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">!r}</span><span class="s2">, lattice=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">lattice</span><span class="si">!r}</span><span class="s2">)&quot;</span>
 
 <div class="viewcode-block" id="Sample._asdict">
@@ -437,7 +437,18 @@
             <span class="k">raise</span> <span class="n">SampleError</span><span class="p">(</span><span class="s2">&quot;Need 3 or more reflections to refine lattice.&quot;</span><span class="p">)</span></div>
 
 
-        <span class="c1"># self.operator.refineLattice()  # TODO: refine lattice</span>
+        <span class="c1"># self.operator.refineLattice()  # TODO: #40</span>
+
+<div class="viewcode-block" id="Sample.remove_reflection">
+<a class="viewcode-back" href="../../../api/sample.html#hklpy2.operations.sample.Sample.remove_reflection">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">remove_reflection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Remove the named reflection.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">reflections</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Reflection </span><span class="si">{</span><span class="n">name</span><span class="si">!r}</span><span class="s2"> is not found.&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reflections</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">reflections</span><span class="o">.</span><span class="n">order</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">reflections</span><span class="o">.</span><span class="n">order</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">name</span><span class="p">)</span></div>
+
 
     <span class="c1"># --------- get/set properties</span>
 
@@ -505,7 +516,7 @@
 
     <span class="nd">@UB</span><span class="o">.</span><span class="n">setter</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">UB</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]]):</span>
-        <span class="c1"># TODO: validate</span>
+        <span class="c1"># TODO: #41 validate</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_UB</span> <span class="o">=</span> <span class="n">value</span></div>
 
 </pre></div>
@@ -558,7 +569,7 @@
         <div class="footer-item">
 
   <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.0.
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
     <br/>
   </p>
 </div>

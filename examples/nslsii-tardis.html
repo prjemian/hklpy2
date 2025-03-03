@@ -1,0 +1,882 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>NSLS-II tardis diffractometer &#8212; hklpy2 0.0</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=6a9d8632"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'examples/nslsii-tardis';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Installation" href="../install.html" />
+    <link rel="prev" title="hkl_soleil UB matrix : Set directly" href="hkl_soleil-ub_set.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="0.0" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">hklpy2 0.0</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../guide.html">
+    User Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../api.html">
+    API
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/prjemian/hklpy2" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../guide.html">
+    User Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../api.html">
+    API
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/prjemian/hklpy2" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../design-discussion.html">Design for hklpy2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../checklist_v2.html">Feature Checklist for v2</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../examples.html">Examples</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="_api_demo.html">Demonstrate <strong>hklpy2</strong>’s API</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="configuration_save_restore.html">Diffractometer Configuration – Save and Restore</a></li>
+<li class="toctree-l2"><a class="reference internal" href="diffract.html">Diffractometer Axis Names</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hkl_soleil-e6c-psi.html"><strong>hkl_soleil</strong> E6C <span class="math notranslate nohighlight">\(\psi\)</span> (psi) axis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hkl_soleil-lattice_refine.html"><strong>hkl_soleil</strong> Refine lattice from 3 reflections</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hkl_soleil-ub_calc.html"><strong>hkl_soleil</strong> UB matrix : calculate from 2 reflections.</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hkl_soleil-ub_set.html"><strong>hkl_soleil</strong> UB matrix : Set directly</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">NSLS-II tardis diffractometer</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../guide.html" class="nav-link">User Guide</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="../examples.html" class="nav-link">Examples</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">NSLS-II tardis diffractometer</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="NSLS-II-tardis-diffractometer">
+<h1>NSLS-II tardis diffractometer<a class="headerlink" href="#NSLS-II-tardis-diffractometer" title="Link to this heading">#</a></h1>
+<p>The steps to setup <em>tardis</em> in <strong>hklpy2</strong> are described below.</p>
+<p><em>tardis</em> is an environmental chamber with a 3-axis diffractometer, <em>operated with</em> hkl_soleil solver’s E6C geometry, with some of the real axes <a class="reference external" href="https://github.com/NSLS-II-CSX/profile_collection/blob/fc5d2bc5c542d83c2593b4f5066f52a5b04d748d/startup/csx1/startup/tardis.py#L31-L37">renamed</a>. Some E6C axes do not exist in <em>tardis</em>; they are fixed at zero.</p>
+<p>The next schematic shows the <em>tardis</em> axes in the E6C geometry. Energy units are <em>eV</em>, wavelength units are <em>angstrom</em>.</p>
+<img alt="tardis schematic" src="../_images/nslsii-tardis.png" />
+<section id="Create-the-tardis-object.">
+<h2>Create the <code class="docutils literal notranslate"><span class="pre">tardis</span></code> object.<a class="headerlink" href="#Create-the-tardis-object." title="Link to this heading">#</a></h2>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">hklpy2</span>
+
+<span class="n">tardis</span> <span class="o">=</span> <span class="n">hklpy2</span><span class="o">.</span><span class="n">creator</span><span class="p">(</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;tardis&quot;</span><span class="p">,</span>
+    <span class="n">geometry</span><span class="o">=</span><span class="s2">&quot;E6C&quot;</span><span class="p">,</span>
+    <span class="n">solver</span><span class="o">=</span><span class="s2">&quot;hkl_soleil&quot;</span><span class="p">,</span>
+    <span class="n">reals</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
+        <span class="n">theta</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>  <span class="c1"># None: use simulated motor</span>
+        <span class="n">mu</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">chi</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">phi</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">delta</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">gamma</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="p">),</span>
+    <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;tardis&quot;</span><span class="p">],</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>Configure some basic operating parameters.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tardis</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">mode</span> <span class="o">=</span> <span class="s2">&quot;lifting_detector_mu&quot;</span>
+<span class="n">tardis</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">constraints</span><span class="p">[</span><span class="s2">&quot;gamma&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">limits</span> <span class="o">=</span> <span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">180</span>
+<span class="n">tardis</span><span class="o">.</span><span class="n">_source</span><span class="o">.</span><span class="n">wavelength_units</span> <span class="o">=</span> <span class="s2">&quot;angstrom&quot;</span>
+<span class="n">tardis</span><span class="o">.</span><span class="n">_source</span><span class="o">.</span><span class="n">energy_units</span> <span class="o">=</span> <span class="s2">&quot;eV&quot;</span>
+<span class="n">tardis</span><span class="o">.</span><span class="n">wavelength</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="mf">13.317314715359827</span><span class="p">)</span>
+
+<span class="n">tardis</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">constraints</span><span class="p">[</span><span class="s2">&quot;theta&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">limits</span> <span class="o">=</span> <span class="o">-</span><span class="mi">181</span><span class="p">,</span> <span class="mi">181</span>
+<span class="n">tardis</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">constraints</span><span class="p">[</span><span class="s2">&quot;delta&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">limits</span> <span class="o">=</span> <span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">180</span>
+<span class="n">tardis</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">constraints</span><span class="p">[</span><span class="s2">&quot;gamma&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">limits</span> <span class="o">=</span> <span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">180</span>
+
+<span class="c1"># tardis does not have these axes, fix them at zero</span>
+<span class="n">tardis</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">constraints</span><span class="p">[</span><span class="s2">&quot;chi&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">limits</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span>
+<span class="n">tardis</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">constraints</span><span class="p">[</span><span class="s2">&quot;mu&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">limits</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span>
+<span class="n">tardis</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">constraints</span><span class="p">[</span><span class="s2">&quot;phi&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">limits</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Add-a-sample">
+<h2>Add a sample<a class="headerlink" href="#Add-a-sample" title="Link to this heading">#</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tardis</span><span class="o">.</span><span class="n">add_sample</span><span class="p">(</span><span class="s2">&quot;KCF&quot;</span><span class="p">,</span> <span class="mf">5.857</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="mf">7.849</span><span class="p">)</span>  <span class="c1"># tetragonal</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Sample(name=&#39;KCF&#39;, lattice=Lattice(a=5.857, c=7.849, system=&#39;tetragonal&#39;))
+</pre></div></div>
+</div>
+</section>
+<section id="Orient">
+<h2>Orient<a class="headerlink" href="#Orient" title="Link to this heading">#</a></h2>
+<p>Add two observed reflections.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">r1</span> <span class="o">=</span> <span class="n">tardis</span><span class="o">.</span><span class="n">add_reflection</span><span class="p">(</span>
+    <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+    <span class="nb">dict</span><span class="p">(</span>
+        <span class="n">theta</span><span class="o">=</span><span class="mf">48.42718305024724</span><span class="p">,</span>
+        <span class="n">mu</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">chi</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">phi</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">delta</span><span class="o">=</span><span class="mf">115.65436271083637</span><span class="p">,</span>
+        <span class="n">gamma</span><span class="o">=</span><span class="mf">3.0000034909999993</span><span class="p">,</span>
+    <span class="p">),</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;r1&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">r2</span> <span class="o">=</span> <span class="n">tardis</span><span class="o">.</span><span class="n">add_reflection</span><span class="p">(</span>
+    <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+    <span class="nb">dict</span><span class="p">(</span>
+        <span class="n">theta</span><span class="o">=</span><span class="mf">138.42718305024724</span><span class="p">,</span>
+        <span class="n">mu</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">chi</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">phi</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">delta</span><span class="o">=</span><span class="mf">115.65436271083637</span><span class="p">,</span>
+        <span class="n">gamma</span><span class="o">=</span><span class="mf">3.0000034909999993</span><span class="p">,</span>
+    <span class="p">),</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;r2&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>Calculate the <span class="math notranslate nohighlight">\(UB\)</span> (orientation) matrix.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tardis</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">calc_UB</span><span class="p">(</span><span class="n">r1</span><span class="p">,</span> <span class="n">r2</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">tardis</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">UB</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+tardis.operator.solver.UB=[[0.728792306003, 0.76737046489, -0.13102164758], [0.096473472661, 0.150408008639, 0.789324567316], [0.781267973381, -0.734401118598, 0.024752949397]]
+</pre></div></div>
+</div>
+</section>
+<section id="Save">
+<h2>Save<a class="headerlink" href="#Save" title="Link to this heading">#</a></h2>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tardis</span><span class="o">.</span><span class="n">export</span><span class="p">(</span>
+    <span class="s2">&quot;dev_tardis-kcf.yml&quot;</span><span class="p">,</span>
+    <span class="n">comment</span><span class="o">=</span><span class="s2">&quot;NSLS-II tardis with oriented KCF sample&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>Show that configuration.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">pycat</span> dev_tardis-kcf.yml
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-red-fg">#hklpy2 configuration file</span>
+
+_header<span class="ansi-blue-fg">:</span>
+  datetime<span class="ansi-blue-fg">:</span> <span class="ansi-blue-fg">&#39;2025-02-28 08:50:21.097209&#39;</span>
+  hklpy2_version<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">0.0</span><span class="ansi-cyan-fg">.26</span><span class="ansi-blue-fg">.</span>dev80<span class="ansi-blue-fg">+</span>g8b020e4<span class="ansi-blue-fg">.</span>d20250228
+  python_class<span class="ansi-blue-fg">:</span> Hklpy2Diffractometer
+  source_type<span class="ansi-blue-fg">:</span> X<span class="ansi-blue-fg">-</span>ray
+  energy_units<span class="ansi-blue-fg">:</span> eV
+  energy<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">930.9999882751769</span>
+  wavelength_units<span class="ansi-blue-fg">:</span> angstrom
+  wavelength<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">13.317314715359826</span>
+  file<span class="ansi-blue-fg">:</span> dev_tardis<span class="ansi-blue-fg">-</span>kcf<span class="ansi-blue-fg">.</span>yml
+  comment<span class="ansi-blue-fg">:</span> NSLS<span class="ansi-blue-fg">-</span>II tardis <span class="ansi-green-fg">with</span> oriented KCF sample
+name<span class="ansi-blue-fg">:</span> tardis
+axes<span class="ansi-blue-fg">:</span>
+  pseudo_axes<span class="ansi-blue-fg">:</span>
+  <span class="ansi-blue-fg">-</span> h
+  <span class="ansi-blue-fg">-</span> k
+  <span class="ansi-blue-fg">-</span> l
+  real_axes<span class="ansi-blue-fg">:</span>
+  <span class="ansi-blue-fg">-</span> theta
+  <span class="ansi-blue-fg">-</span> mu
+  <span class="ansi-blue-fg">-</span> chi
+  <span class="ansi-blue-fg">-</span> phi
+  <span class="ansi-blue-fg">-</span> delta
+  <span class="ansi-blue-fg">-</span> gamma
+  axes_xref<span class="ansi-blue-fg">:</span>
+    h<span class="ansi-blue-fg">:</span> h
+    k<span class="ansi-blue-fg">:</span> k
+    l<span class="ansi-blue-fg">:</span> l
+    theta<span class="ansi-blue-fg">:</span> mu
+    mu<span class="ansi-blue-fg">:</span> omega
+    chi<span class="ansi-blue-fg">:</span> chi
+    phi<span class="ansi-blue-fg">:</span> phi
+    delta<span class="ansi-blue-fg">:</span> gamma
+    gamma<span class="ansi-blue-fg">:</span> delta
+  extra_axes<span class="ansi-blue-fg">:</span> <span class="ansi-blue-fg">{</span><span class="ansi-blue-fg">}</span>
+sample_name<span class="ansi-blue-fg">:</span> KCF
+samples<span class="ansi-blue-fg">:</span>
+  sample<span class="ansi-blue-fg">:</span>
+    name<span class="ansi-blue-fg">:</span> sample
+    lattice<span class="ansi-blue-fg">:</span>
+      a<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">1</span>
+      b<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">1</span>
+      c<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">1</span>
+      alpha<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">90.0</span>
+      beta<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">90.0</span>
+      gamma<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">90.0</span>
+    reflections<span class="ansi-blue-fg">:</span> <span class="ansi-blue-fg">{</span><span class="ansi-blue-fg">}</span>
+    reflections_order<span class="ansi-blue-fg">:</span> <span class="ansi-blue-fg">[</span><span class="ansi-blue-fg">]</span>
+    U<span class="ansi-blue-fg">:</span> <span class="ansi-blue-fg">&amp;</span>id001
+    <span class="ansi-blue-fg">-</span> <span class="ansi-blue-fg">-</span> <span class="ansi-cyan-fg">1</span>
+      <span class="ansi-blue-fg">-</span> <span class="ansi-cyan-fg">0</span>
+      <span class="ansi-blue-fg">-</span> <span class="ansi-cyan-fg">0</span>
+    <span class="ansi-blue-fg">-</span> <span class="ansi-blue-fg">-</span> <span class="ansi-cyan-fg">0</span>
+      <span class="ansi-blue-fg">-</span> <span class="ansi-cyan-fg">1</span>
+      <span class="ansi-blue-fg">-</span> <span class="ansi-cyan-fg">0</span>
+    <span class="ansi-blue-fg">-</span> <span class="ansi-blue-fg">-</span> <span class="ansi-cyan-fg">0</span>
+      <span class="ansi-blue-fg">-</span> <span class="ansi-cyan-fg">0</span>
+      <span class="ansi-blue-fg">-</span> <span class="ansi-cyan-fg">1</span>
+    UB<span class="ansi-blue-fg">:</span> <span class="ansi-blue-fg">*</span>id001
+    digits<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">4</span>
+  KCF<span class="ansi-blue-fg">:</span>
+    name<span class="ansi-blue-fg">:</span> KCF
+    lattice<span class="ansi-blue-fg">:</span>
+      a<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">5.857</span>
+      b<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">5.857</span>
+      c<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">7.849</span>
+      alpha<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">90.0</span>
+      beta<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">90.0</span>
+      gamma<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">90.0</span>
+    reflections<span class="ansi-blue-fg">:</span>
+      r1<span class="ansi-blue-fg">:</span>
+        name<span class="ansi-blue-fg">:</span> r1
+        geometry<span class="ansi-blue-fg">:</span> E6C
+        pseudos<span class="ansi-blue-fg">:</span>
+          h<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">0</span>
+          k<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">0</span>
+          l<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">1</span>
+        reals<span class="ansi-blue-fg">:</span>
+          theta<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">48.42718305024724</span>
+          mu<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">0.0</span>
+          chi<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">0.0</span>
+          phi<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">0.0</span>
+          delta<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">115.65436271083637</span>
+          gamma<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">3.0000034909999993</span>
+        wavelength<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">13.317314715359826</span>
+        digits<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">4</span>
+      r2<span class="ansi-blue-fg">:</span>
+        name<span class="ansi-blue-fg">:</span> r2
+        geometry<span class="ansi-blue-fg">:</span> E6C
+        pseudos<span class="ansi-blue-fg">:</span>
+          h<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">1</span>
+          k<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">1</span>
+          l<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">0</span>
+        reals<span class="ansi-blue-fg">:</span>
+          theta<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">138.42718305024724</span>
+          mu<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">0.0</span>
+          chi<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">0.0</span>
+          phi<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">0.0</span>
+          delta<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">115.65436271083637</span>
+          gamma<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">3.0000034909999993</span>
+        wavelength<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">13.317314715359826</span>
+        digits<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">4</span>
+    reflections_order<span class="ansi-blue-fg">:</span>
+    <span class="ansi-blue-fg">-</span> r1
+    <span class="ansi-blue-fg">-</span> r2
+    U<span class="ansi-blue-fg">:</span>
+    <span class="ansi-blue-fg">-</span> <span class="ansi-blue-fg">-</span> <span class="ansi-cyan-fg">0.679358689514</span>
+      <span class="ansi-blue-fg">-</span> <span class="ansi-cyan-fg">0.715320111238</span>
+      <span class="ansi-blue-fg">-</span> <span class="ansi-blue-fg">-</span><span class="ansi-cyan-fg">0.163673178742</span>
+    <span class="ansi-blue-fg">-</span> <span class="ansi-blue-fg">-</span> <span class="ansi-cyan-fg">0.08992972541</span>
+      <span class="ansi-blue-fg">-</span> <span class="ansi-cyan-fg">0.140205908871</span>
+      <span class="ansi-blue-fg">-</span> <span class="ansi-cyan-fg">0.986029891842</span>
+    <span class="ansi-blue-fg">-</span> <span class="ansi-blue-fg">-</span> <span class="ansi-cyan-fg">0.7282749587</span>
+      <span class="ansi-blue-fg">-</span> <span class="ansi-blue-fg">-</span><span class="ansi-cyan-fg">0.684587059165</span>
+      <span class="ansi-blue-fg">-</span> <span class="ansi-cyan-fg">0.030921561329</span>
+    UB<span class="ansi-blue-fg">:</span>
+    <span class="ansi-blue-fg">-</span> <span class="ansi-blue-fg">-</span> <span class="ansi-cyan-fg">0.728792306003</span>
+      <span class="ansi-blue-fg">-</span> <span class="ansi-cyan-fg">0.76737046489</span>
+      <span class="ansi-blue-fg">-</span> <span class="ansi-blue-fg">-</span><span class="ansi-cyan-fg">0.13102164758</span>
+    <span class="ansi-blue-fg">-</span> <span class="ansi-blue-fg">-</span> <span class="ansi-cyan-fg">0.096473472661</span>
+      <span class="ansi-blue-fg">-</span> <span class="ansi-cyan-fg">0.150408008639</span>
+      <span class="ansi-blue-fg">-</span> <span class="ansi-cyan-fg">0.789324567316</span>
+    <span class="ansi-blue-fg">-</span> <span class="ansi-blue-fg">-</span> <span class="ansi-cyan-fg">0.781267973381</span>
+      <span class="ansi-blue-fg">-</span> <span class="ansi-blue-fg">-</span><span class="ansi-cyan-fg">0.734401118598</span>
+      <span class="ansi-blue-fg">-</span> <span class="ansi-cyan-fg">0.024752949397</span>
+    digits<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">4</span>
+constraints<span class="ansi-blue-fg">:</span>
+  theta<span class="ansi-blue-fg">:</span>
+    label<span class="ansi-blue-fg">:</span> theta
+    low_limit<span class="ansi-blue-fg">:</span> <span class="ansi-blue-fg">-</span><span class="ansi-cyan-fg">181.0</span>
+    high_limit<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">181.0</span>
+    <span class="ansi-green-fg">class</span><span class="ansi-blue-fg">:</span> LimitsConstraint
+  mu<span class="ansi-blue-fg">:</span>
+    label<span class="ansi-blue-fg">:</span> mu
+    low_limit<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">0.0</span>
+    high_limit<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">0.0</span>
+    <span class="ansi-green-fg">class</span><span class="ansi-blue-fg">:</span> LimitsConstraint
+  chi<span class="ansi-blue-fg">:</span>
+    label<span class="ansi-blue-fg">:</span> chi
+    low_limit<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">0.0</span>
+    high_limit<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">0.0</span>
+    <span class="ansi-green-fg">class</span><span class="ansi-blue-fg">:</span> LimitsConstraint
+  phi<span class="ansi-blue-fg">:</span>
+    label<span class="ansi-blue-fg">:</span> phi
+    low_limit<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">0.0</span>
+    high_limit<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">0.0</span>
+    <span class="ansi-green-fg">class</span><span class="ansi-blue-fg">:</span> LimitsConstraint
+  delta<span class="ansi-blue-fg">:</span>
+    label<span class="ansi-blue-fg">:</span> delta
+    low_limit<span class="ansi-blue-fg">:</span> <span class="ansi-blue-fg">-</span><span class="ansi-cyan-fg">5.0</span>
+    high_limit<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">180.0</span>
+    <span class="ansi-green-fg">class</span><span class="ansi-blue-fg">:</span> LimitsConstraint
+  gamma<span class="ansi-blue-fg">:</span>
+    label<span class="ansi-blue-fg">:</span> gamma
+    low_limit<span class="ansi-blue-fg">:</span> <span class="ansi-blue-fg">-</span><span class="ansi-cyan-fg">5.0</span>
+    high_limit<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">180.0</span>
+    <span class="ansi-green-fg">class</span><span class="ansi-blue-fg">:</span> LimitsConstraint
+solver<span class="ansi-blue-fg">:</span>
+  name<span class="ansi-blue-fg">:</span> hkl_soleil
+  description<span class="ansi-blue-fg">:</span> HklSolver<span class="ansi-blue-fg">(</span>name<span class="ansi-blue-fg">=</span><span class="ansi-blue-fg">&#39;hkl_soleil&#39;</span><span class="ansi-blue-fg">,</span> version<span class="ansi-blue-fg">=</span><span class="ansi-blue-fg">&#39;5.1.2&#39;</span><span class="ansi-blue-fg">,</span> geometry<span class="ansi-blue-fg">=</span><span class="ansi-blue-fg">&#39;E6C&#39;</span><span class="ansi-blue-fg">,</span> engine_name<span class="ansi-blue-fg">=</span><span class="ansi-blue-fg">&#39;hkl&#39;</span><span class="ansi-blue-fg">,</span>
+    mode<span class="ansi-blue-fg">=</span><span class="ansi-blue-fg">&#39;lifting_detector_mu&#39;</span><span class="ansi-blue-fg">)</span>
+  geometry<span class="ansi-blue-fg">:</span> E6C
+  real_axes<span class="ansi-blue-fg">:</span>
+  <span class="ansi-blue-fg">-</span> mu
+  <span class="ansi-blue-fg">-</span> omega
+  <span class="ansi-blue-fg">-</span> chi
+  <span class="ansi-blue-fg">-</span> phi
+  <span class="ansi-blue-fg">-</span> gamma
+  <span class="ansi-blue-fg">-</span> delta
+  version<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">5.1</span><span class="ansi-cyan-fg">.2</span>
+  engine<span class="ansi-blue-fg">:</span> hkl
+</pre></div></div>
+</div>
+</section>
+<section id="Move">
+<h2>Move<a class="headerlink" href="#Move" title="Link to this heading">#</a></h2>
+<p>… to <span class="math notranslate nohighlight">\(Q= (0 \  0 \  1.1)\)</span></p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tardis</span><span class="o">.</span><span class="n">move</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">1.1</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+MoveStatus(done=True, pos=tardis, elapsed=0.0, success=True, settle_time=0.0)
+</pre></div></div>
+</div>
+<p>Where is the <em>tardis</em> now?</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tardis</span><span class="o">.</span><span class="n">wh</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+h=0, k=0, l=1.1
+wavelength=13.317314715359826
+theta=101.5681, mu=0, chi=0, phi=0, delta=42.0222, gamma=176.6916
+</pre></div></div>
+</div>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="hkl_soleil-ub_set.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><strong>hkl_soleil</strong> UB matrix : Set directly</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../install.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Installation</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Create-the-tardis-object.">Create the <code class="docutils literal notranslate"><span class="pre">tardis</span></code> object.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Add-a-sample">Add a sample</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Orient">Orient</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Save">Save</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Move">Move</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+
+  
+  <div class="tocsection editthispage">
+    <a href="https://github.com/prjemian/hklpy2/edit/main/docs/examples/nslsii-tardis.ipynb">
+      <i class="fa-solid fa-pencil"></i>
+      
+      
+        
+          Edit on GitHub
+        
+      
+    </a>
+  </div>
+</div>
+
+  <div class="sidebar-secondary-item">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/examples/nslsii-tardis.ipynb.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2023-2025, Argonne National Laboratory.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>
