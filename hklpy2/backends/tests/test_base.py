@@ -2,9 +2,9 @@
 
 # Many features are tested, albeit indrectly, in specific solvers.
 
-from ...operations.lattice import Lattice
-from ...operations.misc import IDENTITY_MATRIX_3X3
-from ...operations.reflection import Reflection
+from ...blocks.lattice import Lattice
+from ...blocks.misc import IDENTITY_MATRIX_3X3
+from ...blocks.reflection import Reflection
 from ..base import SolverBase
 
 

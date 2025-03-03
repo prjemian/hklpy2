@@ -74,11 +74,11 @@ DEFAULT_START_KEY = "diffractometers"
 
 
 class ConfigurationError(Hklpy2Error):
-    """Custom exceptions from :mod:`hklpy2.operations.configure`."""
+    """Custom exceptions from :mod:`hklpy2.blocks.configure`."""
 
 
 class ConstraintsError(Hklpy2Error):
-    """Custom exceptions from :mod:`hklpy2.operations.constraints`."""
+    """Custom exceptions from :mod:`hklpy2.blocks.constraints`."""
 
 
 class DiffractometerError(Hklpy2Error):
@@ -86,7 +86,7 @@ class DiffractometerError(Hklpy2Error):
 
 
 class LatticeError(Hklpy2Error):
-    """Custom exceptions from :mod:`hklpy2.operations.lattice`."""
+    """Custom exceptions from :mod:`hklpy2.blocks.lattice`."""
 
 
 class OperationsError(Hklpy2Error):
@@ -94,11 +94,11 @@ class OperationsError(Hklpy2Error):
 
 
 class ReflectionError(Hklpy2Error):
-    """Custom exceptions from :mod:`hklpy2.operations.reflection`."""
+    """Custom exceptions from :mod:`hklpy2.blocks.reflection`."""
 
 
 class SampleError(Hklpy2Error):
-    """Custom exceptions from :mod:`hklpy2.operations.sample`."""
+    """Custom exceptions from :mod:`hklpy2.blocks.sample`."""
 
 
 class SolverError(Hklpy2Error):

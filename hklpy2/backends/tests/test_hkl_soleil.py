@@ -78,7 +78,7 @@ def test_affine():
     """Test the lattice parameter refinement."""
     from ... import SI_LATTICE_PARAMETER
     from ... import creator
-    from ...operations.lattice import SI_LATTICE_PARAMETER_UNCERTAINTY
+    from ...blocks.lattice import SI_LATTICE_PARAMETER_UNCERTAINTY
 
     e4cv = creator(name="e4cv")
     assert e4cv is not None

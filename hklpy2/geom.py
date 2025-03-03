@@ -75,7 +75,7 @@ def diffractometer_class_factory(
         List of base classes to use for the diffractometer class.
         (default: '[DiffractometerBase]')
     """
-    from .operations.misc import solver_factory
+    from .blocks.misc import solver_factory
 
     # The solver object describes its structure. Also verifies the solver is found.
     solver_object = solver_factory(solver, geometry, **solver_kwargs)

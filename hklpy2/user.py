@@ -40,8 +40,8 @@ FUNCTIONS
 import uuid
 from collections import namedtuple
 
+from .blocks.lattice import Lattice
 from .diffract import DiffractometerBase
-from .operations.lattice import Lattice
 from .ops import OperationsError
 from .wavelength_support import MonochromaticXrayWavelength
 

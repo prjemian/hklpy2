@@ -20,14 +20,14 @@ from typing import Union
 import pyRestTable
 
 from . import SolverBase
-from .operations.configure import Configuration
-from .operations.constraints import RealAxisConstraints
-from .operations.lattice import Lattice
-from .operations.misc import OperationsError
-from .operations.misc import solver_factory
-from .operations.misc import unique_name
-from .operations.reflection import Reflection
-from .operations.sample import Sample
+from .blocks.configure import Configuration
+from .blocks.constraints import RealAxisConstraints
+from .blocks.lattice import Lattice
+from .blocks.misc import OperationsError
+from .blocks.misc import solver_factory
+from .blocks.misc import unique_name
+from .blocks.reflection import Reflection
+from .blocks.sample import Sample
 
 __all__ = ["Operations"]
 
@@ -76,7 +76,7 @@ class Operations:
         ~solver
     """
 
-    from .operations.sample import Sample
+    from .blocks.sample import Sample
 
     def __init__(self, diffractometer, default_sample: bool = True) -> None:
         # axes names cross-reference
@@ -212,7 +212,7 @@ class Operations:
         * ``replace`` (bool): If ``True``, replace existing reflection of
           this name.  (default: ``False``)
         """
-        from .operations.reflection import Reflection
+        from .blocks.reflection import Reflection
 
         self._validate_pseudos(pseudos)
 

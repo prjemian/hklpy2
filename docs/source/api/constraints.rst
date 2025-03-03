@@ -20,7 +20,7 @@ coordinates can have many solutions. One or more constraints (Constraint)
 Source Code Documentation
 -------------------------
 
-.. automodule :: hklpy2.operations.constraints
+.. automodule :: hklpy2.blocks.constraints
     :members:
     :private-members:
     :show-inheritance:

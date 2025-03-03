@@ -17,7 +17,7 @@ Example::
 import logging
 
 from .. import __version__
-from ..operations.reflection import Reflection
+from ..blocks.reflection import Reflection
 from .base import SolverBase
 
 logger = logging.getLogger(__name__)

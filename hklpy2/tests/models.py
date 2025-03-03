@@ -10,9 +10,9 @@ from ophyd import Kind
 from ophyd import PseudoSingle
 from ophyd import SoftPositioner
 
+from ..blocks.misc import load_yaml_file
 from ..diffract import DiffractometerBase
 from ..geom import diffractometer_class_factory
-from ..operations.misc import load_yaml_file
 
 E4CV_CONFIG_FILE = pathlib.Path(__file__).parent / "e4cv_orient.yml"
 HN = Kind.hinted | Kind.normal

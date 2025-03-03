@@ -9,7 +9,7 @@ Crystalline Sample
 Source Code Documentation
 -------------------------
 
-.. automodule:: hklpy2.operations.sample
+.. automodule:: hklpy2.blocks.sample
     :members:
     :private-members:
     :show-inheritance:

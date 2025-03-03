@@ -5,9 +5,9 @@ from contextlib import nullcontext as does_not_raise
 import numpy.testing
 import pytest
 
+from ..blocks.lattice import SI_LATTICE_PARAMETER
+from ..blocks.misc import ReflectionError
 from ..geom import creator
-from ..operations.lattice import SI_LATTICE_PARAMETER
-from ..operations.misc import ReflectionError
 from ..ops import OperationsError
 from ..user import add_sample
 from ..user import cahkl

@@ -11,12 +11,12 @@ from gi.repository.GLib import GError
 from numpy.testing import assert_almost_equal
 from ophyd.sim import noisy_det
 
+from ..blocks.misc import DiffractometerError
+from ..blocks.reflection import ReflectionError
+from ..blocks.sample import Sample
 from ..diffract import DiffractometerBase
 from ..diffract import pick_first_item
 from ..geom import creator
-from ..operations.misc import DiffractometerError
-from ..operations.reflection import ReflectionError
-from ..operations.sample import Sample
 from ..ops import DEFAULT_SAMPLE_NAME
 from ..ops import Operations
 from ..ops import OperationsError
@@ -313,8 +313,8 @@ def test_null_core():
 
 
 def test_orientation():
+    from ..blocks.lattice import SI_LATTICE_PARAMETER
     from ..geom import creator
-    from ..operations.lattice import SI_LATTICE_PARAMETER
 
     fourc = creator(name="fourc")
     fourc.add_sample("silicon", SI_LATTICE_PARAMETER)
