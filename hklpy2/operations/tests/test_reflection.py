@@ -484,6 +484,6 @@ def test_wrong_real_names():
             wavelength=1.54,
             pseudo_axis_names="h k l".split(),
             real_axis_names="aaaa_omega chi phi tth".split(),
-            operator=e4cv.core,
+            core=e4cv.core,
         )
     assert_context_result(expected, reason)

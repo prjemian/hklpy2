@@ -19,7 +19,7 @@ from ..sample import SampleError
         [pytest.raises(TypeError), "expected Operations"],
     ],
 )
-def test_sample_constructor_no_operator(context, expected):
+def test_sample_constructor_no_core(context, expected):
     with context as reason:
         Sample(None, "test", Lattice(4))
     assert_context_result(expected, reason)

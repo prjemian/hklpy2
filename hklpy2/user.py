@@ -209,10 +209,10 @@ def cahkl_table(*reflections, digits=5):
         Number of digits to roundoff each position
         value.  Default is 5.
     """
-    operator = get_diffractometer().core
+    core = get_diffractometer().core
     HklPosition = namedtuple("HklPosition", "h k l".split())  # TODO: #36
     reflections = [HklPosition(*r) for r in reflections]
-    print(operator.forward_solutions_table(reflections, digits=digits))
+    print(core.forward_solutions_table(reflections, digits=digits))
 
 
 def calc_UB(r1, r2, wavelength=None):

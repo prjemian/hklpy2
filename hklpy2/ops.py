@@ -133,7 +133,7 @@ class Operations:
         """Redefine diffractometer from a (configuration) dictionary."""
         for key, sample in config["samples"].items():
             sample_object = self.add_sample(key, 1, replace=True)
-            sample_object._fromdict(sample, operator=self)
+            sample_object._fromdict(sample, core=self)
         sname = config.get("sample_name")
         if sname is not None:
             self.sample = sname
@@ -147,7 +147,7 @@ class Operations:
                 axis_canonical = config["axes"]["axes_xref"][key]
                 axis_local = self.axes_xref_reversed[axis_canonical]
                 constraint["label"] = axis_local
-        self.constraints._fromdict(config["constraints"], operator=self)
+        self.constraints._fromdict(config["constraints"], core=self)
 
     def _validate_pseudos(self, pseudos) -> bool:
         """Validate that the supplied pseudos are acceptable."""

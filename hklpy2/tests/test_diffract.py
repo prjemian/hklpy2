@@ -290,7 +290,7 @@ def test_move_reals(pos, context, expected):
     assert_context_result(expected, reason)
 
 
-def test_null_operator():
+def test_null_core():
     """Tests special cases when diffractometer.core is None."""
     from ..geom import creator
 

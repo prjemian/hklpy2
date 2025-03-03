@@ -140,7 +140,7 @@ Plugins*](https://setuptools.pypa.io/en/latest/userguide/entry_point.html#entry-
 ### hklpy2 v2
 
 - Samples, lattices, & reflections stored in Python.
-- Separate the roles of operator and solver.
+- Separate the roles of core and solver.
   - Operations makes *transactions* with the selected *solver*.
   - For specific operations, *solver* is setup and then *operated*.
 - Refactor use of **libhkl** as a backend *solver* library.

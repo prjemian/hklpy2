@@ -6,10 +6,10 @@
 Operations
 ==================
 
-.. index:: !operator
+.. index:: !core
 
 A diffractometer's ``.core`` provides most of its functionality.
-The ``operator`` conducts transactions with the |solver| on behalf of the
+The ``core`` conducts transactions with the |solver| on behalf of the
 diffractometer. These transactions include the ``forward()`` and ``inverse()``
 coordinate transformations, at the core of scientific measurements using
 a diffractometer.
@@ -54,7 +54,7 @@ EXAMPLE::
 
         geometry = Cpt(
             AttributeSignal,
-            attr="operator.geometry",
+            attr="core.geometry",
             doc="Name of backend |solver| geometry.",
             write_access=False,
             kind="config",

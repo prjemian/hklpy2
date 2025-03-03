@@ -215,7 +215,7 @@ def test_fromdict_KeyError():
             reals=dict(aaa=None, bbb=None, ccc=None, ddd=None),
         )
         constraint = e4cv.core.constraints["aaa"]
-        constraint._fromdict(config, operator=e4cv.core)
+        constraint._fromdict(config, core=e4cv.core)
     assert_context_result(expected, reason)
 
 
