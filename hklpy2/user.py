@@ -211,8 +211,8 @@ def cahkl_table(*reflections, digits=5):
         value.  Default is 5.
     """
     core = get_diffractometer().core
-    HklPosition = namedtuple("HklPosition", "h k l".split())  # TODO: #36
-    reflections = [HklPosition(*r) for r in reflections]
+    HklPosition = namedtuple("HklPosition", "h k l".split())
+    reflections = [HklPosition(*r) for r in reflections]  # TODO: apply #36
     print(core.forward_solutions_table(reflections, digits=digits))
 
 

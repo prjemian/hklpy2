@@ -120,6 +120,6 @@ class TwoC(DiffractometerBase):
             solver="th_tth",
             geometry="TH TTH Q",
             pseudos=["q"],
-            reals="theta ttheta".split(),
+            reals="theta ttheta".split(),  # FIXME: #36 Is this applied properly?
             **kwargs,
         )

@@ -78,6 +78,7 @@ def test_axes_xref_empty():
     assert_context_result(expected, reason)
 
 
+@pytest.mark.filterwarnings("error")
 @pytest.mark.parametrize(
     "pseudos, names, context, expected",
     [
@@ -97,20 +98,20 @@ def test_axes_xref_empty():
         [
             [1, 2, 3, 4],
             fourc.pseudo_axis_names,
-            pytest.raises(ValueError),
-            "pseudos, received",
+            pytest.raises(UserWarning),
+            "Extra inputs will be ignored. Expected 3.",
         ],
         [
             dict(h=1, k=2, lll=3),
             fourc.pseudo_axis_names,
-            pytest.raises(OperationsError),
-            "Missing axis",
+            pytest.raises(KeyError),
+            "Missing axis 'l'",
         ],
         [
             "abc",
             fourc.pseudo_axis_names,
-            pytest.raises(OperationsError),
-            "Unexpected type",
+            pytest.raises(TypeError),
+            "Expected dict, list, or tuple.",
         ],
     ],
 )
@@ -120,6 +121,7 @@ def test_standardize_pseudos(pseudos, names, context, expected):
     assert_context_result(expected, reason)
 
 
+@pytest.mark.filterwarnings("error")
 @pytest.mark.parametrize(
     "reals, names, context, expected",
     [
@@ -141,20 +143,20 @@ def test_standardize_pseudos(pseudos, names, context, expected):
         [
             [1, 2, 3, 4, 5],
             fourc.real_axis_names,
-            pytest.raises(ValueError),
-            "reals, received",
+            pytest.raises(UserWarning),
+            "Extra inputs will be ignored. Expected 4.",
         ],
         [
             dict(theta=1, chi=2, phi=3, ttheta=4),
             fourc.real_axis_names,
-            pytest.raises(OperationsError),
-            "Missing axis",
+            pytest.raises(KeyError),
+            "Missing axis 'omega'.",
         ],
         [
             "abcd",
             fourc.real_axis_names,
-            pytest.raises(OperationsError),
-            "Unexpected type",
+            pytest.raises(TypeError),
+            "Unexpected type: 'abcd'.  Expected dict, list, or tuple.",
         ],
     ],
 )
