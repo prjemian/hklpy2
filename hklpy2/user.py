@@ -18,6 +18,7 @@ Get started with a diffractometer object and
 FUNCTIONS
 
 .. autosummary::
+   :toctree: generated
 
     ~add_reflection
     ~add_sample

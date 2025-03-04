@@ -1,5 +1,3 @@
-.. include:: /substitutions.txt
-
 .. _api.diffract:
 
 ==================
@@ -93,19 +91,19 @@ and :attr:`~hklpy2.ops.Operations.sample`)
     ~hklpy2.blocks.sample.Sample.U (property)
     ~hklpy2.blocks.sample.Sample.UB (property)
 
-Source Code Documentation
--------------------------
+.. Source Code Documentation
+.. -------------------------
 
-.. automodule:: hklpy2.diffract
-    :members:
-    :private-members:
-    :show-inheritance:
+.. .. automodule:: hklpy2.diffract
+..     :members:
+..     :private-members:
+..     :show-inheritance:
 
-Inherited members, from ``ophyd.PseudoPositioner``
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. Inherited members, from ``ophyd.PseudoPositioner``
+.. +++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-.. so many inherited members, list separately
+.. .. so many inherited members, list separately
 
-.. automodule:: hklpy2.diffract
-    :inherited-members:
-    :no-index:
+.. .. automodule:: hklpy2.diffract
+..     :inherited-members:
+..     :no-index:

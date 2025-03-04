@@ -1,5 +1,5 @@
 """
-Supports export and restore diffractometer configurations.
+Export and restore sample UB matrix and other diffractometer configuration.
 
 .. autosummary::
 

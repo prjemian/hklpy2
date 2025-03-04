@@ -1,5 +1,5 @@
 """
-Backend: th_tth (``"th_tth"``)
+"th_tth" example solver in Python.
 
 Transformations between :math:`\\theta,2\\theta` and :math:`Q`.
 

@@ -80,6 +80,15 @@ html_theme_options = {
     "navbar_align": "content",
 }
 
+rst_prolog = """
+.. |hklpy| replace:: **hklpy (v1)**
+.. |hklpy.url| replace:: https://blueskyproject.io/hklpy
+.. |hklpy2| replace:: **hklpy2**
+.. |libhkl| replace:: **Hkl/Soleil**
+.. |solver| replace:: **Solver**
+.. |spec| replace:: **SPEC**
+"""
+
 
 # -- Options for autodoc ---------------------------------------------------
 

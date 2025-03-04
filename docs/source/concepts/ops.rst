@@ -1,5 +1,3 @@
-.. include:: /substitutions.txt
-
 .. _api.ops:
 
 ==================
@@ -72,11 +70,11 @@ EXAMPLE::
         'E4CV'
 
 
-Source Code Documentation
--------------------------
+.. Source Code Documentation
+.. -------------------------
 
-.. automodule:: hklpy2.ops
-    :members:
-    :private-members:
-    :show-inheritance:
-    :inherited-members:
+.. .. automodule:: hklpy2.ops
+..     :members:
+..     :private-members:
+..     :show-inheritance:
+..     :inherited-members:

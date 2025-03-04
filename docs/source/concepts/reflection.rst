@@ -1,5 +1,3 @@
-.. include:: /substitutions.txt
-
 .. _api.reflection:
 
 ======================
@@ -27,11 +25,11 @@ Note that the engineering units for the pseudo axes are the reciprocal of the
 units of the wavelength (where *angstroms* is typical).  The angles are reported
 in *degrees*.
 
-Source Code Documentation
--------------------------
+.. Source Code Documentation
+.. -------------------------
 
-.. automodule:: hklpy2.blocks.reflection
-    :members:
-    :private-members:
-    :show-inheritance:
-    :inherited-members:
+.. .. automodule:: hklpy2.blocks.reflection
+..     :members:
+..     :private-members:
+..     :show-inheritance:
+..     :inherited-members:

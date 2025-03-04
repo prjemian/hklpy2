@@ -1,5 +1,3 @@
-.. include:: /substitutions.txt
-
 .. _user_guide:
 
 ==========
@@ -12,10 +10,11 @@ User Guide
    :glob:
    :hidden:
 
-   design-discussion
-   checklist_v2
+   concepts
    examples
    install
+   design-discussion
+   checklist_v2
    glossary
 
 .. icons: https://fonts.google.com/icons

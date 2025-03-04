@@ -1,10 +1,5 @@
-"""
-Backend: Hkl (``"hkl_soleil"``)
-
-..  caution:: The ``hkl_soleil`` |solver| is not available
-    for Windows or Mac OS.  The underlying |libhkl| support
-    library is only provided
-    for Linux 64-bit OS at this time.
+r"""
+"hkl_soleil" solver, provides **Hkl**, Synchrotron Soleil.
 
 Example::
 
@@ -13,6 +8,21 @@ Example::
     >>> libhkl_solver = SolverClass(geometry="E4CV")
     >>> solver
     HklSolver(name='hkl_soleil', version='v5.0.0.3434', geometry='E4CV', engine='hkl', mode='bissector')
+
+:home: https://people.debian.org/~picca/hkl/hkl.html
+:source: https://repo.or.cz/hkl.git
+:conda-forge: https://anaconda.org/conda-forge
+
+..  caution:: The ``hkl_soleil`` |solver| is not available
+    for Windows or Mac OS.  The underlying |libhkl| support
+    library is only provided
+    for Linux 64-bit OS at this time.
+
+.. note:: To hold an axis or extra parameter constant (current or specified value):
+    choose the mode and set the parameter before the forward() transformation.
+
+.. note:: To scan using ``psi`` and ``hkl2``, see
+    :doc:`../../examples/hkl_soleil-e6c-psi`.
 
 .. autosummary::
 
@@ -25,11 +35,6 @@ Example::
 #     While this parameter is used by *libhkl* to adjust lattice parameters when
 #     refining from more than 2 reflections, it is not used in the calculation of
 #     rotation angles from reciprocal-space coordinates.
-
-# - To hold an axis or extra parameter constant (current or specified value):
-#     choose the mode and set it before the forward() transformation.
-
-# - To scan around hkl2 using psi, see the new how to.
 
 import logging
 import math

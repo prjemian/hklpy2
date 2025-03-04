@@ -1,5 +1,5 @@
 """
-Backend: abstract base class
+Abstract base class for all solvers.
 
 .. autosummary::
 

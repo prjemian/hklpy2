@@ -6,19 +6,13 @@ Python class that connects |hklpy2| with a library
 that provides diffractometer geometries & calculations.
 See the API documentation for details.
 
-.. rubric:: Built-in Solvers
-
 .. autosummary::
+   :toctree: generated
 
-    ~hkl_soleil.HklSolver
-    ~no_op.NoOpSolver
-    ~th_tth_q.ThTthSolver
-
-.. rubric:: Base class for all solvers
-
-.. autosummary::
-
-    ~base.SolverBase
+    ~hkl_soleil
+    ~no_op
+    ~th_tth_q
+    ~base
 """
 
 from .base import SolverBase  # noqa: F401

@@ -1,11 +1,11 @@
-.. _examples:
+.. _concepts:
 
 ==========
-Examples
+Concepts
 ==========
 
 .. toctree::
    :glob:
    :hidden:
 
-   examples/*
+   concepts/*

@@ -1,5 +1,3 @@
-.. include:: /substitutions.txt
-
 .. _api.User:
 
 ==================
@@ -53,13 +51,13 @@ Report all (current) settings of ``sixc``:
     wavelength=1.0
     mu=0, omega=0, chi=0, phi=0, gamma=0, delta=0
 
-Follow on below to learn about more user interface features.
+.. Follow on below to learn about more user interface features.
 
-Source Code Documentation
--------------------------
+.. Source Code Documentation
+.. -------------------------
 
-.. automodule :: hklpy2.user
-    :members:
-    :private-members:
-    :show-inheritance:
-    :inherited-members:
+.. .. automodule :: hklpy2.user
+..     :members:
+..     :private-members:
+..     :show-inheritance:
+..     :inherited-members:

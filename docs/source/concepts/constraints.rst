@@ -1,5 +1,3 @@
-.. include:: /substitutions.txt
-
 .. index::
     !constraint
     mode
@@ -17,11 +15,11 @@ coordinates can have many solutions. One or more constraints (Constraint)
 * Limit the range of ``forward()`` solutions accepted for that positioner.
 * Declare the value to use when the positioner should be kept constant. (not implemented yet)
 
-Source Code Documentation
--------------------------
+.. Source Code Documentation
+.. -------------------------
 
-.. automodule :: hklpy2.blocks.constraints
-    :members:
-    :private-members:
-    :show-inheritance:
-    :inherited-members:
+.. .. automodule :: hklpy2.blocks.constraints
+..     :members:
+..     :private-members:
+..     :show-inheritance:
+..     :inherited-members:
