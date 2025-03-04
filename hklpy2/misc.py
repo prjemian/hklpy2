@@ -53,6 +53,7 @@ import math
 import pathlib
 import sys
 import uuid
+import warnings
 from collections.abc import Iterable
 from importlib.metadata import entry_points
 
@@ -265,12 +266,14 @@ def axes_to_dict(input, names: list[str]) -> dict:
             # Always show received
             f" received {len(input)}."
         )
-    # if len(input) > len(names):  # TODO: #36
-    #     raise UserWarning(
-    #         f" Extra inputs will be ignored. Expected {len(names)}."
-    #         #
-    #         f" Received {input=!r}"
-    #     )
+    if len(input) > len(names):
+        warnings.warn(
+            UserWarning(
+                f" Extra inputs will be ignored. Expected {len(names)}."
+                #
+                f" Received {input=!r}"
+            )
+        )
 
     axes = {}
     if isinstance(input, dict):  # convert dict to ordered dict

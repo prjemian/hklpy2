@@ -28,7 +28,8 @@ from .models import AugmentedFourc
 from .models import Fourc
 from .models import MultiAxis99
 from .models import NoOpTh2Th
-# from .models import TwoC
+
+# from .models import TwoC  #36
 
 
 def test_choice_function():

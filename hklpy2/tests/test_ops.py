@@ -78,6 +78,7 @@ def test_axes_xref_empty():
     assert_context_result(expected, reason)
 
 
+@pytest.mark.filterwarnings("error")
 @pytest.mark.parametrize(
     "pseudos, names, context, expected",
     [
@@ -94,12 +95,12 @@ def test_axes_xref_empty():
             does_not_raise(),
             None,
         ],
-        # [  # TODO: #36
-        #     [1, 2, 3, 4],
-        #     fourc.pseudo_axis_names,
-        #     pytest.raises(UserWarning),
-        #     "Extra inputs will be ignored. Expected 3.",
-        # ],
+        [
+            [1, 2, 3, 4],
+            fourc.pseudo_axis_names,
+            pytest.raises(UserWarning),
+            "Extra inputs will be ignored. Expected 3.",
+        ],
         [
             dict(h=1, k=2, lll=3),
             fourc.pseudo_axis_names,
@@ -120,6 +121,7 @@ def test_standardize_pseudos(pseudos, names, context, expected):
     assert_context_result(expected, reason)
 
 
+@pytest.mark.filterwarnings("error")
 @pytest.mark.parametrize(
     "reals, names, context, expected",
     [
@@ -138,12 +140,12 @@ def test_standardize_pseudos(pseudos, names, context, expected):
             does_not_raise(),
             None,
         ],
-        # [  # TODO: #36
-        #     [1, 2, 3, 4, 5],
-        #     fourc.real_axis_names,
-        #     pytest.raises(UserWarning),
-        #     "Extra inputs will be ignored. Expected 4.",
-        # ],
+        [
+            [1, 2, 3, 4, 5],
+            fourc.real_axis_names,
+            pytest.raises(UserWarning),
+            "Extra inputs will be ignored. Expected 4.",
+        ],
         [
             dict(theta=1, chi=2, phi=3, ttheta=4),
             fourc.real_axis_names,

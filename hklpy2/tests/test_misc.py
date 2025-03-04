@@ -44,9 +44,22 @@ def RE(cat):
     return engine
 
 
+@pytest.mark.filterwarnings("error")
 @pytest.mark.parametrize(
     "input, names, context, expected",
     [
+        [
+            [0, 0, 0],
+            "h k l",
+            pytest.raises(TypeError),
+            "Expected a list of names",
+        ],
+        [
+            [0, 0, 0],
+            [0, 0, 0],
+            pytest.raises(TypeError),
+            "Each name should be text,",
+        ],
         [dict(h=0, k=0, l=0), "h k l".split(), does_not_raise(), None],
         [
             dict(a=0, k=0, l=0),
@@ -67,12 +80,12 @@ def RE(cat):
             pytest.raises(ValueError),
             "Expected at least 3 axes, received 2",
         ],
-        # [  # TODO: #36
-        #     (1, 2, 3, 4),
-        #     "h k l".split(),
-        #     pytest.raises(UserWarning),
-        #     " Extra inputs will be ignored. Expected 3.",
-        # ],
+        [
+            (1, 2, 3, 4),
+            "h k l".split(),
+            pytest.raises(UserWarning),
+            " Extra inputs will be ignored. Expected 3.",
+        ],
         [[0, 1, -1], "aa bb cc".split(), does_not_raise(), None],
         [
             [1.1, 2.2, 3.3, 4, 5],
