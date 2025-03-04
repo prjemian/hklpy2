@@ -1,5 +1,3 @@
-.. include:: /substitutions.txt
-
 .. _examples:
 
 ==========

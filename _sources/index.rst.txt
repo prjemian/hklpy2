@@ -2,8 +2,6 @@
 hklpy2
 ======
 
-.. include:: /substitutions.txt
-
 .. index:: !hklpy
 
 |hklpy2| - the 2nd generation Python package for practical use of diffractometers with the
@@ -15,7 +13,7 @@ hklpy2
    :glob:
    :hidden:
 
-   guide
+   user_guide
    api
 
 .. icons: https://fonts.google.com/icons
@@ -37,6 +35,11 @@ hklpy2
    Congress, Hyderabad, India). Creator: `R. Krickl <https://worldrecord.r-krickl.com/en/>`_
 
    Note several high symmetry axes.
+
+.. toctree::
+   :hidden:
+
+   license
 
 .. _about:
 

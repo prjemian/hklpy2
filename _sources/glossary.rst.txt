@@ -1,5 +1,3 @@
-.. include:: /substitutions.txt
-
 ..  The glossary is formatted as a reST "definition list".
     Follow the pattern.
 
@@ -15,9 +13,7 @@
 Glossary
 ==========
 
-.. sidebar:: Italics
-
-    *Italics* are used in these definitions to identify
+.. tip:: *Italics* are used in these definitions to identify
     other glossary entries.
 
 ..  index::
@@ -45,6 +41,17 @@ Glossary
   is the set of real-space angles that position the *diffractometer* to the
   desired $hkl$ value.  A constraint can be used to reject solutions for
   undesired angles.
+
+..  index::
+    !definition; core
+    !core
+
+:core: The |hklpy2| intermediate software adapter layer between
+  :class:`~hklpy2.diffract.DiffractometerBase` (user-facing code) and a
+  :class:`~hklpy2.backends.base.SolverBase`.
+
+  Connects a *diffractometer* with  a |solver| library and
+  one of its *geometries*.
 
 ..  index::
     !definition; crystal
@@ -137,17 +144,6 @@ Glossary
 
 :monochromatic: Radiation of a single wavelength.  Or sufficiently narrow
   range, such that it may be characterized by a single floating point value.
-
-..  index::
-    !definition; operator
-    !operator
-
-:operator: The |hklpy2| intermediate software adapter layer between
-  :class:`~hklpy2.diffract.DiffractometerBase` (user-facing code) and a
-  :class:`~hklpy2.backends.base.SolverBase`.
-
-  Connects a *diffractometer* with  a |solver| library and
-  one of its *geometries*.
 
 ..  index::
     !definition; orientation

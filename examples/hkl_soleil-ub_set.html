@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=6a9d8632"></script>
+    <script src="../_static/documentation_options.js?v=a8d0577b"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
@@ -132,7 +132,7 @@
   <ul class="bd-navbar-elements navbar-nav">
     
 <li class="nav-item current active">
-  <a class="nav-link nav-internal" href="../guide.html">
+  <a class="nav-link nav-internal" href="../user_guide.html">
     User Guide
   </a>
 </li>
@@ -141,6 +141,13 @@
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../api.html">
     API
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../license.html">
+    License
   </a>
 </li>
 
@@ -234,7 +241,7 @@
   <ul class="bd-navbar-elements navbar-nav">
     
 <li class="nav-item current active">
-  <a class="nav-link nav-internal" href="../guide.html">
+  <a class="nav-link nav-internal" href="../user_guide.html">
     User Guide
   </a>
 </li>
@@ -243,6 +250,13 @@
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../api.html">
     API
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../license.html">
+    License
   </a>
 </li>
 
@@ -290,8 +304,15 @@
      aria-label="Section Navigation">
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
   <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="../design-discussion.html">Design for hklpy2</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../checklist_v2.html">Feature Checklist for v2</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../concepts.html">Concepts</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../concepts/diffract.html">Diffractometer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../concepts/lattice.html">Crystal Lattice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../concepts/ops.html">Operations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../concepts/reflection.html">Orientation Reflection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../concepts/solvers.html">Solvers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../concepts/user.html">User Friendliness</a></li>
+</ul>
+</details></li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="../examples.html">Examples</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="_api_demo.html">Demonstrate <strong>hklpy2</strong>’s API</a></li>
 
@@ -306,6 +327,8 @@
 </ul>
 </details></li>
 <li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../design-discussion.html">Design for hklpy2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../checklist_v2.html">Feature Checklist for v2</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
 </ul>
 </div>
@@ -348,7 +371,7 @@
       </a>
     </li>
     
-    <li class="breadcrumb-item"><a href="../guide.html" class="nav-link">User Guide</a></li>
+    <li class="breadcrumb-item"><a href="../user_guide.html" class="nav-link">User Guide</a></li>
     
     
     <li class="breadcrumb-item"><a href="../examples.html" class="nav-link">Examples</a></li>
@@ -378,7 +401,7 @@
 <section id="Quick-example">
 <h2>Quick example<a class="headerlink" href="#Quick-example" title="Link to this heading">#</a></h2>
 <p>In <strong>hklpy2</strong>, the <span class="math notranslate nohighlight">\(UB\)</span> matrix is a property of the <em>solver</em>. For a diffractometer object named <code class="docutils literal notranslate"><span class="pre">diffractometer</span></code>, set <span class="math notranslate nohighlight">\(UB\)</span> such as:</p>
-<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="n">diffractometer</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">UB</span> <span class="o">=</span> <span class="p">[</span>
+<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="n">diffractometer</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">UB</span> <span class="o">=</span> <span class="p">[</span>
     <span class="p">[</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">6.24</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">],</span>
     <span class="p">[</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">6.24</span><span class="p">],</span>
     <span class="p">[</span><span class="o">-</span><span class="mf">6.24</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">],</span>
@@ -426,7 +449,7 @@ Sample(name=&#39;sample&#39;, lattice=Lattice(a=1, system=&#39;cubic&#39;))
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diffractometer</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">U</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diffractometer</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">U</span>
 </pre></div>
 </div>
 </div>
@@ -444,7 +467,7 @@ Sample(name=&#39;sample&#39;, lattice=Lattice(a=1, system=&#39;cubic&#39;))
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diffractometer</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">UB</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diffractometer</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">UB</span>
 </pre></div>
 </div>
 </div>
@@ -482,7 +505,7 @@ Hklpy2DiffractometerRealPos(omega=60.000000002716, chi=35.264389682252, phi=44.9
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diffractometer</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">mode</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diffractometer</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">mode</span>
 </pre></div>
 </div>
 </div>
@@ -527,12 +550,12 @@ Hklpy2DiffractometerPseudoPos(h=-1.003252265133, k=0.993463529784, l=-1.00325226
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diffractometer</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">UB</span> <span class="o">=</span> <span class="p">[</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diffractometer</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">UB</span> <span class="o">=</span> <span class="p">[</span>
     <span class="p">[</span><span class="mf">0.545455316412</span><span class="p">,</span> <span class="o">-</span><span class="mf">6.239788968842</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.495930309978</span><span class="p">],</span>
     <span class="p">[</span><span class="o">-</span><span class="mf">0.547615630691</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.543471652084</span><span class="p">,</span> <span class="mf">6.235639164201</span><span class="p">],</span>
     <span class="p">[</span><span class="o">-</span><span class="mf">6.235463558747</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.498103654451</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.591011669061</span><span class="p">]</span>
 <span class="p">]</span>
-<span class="n">diffractometer</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">UB</span>
+<span class="n">diffractometer</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">UB</span>
 </pre></div>
 </div>
 </div>
@@ -551,7 +574,7 @@ Hklpy2DiffractometerPseudoPos(h=-1.003252265133, k=0.993463529784, l=-1.00325226
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diffractometer</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">U</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diffractometer</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">U</span>
 </pre></div>
 </div>
 </div>
@@ -593,7 +616,7 @@ Hklpy2DiffractometerPseudoPos(h=0.821953663396, k=0.989926119534, l=1.1595009901
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diffractometer</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">mode</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diffractometer</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">mode</span>
 </pre></div>
 </div>
 </div>
@@ -761,7 +784,7 @@ Hklpy2DiffractometerRealPos(omega=-59.999921375969, chi=-28.211225311916, phi=40
         <div class="footer-item">
 
   <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
     <br/>
   </p>
 </div>

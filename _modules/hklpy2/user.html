@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../../_static/documentation_options.js?v=6a9d8632"></script>
+    <script src="../../_static/documentation_options.js?v=a8d0577b"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/design-tabs.js?v=f930bc37"></script>
@@ -126,7 +126,7 @@
   <ul class="bd-navbar-elements navbar-nav">
     
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../guide.html">
+  <a class="nav-link nav-internal" href="../../user_guide.html">
     User Guide
   </a>
 </li>
@@ -135,6 +135,13 @@
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../../api.html">
     API
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../license.html">
+    License
   </a>
 </li>
 
@@ -226,7 +233,7 @@
   <ul class="bd-navbar-elements navbar-nav">
     
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../guide.html">
+  <a class="nav-link nav-internal" href="../../user_guide.html">
     User Guide
   </a>
 </li>
@@ -235,6 +242,13 @@
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../../api.html">
     API
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../license.html">
+    License
   </a>
 </li>
 
@@ -352,6 +366,7 @@
 <span class="sd">FUNCTIONS</span>
 
 <span class="sd">.. autosummary::</span>
+<span class="sd">   :toctree: generated</span>
 
 <span class="sd">    ~add_reflection</span>
 <span class="sd">    ~add_sample</span>
@@ -374,8 +389,8 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">uuid</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">namedtuple</span>
 
+<span class="kn">from</span><span class="w"> </span><span class="nn">.blocks.lattice</span><span class="w"> </span><span class="kn">import</span> <span class="n">Lattice</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.diffract</span><span class="w"> </span><span class="kn">import</span> <span class="n">DiffractometerBase</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">.operations.lattice</span><span class="w"> </span><span class="kn">import</span> <span class="n">Lattice</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.ops</span><span class="w"> </span><span class="kn">import</span> <span class="n">OperationsError</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.wavelength_support</span><span class="w"> </span><span class="kn">import</span> <span class="n">MonochromaticXrayWavelength</span>
 
@@ -441,7 +456,7 @@
 
 
 <div class="viewcode-block" id="add_sample">
-<a class="viewcode-back" href="../../api/user.html#hklpy2.user.add_sample">[docs]</a>
+<a class="viewcode-back" href="../../generated/generated/hklpy2.user.add_sample.html#hklpy2.user.add_sample">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">add_sample</span><span class="p">(</span>
     <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="n">a</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
@@ -491,7 +506,7 @@
 
 
 <div class="viewcode-block" id="cahkl">
-<a class="viewcode-back" href="../../api/user.html#hklpy2.user.cahkl">[docs]</a>
+<a class="viewcode-back" href="../../generated/generated/hklpy2.user.cahkl.html#hklpy2.user.cahkl">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">cahkl</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">l</span><span class="p">):</span>  <span class="c1"># noqa: E741</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Calculate motor positions for one reflection - DOES NOT MOVE motors.</span>
@@ -511,13 +526,13 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">diffractometer</span> <span class="o">=</span> <span class="n">get_diffractometer</span><span class="p">()</span>
     <span class="n">position</span> <span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span><span class="s2">&quot;Position&quot;</span><span class="p">,</span> <span class="s2">&quot;h k l&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">())(</span><span class="n">h</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">l</span><span class="p">)</span>
-    <span class="n">solutions</span> <span class="o">=</span> <span class="n">diffractometer</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">position</span><span class="p">)</span>
+    <span class="n">solutions</span> <span class="o">=</span> <span class="n">diffractometer</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">position</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">diffractometer</span><span class="o">.</span><span class="n">_forward_solution</span><span class="p">(</span><span class="n">diffractometer</span><span class="o">.</span><span class="n">real_position</span><span class="p">,</span> <span class="n">solutions</span><span class="p">)</span></div>
 
 
 
 <div class="viewcode-block" id="cahkl_table">
-<a class="viewcode-back" href="../../api/user.html#hklpy2.user.cahkl_table">[docs]</a>
+<a class="viewcode-back" href="../../generated/generated/hklpy2.user.cahkl_table.html#hklpy2.user.cahkl_table">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">cahkl_table</span><span class="p">(</span><span class="o">*</span><span class="n">reflections</span><span class="p">,</span> <span class="n">digits</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Print a table with motor positions for each reflection given.</span>
@@ -551,15 +566,15 @@
 <span class="sd">        Number of digits to roundoff each position</span>
 <span class="sd">        value.  Default is 5.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">operator</span> <span class="o">=</span> <span class="n">get_diffractometer</span><span class="p">()</span><span class="o">.</span><span class="n">operator</span>
-    <span class="n">HklPosition</span> <span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span><span class="s2">&quot;HklPosition&quot;</span><span class="p">,</span> <span class="s2">&quot;h k l&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">())</span>  <span class="c1"># TODO: #36</span>
-    <span class="n">reflections</span> <span class="o">=</span> <span class="p">[</span><span class="n">HklPosition</span><span class="p">(</span><span class="o">*</span><span class="n">r</span><span class="p">)</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">reflections</span><span class="p">]</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">operator</span><span class="o">.</span><span class="n">forward_solutions_table</span><span class="p">(</span><span class="n">reflections</span><span class="p">,</span> <span class="n">digits</span><span class="o">=</span><span class="n">digits</span><span class="p">))</span></div>
+    <span class="n">core</span> <span class="o">=</span> <span class="n">get_diffractometer</span><span class="p">()</span><span class="o">.</span><span class="n">core</span>
+    <span class="n">HklPosition</span> <span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span><span class="s2">&quot;HklPosition&quot;</span><span class="p">,</span> <span class="s2">&quot;h k l&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">())</span>
+    <span class="n">reflections</span> <span class="o">=</span> <span class="p">[</span><span class="n">HklPosition</span><span class="p">(</span><span class="o">*</span><span class="n">r</span><span class="p">)</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">reflections</span><span class="p">]</span>  <span class="c1"># TODO: apply #36</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">forward_solutions_table</span><span class="p">(</span><span class="n">reflections</span><span class="p">,</span> <span class="n">digits</span><span class="o">=</span><span class="n">digits</span><span class="p">))</span></div>
 
 
 
 <div class="viewcode-block" id="calc_UB">
-<a class="viewcode-back" href="../../api/user.html#hklpy2.user.calc_UB">[docs]</a>
+<a class="viewcode-back" href="../../generated/generated/hklpy2.user.calc_UB.html#hklpy2.user.calc_UB">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">calc_UB</span><span class="p">(</span><span class="n">r1</span><span class="p">,</span> <span class="n">r2</span><span class="p">,</span> <span class="n">wavelength</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Compute the UB matrix with two reflections.</span>
@@ -577,12 +592,12 @@
 <span class="sd">        [-1.000000087766, -0.000280008582, 2.82915e-07]]</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">get_diffractometer</span><span class="p">()</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">calc_UB</span><span class="p">(</span><span class="n">r1</span><span class="p">,</span> <span class="n">r2</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">get_diffractometer</span><span class="p">()</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">calc_UB</span><span class="p">(</span><span class="n">r1</span><span class="p">,</span> <span class="n">r2</span><span class="p">)</span></div>
 
 
 
 <div class="viewcode-block" id="get_diffractometer">
-<a class="viewcode-back" href="../../api/user.html#hklpy2.user.get_diffractometer">[docs]</a>
+<a class="viewcode-back" href="../../generated/generated/hklpy2.user.get_diffractometer.html#hklpy2.user.get_diffractometer">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_diffractometer</span><span class="p">():</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Return the currently-selected diffractometer (or ``None``).</span>
@@ -612,7 +627,7 @@
 
 
 <div class="viewcode-block" id="list_samples">
-<a class="viewcode-back" href="../../api/user.html#hklpy2.user.list_samples">[docs]</a>
+<a class="viewcode-back" href="../../generated/generated/hklpy2.user.list_samples.html#hklpy2.user.list_samples">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">list_samples</span><span class="p">(</span><span class="n">full</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Summarize diffractometer&#39;s samples.</span>
@@ -652,7 +667,7 @@
 
 
 <div class="viewcode-block" id="or_swap">
-<a class="viewcode-back" href="../../api/user.html#hklpy2.user.or_swap">[docs]</a>
+<a class="viewcode-back" href="../../generated/generated/hklpy2.user.or_swap.html#hklpy2.user.or_swap">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">or_swap</span><span class="p">():</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Swap the first 2 ORienting reflections, re-compute &amp; return new [UB].</span>
@@ -681,7 +696,7 @@
 
 
 <div class="viewcode-block" id="pa">
-<a class="viewcode-back" href="../../api/user.html#hklpy2.user.pa">[docs]</a>
+<a class="viewcode-back" href="../../generated/generated/hklpy2.user.pa.html#hklpy2.user.pa">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">pa</span><span class="p">(</span><span class="n">digits</span><span class="o">=</span><span class="mi">4</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Report (all) the diffractometer settings.</span>
@@ -716,7 +731,7 @@
 
 
 <div class="viewcode-block" id="remove_reflection">
-<a class="viewcode-back" href="../../api/user.html#hklpy2.user.remove_reflection">[docs]</a>
+<a class="viewcode-back" href="../../generated/generated/hklpy2.user.remove_reflection.html#hklpy2.user.remove_reflection">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">remove_reflection</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">error</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Pop the named reflection and remove it from list of orienting reflections.</span>
@@ -736,8 +751,8 @@
 <span class="sd">        if ``name`` is not found.  Provide ``error=False`` to skip the exception.</span>
 
 <span class="sd">    .. seealso:: :func:`~hklpy2.user.add_reflection`,</span>
-<span class="sd">         :func:`~hklpy2.user.or_swap`,</span>
-<span class="sd">          :func:`~hklpy2.user.setor`</span>
+<span class="sd">        :func:`~hklpy2.user.or_swap`,</span>
+<span class="sd">        :func:`~hklpy2.user.setor`</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">get_diffractometer</span><span class="p">()</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">remove_reflection</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
@@ -748,7 +763,7 @@
 
 
 <div class="viewcode-block" id="remove_sample">
-<a class="viewcode-back" href="../../api/user.html#hklpy2.user.remove_sample">[docs]</a>
+<a class="viewcode-back" href="../../generated/generated/hklpy2.user.remove_sample.html#hklpy2.user.remove_sample">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">remove_sample</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">error</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Pop the named sample, set &quot;selected&quot; sample name to a valid one.</span>
@@ -778,7 +793,7 @@
 <span class="sd">    .. seealso:: :func:`~hklpy2.user.add_sample` :func:`~hklpy2.user.list_samples`</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="n">get_diffractometer</span><span class="p">()</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">remove_sample</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+        <span class="n">get_diffractometer</span><span class="p">()</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">remove_sample</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
     <span class="k">except</span> <span class="p">(</span><span class="ne">KeyError</span><span class="p">,</span> <span class="n">OperationsError</span><span class="p">)</span> <span class="k">as</span> <span class="n">exinfo</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">error</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">exinfo</span></div>
@@ -786,7 +801,7 @@
 
 
 <div class="viewcode-block" id="set_diffractometer">
-<a class="viewcode-back" href="../../api/user.html#hklpy2.user.set_diffractometer">[docs]</a>
+<a class="viewcode-back" href="../../generated/generated/hklpy2.user.set_diffractometer.html#hklpy2.user.set_diffractometer">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">set_diffractometer</span><span class="p">(</span><span class="n">diffractometer</span><span class="p">:</span> <span class="n">DiffractometerBase</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Declare the diffractometer to be used.</span>
@@ -804,7 +819,7 @@
 
 
 <div class="viewcode-block" id="set_energy">
-<a class="viewcode-back" href="../../api/user.html#hklpy2.user.set_energy">[docs]</a>
+<a class="viewcode-back" href="../../generated/generated/hklpy2.user.set_energy.html#hklpy2.user.set_energy">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">set_energy</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Set the energy (thus wavelength) to be used (does not change control system value).</span>
@@ -835,7 +850,7 @@
 
 
 <div class="viewcode-block" id="set_lattice">
-<a class="viewcode-back" href="../../api/user.html#hklpy2.user.set_lattice">[docs]</a>
+<a class="viewcode-back" href="../../generated/generated/hklpy2.user.set_lattice.html#hklpy2.user.set_lattice">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">set_lattice</span><span class="p">(</span>
     <span class="n">a</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">b</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -867,7 +882,7 @@
 
 
 <div class="viewcode-block" id="setor">
-<a class="viewcode-back" href="../../api/user.html#hklpy2.user.setor">[docs]</a>
+<a class="viewcode-back" href="../../generated/generated/hklpy2.user.setor.html#hklpy2.user.setor">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">setor</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="o">*</span><span class="n">reals</span><span class="p">,</span> <span class="n">wavelength</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwreals</span><span class="p">):</span>  <span class="c1"># noqa: E741</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Define an ORienting reflection.</span>
@@ -960,7 +975,7 @@
 
 
 <div class="viewcode-block" id="wh">
-<a class="viewcode-back" href="../../api/user.html#hklpy2.user.wh">[docs]</a>
+<a class="viewcode-back" href="../../generated/generated/hklpy2.user.wh.html#hklpy2.user.wh">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">wh</span><span class="p">(</span><span class="n">digits</span><span class="o">=</span><span class="mi">4</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Report (brief) where is the diffractometer.</span>
@@ -1032,7 +1047,7 @@
         <div class="footer-item">
 
   <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
     <br/>
   </p>
 </div>

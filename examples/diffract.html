@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=6a9d8632"></script>
+    <script src="../_static/documentation_options.js?v=a8d0577b"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
@@ -129,7 +129,7 @@
   <ul class="bd-navbar-elements navbar-nav">
     
 <li class="nav-item current active">
-  <a class="nav-link nav-internal" href="../guide.html">
+  <a class="nav-link nav-internal" href="../user_guide.html">
     User Guide
   </a>
 </li>
@@ -138,6 +138,13 @@
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../api.html">
     API
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../license.html">
+    License
   </a>
 </li>
 
@@ -231,7 +238,7 @@
   <ul class="bd-navbar-elements navbar-nav">
     
 <li class="nav-item current active">
-  <a class="nav-link nav-internal" href="../guide.html">
+  <a class="nav-link nav-internal" href="../user_guide.html">
     User Guide
   </a>
 </li>
@@ -240,6 +247,13 @@
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../api.html">
     API
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../license.html">
+    License
   </a>
 </li>
 
@@ -287,8 +301,15 @@
      aria-label="Section Navigation">
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
   <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="../design-discussion.html">Design for hklpy2</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../checklist_v2.html">Feature Checklist for v2</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../concepts.html">Concepts</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../concepts/diffract.html">Diffractometer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../concepts/lattice.html">Crystal Lattice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../concepts/ops.html">Operations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../concepts/reflection.html">Orientation Reflection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../concepts/solvers.html">Solvers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../concepts/user.html">User Friendliness</a></li>
+</ul>
+</details></li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="../examples.html">Examples</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="_api_demo.html">Demonstrate <strong>hklpy2</strong>’s API</a></li>
 
@@ -303,6 +324,8 @@
 </ul>
 </details></li>
 <li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../design-discussion.html">Design for hklpy2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../checklist_v2.html">Feature Checklist for v2</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
 </ul>
 </div>
@@ -345,7 +368,7 @@
       </a>
     </li>
     
-    <li class="breadcrumb-item"><a href="../guide.html" class="nav-link">User Guide</a></li>
+    <li class="breadcrumb-item"><a href="../user_guide.html" class="nav-link">User Guide</a></li>
     
     
     <li class="breadcrumb-item"><a href="../examples.html" class="nav-link">Examples</a></li>
@@ -386,14 +409,14 @@ to use any names allowed by ophyd.</p>
 </div>
 <section id="diffractometer-factory-function">
 <span id="diffract-axes-diffractometer-factory"></span><h3>Diffractometer Factory Function<a class="headerlink" href="#diffractometer-factory-function" title="Link to this heading">#</a></h3>
-<p>The <a class="reference internal" href="../api/geom.html#hklpy2.geom.creator" title="hklpy2.geom.creator"><code class="xref py py-func docutils literal notranslate"><span class="pre">creator()</span></code></a> function maps axis names from
+<p>The <a class="reference internal" href="../generated/generated/hklpy2.geom.creator.html#hklpy2.geom.creator" title="hklpy2.geom.creator"><code class="xref py py-func docutils literal notranslate"><span class="pre">creator()</span></code></a> function maps axis names from
 diffractometer to <strong>Solver</strong>.  Let’s show this cross-reference map in an IPython
 console with just a few commands:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">6</span><span class="p">]:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">hklpy2</span><span class="w"> </span><span class="kn">import</span> <span class="n">creator</span>
 
 <span class="n">In</span> <span class="p">[</span><span class="mi">7</span><span class="p">]:</span> <span class="n">twoc</span> <span class="o">=</span> <span class="n">creator</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;twoc&quot;</span><span class="p">,</span> <span class="n">geometry</span><span class="o">=</span><span class="s2">&quot;TH TTH Q&quot;</span><span class="p">,</span> <span class="n">solver</span><span class="o">=</span><span class="s2">&quot;th_tth&quot;</span><span class="p">)</span>
 
-<span class="n">In</span> <span class="p">[</span><span class="mi">8</span><span class="p">]:</span> <span class="n">twoc</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">axes_xref</span>
+<span class="n">In</span> <span class="p">[</span><span class="mi">8</span><span class="p">]:</span> <span class="n">twoc</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">axes_xref</span>
 <span class="n">Out</span><span class="p">[</span><span class="mi">8</span><span class="p">]:</span> <span class="p">{</span><span class="s1">&#39;q&#39;</span><span class="p">:</span> <span class="s1">&#39;q&#39;</span><span class="p">,</span> <span class="s1">&#39;theta&#39;</span><span class="p">:</span> <span class="s1">&#39;th&#39;</span><span class="p">,</span> <span class="s1">&#39;ttheta&#39;</span><span class="p">:</span> <span class="s1">&#39;tth&#39;</span><span class="p">}</span>
 </pre></div>
 </div>
@@ -404,7 +427,7 @@ console with just a few commands:</p>
 the detector.</p>
 <p>In addition to defining the diffractometer axes, we name the <strong>Solver</strong> to use
 with our diffractometer. The <code class="docutils literal notranslate"><span class="pre">th_tth</span></code> <strong>Solver</strong> has a
-<a class="reference internal" href="../api/backends/th_tth_q.html#hklpy2.backends.th_tth_q.ThTthSolver" title="hklpy2.backends.th_tth_q.ThTthSolver"><code class="xref py py-class docutils literal notranslate"><span class="pre">ThTthSolver</span></code></a> with a <code class="docutils literal notranslate"><span class="pre">&quot;TH</span> <span class="pre">TTH</span> <span class="pre">Q&quot;</span></code> geometry
+<code class="xref py py-class docutils literal notranslate"><span class="pre">ThTthSolver</span></code> with a <code class="docutils literal notranslate"><span class="pre">&quot;TH</span> <span class="pre">TTH</span> <span class="pre">Q&quot;</span></code> geometry
 that fits our design. We set that up in the <code class="docutils literal notranslate"><span class="pre">__init__()</span></code> method of our new
 class:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">hklpy2</span>
@@ -424,7 +447,7 @@ class:</p>
             <span class="n">geometry</span><span class="o">=</span><span class="s2">&quot;TH TTH Q&quot;</span><span class="p">,</span>            <span class="c1"># solver geometry</span>
             <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
         <span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">auto_assign_axes</span><span class="p">()</span>    <span class="c1"># assign axes</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">auto_assign_axes</span><span class="p">()</span>    <span class="c1"># assign axes</span>
 </pre></div>
 </div>
 <p>Create a Python object that uses this class:</p>
@@ -433,7 +456,7 @@ class:</p>
 </div>
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
-<p>Use the <a class="reference internal" href="../api/geom.html#hklpy2.geom.creator" title="hklpy2.geom.creator"><code class="xref py py-func docutils literal notranslate"><span class="pre">hklpy2.geom.creator()</span></code></a> instead:</p>
+<p>Use the <a class="reference internal" href="../generated/generated/hklpy2.geom.creator.html#hklpy2.geom.creator" title="hklpy2.geom.creator"><code class="xref py py-func docutils literal notranslate"><span class="pre">hklpy2.geom.creator()</span></code></a> instead:</p>
 <div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">twoc</span> <span class="o">=</span> <span class="n">hklpy2</span><span class="o">.</span><span class="n">creator</span><span class="p">(</span>
     <span class="n">name</span><span class="o">=</span><span class="s2">&quot;twoc&quot;</span><span class="p">,</span>
     <span class="n">geometry</span><span class="o">=</span><span class="s2">&quot;TH TTH Q&quot;</span><span class="p">,</span>
@@ -444,7 +467,7 @@ class:</p>
 </div>
 </div>
 <p>Show the mapping between user-defined axes and axis names used by the <strong>Solver</strong>:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">twoc</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">axes_xref</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">twoc</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">axes_xref</span><span class="p">)</span>
 <span class="go">{&#39;q&#39;: &#39;q&#39;, &#39;sample&#39;: &#39;th&#39;, &#39;detector&#39;: &#39;tth&#39;}</span>
 </pre></div>
 </div>
@@ -494,22 +517,22 @@ and <code class="docutils literal notranslate"><span class="pre">reals=[&quot;th
 </pre></div>
 </div>
 <p>Show the <code class="docutils literal notranslate"><span class="pre">twoc</span></code> diffractometer’s <strong>Solver</strong>:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">twoc</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">solver</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">twoc</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver</span>
 <span class="go">ThTthSolver(name=&#39;th_tth&#39;, version=&#39;0.0.14&#39;, geometry=&#39;TH TTH Q&#39;)</span>
 </pre></div>
 </div>
 <p>What are the axes expected by this <strong>Solver</strong>?:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">twoc</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">pseudo_axis_names</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">twoc</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">pseudo_axis_names</span>
 <span class="go">[&#39;q&#39;]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">twoc</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">real_axis_names</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">twoc</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">real_axis_names</span>
 <span class="go">[&#39;th&#39;, &#39;tth&#39;]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">twoc</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">extra_axis_names</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">twoc</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">extra_axis_names</span>
 <span class="go">[]</span>
 </pre></div>
 </div>
 <p>Show the cross-reference mapping from diffractometer
 to <strong>Solver</strong> axis names (as defined in our MyTwoC class above):</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">twoc</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">axes_xref</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">twoc</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">axes_xref</span>
 <span class="go">{&#39;q&#39;: &#39;q&#39;, &#39;theta&#39;: &#39;th&#39;, &#39;ttheta&#39;: &#39;tth&#39;}</span>
 </pre></div>
 </div>
@@ -522,7 +545,7 @@ any particular <strong>Solver</strong> library.</p>
 defined by the diffractometer as needed by the <strong>Solver</strong>.</p>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
-<p><a class="reference internal" href="../api/diffract.html#hklpy2.diffract.DiffractometerBase.auto_assign_axes" title="hklpy2.diffract.DiffractometerBase.auto_assign_axes"><code class="xref py py-meth docutils literal notranslate"><span class="pre">auto_assign_axes()</span></code></a></p>
+<p><code class="xref py py-meth docutils literal notranslate"><span class="pre">auto_assign_axes()</span></code></p>
 </div>
 <p>In our diffractometer class (MyTwoC), the axes are sorted alphabetically.
 Auto-assignment of axes would not have been correct, because we did not
@@ -530,7 +553,7 @@ define the <code class="docutils literal notranslate"><span class="pre">q</span>
 as the first real axis Components.  Let’s show what auto-assignment
 chooses in this case:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">twoc</span><span class="o">.</span><span class="n">auto_assign_axes</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">twoc</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">axes_xref</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">twoc</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">axes_xref</span>
 <span class="go">{&#39;another&#39;: &#39;q&#39;, &#39;horizontal&#39;: &#39;th&#39;, &#39;theta&#39;: &#39;tth&#39;}</span>
 </pre></div>
 </div>
@@ -654,7 +677,7 @@ chooses in this case:</p>
         <div class="footer-item">
 
   <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
     <br/>
   </p>
 </div>
