@@ -169,13 +169,12 @@ class HklSolver(SolverBase):
         ~inverse
         ~refineLattice
         ~removeAllReflections
-        ~summary
 
     .. rubric:: Python Properties
 
     .. autosummary::
 
-        ~_summary
+        ~_summary_dict
         ~axes_c
         ~axes_r
         ~axes_w
@@ -191,6 +190,7 @@ class HklSolver(SolverBase):
         ~pseudo_axis_names
         ~real_axis_names
         ~sample
+        ~summary
         ~UB
         ~wavelength
     """
@@ -561,7 +561,7 @@ class HklSolver(SolverBase):
         return self._geometry.wavelength_set(value, LIBHKL_USER_UNITS)
 
     @property
-    def _summary(self):  # TODO: add to base class, TODO: needs tests
+    def _summary_dict(self):  # TODO: add to base class
         """Return a summary of the geometry (engines, modes, axes)"""
         geometry_name = self.geometry
         description = {"name": geometry_name}
@@ -592,11 +592,12 @@ class HklSolver(SolverBase):
 
         return description
 
-    def summary(self) -> Table:  # TODO: add to base class, TODO: needs tests
+    @property
+    def summary(self) -> Table:  # TODO: add to base class
         """Table of engines, modes, & axes for this geometry."""
         table = Table()
         table.labels = "engine pseudo(s) mode real(s) writable(s) extra(s)".split()
-        for engine_name, engine in self._summary["engines"].items():
+        for engine_name, engine in self._summary_dict["engines"].items():
             row_start = [
                 engine_name,
                 ", ".join(engine["pseudos"]),
