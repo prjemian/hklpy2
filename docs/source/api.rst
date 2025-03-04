@@ -6,11 +6,6 @@ API
 
 Application-Programmer Interface - the source code.
 
-.. figure:: _static/hklpy2-block-diagram.png
-   :alt: Block hklpy2-block-diagram
-
-   Functional blocks in  |hklpy2|.
-
 .. autosummary::
    :toctree: generated
 
@@ -22,3 +17,8 @@ Application-Programmer Interface - the source code.
    ~hklpy2.ops
    ~hklpy2.user
    ~hklpy2.wavelength_support
+
+.. figure:: _static/hklpy2-block-diagram.png
+   :alt: Block hklpy2-block-diagram
+
+   Functional blocks in  |hklpy2|.

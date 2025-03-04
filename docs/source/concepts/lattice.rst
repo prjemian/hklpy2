@@ -51,12 +51,3 @@ triclinic       ``Lattice(4, 5, 3, 75., 85., 95.)`` 4 5 3 75    85   95
 
     >>> Lattice(4, 5, 3, 75., 85., 95.)
     Lattice(a=4, b=5, c=3, alpha=75.0, beta=85.0, gamma=95.0)
-
-.. Source Code Documentation
-.. -------------------------
-
-.. .. automodule:: hklpy2.blocks.lattice
-..     :members:
-..     :private-members:
-..     :show-inheritance:
-..     :inherited-members:

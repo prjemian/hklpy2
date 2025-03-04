@@ -6,16 +6,16 @@ Diffractometer
 
 .. index:: !design; diffractometer
 
-:concept: User builds a subclass of
-  :class:`~hklpy2.diffract.DiffractometerBase()`, adding a variety of
-  positioners as ophyd Components.  In an instance of that subclass, user
-  sets :attr:`~hklpy2.diffract.DiffractometerBase.backend_solver` by calling
-  :func:`~hklpy2.misc.solver_factory`.  In this call, the user specifies the solver,
-  the geometry, and defines which Components (of the diffractometer) are to be used as
-  pseudos and reals.  The backend implements
-  :meth:`~hklpy2.backends.base.SolverBase.forward`,
-  :meth:`~hklpy2.backends.base.SolverBase.inverse`, and all related support, for
-  only the pseudos and reals that are identified.
+Diffractometers are built as a subclass of
+:class:`~hklpy2.diffract.DiffractometerBase()`, adding a variety of
+positioners as ophyd Components.  In an instance of that subclass, user
+sets :attr:`~hklpy2.diffract.DiffractometerBase.backend_solver` by calling
+:func:`~hklpy2.misc.solver_factory`.  In this call, the user specifies the solver,
+the geometry, and defines which Components (of the diffractometer) are to be used as
+pseudos and reals.  The backend implements
+:meth:`~hklpy2.backends.base.SolverBase.forward`,
+:meth:`~hklpy2.backends.base.SolverBase.inverse`, and all related support, for
+only the pseudos and reals that are identified.
 
 .. grid:: 2
 
@@ -90,20 +90,3 @@ and :attr:`~hklpy2.ops.Operations.sample`)
     ~hklpy2.ops.Operations.set_solver (method)
     ~hklpy2.blocks.sample.Sample.U (property)
     ~hklpy2.blocks.sample.Sample.UB (property)
-
-.. Source Code Documentation
-.. -------------------------
-
-.. .. automodule:: hklpy2.diffract
-..     :members:
-..     :private-members:
-..     :show-inheritance:
-
-.. Inherited members, from ``ophyd.PseudoPositioner``
-.. +++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-.. .. so many inherited members, list separately
-
-.. .. automodule:: hklpy2.diffract
-..     :inherited-members:
-..     :no-index:

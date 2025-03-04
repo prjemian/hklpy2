@@ -16,7 +16,7 @@ a diffractometer.
 Python class                                    Purpose
 =============================================   ==============
 :class:`~hklpy2.diffract.DiffractometerBase`    ophyd `PseudoPositioner <https://blueskyproject.io/ophyd/user/reference/positioners.html#pseudopositioner>`_
-:class:`~klpy2.ops.Operations`                  The class for a diffractometer's ``.core``.
+:class:`~klpy2.ops.Operations`                  The class for a diffractometer's ``.core`` operations.
 :class:`~hklpy2.backends.base.SolverBase`       Code for diffractometer geometries and capabilities.
 =============================================   ==============
 
@@ -68,13 +68,3 @@ EXAMPLE::
 
         >>> e4cv.geometry.get()
         'E4CV'
-
-
-.. Source Code Documentation
-.. -------------------------
-
-.. .. automodule:: hklpy2.ops
-..     :members:
-..     :private-members:
-..     :show-inheritance:
-..     :inherited-members:
