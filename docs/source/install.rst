@@ -55,7 +55,7 @@ and testing:
     :linenos:
 
     export HKLPY2_ENV=hklpy2
-    conda create -y -n "${HKLPY2_ENV}" pyepics hkl tiled bson python
+    conda create -y -n "${HKLPY2_ENV}" pyepics hkl tiled bson python pandoc
     conda activate "${HKLPY2_ENV}"
     pip install --pre tiled
     pip install --pre -e .[all]

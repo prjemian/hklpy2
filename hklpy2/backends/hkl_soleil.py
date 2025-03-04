@@ -1,10 +1,5 @@
-"""
-Backend: Hkl (``"hkl_soleil"``)
-
-..  caution:: The ``hkl_soleil`` |solver| is not available
-    for Windows or Mac OS.  The underlying |libhkl| support
-    library is only provided
-    for Linux 64-bit OS at this time.
+r"""
+"hkl_soleil" solver, provides **Hkl**, Synchrotron Soleil.
 
 Example::
 
@@ -13,6 +8,21 @@ Example::
     >>> libhkl_solver = SolverClass(geometry="E4CV")
     >>> solver
     HklSolver(name='hkl_soleil', version='v5.0.0.3434', geometry='E4CV', engine='hkl', mode='bissector')
+
+:home: https://people.debian.org/~picca/hkl/hkl.html
+:source: https://repo.or.cz/hkl.git
+:conda-forge: https://anaconda.org/conda-forge
+
+..  caution:: The ``hkl_soleil`` |solver| is not available
+    for Windows or Mac OS.  The underlying |libhkl| support
+    library is only provided
+    for Linux 64-bit OS at this time.
+
+.. note:: To hold an axis or extra parameter constant (current or specified value):
+    choose the mode and set the parameter before the forward() transformation.
+
+.. note:: To scan using ``psi`` and ``hkl2``, see
+    :doc:`../../examples/hkl_soleil-e6c-psi`.
 
 .. autosummary::
 
@@ -26,14 +36,11 @@ Example::
 #     refining from more than 2 reflections, it is not used in the calculation of
 #     rotation angles from reciprocal-space coordinates.
 
-# - To hold an axis or extra parameter constant (current or specified value):
-#     choose the mode and set it before the forward() transformation.
-
-# - To scan around hkl2 using psi, see the new how to.
-
 import logging
 import math
 import platform
+
+from pyRestTable import Table
 
 from .. import SolverBase
 from .. import SolverError
@@ -167,6 +174,7 @@ class HklSolver(SolverBase):
 
     .. autosummary::
 
+        ~_summary_dict
         ~axes_c
         ~axes_r
         ~axes_w
@@ -182,6 +190,7 @@ class HklSolver(SolverBase):
         ~pseudo_axis_names
         ~real_axis_names
         ~sample
+        ~summary
         ~UB
         ~wavelength
     """
@@ -550,3 +559,56 @@ class HklSolver(SolverBase):
     @wavelength.setter
     def wavelength(self, value: float) -> None:
         return self._geometry.wavelength_set(value, LIBHKL_USER_UNITS)
+
+    @property
+    def _summary_dict(self):  # TODO: add to base class
+        """Return a summary of the geometry (engines, modes, axes)"""
+        geometry_name = self.geometry
+        description = {"name": geometry_name}
+        factories = libhkl.factories()
+
+        factory = factories[geometry_name]
+        engine_list = factory.create_new_engine_list()
+
+        engines = {engine.name_get(): engine for engine in engine_list.engines_get()}
+        description["engines"] = {}
+        for engine_name, engine in engines.items():
+            eng_desc = {
+                "pseudos": engine.pseudo_axis_names_get(),
+                "reals": {},
+                "modes": {},
+            }
+            description["engines"][engine_name] = eng_desc
+            eng_desc["reals"] = engine.axis_names_get(AXES_READ)
+            extras = []
+            for mode_name in engine.modes_names_get():
+                engine.current_mode_set(mode_name)
+                eng_desc["modes"][mode_name] = {
+                    "extras": engine.parameters_names_get(),
+                    "reals": engine.axis_names_get(AXES_WRITTEN),
+                }
+                extras += eng_desc["modes"][mode_name]["extras"]
+            eng_desc["extras"] = list(sorted(set(extras)))
+
+        return description
+
+    @property
+    def summary(self) -> Table:  # TODO: add to base class
+        """Table of engines, modes, & axes for this geometry."""
+        table = Table()
+        table.labels = "engine pseudo(s) mode real(s) writable(s) extra(s)".split()
+        for engine_name, engine in self._summary_dict["engines"].items():
+            row_start = [
+                engine_name,
+                ", ".join(engine["pseudos"]),
+            ]
+            for mode_name, mode in engine["modes"].items():
+                row = row_start + [
+                    mode_name,
+                    ", ".join(engine["reals"]),
+                    ", ".join(mode["reals"]),
+                    ", ".join(mode["extras"]),
+                ]
+                table.addRow(row)
+
+        return table

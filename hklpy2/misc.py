@@ -3,6 +3,7 @@ Miscellaneous Support.
 
 .. rubric: Functions
 .. autosummary::
+   :toctree: generated
 
     ~check_value_in_list
     ~compare_float_dicts
@@ -20,17 +21,20 @@ Miscellaneous Support.
 
 .. rubric: Symbols
 .. autosummary::
+   :toctree: generated
 
     ~IDENTITY_MATRIX_3X3
     ~SOLVER_ENTRYPOINT_GROUP
 
 .. rubric: Custom Preprocessors
 .. autosummary::
+   :toctree: generated
 
     ~ConfigurationRunWrapper
 
 .. rubric: Custom Exceptions
 .. autosummary::
+   :toctree: generated
 
     ~ConfigurationError
     ~ConstraintsError

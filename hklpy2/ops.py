@@ -5,6 +5,7 @@ Intermediate layer between DiffractometerBase Device and backend |solver|
 library.
 
 .. autosummary::
+   :toctree: generated
 
     ~Operations
 """

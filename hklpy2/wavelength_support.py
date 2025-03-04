@@ -4,6 +4,7 @@ Wavelength of the incident radiation.
 Supports compatible unit conversions.
 
 .. autosummary::
+   :toctree: generated
 
     ~A_KEV
     ~ConstantMonochromaticWavelength

@@ -1,5 +1,3 @@
-.. include:: /substitutions.txt
-
 .. index::!Solver class
 
 .. _api.solvers:
@@ -7,6 +5,11 @@
 ==================
 Solvers
 ==================
+
+.. TODO:
+    - Describe the responsibilities of a |solver|.
+    - Define the terms expected (add to glossary.).
+    - Note that solvers provide different features: additions and not availables
 
 .. index:: !design; solver
 
@@ -104,19 +107,3 @@ How to write a new Solver
     - https://github.com/DiamondLightSource/diffcalc
     - SPEC server mode
     - https://github.com/prjemian/pyub
-
-
-.. toctree::
-   :glob:
-   :hidden:
-
-   backends/*
-
-Source Code Documentation
--------------------------
-
-.. automodule:: hklpy2.backends
-    :members:
-    :private-members:
-    :show-inheritance:
-    :inherited-members:

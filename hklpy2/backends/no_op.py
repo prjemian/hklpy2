@@ -1,5 +1,5 @@
 """
-Backend: no_op (``"no_op"``)
+"no_op" solver for testing.
 
 no reciprocal-space conversions
 

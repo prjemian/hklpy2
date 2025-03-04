@@ -2,6 +2,7 @@
 Create a Diffractometer for any Geometry.
 
 .. autosummary::
+   :toctree: generated
 
     ~diffractometer_class_factory
     ~creator

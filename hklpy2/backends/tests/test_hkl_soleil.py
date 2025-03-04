@@ -1,6 +1,7 @@
 import math
 
 import pytest
+from pyRestTable import Table
 
 from .. import hkl_soleil
 
@@ -134,3 +135,25 @@ def test_affine():
     assert math.isclose(refined.alpha, 90, rel_tol=tol)
     assert math.isclose(refined.beta, 90, rel_tol=tol)
     assert math.isclose(refined.gamma, 90, rel_tol=tol)
+
+
+def test_summary_dict():
+    from ... import creator
+
+    k4cv = creator(name="k4cv", geometry="K4CV")
+    assert k4cv is not None
+
+    # TODO: expand this test
+    summary = k4cv.core.solver._summary_dict
+    assert isinstance(summary, dict)
+
+
+def test_summary():
+    from ... import creator
+
+    k4cv = creator(name="k4cv", geometry="K4CV")
+    assert k4cv is not None
+
+    # TODO: expand this test
+    summary = k4cv.core.solver.summary
+    assert isinstance(summary, Table)

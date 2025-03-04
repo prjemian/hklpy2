@@ -2,6 +2,7 @@
 Base class for all diffractometers
 
 .. autosummary::
+   :toctree: generated
 
     ~DiffractometerBase
     ~pick_first_item
