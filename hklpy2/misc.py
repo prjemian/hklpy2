@@ -5,6 +5,7 @@ Miscellaneous Support.
 .. autosummary::
    :toctree: generated
 
+    ~axes_to_dict
     ~check_value_in_list
     ~compare_float_dicts
     ~dict_device_factory
@@ -233,6 +234,70 @@ class ConfigurationRunWrapper:
 
 
 # Functions
+
+
+def axes_to_dict(input, names: list[str]) -> dict:
+    """
+    Convert any acceptable axes input to standard form (dict).
+
+    User could provide input in several forms:
+
+    * dict: ``{"h": 0, "k": 1, "l": -1}``
+    * namedtuple: ``(h=0.0, k=1.0, l=-1.0)``
+    * ordered list: ``[0, 1, -1]  (for h, k, l)``
+    * ordered tuple: ``(0, 1, -1)  (for h, k, l)``
+
+    PARAMETERS:
+
+    input : various
+        Positions, specified as dict, list, or tuple.
+    names : [str]
+        Expected names of the axes, in order expected by the solver.
+    """
+    if not isinstance(names, list):
+        raise TypeError(f"Expected a list of names, received {names=!r}")
+    for name in names:
+        if not isinstance(name, str):
+            raise TypeError(f"Each name should be text, received {name=!r}")
+    if len(input) < len(names):
+        raise ValueError(
+            f"Expected at least {len(names)} axes,"
+            # Always show received
+            f" received {len(input)}."
+        )
+    # if len(input) > len(names):  # TODO: #36
+    #     raise UserWarning(
+    #         f" Extra inputs will be ignored. Expected {len(names)}."
+    #         #
+    #         f" Received {input=!r}"
+    #     )
+
+    axes = {}
+    if isinstance(input, dict):  # convert dict to ordered dict
+        for name in names:
+            value = input.get(name)
+            if value is None:
+                raise KeyError(
+                    f"Missing axis {name!r}."
+                    # Always show received
+                    f" Received: {input=!r}"
+                    # then
+                    f" Expected: {names=!r}"
+                )
+            axes[name] = value
+
+    elif isinstance(input, (list, tuple)):  # convert to ordered dict
+        for name, value in zip(names, input):
+            axes[name] = value
+
+    else:  # TODO: generic test is Iterable?
+        raise TypeError(f"Unexpected type: {input!r}.  Expected dict, list, or tuple.")
+
+    for name, value in axes.items():
+        if not isinstance(value, (int, float)):
+            raise TypeError(f"Expected a number. Received: {value!r}.")
+
+    return axes
 
 
 def check_value_in_list(title, value, examples, blank_ok=False):

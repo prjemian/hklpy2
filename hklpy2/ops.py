@@ -27,6 +27,7 @@ from .blocks.lattice import Lattice
 from .blocks.reflection import Reflection
 from .blocks.sample import Sample
 from .misc import OperationsError
+from .misc import axes_to_dict
 from .misc import solver_factory
 from .misc import unique_name
 
@@ -580,38 +581,14 @@ class Operations:
         * ordered list: [0, 1, -1]  (for h, k, l)
         * ordered tuple: (0, 1, -1)  (for h, k, l)
         """
-        expected = expected or self.solver.pseudo_axis_names
-        if len(pseudos) != len(expected):
-            raise ValueError(
-                f"Expected {len(expected)} pseudos, received {len(pseudos)}."
-            )
-
-        pdict = {}
-        if isinstance(pseudos, dict):  # convert dict to ordered dict
-            for k in expected:
-                if k not in pseudos:
-                    raise OperationsError(f"Missing axis {k!r}. Expected: {expected!r}")
-                pdict[k] = pseudos[k]
-
-        elif isinstance(pseudos, (list, tuple)):  # convert to ordered dict
-            dnames = [
-                dname
-                for dname in self.axes_xref.keys()
-                if dname in self.diffractometer.pseudo_axis_names
-            ]
-            for dname, value in zip(dnames, pseudos):
-                pdict[dname] = value
-
-        else:
-            raise OperationsError(
-                f"Unexpected type: {pseudos!r}.  Expected dict, list, or tuple."
-            )
-
-        return pdict
+        n_axes = len(self.solver.pseudo_axis_names)
+        if expected is None:  # TODO: who called?
+            raise ValueError(f"Who raised with {pseudos=!r} and {expected=!r}?")
+        return axes_to_dict(pseudos, expected[:n_axes])
 
     def standardize_reals(
         self,
-        reals: list[str],
+        reals: list[str],  # TODO: or None
         expected: list[str] = None,
     ) -> dict:
         """
@@ -625,40 +602,18 @@ class Operations:
         * ordered list: [120, 35.3, 45, -120]  (for omega, chi, phi, tth)
         * ordered tuple: (120, 35.3, 45, -120)  (for omega, chi, phi, tth)
         """
+        n_axes = len(self.solver.real_axis_names)
+        if expected is None:  # TODO: who called?
+            raise ValueError(f"Who raised with {reals=!r} and {expected=!r}?")
+
         if reals is None:  # write ordered dict
-            # fmt: off
-            reals = [
-                getattr(self.diffractometer, k).position
-                for k in expected
-            ]
-            # fmt: on
+            reals = {
+                k: getattr(self.diffractometer, k).position
+                # Get from current diffracftometer axis positions
+                for k in expected[:n_axes]
+            }
 
-        expected = expected or self.solver.real_axis_names
-        if len(reals) != len(expected):
-            raise ValueError(f"Expected {len(expected)} reals, received {len(reals)}.")
-
-        rdict = {}
-        if isinstance(reals, dict):  # convert dict to ordered dict
-            for k in expected:
-                if k not in reals:
-                    raise OperationsError(f"Missing axis {k!r}. Expected: {reals!r}")
-                rdict[k] = reals[k]
-
-        elif isinstance(reals, (list, tuple)):  # convert to ordered dict
-            dnames = [
-                dname
-                for dname in self.axes_xref.keys()
-                if dname in self.diffractometer.real_axis_names
-            ]
-            for dname, value in zip(dnames, reals):
-                rdict[dname] = value
-
-        else:
-            raise OperationsError(
-                f"Unexpected type: {reals!r}.  Expected None, dict, list, or tuple."
-            )
-
-        return rdict
+        return axes_to_dict(reals, expected[:n_axes])
 
     # ---- get/set properties
 

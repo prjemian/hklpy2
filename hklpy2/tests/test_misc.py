@@ -1,5 +1,6 @@
 import pathlib
 import types
+from collections import namedtuple
 from contextlib import nullcontext as does_not_raise
 
 import databroker
@@ -14,6 +15,7 @@ from yaml.parser import ParserError
 from ..geom import creator
 from ..misc import ConfigurationRunWrapper
 from ..misc import SolverError
+from ..misc import axes_to_dict
 from ..misc import compare_float_dicts
 from ..misc import dict_device_factory
 from ..misc import flatten_lists
@@ -40,6 +42,66 @@ def RE(cat):
     engine = RunEngine({})
     engine.subscribe(cat.v1.insert)
     return engine
+
+
+@pytest.mark.parametrize(
+    "input, names, context, expected",
+    [
+        [dict(h=0, k=0, l=0), "h k l".split(), does_not_raise(), None],
+        [
+            dict(a=0, k=0, l=0),
+            "h k l".split(),
+            pytest.raises(KeyError),
+            "Missing axis 'h'",
+        ],
+        [
+            namedtuple("AxesTuple", "h k l".split())(0, 0, 0),
+            "h k l".split(),
+            does_not_raise(),
+            None,
+        ],
+        ["123", "h k l".split(), pytest.raises(TypeError), "Unexpected type"],
+        [
+            (1, 2),
+            "h k l".split(),
+            pytest.raises(ValueError),
+            "Expected at least 3 axes, received 2",
+        ],
+        # [  # TODO: #36
+        #     (1, 2, 3, 4),
+        #     "h k l".split(),
+        #     pytest.raises(UserWarning),
+        #     " Extra inputs will be ignored. Expected 3.",
+        # ],
+        [[0, 1, -1], "aa bb cc".split(), does_not_raise(), None],
+        [
+            [1.1, 2.2, 3.3, 4, 5],
+            "able baker charlie delta echo".split(),
+            does_not_raise(),
+            None,
+        ],
+        [
+            [1.1, 2.2, 3.3, 4, "text"],
+            "able baker charlie delta echo".split(),
+            pytest.raises(TypeError),
+            "Expected a number. Received: 'text'",
+        ],
+        [
+            "1 2 3".split(),
+            "h k l".split(),
+            pytest.raises(TypeError),
+            "Expected a number. Received: '1'",
+        ],
+    ],
+)
+def test_axes_to_dict(input, names, context, expected):
+    with context as reason:
+        axes = axes_to_dict(input, names)
+        assert isinstance(axes, dict)
+        for name in names:
+            assert isinstance(axes.get(name), (float, int))
+
+    assert_context_result(expected, reason)
 
 
 @pytest.mark.parametrize(
