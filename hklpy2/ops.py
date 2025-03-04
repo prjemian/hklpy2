@@ -10,8 +10,6 @@ library.
     ~Operations
 """
 
-# TODO:  #36
-
 import datetime
 import logging
 from collections.abc import Iterable

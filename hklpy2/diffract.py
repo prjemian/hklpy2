@@ -398,7 +398,7 @@ class DiffractometerBase(PseudoPositioner):
                 )
             )
         """
-        # TODO:  #36
+        # TODO: apply #36
         self.core.solver.extras = extras  # must come first
         solution = self.forward(list(pseudos.values()))
         yield from self.move_dict(solution)
