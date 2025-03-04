@@ -40,6 +40,8 @@ import logging
 import math
 import platform
 
+from pyRestTable import Table
+
 from .. import SolverBase
 from .. import SolverError
 from .. import check_value_in_list
@@ -167,11 +169,13 @@ class HklSolver(SolverBase):
         ~inverse
         ~refineLattice
         ~removeAllReflections
+        ~summary
 
     .. rubric:: Python Properties
 
     .. autosummary::
 
+        ~_summary
         ~axes_c
         ~axes_r
         ~axes_w
@@ -555,3 +559,55 @@ class HklSolver(SolverBase):
     @wavelength.setter
     def wavelength(self, value: float) -> None:
         return self._geometry.wavelength_set(value, LIBHKL_USER_UNITS)
+
+    @property
+    def _summary(self):  # TODO: add to base class, TODO: needs tests
+        """Return a summary of the geometry (engines, modes, axes)"""
+        geometry_name = self.geometry
+        description = {"name": geometry_name}
+        factories = libhkl.factories()
+
+        factory = factories[geometry_name]
+        engine_list = factory.create_new_engine_list()
+
+        engines = {engine.name_get(): engine for engine in engine_list.engines_get()}
+        description["engines"] = {}
+        for engine_name, engine in engines.items():
+            eng_desc = {
+                "pseudos": engine.pseudo_axis_names_get(),
+                "reals": {},
+                "modes": {},
+            }
+            description["engines"][engine_name] = eng_desc
+            eng_desc["reals"] = engine.axis_names_get(AXES_READ)
+            extras = []
+            for mode_name in engine.modes_names_get():
+                engine.current_mode_set(mode_name)
+                eng_desc["modes"][mode_name] = {
+                    "extras": engine.parameters_names_get(),
+                    "reals": engine.axis_names_get(AXES_WRITTEN),
+                }
+                extras += eng_desc["modes"][mode_name]["extras"]
+            eng_desc["extras"] = list(sorted(set(extras)))
+
+        return description
+
+    def summary(self) -> Table:  # TODO: add to base class, TODO: needs tests
+        """Table of engines, modes, & axes for this geometry."""
+        table = Table()
+        table.labels = "engine pseudo(s) mode real(s) writable(s) extra(s)".split()
+        for engine_name, engine in self._summary["engines"].items():
+            row_start = [
+                engine_name,
+                ", ".join(engine["pseudos"]),
+            ]
+            for mode_name, mode in engine["modes"].items():
+                row = row_start + [
+                    mode_name,
+                    ", ".join(engine["reals"]),
+                    ", ".join(mode["reals"]),
+                    ", ".join(mode["extras"]),
+                ]
+                table.addRow(row)
+
+        return table
