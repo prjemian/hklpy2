@@ -339,7 +339,7 @@ def axes_to_dict(input: AnyAxesType, names: list[str]) -> AxesDict:
         for name, value in zip(names, input):
             axes[name] = value
 
-    else:  # TODO: generic test is Iterable?
+    else:  # TODO: generic test is Iterable? AxesArray
         raise TypeError(f"Unexpected type: {input!r}.  Expected 'AnyAxesType'.")
 
     for name, value in axes.items():
