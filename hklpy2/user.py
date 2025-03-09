@@ -9,6 +9,7 @@ Simplified interface for |hklpy2| diffractometer users.
     ~cahkl
     ~cahkl_table
     ~calc_UB
+    ~geometry_table
     ~get_diffractometer
     ~list_samples
     ~or_swap
@@ -43,6 +44,7 @@ __all__ = """
     cahkl
     cahkl_table
     calc_UB
+    geometry_table
     get_diffractometer
     list_samples
     or_swap
@@ -231,6 +233,42 @@ def calc_UB(
 
     """
     return get_diffractometer().core.calc_UB(r1, r2)
+
+
+def geometry_table(output=True):
+    """
+    Table of diffractometer's modes, axes, ...
+
+    EXAMPLE:
+
+    .. code-block:: python
+        :linenos:
+
+        >>> import hklpy2
+        >>> from hklpy2.user import *
+        >>> e4cv = hklpy2.creator(name="e4cv")
+        >>> set_diffractometer(e4cv)
+        >>> geometry_table()
+        ========= ================== ================== ==================== ==================== ===============
+        engine    mode               pseudo(s)          real(s)              writable(s)          extra(s)
+        ========= ================== ================== ==================== ==================== ===============
+        hkl       bissector          h, k, l            omega, chi, phi, tth omega, chi, phi, tth
+        hkl       constant_omega     h, k, l            omega, chi, phi, tth chi, phi, tth
+        hkl       constant_chi       h, k, l            omega, chi, phi, tth omega, phi, tth
+        hkl       constant_phi       h, k, l            omega, chi, phi, tth omega, chi, tth
+        hkl       double_diffraction h, k, l            omega, chi, phi, tth omega, chi, phi, tth h2, k2, l2
+        hkl       psi_constant       h, k, l            omega, chi, phi, tth omega, chi, phi, tth h2, k2, l2, psi
+        psi       psi                psi                omega, chi, phi, tth omega, chi, phi, tth h2, k2, l2
+        q         q                  q                  tth                  tth
+        incidence incidence          incidence, azimuth omega, chi, phi                           x, y, z
+        emergence emergence          emergence, azimuth omega, chi, phi, tth                      x, y, z
+        ========= ================== ================== ==================== ==================== ===============
+    """
+    table = get_diffractometer().core.solver.summary
+    if output:
+        print(table)
+    else:
+        return table
 
 
 def get_diffractometer():
