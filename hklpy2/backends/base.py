@@ -10,6 +10,8 @@ import logging
 from abc import ABC
 from abc import abstractmethod
 
+from pyRestTable import Table
+
 from .. import __version__
 from ..blocks.lattice import Lattice
 from ..blocks.reflection import Reflection
@@ -266,6 +268,46 @@ class SolverBase(ABC):
         if not isinstance(value, Sample):
             raise TypeError(f"Must supply Sample object, received {value!r}")
         self._sample = value
+
+    @property
+    def _summary_dict(self):
+        """Return a summary of the geometry (modes, axes)"""
+        geometry_name = self.geometry
+        description = {
+            "name": geometry_name,
+            "pseudos": self.pseudo_axis_names,
+            "reals": self.real_axis_names,
+            "modes": {},
+        }
+
+        for mode in self.modes:
+            self.mode = mode
+            desc = {
+                "extras": [],
+                # the reals to be written in this mode (solver should override)
+                "reals": self.real_axis_names,
+            }
+            description["modes"][mode] = desc
+
+        return description
+
+    @property
+    def summary(self) -> Table:
+        """Table of this geometry (modes, axes)."""
+        table = Table()
+        table.labels = "mode pseudo(s) real(s) writable(s) extra(s)".split()
+        sdict = self._summary_dict
+        for mode_name, mode in sdict["modes"].items():
+            self.mode = mode_name
+            row = [
+                mode_name,
+                ", ".join(sdict["pseudos"]),
+                ", ".join(sdict["reals"]),
+                ", ".join(mode["reals"]),
+                ", ".join(mode["extras"]),
+            ]
+            table.addRow(row)
+        return table
 
     @property
     def UB(self):
