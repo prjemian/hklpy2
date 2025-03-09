@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../../_static/documentation_options.js?v=a8d0577b"></script>
+    <script src="../../_static/documentation_options.js?v=e677fb1b"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/design-tabs.js?v=f930bc37"></script>
@@ -372,6 +372,8 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">.blocks.lattice</span><span class="w"> </span><span class="kn">import</span> <span class="n">Lattice</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.blocks.reflection</span><span class="w"> </span><span class="kn">import</span> <span class="n">Reflection</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.blocks.sample</span><span class="w"> </span><span class="kn">import</span> <span class="n">Sample</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.misc</span><span class="w"> </span><span class="kn">import</span> <span class="n">AnyAxesType</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.misc</span><span class="w"> </span><span class="kn">import</span> <span class="n">AxesDict</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.misc</span><span class="w"> </span><span class="kn">import</span> <span class="n">OperationsError</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.misc</span><span class="w"> </span><span class="kn">import</span> <span class="n">axes_to_dict</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.misc</span><span class="w"> </span><span class="kn">import</span> <span class="n">solver_factory</span>
@@ -409,6 +411,8 @@
 <span class="sd">        ~calc_UB</span>
 <span class="sd">        ~forward</span>
 <span class="sd">        ~inverse</span>
+<span class="sd">        ~local_pseudo_axes</span>
+<span class="sd">        ~local_real_axes</span>
 <span class="sd">        ~refine_lattice</span>
 <span class="sd">        ~remove_sample</span>
 <span class="sd">        ~reset_constraints</span>
@@ -513,12 +517,7 @@
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">pseudos</span><span class="p">,</span> <span class="p">(</span><span class="nb">dict</span><span class="p">,</span> <span class="nb">list</span><span class="p">,</span> <span class="nb">set</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unexpected data type: </span><span class="si">{</span><span class="n">pseudos</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
-        <span class="n">expected_names</span> <span class="o">=</span> <span class="p">[</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">axes_xref_reversed</span><span class="p">[</span><span class="n">n</span><span class="p">]</span>  <span class="c1"># Use diffractometer&#39;s names.</span>
-            <span class="c1"># Just the solver&#39;s pseudos.</span>
-            <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">pseudo_axis_names</span>
-        <span class="p">]</span>
-        <span class="c1"># self.diffractometer.pseudo_axis_names</span>
+        <span class="n">expected_names</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">local_pseudo_axes</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">pseudos</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">expected_names</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
                 <span class="sa">f</span><span class="s2">&quot;Expected </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">expected_names</span><span class="p">)</span><span class="si">}</span><span class="s2"> pseudos,&quot;</span>
@@ -546,8 +545,8 @@
 
     <span class="k">def</span><span class="w"> </span><span class="nf">add_reflection</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="n">pseudos</span><span class="p">,</span>
-        <span class="n">reals</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">pseudos</span><span class="p">:</span> <span class="n">AnyAxesType</span><span class="p">,</span>
+        <span class="n">reals</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">AnyAxesType</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">wavelength</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">replace</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
@@ -569,17 +568,17 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_validate_pseudos</span><span class="p">(</span><span class="n">pseudos</span><span class="p">)</span>
 
-        <span class="n">reverse</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">axes_xref_reversed</span>
-        <span class="n">pnames</span> <span class="o">=</span> <span class="p">[</span><span class="n">reverse</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">pseudo_axis_names</span><span class="p">]</span>
-        <span class="n">rnames</span> <span class="o">=</span> <span class="p">[</span><span class="n">reverse</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">real_axis_names</span><span class="p">]</span>
-        <span class="n">pdict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">standardize_pseudos</span><span class="p">(</span><span class="n">pseudos</span><span class="p">,</span> <span class="n">pnames</span><span class="p">)</span>
-        <span class="n">rdict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">standardize_reals</span><span class="p">(</span><span class="n">reals</span><span class="p">,</span> <span class="n">rnames</span><span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
             <span class="s2">&quot;name=</span><span class="si">%r</span><span class="s2">, geometry=</span><span class="si">%r</span><span class="s2">, wavelength=</span><span class="si">%r</span><span class="s2">&quot;</span><span class="p">,</span>
             <span class="n">name</span><span class="p">,</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">geometry</span><span class="p">,</span>
             <span class="n">wavelength</span><span class="p">,</span>
         <span class="p">)</span>
+
+        <span class="n">pnames</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">local_pseudo_axes</span>
+        <span class="n">rnames</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">local_real_axes</span>
+        <span class="n">pdict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">standardize_pseudos</span><span class="p">(</span><span class="n">pseudos</span><span class="p">)</span>
+        <span class="n">rdict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">standardize_reals</span><span class="p">(</span><span class="n">reals</span><span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
             <span class="s2">&quot;pdict=</span><span class="si">%r</span><span class="s2">, rdict=</span><span class="si">%r</span><span class="s2">, pnames=</span><span class="si">%r</span><span class="s2">, rnames=</span><span class="si">%r</span><span class="s2">&quot;</span><span class="p">,</span>
             <span class="n">pdict</span><span class="p">,</span>
@@ -723,7 +722,7 @@
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;axes_xref=</span><span class="si">%r</span><span class="s2">&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">axes_xref</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">calc_UB</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">r1</span><span class="p">:</span> <span class="p">[</span><span class="n">Reflection</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span> <span class="n">r2</span><span class="p">:</span> <span class="p">[</span><span class="n">Reflection</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">r1</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Reflection</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span> <span class="n">r2</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Reflection</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Number</span><span class="p">]]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Calculate and return the UB (orientation) matrix with two reflections.</span>
@@ -750,7 +749,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">UB</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">UB</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">UB</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pseudos</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">,</span> <span class="n">wavelength</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pseudos</span><span class="p">:</span> <span class="n">AnyAxesType</span><span class="p">,</span> <span class="n">wavelength</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute [{names:reals}] from {names: pseudos} (hkl -&gt; angles).&quot;&quot;&quot;</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
             <span class="s2">&quot;(</span><span class="si">%s</span><span class="s2">) forward(): pseudos=</span><span class="si">%r</span><span class="s2">&quot;</span><span class="p">,</span>
@@ -762,8 +761,7 @@
             <span class="n">wavelength</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">diffractometer</span><span class="o">.</span><span class="n">wavelength</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">wavelength</span> <span class="o">=</span> <span class="n">wavelength</span>
 
-        <span class="c1"># convert namedtuple to dict</span>
-        <span class="n">pdict</span> <span class="o">=</span> <span class="n">pseudos</span><span class="o">.</span><span class="n">_asdict</span><span class="p">()</span>
+        <span class="n">pdict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">standardize_pseudos</span><span class="p">(</span><span class="n">pseudos</span><span class="p">)</span>
         <span class="n">reals</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">diffractometer</span><span class="o">.</span><span class="n">real_position</span><span class="o">.</span><span class="n">_asdict</span><span class="p">()</span>  <span class="c1"># Original values.</span>
 
         <span class="c1"># Filter just the solutions that fit the constraints.</span>
@@ -817,43 +815,73 @@
                         <span class="k">break</span>  <span class="c1"># only show the first (default) solution</span>
         <span class="k">return</span> <span class="n">_table</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">inverse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reals</span><span class="p">,</span> <span class="n">wavelength</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">inverse</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">reals</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">AnyAxesType</span><span class="p">,</span> <span class="kc">None</span><span class="p">],</span> <span class="n">wavelength</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AxesDict</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute (pseudos) from {names: reals} (angles -&gt; hkl).&quot;&quot;&quot;</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
             <span class="s2">&quot;(</span><span class="si">%s</span><span class="s2">) inverse(): reals=</span><span class="si">%r</span><span class="s2">&quot;</span><span class="p">,</span>
             <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span>
             <span class="n">reals</span><span class="p">,</span>
         <span class="p">)</span>
-        <span class="c1"># fmt: off</span>
-        <span class="n">pseudos</span> <span class="o">=</span> <span class="p">{</span>  <span class="c1"># Original values.</span>
-                <span class="n">axis</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="mi">0</span>
-                <span class="k">for</span> <span class="n">axis</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">diffractometer</span><span class="o">.</span><span class="n">_get_pseudo_positioners</span><span class="p">()</span>
+        <span class="n">pseudos</span><span class="p">:</span> <span class="n">AxesDict</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="n">axis</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="mi">0</span>
+            <span class="c1"># Original values.</span>
+            <span class="k">for</span> <span class="n">axis</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">diffractometer</span><span class="o">.</span><span class="n">_get_pseudo_positioners</span><span class="p">()</span>
         <span class="p">}</span>
-        <span class="c1"># fmt: on</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">solver</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="c1"># Called from the constructor before solver is defined.</span>
             <span class="k">return</span> <span class="n">pseudos</span>  <span class="c1"># current values of pseudos</span>
 
         <span class="k">if</span> <span class="n">wavelength</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">wavelength</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">diffractometer</span><span class="o">.</span><span class="n">wavelength</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">wavelength</span> <span class="o">=</span> <span class="n">wavelength</span>
+            <span class="n">wavelength</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">diffractometer</span><span class="o">.</span><span class="n">wavelength</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">wavelength</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">wavelength</span>
 
-        <span class="c1"># Remove reals not used by the solver</span>
-        <span class="c1"># and write dictionary in order expected by the solver.</span>
-        <span class="n">reals</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">standardize_reals</span><span class="p">(</span>
-            <span class="n">reals</span><span class="p">,</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">diffractometer</span><span class="o">.</span><span class="n">real_axis_names</span><span class="p">,</span>
-        <span class="p">)</span>
+        <span class="c1"># Just the reals expected by the solver.</span>
+        <span class="c1"># Dictionary in order expected by the solver.</span>
+        <span class="n">reals</span><span class="p">:</span> <span class="n">AxesDict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">standardize_reals</span><span class="p">(</span><span class="n">reals</span><span class="p">)</span>
 
         <span class="c1"># transform: reals -&gt; pseudos</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="n">spdict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">inverse</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_axes_names_d2s</span><span class="p">(</span><span class="n">reals</span><span class="p">))</span>
+            <span class="n">spdict</span><span class="p">:</span> <span class="n">AxesDict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">inverse</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_axes_names_d2s</span><span class="p">(</span><span class="n">reals</span><span class="p">))</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">excuse</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">excuse</span><span class="si">=!r}</span><span class="s2">&quot;</span><span class="p">)</span>
             <span class="k">raise</span> <span class="n">excuse</span>
 
         <span class="n">pseudos</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_axes_names_s2d</span><span class="p">(</span><span class="n">spdict</span><span class="p">))</span>  <span class="c1"># Update with new values.</span>
         <span class="k">return</span> <span class="n">pseudos</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">local_pseudo_axes</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        List of the diffractometer pseudo axes expected by the solver.</span>
+
+<span class="sd">        This becomes useful when additional pseudo axes are named</span>
+<span class="sd">        as ophyd Components in the diffractometer.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">solver</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">[]</span>
+        <span class="k">return</span> <span class="p">[</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">axes_xref_reversed</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
+            <span class="c1">#</span>
+            <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">pseudo_axis_names</span>
+        <span class="p">]</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">local_real_axes</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        List of the diffractometer real axes expected by the solver.</span>
+
+<span class="sd">        This becomes useful when additional real axes are named</span>
+<span class="sd">        as ophyd Components in the diffractometer.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">solver</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">[]</span>
+        <span class="k">return</span> <span class="p">[</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">axes_xref_reversed</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
+            <span class="c1">#</span>
+            <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">real_axis_names</span>
+        <span class="p">]</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">refine_lattice</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reflections</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Lattice</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -917,13 +945,9 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_solver</span><span class="o">.</span><span class="n">wavelength</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">diffractometer</span><span class="o">.</span><span class="n">wavelength</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_solver</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">standardize_pseudos</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">pseudos</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
-        <span class="n">expected</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">standardize_pseudos</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pseudos</span><span class="p">:</span> <span class="n">AnyAxesType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AxesDict</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Convert user-supplied pseudos into dictionary.</span>
+<span class="sd">        Convert user-supplied pseudos into dictionary in solver&#39;s order.</span>
 
 <span class="sd">        User could provide pseudos in several forms:</span>
 
@@ -932,39 +956,29 @@
 <span class="sd">        * ordered list: [0, 1, -1]  (for h, k, l)</span>
 <span class="sd">        * ordered tuple: (0, 1, -1)  (for h, k, l)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">n_axes</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">pseudo_axis_names</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">expected</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># TODO: who called?</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Who raised with </span><span class="si">{</span><span class="n">pseudos</span><span class="si">=!r}</span><span class="s2"> and </span><span class="si">{</span><span class="n">expected</span><span class="si">=!r}</span><span class="s2">?&quot;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">axes_to_dict</span><span class="p">(</span><span class="n">pseudos</span><span class="p">,</span> <span class="n">expected</span><span class="p">[:</span><span class="n">n_axes</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">axes_to_dict</span><span class="p">(</span><span class="n">pseudos</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">local_pseudo_axes</span><span class="p">)</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">standardize_reals</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">reals</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>  <span class="c1"># TODO: or None</span>
-        <span class="n">expected</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">standardize_reals</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reals</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">AnyAxesType</span><span class="p">,</span> <span class="kc">None</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">AxesDict</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Convert user-supplied reals into dictionary.</span>
+<span class="sd">        Convert user-supplied reals into dictionary in solver&#39;s order.</span>
 
 <span class="sd">        User could provide reals in several forms:</span>
 
+<span class="sd">        * None: current positions</span>
 <span class="sd">        * dict: {&quot;omega&quot;: 120, &quot;chi&quot;: 35.3, &quot;phi&quot;: 45, &quot;tth&quot;: -120}</span>
 <span class="sd">        * namedtuple: (omega=120, chi=35.3, phi=45, tth=-120)</span>
-<span class="sd">        * None: current positions</span>
 <span class="sd">        * ordered list: [120, 35.3, 45, -120]  (for omega, chi, phi, tth)</span>
 <span class="sd">        * ordered tuple: (120, 35.3, 45, -120)  (for omega, chi, phi, tth)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">n_axes</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">real_axis_names</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">expected</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># TODO: who called?</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Who raised with </span><span class="si">{</span><span class="n">reals</span><span class="si">=!r}</span><span class="s2"> and </span><span class="si">{</span><span class="n">expected</span><span class="si">=!r}</span><span class="s2">?&quot;</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">reals</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># write ordered dict</span>
             <span class="n">reals</span> <span class="o">=</span> <span class="p">{</span>
                 <span class="n">k</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">diffractometer</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span><span class="o">.</span><span class="n">position</span>
-                <span class="c1"># Get from current diffracftometer axis positions</span>
-                <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">expected</span><span class="p">[:</span><span class="n">n_axes</span><span class="p">]</span>
+                <span class="c1"># Get from current diffractometer axis positions</span>
+                <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">local_real_axes</span>
             <span class="p">}</span>
 
-        <span class="k">return</span> <span class="n">axes_to_dict</span><span class="p">(</span><span class="n">reals</span><span class="p">,</span> <span class="n">expected</span><span class="p">[:</span><span class="n">n_axes</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">axes_to_dict</span><span class="p">(</span><span class="n">reals</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">local_real_axes</span><span class="p">)</span>
 
     <span class="c1"># ---- get/set properties</span>
 

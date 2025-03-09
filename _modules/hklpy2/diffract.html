@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../../_static/documentation_options.js?v=a8d0577b"></script>
+    <script src="../../_static/documentation_options.js?v=e677fb1b"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/design-tabs.js?v=f930bc37"></script>
@@ -368,6 +368,8 @@
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">.blocks.reflection</span><span class="w"> </span><span class="kn">import</span> <span class="n">Reflection</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.blocks.sample</span><span class="w"> </span><span class="kn">import</span> <span class="n">Sample</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.misc</span><span class="w"> </span><span class="kn">import</span> <span class="n">AnyAxesType</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.misc</span><span class="w"> </span><span class="kn">import</span> <span class="n">AxesDict</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.misc</span><span class="w"> </span><span class="kn">import</span> <span class="n">DiffractometerError</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.misc</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_yaml_file</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.misc</span><span class="w"> </span><span class="kn">import</span> <span class="n">roundoff</span>
@@ -738,8 +740,8 @@
 
     <span class="k">def</span><span class="w"> </span><span class="nf">move_forward_with_extras</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="n">pseudos</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>  <span class="c1"># (h, k, l)</span>
-        <span class="n">extras</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>  <span class="c1"># (h2, k2, l2, psi)</span>
+        <span class="n">pseudos</span><span class="p">:</span> <span class="n">AnyAxesType</span><span class="p">,</span>  <span class="c1"># (h, k, l)</span>
+        <span class="n">extras</span><span class="p">:</span> <span class="n">AxesDict</span><span class="p">,</span>  <span class="c1"># (h2, k2, l2, psi)</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        (plan stub) Set extras and compute forward solution at fixed Q and extras.</span>
@@ -754,17 +756,16 @@
 <span class="sd">                )</span>
 <span class="sd">            )</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1"># TODO: apply #36</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">extras</span> <span class="o">=</span> <span class="n">extras</span>  <span class="c1"># must come first</span>
-        <span class="n">solution</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">pseudos</span><span class="o">.</span><span class="n">values</span><span class="p">()))</span>
+        <span class="n">solution</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">standardize_pseudos</span><span class="p">(</span><span class="n">pseudos</span><span class="p">))</span>
         <span class="k">yield from</span> <span class="bp">self</span><span class="o">.</span><span class="n">move_dict</span><span class="p">(</span><span class="n">solution</span><span class="p">)</span>
 
     <span class="nd">@real_position_argument</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">move_reals</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">real_positions</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">move_reals</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reals</span><span class="p">:</span> <span class="n">AnyAxesType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;(not a plan) Move the real-space axes as specified in &#39;real_positions&#39;.&quot;&quot;&quot;</span>
-        <span class="k">for</span> <span class="n">axis_name</span> <span class="ow">in</span> <span class="n">real_positions</span><span class="o">.</span><span class="n">_fields</span><span class="p">:</span>
+        <span class="n">reals</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">standardize_reals</span><span class="p">(</span><span class="n">reals</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">axis_name</span><span class="p">,</span> <span class="n">position</span> <span class="ow">in</span> <span class="n">reals</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="n">hkl_axis</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axis_name</span><span class="p">)</span>
-            <span class="n">position</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">real_positions</span><span class="p">,</span> <span class="n">axis_name</span><span class="p">)</span>
             <span class="n">hkl_axis</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="n">position</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">scan_extra</span><span class="p">(</span>

@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../../_static/documentation_options.js?v=a8d0577b"></script>
+    <script src="../../_static/documentation_options.js?v=e677fb1b"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/design-tabs.js?v=f930bc37"></script>
@@ -360,6 +360,7 @@
 <span class="sd">    ~flatten_lists</span>
 <span class="sd">    ~get_run_orientation</span>
 <span class="sd">    ~get_solver</span>
+<span class="sd">    ~istype</span>
 <span class="sd">    ~list_orientation_runs</span>
 <span class="sd">    ~load_yaml</span>
 <span class="sd">    ~load_yaml_file</span>
@@ -374,6 +375,16 @@
 
 <span class="sd">    ~IDENTITY_MATRIX_3X3</span>
 <span class="sd">    ~SOLVER_ENTRYPOINT_GROUP</span>
+
+<span class="sd">.. rubric: Custom Data Types</span>
+<span class="sd">.. autosummary::</span>
+<span class="sd">   :toctree: generated</span>
+
+<span class="sd">    ~AnyAxesType</span>
+<span class="sd">    ~AxesArray</span>
+<span class="sd">    ~AxesDict</span>
+<span class="sd">    ~AxesList</span>
+<span class="sd">    ~AxesTuple</span>
 
 <span class="sd">.. rubric: Custom Preprocessors</span>
 <span class="sd">.. autosummary::</span>
@@ -404,7 +415,12 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Iterable</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">importlib.metadata</span><span class="w"> </span><span class="kn">import</span> <span class="n">entry_points</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Type</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Union</span>
 
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy.typing</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">tqdm</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">yaml</span>
@@ -423,6 +439,36 @@
 <span class="sd">&quot;&quot;&quot;Name by which |hklpy2| backend |solver| classes are grouped.&quot;&quot;&quot;</span>
 
 <span class="n">DEFAULT_START_KEY</span> <span class="o">=</span> <span class="s2">&quot;diffractometers&quot;</span>
+
+<span class="c1"># Custom data types</span>
+
+<span class="n">AxesArray</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">typing</span><span class="o">.</span><span class="n">NDArray</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+<span class="sd">&quot;&quot;&quot;Numpy array of axes values.&quot;&quot;&quot;</span>
+
+<span class="n">AxesDict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span>
+<span class="sd">&quot;&quot;&quot;Dictionary of axes names and values.&quot;&quot;&quot;</span>
+
+<span class="n">AxesList</span> <span class="o">=</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span>
+<span class="sd">&quot;&quot;&quot;List of axes values.&quot;&quot;&quot;</span>
+
+<span class="n">AxesTuple</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span>
+<span class="sd">&quot;&quot;&quot;Tuple of axes values.&quot;&quot;&quot;</span>
+
+<span class="n">AnyAxesType</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">AxesArray</span><span class="p">,</span> <span class="n">AxesDict</span><span class="p">,</span> <span class="n">AxesList</span><span class="p">,</span> <span class="n">AxesTuple</span><span class="p">]</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Any of these types are used to describe both pseudo and real axes.</span>
+
+<span class="sd">=============   =========================   ====================</span>
+<span class="sd">description     example                     type annotation</span>
+<span class="sd">=============   =========================   ====================</span>
+<span class="sd">dict            {&quot;h&quot;: 0, &quot;k&quot;: 1, &quot;l&quot;: -1}   AxesDict</span>
+<span class="sd">namedtuple      (h=0.0, k=1.0, l=-1.0)      AxesTuple</span>
+<span class="sd">numpy array     numpy.array([0, 1, -1])     AxesArray</span>
+<span class="sd">ordered list    [0, 1, -1]                  AxesList</span>
+<span class="sd">ordered tuple   (0, 1, -1)                  AxesTuple</span>
+<span class="sd">=============   =========================   ====================</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
 
 <span class="c1"># Custom exceptions</span>
 
@@ -620,7 +666,7 @@
 
 <div class="viewcode-block" id="axes_to_dict">
 <a class="viewcode-back" href="../../generated/generated/hklpy2.misc.axes_to_dict.html#hklpy2.misc.axes_to_dict">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">axes_to_dict</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">names</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">axes_to_dict</span><span class="p">(</span><span class="nb">input</span><span class="p">:</span> <span class="n">AnyAxesType</span><span class="p">,</span> <span class="n">names</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">AxesDict</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Convert any acceptable axes input to standard form (dict).</span>
 
@@ -633,7 +679,7 @@
 
 <span class="sd">    PARAMETERS:</span>
 
-<span class="sd">    input : various</span>
+<span class="sd">    input : AnyAxesType</span>
 <span class="sd">        Positions, specified as dict, list, or tuple.</span>
 <span class="sd">    names : [str]</span>
 <span class="sd">        Expected names of the axes, in order expected by the solver.</span>
@@ -659,7 +705,7 @@
         <span class="p">)</span>
 
     <span class="n">axes</span> <span class="o">=</span> <span class="p">{}</span>
-    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>  <span class="c1"># convert dict to ordered dict</span>
+    <span class="k">if</span> <span class="n">istype</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">AxesDict</span><span class="p">):</span>  <span class="c1"># convert dict to ordered dict</span>
         <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">names</span><span class="p">:</span>
             <span class="n">value</span> <span class="o">=</span> <span class="nb">input</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -672,12 +718,12 @@
                 <span class="p">)</span>
             <span class="n">axes</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
 
-    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>  <span class="c1"># convert to ordered dict</span>
+    <span class="k">elif</span> <span class="n">istype</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">Union</span><span class="p">[</span><span class="n">AxesList</span><span class="p">,</span> <span class="n">AxesTuple</span><span class="p">]):</span>  <span class="c1"># convert to ordered dict</span>
         <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">names</span><span class="p">,</span> <span class="nb">input</span><span class="p">):</span>
             <span class="n">axes</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
 
-    <span class="k">else</span><span class="p">:</span>  <span class="c1"># TODO: generic test is Iterable?</span>
-        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unexpected type: </span><span class="si">{</span><span class="nb">input</span><span class="si">!r}</span><span class="s2">.  Expected dict, list, or tuple.&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>  <span class="c1"># TODO: generic test is Iterable? AxesArray</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unexpected type: </span><span class="si">{</span><span class="nb">input</span><span class="si">!r}</span><span class="s2">.  Expected &#39;AnyAxesType&#39;.&quot;</span><span class="p">)</span>
 
     <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">axes</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
@@ -859,6 +905,29 @@
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
         <span class="n">info</span> <span class="o">=</span> <span class="n">info</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="p">{})</span>
     <span class="k">return</span> <span class="n">info</span></div>
+
+
+
+<div class="viewcode-block" id="istype">
+<a class="viewcode-back" href="../../generated/generated/hklpy2.misc.istype.html#hklpy2.misc.istype">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">istype</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">annotation</span><span class="p">:</span> <span class="n">Type</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Check if &#39;value&#39; matches the type &#39;annotation&#39;.</span>
+
+<span class="sd">    EXAMPLE::</span>
+
+<span class="sd">        &gt;&gt;&gt; istype({&quot;a&quot;:1}, AxesDict)</span>
+<span class="sd">        True</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># https://stackoverflow.com/a/57813576/1046449</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">typeguard</span><span class="w"> </span><span class="kn">import</span> <span class="n">TypeCheckError</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">typeguard</span><span class="w"> </span><span class="kn">import</span> <span class="n">check_type</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">check_type</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">annotation</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">except</span> <span class="n">TypeCheckError</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span></div>
 
 
 

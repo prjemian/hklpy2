@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../../_static/documentation_options.js?v=a8d0577b"></script>
+    <script src="../../_static/documentation_options.js?v=e677fb1b"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/design-tabs.js?v=f930bc37"></script>
@@ -388,9 +388,14 @@
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">uuid</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">namedtuple</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Union</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">.blocks.lattice</span><span class="w"> </span><span class="kn">import</span> <span class="n">Lattice</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.blocks.reflection</span><span class="w"> </span><span class="kn">import</span> <span class="n">Reflection</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.diffract</span><span class="w"> </span><span class="kn">import</span> <span class="n">DiffractometerBase</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.misc</span><span class="w"> </span><span class="kn">import</span> <span class="n">AnyAxesType</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.misc</span><span class="w"> </span><span class="kn">import</span> <span class="n">AxesDict</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.misc</span><span class="w"> </span><span class="kn">import</span> <span class="n">AxesTuple</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.ops</span><span class="w"> </span><span class="kn">import</span> <span class="n">OperationsError</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.wavelength_support</span><span class="w"> </span><span class="kn">import</span> <span class="n">MonochromaticXrayWavelength</span>
 
@@ -507,9 +512,9 @@
 
 <div class="viewcode-block" id="cahkl">
 <a class="viewcode-back" href="../../generated/generated/hklpy2.user.cahkl.html#hklpy2.user.cahkl">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">cahkl</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">l</span><span class="p">):</span>  <span class="c1"># noqa: E741</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">cahkl</span><span class="p">(</span><span class="n">h</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">l</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>  <span class="c1"># noqa: E741</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Calculate motor positions for one reflection - DOES NOT MOVE motors.</span>
+<span class="sd">    Calculate motor positions for specified &#39;h, k l&#39; - DOES NOT MOVE motors.</span>
 
 <span class="sd">    Returns a namedtuple.</span>
 
@@ -525,15 +530,17 @@
 <span class="sd">            tth=24.509837696782)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">diffractometer</span> <span class="o">=</span> <span class="n">get_diffractometer</span><span class="p">()</span>
-    <span class="n">position</span> <span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span><span class="s2">&quot;Position&quot;</span><span class="p">,</span> <span class="s2">&quot;h k l&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">())(</span><span class="n">h</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">l</span><span class="p">)</span>
-    <span class="n">solutions</span> <span class="o">=</span> <span class="n">diffractometer</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">position</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">diffractometer</span><span class="o">.</span><span class="n">_forward_solution</span><span class="p">(</span><span class="n">diffractometer</span><span class="o">.</span><span class="n">real_position</span><span class="p">,</span> <span class="n">solutions</span><span class="p">)</span></div>
+    <span class="n">solutions</span> <span class="o">=</span> <span class="n">diffractometer</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">pseudos</span><span class="o">=</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">l</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">diffractometer</span><span class="o">.</span><span class="n">_forward_solution</span><span class="p">(</span>
+        <span class="n">diffractometer</span><span class="o">.</span><span class="n">real_position</span><span class="p">,</span>
+        <span class="n">solutions</span><span class="p">,</span>
+    <span class="p">)</span></div>
 
 
 
 <div class="viewcode-block" id="cahkl_table">
 <a class="viewcode-back" href="../../generated/generated/hklpy2.user.cahkl_table.html#hklpy2.user.cahkl_table">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">cahkl_table</span><span class="p">(</span><span class="o">*</span><span class="n">reflections</span><span class="p">,</span> <span class="n">digits</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">cahkl_table</span><span class="p">(</span><span class="o">*</span><span class="n">reflections</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">AxesTuple</span><span class="p">],</span> <span class="n">digits</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Print a table with motor positions for each reflection given.</span>
 
@@ -567,15 +574,19 @@
 <span class="sd">        value.  Default is 5.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">core</span> <span class="o">=</span> <span class="n">get_diffractometer</span><span class="p">()</span><span class="o">.</span><span class="n">core</span>
-    <span class="n">HklPosition</span> <span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span><span class="s2">&quot;HklPosition&quot;</span><span class="p">,</span> <span class="s2">&quot;h k l&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">())</span>
-    <span class="n">reflections</span> <span class="o">=</span> <span class="p">[</span><span class="n">HklPosition</span><span class="p">(</span><span class="o">*</span><span class="n">r</span><span class="p">)</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">reflections</span><span class="p">]</span>  <span class="c1"># TODO: apply #36</span>
+    <span class="n">PseudoTuple</span> <span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span><span class="s2">&quot;PseudoTuple&quot;</span><span class="p">,</span> <span class="s2">&quot;h k l&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">())</span>
+    <span class="n">reflections</span> <span class="o">=</span> <span class="p">[</span><span class="n">PseudoTuple</span><span class="p">(</span><span class="o">*</span><span class="n">r</span><span class="p">)</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">reflections</span><span class="p">]</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">forward_solutions_table</span><span class="p">(</span><span class="n">reflections</span><span class="p">,</span> <span class="n">digits</span><span class="o">=</span><span class="n">digits</span><span class="p">))</span></div>
 
 
 
 <div class="viewcode-block" id="calc_UB">
 <a class="viewcode-back" href="../../generated/generated/hklpy2.user.calc_UB.html#hklpy2.user.calc_UB">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">calc_UB</span><span class="p">(</span><span class="n">r1</span><span class="p">,</span> <span class="n">r2</span><span class="p">,</span> <span class="n">wavelength</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">calc_UB</span><span class="p">(</span>
+    <span class="n">r1</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Reflection</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span>
+    <span class="n">r2</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Reflection</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span>
+    <span class="n">wavelength</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Compute the UB matrix with two reflections.</span>
 
@@ -668,7 +679,7 @@
 
 <div class="viewcode-block" id="or_swap">
 <a class="viewcode-back" href="../../generated/generated/hklpy2.user.or_swap.html#hklpy2.user.or_swap">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">or_swap</span><span class="p">():</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">or_swap</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Swap the first 2 ORienting reflections, re-compute &amp; return new [UB].</span>
 
@@ -820,7 +831,7 @@
 
 <div class="viewcode-block" id="set_energy">
 <a class="viewcode-back" href="../../generated/generated/hklpy2.user.set_energy.html#hklpy2.user.set_energy">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">set_energy</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">set_energy</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Set the energy (thus wavelength) to be used (does not change control system value).</span>
 
@@ -883,7 +894,15 @@
 
 <div class="viewcode-block" id="setor">
 <a class="viewcode-back" href="../../generated/generated/hklpy2.user.setor.html#hklpy2.user.setor">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">setor</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="o">*</span><span class="n">reals</span><span class="p">,</span> <span class="n">wavelength</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwreals</span><span class="p">):</span>  <span class="c1"># noqa: E741</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">setor</span><span class="p">(</span>
+    <span class="n">h</span><span class="p">,</span>
+    <span class="n">k</span><span class="p">,</span>
+    <span class="n">l</span><span class="p">,</span>  <span class="c1"># noqa: E741</span>
+    <span class="o">*</span><span class="n">reals</span><span class="p">:</span> <span class="n">AnyAxesType</span><span class="p">,</span>
+    <span class="n">wavelength</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">kwreals</span><span class="p">:</span> <span class="n">AxesDict</span><span class="p">,</span>
+<span class="p">):</span>  <span class="c1"># noqa: E741</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Define an ORienting reflection.</span>
 
@@ -913,12 +932,12 @@
 
 <span class="sd">    h, k, l: float</span>
 <span class="sd">        Reciprocal-space coordinates of this reflection.</span>
-<span class="sd">    reals: list[float]</span>
+<span class="sd">    reals: AnyAxesType</span>
 <span class="sd">        (optional)</span>
 <span class="sd">        Real-space values of this reflection.  Must provide all values in the</span>
 <span class="sd">        order expected by the geometry.</span>
 <span class="sd">        See *Positions* tip below.</span>
-<span class="sd">    kwreals: dict[str, float]</span>
+<span class="sd">    kwreals: AxesDict</span>
 <span class="sd">        (optional)</span>
 <span class="sd">        Real-space axis names and values of this reflection.  Must provide all</span>
 <span class="sd">        axes expected by the geometry.</span>
@@ -945,15 +964,11 @@
     <span class="n">diffractometer</span> <span class="o">=</span> <span class="n">_choice</span><span class="o">.</span><span class="n">diffractometer</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">reals</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>  <span class="c1"># Real motor positions as values in expected order.</span>
         <span class="c1"># NOTE: Will ignore any kwreals.</span>
-        <span class="n">rpos</span> <span class="o">=</span> <span class="n">reals</span>
+        <span class="n">rpos</span><span class="p">:</span> <span class="n">AxesDict</span> <span class="o">=</span> <span class="n">diffractometer</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">standardize_reals</span><span class="p">(</span><span class="n">reals</span><span class="p">)</span>
     <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">kwreals</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>  <span class="c1"># Real motor positions specified as dict, in any order.</span>
-        <span class="n">rpos</span> <span class="o">=</span> <span class="p">[</span>
-            <span class="n">kwreals</span><span class="p">[</span><span class="n">axis</span><span class="p">]</span>
-            <span class="k">for</span> <span class="n">axis</span> <span class="ow">in</span> <span class="n">diffractometer</span><span class="o">.</span><span class="n">real_axis_names</span>  <span class="c1"># in expected order</span>
-            <span class="k">if</span> <span class="n">axis</span> <span class="ow">in</span> <span class="n">kwreals</span>  <span class="c1"># only if specified</span>
-        <span class="p">]</span>
+        <span class="n">rpos</span><span class="p">:</span> <span class="n">AxesDict</span> <span class="o">=</span> <span class="n">diffractometer</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">standardize_reals</span><span class="p">(</span><span class="n">kwreals</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">rpos</span> <span class="o">=</span> <span class="n">diffractometer</span><span class="o">.</span><span class="n">real_position</span>
+        <span class="n">rpos</span><span class="p">:</span> <span class="n">AxesDict</span> <span class="o">=</span> <span class="n">diffractometer</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">standardize_reals</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
 
     <span class="c1"># NOTE: hkl_soleil/libhkl gets the wavelength on a reflection from the diffractometer.</span>
     <span class="c1"># When the wavelength is set, it calls libhkl directly.</span>

@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../../_static/documentation_options.js?v=a8d0577b"></script>
+    <script src="../../_static/documentation_options.js?v=e677fb1b"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/design-tabs.js?v=f930bc37"></script>
@@ -334,6 +334,7 @@
 <li class="toctree-l2"><a class="reference internal" href="hklpy2.misc.flatten_lists.html">hklpy2.misc.flatten_lists</a></li>
 <li class="toctree-l2"><a class="reference internal" href="hklpy2.misc.get_run_orientation.html">hklpy2.misc.get_run_orientation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="hklpy2.misc.get_solver.html">hklpy2.misc.get_solver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hklpy2.misc.istype.html">hklpy2.misc.istype</a></li>
 <li class="toctree-l2"><a class="reference internal" href="hklpy2.misc.list_orientation_runs.html">hklpy2.misc.list_orientation_runs</a></li>
 <li class="toctree-l2"><a class="reference internal" href="hklpy2.misc.load_yaml.html">hklpy2.misc.load_yaml</a></li>
 <li class="toctree-l2"><a class="reference internal" href="hklpy2.misc.load_yaml_file.html">hklpy2.misc.load_yaml_file</a></li>
@@ -343,6 +344,11 @@
 <li class="toctree-l2"><a class="reference internal" href="hklpy2.misc.unique_name.html">hklpy2.misc.unique_name</a></li>
 <li class="toctree-l2"><a class="reference internal" href="hklpy2.misc.IDENTITY_MATRIX_3X3.html">hklpy2.misc.IDENTITY_MATRIX_3X3</a></li>
 <li class="toctree-l2"><a class="reference internal" href="hklpy2.misc.SOLVER_ENTRYPOINT_GROUP.html">hklpy2.misc.SOLVER_ENTRYPOINT_GROUP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hklpy2.misc.AnyAxesType.html">hklpy2.misc.AnyAxesType</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hklpy2.misc.AxesArray.html">hklpy2.misc.AxesArray</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hklpy2.misc.AxesDict.html">hklpy2.misc.AxesDict</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hklpy2.misc.AxesList.html">hklpy2.misc.AxesList</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hklpy2.misc.AxesTuple.html">hklpy2.misc.AxesTuple</a></li>
 <li class="toctree-l2"><a class="reference internal" href="hklpy2.misc.ConfigurationRunWrapper.html">hklpy2.misc.ConfigurationRunWrapper</a></li>
 <li class="toctree-l2"><a class="reference internal" href="hklpy2.misc.ConfigurationError.html">hklpy2.misc.ConfigurationError</a></li>
 <li class="toctree-l2"><a class="reference internal" href="hklpy2.misc.ConstraintsError.html">hklpy2.misc.ConstraintsError</a></li>
@@ -452,7 +458,7 @@
 <h1>hklpy2.user.set_energy<a class="headerlink" href="#hklpy2-user-set-energy" title="Link to this heading">#</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="hklpy2.user.set_energy">
-<span class="sig-prename descclassname"><span class="pre">hklpy2.user.</span></span><span class="sig-name descname"><span class="pre">set_energy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">units</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">offset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hklpy2/user.html#set_energy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.user.set_energy" title="Link to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">hklpy2.user.</span></span><span class="sig-name descname"><span class="pre">set_energy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">units</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">offset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hklpy2/user.html#set_energy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.user.set_energy" title="Link to this definition">#</a></dt>
 <dd><p>Set the energy (thus wavelength) to be used (does not change control system value).</p>
 <p>EXAMPLE:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">set_energy</span><span class="p">(</span><span class="mi">12400</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s2">&quot;eV&quot;</span><span class="p">)</span>
