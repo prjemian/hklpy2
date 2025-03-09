@@ -9,7 +9,6 @@ Simplified interface for |hklpy2| diffractometer users.
     ~cahkl
     ~cahkl_table
     ~calc_UB
-    ~geometry_table
     ~get_diffractometer
     ~list_samples
     ~or_swap
@@ -20,6 +19,7 @@ Simplified interface for |hklpy2| diffractometer users.
     ~set_energy
     ~set_lattice
     ~setor
+    ~solver_summary
     ~wh
 
 .. seealso:: :ref:`user_guide.quickstart`
@@ -44,7 +44,6 @@ __all__ = """
     cahkl
     cahkl_table
     calc_UB
-    geometry_table
     get_diffractometer
     list_samples
     or_swap
@@ -55,6 +54,7 @@ __all__ = """
     set_energy
     set_lattice
     setor
+    solver_summary
     wh
 """.split()
 
@@ -235,9 +235,9 @@ def calc_UB(
     return get_diffractometer().core.calc_UB(r1, r2)
 
 
-def geometry_table(output=True):
+def solver_summary(write=True):
     """
-    Table of diffractometer's modes, axes, ...
+    Table of diffractometer solver's modes, axes, ...
 
     EXAMPLE:
 
@@ -248,7 +248,7 @@ def geometry_table(output=True):
         >>> from hklpy2.user import *
         >>> e4cv = hklpy2.creator(name="e4cv")
         >>> set_diffractometer(e4cv)
-        >>> geometry_table()
+        >>> solver_summary()
         ========= ================== ================== ==================== ==================== ===============
         engine    mode               pseudo(s)          real(s)              writable(s)          extra(s)
         ========= ================== ================== ==================== ==================== ===============
@@ -265,7 +265,7 @@ def geometry_table(output=True):
         ========= ================== ================== ==================== ==================== ===============
     """
     table = get_diffractometer().core.solver.summary
-    if output:
+    if write:
         print(table)
     else:
         return table
