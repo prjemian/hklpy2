@@ -1,6 +1,26 @@
 """
 Simplified interface for |hklpy2| diffractometer users.
 
+.. autosummary::
+   :toctree: generated
+
+    ~add_reflection
+    ~add_sample
+    ~cahkl
+    ~cahkl_table
+    ~calc_UB
+    ~get_diffractometer
+    ~list_samples
+    ~or_swap
+    ~remove_reflection
+    ~remove_sample
+    ~pa
+    ~set_diffractometer
+    ~set_energy
+    ~set_lattice
+    ~setor
+    ~wh
+
 .. seealso:: :ref:`user_guide.quickstart`
 """
 
