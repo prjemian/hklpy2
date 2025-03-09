@@ -192,8 +192,8 @@ class Operations:
 
     def add_reflection(
         self,
-        pseudos,
-        reals=None,
+        pseudos: AnyAxesType,
+        reals: Union[AnyAxesType, None] = None,
         wavelength=None,
         name=None,
         replace: bool = False,
@@ -369,7 +369,7 @@ class Operations:
         logger.debug("axes_xref=%r", self.axes_xref)
 
     def calc_UB(
-        self, r1: [Reflection, str], r2: [Reflection, str]
+        self, r1: Union[Reflection, str], r2: Union[Reflection, str]
     ) -> List[List[Number]]:
         """
         Calculate and return the UB (orientation) matrix with two reflections.
