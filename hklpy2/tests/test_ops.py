@@ -13,6 +13,9 @@ from ..ops import OperationsError
 from ..user import set_diffractometer
 from ..user import setor
 from .common import assert_context_result
+from .models import AugmentedFourc
+from .models import MultiAxis99
+from .models import TwoC
 
 SKIP_EXACT_VALUE_TEST = str(uuid.uuid4())
 
@@ -78,89 +81,77 @@ def test_axes_xref_empty():
     assert_context_result(expected, reason)
 
 
+@pytest.mark.filterwarnings("error")
 @pytest.mark.parametrize(
-    "pseudos, names, context, expected",
+    "pseudos, context, expected",
     [
         # * dict: {"h": 0, "k": 1, "l": -1}
         # * namedtuple: (h=0.0, k=1.0, l=-1.0)
         # * ordered list: [0, 1, -1]  (for h, k, l)
         # * ordered tuple: (0, 1, -1)  (for h, k, l)
-        [dict(h=1, k=2, l=3), fourc.pseudo_axis_names, does_not_raise(), None],
-        [[1, 2, 3], fourc.pseudo_axis_names, does_not_raise(), None],
-        [(1, 2, 3), fourc.pseudo_axis_names, does_not_raise(), None],
+        [dict(h=1, k=2, l=3), does_not_raise(), None],
+        [[1, 2, 3], does_not_raise(), None],
+        [(1, 2, 3), does_not_raise(), None],
         [
-            namedtuple("HklPos", "h k l".split())(1, 2, 3),
-            fourc.pseudo_axis_names,
+            namedtuple("PseudoTuple", "h k l".split())(1, 2, 3),
             does_not_raise(),
             None,
         ],
         [
             [1, 2, 3, 4],
-            fourc.pseudo_axis_names,
-            pytest.raises(ValueError),
-            "pseudos, received",
+            pytest.raises(UserWarning),
+            "Extra inputs will be ignored. Expected 3.",
         ],
         [
             dict(h=1, k=2, lll=3),
-            fourc.pseudo_axis_names,
-            pytest.raises(OperationsError),
-            "Missing axis",
+            pytest.raises(KeyError),
+            "Missing axis 'l'",
         ],
         [
             "abc",
-            fourc.pseudo_axis_names,
-            pytest.raises(OperationsError),
-            "Unexpected type",
+            pytest.raises(TypeError),
+            "Expected 'AnyAxesType'.",
         ],
     ],
 )
-def test_standardize_pseudos(pseudos, names, context, expected):
+def test_standardize_pseudos(pseudos, context, expected):
     with context as reason:
-        fourc.core.standardize_pseudos(pseudos, names)
+        fourc.core.standardize_pseudos(pseudos)
     assert_context_result(expected, reason)
 
 
+@pytest.mark.filterwarnings("error")
 @pytest.mark.parametrize(
-    "reals, names, context, expected",
+    "reals, context, expected",
     [
         [
             dict(omega=1, chi=2, phi=3, tth=4),
-            fourc.real_axis_names,
             does_not_raise(),
             None,
         ],
-        [[1, 2, 3, 4], fourc.real_axis_names, does_not_raise(), None],
-        [(1, 2, 3, 4), fourc.real_axis_names, does_not_raise(), None],
-        [None, fourc.real_axis_names, does_not_raise(), None],
-        [
-            namedtuple("RealPos", "a b c d".split())(1, 2, 3, 4),
-            "a b c d".split(),
-            does_not_raise(),
-            None,
-        ],
+        [[1, 2, 3, 4], does_not_raise(), None],
+        [(1, 2, 3, 4), does_not_raise(), None],
+        [None, does_not_raise(), None],
         [
             [1, 2, 3, 4, 5],
-            fourc.real_axis_names,
-            pytest.raises(ValueError),
-            "reals, received",
+            pytest.raises(UserWarning),
+            "Extra inputs will be ignored. Expected 4.",
         ],
         [
             dict(theta=1, chi=2, phi=3, ttheta=4),
-            fourc.real_axis_names,
-            pytest.raises(OperationsError),
-            "Missing axis",
+            pytest.raises(KeyError),
+            "Missing axis 'omega'.",
         ],
         [
             "abcd",
-            fourc.real_axis_names,
-            pytest.raises(OperationsError),
-            "Unexpected type",
+            pytest.raises(TypeError),
+            "Expected 'AnyAxesType'.",
         ],
     ],
 )
-def test_standardize_reals(reals, names, context, expected):
+def test_standardize_reals(reals, context, expected):
     with context as reason:
-        fourc.core.standardize_reals(reals, names)
+        fourc.core.standardize_reals(reals)
     assert_context_result(expected, reason)
 
 
@@ -193,6 +184,86 @@ def test_repeat_sample():
     with pytest.raises(OperationsError) as reason:
         geom.add_sample("sample", 4.1)
     expected = "Sample name='sample' already defined."
+    assert_context_result(expected, reason)
+
+
+@pytest.mark.parametrize(
+    "gonio, axes, prop, context, expected",
+    [
+        [fourc, "h k l".split(), "local_pseudo_axes", does_not_raise(), None],
+        [
+            creator(name="k4cv", geometry="K4CV"),
+            "h k l".split(),
+            "local_pseudo_axes",
+            does_not_raise(),
+            None,
+        ],
+        [
+            creator(name="sixc", geometry="E6C", solver_kwargs=dict(engine="psi")),
+            ["psi"],
+            "local_pseudo_axes",
+            does_not_raise(),
+            None,
+        ],
+        [
+            AugmentedFourc(name="acccc"),
+            "h k l".split(),
+            "local_pseudo_axes",
+            does_not_raise(),
+            None,
+        ],
+        [
+            TwoC(name="cc"),
+            ["another"],
+            "local_pseudo_axes",
+            pytest.raises(AssertionError),
+            "assert ['q'] == ['another']",
+        ],
+        [TwoC(name="cc"), ["q"], "local_pseudo_axes", does_not_raise(), None],
+        [MultiAxis99(name="ma99"), [], "local_pseudo_axes", does_not_raise(), None],
+        # ------------------
+        [fourc, "omega chi phi tth".split(), "local_real_axes", does_not_raise(), None],
+        [
+            creator(name="k4cv", geometry="K4CV"),
+            "komega kappa kphi tth".split(),
+            "local_real_axes",
+            does_not_raise(),
+            None,
+        ],
+        [
+            creator(name="sixc", geometry="E6C", solver_kwargs=dict(engine="psi")),
+            "mu omega chi phi gamma delta".split(),
+            "local_real_axes",
+            does_not_raise(),
+            None,
+        ],
+        [
+            AugmentedFourc(name="acccc"),
+            "omega chi phi tth".split(),
+            "local_real_axes",
+            does_not_raise(),
+            None,
+        ],
+        [
+            TwoC(name="cc"),
+            ["another"],
+            "local_real_axes",
+            pytest.raises(AssertionError),
+            "assert ['theta', 'ttheta'] == ['another']",
+        ],
+        [
+            TwoC(name="cc"),
+            ["theta", "ttheta"],
+            "local_real_axes",
+            does_not_raise(),
+            None,
+        ],
+        [MultiAxis99(name="ma99"), [], "local_real_axes", does_not_raise(), None],
+    ],
+)
+def test_local_pseudo_axes(gonio, axes, prop, context, expected):
+    with context as reason:
+        assert getattr(gonio.core, prop) == axes
     assert_context_result(expected, reason)
 
 

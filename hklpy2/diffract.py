@@ -20,6 +20,8 @@ from ophyd.signal import AttributeSignal
 
 from .blocks.reflection import Reflection
 from .blocks.sample import Sample
+from .misc import AnyAxesType
+from .misc import AxesDict
 from .misc import DiffractometerError
 from .misc import load_yaml_file
 from .misc import roundoff
@@ -382,8 +384,8 @@ class DiffractometerBase(PseudoPositioner):
 
     def move_forward_with_extras(
         self,
-        pseudos: dict,  # (h, k, l)
-        extras: dict,  # (h2, k2, l2, psi)
+        pseudos: AnyAxesType,  # (h, k, l)
+        extras: AxesDict,  # (h2, k2, l2, psi)
     ):
         """
         (plan stub) Set extras and compute forward solution at fixed Q and extras.
@@ -398,17 +400,16 @@ class DiffractometerBase(PseudoPositioner):
                 )
             )
         """
-        # TODO:  #36
         self.core.solver.extras = extras  # must come first
-        solution = self.forward(list(pseudos.values()))
+        solution = self.forward(self.core.standardize_pseudos(pseudos))
         yield from self.move_dict(solution)
 
     @real_position_argument
-    def move_reals(self, real_positions) -> None:
+    def move_reals(self, reals: AnyAxesType) -> None:
         """(not a plan) Move the real-space axes as specified in 'real_positions'."""
-        for axis_name in real_positions._fields:
+        reals = self.core.standardize_reals(reals)
+        for axis_name, position in reals.items():
             hkl_axis = getattr(self, axis_name)
-            position = getattr(real_positions, axis_name)
             hkl_axis.move(position)
 
     def scan_extra(

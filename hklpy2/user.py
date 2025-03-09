@@ -40,9 +40,14 @@ FUNCTIONS
 
 import uuid
 from collections import namedtuple
+from typing import Union
 
 from .blocks.lattice import Lattice
+from .blocks.reflection import Reflection
 from .diffract import DiffractometerBase
+from .misc import AnyAxesType
+from .misc import AxesDict
+from .misc import AxesTuple
 from .ops import OperationsError
 from .wavelength_support import MonochromaticXrayWavelength
 
@@ -154,9 +159,9 @@ def add_sample(
     return diffractometer.sample
 
 
-def cahkl(h, k, l):  # noqa: E741
+def cahkl(h: float, k: float, l: float):  # noqa: E741
     """
-    Calculate motor positions for one reflection - DOES NOT MOVE motors.
+    Calculate motor positions for specified 'h, k l' - DOES NOT MOVE motors.
 
     Returns a namedtuple.
 
@@ -172,12 +177,14 @@ def cahkl(h, k, l):  # noqa: E741
             tth=24.509837696782)
     """
     diffractometer = get_diffractometer()
-    position = namedtuple("Position", "h k l".split())(h, k, l)
-    solutions = diffractometer.core.forward(position)
-    return diffractometer._forward_solution(diffractometer.real_position, solutions)
+    solutions = diffractometer.core.forward(pseudos=(h, k, l))
+    return diffractometer._forward_solution(
+        diffractometer.real_position,
+        solutions,
+    )
 
 
-def cahkl_table(*reflections, digits=5):
+def cahkl_table(*reflections: list[AxesTuple], digits=5):
     """
     Print a table with motor positions for each reflection given.
 
@@ -211,12 +218,16 @@ def cahkl_table(*reflections, digits=5):
         value.  Default is 5.
     """
     core = get_diffractometer().core
-    HklPosition = namedtuple("HklPosition", "h k l".split())  # TODO: #36
-    reflections = [HklPosition(*r) for r in reflections]
+    PseudoTuple = namedtuple("PseudoTuple", "h k l".split())
+    reflections = [PseudoTuple(*r) for r in reflections]
     print(core.forward_solutions_table(reflections, digits=digits))
 
 
-def calc_UB(r1, r2, wavelength=None):
+def calc_UB(
+    r1: Union[Reflection, str],
+    r2: Union[Reflection, str],
+    wavelength: float = None,
+) -> list[list[float]]:
     """
     Compute the UB matrix with two reflections.
 
@@ -300,7 +311,7 @@ def list_samples(full=False):
             display(sample, preface)
 
 
-def or_swap():
+def or_swap() -> list[list[float]]:
     """
     Swap the first 2 ORienting reflections, re-compute & return new [UB].
 
@@ -437,7 +448,7 @@ def set_diffractometer(diffractometer: DiffractometerBase = None) -> None:
     _choice.diffractometer = diffractometer
 
 
-def set_energy(value, units=None, offset=None):
+def set_energy(value: float, units=None, offset=None):
     """
     Set the energy (thus wavelength) to be used (does not change control system value).
 
@@ -494,7 +505,15 @@ def set_lattice(
     )
 
 
-def setor(h, k, l, *reals, wavelength=None, name=None, **kwreals):  # noqa: E741
+def setor(
+    h,
+    k,
+    l,  # noqa: E741
+    *reals: AnyAxesType,
+    wavelength=None,
+    name=None,
+    **kwreals: AxesDict,
+):  # noqa: E741
     """
     Define an ORienting reflection.
 
@@ -524,12 +543,12 @@ def setor(h, k, l, *reals, wavelength=None, name=None, **kwreals):  # noqa: E741
 
     h, k, l: float
         Reciprocal-space coordinates of this reflection.
-    reals: list[float]
+    reals: AnyAxesType
         (optional)
         Real-space values of this reflection.  Must provide all values in the
         order expected by the geometry.
         See *Positions* tip below.
-    kwreals: dict[str, float]
+    kwreals: AxesDict
         (optional)
         Real-space axis names and values of this reflection.  Must provide all
         axes expected by the geometry.
@@ -556,15 +575,11 @@ def setor(h, k, l, *reals, wavelength=None, name=None, **kwreals):  # noqa: E741
     diffractometer = _choice.diffractometer
     if len(reals) > 0:  # Real motor positions as values in expected order.
         # NOTE: Will ignore any kwreals.
-        rpos = reals
+        rpos: AxesDict = diffractometer.core.standardize_reals(reals)
     elif len(kwreals) > 0:  # Real motor positions specified as dict, in any order.
-        rpos = [
-            kwreals[axis]
-            for axis in diffractometer.real_axis_names  # in expected order
-            if axis in kwreals  # only if specified
-        ]
+        rpos: AxesDict = diffractometer.core.standardize_reals(kwreals)
     else:
-        rpos = diffractometer.real_position
+        rpos: AxesDict = diffractometer.core.standardize_reals(None)
 
     # NOTE: hkl_soleil/libhkl gets the wavelength on a reflection from the diffractometer.
     # When the wavelength is set, it calls libhkl directly.

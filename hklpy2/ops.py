@@ -10,8 +10,6 @@ library.
     ~Operations
 """
 
-# TODO:  #36
-
 import datetime
 import logging
 from collections.abc import Iterable
@@ -26,7 +24,10 @@ from .blocks.constraints import RealAxisConstraints
 from .blocks.lattice import Lattice
 from .blocks.reflection import Reflection
 from .blocks.sample import Sample
+from .misc import AnyAxesType
+from .misc import AxesDict
 from .misc import OperationsError
+from .misc import axes_to_dict
 from .misc import solver_factory
 from .misc import unique_name
 
@@ -60,6 +61,8 @@ class Operations:
         ~calc_UB
         ~forward
         ~inverse
+        ~local_pseudo_axes
+        ~local_real_axes
         ~refine_lattice
         ~remove_sample
         ~reset_constraints
@@ -161,12 +164,7 @@ class Operations:
         if not isinstance(pseudos, (dict, list, set, tuple)):
             raise TypeError(f"Unexpected data type: {pseudos}")
 
-        expected_names = [
-            self.axes_xref_reversed[n]  # Use diffractometer's names.
-            # Just the solver's pseudos.
-            for n in self.solver.pseudo_axis_names
-        ]
-        # self.diffractometer.pseudo_axis_names
+        expected_names = self.local_pseudo_axes
         if len(pseudos) != len(expected_names):
             raise ValueError(
                 f"Expected {len(expected_names)} pseudos,"
@@ -194,8 +192,8 @@ class Operations:
 
     def add_reflection(
         self,
-        pseudos,
-        reals=None,
+        pseudos: AnyAxesType,
+        reals: Union[AnyAxesType, None] = None,
         wavelength=None,
         name=None,
         replace: bool = False,
@@ -217,17 +215,17 @@ class Operations:
 
         self._validate_pseudos(pseudos)
 
-        reverse = self.axes_xref_reversed
-        pnames = [reverse[k] for k in self.solver.pseudo_axis_names]
-        rnames = [reverse[k] for k in self.solver.real_axis_names]
-        pdict = self.standardize_pseudos(pseudos, pnames)
-        rdict = self.standardize_reals(reals, rnames)
         logger.debug(
             "name=%r, geometry=%r, wavelength=%r",
             name,
             self.solver.geometry,
             wavelength,
         )
+
+        pnames = self.local_pseudo_axes
+        rnames = self.local_real_axes
+        pdict = self.standardize_pseudos(pseudos)
+        rdict = self.standardize_reals(reals)
         logger.debug(
             "pdict=%r, rdict=%r, pnames=%r, rnames=%r",
             pdict,
@@ -371,7 +369,7 @@ class Operations:
         logger.debug("axes_xref=%r", self.axes_xref)
 
     def calc_UB(
-        self, r1: [Reflection, str], r2: [Reflection, str]
+        self, r1: Union[Reflection, str], r2: Union[Reflection, str]
     ) -> List[List[Number]]:
         """
         Calculate and return the UB (orientation) matrix with two reflections.
@@ -398,7 +396,7 @@ class Operations:
         self.sample.UB = self.solver.UB
         return self.sample.UB
 
-    def forward(self, pseudos: tuple, wavelength: float = None) -> list:
+    def forward(self, pseudos: AnyAxesType, wavelength: float = None) -> list:
         """Compute [{names:reals}] from {names: pseudos} (hkl -> angles)."""
         logger.debug(
             "(%s) forward(): pseudos=%r",
@@ -410,8 +408,7 @@ class Operations:
             wavelength = self.diffractometer.wavelength.get()
         self.solver.wavelength = wavelength
 
-        # convert namedtuple to dict
-        pdict = pseudos._asdict()
+        pdict = self.standardize_pseudos(pseudos)
         reals = self.diffractometer.real_position._asdict()  # Original values.
 
         # Filter just the solutions that fit the constraints.
@@ -465,43 +462,73 @@ class Operations:
                         break  # only show the first (default) solution
         return _table
 
-    def inverse(self, reals, wavelength: float = None) -> dict:
+    def inverse(
+        self, reals: Union[AnyAxesType, None], wavelength: float = None
+    ) -> AxesDict:
         """Compute (pseudos) from {names: reals} (angles -> hkl)."""
         logger.debug(
             "(%s) inverse(): reals=%r",
             self.__class__.__name__,
             reals,
         )
-        # fmt: off
-        pseudos = {  # Original values.
-                axis[0]: 0
-                for axis in self.diffractometer._get_pseudo_positioners()
+        pseudos: AxesDict = {
+            axis[0]: 0
+            # Original values.
+            for axis in self.diffractometer._get_pseudo_positioners()
         }
-        # fmt: on
         if self.solver is None:
             # Called from the constructor before solver is defined.
             return pseudos  # current values of pseudos
 
         if wavelength is None:
-            wavelength = self.diffractometer.wavelength.get()
-        self.solver.wavelength = wavelength
+            wavelength: float = self.diffractometer.wavelength.get()
+        self.solver.wavelength: float = wavelength
 
-        # Remove reals not used by the solver
-        # and write dictionary in order expected by the solver.
-        reals = self.standardize_reals(
-            reals,
-            self.diffractometer.real_axis_names,
-        )
+        # Just the reals expected by the solver.
+        # Dictionary in order expected by the solver.
+        reals: AxesDict = self.standardize_reals(reals)
 
         # transform: reals -> pseudos
         try:
-            spdict = self.solver.inverse(self._axes_names_d2s(reals))
+            spdict: AxesDict = self.solver.inverse(self._axes_names_d2s(reals))
         except Exception as excuse:
             print(f"{excuse=!r}")
             raise excuse
 
         pseudos.update(self._axes_names_s2d(spdict))  # Update with new values.
         return pseudos
+
+    @property
+    def local_pseudo_axes(self) -> list:
+        """
+        List of the diffractometer pseudo axes expected by the solver.
+
+        This becomes useful when additional pseudo axes are named
+        as ophyd Components in the diffractometer.
+        """
+        if self.solver is None:
+            return []
+        return [
+            self.axes_xref_reversed[k]
+            #
+            for k in self.solver.pseudo_axis_names
+        ]
+
+    @property
+    def local_real_axes(self) -> list:
+        """
+        List of the diffractometer real axes expected by the solver.
+
+        This becomes useful when additional real axes are named
+        as ophyd Components in the diffractometer.
+        """
+        if self.solver is None:
+            return []
+        return [
+            self.axes_xref_reversed[k]
+            #
+            for k in self.solver.real_axis_names
+        ]
 
     def refine_lattice(self, reflections: list = None) -> Lattice:
         """
@@ -565,13 +592,9 @@ class Operations:
         self._solver.wavelength = self.diffractometer.wavelength.get()
         return self._solver
 
-    def standardize_pseudos(
-        self,
-        pseudos: list[str],
-        expected: list[str] = None,
-    ) -> dict[str, str]:
+    def standardize_pseudos(self, pseudos: AnyAxesType) -> AxesDict:
         """
-        Convert user-supplied pseudos into dictionary.
+        Convert user-supplied pseudos into dictionary in solver's order.
 
         User could provide pseudos in several forms:
 
@@ -580,85 +603,29 @@ class Operations:
         * ordered list: [0, 1, -1]  (for h, k, l)
         * ordered tuple: (0, 1, -1)  (for h, k, l)
         """
-        expected = expected or self.solver.pseudo_axis_names
-        if len(pseudos) != len(expected):
-            raise ValueError(
-                f"Expected {len(expected)} pseudos, received {len(pseudos)}."
-            )
+        return axes_to_dict(pseudos, self.local_pseudo_axes)
 
-        pdict = {}
-        if isinstance(pseudos, dict):  # convert dict to ordered dict
-            for k in expected:
-                if k not in pseudos:
-                    raise OperationsError(f"Missing axis {k!r}. Expected: {expected!r}")
-                pdict[k] = pseudos[k]
-
-        elif isinstance(pseudos, (list, tuple)):  # convert to ordered dict
-            dnames = [
-                dname
-                for dname in self.axes_xref.keys()
-                if dname in self.diffractometer.pseudo_axis_names
-            ]
-            for dname, value in zip(dnames, pseudos):
-                pdict[dname] = value
-
-        else:
-            raise OperationsError(
-                f"Unexpected type: {pseudos!r}.  Expected dict, list, or tuple."
-            )
-
-        return pdict
-
-    def standardize_reals(
-        self,
-        reals: list[str],
-        expected: list[str] = None,
-    ) -> dict:
+    def standardize_reals(self, reals: Union[AnyAxesType, None]) -> AxesDict:
         """
-        Convert user-supplied reals into dictionary.
+        Convert user-supplied reals into dictionary in solver's order.
 
         User could provide reals in several forms:
 
+        * None: current positions
         * dict: {"omega": 120, "chi": 35.3, "phi": 45, "tth": -120}
         * namedtuple: (omega=120, chi=35.3, phi=45, tth=-120)
-        * None: current positions
         * ordered list: [120, 35.3, 45, -120]  (for omega, chi, phi, tth)
         * ordered tuple: (120, 35.3, 45, -120)  (for omega, chi, phi, tth)
         """
+
         if reals is None:  # write ordered dict
-            # fmt: off
-            reals = [
-                getattr(self.diffractometer, k).position
-                for k in expected
-            ]
-            # fmt: on
+            reals = {
+                k: getattr(self.diffractometer, k).position
+                # Get from current diffractometer axis positions
+                for k in self.local_real_axes
+            }
 
-        expected = expected or self.solver.real_axis_names
-        if len(reals) != len(expected):
-            raise ValueError(f"Expected {len(expected)} reals, received {len(reals)}.")
-
-        rdict = {}
-        if isinstance(reals, dict):  # convert dict to ordered dict
-            for k in expected:
-                if k not in reals:
-                    raise OperationsError(f"Missing axis {k!r}. Expected: {reals!r}")
-                rdict[k] = reals[k]
-
-        elif isinstance(reals, (list, tuple)):  # convert to ordered dict
-            dnames = [
-                dname
-                for dname in self.axes_xref.keys()
-                if dname in self.diffractometer.real_axis_names
-            ]
-            for dname, value in zip(dnames, reals):
-                rdict[dname] = value
-
-        else:
-            raise OperationsError(
-                f"Unexpected type: {reals!r}.  Expected None, dict, list, or tuple."
-            )
-
-        return rdict
+        return axes_to_dict(reals, self.local_real_axes)
 
     # ---- get/set properties
 

@@ -58,6 +58,16 @@ class AugmentedFourc(Fourc):
     nu = Cpt(SoftPositioner, limits=(-170, 170), init_pos=0, kind=HN)
     omicron = Cpt(SoftPositioner, limits=(-170, 170), init_pos=0, kind=HN)
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(
+            *args,
+            solver="hkl_soleil",
+            geometry="E4CV",
+            pseudos="h k l".split(),
+            reals="omega chi phi tth".split(),
+            **kwargs,
+        )
+
 
 class MultiAxis99(DiffractometerBase):
     """Test case.  9 pseudo axes and 9 real axes."""

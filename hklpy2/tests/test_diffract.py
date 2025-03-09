@@ -267,7 +267,7 @@ def test_move_forward_with_extras(pseudos, reals, mode, context, expected):
         [{"omega": 1, "chi": 2, "phi": 3, "tth": 4}, does_not_raise(), None],
         [
             namedtuple(
-                "RealPosition", "omega chi phi tth".split(), defaults=[1, 2, 3, 4]
+                "RealTuple", "omega chi phi tth".split(), defaults=[1, 2, 3, 4]
             )(),
             does_not_raise(),
             None,
@@ -629,8 +629,8 @@ def test_e4cv_constant_phi():
         assert isinstance(solution, dict)
         assert_almost_equal(solution["phi"], CONSTANT_PHI, 4)
 
-    # # Check that phi is held constant in forward()
-    # # Returns a position namedtuple.
+    # Check that phi is held constant in forward()
+    # Returns a position namedtuple.
     position = e4cv.forward(refl)
     assert isinstance(position, tuple)
     assert_almost_equal(position.phi, CONSTANT_PHI, 4)
@@ -650,13 +650,13 @@ def test_e4cv_constant_phi():
         [
             # Tests that h, k, l was omitted, only a position was supplied.
             # This is one of the problems reported.
-            namedtuple("PosAnything", "a b c d".split())(1, 2, 3, 4),
+            namedtuple("PseudoTuple", "a b c d".split())(1, 2, 3, 4),
             pytest.raises(ValueError),
             "Expected 3 pseudos, received ",
         ],
         [
             # Tests that wrong name(s) were supplied.
-            namedtuple("PosAnything", "three wrong names".split())(1, 2, 4),
+            namedtuple("PseudoTuple", "three wrong names".split())(1, 2, 4),
             pytest.raises(ValueError),
             "Wrong axis names",
         ],
