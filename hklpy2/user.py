@@ -1,41 +1,7 @@
 """
 Simplified interface for |hklpy2| diffractometer users.
 
-Get started with a diffractometer object and
-:func:`~hklpy2.user.set_diffractometer()`.  For example:
-
-.. code-block:: python
-    :linenos:
-
-    >>> from hklpy2 import creator
-    >>> from hklpy2.user import *
-    >>>
-    >>> e4cv = creator(name="e4cv")
-    >>> set_diffractometer(e4cv)
-    >>> wh()  # "WHere": brief report
-    >>> pa()  # "Print All": full report
-
-FUNCTIONS
-
-.. autosummary::
-   :toctree: generated
-
-    ~add_reflection
-    ~add_sample
-    ~cahkl
-    ~cahkl_table
-    ~calc_UB
-    ~get_diffractometer
-    ~list_samples
-    ~or_swap
-    ~remove_reflection
-    ~remove_sample
-    ~pa
-    ~set_diffractometer
-    ~set_energy
-    ~set_lattice
-    ~setor
-    ~wh
+.. seealso:: :ref:`user_guide.quickstart`
 """
 
 import uuid

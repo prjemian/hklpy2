@@ -23,6 +23,12 @@ Glossary
 :axis: Either a *pseudo*, *real*, or *extra*.
 
 ..  index::
+    !definition; backend
+    !backend
+
+:backend: Synonym for *solver*.
+
+..  index::
     !definition; configuration
     !configuration
 
@@ -144,6 +150,13 @@ Glossary
 
 :monochromatic: Radiation of a single wavelength.  Or sufficiently narrow
   range, such that it may be characterized by a single floating point value.
+
+..  index::
+    !definition; OR
+    !OR
+
+:OR: Orienting Reflection, a *reflection* used to define the *sample*
+  *orientation* (and compute the $UB$ matrix).
 
 ..  index::
     !definition; orientation
