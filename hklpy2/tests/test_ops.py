@@ -110,7 +110,7 @@ def test_axes_xref_empty():
         [
             "abc",
             pytest.raises(TypeError),
-            "Expected dict, list, or tuple.",
+            "Expected 'AnyAxesType'.",
         ],
     ],
 )
@@ -145,7 +145,7 @@ def test_standardize_pseudos(pseudos, context, expected):
         [
             "abcd",
             pytest.raises(TypeError),
-            "Unexpected type: 'abcd'.  Expected dict, list, or tuple.",
+            "Expected 'AnyAxesType'.",
         ],
     ],
 )

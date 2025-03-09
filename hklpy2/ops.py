@@ -24,6 +24,8 @@ from .blocks.constraints import RealAxisConstraints
 from .blocks.lattice import Lattice
 from .blocks.reflection import Reflection
 from .blocks.sample import Sample
+from .misc import AnyAxesType
+from .misc import AxesDict
 from .misc import OperationsError
 from .misc import axes_to_dict
 from .misc import solver_factory
@@ -394,7 +396,7 @@ class Operations:
         self.sample.UB = self.solver.UB
         return self.sample.UB
 
-    def forward(self, pseudos, wavelength: float = None) -> list:
+    def forward(self, pseudos: AnyAxesType, wavelength: float = None) -> list:
         """Compute [{names:reals}] from {names: pseudos} (hkl -> angles)."""
         logger.debug(
             "(%s) forward(): pseudos=%r",
@@ -460,14 +462,16 @@ class Operations:
                         break  # only show the first (default) solution
         return _table
 
-    def inverse(self, reals, wavelength: float = None) -> dict:
+    def inverse(
+        self, reals: Union[AnyAxesType, None], wavelength: float = None
+    ) -> AxesDict:
         """Compute (pseudos) from {names: reals} (angles -> hkl)."""
         logger.debug(
             "(%s) inverse(): reals=%r",
             self.__class__.__name__,
             reals,
         )
-        pseudos = {
+        pseudos: AxesDict = {
             axis[0]: 0
             # Original values.
             for axis in self.diffractometer._get_pseudo_positioners()
@@ -477,16 +481,16 @@ class Operations:
             return pseudos  # current values of pseudos
 
         if wavelength is None:
-            wavelength = self.diffractometer.wavelength.get()
-        self.solver.wavelength = wavelength
+            wavelength: float = self.diffractometer.wavelength.get()
+        self.solver.wavelength: float = wavelength
 
         # Just the reals expected by the solver.
         # Dictionary in order expected by the solver.
-        reals = self.standardize_reals(reals)
+        reals: AxesDict = self.standardize_reals(reals)
 
         # transform: reals -> pseudos
         try:
-            spdict = self.solver.inverse(self._axes_names_d2s(reals))
+            spdict: AxesDict = self.solver.inverse(self._axes_names_d2s(reals))
         except Exception as excuse:
             print(f"{excuse=!r}")
             raise excuse
@@ -588,7 +592,7 @@ class Operations:
         self._solver.wavelength = self.diffractometer.wavelength.get()
         return self._solver
 
-    def standardize_pseudos(self, pseudos: list[str]) -> dict[str, str]:
+    def standardize_pseudos(self, pseudos: AnyAxesType) -> AxesDict:
         """
         Convert user-supplied pseudos into dictionary in solver's order.
 
@@ -601,15 +605,15 @@ class Operations:
         """
         return axes_to_dict(pseudos, self.local_pseudo_axes)
 
-    def standardize_reals(self, reals: Union[list[str], None]) -> dict:
+    def standardize_reals(self, reals: Union[AnyAxesType, None]) -> AxesDict:
         """
         Convert user-supplied reals into dictionary in solver's order.
 
         User could provide reals in several forms:
 
+        * None: current positions
         * dict: {"omega": 120, "chi": 35.3, "phi": 45, "tth": -120}
         * namedtuple: (omega=120, chi=35.3, phi=45, tth=-120)
-        * None: current positions
         * ordered list: [120, 35.3, 45, -120]  (for omega, chi, phi, tth)
         * ordered tuple: (120, 35.3, 45, -120)  (for omega, chi, phi, tth)
         """

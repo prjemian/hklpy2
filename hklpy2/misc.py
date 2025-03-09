@@ -12,6 +12,7 @@ Miscellaneous Support.
     ~flatten_lists
     ~get_run_orientation
     ~get_solver
+    ~istype
     ~list_orientation_runs
     ~load_yaml
     ~load_yaml_file
@@ -26,6 +27,16 @@ Miscellaneous Support.
 
     ~IDENTITY_MATRIX_3X3
     ~SOLVER_ENTRYPOINT_GROUP
+
+.. rubric: Custom Data Types
+.. autosummary::
+   :toctree: generated
+
+    ~AnyAxesType
+    ~AxesArray
+    ~AxesDict
+    ~AxesList
+    ~AxesTuple
 
 .. rubric: Custom Preprocessors
 .. autosummary::
@@ -56,7 +67,12 @@ import uuid
 import warnings
 from collections.abc import Iterable
 from importlib.metadata import entry_points
+from typing import Any
+from typing import Type
+from typing import Union
 
+import numpy
+import numpy.typing
 import pandas as pd
 import tqdm
 import yaml
@@ -75,6 +91,36 @@ SOLVER_ENTRYPOINT_GROUP = "hklpy2.solver"
 """Name by which |hklpy2| backend |solver| classes are grouped."""
 
 DEFAULT_START_KEY = "diffractometers"
+
+# Custom data types
+
+AxesArray = numpy.typing.NDArray[float]
+"""Numpy array of axes values."""
+
+AxesDict = dict[str, float]
+"""Dictionary of axes names and values."""
+
+AxesList = list[float, ...]
+"""List of axes values."""
+
+AxesTuple = tuple[float, ...]
+"""Tuple of axes values."""
+
+AnyAxesType = Union[AxesArray, AxesDict, AxesList, AxesTuple]
+"""
+Any of these types are used to describe both pseudo and real axes.
+
+=============   =========================   ====================
+description     example                     type annotation
+=============   =========================   ====================
+dict            {"h": 0, "k": 1, "l": -1}   AxesDict
+namedtuple      (h=0.0, k=1.0, l=-1.0)      AxesTuple
+numpy array     numpy.array([0, 1, -1])     AxesArray
+ordered list    [0, 1, -1]                  AxesList
+ordered tuple   (0, 1, -1)                  AxesTuple
+=============   =========================   ====================
+"""
+
 
 # Custom exceptions
 
@@ -237,7 +283,7 @@ class ConfigurationRunWrapper:
 # Functions
 
 
-def axes_to_dict(input, names: list[str]) -> dict:
+def axes_to_dict(input: AnyAxesType, names: list[str]) -> AxesDict:
     """
     Convert any acceptable axes input to standard form (dict).
 
@@ -250,7 +296,7 @@ def axes_to_dict(input, names: list[str]) -> dict:
 
     PARAMETERS:
 
-    input : various
+    input : AnyAxesType
         Positions, specified as dict, list, or tuple.
     names : [str]
         Expected names of the axes, in order expected by the solver.
@@ -276,7 +322,7 @@ def axes_to_dict(input, names: list[str]) -> dict:
         )
 
     axes = {}
-    if isinstance(input, dict):  # convert dict to ordered dict
+    if istype(input, AxesDict):  # convert dict to ordered dict
         for name in names:
             value = input.get(name)
             if value is None:
@@ -289,12 +335,12 @@ def axes_to_dict(input, names: list[str]) -> dict:
                 )
             axes[name] = value
 
-    elif isinstance(input, (list, tuple)):  # convert to ordered dict
+    elif istype(input, Union[AxesList, AxesTuple]):  # convert to ordered dict
         for name, value in zip(names, input):
             axes[name] = value
 
     else:  # TODO: generic test is Iterable?
-        raise TypeError(f"Unexpected type: {input!r}.  Expected dict, list, or tuple.")
+        raise TypeError(f"Unexpected type: {input!r}.  Expected 'AnyAxesType'.")
 
     for name, value in axes.items():
         if not isinstance(value, (int, float)):
@@ -458,6 +504,26 @@ def get_run_orientation(run, name=None, start_key=DEFAULT_START_KEY):
     if isinstance(name, str):
         info = info.get(name, {})
     return info
+
+
+def istype(value: Any, annotation: Type) -> bool:
+    """
+    Check if 'value' matches the type 'annotation'.
+
+    EXAMPLE::
+
+        >>> istype({"a":1}, AxesDict)
+        True
+    """
+    # https://stackoverflow.com/a/57813576/1046449
+    from typeguard import TypeCheckError
+    from typeguard import check_type
+
+    try:
+        check_type(value, annotation)
+        return True
+    except TypeCheckError:
+        return False
 
 
 def list_orientation_runs(catalog, limit=10, start_key=DEFAULT_START_KEY, **kwargs):

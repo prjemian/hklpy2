@@ -28,8 +28,7 @@ from .models import AugmentedFourc
 from .models import Fourc
 from .models import MultiAxis99
 from .models import NoOpTh2Th
-
-# from .models import TwoC  #36
+from .models import TwoC
 
 
 def test_choice_function():
@@ -86,7 +85,7 @@ def test_limits(axis, value, context, expected):
         [MultiAxis99, 9, 9, "no_op", "test", {}, [], []],
         [MultiAxis99, 9, 9, "th_tth", "TH TTH Q", {}, [], []],
         [NoOpTh2Th, 1, 2, None, None, {}, [], []],
-        # [TwoC, 2, 4, None, None, {}, [], []],  # TODO: #36
+        [TwoC, 2, 4, None, None, {}, [], []],
     ],
 )
 def test_diffractometer_class(

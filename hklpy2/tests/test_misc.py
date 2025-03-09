@@ -2,8 +2,10 @@ import pathlib
 import types
 from collections import namedtuple
 from contextlib import nullcontext as does_not_raise
+from typing import Union
 
 import databroker
+import numpy
 import pytest
 from bluesky import RunEngine
 from bluesky import plans as bp
@@ -13,6 +15,11 @@ from ophyd import Signal
 from yaml.parser import ParserError
 
 from ..geom import creator
+from ..misc import AnyAxesType
+from ..misc import AxesArray
+from ..misc import AxesDict
+from ..misc import AxesList
+from ..misc import AxesTuple
 from ..misc import ConfigurationRunWrapper
 from ..misc import SolverError
 from ..misc import axes_to_dict
@@ -21,6 +28,7 @@ from ..misc import dict_device_factory
 from ..misc import flatten_lists
 from ..misc import get_run_orientation
 from ..misc import get_solver
+from ..misc import istype
 from ..misc import list_orientation_runs
 from ..misc import load_yaml_file
 from ..misc import roundoff
@@ -103,7 +111,7 @@ def RE(cat):
             "1 2 3".split(),
             "h k l".split(),
             pytest.raises(TypeError),
-            "Expected a number. Received: '1'",
+            "Expected 'AnyAxesType'.",
         ],
     ],
 )
@@ -366,3 +374,40 @@ def test_list_orientation_runs(devices, cat, RE):
     for row in runs.values():
         assert row["scan_id"] in scan_ids
         assert row["diffractometer"] in device_names
+
+
+@pytest.mark.parametrize(
+    "value, annotation, context, expected",
+    [
+        [{"h": 1.2, "k": 1, "l": -1}, AxesDict, does_not_raise(), None],
+        [
+            namedtuple("Position", "a b c d".split())(1, 2, 3, 4),
+            AxesTuple,
+            does_not_raise(),
+            None,
+        ],
+        [[1, 2, 3], AxesList, does_not_raise(), None],
+        [(1, 2, 3), AxesTuple, does_not_raise(), None],
+        [numpy.array((1, 2, 3, 4, 5)), AxesArray, does_not_raise(), None],
+        [{"h": 1.2, "k": 1, "l": -1}, AnyAxesType, does_not_raise(), None],
+        [
+            namedtuple("Position", "a b c d".split())(1, 2, 3, 4),
+            AnyAxesType,
+            does_not_raise(),
+            None,
+        ],
+        [[1, 2, 3], AnyAxesType, does_not_raise(), None],
+        [(1, 2, 3), AnyAxesType, does_not_raise(), None],
+        [numpy.array((1, 2, 3, 4, 5)), AnyAxesType, does_not_raise(), None],
+        [None, Union[AnyAxesType, None], does_not_raise(), None],
+        [None, AnyAxesType, pytest.raises(AssertionError), "False"],
+        [1.234, AnyAxesType, pytest.raises(AssertionError), "False"],
+        ["text", AnyAxesType, pytest.raises(AssertionError), "False"],
+        [sim4c, AnyAxesType, pytest.raises(AssertionError), "False"],
+    ],
+)
+def test_axes_type_annotations(value, annotation, context, expected):
+    with context as reason:
+        assert istype(value, annotation)
+
+    assert_context_result(expected, reason)
