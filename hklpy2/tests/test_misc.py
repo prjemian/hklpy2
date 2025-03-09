@@ -68,7 +68,7 @@ def RE(cat):
             "Missing axis 'h'",
         ],
         [
-            namedtuple("AxesTuple", "h k l".split())(0, 0, 0),
+            namedtuple("PseudoTuple", "h k l".split())(0, 0, 0),
             "h k l".split(),
             does_not_raise(),
             None,

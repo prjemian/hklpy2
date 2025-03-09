@@ -382,7 +382,7 @@ class DiffractometerBase(PseudoPositioner):
 
     def move_forward_with_extras(
         self,
-        pseudos: dict,  # (h, k, l)
+        pseudos: dict,  # (h, k, l)  #36
         extras: dict,  # (h2, k2, l2, psi)
     ):
         """
@@ -398,9 +398,8 @@ class DiffractometerBase(PseudoPositioner):
                 )
             )
         """
-        # TODO: apply #36
         self.core.solver.extras = extras  # must come first
-        solution = self.forward(list(pseudos.values()))
+        solution = self.forward(self.core.standardize_pseudos(pseudos))
         yield from self.move_dict(solution)
 
     @real_position_argument

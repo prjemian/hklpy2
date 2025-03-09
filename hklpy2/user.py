@@ -156,7 +156,7 @@ def add_sample(
 
 def cahkl(h, k, l):  # noqa: E741
     """
-    Calculate motor positions for one reflection - DOES NOT MOVE motors.
+    Calculate motor positions for specified 'h, k l' - DOES NOT MOVE motors.
 
     Returns a namedtuple.
 
@@ -172,8 +172,7 @@ def cahkl(h, k, l):  # noqa: E741
             tth=24.509837696782)
     """
     diffractometer = get_diffractometer()
-    position = namedtuple("Position", "h k l".split())(h, k, l)
-    solutions = diffractometer.core.forward(position)
+    solutions = diffractometer.core.forward(pseudos=(h, k, l))
     return diffractometer._forward_solution(diffractometer.real_position, solutions)
 
 
@@ -211,8 +210,8 @@ def cahkl_table(*reflections, digits=5):
         value.  Default is 5.
     """
     core = get_diffractometer().core
-    HklPosition = namedtuple("HklPosition", "h k l".split())
-    reflections = [HklPosition(*r) for r in reflections]  # TODO: apply #36
+    PseudoTuple = namedtuple("PseudoTuple", "h k l".split())
+    reflections = [PseudoTuple(*r) for r in reflections]  # TODO: apply #36
     print(core.forward_solutions_table(reflections, digits=digits))
 
 
@@ -553,7 +552,7 @@ def setor(h, k, l, *reals, wavelength=None, name=None, **kwreals):  # noqa: E741
 
       See the examples above.
     """
-    diffractometer = _choice.diffractometer
+    diffractometer = _choice.diffractometer  # TODO #36
     if len(reals) > 0:  # Real motor positions as values in expected order.
         # NOTE: Will ignore any kwreals.
         rpos = reals

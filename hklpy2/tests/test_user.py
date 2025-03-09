@@ -107,8 +107,8 @@ def test_cahkl_table(fourc, capsys):
     set_diffractometer(fourc)
 
     # use the default "main" sample and UB matrix
-    HklTuple = namedtuple("HklTuple", "h k l".split())
-    rlist = [HklTuple(1, 0, 0), HklTuple(0, 1, 0)]
+    PseudoTuple = namedtuple("PseudoTuple", "h k l".split())
+    rlist = [PseudoTuple(1, 0, 0), PseudoTuple(0, 1, 0)]
     cahkl_table(*rlist, digits=0)
     out, err = capsys.readouterr()
     assert len(err) == 0
