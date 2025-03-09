@@ -360,7 +360,28 @@ class HklSolver(SolverBase):
 
     @classmethod
     def geometries(cls) -> list[str]:
-        return sorted(libhkl.factories())
+        """
+        List all geometries that have one or more computational engines.
+
+        Geometry is not usable without a computational engine.
+        """
+
+        factories = libhkl.factories()
+
+        def num_engines(geometry):
+            factory = factories[geometry]
+            engine_list = factory.create_new_engine_list()
+            engines = [engine.name_get() for engine in engine_list.engines_get()]
+            return len(engines)
+
+        return sorted(
+            [
+                geometry
+                #
+                for geometry in factories
+                if num_engines(geometry) > 0
+            ]
+        )
 
     @property
     def geometry(self) -> str:
@@ -522,6 +543,76 @@ class HklSolver(SolverBase):
         # print(f"{sample.reflections_get()=!r}")
 
     @property
+    def _summary_dict(self):
+        """Return a summary of the geometry (engines, modes, axes)"""
+        geometry_name = self.geometry
+        description = {"name": geometry_name}
+        factories = libhkl.factories()
+
+        factory = factories[geometry_name]
+        engine_list = factory.create_new_engine_list()
+
+        engines = {engine.name_get(): engine for engine in engine_list.engines_get()}
+        description["engines"] = {}
+        for engine_name, engine in engines.items():
+            eng_desc = {
+                "pseudos": engine.pseudo_axis_names_get(),
+                "reals": {},
+                "modes": {},
+            }
+            description["engines"][engine_name] = eng_desc
+            eng_desc["reals"] = engine.axis_names_get(AXES_READ)
+            extras = []
+            for mode_name in engine.modes_names_get():
+                engine.current_mode_set(mode_name)
+                eng_desc["modes"][mode_name] = {
+                    "extras": engine.parameters_names_get(),
+                    "reals": engine.axis_names_get(AXES_WRITTEN),
+                }
+                extras += eng_desc["modes"][mode_name]["extras"]
+            eng_desc["extras"] = list(sorted(set(extras)))
+        return description
+
+    @property
+    def summary(self) -> Table:
+        """
+        Table of engines, modes, & axes for this geometry.
+
+        EXAMPLE::
+
+            >>> fourc = hklpy2.creator(name="fourc", geometry="E4CV")
+            >>> print(fourc.core.solver.summary)
+            ========= ================== ================== ==================== ==================== ===============
+            engine    mode               pseudo(s)          real(s)              writable(s)          extra(s)
+            ========= ================== ================== ==================== ==================== ===============
+            hkl       bissector          h, k, l            omega, chi, phi, tth omega, chi, phi, tth
+            hkl       constant_omega     h, k, l            omega, chi, phi, tth chi, phi, tth
+            hkl       constant_chi       h, k, l            omega, chi, phi, tth omega, phi, tth
+            hkl       constant_phi       h, k, l            omega, chi, phi, tth omega, chi, tth
+            hkl       double_diffraction h, k, l            omega, chi, phi, tth omega, chi, phi, tth h2, k2, l2
+            hkl       psi_constant       h, k, l            omega, chi, phi, tth omega, chi, phi, tth h2, k2, l2, psi
+            psi       psi                psi                omega, chi, phi, tth omega, chi, phi, tth h2, k2, l2
+            q         q                  q                  tth                  tth
+            incidence incidence          incidence, azimuth omega, chi, phi                           x, y, z
+            emergence emergence          emergence, azimuth omega, chi, phi, tth                      x, y, z
+            ========= ================== ================== ==================== ==================== ===============
+        """
+        table = Table()
+        table.labels = "engine mode pseudo(s) real(s) writable(s) extra(s)".split()
+        for engine_name, engine in self._summary_dict["engines"].items():
+            for mode_name, mode in engine["modes"].items():
+                row = [
+                    engine_name,
+                    mode_name,
+                    ", ".join(engine["pseudos"]),
+                    ", ".join(engine["reals"]),
+                    ", ".join(mode["reals"]),
+                    ", ".join(mode["extras"]),
+                ]
+                table.addRow(row)
+        return table
+
+    @property
     def U(self) -> list[list[float]]:
         """
         Relative orientation of crystal on diffractometer.
@@ -559,56 +650,3 @@ class HklSolver(SolverBase):
     @wavelength.setter
     def wavelength(self, value: float) -> None:
         return self._geometry.wavelength_set(value, LIBHKL_USER_UNITS)
-
-    @property
-    def _summary_dict(self):  # TODO: add to base class
-        """Return a summary of the geometry (engines, modes, axes)"""
-        geometry_name = self.geometry
-        description = {"name": geometry_name}
-        factories = libhkl.factories()
-
-        factory = factories[geometry_name]
-        engine_list = factory.create_new_engine_list()
-
-        engines = {engine.name_get(): engine for engine in engine_list.engines_get()}
-        description["engines"] = {}
-        for engine_name, engine in engines.items():
-            eng_desc = {
-                "pseudos": engine.pseudo_axis_names_get(),
-                "reals": {},
-                "modes": {},
-            }
-            description["engines"][engine_name] = eng_desc
-            eng_desc["reals"] = engine.axis_names_get(AXES_READ)
-            extras = []
-            for mode_name in engine.modes_names_get():
-                engine.current_mode_set(mode_name)
-                eng_desc["modes"][mode_name] = {
-                    "extras": engine.parameters_names_get(),
-                    "reals": engine.axis_names_get(AXES_WRITTEN),
-                }
-                extras += eng_desc["modes"][mode_name]["extras"]
-            eng_desc["extras"] = list(sorted(set(extras)))
-
-        return description
-
-    @property
-    def summary(self) -> Table:  # TODO: add to base class
-        """Table of engines, modes, & axes for this geometry."""
-        table = Table()
-        table.labels = "engine pseudo(s) mode real(s) writable(s) extra(s)".split()
-        for engine_name, engine in self._summary_dict["engines"].items():
-            row_start = [
-                engine_name,
-                ", ".join(engine["pseudos"]),
-            ]
-            for mode_name, mode in engine["modes"].items():
-                row = row_start + [
-                    mode_name,
-                    ", ".join(engine["reals"]),
-                    ", ".join(mode["reals"]),
-                    ", ".join(mode["extras"]),
-                ]
-                table.addRow(row)
-
-        return table
