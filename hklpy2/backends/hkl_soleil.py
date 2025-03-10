@@ -344,9 +344,8 @@ class HklSolver(SolverBase):
         """Compute list of solutions(reals) from pseudos (hkl -> [angles])."""
         logger.debug("(%r) forward(%r)", __name__, pseudos)
 
-        # TODO: Could raise from gi, catch and raise NoForwardSolutions
         try:
-            geometry_list = self.engine.pseudo_axis_values_set(
+            raw_solutions = self.engine.pseudo_axis_values_set(
                 list(pseudos.values()),
                 LIBHKL_USER_UNITS,
             )
@@ -355,7 +354,7 @@ class HklSolver(SolverBase):
             raise SolverNoForwardSolutions(msg) from exc
 
         solutions = []
-        for glist_item in geometry_list.items():
+        for glist_item in raw_solutions.items():
             geo = glist_item.geometry_get()
             sol = dict(
                 zip(
