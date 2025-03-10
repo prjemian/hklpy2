@@ -105,12 +105,14 @@ autodoc_exclude_members = ",".join(
     """.split()
 )
 autodoc_default_options = {
-    # 'members': 'var1, var2',
+    "members": True,
     # 'member-order': 'bysource',
     "private-members": True,
-    # "special-members": "__init__",
-    # 'undoc-members': True,
+    # "special-members": True,
+    "undoc-members": True,
     "exclude-members": autodoc_exclude_members,
+    "show-inheritance": True,
+    "inherited-members": True,
 }
 autodoc_mock_imports = """
     bluesky

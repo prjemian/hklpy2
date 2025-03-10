@@ -148,8 +148,8 @@ Glossary
     !definition; monochromatic
     !monochromatic
 
-:monochromatic: Radiation of a single wavelength.  Or sufficiently narrow
-  range, such that it may be characterized by a single floating point value.
+:monochromatic: Radiation of a single wavelength (or sufficiently narrow
+  range), such that it may be characterized by a single floating point value.
 
 ..  index::
     !definition; OR

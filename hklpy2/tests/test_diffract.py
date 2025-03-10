@@ -232,7 +232,7 @@ def test_full_position(mode, keys, context, expected, config_file):
 
 
 @pytest.mark.parametrize(
-    "pseudos, reals, mode, context, expected",
+    "pseudos, extras, mode, context, expected",
     [
         [
             dict(h=1, k=1, l=0),
@@ -243,7 +243,7 @@ def test_full_position(mode, keys, context, expected, config_file):
         ],
     ],
 )
-def test_move_forward_with_extras(pseudos, reals, mode, context, expected):
+def test_move_forward_with_extras(pseudos, extras, mode, context, expected):
     from ..geom import creator
 
     fourc = creator(name="fourc")
@@ -255,7 +255,7 @@ def test_move_forward_with_extras(pseudos, reals, mode, context, expected):
     RE = bluesky.RunEngine()
 
     with context as reason:
-        RE(fourc.move_forward_with_extras(pseudos, reals))
+        RE(fourc.move_forward_with_extras(pseudos, extras))
 
     assert_context_result(expected, reason)
 

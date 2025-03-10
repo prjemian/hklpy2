@@ -317,7 +317,7 @@ def axes_to_dict(input: AnyAxesType, names: list[str]) -> AxesDict:
             UserWarning(
                 f" Extra inputs will be ignored. Expected {len(names)}."
                 #
-                f" Received {input=!r}"
+                f" Received {input=!r}, {names=!r}"
             )
         )
 

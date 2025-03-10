@@ -12,7 +12,7 @@ Diffractometer creator
         show (which one?)
             `diffractometer.wh(full=True)`
             `diffractometer.configuration`
-    Use argo for clarity
+    Try argo for clarity
 
 * simple
 * geometry

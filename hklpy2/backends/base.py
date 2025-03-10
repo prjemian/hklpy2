@@ -48,7 +48,7 @@ class SolverBase(ABC):
     using them.  Subclasses should implement each of these methods
     as best fits the underlying support library.
 
-    .. seealso:: :ref:`api.solvers.hkl_soleil` & :ref:`api.solvers.no_op`
+    .. seealso:: :mod:`~hklpy2.backends.hkl_soleil` & :mod:`~hklpy2.backends.no_op`
 
     .. rubric:: Python Methods
 

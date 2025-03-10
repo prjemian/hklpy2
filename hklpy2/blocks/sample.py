@@ -2,6 +2,7 @@
 A Crystalline Sample.
 
 .. autosummary::
+    :toctree: generated
 
     ~Sample
     ~SampleError
