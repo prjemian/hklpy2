@@ -24,7 +24,8 @@ coordinate space updates the coordinates of the other space.  For
 diffractometers, the orientation matrix ($UB$) enables transformation between the
 two spaces.
 
-.. note:: A monochromatic [#]_ radiation source is expected.
+.. note:: A monochromatic [#]_ radiation source is expected.  See
+   :ref:`concepts.wavelength` for more details.
 
 .. rubric:: Coordinates
 
@@ -33,18 +34,23 @@ two spaces.
 :reals:
    Positioners (rotation motors) in physical coordinates.
 
-An ophyd *PseudoPositioner* transforms between *pseudos* and *reals*
-with the :meth:`~hklpy2.diffract.DiffractometerBase.forward()` and
+An ophyd *PseudoPositioner* relies on the
+:meth:`~hklpy2.diffract.DiffractometerBase.forward()` and
 :meth:`~hklpy2.diffract.DiffractometerBase.inverse()` methods.
 
 .. rubric:: Transformations
 
-==========  =========   ============== ======== ================
-from        to          transformation solution implementation
-==========  =========   ============== ======== ================
-*reals*     *pseudos*   transformation unique   :meth:`~hklpy2.diffract.DiffractometerBase.inverse()`
-*pseudos*   *reals*     transformation many     :meth:`~hklpy2.diffract.DiffractometerBase.forward()`
-==========  =========   ============== ======== ================
+==========  =========   ============== ================
+from        to          solution(s)     transformation
+==========  =========   ============== ================
+*reals*     *pseudos*   1              :meth:`~hklpy2.diffract.DiffractometerBase.inverse()`
+*pseudos*   *reals*     0, 1, or more  :meth:`~hklpy2.diffract.DiffractometerBase.forward()`
+==========  =========   ============== ================
+
+A |solver| provides support for one or more diffractometer geometries. Each
+geometry has a specific set of *pseudos*, *reals*, and other terms which support
+the ``forward()`` and ``inverse()`` transformations.  See
+:ref:`concepts.solvers` for more details.
 
 .. seealso:: :ref:`glossary`
 

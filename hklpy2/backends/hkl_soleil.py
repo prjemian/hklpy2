@@ -25,7 +25,6 @@ Example::
     :doc:`../../examples/hkl_soleil-e6c-psi`.
 
 .. autosummary::
-    :platform: Unix
 
     ~HklSolver
 """
