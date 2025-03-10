@@ -2,6 +2,9 @@
 
 all :: style docs coverage
 
+clean ::
+	make -C docs clean
+
 coverage:
 	coverage run --concurrency=thread --parallel-mode -m pytest -vvv ./hklpy2
 	coverage combine
@@ -17,6 +20,10 @@ isort:
 
 pre:
 	pre-commit run --all-files
+
+realclean :: clean
+	/bin/rm -rf ./docs/build
+	/bin/rm -rf ./docs/source/generated
 
 style :: isort pre
 

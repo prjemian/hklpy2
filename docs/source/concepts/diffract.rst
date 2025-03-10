@@ -1,4 +1,4 @@
-.. _api.diffract:
+.. _concepts.diffract:
 
 ==================
 Diffractometer

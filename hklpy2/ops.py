@@ -44,8 +44,10 @@ class Operations:
 
     .. rubric:: Parameters
 
-    * ``solver`` (str): Name of the backend |solver| library.
-    * ``geometry`` (str): Name of the backend |solver| geometry.
+    ``diffractometer`` (DiffractometerBase):
+        The diffractometer parent.
+    ``default_sample`` (bool):
+        If 'True' (default), create a 'sample' with 1 angstrom cubic lattice.
 
     .. rubric:: Python Methods
 

@@ -1,8 +1,8 @@
-.. _api.ops:
+.. _concepts.ops:
 
-==================
-Operations
-==================
+===============
+Core Operations
+===============
 
 .. index:: !core
 

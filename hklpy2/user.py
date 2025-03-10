@@ -1,22 +1,6 @@
 """
 Simplified interface for |hklpy2| diffractometer users.
 
-Get started with a diffractometer object and
-:func:`~hklpy2.user.set_diffractometer()`.  For example:
-
-.. code-block:: python
-    :linenos:
-
-    >>> from hklpy2 import creator
-    >>> from hklpy2.user import *
-    >>>
-    >>> e4cv = creator(name="e4cv")
-    >>> set_diffractometer(e4cv)
-    >>> wh()  # "WHere": brief report
-    >>> pa()  # "Print All": full report
-
-FUNCTIONS
-
 .. autosummary::
    :toctree: generated
 
@@ -35,7 +19,10 @@ FUNCTIONS
     ~set_energy
     ~set_lattice
     ~setor
+    ~solver_summary
     ~wh
+
+.. seealso:: :ref:`user_guide.quickstart`
 """
 
 import uuid
@@ -67,6 +54,7 @@ __all__ = """
     set_energy
     set_lattice
     setor
+    solver_summary
     wh
 """.split()
 
@@ -245,6 +233,42 @@ def calc_UB(
 
     """
     return get_diffractometer().core.calc_UB(r1, r2)
+
+
+def solver_summary(write=True):
+    """
+    Table of diffractometer solver's modes, axes, ...
+
+    EXAMPLE:
+
+    .. code-block:: python
+        :linenos:
+
+        >>> import hklpy2
+        >>> from hklpy2.user import *
+        >>> e4cv = hklpy2.creator(name="e4cv")
+        >>> set_diffractometer(e4cv)
+        >>> solver_summary()
+        ========= ================== ================== ==================== ==================== ===============
+        engine    mode               pseudo(s)          real(s)              writable(s)          extra(s)
+        ========= ================== ================== ==================== ==================== ===============
+        hkl       bissector          h, k, l            omega, chi, phi, tth omega, chi, phi, tth
+        hkl       constant_omega     h, k, l            omega, chi, phi, tth chi, phi, tth
+        hkl       constant_chi       h, k, l            omega, chi, phi, tth omega, phi, tth
+        hkl       constant_phi       h, k, l            omega, chi, phi, tth omega, chi, tth
+        hkl       double_diffraction h, k, l            omega, chi, phi, tth omega, chi, phi, tth h2, k2, l2
+        hkl       psi_constant       h, k, l            omega, chi, phi, tth omega, chi, phi, tth h2, k2, l2, psi
+        psi       psi                psi                omega, chi, phi, tth omega, chi, phi, tth h2, k2, l2
+        q         q                  q                  tth                  tth
+        incidence incidence          incidence, azimuth omega, chi, phi                           x, y, z
+        emergence emergence          emergence, azimuth omega, chi, phi, tth                      x, y, z
+        ========= ================== ================== ==================== ==================== ===============
+    """
+    table = get_diffractometer().core.solver.summary
+    if write:
+        print(table)
+    else:
+        return table
 
 
 def get_diffractometer():

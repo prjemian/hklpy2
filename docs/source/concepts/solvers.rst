@@ -1,6 +1,4 @@
-.. index::!Solver class
-
-.. _api.solvers:
+.. _concepts.solvers:
 
 ==================
 Solvers

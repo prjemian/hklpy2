@@ -56,6 +56,7 @@ Miscellaneous Support.
     ~ReflectionError
     ~SampleError
     ~SolverError
+    ~SolverNoForwardSolutions
     ~WavelengthError
 """
 
@@ -155,6 +156,10 @@ class SampleError(Hklpy2Error):
 
 class SolverError(Hklpy2Error):
     """Custom exceptions from a |solver|."""
+
+
+class SolverNoForwardSolutions(SolverError):
+    """A solver did not find any 'forward()' solutions."""
 
 
 class WavelengthError(Hklpy2Error):
@@ -317,7 +322,7 @@ def axes_to_dict(input: AnyAxesType, names: list[str]) -> AxesDict:
             UserWarning(
                 f" Extra inputs will be ignored. Expected {len(names)}."
                 #
-                f" Received {input=!r}"
+                f" Received {input=!r}, {names=!r}"
             )
         )
 

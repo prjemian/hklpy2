@@ -2,7 +2,7 @@
 Base class for all diffractometers
 
 .. autosummary::
-   :toctree: generated
+    :toctree: generated
 
     ~DiffractometerBase
     ~pick_first_item
@@ -365,18 +365,22 @@ class DiffractometerBase(PseudoPositioner):
         pos = self.core.inverse(reals, wavelength=wavelength)
         return self.PseudoPosition(**pos)  # as created by namedtuple
 
-    def move_dict(self, axes: dict):
-        """(plan) Move diffractometer axes as described in 'axes' dict."""
+    def move_dict(self, axes: AxesDict):
+        """(plan) Move diffractometer axes to positions in 'axes'."""
         from bluesky import plan_stubs as bps
 
         from .misc import flatten_lists
+
+        if hasattr(axes, "_fields"):
+            # Convert namedtuple to dict
+            axes = axes._asdict()
 
         # Transform axes dict to args for bps.mv(position, value)
         moves = list(
             flatten_lists(
                 [
                     [getattr(self, k), v]  # move the diffractometer axes
-                    for k, v in axes._asdict().items()
+                    for k, v in axes.items()
                 ]
             )
         )
