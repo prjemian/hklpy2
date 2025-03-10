@@ -5,8 +5,9 @@ Quickstart
 ==========
 
 Get started with a diffractometer object.  For example, use the diffractometer
-``creator()`` function to build a 6-circle diffractometer (``E6C`` geometry)
-from the ``hkl_soleil`` solver. Use simulated motor axes.
+:func:`~hklpy2.geom.creator()` function to build a 6-circle diffractometer
+(:ref:`E6C <geometries.hkl_soleil.E6C>` geometry). Use simulated motor
+axes.
 
 .. code-block:: python
    :linenos:
