@@ -50,6 +50,7 @@ from ..blocks.lattice import Lattice
 from ..blocks.reflection import Reflection
 from ..blocks.sample import Sample
 from ..misc import IDENTITY_MATRIX_3X3
+from ..misc import SolverNoForwardSolutions
 from ..misc import roundoff
 from ..misc import unique_name
 
@@ -64,6 +65,7 @@ gi.require_version("Hkl", "5.0")
 
 from gi.repository import GLib  # noqa: E402, F401, W0611
 from gi.repository import Hkl as libhkl  # noqa: E402
+from gi.repository.GLib import GError  # noqa: E402
 
 logger = logging.getLogger(__name__)
 
@@ -342,10 +344,15 @@ class HklSolver(SolverBase):
         """Compute list of solutions(reals) from pseudos (hkl -> [angles])."""
         logger.debug("(%r) forward(%r)", __name__, pseudos)
 
-        geometry_list = self.engine.pseudo_axis_values_set(
-            list(pseudos.values()),
-            LIBHKL_USER_UNITS,
-        )
+        # TODO: Could raise from gi, catch and raise NoForwardSolutions
+        try:
+            geometry_list = self.engine.pseudo_axis_values_set(
+                list(pseudos.values()),
+                LIBHKL_USER_UNITS,
+            )
+        except GError as exc:
+            msg = "No forward solutions found."
+            raise SolverNoForwardSolutions(msg) from exc
 
         solutions = []
         for glist_item in geometry_list.items():

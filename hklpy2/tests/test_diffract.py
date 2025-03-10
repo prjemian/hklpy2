@@ -7,7 +7,6 @@ from contextlib import nullcontext as does_not_raise
 
 import bluesky
 import pytest
-from gi.repository.GLib import GError
 from numpy.testing import assert_almost_equal
 from ophyd.sim import noisy_det
 
@@ -17,6 +16,7 @@ from ..diffract import DiffractometerBase
 from ..diffract import pick_first_item
 from ..geom import creator
 from ..misc import DiffractometerError
+from ..misc import SolverNoForwardSolutions
 from ..ops import DEFAULT_SAMPLE_NAME
 from ..ops import Operations
 from ..ops import OperationsError
@@ -51,8 +51,8 @@ def test_DiffractometerBase():
         [1, does_not_raise(), None],
         [-1.2, does_not_raise(), None],
         [1.2, does_not_raise(), None],
-        [12, pytest.raises(GError), "unreachable hkl"],
-        [-12, pytest.raises(GError), "unreachable hkl"],
+        [12, pytest.raises(SolverNoForwardSolutions), "No forward solutions found."],
+        [-12, pytest.raises(SolverNoForwardSolutions), "No forward solutions found."],
     ],
 )
 def test_limits(axis, value, context, expected):
@@ -495,8 +495,8 @@ def test_repeated_reflections(
                 fail_on_exception=True,
             ),
             "psi_constant",
-            pytest.raises(GError),  # TODO: #39
-            "unreachable hkl",  # hkl-engine-error-quark:
+            pytest.raises(SolverNoForwardSolutions),
+            "No forward solutions found.",
         ],
         [
             dict(
