@@ -12,6 +12,7 @@ User Guide
 
    quickstart
    concepts
+   geometry_tables
    examples
    install
    glossary

@@ -15,6 +15,9 @@ docs ::
 
 doc :: docs
 
+geo_tables:
+	python ./docs/make_geometries_doc.py
+
 isort:
 	isort --sl ./hklpy2
 

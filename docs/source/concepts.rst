@@ -47,12 +47,26 @@ from        to          solution(s)     transformation
 *pseudos*   *reals*     0, 1, or more  :meth:`~hklpy2.diffract.DiffractometerBase.forward()`
 ==========  =========   ============== ================
 
-A |solver| provides support for one or more diffractometer geometries. Each
-geometry has a specific set of *pseudos*, *reals*, and other terms which support
-the ``forward()`` and ``inverse()`` transformations.  See
+.. rubric:: Solvers
+
+A |solver| provides computational support for one or more diffractometer
+geometries. Each geometry has a specific set of *pseudos*, *reals*, and other
+terms which support the ``forward()`` and ``inverse()`` transformations.  See
 :ref:`concepts.solvers` for more details.
 
+.. rubric:: Core Operations
+
+The :class:`~hklpy2.diffract.DiffractometerBase` class provides the ophyd
+*PseudoPositioner*.  This class relies on :class:`~hklpy2.ops.Operations` to
+provide most features (sample, lattice, reflections, ...) and to connect with
+the diffractometer's chosen |solver|.  See
+:ref:`concepts.ops` for more details.
+
+----
+
 .. seealso:: :ref:`glossary`
+
+.. rubric:: Footnotes
 
 .. [#] https://en.wikipedia.org/wiki/Diffractometer
 .. [#] https://blueskyproject.io/ophyd/user/how-to/pseudopositioner.html
