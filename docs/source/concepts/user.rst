@@ -1,4 +1,4 @@
-.. _api.User:
+.. _concepts.User:
 
 ==================
 User Friendliness
