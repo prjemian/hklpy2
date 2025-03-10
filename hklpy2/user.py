@@ -263,6 +263,9 @@ def solver_summary(write=True):
         incidence incidence          incidence, azimuth omega, chi, phi                           x, y, z
         emergence emergence          emergence, azimuth omega, chi, phi, tth                      x, y, z
         ========= ================== ================== ==================== ==================== ===============
+
+    .. seealso:: :ref:`geometries.summary_tables`,
+        :meth:`hklpy2.backends.base.SolverBase.summary()`
     """
     table = get_diffractometer().core.solver.summary
     if write:

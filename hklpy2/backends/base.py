@@ -293,7 +293,12 @@ class SolverBase(ABC):
 
     @property
     def summary(self) -> Table:
-        """Table of this geometry (modes, axes)."""
+        """
+        Table of this geometry (modes, axes).
+
+        .. seealso:: :ref:`geometries.summary_tables`,
+            :func:`hklpy2.user.solver_summary()`
+        """
         table = Table()
         table.labels = "mode pseudo(s) real(s) writable(s) extra(s)".split()
         sdict = self._summary_dict
