@@ -46,8 +46,10 @@ def page_header():
 
 
 def rst_anchor(sname: str, gname: str) -> str:
-    safe_gname = gname.replace(" ", "_")
-    return f"geometries.{sname}.{safe_gname}"
+    replacement = "-"
+    for c in [" ", ".", "_"]:
+        gname = gname.replace(c, replacement)
+    return f"geometries-{sname}-{gname}".lower()
 
 
 def table_of_reals():
@@ -122,6 +124,22 @@ def all_summary_tables():
     return "\n".join(text)
 
 
+def linter(text: str) -> str:
+    """
+    Clean up items that would be corrected on pre-commit linting.
+
+    * trailing-whitespace
+    """
+    text = "\n".join(
+        [
+            line.rstrip()
+            #
+            for line in text.strip().splitlines()
+        ]
+    )
+    return f"{text}\n"  # always end with blank line
+
+
 def main():
     text = [
         page_header(),
@@ -130,7 +148,7 @@ def main():
         all_summary_tables(),
     ]
     with open(GEO_DOC, "w") as f:
-        f.write("\n".join(text))
+        f.write(linter("\n".join(text)))
 
 
 if __name__ == "__main__":

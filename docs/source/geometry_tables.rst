@@ -1,5 +1,5 @@
 .. author: make_geometries_doc.py
-.. date: 2025-03-10 18:26:06.928876
+.. date: 2025-03-11 13:31:21.554744
 
 .. _geometries:
 
@@ -31,26 +31,26 @@ solver and geometry names.
 ====== ============================================================================================
 #reals solver, geometry
 ====== ============================================================================================
-2      :ref:`th_tth, TH TTH Q <geometries.th_tth.TH_TTH_Q>`
-4      :ref:`hkl_soleil, E4CH <geometries.hkl_soleil.E4CH>`
-4      :ref:`hkl_soleil, E4CV <geometries.hkl_soleil.E4CV>`
-4      :ref:`hkl_soleil, K4CV <geometries.hkl_soleil.K4CV>`
-4      :ref:`hkl_soleil, PETRA3 P23 4C <geometries.hkl_soleil.PETRA3_P23_4C>`
-4      :ref:`hkl_soleil, SOLEIL MARS <geometries.hkl_soleil.SOLEIL_MARS>`
-4      :ref:`hkl_soleil, SOLEIL SIXS MED1+2 <geometries.hkl_soleil.SOLEIL_SIXS_MED1+2>`
-4      :ref:`hkl_soleil, ZAXIS <geometries.hkl_soleil.ZAXIS>`
-5      :ref:`hkl_soleil, ESRF ID01 PSIC <geometries.hkl_soleil.ESRF_ID01_PSIC>`
-5      :ref:`hkl_soleil, SOLEIL SIXS MED2+2 <geometries.hkl_soleil.SOLEIL_SIXS_MED2+2>`
-5      :ref:`hkl_soleil, SOLEIL SIXS MED2+3 v2 <geometries.hkl_soleil.SOLEIL_SIXS_MED2+3_v2>`
-6      :ref:`hkl_soleil, APS POLAR <geometries.hkl_soleil.APS_POLAR>`
-6      :ref:`hkl_soleil, E6C <geometries.hkl_soleil.E6C>`
-6      :ref:`hkl_soleil, K6C <geometries.hkl_soleil.K6C>`
-6      :ref:`hkl_soleil, PETRA3 P09 EH2 <geometries.hkl_soleil.PETRA3_P09_EH2>`
-6      :ref:`hkl_soleil, SOLEIL NANOSCOPIUM ROBOT <geometries.hkl_soleil.SOLEIL_NANOSCOPIUM_ROBOT>`
-6      :ref:`hkl_soleil, SOLEIL SIRIUS KAPPA <geometries.hkl_soleil.SOLEIL_SIRIUS_KAPPA>`
-6      :ref:`hkl_soleil, SOLEIL SIRIUS TURRET <geometries.hkl_soleil.SOLEIL_SIRIUS_TURRET>`
-6      :ref:`hkl_soleil, SOLEIL SIXS MED2+3 <geometries.hkl_soleil.SOLEIL_SIXS_MED2+3>`
-7      :ref:`hkl_soleil, PETRA3 P23 6C <geometries.hkl_soleil.PETRA3_P23_6C>`
+2      :ref:`th_tth, TH TTH Q <geometries-th_tth-th-tth-q>`
+4      :ref:`hkl_soleil, E4CH <geometries-hkl_soleil-e4ch>`
+4      :ref:`hkl_soleil, E4CV <geometries-hkl_soleil-e4cv>`
+4      :ref:`hkl_soleil, K4CV <geometries-hkl_soleil-k4cv>`
+4      :ref:`hkl_soleil, PETRA3 P23 4C <geometries-hkl_soleil-petra3-p23-4c>`
+4      :ref:`hkl_soleil, SOLEIL MARS <geometries-hkl_soleil-soleil-mars>`
+4      :ref:`hkl_soleil, SOLEIL SIXS MED1+2 <geometries-hkl_soleil-soleil-sixs-med1+2>`
+4      :ref:`hkl_soleil, ZAXIS <geometries-hkl_soleil-zaxis>`
+5      :ref:`hkl_soleil, ESRF ID01 PSIC <geometries-hkl_soleil-esrf-id01-psic>`
+5      :ref:`hkl_soleil, SOLEIL SIXS MED2+2 <geometries-hkl_soleil-soleil-sixs-med2+2>`
+5      :ref:`hkl_soleil, SOLEIL SIXS MED2+3 v2 <geometries-hkl_soleil-soleil-sixs-med2+3-v2>`
+6      :ref:`hkl_soleil, APS POLAR <geometries-hkl_soleil-aps-polar>`
+6      :ref:`hkl_soleil, E6C <geometries-hkl_soleil-e6c>`
+6      :ref:`hkl_soleil, K6C <geometries-hkl_soleil-k6c>`
+6      :ref:`hkl_soleil, PETRA3 P09 EH2 <geometries-hkl_soleil-petra3-p09-eh2>`
+6      :ref:`hkl_soleil, SOLEIL NANOSCOPIUM ROBOT <geometries-hkl_soleil-soleil-nanoscopium-robot>`
+6      :ref:`hkl_soleil, SOLEIL SIRIUS KAPPA <geometries-hkl_soleil-soleil-sirius-kappa>`
+6      :ref:`hkl_soleil, SOLEIL SIRIUS TURRET <geometries-hkl_soleil-soleil-sirius-turret>`
+6      :ref:`hkl_soleil, SOLEIL SIXS MED2+3 <geometries-hkl_soleil-soleil-sixs-med2+3>`
+7      :ref:`hkl_soleil, PETRA3 P23 6C <geometries-hkl_soleil-petra3-p23-6c>`
 ====== ============================================================================================
 
 .. _geometries.summary_tables:
@@ -62,7 +62,7 @@ Available Solver Geometry Tables
 
 .. seealso:: :func:`hklpy2.user.solver_summary()`
 
-.. _geometries.hkl_soleil.APS_POLAR:
+.. _geometries-hkl_soleil-aps-polar:
 
 solver='hkl_soleil', geometry='APS POLAR'
 -----------------------------------------
@@ -88,7 +88,7 @@ hkl    psi constant vertical             h, k, l   tau, mu, chi, phi, gamma, del
 psi    psi_vertical                      psi       tau, mu, chi, phi, gamma, delta mu, chi, phi, delta   h2, k2, l2
 ====== ================================= ========= =============================== ===================== ===============
 
-.. _geometries.hkl_soleil.E4CH:
+.. _geometries-hkl_soleil-e4ch:
 
 solver='hkl_soleil', geometry='E4CH'
 ------------------------------------
@@ -110,7 +110,7 @@ incidence incidence          incidence, azimuth omega, chi, phi                 
 emergence emergence          emergence, azimuth omega, chi, phi, tth                      x, y, z
 ========= ================== ================== ==================== ==================== ===============
 
-.. _geometries.hkl_soleil.E4CV:
+.. _geometries-hkl_soleil-e4cv:
 
 solver='hkl_soleil', geometry='E4CV'
 ------------------------------------
@@ -132,7 +132,7 @@ incidence incidence          incidence, azimuth omega, chi, phi                 
 emergence emergence          emergence, azimuth omega, chi, phi, tth                      x, y, z
 ========= ================== ================== ==================== ==================== ===============
 
-.. _geometries.hkl_soleil.E6C:
+.. _geometries-hkl_soleil-e6c:
 
 solver='hkl_soleil', geometry='E6C'
 -----------------------------------
@@ -163,7 +163,7 @@ incidence incidence                     incidence, azimuth mu, omega, chi, phi  
 emergence emergence                     emergence, azimuth mu, omega, chi, phi, gamma, delta                            x, y, z
 ========= ============================= ================== ================================= ========================== ===============
 
-.. _geometries.hkl_soleil.ESRF_ID01_PSIC:
+.. _geometries-hkl_soleil-esrf-id01-psic:
 
 solver='hkl_soleil', geometry='ESRF ID01 PSIC'
 ----------------------------------------------
@@ -178,7 +178,7 @@ hkl    constant_delta_coplanar  h, k, l   mu, eta, phi, nu, delta eta, phi, nu
 hkl    constant_eta_noncoplanar h, k, l   mu, eta, phi, nu, delta phi, nu, delta
 ====== ======================== ========= ======================= =============== ========
 
-.. _geometries.hkl_soleil.K4CV:
+.. _geometries-hkl_soleil-k4cv:
 
 solver='hkl_soleil', geometry='K4CV'
 ------------------------------------
@@ -201,7 +201,7 @@ incidence incidence          incidence, azimuth komega, kappa, kphi             
 emergence emergence          emergence, azimuth komega, kappa, kphi, tth                          x, y, z
 ========= ================== ================== ======================== ======================== ===============
 
-.. _geometries.hkl_soleil.K6C:
+.. _geometries-hkl_soleil-k6c:
 
 solver='hkl_soleil', geometry='K6C'
 -----------------------------------
@@ -234,7 +234,7 @@ tth2      tth2                          tth, alpha         gamma, delta         
 emergence emergence                     emergence, azimuth mu, komega, kappa, kphi, gamma, delta                                   x, y, z
 ========= ============================= ================== ===================================== ================================= ===========================
 
-.. _geometries.hkl_soleil.PETRA3_P09_EH2:
+.. _geometries-hkl_soleil-petra3-p09-eh2:
 
 solver='hkl_soleil', geometry='PETRA3 P09 EH2'
 ----------------------------------------------
@@ -257,7 +257,7 @@ hkl    lifting detector chi                h, k, l   mu, omega, chi, phi, delta,
 hkl    lifting detector phi                h, k, l   mu, omega, chi, phi, delta, gamma phi, delta, gamma
 ====== =================================== ========= ================================= ======================= ========
 
-.. _geometries.hkl_soleil.PETRA3_P23_4C:
+.. _geometries-hkl_soleil-petra3-p23-4c:
 
 solver='hkl_soleil', geometry='PETRA3 P23 4C'
 ---------------------------------------------
@@ -279,7 +279,7 @@ incidence incidence                incidence, azimuth omega_t, mu               
 emergence emergence                emergence, azimuth omega_t, mu, gamma, delta                           x, y, z
 ========= ======================== ================== ========================= ========================= ===============
 
-.. _geometries.hkl_soleil.PETRA3_P23_6C:
+.. _geometries-hkl_soleil-petra3-p23-6c:
 
 solver='hkl_soleil', geometry='PETRA3 P23 6C'
 ---------------------------------------------
@@ -310,7 +310,7 @@ incidence incidence                     incidence, azimuth omega_t, mu, omega, c
 emergence emergence                     emergence, azimuth omega_t, mu, omega, chi, phi, gamma, delta                            x, y, z
 ========= ============================= ================== ========================================== ========================== ===============
 
-.. _geometries.hkl_soleil.SOLEIL_MARS:
+.. _geometries-hkl_soleil-soleil-mars:
 
 solver='hkl_soleil', geometry='SOLEIL MARS'
 -------------------------------------------
@@ -332,7 +332,7 @@ incidence incidence          incidence, azimuth omega, chi, phi                 
 emergence emergence          emergence, azimuth omega, chi, phi, tth                      x, y, z
 ========= ================== ================== ==================== ==================== ===============
 
-.. _geometries.hkl_soleil.SOLEIL_NANOSCOPIUM_ROBOT:
+.. _geometries-hkl_soleil-soleil-nanoscopium-robot:
 
 solver='hkl_soleil', geometry='SOLEIL NANOSCOPIUM ROBOT'
 --------------------------------------------------------
@@ -347,7 +347,7 @@ hkl    lifting detector rs h, k, l   rz, rs, rx, r, delta, gamma rs, delta, gamm
 hkl    lifting detector rx h, k, l   rz, rs, rx, r, delta, gamma rx, delta, gamma
 ====== =================== ========= =========================== ================ ========
 
-.. _geometries.hkl_soleil.SOLEIL_SIRIUS_KAPPA:
+.. _geometries-hkl_soleil-soleil-sirius-kappa:
 
 solver='hkl_soleil', geometry='SOLEIL SIRIUS KAPPA'
 ---------------------------------------------------
@@ -380,7 +380,7 @@ incidence incidence                        incidence, azimuth mu, komega, kappa,
 emergence emergence                        emergence, azimuth mu, komega, kappa, kphi, gamma, delta                                   x, y, z
 ========= ================================ ================== ===================================== ================================= ===========================
 
-.. _geometries.hkl_soleil.SOLEIL_SIRIUS_TURRET:
+.. _geometries-hkl_soleil-soleil-sirius-turret:
 
 solver='hkl_soleil', geometry='SOLEIL SIRIUS TURRET'
 ----------------------------------------------------
@@ -398,7 +398,7 @@ incidence incidence               incidence, azimuth basepitch, thetah, alphay, 
 emergence emergence               emergence, azimuth basepitch, thetah, alphay, alphax, delta, gamma                      x, y, z
 ========= ======================= ================== =============================================== ==================== ========
 
-.. _geometries.hkl_soleil.SOLEIL_SIXS_MED1+2:
+.. _geometries-hkl_soleil-soleil-sixs-med1+2:
 
 solver='hkl_soleil', geometry='SOLEIL SIXS MED1+2'
 --------------------------------------------------
@@ -417,7 +417,7 @@ incidence incidence   incidence, azimuth pitch, mu                              
 emergence emergence   emergence, azimuth pitch, mu, gamma, delta                  x, y, z
 ========= =========== ================== ======================= ================ ========
 
-.. _geometries.hkl_soleil.SOLEIL_SIXS_MED2+2:
+.. _geometries-hkl_soleil-soleil-sixs-med2+2:
 
 solver='hkl_soleil', geometry='SOLEIL SIXS MED2+2'
 --------------------------------------------------
@@ -437,7 +437,7 @@ incidence incidence       incidence, azimuth beta, mu, omega                    
 emergence emergence       emergence, azimuth beta, mu, omega, gamma, delta                         x, y, z
 ========= =============== ================== ============================= ======================= ==================
 
-.. _geometries.hkl_soleil.SOLEIL_SIXS_MED2+3:
+.. _geometries-hkl_soleil-soleil-sixs-med2+3:
 
 solver='hkl_soleil', geometry='SOLEIL SIXS MED2+3'
 --------------------------------------------------
@@ -457,7 +457,7 @@ incidence incidence       incidence, azimuth beta, mu, omega                    
 emergence emergence       emergence, azimuth beta, mu, omega, gamma, delta                                x, y, z
 ========= =============== ================== ==================================== ======================= ==================
 
-.. _geometries.hkl_soleil.SOLEIL_SIXS_MED2+3_v2:
+.. _geometries-hkl_soleil-soleil-sixs-med2+3-v2:
 
 solver='hkl_soleil', geometry='SOLEIL SIXS MED2+3 v2'
 -----------------------------------------------------
@@ -477,7 +477,7 @@ incidence incidence       incidence, azimuth beta, mu, omega                    
 emergence emergence       emergence, azimuth beta, mu, omega, gamma, delta                          x, y, z
 ========= =============== ================== ============================== ======================= ==================
 
-.. _geometries.hkl_soleil.ZAXIS:
+.. _geometries-hkl_soleil-zaxis:
 
 solver='hkl_soleil', geometry='ZAXIS'
 -------------------------------------
@@ -496,7 +496,7 @@ incidence incidence    incidence, azimuth mu, omega                             
 emergence emergence    emergence, azimuth mu, omega, delta, gamma                         x, y, z
 ========= ============ ================== ======================= ======================= ========
 
-.. _geometries.th_tth.TH_TTH_Q:
+.. _geometries-th_tth-th-tth-q:
 
 solver='th_tth', geometry='TH TTH Q'
 ------------------------------------
