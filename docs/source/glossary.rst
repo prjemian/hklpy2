@@ -113,11 +113,11 @@ Glossary
     !geometry
 
 :geometry: The set of *reals* (stacked rotation angles) which
-  define a specific *diffractometer*.
-  A common distinguishing feature is the number of axes in each stack.
-  For example, the ``E4CV`` geometry has 3 sample axes
-  (``omega``, ``chi``, ``phi``) and 1 detector axis (``tth``).
-  In some shorthand reference, this is called "S3D1".
+  define a specific *diffractometer*. A common distinguishing feature is the
+  number of axes in each stack. For example, the :ref:`E4CV
+  <geometries.hkl_soleil.E4CV>`  geometry has 3 sample axes (``omega``, ``chi``,
+  ``phi``) and 1 detector axis (``tth``). In some shorthand reference, this
+  could be called "S3D1".
 
 ..  index::
     !definition; goniometer

@@ -55,7 +55,8 @@ Show the full report:
    wavelength=1.0
    mu=0, omega=0, chi=0, phi=0, gamma=0, delta=0
 
-Calculate the angles for $hkl=(1\ \\bar{1}\ 0)$:
+Calculate the angles for $hkl=(1\ \\bar{1}\ 0)$, using
+:func:`~hklpy2.user.cahkl()`:
 
 .. code-block:: python
    :linenos:
