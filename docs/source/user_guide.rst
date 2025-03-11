@@ -14,6 +14,7 @@ User Guide
    concepts
    geometry_tables
    examples
+   guides
    install
    glossary
 

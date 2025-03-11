@@ -4,11 +4,10 @@
 Constraints
 ======================
 
-Computation of the real-space axis positions given a set of reciprocal-space
-coordinates can have many solutions.  One or more constraints
+Computation of :meth:`~hklpy2.diffract.DiffractometerBase.forward()` can have
+many solutions.  One or more constraints
 (:class:`~hklpy2.blocks.constraints.ConstraintBase`) (a.k.a, cut points),
-together with a choice of operating **mode**, can be applied
-to:
+together with a choice of operating **mode**, can be applied to:
 
 * Limit the range of :meth:`~hklpy2.diffract.DiffractometerBase.forward()`
   solutions accepted for that positioner.
@@ -43,7 +42,7 @@ Show the constraints:
 Change a constraint
 -------------------
 
-Make sure ``omega`` < 0 is not allowed.
+Only accept ``forward()`` solutions where ``omega`` :math:`>= 0`.
 
 .. code-block:: python
    :linenos:
@@ -54,7 +53,10 @@ Make sure ``omega`` < 0 is not allowed.
    >>> sixc.core.constraints["omega"]
    0 <= omega <= 180.0
 
-Limit ``chi`` to $\\pm90$:
+Apply axis cuts
+~~~~~~~~~~~~~~~~~~
+
+Only accept ``forward()`` solutions where ``chi`` is between $\\pm90$:
 
 .. code-block:: python
    :linenos:
@@ -65,7 +67,10 @@ Limit ``chi`` to $\\pm90$:
    >>> sixc.core.constraints["chi"].limits
    (-90.0, 90.0)
 
-Fix ``mu`` to zero:
+Freeze an axis
+~~~~~~~~~~~~~~~~~~
+
+Only accept ``forward()`` solutions where ``mu`` is zero:
 
 .. code-block:: python
    :linenos:
