@@ -48,7 +48,7 @@ It could be re-organized.
   * [x] `libhkl`
   * [ ] [*ad-hoc* geometries](https://github.com/bluesky/hklpy/issues/244)
   * [ ] [diffcalc](https://github.com/bluesky/hklpy/issues/163)
-  * [ ] [TwoC unknown](https://github.com/bluesky/hklpy/issues/165)
+  * [x] [TwoC unknown](https://github.com/bluesky/hklpy/issues/165)
   * [ ] [xrayutilities](https://github.com/bluesky/hklpy/issues/162)
   * [ ] [SPEC server](https://certif.com/spec_help/server.html)
 * [ ] Documentation
@@ -58,7 +58,7 @@ It could be re-organized.
   * [ ] How to hold axes fixed during `forward()` transformation.
   * [ ] How to migrate from hklpy v1.
   * [x] How to refine lattice from 3 reflections.
-  * [x] How to save & restore diffractometer configuration (includes orientation).
+  * [x] Save & restore diffractometer configuration (includes orientation).
   * [x] How to set UB directly.
 * [x] Diffractometer-Operations API
   * [x] solver:
@@ -69,7 +69,7 @@ It could be re-organized.
   * [x] configuration:
     * [x] export
     * [x] restore
-  * axes
+  * [x] axes
     * pseudos
       * [x] dict
       * [x] list
@@ -84,10 +84,13 @@ It could be re-organized.
     * [x] forward (pseudos -> reals)
     * [x] inverse (reals -> pseudos)
   * user friendliness
-    * [ ] features from hklpy
+    * [x] features from hklpy
   * [x] position targets
+    * [x] dicts
+    * [x] lists
     * [ ] numpy arrays
     * [x] scalars
+    * [x] tuples
 * [x] Operations-Solver interface transactions API
   * [x] axes : assignment : automatic
   * [x] axes : assignment : named
@@ -113,6 +116,7 @@ It could be re-organized.
   * [ ] minimum 2,000 `inverse()` operations/second
   * [ ] minimum 2,000 `forward()` operations/second
 * [ ] Backends - feature support
+  * [ ] *ad hoc* geometries
   * [ ] diffcalc_dls
   * [x] hkl_soleil (libhkl)
     * [x] axes : expected pseudos
@@ -137,8 +141,8 @@ It could be re-organized.
     * [x] sample lattice : refine from >2 reflections
     * [x] transformation : forward (pseudos -> reals)
     * [x] transformation : inverse (reals -> pseudos)
-  * [ ] no_op
-  * [ ] spec
+  * [x] no_op
+  * [ ] SPEC server
   * [x] th_tth
     * axes : expected
       * [x] pseudos
@@ -161,3 +165,4 @@ It could be re-organized.
       * [x] forward (pseudos -> reals)
       * [x] inverse (reals -> pseudos)
     * [x] wavelength : set
+  * [ ] xrayutilities

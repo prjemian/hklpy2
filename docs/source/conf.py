@@ -50,6 +50,7 @@ extensions = [
     "sphinx.ext.napoleon",
     "sphinx.ext.viewcode",
     "sphinx_design",
+    # "myst_nb",
     "myst_parser",
     "nbsphinx",
 ]
