@@ -605,8 +605,8 @@ class DiffractometerBase(PseudoPositioner):
             for v in self.sample.reflections.values():
                 print(f"{v}")
             print(f"Orienting reflections: {self.sample.reflections.order}")
-            print(f"U={self.core.solver.U}")
-            print(f"UB={self.core.solver.UB}")
+            print(f"U={self.sample.U}")
+            print(f"UB={self.sample.UB}")
             for v in self.core.constraints.values():
                 print(f"constraint: {v}")
 
