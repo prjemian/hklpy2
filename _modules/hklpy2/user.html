@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../../_static/documentation_options.js?v=cee5022b"></script>
+    <script src="../../_static/documentation_options.js?v=1c477fa6"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/design-tabs.js?v=f930bc37"></script>
@@ -349,22 +349,6 @@
 <span></span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">Simplified interface for |hklpy2| diffractometer users.</span>
 
-<span class="sd">Get started with a diffractometer object and</span>
-<span class="sd">:func:`~hklpy2.user.set_diffractometer()`.  For example:</span>
-
-<span class="sd">.. code-block:: python</span>
-<span class="sd">    :linenos:</span>
-
-<span class="sd">    &gt;&gt;&gt; from hklpy2 import creator</span>
-<span class="sd">    &gt;&gt;&gt; from hklpy2.user import *</span>
-<span class="sd">    &gt;&gt;&gt;</span>
-<span class="sd">    &gt;&gt;&gt; e4cv = creator(name=&quot;e4cv&quot;)</span>
-<span class="sd">    &gt;&gt;&gt; set_diffractometer(e4cv)</span>
-<span class="sd">    &gt;&gt;&gt; wh()  # &quot;WHere&quot;: brief report</span>
-<span class="sd">    &gt;&gt;&gt; pa()  # &quot;Print All&quot;: full report</span>
-
-<span class="sd">FUNCTIONS</span>
-
 <span class="sd">.. autosummary::</span>
 <span class="sd">   :toctree: generated</span>
 
@@ -383,7 +367,10 @@
 <span class="sd">    ~set_energy</span>
 <span class="sd">    ~set_lattice</span>
 <span class="sd">    ~setor</span>
+<span class="sd">    ~solver_summary</span>
 <span class="sd">    ~wh</span>
+
+<span class="sd">.. seealso:: :ref:`user_guide.quickstart`</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">uuid</span>
@@ -415,6 +402,7 @@
 <span class="s2">    set_energy</span>
 <span class="s2">    set_lattice</span>
 <span class="s2">    setor</span>
+<span class="s2">    solver_summary</span>
 <span class="s2">    wh</span>
 <span class="s2">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
 
@@ -461,7 +449,7 @@
 
 
 <div class="viewcode-block" id="add_sample">
-<a class="viewcode-back" href="../../generated/generated/hklpy2.user.add_sample.html#hklpy2.user.add_sample">[docs]</a>
+<a class="viewcode-back" href="../../generated/hklpy2.user.html#hklpy2.user.add_sample">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">add_sample</span><span class="p">(</span>
     <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="n">a</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
@@ -511,7 +499,7 @@
 
 
 <div class="viewcode-block" id="cahkl">
-<a class="viewcode-back" href="../../generated/generated/hklpy2.user.cahkl.html#hklpy2.user.cahkl">[docs]</a>
+<a class="viewcode-back" href="../../generated/hklpy2.user.html#hklpy2.user.cahkl">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">cahkl</span><span class="p">(</span><span class="n">h</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">l</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>  <span class="c1"># noqa: E741</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Calculate motor positions for specified &#39;h, k l&#39; - DOES NOT MOVE motors.</span>
@@ -539,7 +527,7 @@
 
 
 <div class="viewcode-block" id="cahkl_table">
-<a class="viewcode-back" href="../../generated/generated/hklpy2.user.cahkl_table.html#hklpy2.user.cahkl_table">[docs]</a>
+<a class="viewcode-back" href="../../generated/hklpy2.user.html#hklpy2.user.cahkl_table">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">cahkl_table</span><span class="p">(</span><span class="o">*</span><span class="n">reflections</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">AxesTuple</span><span class="p">],</span> <span class="n">digits</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Print a table with motor positions for each reflection given.</span>
@@ -581,7 +569,7 @@
 
 
 <div class="viewcode-block" id="calc_UB">
-<a class="viewcode-back" href="../../generated/generated/hklpy2.user.calc_UB.html#hklpy2.user.calc_UB">[docs]</a>
+<a class="viewcode-back" href="../../generated/hklpy2.user.html#hklpy2.user.calc_UB">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">calc_UB</span><span class="p">(</span>
     <span class="n">r1</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Reflection</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span>
     <span class="n">r2</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Reflection</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span>
@@ -607,8 +595,50 @@
 
 
 
+<div class="viewcode-block" id="solver_summary">
+<a class="viewcode-back" href="../../generated/hklpy2.user.html#hklpy2.user.solver_summary">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">solver_summary</span><span class="p">(</span><span class="n">write</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Table of diffractometer solver&#39;s modes, axes, ...</span>
+
+<span class="sd">    EXAMPLE:</span>
+
+<span class="sd">    .. code-block:: python</span>
+<span class="sd">        :linenos:</span>
+
+<span class="sd">        &gt;&gt;&gt; import hklpy2</span>
+<span class="sd">        &gt;&gt;&gt; from hklpy2.user import *</span>
+<span class="sd">        &gt;&gt;&gt; e4cv = hklpy2.creator(name=&quot;e4cv&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; set_diffractometer(e4cv)</span>
+<span class="sd">        &gt;&gt;&gt; solver_summary()</span>
+<span class="sd">        ========= ================== ================== ==================== ==================== ===============</span>
+<span class="sd">        engine    mode               pseudo(s)          real(s)              writable(s)          extra(s)</span>
+<span class="sd">        ========= ================== ================== ==================== ==================== ===============</span>
+<span class="sd">        hkl       bissector          h, k, l            omega, chi, phi, tth omega, chi, phi, tth</span>
+<span class="sd">        hkl       constant_omega     h, k, l            omega, chi, phi, tth chi, phi, tth</span>
+<span class="sd">        hkl       constant_chi       h, k, l            omega, chi, phi, tth omega, phi, tth</span>
+<span class="sd">        hkl       constant_phi       h, k, l            omega, chi, phi, tth omega, chi, tth</span>
+<span class="sd">        hkl       double_diffraction h, k, l            omega, chi, phi, tth omega, chi, phi, tth h2, k2, l2</span>
+<span class="sd">        hkl       psi_constant       h, k, l            omega, chi, phi, tth omega, chi, phi, tth h2, k2, l2, psi</span>
+<span class="sd">        psi       psi                psi                omega, chi, phi, tth omega, chi, phi, tth h2, k2, l2</span>
+<span class="sd">        q         q                  q                  tth                  tth</span>
+<span class="sd">        incidence incidence          incidence, azimuth omega, chi, phi                           x, y, z</span>
+<span class="sd">        emergence emergence          emergence, azimuth omega, chi, phi, tth                      x, y, z</span>
+<span class="sd">        ========= ================== ================== ==================== ==================== ===============</span>
+
+<span class="sd">    .. seealso:: :ref:`geometries.summary_tables`,</span>
+<span class="sd">        :meth:`hklpy2.backends.base.SolverBase.summary()`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">table</span> <span class="o">=</span> <span class="n">get_diffractometer</span><span class="p">()</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">summary</span>
+    <span class="k">if</span> <span class="n">write</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">table</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">table</span></div>
+
+
+
 <div class="viewcode-block" id="get_diffractometer">
-<a class="viewcode-back" href="../../generated/generated/hklpy2.user.get_diffractometer.html#hklpy2.user.get_diffractometer">[docs]</a>
+<a class="viewcode-back" href="../../generated/hklpy2.user.html#hklpy2.user.get_diffractometer">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_diffractometer</span><span class="p">():</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Return the currently-selected diffractometer (or ``None``).</span>
@@ -638,7 +668,7 @@
 
 
 <div class="viewcode-block" id="list_samples">
-<a class="viewcode-back" href="../../generated/generated/hklpy2.user.list_samples.html#hklpy2.user.list_samples">[docs]</a>
+<a class="viewcode-back" href="../../generated/hklpy2.user.html#hklpy2.user.list_samples">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">list_samples</span><span class="p">(</span><span class="n">full</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Summarize diffractometer&#39;s samples.</span>
@@ -678,7 +708,7 @@
 
 
 <div class="viewcode-block" id="or_swap">
-<a class="viewcode-back" href="../../generated/generated/hklpy2.user.or_swap.html#hklpy2.user.or_swap">[docs]</a>
+<a class="viewcode-back" href="../../generated/hklpy2.user.html#hklpy2.user.or_swap">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">or_swap</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Swap the first 2 ORienting reflections, re-compute &amp; return new [UB].</span>
@@ -707,7 +737,7 @@
 
 
 <div class="viewcode-block" id="pa">
-<a class="viewcode-back" href="../../generated/generated/hklpy2.user.pa.html#hklpy2.user.pa">[docs]</a>
+<a class="viewcode-back" href="../../generated/hklpy2.user.html#hklpy2.user.pa">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">pa</span><span class="p">(</span><span class="n">digits</span><span class="o">=</span><span class="mi">4</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Report (all) the diffractometer settings.</span>
@@ -742,7 +772,7 @@
 
 
 <div class="viewcode-block" id="remove_reflection">
-<a class="viewcode-back" href="../../generated/generated/hklpy2.user.remove_reflection.html#hklpy2.user.remove_reflection">[docs]</a>
+<a class="viewcode-back" href="../../generated/hklpy2.user.html#hklpy2.user.remove_reflection">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">remove_reflection</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">error</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Pop the named reflection and remove it from list of orienting reflections.</span>
@@ -774,7 +804,7 @@
 
 
 <div class="viewcode-block" id="remove_sample">
-<a class="viewcode-back" href="../../generated/generated/hklpy2.user.remove_sample.html#hklpy2.user.remove_sample">[docs]</a>
+<a class="viewcode-back" href="../../generated/hklpy2.user.html#hklpy2.user.remove_sample">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">remove_sample</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">error</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Pop the named sample, set &quot;selected&quot; sample name to a valid one.</span>
@@ -812,7 +842,7 @@
 
 
 <div class="viewcode-block" id="set_diffractometer">
-<a class="viewcode-back" href="../../generated/generated/hklpy2.user.set_diffractometer.html#hklpy2.user.set_diffractometer">[docs]</a>
+<a class="viewcode-back" href="../../generated/hklpy2.user.html#hklpy2.user.set_diffractometer">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">set_diffractometer</span><span class="p">(</span><span class="n">diffractometer</span><span class="p">:</span> <span class="n">DiffractometerBase</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Declare the diffractometer to be used.</span>
@@ -830,7 +860,7 @@
 
 
 <div class="viewcode-block" id="set_energy">
-<a class="viewcode-back" href="../../generated/generated/hklpy2.user.set_energy.html#hklpy2.user.set_energy">[docs]</a>
+<a class="viewcode-back" href="../../generated/hklpy2.user.html#hklpy2.user.set_energy">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">set_energy</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Set the energy (thus wavelength) to be used (does not change control system value).</span>
@@ -861,7 +891,7 @@
 
 
 <div class="viewcode-block" id="set_lattice">
-<a class="viewcode-back" href="../../generated/generated/hklpy2.user.set_lattice.html#hklpy2.user.set_lattice">[docs]</a>
+<a class="viewcode-back" href="../../generated/hklpy2.user.html#hklpy2.user.set_lattice">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">set_lattice</span><span class="p">(</span>
     <span class="n">a</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">b</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -893,7 +923,7 @@
 
 
 <div class="viewcode-block" id="setor">
-<a class="viewcode-back" href="../../generated/generated/hklpy2.user.setor.html#hklpy2.user.setor">[docs]</a>
+<a class="viewcode-back" href="../../generated/hklpy2.user.html#hklpy2.user.setor">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">setor</span><span class="p">(</span>
     <span class="n">h</span><span class="p">,</span>
     <span class="n">k</span><span class="p">,</span>
@@ -990,7 +1020,7 @@
 
 
 <div class="viewcode-block" id="wh">
-<a class="viewcode-back" href="../../generated/generated/hklpy2.user.wh.html#hklpy2.user.wh">[docs]</a>
+<a class="viewcode-back" href="../../generated/hklpy2.user.html#hklpy2.user.wh">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">wh</span><span class="p">(</span><span class="n">digits</span><span class="o">=</span><span class="mi">4</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Report (brief) where is the diffractometer.</span>

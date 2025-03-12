@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../../_static/documentation_options.js?v=cee5022b"></script>
+    <script src="../../_static/documentation_options.js?v=1c477fa6"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/design-tabs.js?v=f930bc37"></script>
@@ -350,7 +350,7 @@
 <span class="sd">Base class for all diffractometers</span>
 
 <span class="sd">.. autosummary::</span>
-<span class="sd">   :toctree: generated</span>
+<span class="sd">    :toctree: generated</span>
 
 <span class="sd">    ~DiffractometerBase</span>
 <span class="sd">    ~pick_first_item</span>
@@ -407,7 +407,7 @@
 
 
 <div class="viewcode-block" id="DiffractometerBase">
-<a class="viewcode-back" href="../../generated/generated/hklpy2.diffract.DiffractometerBase.html#hklpy2.diffract.DiffractometerBase">[docs]</a>
+<a class="viewcode-back" href="../../generated/hklpy2.diffract.html#hklpy2.diffract.DiffractometerBase">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">DiffractometerBase</span><span class="p">(</span><span class="n">PseudoPositioner</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Base class for all diffractometers.</span>
@@ -523,6 +523,8 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">assign_axes</span><span class="p">(</span><span class="n">pseudos</span><span class="p">,</span> <span class="n">reals</span><span class="p">)</span></div>
 
 
+<div class="viewcode-block" id="DiffractometerBase.add_reflection">
+<a class="viewcode-back" href="../../generated/hklpy2.diffract.html#hklpy2.diffract.DiffractometerBase.add_reflection">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">add_reflection</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">pseudos</span><span class="p">,</span>
@@ -547,8 +549,11 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">add_reflection</span><span class="p">(</span>
             <span class="n">pseudos</span><span class="p">,</span> <span class="n">reals</span><span class="p">,</span> <span class="n">wavelength</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">wavelength</span><span class="o">.</span><span class="n">get</span><span class="p">(),</span> <span class="n">name</span><span class="p">,</span> <span class="n">replace</span>
-        <span class="p">)</span>
+        <span class="p">)</span></div>
 
+
+<div class="viewcode-block" id="DiffractometerBase.add_sample">
+<a class="viewcode-back" href="../../generated/hklpy2.diffract.html#hklpy2.diffract.DiffractometerBase.add_sample">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">add_sample</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
@@ -572,8 +577,11 @@
             <span class="n">gamma</span><span class="p">,</span>
             <span class="n">digits</span><span class="p">,</span>
             <span class="n">replace</span><span class="p">,</span>
-        <span class="p">)</span>
+        <span class="p">)</span></div>
 
+
+<div class="viewcode-block" id="DiffractometerBase.auto_assign_axes">
+<a class="viewcode-back" href="../../generated/hklpy2.diffract.html#hklpy2.diffract.DiffractometerBase.auto_assign_axes">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">auto_assign_axes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Automatically assign diffractometer axes to this solver.</span>
@@ -596,7 +604,8 @@
 <span class="sd">        Any diffractometer axes not expected by the |solver| will</span>
 <span class="sd">        not be assigned.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">auto_assign_axes</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">auto_assign_axes</span><span class="p">()</span></div>
+
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">configuration</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
@@ -616,6 +625,8 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">_fromdict</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
 
+<div class="viewcode-block" id="DiffractometerBase.export">
+<a class="viewcode-back" href="../../generated/hklpy2.diffract.html#hklpy2.diffract.DiffractometerBase.export">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">export</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file</span><span class="p">,</span> <span class="n">comment</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Export the diffractometer configuration to a YAML file.</span>
@@ -638,8 +649,11 @@
         <span class="p">)</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">y</span><span class="p">:</span>
             <span class="n">y</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;#hklpy2 configuration file</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="p">)</span>
-            <span class="n">y</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">dump</span><span class="p">)</span>
+            <span class="n">y</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">dump</span><span class="p">)</span></div>
 
+
+<div class="viewcode-block" id="DiffractometerBase.restore">
+<a class="viewcode-back" href="../../generated/hklpy2.diffract.html#hklpy2.diffract.DiffractometerBase.restore">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">restore</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">config</span><span class="p">,</span>
@@ -694,15 +708,21 @@
             <span class="n">config</span><span class="p">,</span>
             <span class="n">clear</span><span class="o">=</span><span class="n">clear</span><span class="p">,</span>
             <span class="n">restore_constraints</span><span class="o">=</span><span class="n">restore_constraints</span><span class="p">,</span>
-        <span class="p">)</span>
+        <span class="p">)</span></div>
 
+
+<div class="viewcode-block" id="DiffractometerBase.forward">
+<a class="viewcode-back" href="../../generated/hklpy2.diffract.html#hklpy2.diffract.DiffractometerBase.forward">[docs]</a>
     <span class="nd">@pseudo_position_argument</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pseudos</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">wavelength</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute real-space coordinates from pseudos (hkl -&gt; angles).&quot;&quot;&quot;</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;forward: pseudos=</span><span class="si">%r</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">pseudos</span><span class="p">)</span>
         <span class="n">solutions</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">pseudos</span><span class="p">,</span> <span class="n">wavelength</span><span class="o">=</span><span class="n">wavelength</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_forward_solution</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">real_position</span><span class="p">,</span> <span class="n">solutions</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_forward_solution</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">real_position</span><span class="p">,</span> <span class="n">solutions</span><span class="p">)</span></div>
 
+
+<div class="viewcode-block" id="DiffractometerBase.full_position">
+<a class="viewcode-back" href="../../generated/hklpy2.diffract.html#hklpy2.diffract.DiffractometerBase.full_position">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">full_position</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">digits</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return dict with positions of pseudos, reals, &amp; extras.&quot;&quot;&quot;</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">.misc</span><span class="w"> </span><span class="kn">import</span> <span class="n">roundoff</span>
@@ -712,32 +732,45 @@
         <span class="n">pdict</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">extras</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">pdict</span><span class="p">:</span>
             <span class="n">pdict</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">roundoff</span><span class="p">(</span><span class="n">pdict</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="n">digits</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">pdict</span>
+        <span class="k">return</span> <span class="n">pdict</span></div>
 
+
+<div class="viewcode-block" id="DiffractometerBase.inverse">
+<a class="viewcode-back" href="../../generated/hklpy2.diffract.html#hklpy2.diffract.DiffractometerBase.inverse">[docs]</a>
     <span class="nd">@real_position_argument</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">inverse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reals</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">wavelength</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute pseudo-space coordinates from reals (angles -&gt; hkl).&quot;&quot;&quot;</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;inverse: reals=</span><span class="si">%r</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">reals</span><span class="p">)</span>
         <span class="n">pos</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">inverse</span><span class="p">(</span><span class="n">reals</span><span class="p">,</span> <span class="n">wavelength</span><span class="o">=</span><span class="n">wavelength</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">PseudoPosition</span><span class="p">(</span><span class="o">**</span><span class="n">pos</span><span class="p">)</span>  <span class="c1"># as created by namedtuple</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">PseudoPosition</span><span class="p">(</span><span class="o">**</span><span class="n">pos</span><span class="p">)</span>  <span class="c1"># as created by namedtuple</span></div>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">move_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axes</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;(plan) Move diffractometer axes as described in &#39;axes&#39; dict.&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="DiffractometerBase.move_dict">
+<a class="viewcode-back" href="../../generated/hklpy2.diffract.html#hklpy2.diffract.DiffractometerBase.move_dict">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">move_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axes</span><span class="p">:</span> <span class="n">AxesDict</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;(plan) Move diffractometer axes to positions in &#39;axes&#39;.&quot;&quot;&quot;</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">bluesky</span><span class="w"> </span><span class="kn">import</span> <span class="n">plan_stubs</span> <span class="k">as</span> <span class="n">bps</span>
 
         <span class="kn">from</span><span class="w"> </span><span class="nn">.misc</span><span class="w"> </span><span class="kn">import</span> <span class="n">flatten_lists</span>
+
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">axes</span><span class="p">,</span> <span class="s2">&quot;_fields&quot;</span><span class="p">):</span>
+            <span class="c1"># Convert namedtuple to dict</span>
+            <span class="n">axes</span> <span class="o">=</span> <span class="n">axes</span><span class="o">.</span><span class="n">_asdict</span><span class="p">()</span>
 
         <span class="c1"># Transform axes dict to args for bps.mv(position, value)</span>
         <span class="n">moves</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span>
             <span class="n">flatten_lists</span><span class="p">(</span>
                 <span class="p">[</span>
                     <span class="p">[</span><span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">),</span> <span class="n">v</span><span class="p">]</span>  <span class="c1"># move the diffractometer axes</span>
-                    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">axes</span><span class="o">.</span><span class="n">_asdict</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+                    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">axes</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
                 <span class="p">]</span>
             <span class="p">)</span>
         <span class="p">)</span>
-        <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span><span class="o">*</span><span class="n">moves</span><span class="p">)</span>
+        <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span><span class="o">*</span><span class="n">moves</span><span class="p">)</span></div>
 
+
+<div class="viewcode-block" id="DiffractometerBase.move_forward_with_extras">
+<a class="viewcode-back" href="../../generated/hklpy2.diffract.html#hklpy2.diffract.DiffractometerBase.move_forward_with_extras">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">move_forward_with_extras</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">pseudos</span><span class="p">:</span> <span class="n">AnyAxesType</span><span class="p">,</span>  <span class="c1"># (h, k, l)</span>
@@ -758,16 +791,22 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">extras</span> <span class="o">=</span> <span class="n">extras</span>  <span class="c1"># must come first</span>
         <span class="n">solution</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">standardize_pseudos</span><span class="p">(</span><span class="n">pseudos</span><span class="p">))</span>
-        <span class="k">yield from</span> <span class="bp">self</span><span class="o">.</span><span class="n">move_dict</span><span class="p">(</span><span class="n">solution</span><span class="p">)</span>
+        <span class="k">yield from</span> <span class="bp">self</span><span class="o">.</span><span class="n">move_dict</span><span class="p">(</span><span class="n">solution</span><span class="p">)</span></div>
 
+
+<div class="viewcode-block" id="DiffractometerBase.move_reals">
+<a class="viewcode-back" href="../../generated/hklpy2.diffract.html#hklpy2.diffract.DiffractometerBase.move_reals">[docs]</a>
     <span class="nd">@real_position_argument</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">move_reals</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reals</span><span class="p">:</span> <span class="n">AnyAxesType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;(not a plan) Move the real-space axes as specified in &#39;real_positions&#39;.&quot;&quot;&quot;</span>
         <span class="n">reals</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">standardize_reals</span><span class="p">(</span><span class="n">reals</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">axis_name</span><span class="p">,</span> <span class="n">position</span> <span class="ow">in</span> <span class="n">reals</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="n">hkl_axis</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axis_name</span><span class="p">)</span>
-            <span class="n">hkl_axis</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="n">position</span><span class="p">)</span>
+            <span class="n">hkl_axis</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="n">position</span><span class="p">)</span></div>
 
+
+<div class="viewcode-block" id="DiffractometerBase.scan_extra">
+<a class="viewcode-back" href="../../generated/hklpy2.diffract.html#hklpy2.diffract.DiffractometerBase.scan_extra">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">scan_extra</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">detectors</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span>
@@ -888,7 +927,8 @@
                     <span class="k">else</span><span class="p">:</span>
                         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;FAIL: </span><span class="si">{</span><span class="n">axis</span><span class="si">}</span><span class="s2">=</span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">reason</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="p">(</span><span class="k">yield from</span> <span class="n">_inner</span><span class="p">())</span>
+        <span class="k">return</span> <span class="p">(</span><span class="k">yield from</span> <span class="n">_inner</span><span class="p">())</span></div>
+
 
     <span class="c1"># ---- get/set properties</span>
 
@@ -941,6 +981,8 @@
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">name</span>
         <span class="k">return</span> <span class="s2">&quot;&quot;</span>
 
+<div class="viewcode-block" id="DiffractometerBase.wh">
+<a class="viewcode-back" href="../../generated/hklpy2.diffract.html#hklpy2.diffract.DiffractometerBase.wh">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">wh</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">digits</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">full</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Concise report of the current diffractometer positions.&quot;&quot;&quot;</span>
 
@@ -957,8 +999,8 @@
             <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">reflections</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
                 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
             <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Orienting reflections: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">reflections</span><span class="o">.</span><span class="n">order</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;U=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">U</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;UB=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">UB</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;U=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">U</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;UB=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">UB</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">constraints</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
                 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;constraint: </span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
@@ -969,6 +1011,7 @@
         <span class="n">extras</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">extras</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">extras</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">wh_round</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">extras</span><span class="o">.</span><span class="n">items</span><span class="p">()]))</span></div>
+</div>
 
 </pre></div>
 

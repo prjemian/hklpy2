@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Operations &#8212; hklpy2 0.0</title>
+    <title>Core Operations &#8212; hklpy2 0.0</title>
   
   
   
@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=cee5022b"></script>
+    <script src="../_static/documentation_options.js?v=1c477fa6"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
@@ -301,31 +301,47 @@
      aria-label="Section Navigation">
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
   <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Quickstart</a></li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="../concepts.html">Concepts</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="_checklist_v2.html">Feature Checklist for v2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_design-discussion.html">Design for hklpy2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="constraints.html">Constraints</a></li>
+<li class="toctree-l2"><a class="reference internal" href="creator.html">Diffractometer creator</a></li>
 <li class="toctree-l2"><a class="reference internal" href="diffract.html">Diffractometer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="lattice.html">Crystal Lattice</a></li>
-<li class="toctree-l2 current active"><a class="current reference internal" href="#">Operations</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Core Operations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="reflection.html">Orientation Reflection</a></li>
 <li class="toctree-l2"><a class="reference internal" href="solvers.html">Solvers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="user.html">User Friendliness</a></li>
+<li class="toctree-l2"><a class="reference internal" href="wavelength.html">Wavelength</a></li>
 </ul>
 </details></li>
+<li class="toctree-l1"><a class="reference internal" href="../geometry_tables.html">Diffractometer Geometries</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../examples.html">Examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../examples/_api_demo.html">Demonstrate <strong>hklpy2</strong>’s API</a></li>
 
 
-<li class="toctree-l2"><a class="reference internal" href="../examples/configuration_save_restore.html">Diffractometer Configuration – Save and Restore</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../examples/diffract.html">Diffractometer Axis Names</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../examples/hkl_soleil-e6c-psi.html"><strong>hkl_soleil</strong> E6C <span class="math notranslate nohighlight">\(\psi\)</span> (psi) axis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/hkl_soleil-e4ch.html"><strong>hkl_soleil</strong> E4CH</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/hkl_soleil-e4cv.html"><strong>hkl_soleil</strong> E4CV</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/hkl_soleil-e6c-psi.html"><strong>hkl_soleil</strong> E6C psi axis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/hkl_soleil-e6c-test_calculations.html"><strong>hkl_soleil</strong> E6C test of calculations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/hkl_soleil-k4cv.html"><strong>hkl_soleil</strong> K4CV</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/hkl_soleil-lattice_refine.html"><strong>hkl_soleil</strong> Refine lattice from 3 reflections</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/hkl_soleil-ub_calc.html"><strong>hkl_soleil</strong> UB matrix : calculate from 2 reflections.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/hkl_soleil-ub_set.html"><strong>hkl_soleil</strong> UB matrix : Set directly</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/nslsii-tardis.html">NSLS-II tardis diffractometer</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../examples/tst_e4cv_fourc.html">Compare <strong>hkl_soleil</strong> <strong>E4CV</strong> with <strong>SPEC</strong> <strong>fourc</strong></a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../guides.html">Guides</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../guides/configuration_save_restore.html">Diffractometer Configuration – Save and Restore</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/diffract.html">Diffractometer Axis Names</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/how_extra_real_axis.html">How to add extra motors to a diffractometer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/spec_xref.html">SPEC commands in hklpy2</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../design-discussion.html">Design for hklpy2</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../checklist_v2.html">Feature Checklist for v2</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
 </ul>
 </div>
@@ -373,7 +389,7 @@
     
     <li class="breadcrumb-item"><a href="../concepts.html" class="nav-link">Concepts</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Operations</span></li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Core Operations</span></li>
   </ul>
 </nav>
 </div>
@@ -390,8 +406,8 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="operations">
-<span id="api-ops"></span><h1>Operations<a class="headerlink" href="#operations" title="Link to this heading">#</a></h1>
+  <section id="core-operations">
+<span id="concepts-ops"></span><h1>Core Operations<a class="headerlink" href="#core-operations" title="Link to this heading">#</a></h1>
 <p id="index-0">A diffractometer’s <code class="docutils literal notranslate"><span class="pre">.core</span></code> provides most of its functionality.
 The <code class="docutils literal notranslate"><span class="pre">core</span></code> conducts transactions with the <strong>Solver</strong> on behalf of the
 diffractometer. These transactions include the <code class="docutils literal notranslate"><span class="pre">forward()</span></code> and <code class="docutils literal notranslate"><span class="pre">inverse()</span></code>
@@ -404,13 +420,13 @@ a diffractometer.</p>
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p><a class="reference internal" href="../generated/generated/hklpy2.diffract.DiffractometerBase.html#hklpy2.diffract.DiffractometerBase" title="hklpy2.diffract.DiffractometerBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">DiffractometerBase</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/hklpy2.diffract.html#hklpy2.diffract.DiffractometerBase" title="hklpy2.diffract.DiffractometerBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">DiffractometerBase</span></code></a></p></td>
 <td><p>ophyd <a class="reference external" href="https://blueskyproject.io/ophyd/user/reference/positioners.html#pseudopositioner">PseudoPositioner</a></p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Operations</span></code></p></td>
 <td><p>The class for a diffractometer’s <code class="docutils literal notranslate"><span class="pre">.core</span></code> operations.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-class docutils literal notranslate"><span class="pre">SolverBase</span></code></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/generated/hklpy2.backends.base.html#hklpy2.backends.base.SolverBase" title="hklpy2.backends.base.SolverBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">SolverBase</span></code></a></p></td>
 <td><p>Code for diffractometer geometries and capabilities.</p></td>
 </tr>
 </tbody>
@@ -418,9 +434,8 @@ a diffractometer.</p>
 </div>
 <p>In addition to <strong>Solver</strong> transactions, the <code class="docutils literal notranslate"><span class="pre">.core</span></code> manages all
 details involving the set of samples and their lattices &amp; reflections.</p>
-<p>Here, we use the <a class="reference internal" href="../generated/generated/hklpy2.geom.creator.html#hklpy2.geom.creator" title="hklpy2.geom.creator"><code class="xref py py-func docutils literal notranslate"><span class="pre">hklpy2.geom.creator()</span></code></a> to create a
-simulated 4-circle diffractometer with the <code class="docutils literal notranslate"><span class="pre">E4CV</span></code> geometry provided by the
-<code class="docutils literal notranslate"><span class="pre">hkl_soleil</span></code> <strong>Solver</strong>.</p>
+<p>Here, we use the <a class="reference internal" href="../generated/hklpy2.geom.html#hklpy2.geom.creator" title="hklpy2.geom.creator"><code class="xref py py-func docutils literal notranslate"><span class="pre">creator()</span></code></a> to create a simulated 4-circle
+diffractometer with the <span class="xref std std-ref">E4CV</span> geometry.</p>
 <p>EXAMPLE:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">hklpy2</span><span class="w"> </span><span class="kn">import</span> <span class="n">creator</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">e4cv</span> <span class="o">=</span> <span class="n">creator</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;e4cv&quot;</span><span class="p">)</span>
@@ -440,9 +455,9 @@ simulated 4-circle diffractometer with the <code class="docutils literal notrans
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>The <a class="reference internal" href="../generated/generated/hklpy2.ops.Operations.html#hklpy2.ops.Operations" title="hklpy2.ops.Operations"><code class="xref py py-class docutils literal notranslate"><span class="pre">Operations</span></code></a> class provides
+<p>The <a class="reference internal" href="../generated/hklpy2.ops.html#hklpy2.ops.Operations" title="hklpy2.ops.Operations"><code class="xref py py-class docutils literal notranslate"><span class="pre">Operations</span></code></a> class provides
 key diffractometer features as Python properties.  This enables their
-inclusion in the <a class="reference internal" href="../generated/generated/hklpy2.diffract.DiffractometerBase.html#hklpy2.diffract.DiffractometerBase" title="hklpy2.diffract.DiffractometerBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">DiffractometerBase</span></code></a> class
+inclusion in the <a class="reference internal" href="../generated/hklpy2.diffract.html#hklpy2.diffract.DiffractometerBase" title="hklpy2.diffract.DiffractometerBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">DiffractometerBase</span></code></a> class
 using ophyd <a class="reference external" href="https://github.com/bluesky/ophyd/blob/5c03c3fff974dc6390836fc83dae4c247a35e662/ophyd/signal.py#L2192">AttributeSignal</a>.
 One such example is the <strong>Solver</strong> geometry name:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">geometry</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span>

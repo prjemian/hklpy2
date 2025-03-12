@@ -1,4 +1,4 @@
-.. _api.lattice:
+.. _concepts.lattice:
 
 ==================
 Crystal Lattice

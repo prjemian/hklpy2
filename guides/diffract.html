@@ -40,15 +40,15 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=cee5022b"></script>
+    <script src="../_static/documentation_options.js?v=1c477fa6"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'examples/diffract';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'guides/diffract';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="hkl_soleil E6C \(\psi\) (psi) axis" href="hkl_soleil-e6c-psi.html" />
+    <link rel="next" title="How to add extra motors to a diffractometer" href="how_extra_real_axis.html" />
     <link rel="prev" title="Diffractometer Configuration – Save and Restore" href="configuration_save_restore.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -301,31 +301,47 @@
      aria-label="Section Navigation">
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
   <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Quickstart</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../concepts.html">Concepts</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../concepts/_checklist_v2.html">Feature Checklist for v2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../concepts/_design-discussion.html">Design for hklpy2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../concepts/constraints.html">Constraints</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../concepts/creator.html">Diffractometer creator</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../concepts/diffract.html">Diffractometer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../concepts/lattice.html">Crystal Lattice</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../concepts/ops.html">Operations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../concepts/ops.html">Core Operations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../concepts/reflection.html">Orientation Reflection</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../concepts/solvers.html">Solvers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../concepts/user.html">User Friendliness</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../concepts/wavelength.html">Wavelength</a></li>
 </ul>
 </details></li>
-<li class="toctree-l1 current active has-children"><a class="reference internal" href="../examples.html">Examples</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="_api_demo.html">Demonstrate <strong>hklpy2</strong>’s API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../geometry_tables.html">Diffractometer Geometries</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../examples.html">Examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../examples/_api_demo.html">Demonstrate <strong>hklpy2</strong>’s API</a></li>
 
 
+<li class="toctree-l2"><a class="reference internal" href="../examples/hkl_soleil-e4ch.html"><strong>hkl_soleil</strong> E4CH</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/hkl_soleil-e4cv.html"><strong>hkl_soleil</strong> E4CV</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/hkl_soleil-e6c-psi.html"><strong>hkl_soleil</strong> E6C psi axis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/hkl_soleil-e6c-test_calculations.html"><strong>hkl_soleil</strong> E6C test of calculations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/hkl_soleil-k4cv.html"><strong>hkl_soleil</strong> K4CV</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/hkl_soleil-lattice_refine.html"><strong>hkl_soleil</strong> Refine lattice from 3 reflections</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/hkl_soleil-ub_calc.html"><strong>hkl_soleil</strong> UB matrix : calculate from 2 reflections.</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/hkl_soleil-ub_set.html"><strong>hkl_soleil</strong> UB matrix : Set directly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/nslsii-tardis.html">NSLS-II tardis diffractometer</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../examples/tst_e4cv_fourc.html">Compare <strong>hkl_soleil</strong> <strong>E4CV</strong> with <strong>SPEC</strong> <strong>fourc</strong></a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../guides.html">Guides</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="configuration_save_restore.html">Diffractometer Configuration – Save and Restore</a></li>
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">Diffractometer Axis Names</a></li>
-<li class="toctree-l2"><a class="reference internal" href="hkl_soleil-e6c-psi.html"><strong>hkl_soleil</strong> E6C <span class="math notranslate nohighlight">\(\psi\)</span> (psi) axis</a></li>
-<li class="toctree-l2"><a class="reference internal" href="hkl_soleil-lattice_refine.html"><strong>hkl_soleil</strong> Refine lattice from 3 reflections</a></li>
-<li class="toctree-l2"><a class="reference internal" href="hkl_soleil-ub_calc.html"><strong>hkl_soleil</strong> UB matrix : calculate from 2 reflections.</a></li>
-<li class="toctree-l2"><a class="reference internal" href="hkl_soleil-ub_set.html"><strong>hkl_soleil</strong> UB matrix : Set directly</a></li>
-<li class="toctree-l2"><a class="reference internal" href="nslsii-tardis.html">NSLS-II tardis diffractometer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="how_extra_real_axis.html">How to add extra motors to a diffractometer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spec_xref.html">SPEC commands in hklpy2</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../design-discussion.html">Design for hklpy2</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../checklist_v2.html">Feature Checklist for v2</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
 </ul>
 </div>
@@ -371,7 +387,7 @@
     <li class="breadcrumb-item"><a href="../user_guide.html" class="nav-link">User Guide</a></li>
     
     
-    <li class="breadcrumb-item"><a href="../examples.html" class="nav-link">Examples</a></li>
+    <li class="breadcrumb-item"><a href="../guides.html" class="nav-link">Guides</a></li>
     
     <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Diffractometer Axis Names</span></li>
   </ul>
@@ -409,7 +425,7 @@ to use any names allowed by ophyd.</p>
 </div>
 <section id="diffractometer-factory-function">
 <span id="diffract-axes-diffractometer-factory"></span><h3>Diffractometer Factory Function<a class="headerlink" href="#diffractometer-factory-function" title="Link to this heading">#</a></h3>
-<p>The <a class="reference internal" href="../generated/generated/hklpy2.geom.creator.html#hklpy2.geom.creator" title="hklpy2.geom.creator"><code class="xref py py-func docutils literal notranslate"><span class="pre">creator()</span></code></a> function maps axis names from
+<p>The <a class="reference internal" href="../generated/hklpy2.geom.html#hklpy2.geom.creator" title="hklpy2.geom.creator"><code class="xref py py-func docutils literal notranslate"><span class="pre">creator()</span></code></a> function maps axis names from
 diffractometer to <strong>Solver</strong>.  Let’s show this cross-reference map in an IPython
 console with just a few commands:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">6</span><span class="p">]:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">hklpy2</span><span class="w"> </span><span class="kn">import</span> <span class="n">creator</span>
@@ -427,7 +443,7 @@ console with just a few commands:</p>
 the detector.</p>
 <p>In addition to defining the diffractometer axes, we name the <strong>Solver</strong> to use
 with our diffractometer. The <code class="docutils literal notranslate"><span class="pre">th_tth</span></code> <strong>Solver</strong> has a
-<code class="xref py py-class docutils literal notranslate"><span class="pre">ThTthSolver</span></code> with a <code class="docutils literal notranslate"><span class="pre">&quot;TH</span> <span class="pre">TTH</span> <span class="pre">Q&quot;</span></code> geometry
+<a class="reference internal" href="../generated/generated/hklpy2.backends.th_tth_q.html#hklpy2.backends.th_tth_q.ThTthSolver" title="hklpy2.backends.th_tth_q.ThTthSolver"><code class="xref py py-class docutils literal notranslate"><span class="pre">ThTthSolver</span></code></a> with a <code class="docutils literal notranslate"><span class="pre">&quot;TH</span> <span class="pre">TTH</span> <span class="pre">Q&quot;</span></code> geometry
 that fits our design. We set that up in the <code class="docutils literal notranslate"><span class="pre">__init__()</span></code> method of our new
 class:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">hklpy2</span>
@@ -456,7 +472,7 @@ class:</p>
 </div>
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
-<p>Use the <a class="reference internal" href="../generated/generated/hklpy2.geom.creator.html#hklpy2.geom.creator" title="hklpy2.geom.creator"><code class="xref py py-func docutils literal notranslate"><span class="pre">hklpy2.geom.creator()</span></code></a> instead:</p>
+<p>Use the <a class="reference internal" href="../generated/hklpy2.geom.html#hklpy2.geom.creator" title="hklpy2.geom.creator"><code class="xref py py-func docutils literal notranslate"><span class="pre">hklpy2.geom.creator()</span></code></a> instead:</p>
 <div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">twoc</span> <span class="o">=</span> <span class="n">hklpy2</span><span class="o">.</span><span class="n">creator</span><span class="p">(</span>
     <span class="n">name</span><span class="o">=</span><span class="s2">&quot;twoc&quot;</span><span class="p">,</span>
     <span class="n">geometry</span><span class="o">=</span><span class="s2">&quot;TH TTH Q&quot;</span><span class="p">,</span>
@@ -545,7 +561,7 @@ any particular <strong>Solver</strong> library.</p>
 defined by the diffractometer as needed by the <strong>Solver</strong>.</p>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
-<p><code class="xref py py-meth docutils literal notranslate"><span class="pre">auto_assign_axes()</span></code></p>
+<p><a class="reference internal" href="../generated/hklpy2.diffract.html#hklpy2.diffract.DiffractometerBase.auto_assign_axes" title="hklpy2.diffract.DiffractometerBase.auto_assign_axes"><code class="xref py py-meth docutils literal notranslate"><span class="pre">auto_assign_axes()</span></code></a></p>
 </div>
 <p>In our diffractometer class (MyTwoC), the axes are sorted alphabetically.
 Auto-assignment of axes would not have been correct, because we did not
@@ -581,11 +597,11 @@ chooses in this case:</p>
       </div>
     </a>
     <a class="right-next"
-       href="hkl_soleil-e6c-psi.html"
+       href="how_extra_real_axis.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title"><strong>hkl_soleil</strong> E6C <span class="math notranslate nohighlight">\(\psi\)</span> (psi) axis</p>
+        <p class="prev-next-title">How to add extra motors to a diffractometer</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -622,7 +638,7 @@ chooses in this case:</p>
 
   
   <div class="tocsection editthispage">
-    <a href="https://github.com/prjemian/hklpy2/edit/main/docs/examples/diffract.rst">
+    <a href="https://github.com/prjemian/hklpy2/edit/main/docs/guides/diffract.rst">
       <i class="fa-solid fa-pencil"></i>
       
       
@@ -638,7 +654,7 @@ chooses in this case:</p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="../_sources/examples/diffract.rst.txt"
+      <li><a href="../_sources/guides/diffract.rst.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div></div>
