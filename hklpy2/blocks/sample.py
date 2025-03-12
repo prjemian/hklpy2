@@ -58,7 +58,7 @@ class Sample:
         self.core = core
         self.lattice = lattice
         self.U = IDENTITY_MATRIX_3X3
-        self.UB = IDENTITY_MATRIX_3X3
+        self.UB = IDENTITY_MATRIX_3X3  # TODO: * 2 * math.pi
         # TODO: reciprocal_lattice
         self.reflections = ReflectionsDict()
 
