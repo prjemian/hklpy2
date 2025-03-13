@@ -41,11 +41,13 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=35c7ceb5"></script>
+    <script src="../_static/documentation_options.js?v=bd455fa5"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'examples/_api_demo';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -320,8 +322,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../geometry_tables.html">Diffractometer Geometries</a></li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="../examples.html">Examples</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">Demonstrate <strong>hklpy2</strong>’s API</a></li>
-
-
 <li class="toctree-l2"><a class="reference internal" href="hkl_soleil-e4ch.html"><strong>hkl_soleil</strong> E4CH</a></li>
 <li class="toctree-l2"><a class="reference internal" href="hkl_soleil-e4cv.html"><strong>hkl_soleil</strong> E4CV</a></li>
 <li class="toctree-l2"><a class="reference internal" href="hkl_soleil-e6c-psi.html"><strong>hkl_soleil</strong> E6C psi axis</a></li>
@@ -338,8 +338,10 @@
 <li class="toctree-l1 has-children"><a class="reference internal" href="../guides.html">Guides</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../guides/configuration_save_restore.html">Diffractometer Configuration – Save and Restore</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../guides/diffract.html">Diffractometer Axis Names</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../guides/how_extra_real_axis.html">How to add extra motors to a diffractometer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/how_additional_parameters.html">Diffractometer Extra Solver Parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/how_extra_real_axis.html">Diffractometer Extra Motors</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../guides/spec_xref.html">SPEC commands in hklpy2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/var_engines.html">Use <code class="docutils literal notranslate"><span class="pre">E4CV</span></code>’s $Q$ calculation engine</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
@@ -409,15 +411,17 @@
                   
   <section id="demonstrate-hklpy2-s-api">
 <h1>Demonstrate <strong>hklpy2</strong>’s API<a class="headerlink" href="#demonstrate-hklpy2-s-api" title="Link to this heading">#</a></h1>
-<p>A working notebook as the package is being developed.
-<em><strong>Anything</strong></em> could change.</p>
+<p><strong>Note</strong>: This is a working notebook as the package is being developed.
+<em><strong>Anything</strong></em> in this notebook could change.</p>
+<hr class="docutils" />
+<section id="basic-hklpy2-package-information">
+<h2>Basic <strong>hklpy2</strong> package information<a class="headerlink" href="#basic-hklpy2-package-information" title="Link to this heading">#</a></h2>
 <p>Load the <strong>hklpy2</strong> package and show basic information about it.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">datetime</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">hklpy2</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">pprint</span><span class="w"> </span><span class="kn">import</span> <span class="n">pprint</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">hklpy2</span><span class="o">.</span><span class="n">__version__</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -426,40 +430,30 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-03-03 02:43:10.115270
-hklpy2.__version__=&#39;0.0.27.dev1+ga0ac95d.d20250303&#39;
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-03-13 02:16:34.053053
+hklpy2.__version__=&#39;0.0.28.dev45+g204bb2b&#39;
 hklpy2.solvers()={&#39;hkl_soleil&#39;: &#39;hklpy2.backends.hkl_soleil:HklSolver&#39;, &#39;no_op&#39;: &#39;hklpy2.backends.no_op:NoOpSolver&#39;, &#39;th_tth&#39;: &#39;hklpy2.backends.th_tth_q:ThTthSolver&#39;}
 </pre></div>
 </div>
 </div>
 </div>
-<p>Create the simulated E4CV (4-circle) diffractometer from the <code class="docutils literal notranslate"><span class="pre">&quot;hkl_soleil&quot;</span></code>
-<a class="reference internal" href="../concepts/solvers.html"><span class="std std-doc">solver</span></a>.</p>
+</section>
+<section id="easy-to-create-a-simulated-diffractometer">
+<h2>Easy to create a simulated diffractometer<a class="headerlink" href="#easy-to-create-a-simulated-diffractometer" title="Link to this heading">#</a></h2>
+<p>Create the simulated <a class="reference internal" href="../geometry_tables.html#geometries-hkl-soleil-e4cv"><span class="std std-ref">E4CV</span></a> (4-circle) diffractometer.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">hklpy2</span><span class="w"> </span><span class="kn">import</span> <span class="n">creator</span>
 
 <span class="n">sim4c</span> <span class="o">=</span> <span class="n">creator</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;sim4c&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">sim4c</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">sim4c</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">sim4c</span><span class="o">.</span><span class="n">sample</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="n">pprint</span><span class="p">(</span><span class="n">sim4c</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">axes_xref</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">sim4c</span><span class="o">.</span><span class="n">position</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">sim4c</span><span class="o">.</span><span class="n">wh</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>sim4c.solver.get()=&#39;hkl_soleil&#39;
-sim4c.geometry.get()=&#39;E4CV&#39;
-sim4c.sample=Sample(name=&#39;sample&#39;, lattice=Lattice(a=1, system=&#39;cubic&#39;))
-{&#39;chi&#39;: &#39;chi&#39;,
- &#39;h&#39;: &#39;h&#39;,
- &#39;k&#39;: &#39;k&#39;,
- &#39;l&#39;: &#39;l&#39;,
- &#39;omega&#39;: &#39;omega&#39;,
- &#39;phi&#39;: &#39;phi&#39;,
- &#39;tth&#39;: &#39;tth&#39;}
-sim4c.position=Hklpy2DiffractometerPseudoPos(h=0, k=0, l=0)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>h=0, k=0, l=0
+wavelength=1.0
+omega=0, chi=0, phi=0, tth=0
 </pre></div>
 </div>
 </div>
@@ -474,27 +468,21 @@ was written in Python to demonstrate this new capability as a design goal for <s
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">hklpy2</span>
 
 <span class="n">powder</span> <span class="o">=</span> <span class="n">hklpy2</span><span class="o">.</span><span class="n">creator</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;powder&quot;</span><span class="p">,</span> <span class="n">geometry</span><span class="o">=</span><span class="s2">&quot;TH TTH Q&quot;</span><span class="p">,</span> <span class="n">solver</span><span class="o">=</span><span class="s2">&quot;th_tth&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">powder</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">powder</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">powder</span><span class="o">.</span><span class="n">sample</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">powder</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">axes_xref</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">powder</span><span class="o">.</span><span class="n">position</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">powder</span><span class="o">.</span><span class="n">wh</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>powder.solver.get()=&#39;th_tth&#39;
-powder.geometry.get()=&#39;TH TTH Q&#39;
-powder.sample=Sample(name=&#39;sample&#39;, lattice=Lattice(a=1, system=&#39;cubic&#39;))
-powder.core.axes_xref={&#39;q&#39;: &#39;q&#39;, &#39;th&#39;: &#39;th&#39;, &#39;tth&#39;: &#39;tth&#39;}
-powder.position=Hklpy2DiffractometerPseudoPos(q=0)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>q=0
+wavelength=1.0
+th=0, tth=0
 </pre></div>
 </div>
 </div>
 </div>
 </section>
 <section id="simulated-fourc">
-<h1>Simulated Fourc<a class="headerlink" href="#simulated-fourc" title="Link to this heading">#</a></h1>
+<h2>Simulated Fourc<a class="headerlink" href="#simulated-fourc" title="Link to this heading">#</a></h2>
 <p>Here, we show the simpler form since all the default parameters will create this 4-circle geometry.  Alternatively, we could write:</p>
 <div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="n">fourc</span> <span class="o">=</span> <span class="n">hklpy2</span><span class="o">.</span><span class="n">creator</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;fourc&quot;</span><span class="p">,</span> <span class="n">geometry</span><span class="o">=</span><span class="s2">&quot;E4CV&quot;</span><span class="p">,</span> <span class="n">solver</span><span class="o">=</span><span class="s2">&quot;hkl_soleil&quot;</span><span class="p">)</span>
 </pre></div>
@@ -508,71 +496,84 @@ powder.position=Hklpy2DiffractometerPseudoPos(q=0)
 </div>
 </div>
 </div>
-<p>Add a sample, as in <strong>hklpy</strong>.</p>
+<p>Add a sample of cubic <em>vibranium</em>, lattice constant exactly <span class="math notranslate nohighlight">\(2\pi\)</span>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">fourc</span><span class="o">.</span><span class="n">samples</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">fourc</span><span class="o">.</span><span class="n">sample</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="k">if</span> <span class="s2">&quot;vibranium&quot;</span> <span class="ow">in</span> <span class="n">fourc</span><span class="o">.</span><span class="n">samples</span><span class="p">:</span>
-    <span class="c1"># just in case it was defined previously</span>
-    <span class="n">fourc</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">remove_sample</span><span class="p">(</span><span class="s2">&quot;vibranium&quot;</span><span class="p">)</span>
-<span class="n">fourc</span><span class="o">.</span><span class="n">add_sample</span><span class="p">(</span><span class="s2">&quot;vibranium&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">digits</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># or force a replacement</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">fourc</span><span class="o">.</span><span class="n">sample</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">fourc</span><span class="o">.</span><span class="n">samples</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="n">fourc</span><span class="o">.</span><span class="n">sample</span> <span class="o">=</span> <span class="s2">&quot;sample&quot;</span>  <span class="c1"># switch back to the default sample</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">fourc</span><span class="o">.</span><span class="n">sample</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fourc</span><span class="o">.</span><span class="n">add_sample</span><span class="p">(</span><span class="s2">&quot;vibranium&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">digits</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># or force a replacement</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>fourc.samples={&#39;sample&#39;: Sample(name=&#39;sample&#39;, lattice=Lattice(a=1, system=&#39;cubic&#39;))}
-fourc.sample=Sample(name=&#39;sample&#39;, lattice=Lattice(a=1, system=&#39;cubic&#39;))
-fourc.sample=Sample(name=&#39;vibranium&#39;, lattice=Lattice(a=6.283, system=&#39;cubic&#39;))
-fourc.samples={&#39;sample&#39;: Sample(name=&#39;sample&#39;, lattice=Lattice(a=1, system=&#39;cubic&#39;)), &#39;vibranium&#39;: Sample(name=&#39;vibranium&#39;, lattice=Lattice(a=6.283, system=&#39;cubic&#39;))}
-fourc.sample=Sample(name=&#39;sample&#39;, lattice=Lattice(a=1, system=&#39;cubic&#39;))
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sample(name=&#39;vibranium&#39;, lattice=Lattice(a=6.283, system=&#39;cubic&#39;))
 </pre></div>
 </div>
 </div>
 </div>
+<p>Show the current settings:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fourc</span><span class="o">.</span><span class="n">report</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fourc</span><span class="o">.</span><span class="n">wh</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;position&#39;: Hklpy2DiffractometerPseudoPos(h=0, k=0, l=0)}
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>h=0, k=0, l=0
+wavelength=1.0
+omega=0, chi=0, phi=0, tth=0
 </pre></div>
 </div>
 </div>
 </div>
+</section>
+<section id="change-samples">
+<h2>Change samples<a class="headerlink" href="#change-samples" title="Link to this heading">#</a></h2>
+<p>It’s easy to switch between samples.   Go back to the default <code class="docutils literal notranslate"><span class="pre">sample</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fourc</span><span class="o">.</span><span class="n">sample</span> <span class="o">=</span> <span class="s2">&quot;sample&quot;</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;selected sample: </span><span class="si">{</span><span class="n">fourc</span><span class="o">.</span><span class="n">sample</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;all samples: </span><span class="si">{</span><span class="n">fourc</span><span class="o">.</span><span class="n">samples</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>selected sample: fourc.sample=Sample(name=&#39;sample&#39;, lattice=Lattice(a=1, system=&#39;cubic&#39;))
+all samples: fourc.samples={&#39;sample&#39;: Sample(name=&#39;sample&#39;, lattice=Lattice(a=1, system=&#39;cubic&#39;)), &#39;vibranium&#39;: Sample(name=&#39;vibranium&#39;, lattice=Lattice(a=6.283, system=&#39;cubic&#39;))}
+</pre></div>
+</div>
+</div>
+</div>
+<p>Switch back to the <code class="docutils literal notranslate"><span class="pre">vibranium</span></code> sample.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fourc</span><span class="o">.</span><span class="n">sample</span> <span class="o">=</span> <span class="s2">&quot;vibranium&quot;</span>
-<span class="n">fourc</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">reflections</span><span class="o">.</span><span class="n">order</span> <span class="o">=</span> <span class="p">[]</span>
 </pre></div>
 </div>
 </div>
 </div>
+</section>
+<section id="orienting-reflections">
+<h2>Orienting Reflections<a class="headerlink" href="#orienting-reflections" title="Link to this heading">#</a></h2>
 <p>Add a couple reflections (with the eventual goal of calculating the $UB$ matrix).</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fourc</span><span class="o">.</span><span class="n">add_reflection</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">20</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;r1&quot;</span><span class="p">)</span>
-<span class="n">fourc</span><span class="o">.</span><span class="n">add_reflection</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="o">-</span><span class="mi">90</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">20</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;r2&quot;</span><span class="p">)</span>
-<span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">fourc</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">reflections</span><span class="o">.</span><span class="n">order</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">fourc</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">reflections</span><span class="p">[</span><span class="n">r</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="n">fourc</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">calc_UB</span><span class="p">(</span><span class="o">*</span><span class="n">fourc</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">reflections</span><span class="o">.</span><span class="n">order</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">fourc</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">U</span><span class="si">=!r}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">fourc</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">UB</span><span class="si">=!r}</span><span class="s2">&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">r1</span> <span class="o">=</span> <span class="n">fourc</span><span class="o">.</span><span class="n">add_reflection</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">20</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;r1&quot;</span><span class="p">)</span>
+<span class="n">r2</span> <span class="o">=</span> <span class="n">fourc</span><span class="o">.</span><span class="n">add_reflection</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="o">-</span><span class="mi">90</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">20</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;r2&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">r1</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">r2</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="n">fourc</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">calc_UB</span><span class="p">(</span><span class="n">r1</span><span class="p">,</span> <span class="n">r2</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">fourc</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">U</span><span class="si">=!r}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">fourc</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">UB</span><span class="si">=!r}</span><span class="s2">&quot;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">fourc</span><span class="o">.</span><span class="n">inverse</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">20</span><span class="p">)</span><span class="si">=!r}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Reflection(name=&#39;r1&#39;, h=1, k=0, l=0)
-Reflection(name=&#39;r2&#39;, h=0, k=1, l=0)
-fourc.core.solver.U=[[-0.0, -0.0, 1.0], [0.0, -1.0, -0.0], [1.0, -0.0, 0.0]]
-fourc.core.solver.UB=[[-0.0, -0.0, 1.000000025846], [0.0, -1.000000005699, 1.7421e-08], [1.000000016571, -7.0482e-08, -4.7758e-08]]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>r1=Reflection(name=&#39;r1&#39;, h=1, k=0, l=0)
+r2=Reflection(name=&#39;r2&#39;, h=0, k=1, l=0)
+fourc.sample.U=[[-0.0, -0.0, 1.0], [0.0, -1.0, -0.0], [1.0, -0.0, 0.0]]
+fourc.sample.UB=[[-0.0, -0.0, 1.000000025846], [0.0, -1.000000005699, 1.7421e-08], [1.000000016571, -7.0482e-08, -4.7758e-08]]
 fourc.inverse(10, 0, 0, 20)=Hklpy2DiffractometerPseudoPos(h=2.18212732091, k=0, l=0)
 </pre></div>
 </div>
@@ -582,22 +583,16 @@ fourc.inverse(10, 0, 0, 20)=Hklpy2DiffractometerPseudoPos(h=2.18212732091, k=0, 
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fourc</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">reflections</span><span class="o">.</span><span class="n">swap</span><span class="p">()</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">fourc</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">reflections</span><span class="o">.</span><span class="n">order</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">fourc</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">reflections</span><span class="o">.</span><span class="n">order</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">fourc</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">reflections</span><span class="p">[</span><span class="n">r</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">fourc</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">U</span><span class="si">=!r}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">fourc</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">UB</span><span class="si">=!r}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">fourc</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">U</span><span class="si">=!r}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">fourc</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">UB</span><span class="si">=!r}</span><span class="s2">&quot;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">fourc</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="si">=!r}</span><span class="s2">&quot;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">fourc</span><span class="o">.</span><span class="n">inverse</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">20</span><span class="p">)</span><span class="si">=!r}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>fourc.sample.reflections.order=[&#39;r2&#39;, &#39;r1&#39;]
-Reflection(name=&#39;r2&#39;, h=0, k=1, l=0)
-Reflection(name=&#39;r1&#39;, h=1, k=0, l=0)
-fourc.core.solver.U=[[-0.0, -0.0, 1.0], [0.0, -1.0, -0.0], [1.0, -0.0, 0.0]]
-fourc.core.solver.UB=[[-0.0, -0.0, 1.000000025846], [0.0, -1.000000005699, 1.7421e-08], [1.000000016571, -7.0482e-08, -4.7758e-08]]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>fourc.sample.U=[[-0.0, -0.0, 1.0], [0.0, -1.0, -0.0], [1.0, -0.0, 0.0]]
+fourc.sample.UB=[[-0.0, -0.0, 1.000000025846], [0.0, -1.000000005699, 1.7421e-08], [1.000000016571, -7.0482e-08, -4.7758e-08]]
 fourc.forward(1, 0, 0)=Hklpy2DiffractometerRealPos(omega=4.564279283548, chi=0, phi=-2.0227e-08, tth=9.128558567096)
 fourc.inverse(10, 0, 0, 20)=Hklpy2DiffractometerPseudoPos(h=2.18212732091, k=0, l=0)
 </pre></div>
@@ -606,7 +601,7 @@ fourc.inverse(10, 0, 0, 20)=Hklpy2DiffractometerPseudoPos(h=2.18212732091, k=0, 
 </div>
 </section>
 <section id="circle-with-extra-axes">
-<h1>4-circle with extra axes<a class="headerlink" href="#circle-with-extra-axes" title="Link to this heading">#</a></h1>
+<h2>4-circle with extra axes<a class="headerlink" href="#circle-with-extra-axes" title="Link to this heading">#</a></h2>
 <p>Construct a 4-circle diffractometer with many additional axes, both in real (rotation angle) space and in reciprocal (pseudo) space.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -652,12 +647,10 @@ fourc.inverse(10, 0, 0, 20)=Hklpy2DiffractometerPseudoPos(h=2.18212732091, k=0, 
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>fourc=Fourc(prefix=&#39;&#39;, name=&#39;fourc&#39;, settle_time=0.0, timeout=None, egu=&#39;&#39;, limits=(0, 0), source=&#39;computed&#39;, read_attrs=[&#39;h&#39;, &#39;h.readback&#39;, &#39;h.setpoint&#39;, &#39;k&#39;, &#39;k.readback&#39;, &#39;k.setpoint&#39;, &#39;l&#39;, &#39;l.readback&#39;, &#39;l.setpoint&#39;, &#39;theta&#39;, &#39;chi&#39;, &#39;phi&#39;, &#39;ttheta&#39;, &#39;h2&#39;, &#39;h2.readback&#39;, &#39;h2.setpoint&#39;, &#39;k2&#39;, &#39;k2.readback&#39;, &#39;k2.setpoint&#39;, &#39;l2&#39;, &#39;l2.readback&#39;, &#39;l2.setpoint&#39;, &#39;psi&#39;, &#39;energy&#39;], configuration_attrs=[&#39;geometry&#39;, &#39;solver&#39;, &#39;wavelength&#39;, &#39;h&#39;, &#39;k&#39;, &#39;l&#39;, &#39;h2&#39;, &#39;k2&#39;, &#39;l2&#39;], concurrent=True)
-</pre></div>
 </div>
-</div>
-</div>
+</section>
+<section id="additional-design-goals">
+<h2>Additional Design Goals<a class="headerlink" href="#additional-design-goals" title="Link to this heading">#</a></h2>
 <p>Next steps demonstrate some additional design goals:</p>
 <ul class="simple">
 <li><p>Easy to add additional axes, such as $\psi$, $h_2$, $k_2$, &amp; $l_2$.</p>
@@ -683,24 +676,12 @@ fourc.inverse(10, 0, 0, 20)=Hklpy2DiffractometerPseudoPos(h=2.18212732091, k=0, 
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>fourc.core.solver.geometries()=[&#39;APS POLAR&#39;, &#39;E4CH&#39;, &#39;E4CV&#39;, &#39;E6C&#39;, &#39;ESRF ID01 PSIC&#39;, &#39;K4CV&#39;, &#39;K6C&#39;, &#39;PETRA3 P09 EH2&#39;, &#39;PETRA3 P23 4C&#39;, &#39;PETRA3 P23 6C&#39;, &#39;SOLEIL MARS&#39;, &#39;SOLEIL NANOSCOPIUM ROBOT&#39;, &#39;SOLEIL SIRIUS KAPPA&#39;, &#39;SOLEIL SIRIUS TURRET&#39;, &#39;SOLEIL SIXS MED1+2&#39;, &#39;SOLEIL SIXS MED2+2&#39;, &#39;SOLEIL SIXS MED2+3&#39;, &#39;SOLEIL SIXS MED2+3 v2&#39;, &#39;TwoC&#39;, &#39;ZAXIS&#39;]
-</pre></div>
-</div>
-</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">fourc</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">fourc</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">fourc</span><span class="o">.</span><span class="n">wavelength</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>fourc.solver.get()=&#39;hkl_soleil&#39;
-fourc.geometry.get()=&#39;E4CV&#39;
-fourc.wavelength.get()=1.0
 </pre></div>
 </div>
 </div>
@@ -718,30 +699,11 @@ fourc.wavelength.get()=1.0
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>fourc.solver_name=&#39;hkl_soleil&#39;
-fourc.core.solver=HklSolver(name=&#39;hkl_soleil&#39;, version=&#39;5.1.2&#39;, geometry=&#39;E4CV&#39;, engine_name=&#39;hkl&#39;, mode=&#39;bissector&#39;)
-fourc.core.axes_xref={&#39;h&#39;: &#39;h&#39;, &#39;k&#39;: &#39;k&#39;, &#39;l&#39;: &#39;l&#39;, &#39;theta&#39;: &#39;omega&#39;, &#39;chi&#39;: &#39;chi&#39;, &#39;phi&#39;: &#39;phi&#39;, &#39;ttheta&#39;: &#39;tth&#39;}
-fourc.pseudo_axis_names=[&#39;h&#39;, &#39;k&#39;, &#39;l&#39;, &#39;h2&#39;, &#39;k2&#39;, &#39;l2&#39;]
-fourc.real_axis_names=[&#39;theta&#39;, &#39;chi&#39;, &#39;phi&#39;, &#39;ttheta&#39;, &#39;psi&#39;, &#39;energy&#39;]
-fourc.core.solver.pseudo_axis_names=[&#39;h&#39;, &#39;k&#39;, &#39;l&#39;]
-fourc.core.solver.real_axis_names=[&#39;omega&#39;, &#39;chi&#39;, &#39;phi&#39;, &#39;tth&#39;]
-fourc.core.solver.extra_axis_names=[]
-</pre></div>
-</div>
-</div>
 </div>
 <p>Where is the diffractometer now?</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fourc</span><span class="o">.</span><span class="n">wh</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>h=0, k=0, l=0, h2=0, k2=0, l2=0
-wavelength=1.0
-theta=0, chi=0, phi=0, ttheta=0, psi=0, energy=12.4
 </pre></div>
 </div>
 </div>
@@ -753,79 +715,8 @@ theta=0, chi=0, phi=0, ttheta=0, psi=0, energy=12.4
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>data keys (* hints)
--------------------
-*fourc_chi
-*fourc_energy
-*fourc_h
-*fourc_h2
- fourc_h2_setpoint
- fourc_h_setpoint
-*fourc_k
-*fourc_k2
- fourc_k2_setpoint
- fourc_k_setpoint
-*fourc_l
-*fourc_l2
- fourc_l2_setpoint
- fourc_l_setpoint
-*fourc_phi
-*fourc_psi
-*fourc_theta
-*fourc_ttheta
-
-read attrs
-----------
-h                    PseudoSingle        (&#39;fourc_h&#39;)
-h.readback           AttributeSignal     (&#39;fourc_h&#39;)
-h.setpoint           AttributeSignal     (&#39;fourc_h_setpoint&#39;)
-k                    PseudoSingle        (&#39;fourc_k&#39;)
-k.readback           AttributeSignal     (&#39;fourc_k&#39;)
-k.setpoint           AttributeSignal     (&#39;fourc_k_setpoint&#39;)
-l                    PseudoSingle        (&#39;fourc_l&#39;)
-l.readback           AttributeSignal     (&#39;fourc_l&#39;)
-l.setpoint           AttributeSignal     (&#39;fourc_l_setpoint&#39;)
-theta                SoftPositioner      (&#39;fourc_theta&#39;)
-chi                  SoftPositioner      (&#39;fourc_chi&#39;)
-phi                  SoftPositioner      (&#39;fourc_phi&#39;)
-ttheta               SoftPositioner      (&#39;fourc_ttheta&#39;)
-h2                   PseudoSingle        (&#39;fourc_h2&#39;)
-h2.readback          AttributeSignal     (&#39;fourc_h2&#39;)
-h2.setpoint          AttributeSignal     (&#39;fourc_h2_setpoint&#39;)
-k2                   PseudoSingle        (&#39;fourc_k2&#39;)
-k2.readback          AttributeSignal     (&#39;fourc_k2&#39;)
-k2.setpoint          AttributeSignal     (&#39;fourc_k2_setpoint&#39;)
-l2                   PseudoSingle        (&#39;fourc_l2&#39;)
-l2.readback          AttributeSignal     (&#39;fourc_l2&#39;)
-l2.setpoint          AttributeSignal     (&#39;fourc_l2_setpoint&#39;)
-psi                  SoftPositioner      (&#39;fourc_psi&#39;)
-energy               SoftPositioner      (&#39;fourc_energy&#39;)
-
-config keys
------------
-fourc_geometry
-fourc_solver
-fourc_wavelength
-
-configuration attrs
--------------------
-geometry             AttributeSignal     (&#39;fourc_geometry&#39;)
-solver               AttributeSignal     (&#39;fourc_solver&#39;)
-wavelength           AttributeSignal     (&#39;fourc_wavelength&#39;)
-h                    PseudoSingle        (&#39;fourc_h&#39;)
-k                    PseudoSingle        (&#39;fourc_k&#39;)
-l                    PseudoSingle        (&#39;fourc_l&#39;)
-h2                   PseudoSingle        (&#39;fourc_h2&#39;)
-k2                   PseudoSingle        (&#39;fourc_k2&#39;)
-l2                   PseudoSingle        (&#39;fourc_l2&#39;)
-
-unused attrs
-------------
-</pre></div>
 </div>
-</div>
-</div>
+</section>
 </section>
 
 
@@ -875,11 +766,14 @@ unused attrs
   </div>
   <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Demonstrate <strong>hklpy2</strong>’s API</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#simulated-fourc">Simulated Fourc</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#circle-with-extra-axes">4-circle with extra axes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-hklpy2-package-information">Basic <strong>hklpy2</strong> package information</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#easy-to-create-a-simulated-diffractometer">Easy to create a simulated diffractometer</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#simulated-fourc">Simulated Fourc</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#change-samples">Change samples</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#orienting-reflections">Orienting Reflections</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#circle-with-extra-axes">4-circle with extra axes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#additional-design-goals">Additional Design Goals</a></li>
 </ul>
-
   </nav></div>
 
   <div class="sidebar-secondary-item">

@@ -5,10 +5,12 @@
    "id": "687747a6-47b1-4d11-9d4c-64c071d735b3",
    "metadata": {},
    "source": [
-    "## Demonstrate **hklpy2**'s API\n",
+    "# Demonstrate **hklpy2**'s API\n",
     "\n",
-    "A working notebook as the package is being developed.\n",
-    "***Anything*** could change."
+    "**Note**: This is a working notebook as the package is being developed.\n",
+    "***Anything*** in this notebook could change.\n",
+    "\n",
+    "---"
    ]
   },
   {
@@ -16,12 +18,14 @@
    "id": "8583c12b-a219-4ab1-a40e-67b9ac0d985c",
    "metadata": {},
    "source": [
+    "## Basic **hklpy2** package information\n",
+    "\n",
     "Load the **hklpy2** package and show basic information about it."
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 1,
+   "execution_count": null,
    "id": "61d5927e-d2d3-4fae-9b47-eb5fdb6117c1",
    "metadata": {},
    "outputs": [
@@ -29,8 +33,8 @@
      "name": "stdout",
      "output_type": "stream",
      "text": [
-      "2025-03-03 02:43:10.115270\n",
-      "hklpy2.__version__='0.0.27.dev1+ga0ac95d.d20250303'\n",
+      "2025-03-13 02:16:34.053053\n",
+      "hklpy2.__version__='0.0.28.dev45+g204bb2b'\n",
       "hklpy2.solvers()={'hkl_soleil': 'hklpy2.backends.hkl_soleil:HklSolver', 'no_op': 'hklpy2.backends.no_op:NoOpSolver', 'th_tth': 'hklpy2.backends.th_tth_q:ThTthSolver'}\n"
      ]
     }
@@ -39,7 +43,6 @@
     "import datetime\n",
     "import hklpy2\n",
     "import math\n",
-    "from pprint import pprint\n",
     "\n",
     "print(f\"{datetime.datetime.now()}\")\n",
     "print(f\"{hklpy2.__version__=}\")\n",
@@ -51,8 +54,9 @@
    "id": "9a32e292-376f-4506-ae33-69e74a6f3468",
    "metadata": {},
    "source": [
-    "Create the simulated E4CV (4-circle) diffractometer from the `\"hkl_soleil\"`\n",
-    "[solver](../concepts/solvers.rst)."
+    "## Easy to create a simulated diffractometer\n",
+    "\n",
+    "Create the simulated {ref}`E4CV <geometries-hkl_soleil-e4cv>` (4-circle) diffractometer."
    ]
   },
   {
@@ -65,17 +69,9 @@
      "name": "stdout",
      "output_type": "stream",
      "text": [
-      "sim4c.solver.get()='hkl_soleil'\n",
-      "sim4c.geometry.get()='E4CV'\n",
-      "sim4c.sample=Sample(name='sample', lattice=Lattice(a=1, system='cubic'))\n",
-      "{'chi': 'chi',\n",
-      " 'h': 'h',\n",
-      " 'k': 'k',\n",
-      " 'l': 'l',\n",
-      " 'omega': 'omega',\n",
-      " 'phi': 'phi',\n",
-      " 'tth': 'tth'}\n",
-      "sim4c.position=Hklpy2DiffractometerPseudoPos(h=0, k=0, l=0)\n"
+      "h=0, k=0, l=0\n",
+      "wavelength=1.0\n",
+      "omega=0, chi=0, phi=0, tth=0\n"
      ]
     }
    ],
@@ -83,11 +79,7 @@
     "from hklpy2 import creator\n",
     "\n",
     "sim4c = creator(name=\"sim4c\")\n",
-    "print(f\"{sim4c.solver.get()=}\")\n",
-    "print(f\"{sim4c.geometry.get()=}\")\n",
-    "print(f\"{sim4c.sample=}\")\n",
-    "pprint(sim4c.core.axes_xref)\n",
-    "print(f\"{sim4c.position=}\")"
+    "sim4c.wh()"
    ]
   },
   {
@@ -113,11 +105,9 @@
      "name": "stdout",
      "output_type": "stream",
      "text": [
-      "powder.solver.get()='th_tth'\n",
-      "powder.geometry.get()='TH TTH Q'\n",
-      "powder.sample=Sample(name='sample', lattice=Lattice(a=1, system='cubic'))\n",
-      "powder.core.axes_xref={'q': 'q', 'th': 'th', 'tth': 'tth'}\n",
-      "powder.position=Hklpy2DiffractometerPseudoPos(q=0)\n"
+      "q=0\n",
+      "wavelength=1.0\n",
+      "th=0, tth=0\n"
      ]
     }
    ],
@@ -125,11 +115,7 @@
     "import hklpy2\n",
     "\n",
     "powder = hklpy2.creator(name=\"powder\", geometry=\"TH TTH Q\", solver=\"th_tth\")\n",
-    "print(f\"{powder.solver.get()=}\")\n",
-    "print(f\"{powder.geometry.get()=}\")\n",
-    "print(f\"{powder.sample=}\")\n",
-    "print(f\"{powder.core.axes_xref=}\")\n",
-    "print(f\"{powder.position=}\")"
+    "powder.wh()"
    ]
   },
   {
@@ -163,7 +149,7 @@
    "id": "20533445-7c31-4b32-b46e-fb7d19bcf4cc",
    "metadata": {},
    "source": [
-    "Add a sample, as in **hklpy**."
+    "Add a sample of cubic *vibranium*, lattice constant exactly {math}`2\\pi`."
    ]
   },
   {
@@ -173,28 +159,26 @@
    "metadata": {},
    "outputs": [
     {
-     "name": "stdout",
-     "output_type": "stream",
-     "text": [
-      "fourc.samples={'sample': Sample(name='sample', lattice=Lattice(a=1, system='cubic'))}\n",
-      "fourc.sample=Sample(name='sample', lattice=Lattice(a=1, system='cubic'))\n",
-      "fourc.sample=Sample(name='vibranium', lattice=Lattice(a=6.283, system='cubic'))\n",
-      "fourc.samples={'sample': Sample(name='sample', lattice=Lattice(a=1, system='cubic')), 'vibranium': Sample(name='vibranium', lattice=Lattice(a=6.283, system='cubic'))}\n",
-      "fourc.sample=Sample(name='sample', lattice=Lattice(a=1, system='cubic'))\n"
-     ]
+     "data": {
+      "text/plain": [
+       "Sample(name='vibranium', lattice=Lattice(a=6.283, system='cubic'))"
+      ]
+     },
+     "execution_count": 5,
+     "metadata": {},
+     "output_type": "execute_result"
     }
    ],
    "source": [
-    "print(f\"{fourc.samples=}\")\n",
-    "print(f\"{fourc.sample=}\")\n",
-    "if \"vibranium\" in fourc.samples:\n",
-    "    # just in case it was defined previously\n",
-    "    fourc.core.remove_sample(\"vibranium\")\n",
-    "fourc.add_sample(\"vibranium\", 2*math.pi, digits=3, replace=True)  # or force a replacement\n",
-    "print(f\"{fourc.sample=}\")\n",
-    "print(f\"{fourc.samples=}\")\n",
-    "fourc.sample = \"sample\"  # switch back to the default sample\n",
-    "print(f\"{fourc.sample=}\")"
+    "fourc.add_sample(\"vibranium\", 2*math.pi, digits=3, replace=True)  # or force a replacement"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "bd223c9b",
+   "metadata": {},
+   "source": [
+    "Show the current settings:"
    ]
   },
   {
@@ -204,29 +188,66 @@
    "metadata": {},
    "outputs": [
     {
-     "data": {
-      "text/plain": [
-       "{'position': Hklpy2DiffractometerPseudoPos(h=0, k=0, l=0)}"
-      ]
-     },
-     "execution_count": 6,
-     "metadata": {},
-     "output_type": "execute_result"
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "h=0, k=0, l=0\n",
+      "wavelength=1.0\n",
+      "omega=0, chi=0, phi=0, tth=0\n"
+     ]
     }
    ],
    "source": [
-    "fourc.report"
+    "fourc.wh()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "4f7d1741",
+   "metadata": {},
+   "source": [
+    "## Change samples\n",
+    "\n",
+    "It's easy to switch between samples.   Go back to the default `sample`."
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 7,
+   "execution_count": 11,
+   "id": "6d1dd853",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "selected sample: fourc.sample=Sample(name='sample', lattice=Lattice(a=1, system='cubic'))\n",
+      "all samples: fourc.samples={'sample': Sample(name='sample', lattice=Lattice(a=1, system='cubic')), 'vibranium': Sample(name='vibranium', lattice=Lattice(a=6.283, system='cubic'))}\n"
+     ]
+    }
+   ],
+   "source": [
+    "fourc.sample = \"sample\"\n",
+    "print(f\"selected sample: {fourc.sample=}\")\n",
+    "print(f\"all samples: {fourc.samples=}\")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "2172daa7",
+   "metadata": {},
+   "source": [
+    "Switch back to the `vibranium` sample."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 8,
    "id": "b1f545e2-ec28-4468-a6ac-43a807a586ad",
    "metadata": {},
    "outputs": [],
    "source": [
-    "fourc.sample = \"vibranium\"\n",
-    "fourc.sample.reflections.order = []"
+    "fourc.sample = \"vibranium\""
    ]
   },
   {
@@ -234,12 +255,14 @@
    "id": "a421b2a2-76fa-4202-8bbe-cbcfe6c3d357",
    "metadata": {},
    "source": [
+    "## Orienting Reflections\n",
+    "\n",
     "Add a couple reflections (with the eventual goal of calculating the $UB$ matrix)."
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 8,
+   "execution_count": 9,
    "id": "d93281fe-ec11-4e6d-aad4-fc62987a6de5",
    "metadata": {},
    "outputs": [
@@ -247,22 +270,23 @@
      "name": "stdout",
      "output_type": "stream",
      "text": [
-      "Reflection(name='r1', h=1, k=0, l=0)\n",
-      "Reflection(name='r2', h=0, k=1, l=0)\n",
-      "fourc.core.solver.U=[[-0.0, -0.0, 1.0], [0.0, -1.0, -0.0], [1.0, -0.0, 0.0]]\n",
-      "fourc.core.solver.UB=[[-0.0, -0.0, 1.000000025846], [0.0, -1.000000005699, 1.7421e-08], [1.000000016571, -7.0482e-08, -4.7758e-08]]\n",
+      "r1=Reflection(name='r1', h=1, k=0, l=0)\n",
+      "r2=Reflection(name='r2', h=0, k=1, l=0)\n",
+      "fourc.sample.U=[[-0.0, -0.0, 1.0], [0.0, -1.0, -0.0], [1.0, -0.0, 0.0]]\n",
+      "fourc.sample.UB=[[-0.0, -0.0, 1.000000025846], [0.0, -1.000000005699, 1.7421e-08], [1.000000016571, -7.0482e-08, -4.7758e-08]]\n",
       "fourc.inverse(10, 0, 0, 20)=Hklpy2DiffractometerPseudoPos(h=2.18212732091, k=0, l=0)\n"
      ]
     }
    ],
    "source": [
-    "fourc.add_reflection((1, 0, 0), (10, 0, 0, 20), name=\"r1\")\n",
-    "fourc.add_reflection((0, 1, 0), (10, -90, 0, 20), name=\"r2\")\n",
-    "for r in fourc.sample.reflections.order:\n",
-    "    print(f\"{fourc.sample.reflections[r]}\")\n",
-    "fourc.core.calc_UB(*fourc.sample.reflections.order)\n",
-    "print(f\"{fourc.core.solver.U=!r}\")\n",
-    "print(f\"{fourc.core.solver.UB=!r}\")\n",
+    "r1 = fourc.add_reflection((1, 0, 0), (10, 0, 0, 20), name=\"r1\")\n",
+    "r2 = fourc.add_reflection((0, 1, 0), (10, -90, 0, 20), name=\"r2\")\n",
+    "print(f\"{r1=}\")\n",
+    "print(f\"{r2=}\")\n",
+    "\n",
+    "fourc.core.calc_UB(r1, r2)\n",
+    "print(f\"{fourc.sample.U=!r}\")\n",
+    "print(f\"{fourc.sample.UB=!r}\")\n",
     "print(f\"{fourc.inverse(10, 0, 0, 20)=!r}\")"
    ]
   },
@@ -276,7 +300,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 9,
+   "execution_count": 10,
    "id": "eb3391b0-1560-486d-b1d9-005e766063dd",
    "metadata": {},
    "outputs": [
@@ -284,11 +308,8 @@
      "name": "stdout",
      "output_type": "stream",
      "text": [
-      "fourc.sample.reflections.order=['r2', 'r1']\n",
-      "Reflection(name='r2', h=0, k=1, l=0)\n",
-      "Reflection(name='r1', h=1, k=0, l=0)\n",
-      "fourc.core.solver.U=[[-0.0, -0.0, 1.0], [0.0, -1.0, -0.0], [1.0, -0.0, 0.0]]\n",
-      "fourc.core.solver.UB=[[-0.0, -0.0, 1.000000025846], [0.0, -1.000000005699, 1.7421e-08], [1.000000016571, -7.0482e-08, -4.7758e-08]]\n",
+      "fourc.sample.U=[[-0.0, -0.0, 1.0], [0.0, -1.0, -0.0], [1.0, -0.0, 0.0]]\n",
+      "fourc.sample.UB=[[-0.0, -0.0, 1.000000025846], [0.0, -1.000000005699, 1.7421e-08], [1.000000016571, -7.0482e-08, -4.7758e-08]]\n",
       "fourc.forward(1, 0, 0)=Hklpy2DiffractometerRealPos(omega=4.564279283548, chi=0, phi=-2.0227e-08, tth=9.128558567096)\n",
       "fourc.inverse(10, 0, 0, 20)=Hklpy2DiffractometerPseudoPos(h=2.18212732091, k=0, l=0)\n"
      ]
@@ -296,11 +317,8 @@
    ],
    "source": [
     "fourc.sample.reflections.swap()\n",
-    "print(f\"{fourc.sample.reflections.order=}\")\n",
-    "for r in fourc.sample.reflections.order:\n",
-    "    print(f\"{fourc.sample.reflections[r]}\")\n",
-    "print(f\"{fourc.core.solver.U=!r}\")\n",
-    "print(f\"{fourc.core.solver.UB=!r}\")\n",
+    "print(f\"{fourc.sample.U=!r}\")\n",
+    "print(f\"{fourc.sample.UB=!r}\")\n",
     "print(f\"{fourc.forward(1, 0, 0)=!r}\")\n",
     "print(f\"{fourc.inverse(10, 0, 0, 20)=!r}\")"
    ]
@@ -317,20 +335,12 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 10,
+   "execution_count": null,
    "id": "b6f15454-7d0d-418a-bef4-89be51a26cf1",
    "metadata": {
     "scrolled": true
    },
-   "outputs": [
-    {
-     "name": "stdout",
-     "output_type": "stream",
-     "text": [
-      "fourc=Fourc(prefix='', name='fourc', settle_time=0.0, timeout=None, egu='', limits=(0, 0), source='computed', read_attrs=['h', 'h.readback', 'h.setpoint', 'k', 'k.readback', 'k.setpoint', 'l', 'l.readback', 'l.setpoint', 'theta', 'chi', 'phi', 'ttheta', 'h2', 'h2.readback', 'h2.setpoint', 'k2', 'k2.readback', 'k2.setpoint', 'l2', 'l2.readback', 'l2.setpoint', 'psi', 'energy'], configuration_attrs=['geometry', 'solver', 'wavelength', 'h', 'k', 'l', 'h2', 'k2', 'l2'], concurrent=True)\n"
-     ]
-    }
-   ],
+   "outputs": [],
    "source": [
     "from ophyd import Component as Cpt\n",
     "from ophyd import Kind\n",
@@ -378,6 +388,8 @@
    "id": "53bbbf38-c24e-4898-adf9-75f33db39894",
    "metadata": {},
    "source": [
+    "## Additional Design Goals\n",
+    "\n",
     "Next steps demonstrate some additional design goals:\n",
     "\n",
     "- Easy to add additional axes, such as $\\psi$, $h_2$, $k_2$, & $l_2$.\n",
@@ -394,38 +406,20 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 11,
+   "execution_count": null,
    "id": "42e286ed-f07a-4815-9708-d8ff40978a4e",
    "metadata": {},
-   "outputs": [
-    {
-     "name": "stdout",
-     "output_type": "stream",
-     "text": [
-      "fourc.core.solver.geometries()=['APS POLAR', 'E4CH', 'E4CV', 'E6C', 'ESRF ID01 PSIC', 'K4CV', 'K6C', 'PETRA3 P09 EH2', 'PETRA3 P23 4C', 'PETRA3 P23 6C', 'SOLEIL MARS', 'SOLEIL NANOSCOPIUM ROBOT', 'SOLEIL SIRIUS KAPPA', 'SOLEIL SIRIUS TURRET', 'SOLEIL SIXS MED1+2', 'SOLEIL SIXS MED2+2', 'SOLEIL SIXS MED2+3', 'SOLEIL SIXS MED2+3 v2', 'TwoC', 'ZAXIS']\n"
-     ]
-    }
-   ],
+   "outputs": [],
    "source": [
     "print(f\"{fourc.core.solver.geometries()=}\")"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 12,
+   "execution_count": null,
    "id": "c3d78dda-a773-4ed1-a388-212b54f4ea85",
    "metadata": {},
-   "outputs": [
-    {
-     "name": "stdout",
-     "output_type": "stream",
-     "text": [
-      "fourc.solver.get()='hkl_soleil'\n",
-      "fourc.geometry.get()='E4CV'\n",
-      "fourc.wavelength.get()=1.0\n"
-     ]
-    }
-   ],
+   "outputs": [],
    "source": [
     "print(f\"{fourc.solver.get()=}\")\n",
     "print(f\"{fourc.geometry.get()=}\")\n",
@@ -434,25 +428,10 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 13,
+   "execution_count": null,
    "id": "8ceb97f6-6235-41b1-8b5c-474469f1a428",
    "metadata": {},
-   "outputs": [
-    {
-     "name": "stdout",
-     "output_type": "stream",
-     "text": [
-      "fourc.solver_name='hkl_soleil'\n",
-      "fourc.core.solver=HklSolver(name='hkl_soleil', version='5.1.2', geometry='E4CV', engine_name='hkl', mode='bissector')\n",
-      "fourc.core.axes_xref={'h': 'h', 'k': 'k', 'l': 'l', 'theta': 'omega', 'chi': 'chi', 'phi': 'phi', 'ttheta': 'tth'}\n",
-      "fourc.pseudo_axis_names=['h', 'k', 'l', 'h2', 'k2', 'l2']\n",
-      "fourc.real_axis_names=['theta', 'chi', 'phi', 'ttheta', 'psi', 'energy']\n",
-      "fourc.core.solver.pseudo_axis_names=['h', 'k', 'l']\n",
-      "fourc.core.solver.real_axis_names=['omega', 'chi', 'phi', 'tth']\n",
-      "fourc.core.solver.extra_axis_names=[]\n"
-     ]
-    }
-   ],
+   "outputs": [],
    "source": [
     "print(f\"{fourc.solver_name=}\")\n",
     "print(f\"{fourc.core.solver=}\")\n",
@@ -474,20 +453,10 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 14,
+   "execution_count": null,
    "id": "b255aa63",
    "metadata": {},
-   "outputs": [
-    {
-     "name": "stdout",
-     "output_type": "stream",
-     "text": [
-      "h=0, k=0, l=0, h2=0, k2=0, l2=0\n",
-      "wavelength=1.0\n",
-      "theta=0, chi=0, phi=0, ttheta=0, psi=0, energy=12.4\n"
-     ]
-    }
-   ],
+   "outputs": [],
    "source": [
     "fourc.wh()"
    ]
@@ -502,88 +471,12 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 15,
+   "execution_count": null,
    "id": "c7be3657-7b17-42ba-9746-0bdfbc7e0bb4",
    "metadata": {
     "scrolled": true
    },
-   "outputs": [
-    {
-     "name": "stdout",
-     "output_type": "stream",
-     "text": [
-      "data keys (* hints)\n",
-      "-------------------\n",
-      "*fourc_chi\n",
-      "*fourc_energy\n",
-      "*fourc_h\n",
-      "*fourc_h2\n",
-      " fourc_h2_setpoint\n",
-      " fourc_h_setpoint\n",
-      "*fourc_k\n",
-      "*fourc_k2\n",
-      " fourc_k2_setpoint\n",
-      " fourc_k_setpoint\n",
-      "*fourc_l\n",
-      "*fourc_l2\n",
-      " fourc_l2_setpoint\n",
-      " fourc_l_setpoint\n",
-      "*fourc_phi\n",
-      "*fourc_psi\n",
-      "*fourc_theta\n",
-      "*fourc_ttheta\n",
-      "\n",
-      "read attrs\n",
-      "----------\n",
-      "h                    PseudoSingle        ('fourc_h')\n",
-      "h.readback           AttributeSignal     ('fourc_h')\n",
-      "h.setpoint           AttributeSignal     ('fourc_h_setpoint')\n",
-      "k                    PseudoSingle        ('fourc_k')\n",
-      "k.readback           AttributeSignal     ('fourc_k')\n",
-      "k.setpoint           AttributeSignal     ('fourc_k_setpoint')\n",
-      "l                    PseudoSingle        ('fourc_l')\n",
-      "l.readback           AttributeSignal     ('fourc_l')\n",
-      "l.setpoint           AttributeSignal     ('fourc_l_setpoint')\n",
-      "theta                SoftPositioner      ('fourc_theta')\n",
-      "chi                  SoftPositioner      ('fourc_chi')\n",
-      "phi                  SoftPositioner      ('fourc_phi')\n",
-      "ttheta               SoftPositioner      ('fourc_ttheta')\n",
-      "h2                   PseudoSingle        ('fourc_h2')\n",
-      "h2.readback          AttributeSignal     ('fourc_h2')\n",
-      "h2.setpoint          AttributeSignal     ('fourc_h2_setpoint')\n",
-      "k2                   PseudoSingle        ('fourc_k2')\n",
-      "k2.readback          AttributeSignal     ('fourc_k2')\n",
-      "k2.setpoint          AttributeSignal     ('fourc_k2_setpoint')\n",
-      "l2                   PseudoSingle        ('fourc_l2')\n",
-      "l2.readback          AttributeSignal     ('fourc_l2')\n",
-      "l2.setpoint          AttributeSignal     ('fourc_l2_setpoint')\n",
-      "psi                  SoftPositioner      ('fourc_psi')\n",
-      "energy               SoftPositioner      ('fourc_energy')\n",
-      "\n",
-      "config keys\n",
-      "-----------\n",
-      "fourc_geometry\n",
-      "fourc_solver\n",
-      "fourc_wavelength\n",
-      "\n",
-      "configuration attrs\n",
-      "-------------------\n",
-      "geometry             AttributeSignal     ('fourc_geometry')\n",
-      "solver               AttributeSignal     ('fourc_solver')\n",
-      "wavelength           AttributeSignal     ('fourc_wavelength')\n",
-      "h                    PseudoSingle        ('fourc_h')\n",
-      "k                    PseudoSingle        ('fourc_k')\n",
-      "l                    PseudoSingle        ('fourc_l')\n",
-      "h2                   PseudoSingle        ('fourc_h2')\n",
-      "k2                   PseudoSingle        ('fourc_k2')\n",
-      "l2                   PseudoSingle        ('fourc_l2')\n",
-      "\n",
-      "unused attrs\n",
-      "------------\n",
-      "\n"
-     ]
-    }
-   ],
+   "outputs": [],
    "source": [
     "fourc.summary()"
    ]
@@ -591,7 +484,7 @@
  ],
  "metadata": {
   "kernelspec": {
-   "display_name": "base",
+   "display_name": "hklpy2",
    "language": "python",
    "name": "python3"
   },
@@ -605,7 +498,7 @@
    "name": "python",
    "nbconvert_exporter": "python",
    "pygments_lexer": "ipython3",
-   "version": "3.11.11"
+   "version": "3.13.2"
   }
  },
  "nbformat": 4,

@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>How to add extra motors to a diffractometer &#8212; hklpy2 0.0</title>
+    <title>Diffractometer Extra Motors &#8212; hklpy2 0.0</title>
   
   
   
@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=35c7ceb5"></script>
+    <script src="../_static/documentation_options.js?v=bd455fa5"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
@@ -50,7 +50,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="SPEC commands in hklpy2" href="spec_xref.html" />
-    <link rel="prev" title="Diffractometer Axis Names" href="diffract.html" />
+    <link rel="prev" title="Diffractometer Extra Solver Parameters" href="how_additional_parameters.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="0.0" />
@@ -320,8 +320,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../geometry_tables.html">Diffractometer Geometries</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../examples.html">Examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../examples/_api_demo.html">Demonstrate <strong>hklpy2</strong>’s API</a></li>
-
-
 <li class="toctree-l2"><a class="reference internal" href="../examples/hkl_soleil-e4ch.html"><strong>hkl_soleil</strong> E4CH</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/hkl_soleil-e4cv.html"><strong>hkl_soleil</strong> E4CV</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/hkl_soleil-e6c-psi.html"><strong>hkl_soleil</strong> E6C psi axis</a></li>
@@ -338,8 +336,10 @@
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="../guides.html">Guides</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="configuration_save_restore.html">Diffractometer Configuration – Save and Restore</a></li>
 <li class="toctree-l2"><a class="reference internal" href="diffract.html">Diffractometer Axis Names</a></li>
-<li class="toctree-l2 current active"><a class="current reference internal" href="#">How to add extra motors to a diffractometer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="how_additional_parameters.html">Diffractometer Extra Solver Parameters</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Diffractometer Extra Motors</a></li>
 <li class="toctree-l2"><a class="reference internal" href="spec_xref.html">SPEC commands in hklpy2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="var_engines.html">Use <code class="docutils literal notranslate"><span class="pre">E4CV</span></code>’s $Q$ calculation engine</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
@@ -390,7 +390,7 @@
     
     <li class="breadcrumb-item"><a href="../guides.html" class="nav-link">Guides</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">How to add extra motors to a diffractometer</span></li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Diffractometer Extra Motors</span></li>
   </ul>
 </nav>
 </div>
@@ -407,8 +407,8 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="how-to-add-extra-motors-to-a-diffractometer">
-<h1>How to add extra motors to a diffractometer<a class="headerlink" href="#how-to-add-extra-motors-to-a-diffractometer" title="Link to this heading">#</a></h1>
+  <section id="diffractometer-extra-motors">
+<h1>Diffractometer Extra Motors<a class="headerlink" href="#diffractometer-extra-motors" title="Link to this heading">#</a></h1>
 <p>Sometimes, it is desired to add additional motor(s) (or other components) to
 a diffractometer object.</p>
 <p><strong>Objective</strong></p>
@@ -479,13 +479,13 @@ th=0, tth=0
 </div>
 </div>
 <div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/home/zorinvm/Documents/projects/prjemian/hklpy2/hklpy2/misc.py:321: UserWarning:  Extra inputs will be ignored. Expected 2. Received input=Hklpy2DiffractometerRealPos(th=0, tth=0, spinner=0), names=[&#39;th&#39;, &#39;tth&#39;]
+  warnings.warn(
+</pre></div>
+</div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>q=0
 wavelength=1.0
 th=0, tth=0, spinner=0
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/home/prjemian/Documents/projects/prjemian/hklpy2/hklpy2/misc.py:321: UserWarning:  Extra inputs will be ignored. Expected 2. Received input=Hklpy2DiffractometerRealPos(th=0, tth=0, spinner=0), names=[&#39;th&#39;, &#39;tth&#39;]
-  warnings.warn(
 </pre></div>
 </div>
 </div>
@@ -508,8 +508,36 @@ th=0, tth=0, spinner=0
 </section>
 <section id="can-we-add-other-pseudo-axes">
 <h2>Can we add other pseudo axes?<a class="headerlink" href="#can-we-add-other-pseudo-axes" title="Link to this heading">#</a></h2>
-<p><strong>Q</strong>: With this capability to add additional real positioners, can we add axes to the pseudo positioners?</p>
-<p><strong>A</strong>: Unfortunately, <a class="reference external" href="https://github.com/bluesky/ophyd/issues/924#issuecomment-718177332">no</a>.  That capability is not built into the ophyd PseudoPositioner at this time.</p>
+<p><strong>Q</strong>: With this capability to add additional real positioners, can we add axes
+to the pseudo positioners?</p>
+<p><strong>A</strong>: Yes.  There is a <code class="docutils literal notranslate"><span class="pre">pseudos=list()</span></code> keyword argument.  (Pseudos, as virtual
+axes, are not connected to EPICS PVs.)</p>
+<p>See this example:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">th2th</span> <span class="o">=</span> <span class="n">hklpy2</span><span class="o">.</span><span class="n">creator</span><span class="p">(</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;th2th&quot;</span><span class="p">,</span>
+    <span class="n">geometry</span><span class="o">=</span><span class="s2">&quot;TH TTH Q&quot;</span><span class="p">,</span>
+    <span class="n">solver</span><span class="o">=</span><span class="s2">&quot;th_tth&quot;</span><span class="p">,</span>
+    <span class="n">pseudos</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Q&quot;</span><span class="p">,</span> <span class="s2">&quot;d&quot;</span><span class="p">],</span>
+    <span class="n">reals</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">sample</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">detector</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">spinner</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<span class="p">)</span>
+<span class="n">th2th</span><span class="o">.</span><span class="n">wh</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/home/zorinvm/Documents/projects/prjemian/hklpy2/hklpy2/misc.py:321: UserWarning:  Extra inputs will be ignored. Expected 2. Received input=Hklpy2DiffractometerRealPos(sample=0, detector=0, spinner=0), names=[&#39;sample&#39;, &#39;detector&#39;]
+  warnings.warn(
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>q=0, Q=0, d=0
+wavelength=1.0
+sample=0, detector=0, spinner=0
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="add-additional-signals-and-devices">
 <h2>Add additional Signals and Devices<a class="headerlink" href="#add-additional-signals-and-devices" title="Link to this heading">#</a></h2>
@@ -610,12 +638,12 @@ th=0, tth=0
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="diffract.html"
+       href="how_additional_parameters.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Diffractometer Axis Names</p>
+        <p class="prev-next-title">Diffractometer Extra Solver Parameters</p>
       </div>
     </a>
     <a class="right-next"

@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=35c7ceb5"></script>
+    <script src="../_static/documentation_options.js?v=bd455fa5"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
@@ -49,7 +49,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'guides/diffract';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="How to add extra motors to a diffractometer" href="how_extra_real_axis.html" />
+    <link rel="next" title="Diffractometer Extra Solver Parameters" href="how_additional_parameters.html" />
     <link rel="prev" title="Diffractometer Configuration – Save and Restore" href="configuration_save_restore.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -320,8 +320,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../geometry_tables.html">Diffractometer Geometries</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../examples.html">Examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../examples/_api_demo.html">Demonstrate <strong>hklpy2</strong>’s API</a></li>
-
-
 <li class="toctree-l2"><a class="reference internal" href="../examples/hkl_soleil-e4ch.html"><strong>hkl_soleil</strong> E4CH</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/hkl_soleil-e4cv.html"><strong>hkl_soleil</strong> E4CV</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/hkl_soleil-e6c-psi.html"><strong>hkl_soleil</strong> E6C psi axis</a></li>
@@ -338,8 +336,10 @@
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="../guides.html">Guides</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="configuration_save_restore.html">Diffractometer Configuration – Save and Restore</a></li>
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">Diffractometer Axis Names</a></li>
-<li class="toctree-l2"><a class="reference internal" href="how_extra_real_axis.html">How to add extra motors to a diffractometer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="how_additional_parameters.html">Diffractometer Extra Solver Parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="how_extra_real_axis.html">Diffractometer Extra Motors</a></li>
 <li class="toctree-l2"><a class="reference internal" href="spec_xref.html">SPEC commands in hklpy2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="var_engines.html">Use <code class="docutils literal notranslate"><span class="pre">E4CV</span></code>’s $Q$ calculation engine</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
@@ -414,9 +414,9 @@ not required to match any particular <strong>Solver</strong> library.  Users are
 to use any names allowed by ophyd.</p>
 <section id="user-defined-axis-names">
 <h2>User-defined axis names<a class="headerlink" href="#user-defined-axis-names" title="Link to this heading">#</a></h2>
-<p>Let’s a few examples of diffractometers built with user-defined names.</p>
+<p>Let’s see a few examples of diffractometers built with user-defined names.</p>
 <ul class="simple">
-<li><p><a class="reference internal" href="#diffract-axes-diffractometer-factory"><span class="std std-ref">Diffractometer Factory Function</span></a> with automatic mapping</p></li>
+<li><p><a class="reference internal" href="#diffract-axes-diffractometer-factory"><span class="std std-ref">Diffractometer Creator</span></a> with automatic mapping</p></li>
 <li><p><a class="reference internal" href="#diffract-axes-custom-auto-assign"><span class="std std-ref">Custom Diffractometer class</span></a> with automatic mapping</p></li>
 <li><p><a class="reference internal" href="#diffract-axes-direct-assign"><span class="std std-ref">Custom Diffractometer with additional axes</span></a> with directed mapping</p></li>
 </ul>
@@ -424,17 +424,27 @@ to use any names allowed by ophyd.</p>
 <p class="admonition-title">See also</p>
 <p><a class="reference internal" href="#diffract-axes-auto-assign"><span class="std std-ref">Auto-assignment</span></a></p>
 </div>
-<section id="diffractometer-factory-function">
-<span id="diffract-axes-diffractometer-factory"></span><h3>Diffractometer Factory Function<a class="headerlink" href="#diffractometer-factory-function" title="Link to this heading">#</a></h3>
-<p>The <a class="reference internal" href="../generated/hklpy2.geom.html#hklpy2.geom.creator" title="hklpy2.geom.creator"><code class="xref py py-func docutils literal notranslate"><span class="pre">creator()</span></code></a> function maps axis names from
-diffractometer to <strong>Solver</strong>.  Let’s show this cross-reference map in an IPython
-console with just a few commands:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">6</span><span class="p">]:</span> <span class="kn">from</span><span class="w"> </span><span class="nn">hklpy2</span><span class="w"> </span><span class="kn">import</span> <span class="n">creator</span>
+<section id="diffractometer-creator">
+<span id="diffract-axes-diffractometer-factory"></span><h3>Diffractometer Creator<a class="headerlink" href="#diffractometer-creator" title="Link to this heading">#</a></h3>
+<p>The <a class="reference internal" href="../generated/hklpy2.geom.html#hklpy2.geom.creator" title="hklpy2.geom.creator"><code class="xref py py-func docutils literal notranslate"><span class="pre">creator()</span></code></a> creates a diffractometer object using the
+supplied <cite>reals={}</cite> to define their names.  These are mapped to the names used
+by the <strong>Solver</strong>.  Let’s show this cross-reference map with just a few commands:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">hklpy2</span>
 
-<span class="n">In</span> <span class="p">[</span><span class="mi">7</span><span class="p">]:</span> <span class="n">twoc</span> <span class="o">=</span> <span class="n">creator</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;twoc&quot;</span><span class="p">,</span> <span class="n">geometry</span><span class="o">=</span><span class="s2">&quot;TH TTH Q&quot;</span><span class="p">,</span> <span class="n">solver</span><span class="o">=</span><span class="s2">&quot;th_tth&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">twoc</span> <span class="o">=</span> <span class="n">hklpy2</span><span class="o">.</span><span class="n">creator</span><span class="p">(</span>
+<span class="go">    name=&quot;twoc&quot;,</span>
+<span class="go">    geometry=&quot;TH TTH Q&quot;,</span>
+<span class="go">    solver=&quot;th_tth&quot;,</span>
+<span class="go">    reals={&quot;sample&quot;: None, &quot;detector&quot;: None},</span>
+<span class="go">)</span>
 
-<span class="n">In</span> <span class="p">[</span><span class="mi">8</span><span class="p">]:</span> <span class="n">twoc</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">axes_xref</span>
-<span class="n">Out</span><span class="p">[</span><span class="mi">8</span><span class="p">]:</span> <span class="p">{</span><span class="s1">&#39;q&#39;</span><span class="p">:</span> <span class="s1">&#39;q&#39;</span><span class="p">,</span> <span class="s1">&#39;theta&#39;</span><span class="p">:</span> <span class="s1">&#39;th&#39;</span><span class="p">,</span> <span class="s1">&#39;ttheta&#39;</span><span class="p">:</span> <span class="s1">&#39;tth&#39;</span><span class="p">}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">twoc</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">axes_xref</span>
+<span class="go">{&#39;q&#39;: &#39;q&#39;, &#39;sample&#39;: &#39;th&#39;, &#39;detector&#39;: &#39;tth&#39;}</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">twoc</span><span class="o">.</span><span class="n">wh</span><span class="p">()</span>
+<span class="go">q=0</span>
+<span class="go">wavelength=1.0</span>
+<span class="go">sample=0, detector=0</span>
 </pre></div>
 </div>
 </section>
@@ -447,28 +457,28 @@ with our diffractometer. The <code class="docutils literal notranslate"><span cl
 <a class="reference internal" href="../generated/generated/hklpy2.backends.th_tth_q.html#hklpy2.backends.th_tth_q.ThTthSolver" title="hklpy2.backends.th_tth_q.ThTthSolver"><code class="xref py py-class docutils literal notranslate"><span class="pre">ThTthSolver</span></code></a> with a <code class="docutils literal notranslate"><span class="pre">&quot;TH</span> <span class="pre">TTH</span> <span class="pre">Q&quot;</span></code> geometry
 that fits our design. We set that up in the <code class="docutils literal notranslate"><span class="pre">__init__()</span></code> method of our new
 class:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">hklpy2</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">ophyd</span><span class="w"> </span><span class="kn">import</span> <span class="n">Component</span><span class="p">,</span> <span class="n">PseudoSingle</span><span class="p">,</span> <span class="n">SoftPositioner</span>
-
-<span class="k">class</span><span class="w"> </span><span class="nc">S1D1</span><span class="p">(</span><span class="n">hklpy2</span><span class="o">.</span><span class="n">DiffractometerBase</span><span class="p">):</span>
-
-    <span class="n">q</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">PseudoSingle</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">H_OR_N</span><span class="p">)</span>
-
-    <span class="n">sample</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">SoftPositioner</span><span class="p">,</span> <span class="n">init_pos</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-    <span class="n">detector</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">SoftPositioner</span><span class="p">,</span> <span class="n">init_pos</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
-            <span class="o">*</span><span class="n">args</span><span class="p">,</span>
-            <span class="n">solver</span><span class="o">=</span><span class="s2">&quot;th_tth&quot;</span><span class="p">,</span>                <span class="c1"># solver name</span>
-            <span class="n">geometry</span><span class="o">=</span><span class="s2">&quot;TH TTH Q&quot;</span><span class="p">,</span>            <span class="c1"># solver geometry</span>
-            <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
-        <span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">auto_assign_axes</span><span class="p">()</span>    <span class="c1"># assign axes</span>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="kn">import</span><span class="w"> </span><span class="nn">hklpy2</span>
+<span class="linenos"> 2</span><span class="kn">from</span><span class="w"> </span><span class="nn">ophyd</span><span class="w"> </span><span class="kn">import</span> <span class="n">Component</span><span class="p">,</span> <span class="n">PseudoSingle</span><span class="p">,</span> <span class="n">SoftPositioner</span>
+<span class="linenos"> 3</span>
+<span class="linenos"> 4</span><span class="k">class</span><span class="w"> </span><span class="nc">S1D1</span><span class="p">(</span><span class="n">hklpy2</span><span class="o">.</span><span class="n">DiffractometerBase</span><span class="p">):</span>
+<span class="linenos"> 5</span>
+<span class="linenos"> 6</span>    <span class="n">q</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">PseudoSingle</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">H_OR_N</span><span class="p">)</span>
+<span class="linenos"> 7</span>
+<span class="linenos"> 8</span>    <span class="n">sample</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">SoftPositioner</span><span class="p">,</span> <span class="n">init_pos</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="linenos"> 9</span>    <span class="n">detector</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">SoftPositioner</span><span class="p">,</span> <span class="n">init_pos</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="linenos">10</span>
+<span class="linenos">11</span>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="linenos">12</span>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+<span class="linenos">13</span>            <span class="o">*</span><span class="n">args</span><span class="p">,</span>
+<span class="linenos">14</span>            <span class="n">solver</span><span class="o">=</span><span class="s2">&quot;th_tth&quot;</span><span class="p">,</span>                <span class="c1"># solver name</span>
+<span class="linenos">15</span>            <span class="n">geometry</span><span class="o">=</span><span class="s2">&quot;TH TTH Q&quot;</span><span class="p">,</span>            <span class="c1"># solver geometry</span>
+<span class="linenos">16</span>            <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+<span class="linenos">17</span>        <span class="p">)</span>
+<span class="linenos">18</span>        <span class="bp">self</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">auto_assign_axes</span><span class="p">()</span>    <span class="c1"># assign axes</span>
 </pre></div>
 </div>
 <p>Create a Python object that uses this class:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">twoc</span> <span class="o">=</span> <span class="n">S1D1</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;twoc&quot;</span><span class="p">)</span>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">twoc</span> <span class="o">=</span> <span class="n">S1D1</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;twoc&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 <div class="admonition tip">
@@ -498,59 +508,59 @@ the only pseudo axis and <code class="docutils literal notranslate"><span class=
 <p>We construct this example so that we’ll need to override the
 automatic assignment of axes. Look for the <code class="docutils literal notranslate"><span class="pre">pseudos=[&quot;q&quot;]</span></code>
 and <code class="docutils literal notranslate"><span class="pre">reals=[&quot;theta&quot;,</span> <span class="pre">&quot;ttheta&quot;]</span></code> parts where we define the mapping.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ophyd</span><span class="w"> </span><span class="kn">import</span> <span class="n">Component</span><span class="p">,</span> <span class="n">PseudoSingle</span><span class="p">,</span> <span class="n">SoftPositioner</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">hklpy2</span>
-
-<span class="k">class</span><span class="w"> </span><span class="nc">MyTwoC</span><span class="p">(</span><span class="n">hklpy2</span><span class="o">.</span><span class="n">DiffractometerBase</span><span class="p">):</span>
-
-    <span class="c1"># sorted alphabetically for this example</span>
-    <span class="n">another</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">PseudoSingle</span><span class="p">)</span>
-    <span class="n">horizontal</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">SoftPositioner</span><span class="p">,</span> <span class="n">init_pos</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-    <span class="n">q</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">PseudoSingle</span><span class="p">)</span>
-    <span class="n">theta</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">SoftPositioner</span><span class="p">,</span> <span class="n">init_pos</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-    <span class="n">ttheta</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">SoftPositioner</span><span class="p">,</span> <span class="n">init_pos</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-    <span class="n">vertical</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">SoftPositioner</span><span class="p">,</span> <span class="n">init_pos</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
-          <span class="o">*</span><span class="n">args</span><span class="p">,</span>
-          <span class="n">solver</span><span class="o">=</span><span class="s2">&quot;th_tth&quot;</span><span class="p">,</span>
-          <span class="n">geometry</span><span class="o">=</span><span class="s2">&quot;TH TTH Q&quot;</span><span class="p">,</span>
-          <span class="n">pseudos</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;q&quot;</span><span class="p">],</span>
-          <span class="n">reals</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;theta&quot;</span><span class="p">,</span> <span class="s2">&quot;ttheta&quot;</span><span class="p">],</span>
-          <span class="o">**</span><span class="n">kwargs</span>
-          <span class="p">)</span>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="kn">from</span><span class="w"> </span><span class="nn">ophyd</span><span class="w"> </span><span class="kn">import</span> <span class="n">Component</span><span class="p">,</span> <span class="n">PseudoSingle</span><span class="p">,</span> <span class="n">SoftPositioner</span>
+<span class="linenos"> 2</span><span class="kn">import</span><span class="w"> </span><span class="nn">hklpy2</span>
+<span class="linenos"> 3</span>
+<span class="linenos"> 4</span><span class="k">class</span><span class="w"> </span><span class="nc">MyTwoC</span><span class="p">(</span><span class="n">hklpy2</span><span class="o">.</span><span class="n">DiffractometerBase</span><span class="p">):</span>
+<span class="linenos"> 5</span>
+<span class="linenos"> 6</span>    <span class="c1"># sorted alphabetically for this example</span>
+<span class="linenos"> 7</span>    <span class="n">another</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">PseudoSingle</span><span class="p">)</span>
+<span class="linenos"> 8</span>    <span class="n">horizontal</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">SoftPositioner</span><span class="p">,</span> <span class="n">init_pos</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="linenos"> 9</span>    <span class="n">q</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">PseudoSingle</span><span class="p">)</span>
+<span class="linenos">10</span>    <span class="n">theta</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">SoftPositioner</span><span class="p">,</span> <span class="n">init_pos</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="linenos">11</span>    <span class="n">ttheta</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">SoftPositioner</span><span class="p">,</span> <span class="n">init_pos</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="linenos">12</span>    <span class="n">vertical</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">SoftPositioner</span><span class="p">,</span> <span class="n">init_pos</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="linenos">13</span>
+<span class="linenos">14</span>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="linenos">15</span>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+<span class="linenos">16</span>          <span class="o">*</span><span class="n">args</span><span class="p">,</span>
+<span class="linenos">17</span>          <span class="n">solver</span><span class="o">=</span><span class="s2">&quot;th_tth&quot;</span><span class="p">,</span>
+<span class="linenos">18</span>          <span class="n">geometry</span><span class="o">=</span><span class="s2">&quot;TH TTH Q&quot;</span><span class="p">,</span>
+<span class="linenos">19</span>          <span class="n">pseudos</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;q&quot;</span><span class="p">],</span>
+<span class="linenos">20</span>          <span class="n">reals</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;theta&quot;</span><span class="p">,</span> <span class="s2">&quot;ttheta&quot;</span><span class="p">],</span>
+<span class="linenos">21</span>          <span class="o">**</span><span class="n">kwargs</span>
+<span class="linenos">22</span>          <span class="p">)</span>
 </pre></div>
 </div>
 <p>Create the diffractometer:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">twoc</span> <span class="o">=</span> <span class="n">MyTwoC</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;twoc&quot;</span><span class="p">)</span>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">twoc</span> <span class="o">=</span> <span class="n">MyTwoC</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;twoc&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>What are the axes names used by this diffractometer?:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">twoc</span><span class="o">.</span><span class="n">pseudo_axis_names</span>
-<span class="go">[&#39;another&#39;, &#39;q&#39;]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">twoc</span><span class="o">.</span><span class="n">real_axis_names</span>
-<span class="go">[&#39;horizontal&#39;, &#39;theta&#39;, &#39;ttheta&#39;, &#39;vertical&#39;]</span>
+<p>What are the axes names used by this diffractometer?</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="n">twoc</span><span class="o">.</span><span class="n">pseudo_axis_names</span>
+<span class="p">[</span><span class="s1">&#39;another&#39;</span><span class="p">,</span> <span class="s1">&#39;q&#39;</span><span class="p">]</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">twoc</span><span class="o">.</span><span class="n">real_axis_names</span>
+<span class="p">[</span><span class="s1">&#39;horizontal&#39;</span><span class="p">,</span> <span class="s1">&#39;theta&#39;</span><span class="p">,</span> <span class="s1">&#39;ttheta&#39;</span><span class="p">,</span> <span class="s1">&#39;vertical&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
 <p>Show the <code class="docutils literal notranslate"><span class="pre">twoc</span></code> diffractometer’s <strong>Solver</strong>:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">twoc</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver</span>
-<span class="go">ThTthSolver(name=&#39;th_tth&#39;, version=&#39;0.0.14&#39;, geometry=&#39;TH TTH Q&#39;)</span>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="n">twoc</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver</span>
+<span class="n">ThTthSolver</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;th_tth&#39;</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="s1">&#39;0.0.14&#39;</span><span class="p">,</span> <span class="n">geometry</span><span class="o">=</span><span class="s1">&#39;TH TTH Q&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>What are the axes expected by this <strong>Solver</strong>?:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">twoc</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">pseudo_axis_names</span>
-<span class="go">[&#39;q&#39;]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">twoc</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">real_axis_names</span>
-<span class="go">[&#39;th&#39;, &#39;tth&#39;]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">twoc</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">extra_axis_names</span>
-<span class="go">[]</span>
+<p>What are the axes expected by this <strong>Solver</strong>?</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="n">twoc</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">pseudo_axis_names</span>
+<span class="p">[</span><span class="s1">&#39;q&#39;</span><span class="p">]</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">twoc</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">real_axis_names</span>
+<span class="p">[</span><span class="s1">&#39;th&#39;</span><span class="p">,</span> <span class="s1">&#39;tth&#39;</span><span class="p">]</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">twoc</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">extra_axis_names</span>
+<span class="p">[]</span>
 </pre></div>
 </div>
 <p>Show the cross-reference mapping from diffractometer
 to <strong>Solver</strong> axis names (as defined in our MyTwoC class above):</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">twoc</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">axes_xref</span>
-<span class="go">{&#39;q&#39;: &#39;q&#39;, &#39;theta&#39;: &#39;th&#39;, &#39;ttheta&#39;: &#39;tth&#39;}</span>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="n">twoc</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">axes_xref</span>
+<span class="p">{</span><span class="s1">&#39;q&#39;</span><span class="p">:</span> <span class="s1">&#39;q&#39;</span><span class="p">,</span> <span class="s1">&#39;theta&#39;</span><span class="p">:</span> <span class="s1">&#39;th&#39;</span><span class="p">,</span> <span class="s1">&#39;ttheta&#39;</span><span class="p">:</span> <span class="s1">&#39;tth&#39;</span><span class="p">}</span>
 </pre></div>
 </div>
 </section>
@@ -569,9 +579,9 @@ Auto-assignment of axes would not have been correct, because we did not
 define the <code class="docutils literal notranslate"><span class="pre">q</span></code> axis Component as the first pseudo and <code class="docutils literal notranslate"><span class="pre">theta</span></code> &amp; <code class="docutils literal notranslate"><span class="pre">ttheta</span></code>
 as the first real axis Components.  Let’s show what auto-assignment
 chooses in this case:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">twoc</span><span class="o">.</span><span class="n">auto_assign_axes</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">twoc</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">axes_xref</span>
-<span class="go">{&#39;another&#39;: &#39;q&#39;, &#39;horizontal&#39;: &#39;th&#39;, &#39;theta&#39;: &#39;tth&#39;}</span>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="n">twoc</span><span class="o">.</span><span class="n">auto_assign_axes</span><span class="p">()</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">twoc</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">axes_xref</span>
+<span class="p">{</span><span class="s1">&#39;another&#39;</span><span class="p">:</span> <span class="s1">&#39;q&#39;</span><span class="p">,</span> <span class="s1">&#39;horizontal&#39;</span><span class="p">:</span> <span class="s1">&#39;th&#39;</span><span class="p">,</span> <span class="s1">&#39;theta&#39;</span><span class="p">:</span> <span class="s1">&#39;tth&#39;</span><span class="p">}</span>
 </pre></div>
 </div>
 </section>
@@ -598,11 +608,11 @@ chooses in this case:</p>
       </div>
     </a>
     <a class="right-next"
-       href="how_extra_real_axis.html"
+       href="how_additional_parameters.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">How to add extra motors to a diffractometer</p>
+        <p class="prev-next-title">Diffractometer Extra Solver Parameters</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -626,7 +636,7 @@ chooses in this case:</p>
   <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#user-defined-axis-names">User-defined axis names</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#diffractometer-factory-function">Diffractometer Factory Function</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#diffractometer-creator">Diffractometer Creator</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#custom-diffractometer-class">Custom Diffractometer class</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#custom-diffractometer-with-additional-axes">Custom Diffractometer with additional axes</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#auto-assignment">Auto-assignment</a></li>
