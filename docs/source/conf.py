@@ -50,8 +50,8 @@ extensions = [
     "sphinx.ext.napoleon",
     "sphinx.ext.viewcode",
     "sphinx_design",
-    # "myst_nb",
-    "myst_parser",
+    "myst_nb",
+    # "myst_parser",
     "nbsphinx",
 ]
 extensions.append("sphinx_tabs.tabs")  # this must be last
@@ -60,6 +60,9 @@ exclude_patterns = ["**.ipynb_checkpoints"]
 myst_enable_extensions = ["colon_fence"]
 source_suffix = ".rst .md".split()
 templates_path = ["_templates"]
+
+# myst-nb notebook execution when building docs
+nb_execution_mode = "off"
 
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
