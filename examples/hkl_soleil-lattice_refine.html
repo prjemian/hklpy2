@@ -32,8 +32,8 @@
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
-    <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
   
   <!-- So that users can add custom icons -->
   <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
@@ -41,13 +41,11 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=1c477fa6"></script>
+    <script src="../_static/documentation_options.js?v=35c7ceb5"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
-    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'examples/hkl_soleil-lattice_refine';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -409,136 +407,117 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="hkl_soleil-Refine-lattice-from-3-reflections">
-<h1><strong>hkl_soleil</strong> Refine lattice from 3 reflections<a class="headerlink" href="#hkl_soleil-Refine-lattice-from-3-reflections" title="Link to this heading">#</a></h1>
-<p>The lattice parameters of a sample can be computed from a set of 3 or more reflections if the <strong>solver</strong> provides such a method. The hkl_soleil solver uses a simplex. The computed lattice is likely the lowest symmetry since the parameters are refined to meet best the observed reflections.</p>
-<section id="Create-a-diffractometer-object">
-<h2>Create a diffractometer object<a class="headerlink" href="#Create-a-diffractometer-object" title="Link to this heading">#</a></h2>
-<p>First, create a diffractometer object that uses the <code class="docutils literal notranslate"><span class="pre">&quot;hkl_soleil&quot;</span></code> solver with the <code class="docutils literal notranslate"><span class="pre">&quot;hkl&quot;</span></code> computation engine. This solver provides support for many diffractometer geometries. This example will use the simulated 4-circle geometry from the solver’s <code class="docutils literal notranslate"><span class="pre">&quot;E4CV&quot;</span></code>.</p>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">hklpy2</span>
+  <section id="hkl-soleil-refine-lattice-from-3-reflections">
+<h1><strong>hkl_soleil</strong> Refine lattice from 3 reflections<a class="headerlink" href="#hkl-soleil-refine-lattice-from-3-reflections" title="Link to this heading">#</a></h1>
+<p>The lattice parameters of a sample can be computed from a set of 3 or more
+reflections if the <strong>solver</strong> provides such a method.  The hkl_soleil solver
+uses a simplex.  The computed lattice is likely the lowest symmetry since the
+parameters are refined to meet best the observed reflections.</p>
+<section id="create-a-diffractometer-object">
+<h2>Create a diffractometer object<a class="headerlink" href="#create-a-diffractometer-object" title="Link to this heading">#</a></h2>
+<p>First, create a diffractometer object that uses the <code class="docutils literal notranslate"><span class="pre">&quot;hkl_soleil&quot;</span></code> solver with
+the <code class="docutils literal notranslate"><span class="pre">&quot;hkl&quot;</span></code> computation engine.  This solver provides support for many
+diffractometer geometries.  This example will use the simulated 4-circle
+geometry from the solver’s <code class="docutils literal notranslate"><span class="pre">&quot;E4CV&quot;</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">hklpy2</span>
 
 <span class="n">diffractometer</span> <span class="o">=</span> <span class="n">hklpy2</span><span class="o">.</span><span class="n">creator</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;diffractometer&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
-<section id="Defaults">
-<h3>Defaults<a class="headerlink" href="#Defaults" title="Link to this heading">#</a></h3>
-<p>The diffractometer object starts with a default sample. The structure is cubic (<span class="math notranslate nohighlight">\(a=b=c\)</span>, 90 degree corners).</p>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</div>
+<section id="defaults">
+<h3>Defaults<a class="headerlink" href="#defaults" title="Link to this heading">#</a></h3>
+<p>The diffractometer object starts with a default sample.  The structure is cubic ($a=b=c$, 90 degree corners).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diffractometer</span><span class="o">.</span><span class="n">sample</span>
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diffractometer</span><span class="o">.</span><span class="n">sample</span>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sample(name=&#39;sample&#39;, lattice=Lattice(a=1, system=&#39;cubic&#39;))
 </pre></div>
 </div>
 </div>
-<div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
-</pre></div>
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-Sample(name=&#39;sample&#39;, lattice=Lattice(a=1, system=&#39;cubic&#39;))
-</pre></div></div>
 </div>
 </section>
 </section>
-<section id="Add-3-reflections">
-<h2>Add 3 reflections<a class="headerlink" href="#Add-3-reflections" title="Link to this heading">#</a></h2>
-<p>At least three reflections are needed to refine the lattice parameters. Since we do not specify the wavelength, the support assumes the diffractometer’s current wavelength.</p>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+<section id="add-3-reflections">
+<h2>Add 3 reflections<a class="headerlink" href="#add-3-reflections" title="Link to this heading">#</a></h2>
+<p>At least three reflections are needed to refine the lattice parameters.  Since we do not specify the wavelength, the support assumes the diffractometer’s current wavelength.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diffractometer</span><span class="o">.</span><span class="n">wavelength</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diffractometer</span><span class="o">.</span><span class="n">wavelength</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1.0
 </pre></div>
 </div>
 </div>
-<div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
-</pre></div>
 </div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-1.0
-</pre></div></div>
-</div>
-<p>Add three non-parallel reflections. Here, just the values of the pseudos and reals are specified as Python tuples, in the exact order expected by the <em>solver</em> geometry.</p>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">r100</span> <span class="o">=</span> <span class="n">diffractometer</span><span class="o">.</span><span class="n">add_reflection</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="o">-</span><span class="mf">145.451</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mf">69.0966</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;(100)&quot;</span><span class="p">)</span>
+<p>Add three non-parallel reflections.  Here, just the values of the pseudos and reals are
+specified as Python tuples, in the exact order expected by the <em>solver</em>
+geometry.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">r100</span> <span class="o">=</span> <span class="n">diffractometer</span><span class="o">.</span><span class="n">add_reflection</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="o">-</span><span class="mf">145.451</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mf">69.0966</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;(100)&quot;</span><span class="p">)</span>
 <span class="n">r010</span> <span class="o">=</span> <span class="n">diffractometer</span><span class="o">.</span><span class="n">add_reflection</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="o">-</span><span class="mf">145.451</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">85</span><span class="p">,</span> <span class="mf">69.0966</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;(010)&quot;</span><span class="p">)</span>
 <span class="n">r001</span> <span class="o">=</span> <span class="n">diffractometer</span><span class="o">.</span><span class="n">add_reflection</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="o">-</span><span class="mf">145.451</span><span class="p">,</span> <span class="o">-</span><span class="mi">85</span><span class="p">,</span> <span class="o">-</span><span class="mi">95</span><span class="p">,</span> <span class="mf">69.0966</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;(001)&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
-</section>
-<section id="Compute-refined-lattice">
-<h2>Compute refined lattice<a class="headerlink" href="#Compute-refined-lattice" title="Link to this heading">#</a></h2>
-<p>Compute the lattice refined with these three reflections. Notice that the refined lattice is triclinic and not the original cubic symmetry.</p>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
-</pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">lattice</span> <span class="o">=</span> <span class="n">diffractometer</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">refine_lattice</span><span class="p">([</span><span class="n">r100</span><span class="p">,</span> <span class="n">r010</span><span class="p">,</span> <span class="n">r001</span><span class="p">])</span>
+</section>
+<section id="compute-refined-lattice">
+<h2>Compute refined lattice<a class="headerlink" href="#compute-refined-lattice" title="Link to this heading">#</a></h2>
+<p>Compute the lattice refined with these three reflections.  Notice that the refined lattice is triclinic and not the original cubic symmetry.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">lattice</span> <span class="o">=</span> <span class="n">diffractometer</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">refine_lattice</span><span class="p">([</span><span class="n">r100</span><span class="p">,</span> <span class="n">r010</span><span class="p">,</span> <span class="n">r001</span><span class="p">])</span>
 <span class="n">lattice</span>
 </pre></div>
 </div>
 </div>
-<div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Lattice(a=0.885, b=0.8953, c=0.8987, alpha=79.9999, beta=85.0196, gamma=89.5632, system=&#39;triclinic&#39;)
 </pre></div>
 </div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-Lattice(a=0.885, b=0.8953, c=0.8987, alpha=79.9999, beta=85.0196, gamma=89.5632, system=&#39;triclinic&#39;)
-</pre></div></div>
+</div>
 </div>
 <p>The <code class="docutils literal notranslate"><span class="pre">refine_lattice()</span></code> method returns the refined lattice but does not actually change the sample lattice:</p>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diffractometer</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">lattice</span>
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diffractometer</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">lattice</span>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Lattice(a=1, system=&#39;cubic&#39;)
 </pre></div>
 </div>
 </div>
-<div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
-</pre></div>
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-Lattice(a=1, system=&#39;cubic&#39;)
-</pre></div></div>
 </div>
 </section>
-<section id="Change-the-sample-lattice">
-<h2>Change the sample lattice<a class="headerlink" href="#Change-the-sample-lattice" title="Link to this heading">#</a></h2>
+<section id="change-the-sample-lattice">
+<h2>Change the sample lattice<a class="headerlink" href="#change-the-sample-lattice" title="Link to this heading">#</a></h2>
 <p>The sample lattice can be changed with the refined lattice:</p>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diffractometer</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">lattice</span> <span class="o">=</span> <span class="n">lattice</span>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diffractometer</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">lattice</span> <span class="o">=</span> <span class="n">lattice</span>
 <span class="n">diffractometer</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">lattice</span>
 </pre></div>
 </div>
 </div>
-<div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Lattice(a=0.885, b=0.8953, c=0.8987, alpha=79.9999, beta=85.0196, gamma=89.5632, system=&#39;triclinic&#39;)
 </pre></div>
 </div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-Lattice(a=0.885, b=0.8953, c=0.8987, alpha=79.9999, beta=85.0196, gamma=89.5632, system=&#39;triclinic&#39;)
-</pre></div></div>
+</div>
 </div>
 </section>
 </section>
@@ -590,13 +569,13 @@ Lattice(a=0.885, b=0.8953, c=0.8987, alpha=79.9999, beta=85.0196, gamma=89.5632,
   </div>
   <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Create-a-diffractometer-object">Create a diffractometer object</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Defaults">Defaults</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#create-a-diffractometer-object">Create a diffractometer object</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#defaults">Defaults</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Add-3-reflections">Add 3 reflections</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Compute-refined-lattice">Compute refined lattice</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Change-the-sample-lattice">Change the sample lattice</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#add-3-reflections">Add 3 reflections</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#compute-refined-lattice">Compute refined lattice</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#change-the-sample-lattice">Change the sample lattice</a></li>
 </ul>
   </nav></div>
 

@@ -22,7 +22,7 @@ Show the current constraints
 ----------------------------
 
 Start with a diffractometer.  This example starts with
-:ref:`E6C <geometries.hkl_soleil.E6C>`, as shown in the
+:ref:`E6C <geometries-hkl_soleil-e6c>`, as shown in the
 :ref:`user_guide.quickstart`.
 
 .. code-block:: python

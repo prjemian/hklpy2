@@ -32,8 +32,8 @@
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
-    <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
   
   <!-- So that users can add custom icons -->
   <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
@@ -41,13 +41,11 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=1c477fa6"></script>
+    <script src="../_static/documentation_options.js?v=35c7ceb5"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
-    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'guides/configuration_save_restore';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -409,9 +407,12 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="Diffractometer-Configuration----Save-and-Restore">
-<h1>Diffractometer Configuration – Save and Restore<a class="headerlink" href="#Diffractometer-Configuration----Save-and-Restore" title="Link to this heading">#</a></h1>
-<p>This document shows examples that save and restore the configuration details of a diffractometer. The configuration can be saved to a <a class="reference internal" href="#Files"><span class="std std-ref">file</span></a>. Also, the configuration can be saved in a bluesky <a class="reference internal" href="#Run"><span class="std std-ref">run</span></a> (with the run’s metadata). The details include:</p>
+  <section id="diffractometer-configuration-save-and-restore">
+<h1>Diffractometer Configuration – Save and Restore<a class="headerlink" href="#diffractometer-configuration-save-and-restore" title="Link to this heading">#</a></h1>
+<p>This document shows examples that save and restore the configuration details of
+a diffractometer.  The configuration can be saved to a <a class="reference internal" href="#files"><span class="std std-ref">file</span></a>.  Also,
+the configuration can be saved in a bluesky <a class="reference internal" href="#run"><span class="std std-ref">run</span></a> (with the run’s
+metadata).  The details include:</p>
 <ul class="simple">
 <li><p>diffractometer name</p></li>
 <li><p>axes</p>
@@ -440,26 +441,25 @@
 </li>
 <li><p>_header (date &amp; time, energy, wavelength, source type, version)</p></li>
 </ul>
-<p>With these configuration details, it should be possible to recover a diffractometer orientation from a previous run or from file storage.</p>
-<section id="Files">
-<h2>Files<a class="headerlink" href="#Files" title="Link to this heading">#</a></h2>
-<p>Create a simulated 4-circle diffractometer. Use the factory function. The default will use the E4CV geometry from the hkl_soleil solver.</p>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">hklpy2</span>
+<p>With these configuration details, it should be possible to recover a
+diffractometer orientation from a previous run or from file storage.</p>
+<section id="files">
+<h2>Files<a class="headerlink" href="#files" title="Link to this heading">#</a></h2>
+<p>Create a simulated 4-circle diffractometer.  Use the factory function.  The
+default will use the E4CV geometry from the hkl_soleil solver.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">hklpy2</span>
 
 <span class="n">sim4c</span> <span class="o">=</span> <span class="n">hklpy2</span><span class="o">.</span><span class="n">creator</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;sim4c&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
-<p>Add a <em>vibranium</em> sample and describe its orientation.</p>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
-</pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
+<p>Add a <em>vibranium</em> sample and describe its orientation.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
 
 <span class="n">sim4c</span><span class="o">.</span><span class="n">add_sample</span><span class="p">(</span><span class="s2">&quot;vibranium&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">digits</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
 <span class="n">sim4c</span><span class="o">.</span><span class="n">add_reflection</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">20</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;r1&quot;</span><span class="p">)</span>
@@ -470,40 +470,25 @@
 </pre></div>
 </div>
 </div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-Reflection(name=&#39;r1&#39;, h=1, k=0, l=0)
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Reflection(name=&#39;r1&#39;, h=1, k=0, l=0)
 Reflection(name=&#39;r2&#39;, h=0, k=1, l=0)
-</pre></div></div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-[[-0.0, -0.0, 1.0], [0.0, -1.0, 0.0], [1.0, -0.0, -0.0]]
-</pre></div></div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[-0.0, -0.0, 1.0], [0.0, -1.0, 0.0], [1.0, -0.0, -0.0]]
+</pre></div>
+</div>
+</div>
 </div>
 <p>Show details about the diffractometer configuration:</p>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sim4c</span><span class="o">.</span><span class="n">configuration</span>
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sim4c</span><span class="o">.</span><span class="n">configuration</span>
-</pre></div>
 </div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
-</pre></div>
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-{&#39;_header&#39;: {&#39;datetime&#39;: &#39;2025-03-03 03:20:33.680369&#39;,
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;_header&#39;: {&#39;datetime&#39;: &#39;2025-03-03 03:20:33.680369&#39;,
   &#39;hklpy2_version&#39;: &#39;0.0.27.dev4+g43be4f0.d20250303&#39;,
   &#39;python_class&#39;: &#39;Hklpy2Diffractometer&#39;,
   &#39;source_type&#39;: &#39;X-ray&#39;,
@@ -575,259 +560,244 @@ Reflection(name=&#39;r2&#39;, h=0, k=1, l=0)
    &#39;high_limit&#39;: 180.0,
    &#39;class&#39;: &#39;LimitsConstraint&#39;}},
  &#39;solver&#39;: {&#39;name&#39;: &#39;hkl_soleil&#39;,
-  &#39;description&#39;: &#34;HklSolver(name=&#39;hkl_soleil&#39;, version=&#39;5.1.2&#39;, geometry=&#39;E4CV&#39;, engine_name=&#39;hkl&#39;, mode=&#39;bissector&#39;)&#34;,
+  &#39;description&#39;: &quot;HklSolver(name=&#39;hkl_soleil&#39;, version=&#39;5.1.2&#39;, geometry=&#39;E4CV&#39;, engine_name=&#39;hkl&#39;, mode=&#39;bissector&#39;)&quot;,
   &#39;geometry&#39;: &#39;E4CV&#39;,
   &#39;real_axes&#39;: [&#39;omega&#39;, &#39;chi&#39;, &#39;phi&#39;, &#39;tth&#39;],
   &#39;version&#39;: &#39;5.1.2&#39;,
   &#39;engine&#39;: &#39;hkl&#39;}}
-</pre></div></div>
-</div>
-<section id="Export-(save)-the-configuration">
-<h3>Export (save) the configuration<a class="headerlink" href="#Export-(save)-the-configuration" title="Link to this heading">#</a></h3>
-<p>Save the <code class="docutils literal notranslate"><span class="pre">sim4c</span></code> configuration (with vibranium sample orientation) to a <a class="reference external" href="https://yaml.org">YAML</a> file in the current working directory: <code class="docutils literal notranslate"><span class="pre">dev_e4cv-vibranium.yml</span></code>. (Here, we choose to identify file by including the diffractometer geometry as part of the file name. The <code class="docutils literal notranslate"><span class="pre">dev_</span></code> prefix is an additional arbitrary choice, you could choose a completely different file name.)</p>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sim4c</span><span class="o">.</span><span class="n">export</span><span class="p">(</span><span class="s2">&quot;dev_e4cv-vibranium.yml&quot;</span><span class="p">,</span> <span class="n">comment</span><span class="o">=</span><span class="s2">&quot;example&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
-<p>Let’s look at that file. Then, compare it with the <code class="docutils literal notranslate"><span class="pre">sim4c.configuration</span></code> reported above.</p>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</div>
+<section id="export-save-the-configuration">
+<h3>Export (save) the configuration<a class="headerlink" href="#export-save-the-configuration" title="Link to this heading">#</a></h3>
+<p>Save the <code class="docutils literal notranslate"><span class="pre">sim4c</span></code> configuration (with vibranium sample orientation) to a
+<a class="reference external" href="https://yaml.org">YAML</a> file in the current working directory:
+<code class="docutils literal notranslate"><span class="pre">dev_e4cv-vibranium.yml</span></code>.  (Here, we choose to identify file by including the
+diffractometer geometry as part of the file name.  The <code class="docutils literal notranslate"><span class="pre">dev_</span></code> prefix is an
+additional arbitrary choice, you could choose a completely different file name.)</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sim4c</span><span class="o">.</span><span class="n">export</span><span class="p">(</span><span class="s2">&quot;dev_e4cv-vibranium.yml&quot;</span><span class="p">,</span> <span class="n">comment</span><span class="o">=</span><span class="s2">&quot;example&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">pycat</span> dev_e4cv-vibranium.yml
+</div>
+</div>
+<p>Let’s look at that file.  Then, compare it with the <code class="docutils literal notranslate"><span class="pre">sim4c.configuration</span></code>
+reported above.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">pycat</span> dev_e4cv-vibranium.yml
 </pre></div>
 </div>
 </div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-<span class="ansi-red-fg">#hklpy2 configuration file</span>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Red">#hklpy2 configuration file</span>
 
-_header<span class="ansi-blue-fg">:</span>
-  datetime<span class="ansi-blue-fg">:</span> <span class="ansi-blue-fg">&#39;2025-03-03 03:20:33.823801&#39;</span>
-  hklpy2_version<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">0.0</span><span class="ansi-cyan-fg">.27</span><span class="ansi-blue-fg">.</span>dev4<span class="ansi-blue-fg">+</span>g43be4f0<span class="ansi-blue-fg">.</span>d20250303
-  python_class<span class="ansi-blue-fg">:</span> Hklpy2Diffractometer
-  source_type<span class="ansi-blue-fg">:</span> X<span class="ansi-blue-fg">-</span>ray
-  energy_units<span class="ansi-blue-fg">:</span> keV
-  energy<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">12.398419843856837</span>
-  wavelength_units<span class="ansi-blue-fg">:</span> angstrom
-  wavelength<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">1.0</span>
-  file<span class="ansi-blue-fg">:</span> dev_e4cv<span class="ansi-blue-fg">-</span>vibranium<span class="ansi-blue-fg">.</span>yml
-  comment<span class="ansi-blue-fg">:</span> example
-name<span class="ansi-blue-fg">:</span> sim4c
-axes<span class="ansi-blue-fg">:</span>
-  pseudo_axes<span class="ansi-blue-fg">:</span>
-  <span class="ansi-blue-fg">-</span> h
-  <span class="ansi-blue-fg">-</span> k
-  <span class="ansi-blue-fg">-</span> l
-  real_axes<span class="ansi-blue-fg">:</span>
-  <span class="ansi-blue-fg">-</span> omega
-  <span class="ansi-blue-fg">-</span> chi
-  <span class="ansi-blue-fg">-</span> phi
-  <span class="ansi-blue-fg">-</span> tth
-  axes_xref<span class="ansi-blue-fg">:</span>
-    h<span class="ansi-blue-fg">:</span> h
-    k<span class="ansi-blue-fg">:</span> k
-    l<span class="ansi-blue-fg">:</span> l
-    omega<span class="ansi-blue-fg">:</span> omega
-    chi<span class="ansi-blue-fg">:</span> chi
-    phi<span class="ansi-blue-fg">:</span> phi
-    tth<span class="ansi-blue-fg">:</span> tth
-  extra_axes<span class="ansi-blue-fg">:</span> <span class="ansi-blue-fg">{</span><span class="ansi-blue-fg">}</span>
-sample_name<span class="ansi-blue-fg">:</span> vibranium
-samples<span class="ansi-blue-fg">:</span>
-  sample<span class="ansi-blue-fg">:</span>
-    name<span class="ansi-blue-fg">:</span> sample
-    lattice<span class="ansi-blue-fg">:</span>
-      a<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">1</span>
-      b<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">1</span>
-      c<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">1</span>
-      alpha<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">90.0</span>
-      beta<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">90.0</span>
-      gamma<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">90.0</span>
-    reflections<span class="ansi-blue-fg">:</span> <span class="ansi-blue-fg">{</span><span class="ansi-blue-fg">}</span>
-    reflections_order<span class="ansi-blue-fg">:</span> <span class="ansi-blue-fg">[</span><span class="ansi-blue-fg">]</span>
-    U<span class="ansi-blue-fg">:</span> <span class="ansi-blue-fg">&amp;</span>id001
-    <span class="ansi-blue-fg">-</span> <span class="ansi-blue-fg">-</span> <span class="ansi-cyan-fg">1</span>
-      <span class="ansi-blue-fg">-</span> <span class="ansi-cyan-fg">0</span>
-      <span class="ansi-blue-fg">-</span> <span class="ansi-cyan-fg">0</span>
-    <span class="ansi-blue-fg">-</span> <span class="ansi-blue-fg">-</span> <span class="ansi-cyan-fg">0</span>
-      <span class="ansi-blue-fg">-</span> <span class="ansi-cyan-fg">1</span>
-      <span class="ansi-blue-fg">-</span> <span class="ansi-cyan-fg">0</span>
-    <span class="ansi-blue-fg">-</span> <span class="ansi-blue-fg">-</span> <span class="ansi-cyan-fg">0</span>
-      <span class="ansi-blue-fg">-</span> <span class="ansi-cyan-fg">0</span>
-      <span class="ansi-blue-fg">-</span> <span class="ansi-cyan-fg">1</span>
-    UB<span class="ansi-blue-fg">:</span> <span class="ansi-blue-fg">*</span>id001
-    digits<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">4</span>
-  vibranium<span class="ansi-blue-fg">:</span>
-    name<span class="ansi-blue-fg">:</span> vibranium
-    lattice<span class="ansi-blue-fg">:</span>
-      a<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">6.283185307179586</span>
-      b<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">6.283185307179586</span>
-      c<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">6.283185307179586</span>
-      alpha<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">90.0</span>
-      beta<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">90.0</span>
-      gamma<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">90.0</span>
-    reflections<span class="ansi-blue-fg">:</span>
-      r1<span class="ansi-blue-fg">:</span>
-        name<span class="ansi-blue-fg">:</span> r1
-        geometry<span class="ansi-blue-fg">:</span> E4CV
-        pseudos<span class="ansi-blue-fg">:</span>
-          h<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">1</span>
-          k<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">0</span>
-          l<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">0</span>
-        reals<span class="ansi-blue-fg">:</span>
-          omega<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">10</span>
-          chi<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">0</span>
-          phi<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">0</span>
-          tth<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">20</span>
-        wavelength<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">1.0</span>
-        digits<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">4</span>
-      r2<span class="ansi-blue-fg">:</span>
-        name<span class="ansi-blue-fg">:</span> r2
-        geometry<span class="ansi-blue-fg">:</span> E4CV
-        pseudos<span class="ansi-blue-fg">:</span>
-          h<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">0</span>
-          k<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">1</span>
-          l<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">0</span>
-        reals<span class="ansi-blue-fg">:</span>
-          omega<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">10</span>
-          chi<span class="ansi-blue-fg">:</span> <span class="ansi-blue-fg">-</span><span class="ansi-cyan-fg">90</span>
-          phi<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">0</span>
-          tth<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">20</span>
-        wavelength<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">1.0</span>
-        digits<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">4</span>
-    reflections_order<span class="ansi-blue-fg">:</span>
-    <span class="ansi-blue-fg">-</span> r1
-    <span class="ansi-blue-fg">-</span> r2
-    U<span class="ansi-blue-fg">:</span>
-    <span class="ansi-blue-fg">-</span> <span class="ansi-blue-fg">-</span> <span class="ansi-blue-fg">-</span><span class="ansi-cyan-fg">0.0</span>
-      <span class="ansi-blue-fg">-</span> <span class="ansi-blue-fg">-</span><span class="ansi-cyan-fg">0.0</span>
-      <span class="ansi-blue-fg">-</span> <span class="ansi-cyan-fg">1.0</span>
-    <span class="ansi-blue-fg">-</span> <span class="ansi-blue-fg">-</span> <span class="ansi-cyan-fg">0.0</span>
-      <span class="ansi-blue-fg">-</span> <span class="ansi-blue-fg">-</span><span class="ansi-cyan-fg">1.0</span>
-      <span class="ansi-blue-fg">-</span> <span class="ansi-blue-fg">-</span><span class="ansi-cyan-fg">0.0</span>
-    <span class="ansi-blue-fg">-</span> <span class="ansi-blue-fg">-</span> <span class="ansi-cyan-fg">1.0</span>
-      <span class="ansi-blue-fg">-</span> <span class="ansi-blue-fg">-</span><span class="ansi-cyan-fg">0.0</span>
-      <span class="ansi-blue-fg">-</span> <span class="ansi-cyan-fg">0.0</span>
-    UB<span class="ansi-blue-fg">:</span>
-    <span class="ansi-blue-fg">-</span> <span class="ansi-blue-fg">-</span> <span class="ansi-blue-fg">-</span><span class="ansi-cyan-fg">0.0</span>
-      <span class="ansi-blue-fg">-</span> <span class="ansi-blue-fg">-</span><span class="ansi-cyan-fg">0.0</span>
-      <span class="ansi-blue-fg">-</span> <span class="ansi-cyan-fg">1.0</span>
-    <span class="ansi-blue-fg">-</span> <span class="ansi-blue-fg">-</span> <span class="ansi-cyan-fg">0.0</span>
-      <span class="ansi-blue-fg">-</span> <span class="ansi-blue-fg">-</span><span class="ansi-cyan-fg">1.0</span>
-      <span class="ansi-blue-fg">-</span> <span class="ansi-cyan-fg">0.0</span>
-    <span class="ansi-blue-fg">-</span> <span class="ansi-blue-fg">-</span> <span class="ansi-cyan-fg">1.0</span>
-      <span class="ansi-blue-fg">-</span> <span class="ansi-blue-fg">-</span><span class="ansi-cyan-fg">0.0</span>
-      <span class="ansi-blue-fg">-</span> <span class="ansi-blue-fg">-</span><span class="ansi-cyan-fg">0.0</span>
-    digits<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">3</span>
-constraints<span class="ansi-blue-fg">:</span>
-  omega<span class="ansi-blue-fg">:</span>
-    label<span class="ansi-blue-fg">:</span> omega
-    low_limit<span class="ansi-blue-fg">:</span> <span class="ansi-blue-fg">-</span><span class="ansi-cyan-fg">180.0</span>
-    high_limit<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">180.0</span>
-    <span class="ansi-green-fg">class</span><span class="ansi-blue-fg">:</span> LimitsConstraint
-  chi<span class="ansi-blue-fg">:</span>
-    label<span class="ansi-blue-fg">:</span> chi
-    low_limit<span class="ansi-blue-fg">:</span> <span class="ansi-blue-fg">-</span><span class="ansi-cyan-fg">180.0</span>
-    high_limit<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">180.0</span>
-    <span class="ansi-green-fg">class</span><span class="ansi-blue-fg">:</span> LimitsConstraint
-  phi<span class="ansi-blue-fg">:</span>
-    label<span class="ansi-blue-fg">:</span> phi
-    low_limit<span class="ansi-blue-fg">:</span> <span class="ansi-blue-fg">-</span><span class="ansi-cyan-fg">180.0</span>
-    high_limit<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">180.0</span>
-    <span class="ansi-green-fg">class</span><span class="ansi-blue-fg">:</span> LimitsConstraint
-  tth<span class="ansi-blue-fg">:</span>
-    label<span class="ansi-blue-fg">:</span> tth
-    low_limit<span class="ansi-blue-fg">:</span> <span class="ansi-blue-fg">-</span><span class="ansi-cyan-fg">180.0</span>
-    high_limit<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">180.0</span>
-    <span class="ansi-green-fg">class</span><span class="ansi-blue-fg">:</span> LimitsConstraint
-solver<span class="ansi-blue-fg">:</span>
-  name<span class="ansi-blue-fg">:</span> hkl_soleil
-  description<span class="ansi-blue-fg">:</span> HklSolver<span class="ansi-blue-fg">(</span>name<span class="ansi-blue-fg">=</span><span class="ansi-blue-fg">&#39;hkl_soleil&#39;</span><span class="ansi-blue-fg">,</span> version<span class="ansi-blue-fg">=</span><span class="ansi-blue-fg">&#39;5.1.2&#39;</span><span class="ansi-blue-fg">,</span> geometry<span class="ansi-blue-fg">=</span><span class="ansi-blue-fg">&#39;E4CV&#39;</span><span class="ansi-blue-fg">,</span> engine_name<span class="ansi-blue-fg">=</span><span class="ansi-blue-fg">&#39;hkl&#39;</span><span class="ansi-blue-fg">,</span>
-    mode<span class="ansi-blue-fg">=</span><span class="ansi-blue-fg">&#39;bissector&#39;</span><span class="ansi-blue-fg">)</span>
-  geometry<span class="ansi-blue-fg">:</span> E4CV
-  real_axes<span class="ansi-blue-fg">:</span>
-  <span class="ansi-blue-fg">-</span> omega
-  <span class="ansi-blue-fg">-</span> chi
-  <span class="ansi-blue-fg">-</span> phi
-  <span class="ansi-blue-fg">-</span> tth
-  version<span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">5.1</span><span class="ansi-cyan-fg">.2</span>
-  engine<span class="ansi-blue-fg">:</span> hkl
-</pre></div></div>
+_header<span class=" -Color -Color-Blue">:</span>
+  datetime<span class=" -Color -Color-Blue">:</span> <span class=" -Color -Color-Blue">&#39;2025-03-03 03:20:33.823801&#39;</span>
+  hklpy2_version<span class=" -Color -Color-Blue">:</span> <span class=" -Color -Color-Cyan">0.0.27</span><span class=" -Color -Color-Blue">.</span>dev4<span class=" -Color -Color-Blue">+</span>g43be4f0<span class=" -Color -Color-Blue">.</span>d20250303
+  python_class<span class=" -Color -Color-Blue">:</span> Hklpy2Diffractometer
+  source_type<span class=" -Color -Color-Blue">:</span> X<span class=" -Color -Color-Blue">-</span>ray
+  energy_units<span class=" -Color -Color-Blue">:</span> keV
+  energy<span class=" -Color -Color-Blue">:</span> <span class=" -Color -Color-Cyan">12.398419843856837</span>
+  wavelength_units<span class=" -Color -Color-Blue">:</span> angstrom
+  wavelength<span class=" -Color -Color-Blue">:</span> <span class=" -Color -Color-Cyan">1.0</span>
+  file<span class=" -Color -Color-Blue">:</span> dev_e4cv<span class=" -Color -Color-Blue">-</span>vibranium<span class=" -Color -Color-Blue">.</span>yml
+  comment<span class=" -Color -Color-Blue">:</span> example
+name<span class=" -Color -Color-Blue">:</span> sim4c
+axes<span class=" -Color -Color-Blue">:</span>
+  pseudo_axes<span class=" -Color -Color-Blue">:</span>
+  <span class=" -Color -Color-Blue">-</span> h
+  <span class=" -Color -Color-Blue">-</span> k
+  <span class=" -Color -Color-Blue">-</span> l
+  real_axes<span class=" -Color -Color-Blue">:</span>
+  <span class=" -Color -Color-Blue">-</span> omega
+  <span class=" -Color -Color-Blue">-</span> chi
+  <span class=" -Color -Color-Blue">-</span> phi
+  <span class=" -Color -Color-Blue">-</span> tth
+  axes_xref<span class=" -Color -Color-Blue">:</span>
+    h<span class=" -Color -Color-Blue">:</span> h
+    k<span class=" -Color -Color-Blue">:</span> k
+    l<span class=" -Color -Color-Blue">:</span> l
+    omega<span class=" -Color -Color-Blue">:</span> omega
+    chi<span class=" -Color -Color-Blue">:</span> chi
+    phi<span class=" -Color -Color-Blue">:</span> phi
+    tth<span class=" -Color -Color-Blue">:</span> tth
+  extra_axes<span class=" -Color -Color-Blue">:</span> <span class=" -Color -Color-Blue">{}</span>
+sample_name<span class=" -Color -Color-Blue">:</span> vibranium
+samples<span class=" -Color -Color-Blue">:</span>
+  sample<span class=" -Color -Color-Blue">:</span>
+    name<span class=" -Color -Color-Blue">:</span> sample
+    lattice<span class=" -Color -Color-Blue">:</span>
+      a<span class=" -Color -Color-Blue">:</span> <span class=" -Color -Color-Cyan">1</span>
+      b<span class=" -Color -Color-Blue">:</span> <span class=" -Color -Color-Cyan">1</span>
+      c<span class=" -Color -Color-Blue">:</span> <span class=" -Color -Color-Cyan">1</span>
+      alpha<span class=" -Color -Color-Blue">:</span> <span class=" -Color -Color-Cyan">90.0</span>
+      beta<span class=" -Color -Color-Blue">:</span> <span class=" -Color -Color-Cyan">90.0</span>
+      gamma<span class=" -Color -Color-Blue">:</span> <span class=" -Color -Color-Cyan">90.0</span>
+    reflections<span class=" -Color -Color-Blue">:</span> <span class=" -Color -Color-Blue">{}</span>
+    reflections_order<span class=" -Color -Color-Blue">:</span> <span class=" -Color -Color-Blue">[]</span>
+    U<span class=" -Color -Color-Blue">:</span> <span class=" -Color -Color-Blue">&amp;</span>id001
+    <span class=" -Color -Color-Blue">-</span> <span class=" -Color -Color-Blue">-</span> <span class=" -Color -Color-Cyan">1</span>
+      <span class=" -Color -Color-Blue">-</span> <span class=" -Color -Color-Cyan">0</span>
+      <span class=" -Color -Color-Blue">-</span> <span class=" -Color -Color-Cyan">0</span>
+    <span class=" -Color -Color-Blue">-</span> <span class=" -Color -Color-Blue">-</span> <span class=" -Color -Color-Cyan">0</span>
+      <span class=" -Color -Color-Blue">-</span> <span class=" -Color -Color-Cyan">1</span>
+      <span class=" -Color -Color-Blue">-</span> <span class=" -Color -Color-Cyan">0</span>
+    <span class=" -Color -Color-Blue">-</span> <span class=" -Color -Color-Blue">-</span> <span class=" -Color -Color-Cyan">0</span>
+      <span class=" -Color -Color-Blue">-</span> <span class=" -Color -Color-Cyan">0</span>
+      <span class=" -Color -Color-Blue">-</span> <span class=" -Color -Color-Cyan">1</span>
+    UB<span class=" -Color -Color-Blue">:</span> <span class=" -Color -Color-Blue">*</span>id001
+    digits<span class=" -Color -Color-Blue">:</span> <span class=" -Color -Color-Cyan">4</span>
+  vibranium<span class=" -Color -Color-Blue">:</span>
+    name<span class=" -Color -Color-Blue">:</span> vibranium
+    lattice<span class=" -Color -Color-Blue">:</span>
+      a<span class=" -Color -Color-Blue">:</span> <span class=" -Color -Color-Cyan">6.283185307179586</span>
+      b<span class=" -Color -Color-Blue">:</span> <span class=" -Color -Color-Cyan">6.283185307179586</span>
+      c<span class=" -Color -Color-Blue">:</span> <span class=" -Color -Color-Cyan">6.283185307179586</span>
+      alpha<span class=" -Color -Color-Blue">:</span> <span class=" -Color -Color-Cyan">90.0</span>
+      beta<span class=" -Color -Color-Blue">:</span> <span class=" -Color -Color-Cyan">90.0</span>
+      gamma<span class=" -Color -Color-Blue">:</span> <span class=" -Color -Color-Cyan">90.0</span>
+    reflections<span class=" -Color -Color-Blue">:</span>
+      r1<span class=" -Color -Color-Blue">:</span>
+        name<span class=" -Color -Color-Blue">:</span> r1
+        geometry<span class=" -Color -Color-Blue">:</span> E4CV
+        pseudos<span class=" -Color -Color-Blue">:</span>
+          h<span class=" -Color -Color-Blue">:</span> <span class=" -Color -Color-Cyan">1</span>
+          k<span class=" -Color -Color-Blue">:</span> <span class=" -Color -Color-Cyan">0</span>
+          l<span class=" -Color -Color-Blue">:</span> <span class=" -Color -Color-Cyan">0</span>
+        reals<span class=" -Color -Color-Blue">:</span>
+          omega<span class=" -Color -Color-Blue">:</span> <span class=" -Color -Color-Cyan">10</span>
+          chi<span class=" -Color -Color-Blue">:</span> <span class=" -Color -Color-Cyan">0</span>
+          phi<span class=" -Color -Color-Blue">:</span> <span class=" -Color -Color-Cyan">0</span>
+          tth<span class=" -Color -Color-Blue">:</span> <span class=" -Color -Color-Cyan">20</span>
+        wavelength<span class=" -Color -Color-Blue">:</span> <span class=" -Color -Color-Cyan">1.0</span>
+        digits<span class=" -Color -Color-Blue">:</span> <span class=" -Color -Color-Cyan">4</span>
+      r2<span class=" -Color -Color-Blue">:</span>
+        name<span class=" -Color -Color-Blue">:</span> r2
+        geometry<span class=" -Color -Color-Blue">:</span> E4CV
+        pseudos<span class=" -Color -Color-Blue">:</span>
+          h<span class=" -Color -Color-Blue">:</span> <span class=" -Color -Color-Cyan">0</span>
+          k<span class=" -Color -Color-Blue">:</span> <span class=" -Color -Color-Cyan">1</span>
+          l<span class=" -Color -Color-Blue">:</span> <span class=" -Color -Color-Cyan">0</span>
+        reals<span class=" -Color -Color-Blue">:</span>
+          omega<span class=" -Color -Color-Blue">:</span> <span class=" -Color -Color-Cyan">10</span>
+          chi<span class=" -Color -Color-Blue">:</span> <span class=" -Color -Color-Blue">-</span><span class=" -Color -Color-Cyan">90</span>
+          phi<span class=" -Color -Color-Blue">:</span> <span class=" -Color -Color-Cyan">0</span>
+          tth<span class=" -Color -Color-Blue">:</span> <span class=" -Color -Color-Cyan">20</span>
+        wavelength<span class=" -Color -Color-Blue">:</span> <span class=" -Color -Color-Cyan">1.0</span>
+        digits<span class=" -Color -Color-Blue">:</span> <span class=" -Color -Color-Cyan">4</span>
+    reflections_order<span class=" -Color -Color-Blue">:</span>
+    <span class=" -Color -Color-Blue">-</span> r1
+    <span class=" -Color -Color-Blue">-</span> r2
+    U<span class=" -Color -Color-Blue">:</span>
+    <span class=" -Color -Color-Blue">-</span> <span class=" -Color -Color-Blue">-</span> <span class=" -Color -Color-Blue">-</span><span class=" -Color -Color-Cyan">0.0</span>
+      <span class=" -Color -Color-Blue">-</span> <span class=" -Color -Color-Blue">-</span><span class=" -Color -Color-Cyan">0.0</span>
+      <span class=" -Color -Color-Blue">-</span> <span class=" -Color -Color-Cyan">1.0</span>
+    <span class=" -Color -Color-Blue">-</span> <span class=" -Color -Color-Blue">-</span> <span class=" -Color -Color-Cyan">0.0</span>
+      <span class=" -Color -Color-Blue">-</span> <span class=" -Color -Color-Blue">-</span><span class=" -Color -Color-Cyan">1.0</span>
+      <span class=" -Color -Color-Blue">-</span> <span class=" -Color -Color-Blue">-</span><span class=" -Color -Color-Cyan">0.0</span>
+    <span class=" -Color -Color-Blue">-</span> <span class=" -Color -Color-Blue">-</span> <span class=" -Color -Color-Cyan">1.0</span>
+      <span class=" -Color -Color-Blue">-</span> <span class=" -Color -Color-Blue">-</span><span class=" -Color -Color-Cyan">0.0</span>
+      <span class=" -Color -Color-Blue">-</span> <span class=" -Color -Color-Cyan">0.0</span>
+    UB<span class=" -Color -Color-Blue">:</span>
+    <span class=" -Color -Color-Blue">-</span> <span class=" -Color -Color-Blue">-</span> <span class=" -Color -Color-Blue">-</span><span class=" -Color -Color-Cyan">0.0</span>
+      <span class=" -Color -Color-Blue">-</span> <span class=" -Color -Color-Blue">-</span><span class=" -Color -Color-Cyan">0.0</span>
+      <span class=" -Color -Color-Blue">-</span> <span class=" -Color -Color-Cyan">1.0</span>
+    <span class=" -Color -Color-Blue">-</span> <span class=" -Color -Color-Blue">-</span> <span class=" -Color -Color-Cyan">0.0</span>
+      <span class=" -Color -Color-Blue">-</span> <span class=" -Color -Color-Blue">-</span><span class=" -Color -Color-Cyan">1.0</span>
+      <span class=" -Color -Color-Blue">-</span> <span class=" -Color -Color-Cyan">0.0</span>
+    <span class=" -Color -Color-Blue">-</span> <span class=" -Color -Color-Blue">-</span> <span class=" -Color -Color-Cyan">1.0</span>
+      <span class=" -Color -Color-Blue">-</span> <span class=" -Color -Color-Blue">-</span><span class=" -Color -Color-Cyan">0.0</span>
+      <span class=" -Color -Color-Blue">-</span> <span class=" -Color -Color-Blue">-</span><span class=" -Color -Color-Cyan">0.0</span>
+    digits<span class=" -Color -Color-Blue">:</span> <span class=" -Color -Color-Cyan">3</span>
+constraints<span class=" -Color -Color-Blue">:</span>
+  omega<span class=" -Color -Color-Blue">:</span>
+    label<span class=" -Color -Color-Blue">:</span> omega
+    low_limit<span class=" -Color -Color-Blue">:</span> <span class=" -Color -Color-Blue">-</span><span class=" -Color -Color-Cyan">180.0</span>
+    high_limit<span class=" -Color -Color-Blue">:</span> <span class=" -Color -Color-Cyan">180.0</span>
+    <span class=" -Color -Color-Green">class</span><span class=" -Color -Color-Blue">:</span> LimitsConstraint
+  chi<span class=" -Color -Color-Blue">:</span>
+    label<span class=" -Color -Color-Blue">:</span> chi
+    low_limit<span class=" -Color -Color-Blue">:</span> <span class=" -Color -Color-Blue">-</span><span class=" -Color -Color-Cyan">180.0</span>
+    high_limit<span class=" -Color -Color-Blue">:</span> <span class=" -Color -Color-Cyan">180.0</span>
+    <span class=" -Color -Color-Green">class</span><span class=" -Color -Color-Blue">:</span> LimitsConstraint
+  phi<span class=" -Color -Color-Blue">:</span>
+    label<span class=" -Color -Color-Blue">:</span> phi
+    low_limit<span class=" -Color -Color-Blue">:</span> <span class=" -Color -Color-Blue">-</span><span class=" -Color -Color-Cyan">180.0</span>
+    high_limit<span class=" -Color -Color-Blue">:</span> <span class=" -Color -Color-Cyan">180.0</span>
+    <span class=" -Color -Color-Green">class</span><span class=" -Color -Color-Blue">:</span> LimitsConstraint
+  tth<span class=" -Color -Color-Blue">:</span>
+    label<span class=" -Color -Color-Blue">:</span> tth
+    low_limit<span class=" -Color -Color-Blue">:</span> <span class=" -Color -Color-Blue">-</span><span class=" -Color -Color-Cyan">180.0</span>
+    high_limit<span class=" -Color -Color-Blue">:</span> <span class=" -Color -Color-Cyan">180.0</span>
+    <span class=" -Color -Color-Green">class</span><span class=" -Color -Color-Blue">:</span> LimitsConstraint
+solver<span class=" -Color -Color-Blue">:</span>
+  name<span class=" -Color -Color-Blue">:</span> hkl_soleil
+  description<span class=" -Color -Color-Blue">:</span> HklSolver<span class=" -Color -Color-Blue">(</span>name<span class=" -Color -Color-Blue">=&#39;hkl_soleil&#39;,</span> version<span class=" -Color -Color-Blue">=&#39;5.1.2&#39;,</span> geometry<span class=" -Color -Color-Blue">=&#39;E4CV&#39;,</span> engine_name<span class=" -Color -Color-Blue">=&#39;hkl&#39;,</span>
+    mode<span class=" -Color -Color-Blue">=&#39;bissector&#39;)</span>
+  geometry<span class=" -Color -Color-Blue">:</span> E4CV
+  real_axes<span class=" -Color -Color-Blue">:</span>
+  <span class=" -Color -Color-Blue">-</span> omega
+  <span class=" -Color -Color-Blue">-</span> chi
+  <span class=" -Color -Color-Blue">-</span> phi
+  <span class=" -Color -Color-Blue">-</span> tth
+  version<span class=" -Color -Color-Blue">:</span> <span class=" -Color -Color-Cyan">5.1.2</span>
+  engine<span class=" -Color -Color-Blue">:</span> hkl
+</pre></div>
+</div>
+</div>
 </div>
 </section>
-<section id="Restore-(load)-Configuration">
-<h3>Restore (load) Configuration<a class="headerlink" href="#Restore-(load)-Configuration" title="Link to this heading">#</a></h3>
-<p>To demonstrate restore, let’s start again with an unconfigured diffractometer. We’ll just recreate the <code class="docutils literal notranslate"><span class="pre">sim4c</span></code> object. There will only be the default <code class="docutils literal notranslate"><span class="pre">sample</span></code>.</p>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sim4c</span> <span class="o">=</span> <span class="n">hklpy2</span><span class="o">.</span><span class="n">creator</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;sim4c&quot;</span><span class="p">)</span>
+<section id="restore-load-configuration">
+<h3>Restore (load) Configuration<a class="headerlink" href="#restore-load-configuration" title="Link to this heading">#</a></h3>
+<p>To demonstrate restore, let’s start again with an unconfigured diffractometer.
+We’ll just recreate the <code class="docutils literal notranslate"><span class="pre">sim4c</span></code> object.  There will only be the default <code class="docutils literal notranslate"><span class="pre">sample</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sim4c</span> <span class="o">=</span> <span class="n">hklpy2</span><span class="o">.</span><span class="n">creator</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;sim4c&quot;</span><span class="p">)</span>
 <span class="n">sim4c</span><span class="o">.</span><span class="n">samples</span>
 </pre></div>
 </div>
 </div>
-<div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;sample&#39;: Sample(name=&#39;sample&#39;, lattice=Lattice(a=1, system=&#39;cubic&#39;))}
 </pre></div>
 </div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-{&#39;sample&#39;: Sample(name=&#39;sample&#39;, lattice=Lattice(a=1, system=&#39;cubic&#39;))}
-</pre></div></div>
+</div>
 </div>
 <p>Restore the configuration from the <code class="docutils literal notranslate"><span class="pre">dev_e4cv-vibranium.yml</span></code> file.</p>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sim4c</span><span class="o">.</span><span class="n">restore</span><span class="p">(</span><span class="s2">&quot;dev_e4cv-vibranium.yml&quot;</span><span class="p">,</span> <span class="n">clear</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sim4c</span><span class="o">.</span><span class="n">restore</span><span class="p">(</span><span class="s2">&quot;dev_e4cv-vibranium.yml&quot;</span><span class="p">,</span> <span class="n">clear</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</pre></div>
 </div>
 </div>
 <p>Show the samples again:</p>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sim4c</span><span class="o">.</span><span class="n">samples</span>
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sim4c</span><span class="o">.</span><span class="n">samples</span>
-</pre></div>
 </div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
-</pre></div>
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-{&#39;sample&#39;: Sample(name=&#39;sample&#39;, lattice=Lattice(a=1, system=&#39;cubic&#39;)),
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;sample&#39;: Sample(name=&#39;sample&#39;, lattice=Lattice(a=1, system=&#39;cubic&#39;)),
  &#39;vibranium&#39;: Sample(name=&#39;vibranium&#39;, lattice=Lattice(a=6.283, system=&#39;cubic&#39;))}
-</pre></div></div>
+</pre></div>
+</div>
+</div>
 </div>
 <p>Show the full configuration report again:</p>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sim4c</span><span class="o">.</span><span class="n">configuration</span>
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sim4c</span><span class="o">.</span><span class="n">configuration</span>
-</pre></div>
 </div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
-</pre></div>
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-{&#39;_header&#39;: {&#39;datetime&#39;: &#39;2025-03-03 03:20:33.948202&#39;,
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;_header&#39;: {&#39;datetime&#39;: &#39;2025-03-03 03:20:33.948202&#39;,
   &#39;hklpy2_version&#39;: &#39;0.0.27.dev4+g43be4f0.d20250303&#39;,
   &#39;python_class&#39;: &#39;Hklpy2Diffractometer&#39;,
   &#39;source_type&#39;: &#39;X-ray&#39;,
@@ -899,37 +869,43 @@ solver<span class="ansi-blue-fg">:</span>
    &#39;high_limit&#39;: 180.0,
    &#39;class&#39;: &#39;LimitsConstraint&#39;}},
  &#39;solver&#39;: {&#39;name&#39;: &#39;hkl_soleil&#39;,
-  &#39;description&#39;: &#34;HklSolver(name=&#39;hkl_soleil&#39;, version=&#39;5.1.2&#39;, geometry=&#39;E4CV&#39;, engine_name=&#39;hkl&#39;, mode=&#39;bissector&#39;)&#34;,
+  &#39;description&#39;: &quot;HklSolver(name=&#39;hkl_soleil&#39;, version=&#39;5.1.2&#39;, geometry=&#39;E4CV&#39;, engine_name=&#39;hkl&#39;, mode=&#39;bissector&#39;)&quot;,
   &#39;geometry&#39;: &#39;E4CV&#39;,
   &#39;real_axes&#39;: [&#39;omega&#39;, &#39;chi&#39;, &#39;phi&#39;, &#39;tth&#39;],
   &#39;version&#39;: &#39;5.1.2&#39;,
   &#39;engine&#39;: &#39;hkl&#39;}}
-</pre></div></div>
-</div>
-</section>
-</section>
-<section id="Run">
-<h2>Run<a class="headerlink" href="#Run" title="Link to this heading">#</a></h2>
-<p>The configuration of one or more diffractometers can be saved to the metadata of each run. To save the configuration(s), an instance of the <a class="reference external" href="https://prjemian.github.io/hklpy2/api/z_misc.html">ConfigurationRunWrapper</a> <a class="reference external" href="https://blueskyproject.io/bluesky/main/plans.html#supplemental-data">preprocessor</a> is added to the <code class="docutils literal notranslate"><span class="pre">RE</span></code>.</p>
-<p>This example uses one diffractometer, an Eulerian 4-circle named <code class="docutils literal notranslate"><span class="pre">sim4c</span></code>.</p>
-<p>First, create a simulated 4-circle diffractometer. We’ll load the orientation from the <code class="docutils literal notranslate"><span class="pre">dev_e4cv-vibranium.yml</span></code> file we created above.</p>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">hklpy2</span>
+</div>
+</div>
+</section>
+</section>
+<section id="run">
+<h2>Run<a class="headerlink" href="#run" title="Link to this heading">#</a></h2>
+<p>The configuration of one or more diffractometers can be saved to the metadata of
+each run.  To save the configuration(s), an instance of the
+<a class="reference external" href="https://prjemian.github.io/hklpy2/api/z_misc.html">ConfigurationRunWrapper</a>
+<a class="reference external" href="https://blueskyproject.io/bluesky/main/plans.html#supplemental-data">preprocessor</a>
+is added to the <code class="docutils literal notranslate"><span class="pre">RE</span></code>.</p>
+<p>This example uses one diffractometer, an Eulerian 4-circle named <code class="docutils literal notranslate"><span class="pre">sim4c</span></code>.</p>
+<p>First, create a simulated 4-circle diffractometer.  We’ll load the orientation
+from the <code class="docutils literal notranslate"><span class="pre">dev_e4cv-vibranium.yml</span></code> file we created above.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">hklpy2</span>
 
 <span class="n">sim4c</span> <span class="o">=</span> <span class="n">hklpy2</span><span class="o">.</span><span class="n">creator</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;sim4c&quot;</span><span class="p">)</span>
 <span class="n">sim4c</span><span class="o">.</span><span class="n">restore</span><span class="p">(</span><span class="s2">&quot;dev_e4cv-vibranium.yml&quot;</span><span class="p">,</span> <span class="n">clear</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
-<p>Setup bluesky to run standard plans with the <code class="docutils literal notranslate"><span class="pre">RunEngine</span></code>. Also get <code class="docutils literal notranslate"><span class="pre">noisy_det</span></code> from the ophyd simulated detectors. To restore a diffractometer configuration from a previous run, we’ll need a catalog (<code class="docutils literal notranslate"><span class="pre">cat</span></code>) of runs.</p>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
-</pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">bluesky</span><span class="w"> </span><span class="kn">import</span> <span class="n">RunEngine</span><span class="p">,</span> <span class="n">plans</span> <span class="k">as</span> <span class="n">bp</span>
+<p>Setup bluesky to run standard plans with the <code class="docutils literal notranslate"><span class="pre">RunEngine</span></code>.  Also get <code class="docutils literal notranslate"><span class="pre">noisy_det</span></code>
+from the ophyd simulated detectors.  To restore a diffractometer configuration
+from a previous run, we’ll need a catalog (<code class="docutils literal notranslate"><span class="pre">cat</span></code>) of runs.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">bluesky</span><span class="w"> </span><span class="kn">import</span> <span class="n">RunEngine</span><span class="p">,</span> <span class="n">plans</span> <span class="k">as</span> <span class="n">bp</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">ophyd.sim</span><span class="w"> </span><span class="kn">import</span> <span class="n">noisy_det</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">databroker</span>
 
@@ -939,64 +915,59 @@ solver<span class="ansi-blue-fg">:</span>
 </pre></div>
 </div>
 </div>
-<div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0
 </pre></div>
 </div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-0
-</pre></div></div>
 </div>
-<section id="Save-configuration-with-every-run">
-<h3>Save configuration with every run<a class="headerlink" href="#Save-configuration-with-every-run" title="Link to this heading">#</a></h3>
+</div>
+<section id="save-configuration-with-every-run">
+<h3>Save configuration with every run<a class="headerlink" href="#save-configuration-with-every-run" title="Link to this heading">#</a></h3>
 <p>Create an instance of the <code class="docutils literal notranslate"><span class="pre">ConfigurationRunWrapper</span></code>, adding the <code class="docutils literal notranslate"><span class="pre">sim4c</span></code> diffractometer.</p>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">hklpy2</span><span class="w"> </span><span class="kn">import</span> <span class="n">ConfigurationRunWrapper</span>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">hklpy2</span><span class="w"> </span><span class="kn">import</span> <span class="n">ConfigurationRunWrapper</span>
 
 <span class="n">crw</span> <span class="o">=</span> <span class="n">ConfigurationRunWrapper</span><span class="p">(</span><span class="n">sim4c</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
-<p>Add the <code class="docutils literal notranslate"><span class="pre">crw</span></code> instance to the list of preprocessors that are run by the <code class="docutils literal notranslate"><span class="pre">RE</span></code>. Each one examines the sequence of <code class="docutils literal notranslate"><span class="pre">Msg</span></code> objects internal to the RunEngine. The <code class="docutils literal notranslate"><span class="pre">crw.wrapper</span></code> method will add the <code class="docutils literal notranslate"><span class="pre">sim4c</span></code> diffractometer’s configuration details to every run’s metadata. (Later, we’ll show how to read and restore from that metadata.)</p>
+</div>
+<p>Add the <code class="docutils literal notranslate"><span class="pre">crw</span></code> instance to the list of preprocessors that are run by the <code class="docutils literal notranslate"><span class="pre">RE</span></code>.
+Each one examines the sequence of <code class="docutils literal notranslate"><span class="pre">Msg</span></code> objects internal to the RunEngine.  The
+<code class="docutils literal notranslate"><span class="pre">crw.wrapper</span></code> method will add the <code class="docutils literal notranslate"><span class="pre">sim4c</span></code> diffractometer’s configuration details
+to every run’s metadata.  (Later, we’ll show how to read and restore from that
+metadata.)</p>
 <p>This configures <code class="docutils literal notranslate"><span class="pre">RE</span></code> to save <code class="docutils literal notranslate"><span class="pre">sim4c</span></code> configuration with every run.</p>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">RE</span><span class="o">.</span><span class="n">preprocessors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">crw</span><span class="o">.</span><span class="n">wrapper</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<p>Let’s run a <code class="docutils literal notranslate"><span class="pre">count</span></code> plan using the <code class="docutils literal notranslate"><span class="pre">noisy_det</span></code> detector. Keep track of the run’s <code class="docutils literal notranslate"><span class="pre">uid</span></code>, we’ll use that later.</p>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">uids</span> <span class="o">=</span> <span class="n">RE</span><span class="p">(</span><span class="n">bp</span><span class="o">.</span><span class="n">count</span><span class="p">([</span><span class="n">noisy_det</span><span class="p">]))</span>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">RE</span><span class="o">.</span><span class="n">preprocessors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">crw</span><span class="o">.</span><span class="n">wrapper</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
-<p>The <code class="docutils literal notranslate"><span class="pre">sim4c</span></code> configuration is saved as a dictionary with the other metadata under the <code class="docutils literal notranslate"><span class="pre">&quot;diffractometers&quot;</span></code> key. This is a dictionary, with a key for each diffractometer name to be reported. Let’s view the <code class="docutils literal notranslate"><span class="pre">&quot;diffractometers&quot;</span></code> dictionary. (Compare with similar views shown above.)</p>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</div>
+<p>Let’s run a <code class="docutils literal notranslate"><span class="pre">count</span></code> plan using the <code class="docutils literal notranslate"><span class="pre">noisy_det</span></code> detector.  Keep track of the
+run’s <code class="docutils literal notranslate"><span class="pre">uid</span></code>, we’ll use that later.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">uids</span> <span class="o">=</span> <span class="n">RE</span><span class="p">(</span><span class="n">bp</span><span class="o">.</span><span class="n">count</span><span class="p">([</span><span class="n">noisy_det</span><span class="p">]))</span>
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">run</span> <span class="o">=</span> <span class="n">cat</span><span class="o">.</span><span class="n">v2</span><span class="p">[</span><span class="n">uids</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+</div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">sim4c</span></code> configuration is saved as a dictionary with the other metadata under
+the <code class="docutils literal notranslate"><span class="pre">&quot;diffractometers&quot;</span></code> key.  This is a dictionary, with a key for each
+diffractometer name to be reported.  Let’s view the <code class="docutils literal notranslate"><span class="pre">&quot;diffractometers&quot;</span></code>
+dictionary.  (Compare with similar views shown above.)</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">run</span> <span class="o">=</span> <span class="n">cat</span><span class="o">.</span><span class="n">v2</span><span class="p">[</span><span class="n">uids</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
 <span class="n">run</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;start&quot;</span><span class="p">][</span><span class="s2">&quot;diffractometers&quot;</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
-<div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
-</pre></div>
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-{&#39;sim4c&#39;: {&#39;_header&#39;: {&#39;datetime&#39;: &#39;2025-03-03 03:20:34.824180&#39;,
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;sim4c&#39;: {&#39;_header&#39;: {&#39;datetime&#39;: &#39;2025-03-03 03:20:34.824180&#39;,
    &#39;hklpy2_version&#39;: &#39;0.0.27.dev4+g43be4f0.d20250303&#39;,
    &#39;python_class&#39;: &#39;Hklpy2Diffractometer&#39;,
    &#39;source_type&#39;: &#39;X-ray&#39;,
@@ -1068,87 +1039,75 @@ solver<span class="ansi-blue-fg">:</span>
     &#39;high_limit&#39;: 180.0,
     &#39;class&#39;: &#39;LimitsConstraint&#39;}},
   &#39;solver&#39;: {&#39;name&#39;: &#39;hkl_soleil&#39;,
-   &#39;description&#39;: &#34;HklSolver(name=&#39;hkl_soleil&#39;, version=&#39;5.1.2&#39;, geometry=&#39;E4CV&#39;, engine_name=&#39;hkl&#39;, mode=&#39;bissector&#39;)&#34;,
+   &#39;description&#39;: &quot;HklSolver(name=&#39;hkl_soleil&#39;, version=&#39;5.1.2&#39;, geometry=&#39;E4CV&#39;, engine_name=&#39;hkl&#39;, mode=&#39;bissector&#39;)&quot;,
    &#39;geometry&#39;: &#39;E4CV&#39;,
    &#39;real_axes&#39;: [&#39;omega&#39;, &#39;chi&#39;, &#39;phi&#39;, &#39;tth&#39;],
    &#39;version&#39;: &#39;5.1.2&#39;,
    &#39;engine&#39;: &#39;hkl&#39;}}}
-</pre></div></div>
+</pre></div>
+</div>
+</div>
 </div>
 </section>
-<section id="Restore-from-previous-run">
-<h3>Restore from previous run<a class="headerlink" href="#Restore-from-previous-run" title="Link to this heading">#</a></h3>
-<p>To restore from a previous run, we must have a reference to the run (with a <code class="docutils literal notranslate"><span class="pre">uid</span></code>, <code class="docutils literal notranslate"><span class="pre">scan_id</span></code>, run object, …). In the steps below, we’ll use the <code class="docutils literal notranslate"><span class="pre">run</span></code> object from the previous steps.</p>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+<section id="restore-from-previous-run">
+<h3>Restore from previous run<a class="headerlink" href="#restore-from-previous-run" title="Link to this heading">#</a></h3>
+<p>To restore from a previous run, we must have a reference to the run (with a
+<code class="docutils literal notranslate"><span class="pre">uid</span></code>, <code class="docutils literal notranslate"><span class="pre">scan_id</span></code>, run object, …).  In the steps below, we’ll use the <code class="docutils literal notranslate"><span class="pre">run</span></code>
+object from the previous steps.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">run</span>
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">run</span>
-</pre></div>
 </div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
-</pre></div>
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-BlueskyRun
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>BlueskyRun
   uid=&#39;aa11945c-616a-46a1-a2b5-09a2fc86933c&#39;
   exit_status=&#39;success&#39;
   2025-03-03 03:20:34.827 -- 2025-03-03 03:20:34.858
   Streams:
     * primary
-
-</pre></div></div>
-</div>
-<p>Get the configuration of the <code class="docutils literal notranslate"><span class="pre">&quot;sim4c&quot;</span></code> diffractometer using <code class="docutils literal notranslate"><span class="pre">hklpy2.misc.get_run_orientation()</span></code>.</p>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">hklpy2.misc</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_run_orientation</span>
+</div>
+</div>
+<p>Get the configuration of the <code class="docutils literal notranslate"><span class="pre">&quot;sim4c&quot;</span></code> diffractometer using
+<code class="docutils literal notranslate"><span class="pre">hklpy2.misc.get_run_orientation()</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">hklpy2.misc</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_run_orientation</span>
 
 <span class="n">e4cv_configuration</span> <span class="o">=</span> <span class="n">get_run_orientation</span><span class="p">(</span><span class="n">run</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;sim4c&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
-<p>Let’s recreate <code class="docutils literal notranslate"><span class="pre">sim4c</span></code> to prove when we have recovered the configuration.</p>
-<p>Note: This example uses the same name as before but that is not necessary. The configuration can be restored as long as the solver and geometry match.</p>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
-</pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sim4c</span> <span class="o">=</span> <span class="n">hklpy2</span><span class="o">.</span><span class="n">creator</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;sim4c&quot;</span><span class="p">)</span>
+<p>Let’s recreate <code class="docutils literal notranslate"><span class="pre">sim4c</span></code> to prove when we have recovered the configuration.</p>
+<p>Note: This example uses the same name as before but that is not necessary.  The
+configuration can be restored as long as the solver and geometry match.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sim4c</span> <span class="o">=</span> <span class="n">hklpy2</span><span class="o">.</span><span class="n">creator</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;sim4c&quot;</span><span class="p">)</span>
 <span class="n">sim4c</span><span class="o">.</span><span class="n">samples</span>
 </pre></div>
 </div>
 </div>
-<div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
-</pre></div>
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-{&#39;sample&#39;: Sample(name=&#39;sample&#39;, lattice=Lattice(a=1, system=&#39;cubic&#39;))}
-</pre></div></div>
-</div>
-<p>Restore the configuration (from a previous run) to the <code class="docutils literal notranslate"><span class="pre">sim4c</span></code> diffractometer. Confirm by examining the sample dictionary.</p>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">e4cv_configuration</span>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;sample&#39;: Sample(name=&#39;sample&#39;, lattice=Lattice(a=1, system=&#39;cubic&#39;))}
 </pre></div>
 </div>
 </div>
-<div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</div>
+<p>Restore the configuration (from a previous run) to the <code class="docutils literal notranslate"><span class="pre">sim4c</span></code> diffractometer.
+Confirm by examining the sample dictionary.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">e4cv_configuration</span>
 </pre></div>
 </div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-{&#39;_header&#39;: {&#39;datetime&#39;: &#39;2025-03-03 03:20:34.824180&#39;,
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;_header&#39;: {&#39;datetime&#39;: &#39;2025-03-03 03:20:34.824180&#39;,
   &#39;hklpy2_version&#39;: &#39;0.0.27.dev4+g43be4f0.d20250303&#39;,
   &#39;python_class&#39;: &#39;Hklpy2Diffractometer&#39;,
   &#39;source_type&#39;: &#39;X-ray&#39;,
@@ -1220,31 +1179,28 @@ BlueskyRun
    &#39;high_limit&#39;: 180.0,
    &#39;class&#39;: &#39;LimitsConstraint&#39;}},
  &#39;solver&#39;: {&#39;name&#39;: &#39;hkl_soleil&#39;,
-  &#39;description&#39;: &#34;HklSolver(name=&#39;hkl_soleil&#39;, version=&#39;5.1.2&#39;, geometry=&#39;E4CV&#39;, engine_name=&#39;hkl&#39;, mode=&#39;bissector&#39;)&#34;,
+  &#39;description&#39;: &quot;HklSolver(name=&#39;hkl_soleil&#39;, version=&#39;5.1.2&#39;, geometry=&#39;E4CV&#39;, engine_name=&#39;hkl&#39;, mode=&#39;bissector&#39;)&quot;,
   &#39;geometry&#39;: &#39;E4CV&#39;,
   &#39;real_axes&#39;: [&#39;omega&#39;, &#39;chi&#39;, &#39;phi&#39;, &#39;tth&#39;],
   &#39;version&#39;: &#39;5.1.2&#39;,
   &#39;engine&#39;: &#39;hkl&#39;}}
-</pre></div></div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sim4c</span><span class="o">.</span><span class="n">configuration</span> <span class="o">=</span> <span class="n">e4cv_configuration</span>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sim4c</span><span class="o">.</span><span class="n">configuration</span> <span class="o">=</span> <span class="n">e4cv_configuration</span>
 <span class="n">sim4c</span><span class="o">.</span><span class="n">samples</span>
 </pre></div>
 </div>
 </div>
-<div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;sample&#39;: Sample(name=&#39;sample&#39;, lattice=Lattice(a=1, system=&#39;cubic&#39;)),
+ &#39;vibranium&#39;: Sample(name=&#39;vibranium&#39;, lattice=Lattice(a=6.283, system=&#39;cubic&#39;))}
 </pre></div>
 </div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-{&#39;sample&#39;: Sample(name=&#39;sample&#39;, lattice=Lattice(a=1, system=&#39;cubic&#39;)),
- &#39;vibranium&#39;: Sample(name=&#39;vibranium&#39;, lattice=Lattice(a=6.283, system=&#39;cubic&#39;))}
-</pre></div></div>
+</div>
 </div>
 </section>
 </section>
@@ -1297,14 +1253,14 @@ BlueskyRun
   </div>
   <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Files">Files</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Export-(save)-the-configuration">Export (save) the configuration</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Restore-(load)-Configuration">Restore (load) Configuration</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#files">Files</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#export-save-the-configuration">Export (save) the configuration</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#restore-load-configuration">Restore (load) Configuration</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Run">Run</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Save-configuration-with-every-run">Save configuration with every run</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Restore-from-previous-run">Restore from previous run</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#run">Run</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#save-configuration-with-every-run">Save configuration with every run</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#restore-from-previous-run">Restore from previous run</a></li>
 </ul>
 </li>
 </ul>

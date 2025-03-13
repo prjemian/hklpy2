@@ -115,7 +115,7 @@ Glossary
 :geometry: The set of *reals* (stacked rotation angles) which
   define a specific *diffractometer*. A common distinguishing feature is the
   number of axes in each stack. For example, the :ref:`E4CV
-  <geometries.hkl_soleil.E4CV>`  geometry has 3 sample axes (``omega``, ``chi``,
+  <geometries-hkl_soleil-e4cv>`  geometry has 3 sample axes (``omega``, ``chi``,
   ``phi``) and 1 detector axis (``tth``). In some shorthand reference, this
   could be called "S3D1".
 
@@ -139,10 +139,12 @@ Glossary
     !definition; mode
     !mode
 
-:mode: *Diffractometer* *geometry* operation mode for :meth:`forward()`.
+:mode: *Diffractometer* *geometry* operation mode for
+  :meth:`~hklpy2.diffract.DiffractometerBase.forward()`.
 
-  A *mode* (implemented by a |solver|), defines which axes will be modified by the
-  :meth:`forward()` computation.
+  A *mode* (implemented by a |solver|), defines which axes will be
+  modified by the
+  :meth:`~hklpy2.diffract.DiffractometerBase.forward()` computation.
 
 ..  index::
     !definition; monochromatic

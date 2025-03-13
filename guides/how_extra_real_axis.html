@@ -32,8 +32,8 @@
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
-    <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
   
   <!-- So that users can add custom icons -->
   <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
@@ -41,13 +41,11 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=1c477fa6"></script>
+    <script src="../_static/documentation_options.js?v=35c7ceb5"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
-    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'guides/how_extra_real_axis';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -409,14 +407,17 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="How-to-add-extra-motors-to-a-diffractometer">
-<h1>How to add extra motors to a diffractometer<a class="headerlink" href="#How-to-add-extra-motors-to-a-diffractometer" title="Link to this heading">#</a></h1>
-<p>Sometimes, it is desired to add additional motor(s) (or other components) to a diffractometer object.</p>
+  <section id="how-to-add-extra-motors-to-a-diffractometer">
+<h1>How to add extra motors to a diffractometer<a class="headerlink" href="#how-to-add-extra-motors-to-a-diffractometer" title="Link to this heading">#</a></h1>
+<p>Sometimes, it is desired to add additional motor(s) (or other components) to
+a diffractometer object.</p>
 <p><strong>Objective</strong></p>
-<p>Add one or more real positioners to the standard positioners of the 2-circle diffractometer (<em>tth_tth</em>, <em>TH TTH Q</em> <a class="reference internal" href="../geometry_tables.html"><span class="doc">geometry</span></a>). Use simulated motors for the example (no EPICS required).</p>
-<section id="Standard-2-circle">
-<h2>Standard 2-circle<a class="headerlink" href="#Standard-2-circle" title="Link to this heading">#</a></h2>
-<p>First, we start with the setup of a 2-circle (<span class="math notranslate nohighlight">\(\theta:2\theta\)</span>) diffractometer.</p>
+<p>Add one or more real positioners to the standard positioners of the 2-circle
+diffractometer (<em>tth_tth</em>, <em>TH TTH Q</em> <a class="reference internal" href="../geometry_tables.html"><span class="std std-doc">geometry</span></a>).  Use
+simulated motors for the example (no EPICS required).</p>
+<section id="standard-2-circle">
+<h2>Standard 2-circle<a class="headerlink" href="#standard-2-circle" title="Link to this heading">#</a></h2>
+<p>First, we start with the setup of a 2-circle ($\theta:2\theta$) diffractometer.</p>
 <div class="pst-scrollable-table-container"><table class="table">
 <thead>
 <tr class="row-odd"><th class="head"><p>axis</p></th>
@@ -437,44 +438,37 @@
 </table>
 </div>
 <p>Create the diffractometer object.</p>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">hklpy2</span>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">hklpy2</span>
 
 <span class="n">th2th</span> <span class="o">=</span> <span class="n">hklpy2</span><span class="o">.</span><span class="n">creator</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;th2th&quot;</span><span class="p">,</span> <span class="n">geometry</span><span class="o">=</span><span class="s2">&quot;TH TTH Q&quot;</span><span class="p">,</span> <span class="n">solver</span><span class="o">=</span><span class="s2">&quot;th_tth&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
+</div>
 <p>Show the configuration of this diffractometer.</p>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">th2th</span><span class="o">.</span><span class="n">wh</span><span class="p">()</span>
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">th2th</span><span class="o">.</span><span class="n">wh</span><span class="p">()</span>
-</pre></div>
 </div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-q=0
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>q=0
 wavelength=1.0
 th=0, tth=0
-</pre></div></div>
-</div>
-</section>
-<section id="Add-additional-positioner">
-<h2>Add additional positioner<a class="headerlink" href="#Add-additional-positioner" title="Link to this heading">#</a></h2>
-<p>We can use the <code class="docutils literal notranslate"><span class="pre">hklpy2.creator()</span></code> for the additional positioner. Since we are not using the default <code class="docutils literal notranslate"><span class="pre">reals</span></code>, we’ll provide a Python dictionary that defines each real axis, in order, and whether it uses a simulated motor or an EPICS PV. <code class="docutils literal notranslate"><span class="pre">None</span></code> means to use a simulated motor.</p>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">th2th</span> <span class="o">=</span> <span class="n">hklpy2</span><span class="o">.</span><span class="n">creator</span><span class="p">(</span>
+</div>
+</div>
+</section>
+<section id="add-additional-positioner">
+<h2>Add additional positioner<a class="headerlink" href="#add-additional-positioner" title="Link to this heading">#</a></h2>
+<p>We can use the <code class="docutils literal notranslate"><span class="pre">hklpy2.creator()</span></code> for the additional positioner.  Since we are not using the default <code class="docutils literal notranslate"><span class="pre">reals</span></code>, we’ll provide a Python dictionary that defines each real axis, in order, and whether it uses a simulated motor or an EPICS PV.  <code class="docutils literal notranslate"><span class="pre">None</span></code> means to use a simulated motor.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">th2th</span> <span class="o">=</span> <span class="n">hklpy2</span><span class="o">.</span><span class="n">creator</span><span class="p">(</span>
     <span class="n">name</span><span class="o">=</span><span class="s2">&quot;th2th&quot;</span><span class="p">,</span>
     <span class="n">geometry</span><span class="o">=</span><span class="s2">&quot;TH TTH Q&quot;</span><span class="p">,</span>
     <span class="n">solver</span><span class="o">=</span><span class="s2">&quot;th_tth&quot;</span><span class="p">,</span>
@@ -484,61 +478,52 @@ th=0, tth=0
 </pre></div>
 </div>
 </div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-q=0
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>q=0
 wavelength=1.0
 th=0, tth=0, spinner=0
-</pre></div></div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
-/home/prjemian/Documents/projects/prjemian/hklpy2/hklpy2/misc.py:321: UserWarning:  Extra inputs will be ignored. Expected 2. Received input=Hklpy2DiffractometerRealPos(th=0, tth=0, spinner=0), names=[&#39;th&#39;, &#39;tth&#39;]
-  warnings.warn(
-</pre></div></div>
-</div>
-<p>Compare these results. The new result adds the <code class="docutils literal notranslate"><span class="pre">spinner</span></code> axis.</p>
-<p>Set (and show) the limits on the spinner:</p>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">th2th</span><span class="o">.</span><span class="n">spinner</span><span class="o">.</span><span class="n">_limits</span> <span class="o">=</span> <span class="o">-</span><span class="mi">10_000</span><span class="p">,</span> <span class="mi">10_000</span>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/home/prjemian/Documents/projects/prjemian/hklpy2/hklpy2/misc.py:321: UserWarning:  Extra inputs will be ignored. Expected 2. Received input=Hklpy2DiffractometerRealPos(th=0, tth=0, spinner=0), names=[&#39;th&#39;, &#39;tth&#39;]
+  warnings.warn(
+</pre></div>
+</div>
+</div>
+</div>
+<p>Compare these results.  The new result adds the <code class="docutils literal notranslate"><span class="pre">spinner</span></code> axis.</p>
+<p>Set (and show) the limits on the spinner:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">th2th</span><span class="o">.</span><span class="n">spinner</span><span class="o">.</span><span class="n">_limits</span> <span class="o">=</span> <span class="o">-</span><span class="mi">10_000</span><span class="p">,</span> <span class="mi">10_000</span>
 <span class="n">th2th</span><span class="o">.</span><span class="n">spinner</span><span class="o">.</span><span class="n">limits</span>
 </pre></div>
 </div>
 </div>
-<div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(-10000, 10000)
 </pre></div>
 </div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-(-10000, 10000)
-</pre></div></div>
+</div>
 </div>
 </section>
-<section id="Can-we-add-other-pseudo-axes?">
-<h2>Can we add other pseudo axes?<a class="headerlink" href="#Can-we-add-other-pseudo-axes?" title="Link to this heading">#</a></h2>
+<section id="can-we-add-other-pseudo-axes">
+<h2>Can we add other pseudo axes?<a class="headerlink" href="#can-we-add-other-pseudo-axes" title="Link to this heading">#</a></h2>
 <p><strong>Q</strong>: With this capability to add additional real positioners, can we add axes to the pseudo positioners?</p>
-<p><strong>A</strong>: Unfortunately, <a class="reference external" href="https://github.com/bluesky/ophyd/issues/924#issuecomment-718177332">no</a>. That capability is not built into the ophyd PseudoPositioner at this time.</p>
+<p><strong>A</strong>: Unfortunately, <a class="reference external" href="https://github.com/bluesky/ophyd/issues/924#issuecomment-718177332">no</a>.  That capability is not built into the ophyd PseudoPositioner at this time.</p>
 </section>
-<section id="Add-additional-Signals-and-Devices">
-<h2>Add additional Signals and Devices<a class="headerlink" href="#Add-additional-Signals-and-Devices" title="Link to this heading">#</a></h2>
+<section id="add-additional-signals-and-devices">
+<h2>Add additional Signals and Devices<a class="headerlink" href="#add-additional-signals-and-devices" title="Link to this heading">#</a></h2>
 <p>Finally, we add additional Signals and Component Devices as a demonstration.</p>
-<p>The <code class="docutils literal notranslate"><span class="pre">hklpy2.creator()</span></code> <a class="reference internal" href="../generated/generated/hklpy2.geom.creator.html"><span class="doc">function</span></a> has its limits. The <code class="docutils literal notranslate"><span class="pre">creator()</span></code> relies on a <code class="docutils literal notranslate"><span class="pre">diffractometer_class_factory()</span></code> <a class="reference internal" href="../generated/generated/hklpy2.geom.diffractometer_class_factory.html"><span class="doc">factory</span></a>. Let’s skip the factory function and show how to build a structure directly.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">hklpy2.creator()</span></code>
+<a class="reference internal" href="../generated/generated/hklpy2.geom.creator.html"><span class="std std-doc">function</span></a> has its limits.  The
+<code class="docutils literal notranslate"><span class="pre">creator()</span></code> relies on a <code class="docutils literal notranslate"><span class="pre">diffractometer_class_factory()</span></code>
+<a class="reference internal" href="../generated/generated/hklpy2.geom.diffractometer_class_factory.html"><span class="std std-doc">factory</span></a>.
+Let’s skip the factory function and show how to build a structure
+directly.</p>
 <p>Demonstrate a variety of additional components.</p>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ophyd</span><span class="w"> </span><span class="kn">import</span> <span class="n">Component</span><span class="p">,</span> <span class="n">Device</span><span class="p">,</span> <span class="n">PseudoSingle</span><span class="p">,</span> <span class="n">Signal</span><span class="p">,</span> <span class="n">SoftPositioner</span>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ophyd</span><span class="w"> </span><span class="kn">import</span> <span class="n">Component</span><span class="p">,</span> <span class="n">Device</span><span class="p">,</span> <span class="n">PseudoSingle</span><span class="p">,</span> <span class="n">Signal</span><span class="p">,</span> <span class="n">SoftPositioner</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">ophyd.signal</span><span class="w"> </span><span class="kn">import</span> <span class="n">SignalRO</span>
 
 
@@ -588,23 +573,13 @@ th=0, tth=0, spinner=0
 </pre></div>
 </div>
 </div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-q=0
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>q=0
 wavelength=1.0
 th=0, tth=0
-</pre></div></div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-OrderedDict([(&#39;th2tth_q&#39;, {&#39;value&#39;: 0, &#39;timestamp&#39;: 1741815899.2081861}),
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>OrderedDict([(&#39;th2tth_q&#39;, {&#39;value&#39;: 0, &#39;timestamp&#39;: 1741815899.2081861}),
              (&#39;th2tth_q_setpoint&#39;,
               {&#39;value&#39;: 0, &#39;timestamp&#39;: 1741815899.2081976}),
              (&#39;th2tth_th&#39;, {&#39;value&#39;: 0, &#39;timestamp&#39;: 1741815899.232872}),
@@ -617,7 +592,9 @@ OrderedDict([(&#39;th2tth_q&#39;, {&#39;value&#39;: 0, &#39;timestamp&#39;: 1741
              (&#39;th2tth_xy_y&#39;, {&#39;value&#39;: 0, &#39;timestamp&#39;: 1741815899.2328947}),
              (&#39;th2tth_xy_solenoid_lock&#39;,
               {&#39;value&#39;: True, &#39;timestamp&#39;: 1741815899.2091966})])
-</pre></div></div>
+</pre></div>
+</div>
+</div>
 </div>
 </section>
 </section>
@@ -669,10 +646,10 @@ OrderedDict([(&#39;th2tth_q&#39;, {&#39;value&#39;: 0, &#39;timestamp&#39;: 1741
   </div>
   <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Standard-2-circle">Standard 2-circle</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Add-additional-positioner">Add additional positioner</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Can-we-add-other-pseudo-axes?">Can we add other pseudo axes?</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Add-additional-Signals-and-Devices">Add additional Signals and Devices</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#standard-2-circle">Standard 2-circle</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#add-additional-positioner">Add additional positioner</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#can-we-add-other-pseudo-axes">Can we add other pseudo axes?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#add-additional-signals-and-devices">Add additional Signals and Devices</a></li>
 </ul>
   </nav></div>
 

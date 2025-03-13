@@ -32,8 +32,8 @@
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
-    <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
   
   <!-- So that users can add custom icons -->
   <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
@@ -41,13 +41,11 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=1c477fa6"></script>
+    <script src="../_static/documentation_options.js?v=35c7ceb5"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
-    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'examples/nslsii-tardis';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -409,10 +407,14 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="NSLS-II-tardis-diffractometer">
-<h1>NSLS-II tardis diffractometer<a class="headerlink" href="#NSLS-II-tardis-diffractometer" title="Link to this heading">#</a></h1>
-<p>The steps to setup <em>TARDIS</em> in <strong>hklpy2</strong> are described below. Includes adding a sample and orienting it with the method of Busing &amp; Levy, Acta Cryst 22 (1967) 457, then calculating and moving in <span class="math notranslate nohighlight">\(hkl\)</span>.</p>
-<p><em>TARDIS</em> is an environmental chamber with a 3-axis diffractometer (see <em>hkl_soleil, E6C</em> geometry in the <a class="reference internal" href="../geometry_tables.html"><span class="doc">tables</span></a>). Some of the real axes are <a class="reference external" href="https://github.com/NSLS-II-CSX/profile_collection/blob/fc5d2bc5c542d83c2593b4f5066f52a5b04d748d/startup/csx1/startup/tardis.py#L31-L37">renamed</a>. Some E6C axes do not exist in <em>TARDIS</em>; they are fixed at zero.</p>
+  <section id="nsls-ii-tardis-diffractometer">
+<h1>NSLS-II tardis diffractometer<a class="headerlink" href="#nsls-ii-tardis-diffractometer" title="Link to this heading">#</a></h1>
+<p>The steps to setup <em>TARDIS</em> in <strong>hklpy2</strong> are described below. Includes adding a
+sample and orienting it with the method of Busing &amp; Levy, Acta Cryst 22 (1967)
+457, then calculating and moving in $hkl$.</p>
+<p><em>TARDIS</em> is an environmental chamber with a 3-axis diffractometer (see <em>hkl_soleil, E6C</em> geometry in the <a class="reference internal" href="../geometry_tables.html"><span class="std std-doc">tables</span></a>).  Some of the real axes are
+<a class="reference external" href="https://github.com/NSLS-II-CSX/profile_collection/blob/fc5d2bc5c542d83c2593b4f5066f52a5b04d748d/startup/csx1/startup/tardis.py#L31-L37">renamed</a>.
+Some E6C axes do not exist in <em>TARDIS</em>; they are fixed at zero.</p>
 <p>The <em>TARDIS</em> axes, in the order expected by the E6C geometry:</p>
 <div class="pst-scrollable-table-container"><table class="table">
 <thead>
@@ -449,10 +451,11 @@
 </tbody>
 </table>
 </div>
-<p>The next schematic shows the <em>TARDIS</em> axes in the E6C geometry. Energy units are <em>eV</em>, wavelength units are <em>angstrom</em>.</p>
-<img alt="tardis schematic" src="../_images/nslsii-tardis.png" />
-<section id="Experimental-data-for-comparison">
-<h2>Experimental data for comparison<a class="headerlink" href="#Experimental-data-for-comparison" title="Link to this heading">#</a></h2>
+<p>The next schematic shows the <em>TARDIS</em> axes in the E6C geometry.  Energy units
+are <em>eV</em>, wavelength units are <em>angstrom</em>.</p>
+<p><img alt="tardis schematic" src="../_images/nslsii-tardis.png" /></p>
+<section id="experimental-data-for-comparison">
+<h2>Experimental data for comparison<a class="headerlink" href="#experimental-data-for-comparison" title="Link to this heading">#</a></h2>
 <p>This example uses data from &#64;cmazzoli’s ESRF notes.</p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span># sample lattice parameters: a=9.069, b=9.069, c=10.390, alpha=90, beta=90, gamma=120
 
@@ -471,13 +474,11 @@
 </pre></div>
 </div>
 </section>
-<section id="Create-the-tardis-object.">
-<h2>Create the <code class="docutils literal notranslate"><span class="pre">tardis</span></code> object.<a class="headerlink" href="#Create-the-tardis-object." title="Link to this heading">#</a></h2>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">hklpy2</span>
+<section id="create-the-tardis-object">
+<h2>Create the <code class="docutils literal notranslate"><span class="pre">tardis</span></code> object.<a class="headerlink" href="#create-the-tardis-object" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">hklpy2</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">hklpy2.user</span><span class="w"> </span><span class="kn">import</span> <span class="n">add_sample</span><span class="p">,</span> <span class="n">calc_UB</span><span class="p">,</span> <span class="n">cahkl</span><span class="p">,</span> <span class="n">pa</span><span class="p">,</span> <span class="n">set_diffractometer</span><span class="p">,</span> <span class="n">setor</span><span class="p">,</span> <span class="n">wh</span>
 
 <span class="n">tardis</span> <span class="o">=</span> <span class="n">hklpy2</span><span class="o">.</span><span class="n">creator</span><span class="p">(</span>
@@ -497,13 +498,12 @@
 </pre></div>
 </div>
 </div>
+</div>
 <p>Configure some basic operating parameters.</p>
 <p><strong>NOTE</strong>: Length units are <em>angstrom</em>, angles are <em>degrees</em>, and energy is <em>eV</em>.</p>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tardis</span><span class="o">.</span><span class="n">_source</span><span class="o">.</span><span class="n">wavelength_units</span> <span class="o">=</span> <span class="s2">&quot;angstrom&quot;</span>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tardis</span><span class="o">.</span><span class="n">_source</span><span class="o">.</span><span class="n">wavelength_units</span> <span class="o">=</span> <span class="s2">&quot;angstrom&quot;</span>
 <span class="n">tardis</span><span class="o">.</span><span class="n">_source</span><span class="o">.</span><span class="n">energy_units</span> <span class="o">=</span> <span class="s2">&quot;eV&quot;</span>
 
 <span class="n">tardis</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">constraints</span><span class="p">[</span><span class="s2">&quot;theta&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">limits</span> <span class="o">=</span> <span class="o">-</span><span class="mi">181</span><span class="p">,</span> <span class="mi">181</span>
@@ -515,58 +515,52 @@
 </pre></div>
 </div>
 </div>
+</div>
 <p>Set the operating mode.</p>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tardis</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">mode</span> <span class="o">=</span> <span class="s2">&quot;lifting_detector_mu&quot;</span>
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tardis</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">mode</span> <span class="o">=</span> <span class="s2">&quot;lifting_detector_mu&quot;</span>
-</pre></div>
 </div>
 </div>
 </section>
-<section id="Add-a-sample">
-<h2>Add a sample<a class="headerlink" href="#Add-a-sample" title="Link to this heading">#</a></h2>
-<p>Set this is the default diffractometer. Then add the sample.</p>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">set_diffractometer</span><span class="p">(</span><span class="n">tardis</span><span class="p">)</span>
+<section id="add-a-sample">
+<h2>Add a sample<a class="headerlink" href="#add-a-sample" title="Link to this heading">#</a></h2>
+<p>Set this is the default diffractometer.  Then add the sample.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">set_diffractometer</span><span class="p">(</span><span class="n">tardis</span><span class="p">)</span>
 <span class="n">add_sample</span><span class="p">(</span><span class="s2">&quot;cmazzoli&quot;</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="mf">9.069</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="mf">10.390</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="mf">120.0</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
-<div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sample(name=&#39;cmazzoli&#39;, lattice=Lattice(a=9.069, c=10.39, gamma=120.0, system=&#39;hexagonal&#39;))
 </pre></div>
 </div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-Sample(name=&#39;cmazzoli&#39;, lattice=Lattice(a=9.069, c=10.39, gamma=120.0, system=&#39;hexagonal&#39;))
-</pre></div></div>
-</div>
-</section>
-<section id="Set-the-wavelength-of-the-source.">
-<h2>Set the wavelength of the source.<a class="headerlink" href="#Set-the-wavelength-of-the-source." title="Link to this heading">#</a></h2>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tardis</span><span class="o">.</span><span class="n">wavelength</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="mf">1.61198</span><span class="p">)</span>  <span class="c1"># ophyd signal, use .put()</span>
-</pre></div>
 </div>
 </div>
 </section>
-<section id="Orient-the-sample">
-<h2>Orient the sample<a class="headerlink" href="#Orient-the-sample" title="Link to this heading">#</a></h2>
-<p>Add two observed reflections and the motor positions associated with those <em>hkl</em> values.</p>
-<p>We specify the motors by name (keyword arguments) so they can be specified in any order we choose.</p>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+<section id="set-the-wavelength-of-the-source">
+<h2>Set the wavelength of the source.<a class="headerlink" href="#set-the-wavelength-of-the-source" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tardis</span><span class="o">.</span><span class="n">wavelength</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="mf">1.61198</span><span class="p">)</span>  <span class="c1"># ophyd signal, use .put()</span>
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">r1</span> <span class="o">=</span> <span class="n">setor</span><span class="p">(</span>
+</div>
+</div>
+</section>
+<section id="orient-the-sample">
+<h2>Orient the sample<a class="headerlink" href="#orient-the-sample" title="Link to this heading">#</a></h2>
+<p>Add two observed reflections and the motor positions associated with those <em>hkl</em>
+values.</p>
+<p>We specify the motors by name (keyword arguments) so they can be specified in
+any order we choose.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">r1</span> <span class="o">=</span> <span class="n">setor</span><span class="p">(</span>
     <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span>
     <span class="n">delta</span><span class="o">=</span><span class="mf">64.449</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=-</span><span class="mf">0.871</span><span class="p">,</span> <span class="n">theta</span><span class="o">=</span><span class="mf">25.285</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">chi</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">phi</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
     <span class="n">name</span><span class="o">=</span><span class="s2">&quot;r1&quot;</span><span class="p">,</span>
@@ -579,67 +573,56 @@ Sample(name=&#39;cmazzoli&#39;, lattice=Lattice(a=9.069, c=10.39, gamma=120.0, s
 </pre></div>
 </div>
 </div>
-<p>Calculate the <span class="math notranslate nohighlight">\(UB\)</span> (orientation) matrix.</p>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</div>
+<p>Calculate the $UB$ (orientation) matrix.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">calc_UB</span><span class="p">(</span><span class="n">r1</span><span class="p">,</span> <span class="n">r2</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">calc_UB</span><span class="p">(</span><span class="n">r1</span><span class="p">,</span> <span class="n">r2</span><span class="p">)</span>
-</pre></div>
 </div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
-</pre></div>
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-[[0.313235509421, -0.480759304678, 0.011136539049],
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[0.313235509421, -0.480759304678, 0.011136539049],
  [0.735907238528, 0.639427042267, 0.010037733273],
  [-0.017988976072, -0.001760659657, 0.604548030557]]
-</pre></div></div>
-</div>
-</section>
-<section id="Save-the-orientation-to-a-file">
-<h2>Save the orientation to a file<a class="headerlink" href="#Save-the-orientation-to-a-file" title="Link to this heading">#</a></h2>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tardis</span><span class="o">.</span><span class="n">export</span><span class="p">(</span>
+</div>
+</div>
+</section>
+<section id="save-the-orientation-to-a-file">
+<h2>Save the orientation to a file<a class="headerlink" href="#save-the-orientation-to-a-file" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tardis</span><span class="o">.</span><span class="n">export</span><span class="p">(</span>
     <span class="s2">&quot;dev_tardis-cmazzoli.yml&quot;</span><span class="p">,</span>
     <span class="n">comment</span><span class="o">=</span><span class="s2">&quot;NSLS-II tardis with oriented sample from @cmazzoli&quot;</span><span class="p">,</span>
 <span class="p">)</span>
 </pre></div>
 </div>
 </div>
+</div>
 <p>Show that configuration.</p>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">pycat</span> dev_tardis-cmazzoli.yml
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">pycat</span> dev_tardis-cmazzoli.yml
-</pre></div>
 </div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-<span style="color: rgb(95,135,135)">#hklpy2 configuration file</span>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-C66">#hklpy2 configuration file</span>
 
 _header:
-  datetime: <span class="ansi-yellow-fg">&#39;2025-03-11 14:51:41.087348&#39;</span>
-  hklpy2_version: <span class="ansi-green-fg">0.0</span><span class="ansi-green-fg">.28</span>.dev22+gdba3850.d20250311
+  datetime: <span class=" -Color -Color-Yellow">&#39;2025-03-11 14:51:41.087348&#39;</span>
+  hklpy2_version: <span class=" -Color -Color-Green">0.0.28</span>.dev22+gdba3850.d20250311
   python_class: Hklpy2Diffractometer
   source_type: X-ray
   energy_units: eV
-  energy: <span class="ansi-green-fg">7691.422873644113</span>
+  energy: <span class=" -Color -Color-Green">7691.422873644113</span>
   wavelength_units: angstrom
-  wavelength: <span class="ansi-green-fg">1.61198</span>
+  wavelength: <span class=" -Color -Color-Green">1.61198</span>
   file: dev_tardis-cmazzoli.yml
-  comment: NSLS-II tardis <span class="ansi-bold" style="color: rgb(0,135,0)">with</span> oriented sample <span class="ansi-bold" style="color: rgb(0,135,0)">from</span> @cmazzoli
+  comment: NSLS-II tardis <span class=" -Color -Color-Bold -Color-Bold-C28">with</span> oriented sample <span class=" -Color -Color-Bold -Color-Bold-C28">from</span> @cmazzoli
 name: tardis
 axes:
   pseudo_axes:
@@ -669,127 +652,127 @@ samples:
   sample:
     name: sample
     lattice:
-      a: <span class="ansi-green-fg">1</span>
-      b: <span class="ansi-green-fg">1</span>
-      c: <span class="ansi-green-fg">1</span>
-      alpha: <span class="ansi-green-fg">90.0</span>
-      beta: <span class="ansi-green-fg">90.0</span>
-      gamma: <span class="ansi-green-fg">90.0</span>
+      a: <span class=" -Color -Color-Green">1</span>
+      b: <span class=" -Color -Color-Green">1</span>
+      c: <span class=" -Color -Color-Green">1</span>
+      alpha: <span class=" -Color -Color-Green">90.0</span>
+      beta: <span class=" -Color -Color-Green">90.0</span>
+      gamma: <span class=" -Color -Color-Green">90.0</span>
     reflections: {}
     reflections_order: []
     U: &amp;id001
-    - - <span class="ansi-green-fg">1</span>
-      - <span class="ansi-green-fg">0</span>
-      - <span class="ansi-green-fg">0</span>
-    - - <span class="ansi-green-fg">0</span>
-      - <span class="ansi-green-fg">1</span>
-      - <span class="ansi-green-fg">0</span>
-    - - <span class="ansi-green-fg">0</span>
-      - <span class="ansi-green-fg">0</span>
-      - <span class="ansi-green-fg">1</span>
+    - - <span class=" -Color -Color-Green">1</span>
+      - <span class=" -Color -Color-Green">0</span>
+      - <span class=" -Color -Color-Green">0</span>
+    - - <span class=" -Color -Color-Green">0</span>
+      - <span class=" -Color -Color-Green">1</span>
+      - <span class=" -Color -Color-Green">0</span>
+    - - <span class=" -Color -Color-Green">0</span>
+      - <span class=" -Color -Color-Green">0</span>
+      - <span class=" -Color -Color-Green">1</span>
     UB: *id001
-    digits: <span class="ansi-green-fg">4</span>
+    digits: <span class=" -Color -Color-Green">4</span>
   cmazzoli:
     name: cmazzoli
     lattice:
-      a: <span class="ansi-green-fg">9.069</span>
-      b: <span class="ansi-green-fg">9.069</span>
-      c: <span class="ansi-green-fg">10.39</span>
-      alpha: <span class="ansi-green-fg">90</span>
-      beta: <span class="ansi-green-fg">90</span>
-      gamma: <span class="ansi-green-fg">120.0</span>
+      a: <span class=" -Color -Color-Green">9.069</span>
+      b: <span class=" -Color -Color-Green">9.069</span>
+      c: <span class=" -Color -Color-Green">10.39</span>
+      alpha: <span class=" -Color -Color-Green">90</span>
+      beta: <span class=" -Color -Color-Green">90</span>
+      gamma: <span class=" -Color -Color-Green">120.0</span>
     reflections:
       r1:
         name: r1
         geometry: E6C
         pseudos:
-          h: <span class="ansi-green-fg">3</span>
-          k: <span class="ansi-green-fg">3</span>
-          l: <span class="ansi-green-fg">0</span>
+          h: <span class=" -Color -Color-Green">3</span>
+          k: <span class=" -Color -Color-Green">3</span>
+          l: <span class=" -Color -Color-Green">0</span>
         reals:
-          theta: <span class="ansi-green-fg">25.285</span>
-          mu: <span class="ansi-green-fg">0</span>
-          chi: <span class="ansi-green-fg">0</span>
-          phi: <span class="ansi-green-fg">0</span>
-          delta: <span class="ansi-green-fg">64.449</span>
-          gamma: -<span class="ansi-green-fg">0.871</span>
-        wavelength: <span class="ansi-green-fg">1.61198</span>
-        digits: <span class="ansi-green-fg">4</span>
+          theta: <span class=" -Color -Color-Green">25.285</span>
+          mu: <span class=" -Color -Color-Green">0</span>
+          chi: <span class=" -Color -Color-Green">0</span>
+          phi: <span class=" -Color -Color-Green">0</span>
+          delta: <span class=" -Color -Color-Green">64.449</span>
+          gamma: -<span class=" -Color -Color-Green">0.871</span>
+        wavelength: <span class=" -Color -Color-Green">1.61198</span>
+        digits: <span class=" -Color -Color-Green">4</span>
       r2:
         name: r2
         geometry: E6C
         pseudos:
-          h: <span class="ansi-green-fg">5</span>
-          k: <span class="ansi-green-fg">2</span>
-          l: <span class="ansi-green-fg">0</span>
+          h: <span class=" -Color -Color-Green">5</span>
+          k: <span class=" -Color -Color-Green">2</span>
+          l: <span class=" -Color -Color-Green">0</span>
         reals:
-          theta: <span class="ansi-green-fg">46.816</span>
-          mu: <span class="ansi-green-fg">0</span>
-          chi: <span class="ansi-green-fg">0</span>
-          phi: <span class="ansi-green-fg">0</span>
-          delta: <span class="ansi-green-fg">79.712</span>
-          gamma: -<span class="ansi-green-fg">1.374</span>
-        wavelength: <span class="ansi-green-fg">1.61198</span>
-        digits: <span class="ansi-green-fg">4</span>
+          theta: <span class=" -Color -Color-Green">46.816</span>
+          mu: <span class=" -Color -Color-Green">0</span>
+          chi: <span class=" -Color -Color-Green">0</span>
+          phi: <span class=" -Color -Color-Green">0</span>
+          delta: <span class=" -Color -Color-Green">79.712</span>
+          gamma: -<span class=" -Color -Color-Green">1.374</span>
+        wavelength: <span class=" -Color -Color-Green">1.61198</span>
+        digits: <span class=" -Color -Color-Green">4</span>
     reflections_order:
     - r1
     - r2
     U:
-    - - <span class="ansi-green-fg">0.391544524019</span>
-      - -<span class="ansi-green-fg">0.919974864499</span>
-      - <span class="ansi-green-fg">0.018415602128</span>
-    - - <span class="ansi-green-fg">0.919884370594</span>
-      - <span class="ansi-green-fg">0.391838271968</span>
-      - <span class="ansi-green-fg">0.016598595077</span>
-    - - -<span class="ansi-green-fg">0.022486227972</span>
-      - <span class="ansi-green-fg">0.010441135564</span>
-      - <span class="ansi-green-fg">0.999692628881</span>
+    - - <span class=" -Color -Color-Green">0.391544524019</span>
+      - -<span class=" -Color -Color-Green">0.919974864499</span>
+      - <span class=" -Color -Color-Green">0.018415602128</span>
+    - - <span class=" -Color -Color-Green">0.919884370594</span>
+      - <span class=" -Color -Color-Green">0.391838271968</span>
+      - <span class=" -Color -Color-Green">0.016598595077</span>
+    - - -<span class=" -Color -Color-Green">0.022486227972</span>
+      - <span class=" -Color -Color-Green">0.010441135564</span>
+      - <span class=" -Color -Color-Green">0.999692628881</span>
     UB:
-    - - <span class="ansi-green-fg">0.313235509421</span>
-      - -<span class="ansi-green-fg">0.480759304678</span>
-      - <span class="ansi-green-fg">0.011136539049</span>
-    - - <span class="ansi-green-fg">0.735907238528</span>
-      - <span class="ansi-green-fg">0.639427042267</span>
-      - <span class="ansi-green-fg">0.010037733273</span>
-    - - -<span class="ansi-green-fg">0.017988976072</span>
-      - -<span class="ansi-green-fg">0.001760659657</span>
-      - <span class="ansi-green-fg">0.604548030557</span>
-    digits: <span class="ansi-green-fg">4</span>
+    - - <span class=" -Color -Color-Green">0.313235509421</span>
+      - -<span class=" -Color -Color-Green">0.480759304678</span>
+      - <span class=" -Color -Color-Green">0.011136539049</span>
+    - - <span class=" -Color -Color-Green">0.735907238528</span>
+      - <span class=" -Color -Color-Green">0.639427042267</span>
+      - <span class=" -Color -Color-Green">0.010037733273</span>
+    - - -<span class=" -Color -Color-Green">0.017988976072</span>
+      - -<span class=" -Color -Color-Green">0.001760659657</span>
+      - <span class=" -Color -Color-Green">0.604548030557</span>
+    digits: <span class=" -Color -Color-Green">4</span>
 constraints:
   theta:
     label: theta
-    low_limit: -<span class="ansi-green-fg">181.0</span>
-    high_limit: <span class="ansi-green-fg">181.0</span>
-    <span class="ansi-bold" style="color: rgb(0,135,0)">class</span>: LimitsConstraint
+    low_limit: -<span class=" -Color -Color-Green">181.0</span>
+    high_limit: <span class=" -Color -Color-Green">181.0</span>
+    <span class=" -Color -Color-Bold -Color-Bold-C28">class</span>: LimitsConstraint
   mu:
     label: mu
-    low_limit: <span class="ansi-green-fg">0.0</span>
-    high_limit: <span class="ansi-green-fg">0.0</span>
-    <span class="ansi-bold" style="color: rgb(0,135,0)">class</span>: LimitsConstraint
+    low_limit: <span class=" -Color -Color-Green">0.0</span>
+    high_limit: <span class=" -Color -Color-Green">0.0</span>
+    <span class=" -Color -Color-Bold -Color-Bold-C28">class</span>: LimitsConstraint
   chi:
     label: chi
-    low_limit: <span class="ansi-green-fg">0.0</span>
-    high_limit: <span class="ansi-green-fg">0.0</span>
-    <span class="ansi-bold" style="color: rgb(0,135,0)">class</span>: LimitsConstraint
+    low_limit: <span class=" -Color -Color-Green">0.0</span>
+    high_limit: <span class=" -Color -Color-Green">0.0</span>
+    <span class=" -Color -Color-Bold -Color-Bold-C28">class</span>: LimitsConstraint
   phi:
     label: phi
-    low_limit: <span class="ansi-green-fg">0.0</span>
-    high_limit: <span class="ansi-green-fg">0.0</span>
-    <span class="ansi-bold" style="color: rgb(0,135,0)">class</span>: LimitsConstraint
+    low_limit: <span class=" -Color -Color-Green">0.0</span>
+    high_limit: <span class=" -Color -Color-Green">0.0</span>
+    <span class=" -Color -Color-Bold -Color-Bold-C28">class</span>: LimitsConstraint
   delta:
     label: delta
-    low_limit: -<span class="ansi-green-fg">5.0</span>
-    high_limit: <span class="ansi-green-fg">180.0</span>
-    <span class="ansi-bold" style="color: rgb(0,135,0)">class</span>: LimitsConstraint
+    low_limit: -<span class=" -Color -Color-Green">5.0</span>
+    high_limit: <span class=" -Color -Color-Green">180.0</span>
+    <span class=" -Color -Color-Bold -Color-Bold-C28">class</span>: LimitsConstraint
   gamma:
     label: gamma
-    low_limit: -<span class="ansi-green-fg">5.0</span>
-    high_limit: <span class="ansi-green-fg">180.0</span>
-    <span class="ansi-bold" style="color: rgb(0,135,0)">class</span>: LimitsConstraint
+    low_limit: -<span class=" -Color -Color-Green">5.0</span>
+    high_limit: <span class=" -Color -Color-Green">180.0</span>
+    <span class=" -Color -Color-Bold -Color-Bold-C28">class</span>: LimitsConstraint
 solver:
   name: hkl_soleil
-  description: HklSolver(name=<span class="ansi-yellow-fg">&#39;hkl_soleil&#39;</span>, version=<span class="ansi-yellow-fg">&#39;5.1.2&#39;</span>, geometry=<span class="ansi-yellow-fg">&#39;E6C&#39;</span>, engine_name=<span class="ansi-yellow-fg">&#39;hkl&#39;</span>,
-    mode=<span class="ansi-yellow-fg">&#39;lifting_detector_mu&#39;</span>)
+  description: HklSolver(name=<span class=" -Color -Color-Yellow">&#39;hkl_soleil&#39;</span>, version=<span class=" -Color -Color-Yellow">&#39;5.1.2&#39;</span>, geometry=<span class=" -Color -Color-Yellow">&#39;E6C&#39;</span>, engine_name=<span class=" -Color -Color-Yellow">&#39;hkl&#39;</span>,
+    mode=<span class=" -Color -Color-Yellow">&#39;lifting_detector_mu&#39;</span>)
   geometry: E6C
   real_axes:
   - mu
@@ -798,103 +781,80 @@ solver:
   - phi
   - gamma
   - delta
-  version: <span class="ansi-green-fg">5.1</span><span class="ansi-green-fg">.2</span>
+  version: <span class=" -Color -Color-Green">5.1.2</span>
   engine: hkl
-</pre></div></div>
+</pre></div>
+</div>
+</div>
 </div>
 </section>
 </section>
-<section id="Calculate-motor-positions-for-hkl">
-<h1>Calculate motor positions for <em>hkl</em><a class="headerlink" href="#Calculate-motor-positions-for-hkl" title="Link to this heading">#</a></h1>
+<section id="calculate-motor-positions-for-hkl">
+<h1>Calculate motor positions for <em>hkl</em><a class="headerlink" href="#calculate-motor-positions-for-hkl" title="Link to this heading">#</a></h1>
 <p><strong>Only</strong> calculate the motor positions, does not move them.</p>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cahkl</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
-</pre></div>
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-Hklpy2DiffractometerRealPos(theta=38.376221272748, mu=0, chi=0, phi=0, delta=90.63030468362, gamma=-1.161318197094)
-</pre></div></div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cahkl</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cahkl</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
-<div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
-</pre></div>
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-Hklpy2DiffractometerRealPos(theta=40.219920037459, mu=0, chi=0, phi=0, delta=56.097041918285, gamma=-1.083660865505)
-</pre></div></div>
-</div>
-<section id="Move">
-<h2>Move<a class="headerlink" href="#Move" title="Link to this heading">#</a></h2>
-<p>… to <span class="math notranslate nohighlight">\(Q= (4 \  1 \  0)\)</span></p>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tardis</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Hklpy2DiffractometerRealPos(theta=38.376221272748, mu=0, chi=0, phi=0, delta=90.63030468362, gamma=-1.161318197094)
 </pre></div>
 </div>
 </div>
-<div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cahkl</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-MoveStatus(done=True, pos=tardis, elapsed=0.0, success=True, settle_time=0.0)
-</pre></div></div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Hklpy2DiffractometerRealPos(theta=40.219920037459, mu=0, chi=0, phi=0, delta=56.097041918285, gamma=-1.083660865505)
+</pre></div>
+</div>
+</div>
+</div>
+<section id="move">
+<h2>Move<a class="headerlink" href="#move" title="Link to this heading">#</a></h2>
+<p>… to $Q= (4 \  1 \  0)$</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tardis</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>MoveStatus(done=True, pos=tardis, elapsed=0.0, success=True, settle_time=0.0)
+</pre></div>
+</div>
+</div>
 </div>
 <p>Where is the <em>tardis</em> now?</p>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">wh</span><span class="p">()</span>
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">wh</span><span class="p">()</span>
-</pre></div>
 </div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-h=4.0, k=1.0, l=0
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>h=4.0, k=1.0, l=0
 wavelength=1.61198
 theta=40.2199, mu=0, chi=0, phi=0, delta=56.097, gamma=-1.0837
-</pre></div></div>
+</pre></div>
+</div>
+</div>
 </div>
 <p>Show more details.</p>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pa</span><span class="p">()</span>
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pa</span><span class="p">()</span>
-</pre></div>
 </div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-diffractometer=&#39;tardis&#39;
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>diffractometer=&#39;tardis&#39;
 HklSolver(name=&#39;hkl_soleil&#39;, version=&#39;5.1.2&#39;, geometry=&#39;E6C&#39;, engine_name=&#39;hkl&#39;, mode=&#39;lifting_detector_mu&#39;)
 Sample(name=&#39;cmazzoli&#39;, lattice=Lattice(a=9.069, c=10.39, gamma=120.0, system=&#39;hexagonal&#39;))
 Reflection(name=&#39;r1&#39;, h=3, k=3, l=0)
@@ -911,7 +871,9 @@ constraint: -5.0 &lt;= gamma &lt;= 180.0
 h=4.0, k=1.0, l=0
 wavelength=1.61198
 theta=40.2199, mu=0, chi=0, phi=0, delta=56.097, gamma=-1.0837
-</pre></div></div>
+</pre></div>
+</div>
+</div>
 </div>
 </section>
 </section>
@@ -964,16 +926,16 @@ theta=40.2199, mu=0, chi=0, phi=0, delta=56.097, gamma=-1.0837
   <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">NSLS-II tardis diffractometer</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Experimental-data-for-comparison">Experimental data for comparison</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Create-the-tardis-object.">Create the <code class="docutils literal notranslate"><span class="pre">tardis</span></code> object.</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Add-a-sample">Add a sample</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Set-the-wavelength-of-the-source.">Set the wavelength of the source.</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Orient-the-sample">Orient the sample</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Save-the-orientation-to-a-file">Save the orientation to a file</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#experimental-data-for-comparison">Experimental data for comparison</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#create-the-tardis-object">Create the <code class="docutils literal notranslate"><span class="pre">tardis</span></code> object.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#add-a-sample">Add a sample</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#set-the-wavelength-of-the-source">Set the wavelength of the source.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#orient-the-sample">Orient the sample</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#save-the-orientation-to-a-file">Save the orientation to a file</a></li>
 </ul>
 </li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#Calculate-motor-positions-for-hkl">Calculate motor positions for <em>hkl</em></a><ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Move">Move</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#calculate-motor-positions-for-hkl">Calculate motor positions for <em>hkl</em></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#move">Move</a></li>
 </ul>
 </li>
 </ul>

@@ -24,7 +24,7 @@ In addition to |solver| transactions, the ``.core`` manages all
 details involving the set of samples and their lattices & reflections.
 
 Here, we use the :func:`~hklpy2.geom.creator()` to create a simulated 4-circle
-diffractometer with the :ref:`E4CV <geometries.hkl_soleil.E4CV>` geometry.
+diffractometer with the :ref:`E4CV <geometries-hkl_soleil-e4cv>` geometry.
 
 EXAMPLE::
 
