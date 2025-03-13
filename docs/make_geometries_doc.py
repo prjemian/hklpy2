@@ -13,6 +13,7 @@ import hklpy2
 DOCS_DIR = pathlib.Path(__file__).parent / "source"
 GEO_DOC = DOCS_DIR / "geometry_tables.rst"
 H1, H2, H3, H4 = "= - ^ ~".split()
+PAGE_TITLE = "Diffractometers"
 
 PREFACE = """
 Tables are provided for the different geometries (sorted by number of real axes)
@@ -38,7 +39,7 @@ def page_header():
         "",
         ".. _geometries:",
         "",
-        title("Diffractometer Geometries", underchar=H1, both=True),
+        title(PAGE_TITLE, underchar=H1, both=True),
         ".. index:: geometries",
         "",
     ]

@@ -3,9 +3,9 @@
 
 .. _geometries:
 
-=========================
-Diffractometer Geometries
-=========================
+===============
+Diffractometers
+===============
 
 .. index:: geometries
 
