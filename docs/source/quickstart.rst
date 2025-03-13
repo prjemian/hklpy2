@@ -15,7 +15,7 @@ axes.
    >>> import hklpy2
    >>> sixc = hklpy2.creator(name="sixc", geometry="E6C", solver="hkl_soleil")
 
-Make it the _default_ diffractometer and show its current settings:
+Make it the *default* diffractometer and show its current settings:
 
 .. code-block:: python
    :linenos:
@@ -55,7 +55,7 @@ Show the full report:
    wavelength=1.0
    mu=0, omega=0, chi=0, phi=0, gamma=0, delta=0
 
-Calculate the angles for $hkl=(1\ \\bar{1}\ 0)$, using
+Calculate the angles for :math:`hkl=(1\ \bar{1}\ 0)`, using
 :func:`~hklpy2.user.cahkl()`:
 
 .. code-block:: python
