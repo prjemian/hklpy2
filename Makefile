@@ -23,6 +23,7 @@ isort:
 
 pre:
 	pre-commit run --all-files
+	ruff check .
 
 realclean :: clean
 	/bin/rm -rf ./docs/build
