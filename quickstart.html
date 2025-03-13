@@ -41,11 +41,13 @@
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="_static/documentation_options.js?v=bd455fa5"></script>
+    <script src="_static/documentation_options.js?v=f7674f24"></script>
     <script src="_static/doctools.js?v=9bcbadda"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/design-tabs.js?v=f930bc37"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'quickstart';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -139,6 +141,13 @@
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="api.html">
     API
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="release_notes.html">
+    Releases
   </a>
 </li>
 
@@ -253,6 +262,13 @@
 
 
 <li class="nav-item ">
+  <a class="nav-link nav-internal" href="release_notes.html">
+    Releases
+  </a>
+</li>
+
+
+<li class="nav-item ">
   <a class="nav-link nav-internal" href="license.html">
     License
   </a>
@@ -317,7 +333,7 @@
 <li class="toctree-l2"><a class="reference internal" href="concepts/wavelength.html">Wavelength</a></li>
 </ul>
 </details></li>
-<li class="toctree-l1"><a class="reference internal" href="geometry_tables.html">Diffractometer Geometries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="geometry_tables.html">Diffractometers</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="examples.html">Examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="examples/_api_demo.html">Demonstrate <strong>hklpy2</strong>’s API</a></li>
 <li class="toctree-l2"><a class="reference internal" href="examples/hkl_soleil-e4ch.html"><strong>hkl_soleil</strong> E4CH</a></li>
@@ -414,7 +430,7 @@ axes.</p>
 <span class="linenos">2</span><span class="gp">&gt;&gt;&gt; </span><span class="n">sixc</span> <span class="o">=</span> <span class="n">hklpy2</span><span class="o">.</span><span class="n">creator</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;sixc&quot;</span><span class="p">,</span> <span class="n">geometry</span><span class="o">=</span><span class="s2">&quot;E6C&quot;</span><span class="p">,</span> <span class="n">solver</span><span class="o">=</span><span class="s2">&quot;hkl_soleil&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Make it the _default_ diffractometer and show its current settings:</p>
+<p>Make it the <em>default</em> diffractometer and show its current settings:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">hklpy2.user</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
 <span class="linenos">2</span><span class="gp">&gt;&gt;&gt; </span><span class="n">set_diffractometer</span><span class="p">(</span><span class="n">sixc</span><span class="p">)</span>
 </pre></div>
@@ -445,7 +461,7 @@ axes.</p>
 <span class="linenos">16</span><span class="n">mu</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">omega</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">chi</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">phi</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">delta</span><span class="o">=</span><span class="mi">0</span>
 </pre></div>
 </div>
-<p>Calculate the angles for $hkl=(1\bar{1}0)$, using
+<p>Calculate the angles for <span class="math notranslate nohighlight">\(hkl=(1\ \bar{1}\ 0)\)</span>, using
 <a class="reference internal" href="generated/hklpy2.user.html#hklpy2.user.cahkl" title="hklpy2.user.cahkl"><code class="xref py py-func docutils literal notranslate"><span class="pre">cahkl()</span></code></a>:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="gp">&gt;&gt;&gt; </span><span class="n">cahkl</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
 <span class="linenos">2</span><span class="go">Hklpy2DiffractometerRealPos(mu=0, omega=-45.000000066239, chi=44.999999876575, phi=-89.999999917768, gamma=0, delta=-90.000000132477)</span>
