@@ -54,9 +54,9 @@ fourc = creator(name="fourc")
 def test_asdict(geometry, solver, name, keypath, value):
     """."""
     diffractometer = creator(name=name, geometry=geometry, solver=solver)
-    assert isinstance(diffractometer, DiffractometerBase), (
-        f"{geometry=} {solver=} {name=}"
-    )
+    assert isinstance(
+        diffractometer, DiffractometerBase
+    ), f"{geometry=} {solver=} {name=}"
     assert isinstance(diffractometer.core, Operations), f"{geometry=} {solver=} {name=}"
 
     db = diffractometer.core._asdict()

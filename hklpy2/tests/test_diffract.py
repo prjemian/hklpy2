@@ -398,9 +398,9 @@ def test_orientation():
     fourc = creator(name="fourc")
     fourc.add_sample("silicon", SI_LATTICE_PARAMETER)
     fourc.wavelength.put(1.0)
-    assert math.isclose(fourc.wavelength.get(), 1.0, abs_tol=0.01), (
-        f"{fourc.wavelength.get()=!r}"
-    )
+    assert math.isclose(
+        fourc.wavelength.get(), 1.0, abs_tol=0.01
+    ), f"{fourc.wavelength.get()=!r}"
 
     fourc.add_reflection(
         (4, 0, 0),
@@ -415,9 +415,9 @@ def test_orientation():
         name="(040)",
     )
 
-    assert math.isclose(fourc.wavelength.get(), 1.0, abs_tol=0.01), (
-        f"{fourc.wavelength.get()=!r}"
-    )
+    assert math.isclose(
+        fourc.wavelength.get(), 1.0, abs_tol=0.01
+    ), f"{fourc.wavelength.get()=!r}"
     assert fourc.core.sample.reflections.order == "(400) (040)".split()
 
     result = fourc.core.calc_UB(*fourc.core.sample.reflections.order)
@@ -435,9 +435,9 @@ def test_orientation():
 
     for i in range(3):
         for j in range(3):
-            assert math.isclose(UB[i][j], UBe[i][j], abs_tol=0.005), (
-                f"{i=!r}  {j=!r}  {UB=!r}  {UBe=!r}"
-            )
+            assert math.isclose(
+                UB[i][j], UBe[i][j], abs_tol=0.005
+            ), f"{i=!r}  {j=!r}  {UB=!r}  {UBe=!r}"
 
     result = fourc.forward(4, 0, 0)
     assert math.isclose(result.omega, -158.39, abs_tol=0.02), f"{result=!r}"
@@ -762,7 +762,7 @@ def test_failed_restore():
     with does_not_raise():
         e4cv = creator(name="e4cv")
         e4cv.restore(config)
-    
+
     config.pop("_header")
     with pytest.raises(KeyError) as reason:
         e4cv = creator(name="e4cv")
