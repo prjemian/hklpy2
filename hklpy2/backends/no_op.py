@@ -78,15 +78,6 @@ class NoOpSolver(SolverBase):
     def geometries(cls):
         return []
 
-    @property
-    def geometry(self) -> str:
-        """Diffractometer geometry."""
-        return self._geometry
-
-    @geometry.setter
-    def geometry(self, value: str):
-        self._geometry = value
-
     def inverse(self, reals: dict):
         return {}
 

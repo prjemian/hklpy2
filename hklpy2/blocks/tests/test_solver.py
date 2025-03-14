@@ -2,8 +2,8 @@ import inspect
 
 import pytest
 
-from ...misc import SolverError
 from ...misc import get_solver
+from ...tests.common import assert_context_result
 
 
 @pytest.mark.parametrize(
@@ -36,11 +36,12 @@ def test_HklSolver():
     assert isinstance(solver.version, str)
 
     gname = "ESRF ID01 PSIC"
-    with pytest.raises(SolverError) as reason:
-        solver.geometry = gname
-    assert "Geometry E4CV cannot be changed." in str(reason)
-    assert solver.geometry is not None
-    assert solver.geometry == "E4CV"  # did not change
+    assert solver.geometry != gname
+
+    with pytest.raises(AttributeError) as reason:
+        solver.geometry = "E4CV"
+    assert_context_result("has no setter", reason)
+
     assert solver.engine_name == "hkl"
 
     reals = solver.real_axis_names
@@ -49,7 +50,7 @@ def test_HklSolver():
     pseudos = solver.pseudo_axis_names
     assert pseudos == "h k l".split()
 
-    solver = Solver(gname)
+    solver = Solver(gname)  # new geometry
     assert solver.geometry == gname  # did not change
     assert solver.engine_name == "hkl"
 

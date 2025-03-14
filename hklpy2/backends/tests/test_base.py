@@ -42,15 +42,6 @@ class TrivialSolver(SolverBase):
         """."""
         return []
 
-    @property
-    def geometry(self) -> str:
-        """."""
-        return self._geometry
-
-    @geometry.setter
-    def geometry(self, value: str):
-        self._geometry = value
-
     def inverse(self, reals: dict) -> dict[str, float]:
         """."""
         return {}
@@ -156,5 +147,6 @@ def test_SolverBase_abstractmethods():
     assert isinstance(summary, pyRestTable.Table)
     assert str(summary).strip() == expected
 
-    solver.geometry = TH_TTH_Q_GEOMETRY
-    assert solver.geometry == TH_TTH_Q_GEOMETRY
+    with pytest.raises(AttributeError) as reason:
+        solver.geometry = TH_TTH_Q_GEOMETRY
+    assert_context_result("has no setter", reason)

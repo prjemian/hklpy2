@@ -31,4 +31,4 @@ realclean :: clean
 style :: isort pre
 
 test:
-	pytest -vvv ./hklpy2
+	pytest ./hklpy2

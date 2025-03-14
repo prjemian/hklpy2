@@ -207,23 +207,21 @@ class HklSolver(SolverBase):
         mode: str = "",
         **kwargs,
     ) -> None:
-        self._engine = None
-        self._gname_locked = False  # Can't change after setting once.
+        self._hkl_engine = None
         self._sample = None
 
         super().__init__(geometry, **kwargs)
 
-        # note: must keep the '_engine_list' object as class attribute or
+        # Preface libhkl object names with "_hkl".
+        # Note: must keep the '_hkl_engine_list' object as class attribute or
         # random core dumps, usually when accessing 'engine.name_get()'.
-        self._detector = libhkl.Detector.factory_new(
+        self._hkl_detector = libhkl.Detector.factory_new(
             libhkl.DetectorType(LIBHKL_DETECTOR_TYPE)
         )
-        self._factory = libhkl.factories()[geometry]
-        self._engine_list = self._factory.create_new_engine_list()  # note!
-        self._engine = self._engine_list.engine_get_by_name(engine)
-        self._geometry = (
-            self._factory.create_new_geometry()
-        )  # TODO: rename as self._hkl_geometry?
+        self._hkl_factory = libhkl.factories()[geometry]
+        self._hkl_engine_list = self._hkl_factory.create_new_engine_list()  # note!
+        self._hkl_engine = self._hkl_engine_list.engine_get_by_name(engine)
+        self._hkl_geometry = self._hkl_factory.create_new_geometry()
 
     def __repr__(self) -> str:
         args = [
@@ -241,8 +239,8 @@ class HklSolver(SolverBase):
         pseudos = list(reflection.pseudos.values())
         reals = list(reflection.reals.values())
         self.wavelength = reflection.wavelength
-        self._geometry.axis_values_set(reals, LIBHKL_USER_UNITS)
-        self.sample.add_reflection(self._geometry, self._detector, *pseudos)
+        self._hkl_geometry.axis_values_set(reals, LIBHKL_USER_UNITS)
+        self.sample.add_reflection(self._hkl_geometry, self._hkl_detector, *pseudos)
 
     @property
     def axes_c(self) -> list[str]:
@@ -291,7 +289,7 @@ class HklSolver(SolverBase):
     @property
     def engine(self) -> libhkl.Engine:
         """Selected computational engine for this geometry."""
-        return self._engine
+        return self._hkl_engine
 
     @property
     def engine_name(self) -> str:
@@ -301,7 +299,7 @@ class HklSolver(SolverBase):
     @property
     def engines(self) -> list[str]:
         """List of the computational engines available in this geometry."""
-        return [engine.name_get() for engine in self._engine_list.engines_get()]
+        return [engine.name_get() for engine in self._hkl_engine_list.engines_get()]
 
     @property
     def extra_axis_names(self) -> list[str]:
@@ -390,18 +388,6 @@ class HklSolver(SolverBase):
             ]
         )
 
-    @property
-    def geometry(self) -> str:
-        return self._gname
-
-    @geometry.setter
-    def geometry(self, value: str):
-        if self._gname_locked:
-            raise SolverError(f"Geometry {self._gname} cannot be changed.")
-        check_value_in_list("Geometry", value, self.geometries())
-        self._gname = value
-        self._gname_locked = True
-
     def inverse(self, reals: dict[str, float]) -> dict[str, float]:
         """Compute tuple of pseudos from reals (angles -> hkl)."""
         logger.debug("{__name__=} inverse(reals=%r)", reals)
@@ -419,9 +405,9 @@ class HklSolver(SolverBase):
             # fmt: on
 
         reals = list(reals.values())
-        self._geometry.axis_values_set(reals, LIBHKL_USER_UNITS)
+        self._hkl_geometry.axis_values_set(reals, LIBHKL_USER_UNITS)
 
-        self._engine_list.get()  # reals -> pseudos  (Odd name for this call!)
+        self._hkl_engine_list.get()  # reals -> pseudos  (Odd name for this call!)
 
         pdict = dict(
             zip(
@@ -485,7 +471,7 @@ class HklSolver(SolverBase):
     @property
     def real_axis_names(self) -> list[str]:
         """Ordered list of the real axis names (such as th, tth)."""
-        return self._geometry.axis_names_get()  # Do NOT sort.
+        return self._hkl_geometry.axis_names_get()  # Do NOT sort.
 
     def refineLattice(self, reflections: list[Reflection]) -> Lattice:
         """
@@ -535,7 +521,7 @@ class HklSolver(SolverBase):
         # Doesn't matter what name is used by libhkl. Use a unique name.
         sample = libhkl.Sample.new(unique_name())  # new sample each time
         self._sample = sample
-        self._engine_list.init(self._geometry, self._detector, sample)
+        self._hkl_engine_list.init(self._hkl_geometry, self._hkl_detector, sample)
         logger.debug(
             "sample name=%r, libhkl name=%r",
             value.name,
@@ -652,8 +638,8 @@ class HklSolver(SolverBase):
     @property
     def wavelength(self) -> float:
         """Monochromatic wavelength."""
-        return self._geometry.wavelength_get(LIBHKL_USER_UNITS)
+        return self._hkl_geometry.wavelength_get(LIBHKL_USER_UNITS)
 
     @wavelength.setter
     def wavelength(self, value: float) -> None:
-        return self._geometry.wavelength_set(value, LIBHKL_USER_UNITS)
+        return self._hkl_geometry.wavelength_set(value, LIBHKL_USER_UNITS)

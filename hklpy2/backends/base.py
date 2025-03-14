@@ -93,7 +93,7 @@ class SolverBase(ABC):
         mode: str = "",  # "": accept solver's default mode
         **kwargs,
     ) -> None:
-        self.geometry = geometry
+        self._gname = geometry
         self.mode = mode
         self._sample = None
 
@@ -175,23 +175,14 @@ class SolverBase(ABC):
         # return []
 
     @property
-    @abstractmethod
     def geometry(self) -> str:
         """
         Name of selected diffractometer geometry.
 
         Cannot be changed once solver is created.  Instead, make a new solver
         for each geometry.
-
-        .. TODO:: How is this enforced?  Remove the setter. Subclasses, tests, too.
-           More consequences that expected.  Needs its own issue.
         """
-        # return self._geometry
-
-    @geometry.setter  # FIXME: remove
-    @abstractmethod
-    def geometry(self, value: str):
-        self._geometry = value
+        return self._gname
 
     @abstractmethod
     def inverse(self, reals: dict) -> dict[str, float]:

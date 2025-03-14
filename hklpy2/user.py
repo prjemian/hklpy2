@@ -609,7 +609,7 @@ def setor(
 
     # NOTE: hkl_soleil/libhkl gets the wavelength on a reflection from the diffractometer.
     # When the wavelength is set, it calls libhkl directly.
-    # as self._geometry.wavelength_set(wavelength, self._units)
+    # as self._hkl_geometry.wavelength_set(wavelength, self._units)
     # The code here uses that procedure.
     if wavelength not in (None, 0):
         diffractometer._source.wavelength = wavelength
