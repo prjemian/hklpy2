@@ -107,7 +107,7 @@ def test_asdict():
         if not isinstance(module_config, dict):
             module_config = module_config._asdict()
         module_config["_header"].pop("datetime", None)
-        for section in "".split():
+        for section in "axes samples constraints solver".split():
             assert cfg[section] == module_config[section]
 
 

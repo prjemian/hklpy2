@@ -444,23 +444,15 @@ class Operations:
         motors = self.diffractometer.real_axis_names
         _table.labels = "(hkl) solution".split() + list(motors)
         for reflection in reflections:
-            try:
-                solutions = self.forward(reflection)
-            except ValueError as exc:
-                solutions = exc
-            if isinstance(solutions, ValueError):
-                row = [reflection, "none"]
-                row += ["" for m in motors]
+            solutions = self.forward(reflection)
+            # TODO: get default solution first, then any others
+            # Don't assume (as now) that the defaults is the first.
+            for i, s in enumerate(solutions):
+                row = [reflection, i]
+                row += [round(getattr(s, m), digits) for m in motors]
                 _table.addRow(row)
-            else:
-                # TODO: get default solution first, then any others
-                # Don't assume (as now) that the defaults is the first.
-                for i, s in enumerate(solutions):
-                    row = [reflection, i]
-                    row += [round(getattr(s, m), digits) for m in motors]
-                    _table.addRow(row)
-                    if not full:
-                        break  # only show the first (default) solution
+                if not full:
+                    break  # only show the first (default) solution
         return _table
 
     def inverse(
@@ -490,11 +482,7 @@ class Operations:
         reals: AxesDict = self.standardize_reals(reals)
 
         # transform: reals -> pseudos
-        try:
-            spdict: AxesDict = self.solver.inverse(self._axes_names_d2s(reals))
-        except Exception as excuse:
-            print(f"{excuse=!r}")
-            raise excuse
+        spdict: AxesDict = self.solver.inverse(self._axes_names_d2s(reals))
 
         pseudos.update(self._axes_names_s2d(spdict))  # Update with new values.
         return pseudos

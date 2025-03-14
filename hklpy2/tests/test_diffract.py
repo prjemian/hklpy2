@@ -37,6 +37,10 @@ def test_choice_function():
     choice = pick_first_item((), "a b c".split())
     assert choice == "a"
 
+    with pytest.raises(DiffractometerError) as reason:
+        pick_first_item((), [])
+    assert_context_result("No solutions.", reason)
+
 
 @pytest.mark.parametrize(
     "config_file",
@@ -115,8 +119,7 @@ def test_creator_reals(
 def test_DiffractometerBase():
     with pytest.raises((DiffractometerError, ValueError)) as reason:
         DiffractometerBase(name="dbase")
-    if reason.type == "ValueError":
-        assert "Must have at least 1 positioner" in str(reason)
+    assert_context_result("Must have at least 1 positioner", reason)
 
 
 @pytest.mark.parametrize("axis", "h k l".split())
@@ -395,9 +398,9 @@ def test_orientation():
     fourc = creator(name="fourc")
     fourc.add_sample("silicon", SI_LATTICE_PARAMETER)
     fourc.wavelength.put(1.0)
-    assert math.isclose(
-        fourc.wavelength.get(), 1.0, abs_tol=0.01
-    ), f"{fourc.wavelength.get()=!r}"
+    assert math.isclose(fourc.wavelength.get(), 1.0, abs_tol=0.01), (
+        f"{fourc.wavelength.get()=!r}"
+    )
 
     fourc.add_reflection(
         (4, 0, 0),
@@ -412,9 +415,9 @@ def test_orientation():
         name="(040)",
     )
 
-    assert math.isclose(
-        fourc.wavelength.get(), 1.0, abs_tol=0.01
-    ), f"{fourc.wavelength.get()=!r}"
+    assert math.isclose(fourc.wavelength.get(), 1.0, abs_tol=0.01), (
+        f"{fourc.wavelength.get()=!r}"
+    )
     assert fourc.core.sample.reflections.order == "(400) (040)".split()
 
     result = fourc.core.calc_UB(*fourc.core.sample.reflections.order)
@@ -432,9 +435,9 @@ def test_orientation():
 
     for i in range(3):
         for j in range(3):
-            assert math.isclose(
-                UB[i][j], UBe[i][j], abs_tol=0.005
-            ), f"{i=!r}  {j=!r}  {UB=!r}  {UBe=!r}"
+            assert math.isclose(UB[i][j], UBe[i][j], abs_tol=0.005), (
+                f"{i=!r}  {j=!r}  {UB=!r}  {UBe=!r}"
+            )
 
     result = fourc.forward(4, 0, 0)
     assert math.isclose(result.omega, -158.39, abs_tol=0.02), f"{result=!r}"
@@ -657,10 +660,6 @@ def test_scan_extra(scan_kwargs, mode, context, expected):
 
     RE = bluesky.RunEngine()
 
-    if isinstance(scan_kwargs["detectors"], dict):
-        # Avoid the test case where detectors is not iterable
-        scan_kwargs["detectors"].append(fourc)
-
     with context as reason:
         RE(fourc.scan_extra(**scan_kwargs))
 
@@ -751,4 +750,28 @@ def test_miller_args(miller, context, expected):
     with context as reason:
         e4cv = creator(name="e4cv")
         e4cv.add_reflection(miller)
+    assert_context_result(expected, reason)
+
+
+def test_failed_restore():
+    from ..misc import load_yaml_file
+
+    config = load_yaml_file(HKLPY2_DIR / "tests" / "e4cv_orient.yml")
+    assert isinstance(config, dict)
+    assert "_header" in config
+    with does_not_raise():
+        e4cv = creator(name="e4cv")
+        e4cv.restore(config)
+    
+    config.pop("_header")
+    with pytest.raises(KeyError) as reason:
+        e4cv = creator(name="e4cv")
+        e4cv.restore(config)
+    expected = "Configuration is missing '_header' key"
+    assert_context_result(expected, reason)
+
+    with pytest.raises(TypeError) as reason:
+        e4cv = creator(name="e4cv")
+        e4cv.restore(12345)
+    expected = "Unrecognized configuration"
     assert_context_result(expected, reason)

@@ -233,3 +233,21 @@ def test_refine(remove, context, expected):
         e4cv.core.sample.refine_lattice()
 
     assert_context_result(expected, reason)
+
+
+@pytest.mark.parametrize(
+    "rname, context, expected",
+    [
+        ["r400", does_not_raise(), None],
+        ["r1", pytest.raises(KeyError), "Reflection 'r1' is not found"],
+    ],
+)
+def test_remove_reflection(rname, context, expected):
+    with context as reason:
+        e4cv = creator(name="e4cv")
+        add_oriented_vibranium_to_e4cv(e4cv)
+        e4cv.core.calc_UB("r040", "r400")
+        e4cv.core.sample.remove_reflection(rname)
+        assert rname not in e4cv.core.sample.reflections.order
+
+    assert_context_result(expected, reason)
