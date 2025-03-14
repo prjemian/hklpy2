@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../../../_static/documentation_options.js?v=3711343a"></script>
+    <script src="../../../_static/documentation_options.js?v=2c42f40f"></script>
     <script src="../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -134,13 +134,6 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../api.html">
-    API
-  </a>
-</li>
-
-
-<li class="nav-item ">
   <a class="nav-link nav-internal" href="../../../release_notes.html">
     Releases
   </a>
@@ -150,6 +143,13 @@
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../../../license.html">
     License
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../autoapi/index.html">
+    API Reference
   </a>
 </li>
 
@@ -248,13 +248,6 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../api.html">
-    API
-  </a>
-</li>
-
-
-<li class="nav-item ">
   <a class="nav-link nav-internal" href="../../../release_notes.html">
     Releases
   </a>
@@ -264,6 +257,13 @@
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../../../license.html">
     License
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../autoapi/index.html">
+    API Reference
   </a>
 </li>
 
@@ -343,6 +343,9 @@
     
     <li class="breadcrumb-item"><a href="../../index.html" class="nav-link">Module code</a></li>
     
+    
+    <li class="breadcrumb-item"><a href="../../hklpy2.html" class="nav-link">hklpy2</a></li>
+    
     <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">hklpy2.blocks.constraints</span></li>
   </ul>
 </nav>
@@ -373,7 +376,6 @@
 <span class="sd">  implemented yet)</span>
 
 <span class="sd">.. autosummary::</span>
-<span class="sd">    :toctree: generated</span>
 
 <span class="sd">    ~RealAxisConstraints</span>
 <span class="sd">    ~ConstraintBase</span>
@@ -396,12 +398,18 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">..misc</span><span class="w"> </span><span class="kn">import</span> <span class="n">ConfigurationError</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">..misc</span><span class="w"> </span><span class="kn">import</span> <span class="n">ConstraintsError</span>
 
-<span class="n">NUMERIC</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span>
-<span class="n">UNDEFINED_LABEL</span> <span class="o">=</span> <span class="s2">&quot;undefined&quot;</span>
+<div class="viewcode-block" id="NUMERIC">
+<a class="viewcode-back" href="../../../autoapi/hklpy2/blocks/constraints/index.html#hklpy2.blocks.constraints.NUMERIC">[docs]</a>
+<span class="n">NUMERIC</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="UNDEFINED_LABEL">
+<a class="viewcode-back" href="../../../autoapi/hklpy2/blocks/constraints/index.html#hklpy2.blocks.constraints.UNDEFINED_LABEL">[docs]</a>
+<span class="n">UNDEFINED_LABEL</span> <span class="o">=</span> <span class="s2">&quot;undefined&quot;</span></div>
+
 
 
 <div class="viewcode-block" id="ConstraintBase">
-<a class="viewcode-back" href="../../../generated/generated/hklpy2.blocks.constraints.html#hklpy2.blocks.constraints.ConstraintBase">[docs]</a>
+<a class="viewcode-back" href="../../../autoapi/hklpy2/blocks/constraints/index.html#hklpy2.blocks.constraints.ConstraintBase">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">ConstraintBase</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Base class for all constraints for selecting &#39;forward()&#39; solutions.</span>
@@ -412,16 +420,25 @@
 <span class="sd">        ~valid</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">_fields</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="n">label</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">UNDEFINED_LABEL</span>
+<div class="viewcode-block" id="ConstraintBase._fields">
+<a class="viewcode-back" href="../../../autoapi/hklpy2/blocks/constraints/index.html#hklpy2.blocks.constraints.ConstraintBase._fields">[docs]</a>
+    <span class="n">_fields</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span></div>
 
+<div class="viewcode-block" id="ConstraintBase.label">
+<a class="viewcode-back" href="../../../autoapi/hklpy2/blocks/constraints/index.html#hklpy2.blocks.constraints.ConstraintBase.label">[docs]</a>
+    <span class="n">label</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">UNDEFINED_LABEL</span></div>
+
+
+<div class="viewcode-block" id="ConstraintBase.__repr__">
+<a class="viewcode-back" href="../../../autoapi/hklpy2/blocks/constraints/index.html#hklpy2.blocks.constraints.ConstraintBase.__repr__">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return a nicely-formatted string.&quot;&quot;&quot;</span>
         <span class="n">content</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">=</span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_asdict</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">()]</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">(</span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">content</span><span class="p">)</span><span class="si">}</span><span class="s2">)&quot;</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">(</span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">content</span><span class="p">)</span><span class="si">}</span><span class="s2">)&quot;</span></div>
+
 
 <div class="viewcode-block" id="ConstraintBase._asdict">
-<a class="viewcode-back" href="../../../generated/generated/hklpy2.blocks.constraints.html#hklpy2.blocks.constraints.ConstraintBase._asdict">[docs]</a>
+<a class="viewcode-back" href="../../../autoapi/hklpy2/blocks/constraints/index.html#hklpy2.blocks.constraints.ConstraintBase._asdict">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">_asdict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return a new dict which maps field names to their values.&quot;&quot;&quot;</span>
         <span class="n">result</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fields</span><span class="p">}</span>
@@ -430,7 +447,7 @@
 
 
 <div class="viewcode-block" id="ConstraintBase._fromdict">
-<a class="viewcode-back" href="../../../generated/generated/hklpy2.blocks.constraints.html#hklpy2.blocks.constraints.ConstraintBase._fromdict">[docs]</a>
+<a class="viewcode-back" href="../../../autoapi/hklpy2/blocks/constraints/index.html#hklpy2.blocks.constraints.ConstraintBase._fromdict">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">_fromdict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">,</span> <span class="n">core</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Redefine this constraint from a (configuration) dictionary.&quot;&quot;&quot;</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">..ops</span><span class="w"> </span><span class="kn">import</span> <span class="n">Operations</span>
@@ -464,9 +481,9 @@
                 <span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="ConstraintBase.valid">
-<a class="viewcode-back" href="../../../generated/generated/hklpy2.blocks.constraints.html#hklpy2.blocks.constraints.ConstraintBase.valid">[docs]</a>
     <span class="nd">@abstractmethod</span>
+<div class="viewcode-block" id="ConstraintBase.valid">
+<a class="viewcode-back" href="../../../autoapi/hklpy2/blocks/constraints/index.html#hklpy2.blocks.constraints.ConstraintBase.valid">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">valid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">values</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">NUMERIC</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Is this constraint satisifed by current value(s)?</span>
@@ -482,7 +499,7 @@
 
 
 <div class="viewcode-block" id="LimitsConstraint">
-<a class="viewcode-back" href="../../../generated/generated/hklpy2.blocks.constraints.html#hklpy2.blocks.constraints.LimitsConstraint">[docs]</a>
+<a class="viewcode-back" href="../../../autoapi/hklpy2/blocks/constraints/index.html#hklpy2.blocks.constraints.LimitsConstraint">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">LimitsConstraint</span><span class="p">(</span><span class="n">ConstraintBase</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Value must fall between low &amp; high limits.</span>
@@ -504,14 +521,18 @@
 <span class="sd">        ~valid</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="LimitsConstraint.__init__">
-<a class="viewcode-back" href="../../../generated/generated/generated/hklpy2.blocks.constraints.LimitsConstraint.html#hklpy2.blocks.constraints.LimitsConstraint.__init__">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">low_limit</span><span class="o">=-</span><span class="mi">180</span><span class="p">,</span> <span class="n">high_limit</span><span class="o">=</span><span class="mi">180</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">label</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">ConstraintsError</span><span class="p">(</span><span class="s2">&quot;Must provide a value for &#39;label&#39;.&quot;</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">label</span> <span class="o">=</span> <span class="n">label</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_fields</span> <span class="o">=</span> <span class="s2">&quot;label low_limit high_limit&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+<div class="viewcode-block" id="LimitsConstraint.label">
+<a class="viewcode-back" href="../../../autoapi/hklpy2/blocks/constraints/index.html#hklpy2.blocks.constraints.LimitsConstraint.label">[docs]</a>
+        <span class="bp">self</span><span class="o">.</span><span class="n">label</span> <span class="o">=</span> <span class="n">label</span></div>
+
+<div class="viewcode-block" id="LimitsConstraint._fields">
+<a class="viewcode-back" href="../../../autoapi/hklpy2/blocks/constraints/index.html#hklpy2.blocks.constraints.LimitsConstraint._fields">[docs]</a>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_fields</span> <span class="o">=</span> <span class="s2">&quot;label low_limit high_limit&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">()</span></div>
+
 
         <span class="k">if</span> <span class="n">low_limit</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">low_limit</span> <span class="o">=</span> <span class="o">-</span><span class="mi">180</span>
@@ -521,18 +542,23 @@
         <span class="c1"># fmt: off</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">low_limit</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">high_limit</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span>
             <span class="nb">map</span><span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="p">[</span><span class="n">low_limit</span><span class="p">,</span> <span class="n">high_limit</span><span class="p">])</span>
-        <span class="p">)</span></div>
-
+        <span class="p">)</span>
         <span class="c1"># fmt: on</span>
 
+<div class="viewcode-block" id="LimitsConstraint.__repr__">
+<a class="viewcode-back" href="../../../autoapi/hklpy2/blocks/constraints/index.html#hklpy2.blocks.constraints.LimitsConstraint.__repr__">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return a nicely-formatted string.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">low_limit</span><span class="si">}</span><span class="s2"> &lt;= </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="si">}</span><span class="s2"> &lt;= </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">high_limit</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">low_limit</span><span class="si">}</span><span class="s2"> &lt;= </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="si">}</span><span class="s2"> &lt;= </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">high_limit</span><span class="si">}</span><span class="s2">&quot;</span></div>
+
 
     <span class="nd">@property</span>
+<div class="viewcode-block" id="LimitsConstraint.limits">
+<a class="viewcode-back" href="../../../autoapi/hklpy2/blocks/constraints/index.html#hklpy2.blocks.constraints.LimitsConstraint.limits">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">limits</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the low and high limits of this constraint.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">low_limit</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">high_limit</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">low_limit</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">high_limit</span><span class="p">)</span></div>
+
 
     <span class="nd">@limits</span><span class="o">.</span><span class="n">setter</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">limits</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">values</span><span class="p">):</span>
@@ -541,7 +567,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">low_limit</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">high_limit</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="n">values</span><span class="p">))</span>
 
 <div class="viewcode-block" id="LimitsConstraint.valid">
-<a class="viewcode-back" href="../../../generated/generated/hklpy2.blocks.constraints.html#hklpy2.blocks.constraints.LimitsConstraint.valid">[docs]</a>
+<a class="viewcode-back" href="../../../autoapi/hklpy2/blocks/constraints/index.html#hklpy2.blocks.constraints.LimitsConstraint.valid">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">valid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">values</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">NUMERIC</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        True if low &lt;= value &lt;= high.</span>
@@ -563,7 +589,7 @@
 
 
 <div class="viewcode-block" id="RealAxisConstraints">
-<a class="viewcode-back" href="../../../generated/generated/hklpy2.blocks.constraints.html#hklpy2.blocks.constraints.RealAxisConstraints">[docs]</a>
+<a class="viewcode-back" href="../../../autoapi/hklpy2/blocks/constraints/index.html#hklpy2.blocks.constraints.RealAxisConstraints">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">RealAxisConstraints</span><span class="p">(</span><span class="nb">dict</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Constraints for every (real) axis of the diffractometer.</span>
@@ -575,26 +601,26 @@
 <span class="sd">        ~valid</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="RealAxisConstraints.__init__">
-<a class="viewcode-back" href="../../../generated/generated/generated/hklpy2.blocks.constraints.RealAxisConstraints.html#hklpy2.blocks.constraints.RealAxisConstraints.__init__">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reals</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]):</span>
         <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">reals</span><span class="p">:</span>
-            <span class="bp">self</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">LimitsConstraint</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="n">k</span><span class="p">)</span></div>
+            <span class="bp">self</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">LimitsConstraint</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="n">k</span><span class="p">)</span>
 
-
+<div class="viewcode-block" id="RealAxisConstraints.__repr__">
+<a class="viewcode-back" href="../../../autoapi/hklpy2/blocks/constraints/index.html#hklpy2.blocks.constraints.RealAxisConstraints.__repr__">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return a nicely-formatted string.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="nb">str</span><span class="p">([</span><span class="nb">str</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">()])</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">([</span><span class="nb">str</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">()])</span></div>
+
 
 <div class="viewcode-block" id="RealAxisConstraints._asdict">
-<a class="viewcode-back" href="../../../generated/generated/hklpy2.blocks.constraints.html#hklpy2.blocks.constraints.RealAxisConstraints._asdict">[docs]</a>
+<a class="viewcode-back" href="../../../autoapi/hklpy2/blocks/constraints/index.html#hklpy2.blocks.constraints.RealAxisConstraints._asdict">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">_asdict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return all constraints as a dictionary.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">c</span><span class="o">.</span><span class="n">_asdict</span><span class="p">()</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span></div>
 
 
 <div class="viewcode-block" id="RealAxisConstraints._fromdict">
-<a class="viewcode-back" href="../../../generated/generated/hklpy2.blocks.constraints.html#hklpy2.blocks.constraints.RealAxisConstraints._fromdict">[docs]</a>
+<a class="viewcode-back" href="../../../autoapi/hklpy2/blocks/constraints/index.html#hklpy2.blocks.constraints.RealAxisConstraints._fromdict">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">_fromdict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">,</span> <span class="n">core</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Redefine existing constraints from a (configuration) dictionary.&quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">config</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
@@ -602,7 +628,7 @@
 
 
 <div class="viewcode-block" id="RealAxisConstraints.valid">
-<a class="viewcode-back" href="../../../generated/generated/hklpy2.blocks.constraints.html#hklpy2.blocks.constraints.RealAxisConstraints.valid">[docs]</a>
+<a class="viewcode-back" href="../../../autoapi/hklpy2/blocks/constraints/index.html#hklpy2.blocks.constraints.RealAxisConstraints.valid">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">valid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">reals</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">NUMERIC</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Are all constraints satisfied?&quot;&quot;&quot;</span>
         <span class="n">findings</span> <span class="o">=</span> <span class="p">[</span><span class="n">constraint</span><span class="o">.</span><span class="n">valid</span><span class="p">(</span><span class="o">**</span><span class="n">reals</span><span class="p">)</span> <span class="k">for</span> <span class="n">constraint</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">()]</span>

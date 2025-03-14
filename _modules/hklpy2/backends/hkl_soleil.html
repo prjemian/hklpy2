@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../../../_static/documentation_options.js?v=3711343a"></script>
+    <script src="../../../_static/documentation_options.js?v=2c42f40f"></script>
     <script src="../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -134,13 +134,6 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../api.html">
-    API
-  </a>
-</li>
-
-
-<li class="nav-item ">
   <a class="nav-link nav-internal" href="../../../release_notes.html">
     Releases
   </a>
@@ -150,6 +143,13 @@
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../../../license.html">
     License
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../autoapi/index.html">
+    API Reference
   </a>
 </li>
 
@@ -248,13 +248,6 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../api.html">
-    API
-  </a>
-</li>
-
-
-<li class="nav-item ">
   <a class="nav-link nav-internal" href="../../../release_notes.html">
     Releases
   </a>
@@ -264,6 +257,13 @@
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../../../license.html">
     License
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../autoapi/index.html">
+    API Reference
   </a>
 </li>
 
@@ -343,6 +343,9 @@
     
     <li class="breadcrumb-item"><a href="../../index.html" class="nav-link">Module code</a></li>
     
+    
+    <li class="breadcrumb-item"><a href="../../hklpy2.html" class="nav-link">hklpy2</a></li>
+    
     <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">hklpy2.backends.hkl_soleil</span></li>
   </ul>
 </nav>
@@ -385,7 +388,7 @@
 <span class="sd">    choose the mode and set the parameter before the forward() transformation.</span>
 
 <span class="sd">.. note:: To scan using ``psi`` and ``hkl2``, see</span>
-<span class="sd">    :doc:`../../examples/hkl_soleil-e6c-psi`.</span>
+<span class="sd">    :doc:`/examples/hkl_soleil-e6c-psi`.</span>
 
 <span class="sd">.. autosummary::</span>
 
@@ -405,16 +408,16 @@
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyRestTable</span><span class="w"> </span><span class="kn">import</span> <span class="n">Table</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">..</span><span class="w"> </span><span class="kn">import</span> <span class="n">SolverBase</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">..</span><span class="w"> </span><span class="kn">import</span> <span class="n">SolverError</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">..</span><span class="w"> </span><span class="kn">import</span> <span class="n">check_value_in_list</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">..blocks.lattice</span><span class="w"> </span><span class="kn">import</span> <span class="n">Lattice</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">..blocks.reflection</span><span class="w"> </span><span class="kn">import</span> <span class="n">Reflection</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">..blocks.sample</span><span class="w"> </span><span class="kn">import</span> <span class="n">Sample</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">..misc</span><span class="w"> </span><span class="kn">import</span> <span class="n">IDENTITY_MATRIX_3X3</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">..misc</span><span class="w"> </span><span class="kn">import</span> <span class="n">SolverError</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">..misc</span><span class="w"> </span><span class="kn">import</span> <span class="n">SolverNoForwardSolutions</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">..misc</span><span class="w"> </span><span class="kn">import</span> <span class="n">check_value_in_list</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">..misc</span><span class="w"> </span><span class="kn">import</span> <span class="n">roundoff</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">..misc</span><span class="w"> </span><span class="kn">import</span> <span class="n">unique_name</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">SolverBase</span>
 
 <span class="k">if</span> <span class="n">platform</span><span class="o">.</span><span class="n">system</span><span class="p">()</span> <span class="o">!=</span> <span class="s2">&quot;Linux&quot;</span><span class="p">:</span>
     <span class="k">raise</span> <span class="n">SolverError</span><span class="p">(</span><span class="s2">&quot;&#39;hkl_soleil&#39; only available for linux 64-bit.&quot;</span><span class="p">)</span>
@@ -429,21 +432,42 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">gi.repository</span><span class="w"> </span><span class="kn">import</span> <span class="n">Hkl</span> <span class="k">as</span> <span class="n">libhkl</span>  <span class="c1"># noqa: E402</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">gi.repository.GLib</span><span class="w"> </span><span class="kn">import</span> <span class="n">GError</span>  <span class="c1"># noqa: E402</span>
 
-<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+<div class="viewcode-block" id="logger">
+<a class="viewcode-back" href="../../../autoapi/hklpy2/backends/hkl_soleil/index.html#hklpy2.backends.hkl_soleil.logger">[docs]</a>
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span></div>
 
-<span class="n">AXES_READ</span> <span class="o">=</span> <span class="mi">0</span>
-<span class="n">AXES_WRITTEN</span> <span class="o">=</span> <span class="mi">1</span>
-<span class="n">LIBHKL_DETECTOR_TYPE</span> <span class="o">=</span> <span class="mi">0</span>
+
+<div class="viewcode-block" id="AXES_READ">
+<a class="viewcode-back" href="../../../autoapi/hklpy2/backends/hkl_soleil/index.html#hklpy2.backends.hkl_soleil.AXES_READ">[docs]</a>
+<span class="n">AXES_READ</span> <span class="o">=</span> <span class="mi">0</span></div>
+
+<div class="viewcode-block" id="AXES_WRITTEN">
+<a class="viewcode-back" href="../../../autoapi/hklpy2/backends/hkl_soleil/index.html#hklpy2.backends.hkl_soleil.AXES_WRITTEN">[docs]</a>
+<span class="n">AXES_WRITTEN</span> <span class="o">=</span> <span class="mi">1</span></div>
+
+<div class="viewcode-block" id="LIBHKL_DETECTOR_TYPE">
+<a class="viewcode-back" href="../../../autoapi/hklpy2/backends/hkl_soleil/index.html#hklpy2.backends.hkl_soleil.LIBHKL_DETECTOR_TYPE">[docs]</a>
+<span class="n">LIBHKL_DETECTOR_TYPE</span> <span class="o">=</span> <span class="mi">0</span></div>
+
+<div class="viewcode-block" id="LIBHKL_UNITS">
+<a class="viewcode-back" href="../../../autoapi/hklpy2/backends/hkl_soleil/index.html#hklpy2.backends.hkl_soleil.LIBHKL_UNITS">[docs]</a>
 <span class="n">LIBHKL_UNITS</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="n">libhkl</span><span class="o">.</span><span class="n">UnitEnum</span><span class="o">.</span><span class="n">DEFAULT</span><span class="p">,</span>
     <span class="s2">&quot;user&quot;</span><span class="p">:</span> <span class="n">libhkl</span><span class="o">.</span><span class="n">UnitEnum</span><span class="o">.</span><span class="n">USER</span><span class="p">,</span>
-<span class="p">}</span>
-<span class="n">LIBHKL_USER_UNITS</span> <span class="o">=</span> <span class="n">LIBHKL_UNITS</span><span class="p">[</span><span class="s2">&quot;user&quot;</span><span class="p">]</span>
-<span class="n">ROUNDOFF_DIGITS</span> <span class="o">=</span> <span class="mi">12</span>
+<span class="p">}</span></div>
+
+<div class="viewcode-block" id="LIBHKL_USER_UNITS">
+<a class="viewcode-back" href="../../../autoapi/hklpy2/backends/hkl_soleil/index.html#hklpy2.backends.hkl_soleil.LIBHKL_USER_UNITS">[docs]</a>
+<span class="n">LIBHKL_USER_UNITS</span> <span class="o">=</span> <span class="n">LIBHKL_UNITS</span><span class="p">[</span><span class="s2">&quot;user&quot;</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="ROUNDOFF_DIGITS">
+<a class="viewcode-back" href="../../../autoapi/hklpy2/backends/hkl_soleil/index.html#hklpy2.backends.hkl_soleil.ROUNDOFF_DIGITS">[docs]</a>
+<span class="n">ROUNDOFF_DIGITS</span> <span class="o">=</span> <span class="mi">12</span></div>
+
 
 
 <div class="viewcode-block" id="roundoff_list">
-<a class="viewcode-back" href="../../../generated/generated/hklpy2.backends.hkl_soleil.html#hklpy2.backends.hkl_soleil.roundoff_list">[docs]</a>
+<a class="viewcode-back" href="../../../autoapi/hklpy2/backends/hkl_soleil/index.html#hklpy2.backends.hkl_soleil.roundoff_list">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">roundoff_list</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="n">digits</span><span class="o">=</span><span class="n">ROUNDOFF_DIGITS</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Prevent underflows and &#39;-0&#39; for all numbers in a list.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="p">[</span><span class="n">roundoff</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">digits</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">values</span><span class="p">]</span></div>
@@ -451,7 +475,7 @@
 
 
 <div class="viewcode-block" id="hkl_euler_matrix">
-<a class="viewcode-back" href="../../../generated/generated/hklpy2.backends.hkl_soleil.html#hklpy2.backends.hkl_soleil.hkl_euler_matrix">[docs]</a>
+<a class="viewcode-back" href="../../../autoapi/hklpy2/backends/hkl_soleil/index.html#hklpy2.backends.hkl_soleil.hkl_euler_matrix">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">hkl_euler_matrix</span><span class="p">(</span><span class="n">euler_x</span><span class="p">,</span> <span class="n">euler_y</span><span class="p">,</span> <span class="n">euler_z</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert into matrix form.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">libhkl</span><span class="o">.</span><span class="n">Matrix</span><span class="o">.</span><span class="n">new_euler</span><span class="p">(</span><span class="n">euler_x</span><span class="p">,</span> <span class="n">euler_y</span><span class="p">,</span> <span class="n">euler_z</span><span class="p">)</span></div>
@@ -459,7 +483,7 @@
 
 
 <div class="viewcode-block" id="to_hkl">
-<a class="viewcode-back" href="../../../generated/generated/hklpy2.backends.hkl_soleil.html#hklpy2.backends.hkl_soleil.to_hkl">[docs]</a>
+<a class="viewcode-back" href="../../../autoapi/hklpy2/backends/hkl_soleil/index.html#hklpy2.backends.hkl_soleil.to_hkl">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">to_hkl</span><span class="p">(</span><span class="n">arr</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert a numpy ndarray to an hkl ``Matrix``</span>
 
@@ -485,7 +509,7 @@
 
 
 <div class="viewcode-block" id="to_numpy">
-<a class="viewcode-back" href="../../../generated/generated/hklpy2.backends.hkl_soleil.html#hklpy2.backends.hkl_soleil.to_numpy">[docs]</a>
+<a class="viewcode-back" href="../../../autoapi/hklpy2/backends/hkl_soleil/index.html#hklpy2.backends.hkl_soleil.to_numpy">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">to_numpy</span><span class="p">(</span><span class="n">mat</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert an hkl ``Matrix`` to a numpy ndarray</span>
 
@@ -512,7 +536,7 @@
 
 
 <div class="viewcode-block" id="HklSolver">
-<a class="viewcode-back" href="../../../generated/generated/hklpy2.backends.hkl_soleil.html#hklpy2.backends.hkl_soleil.HklSolver">[docs]</a>
+<a class="viewcode-back" href="../../../autoapi/hklpy2/backends/hkl_soleil/index.html#hklpy2.backends.hkl_soleil.HklSolver">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">HklSolver</span><span class="p">(</span><span class="n">SolverBase</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    ``&quot;hkl_soleil&quot;`` (Linux x86_64 only) |libhkl|.</span>
@@ -574,8 +598,14 @@
 <span class="sd">        ~wavelength</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;hkl_soleil&quot;</span>
-    <span class="n">version</span> <span class="o">=</span> <span class="n">libhkl</span><span class="o">.</span><span class="n">VERSION</span>
+<div class="viewcode-block" id="HklSolver.name">
+<a class="viewcode-back" href="../../../autoapi/hklpy2/backends/hkl_soleil/index.html#hklpy2.backends.hkl_soleil.HklSolver.name">[docs]</a>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;hkl_soleil&quot;</span></div>
+
+<div class="viewcode-block" id="HklSolver.version">
+<a class="viewcode-back" href="../../../autoapi/hklpy2/backends/hkl_soleil/index.html#hklpy2.backends.hkl_soleil.HklSolver.version">[docs]</a>
+    <span class="n">version</span> <span class="o">=</span> <span class="n">libhkl</span><span class="o">.</span><span class="n">VERSION</span></div>
+
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -585,31 +615,55 @@
         <span class="n">mode</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_engine</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_gname_locked</span> <span class="o">=</span> <span class="kc">False</span>  <span class="c1"># Can&#39;t change after setting once.</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_sample</span> <span class="o">=</span> <span class="kc">None</span>
+<div class="viewcode-block" id="HklSolver._engine">
+<a class="viewcode-back" href="../../../autoapi/hklpy2/backends/hkl_soleil/index.html#hklpy2.backends.hkl_soleil.HklSolver._engine">[docs]</a>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_engine</span> <span class="o">=</span> <span class="kc">None</span></div>
+
+<div class="viewcode-block" id="HklSolver._gname_locked">
+<a class="viewcode-back" href="../../../autoapi/hklpy2/backends/hkl_soleil/index.html#hklpy2.backends.hkl_soleil.HklSolver._gname_locked">[docs]</a>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_gname_locked</span> <span class="o">=</span> <span class="kc">False</span>  <span class="c1"># Can&#39;t change after setting once.</span></div>
+
+<div class="viewcode-block" id="HklSolver._sample">
+<a class="viewcode-back" href="../../../autoapi/hklpy2/backends/hkl_soleil/index.html#hklpy2.backends.hkl_soleil.HklSolver._sample">[docs]</a>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_sample</span> <span class="o">=</span> <span class="kc">None</span></div>
+
 
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">geometry</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
         <span class="c1"># note: must keep the &#39;_engine_list&#39; object as class attribute or</span>
         <span class="c1"># random core dumps, usually when accessing &#39;engine.name_get()&#39;.</span>
+<div class="viewcode-block" id="HklSolver._detector">
+<a class="viewcode-back" href="../../../autoapi/hklpy2/backends/hkl_soleil/index.html#hklpy2.backends.hkl_soleil.HklSolver._detector">[docs]</a>
         <span class="bp">self</span><span class="o">.</span><span class="n">_detector</span> <span class="o">=</span> <span class="n">libhkl</span><span class="o">.</span><span class="n">Detector</span><span class="o">.</span><span class="n">factory_new</span><span class="p">(</span>
             <span class="n">libhkl</span><span class="o">.</span><span class="n">DetectorType</span><span class="p">(</span><span class="n">LIBHKL_DETECTOR_TYPE</span><span class="p">)</span>
-        <span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_factory</span> <span class="o">=</span> <span class="n">libhkl</span><span class="o">.</span><span class="n">factories</span><span class="p">()[</span><span class="n">geometry</span><span class="p">]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_engine_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_factory</span><span class="o">.</span><span class="n">create_new_engine_list</span><span class="p">()</span>  <span class="c1"># note!</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_engine</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_engine_list</span><span class="o">.</span><span class="n">engine_get_by_name</span><span class="p">(</span><span class="n">engine</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_geometry</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_factory</span><span class="o">.</span><span class="n">create_new_geometry</span><span class="p">()</span>
+        <span class="p">)</span></div>
 
+<div class="viewcode-block" id="HklSolver._factory">
+<a class="viewcode-back" href="../../../autoapi/hklpy2/backends/hkl_soleil/index.html#hklpy2.backends.hkl_soleil.HklSolver._factory">[docs]</a>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_factory</span> <span class="o">=</span> <span class="n">libhkl</span><span class="o">.</span><span class="n">factories</span><span class="p">()[</span><span class="n">geometry</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="HklSolver._engine_list">
+<a class="viewcode-back" href="../../../autoapi/hklpy2/backends/hkl_soleil/index.html#hklpy2.backends.hkl_soleil.HklSolver._engine_list">[docs]</a>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_engine_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_factory</span><span class="o">.</span><span class="n">create_new_engine_list</span><span class="p">()</span>  <span class="c1"># note!</span></div>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_engine</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_engine_list</span><span class="o">.</span><span class="n">engine_get_by_name</span><span class="p">(</span><span class="n">engine</span><span class="p">)</span>
+<div class="viewcode-block" id="HklSolver._geometry">
+<a class="viewcode-back" href="../../../autoapi/hklpy2/backends/hkl_soleil/index.html#hklpy2.backends.hkl_soleil.HklSolver._geometry">[docs]</a>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_geometry</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_factory</span><span class="o">.</span><span class="n">create_new_geometry</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="HklSolver.__repr__">
+<a class="viewcode-back" href="../../../autoapi/hklpy2/backends/hkl_soleil/index.html#hklpy2.backends.hkl_soleil.HklSolver.__repr__">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="n">args</span> <span class="o">=</span> <span class="p">[</span>
             <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">s</span><span class="si">}</span><span class="s2">=</span><span class="si">{</span><span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="w"> </span><span class="n">s</span><span class="p">)</span><span class="si">!r}</span><span class="s2">&quot;</span>
             <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="s2">&quot;name version geometry engine_name mode&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
         <span class="p">]</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">(</span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">args</span><span class="p">)</span><span class="si">}</span><span class="s2">)&quot;</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">(</span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">args</span><span class="p">)</span><span class="si">}</span><span class="s2">)&quot;</span></div>
+
 
 <div class="viewcode-block" id="HklSolver.addReflection">
-<a class="viewcode-back" href="../../../generated/generated/hklpy2.backends.hkl_soleil.html#hklpy2.backends.hkl_soleil.HklSolver.addReflection">[docs]</a>
+<a class="viewcode-back" href="../../../autoapi/hklpy2/backends/hkl_soleil/index.html#hklpy2.backends.hkl_soleil.HklSolver.addReflection">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">addReflection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reflection</span><span class="p">:</span> <span class="n">Reflection</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Add coordinates of a diffraction condition (a reflection).&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">reflection</span><span class="p">,</span> <span class="n">Reflection</span><span class="p">):</span>
@@ -624,6 +678,8 @@
 
 
     <span class="nd">@property</span>
+<div class="viewcode-block" id="HklSolver.axes_c">
+<a class="viewcode-back" href="../../../autoapi/hklpy2/backends/hkl_soleil/index.html#hklpy2.backends.hkl_soleil.HklSolver.axes_c">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">axes_c</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        HKL real axis names.</span>
@@ -631,24 +687,31 @@
 <span class="sd">        Held constant during &#39;forward()&#39; computation.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># Do NOT sort.</span>
-        <span class="k">return</span> <span class="p">[</span><span class="n">axis</span> <span class="k">for</span> <span class="n">axis</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">axes_r</span> <span class="k">if</span> <span class="n">axis</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">axes_w</span><span class="p">]</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">axis</span> <span class="k">for</span> <span class="n">axis</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">axes_r</span> <span class="k">if</span> <span class="n">axis</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">axes_w</span><span class="p">]</span></div>
+
 
     <span class="nd">@property</span>
+<div class="viewcode-block" id="HklSolver.axes_r">
+<a class="viewcode-back" href="../../../autoapi/hklpy2/backends/hkl_soleil/index.html#hklpy2.backends.hkl_soleil.HklSolver.axes_r">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">axes_r</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;HKL real axis names (read-only).&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">engine</span><span class="o">.</span><span class="n">axis_names_get</span><span class="p">(</span><span class="n">AXES_READ</span><span class="p">)</span>  <span class="c1"># Do NOT sort.</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">engine</span><span class="o">.</span><span class="n">axis_names_get</span><span class="p">(</span><span class="n">AXES_READ</span><span class="p">)</span>  <span class="c1"># Do NOT sort.</span></div>
+
 
     <span class="nd">@property</span>
+<div class="viewcode-block" id="HklSolver.axes_w">
+<a class="viewcode-back" href="../../../autoapi/hklpy2/backends/hkl_soleil/index.html#hklpy2.backends.hkl_soleil.HklSolver.axes_w">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">axes_w</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        HKL real axis names.</span>
 
 <span class="sd">                Updated by &#39;forward()&#39; computation.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">engine</span><span class="o">.</span><span class="n">axis_names_get</span><span class="p">(</span><span class="n">AXES_WRITTEN</span><span class="p">)</span>  <span class="c1"># Do NOT sort.</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">engine</span><span class="o">.</span><span class="n">axis_names_get</span><span class="p">(</span><span class="n">AXES_WRITTEN</span><span class="p">)</span>  <span class="c1"># Do NOT sort.</span></div>
+
 
 <div class="viewcode-block" id="HklSolver.calculate_UB">
-<a class="viewcode-back" href="../../../generated/generated/hklpy2.backends.hkl_soleil.html#hklpy2.backends.hkl_soleil.HklSolver.calculate_UB">[docs]</a>
+<a class="viewcode-back" href="../../../autoapi/hklpy2/backends/hkl_soleil/index.html#hklpy2.backends.hkl_soleil.HklSolver.calculate_UB">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">calculate_UB</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">r1</span><span class="p">:</span> <span class="n">Reflection</span><span class="p">,</span>
@@ -671,30 +734,44 @@
 
 
     <span class="nd">@property</span>
+<div class="viewcode-block" id="HklSolver.engine">
+<a class="viewcode-back" href="../../../autoapi/hklpy2/backends/hkl_soleil/index.html#hklpy2.backends.hkl_soleil.HklSolver.engine">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">engine</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">libhkl</span><span class="o">.</span><span class="n">Engine</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Selected computational engine for this geometry.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_engine</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_engine</span></div>
+
 
     <span class="nd">@property</span>
+<div class="viewcode-block" id="HklSolver.engine_name">
+<a class="viewcode-back" href="../../../autoapi/hklpy2/backends/hkl_soleil/index.html#hklpy2.backends.hkl_soleil.HklSolver.engine_name">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">engine_name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Name of selected computational engine for this geometry.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">engine</span><span class="o">.</span><span class="n">name_get</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">engine</span><span class="o">.</span><span class="n">name_get</span><span class="p">()</span></div>
+
 
     <span class="nd">@property</span>
+<div class="viewcode-block" id="HklSolver.engines">
+<a class="viewcode-back" href="../../../autoapi/hklpy2/backends/hkl_soleil/index.html#hklpy2.backends.hkl_soleil.HklSolver.engines">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">engines</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;List of the computational engines available in this geometry.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="p">[</span><span class="n">engine</span><span class="o">.</span><span class="n">name_get</span><span class="p">()</span> <span class="k">for</span> <span class="n">engine</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_engine_list</span><span class="o">.</span><span class="n">engines_get</span><span class="p">()]</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">engine</span><span class="o">.</span><span class="n">name_get</span><span class="p">()</span> <span class="k">for</span> <span class="n">engine</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_engine_list</span><span class="o">.</span><span class="n">engines_get</span><span class="p">()]</span></div>
+
 
     <span class="nd">@property</span>
+<div class="viewcode-block" id="HklSolver.extra_axis_names">
+<a class="viewcode-back" href="../../../autoapi/hklpy2/backends/hkl_soleil/index.html#hklpy2.backends.hkl_soleil.HklSolver.extra_axis_names">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">extra_axis_names</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Ordered list of any extra parameter names (such as x, y, z).</span>
 
 <span class="sd">        Depends on selected geometry, engine, and mode.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">engine</span><span class="o">.</span><span class="n">parameters_names_get</span><span class="p">()</span>  <span class="c1"># Do NOT sort.</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">engine</span><span class="o">.</span><span class="n">parameters_names_get</span><span class="p">()</span>  <span class="c1"># Do NOT sort.</span></div>
+
 
     <span class="nd">@property</span>
+<div class="viewcode-block" id="HklSolver.extras">
+<a class="viewcode-back" href="../../../autoapi/hklpy2/backends/hkl_soleil/index.html#hklpy2.backends.hkl_soleil.HklSolver.extras">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">extras</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Ordered dictionary of any extra parameters.</span>
@@ -706,7 +783,8 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">extra_axis_names</span><span class="p">,</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">engine</span><span class="o">.</span><span class="n">parameters_values_get</span><span class="p">(</span><span class="n">LIBHKL_USER_UNITS</span><span class="p">),</span>
             <span class="p">)</span>
-        <span class="p">)</span>
+        <span class="p">)</span></div>
+
 
     <span class="nd">@extras</span><span class="o">.</span><span class="n">setter</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">extras</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -723,7 +801,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">engine</span><span class="o">.</span><span class="n">parameter_set</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
 
 <div class="viewcode-block" id="HklSolver.forward">
-<a class="viewcode-back" href="../../../generated/generated/hklpy2.backends.hkl_soleil.html#hklpy2.backends.hkl_soleil.HklSolver.forward">[docs]</a>
+<a class="viewcode-back" href="../../../autoapi/hklpy2/backends/hkl_soleil/index.html#hklpy2.backends.hkl_soleil.HklSolver.forward">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pseudos</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute list of solutions(reals) from pseudos (hkl -&gt; [angles]).&quot;&quot;&quot;</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;(</span><span class="si">%r</span><span class="s2">) forward(</span><span class="si">%r</span><span class="s2">)&quot;</span><span class="p">,</span> <span class="vm">__name__</span><span class="p">,</span> <span class="n">pseudos</span><span class="p">)</span>
@@ -750,9 +828,9 @@
         <span class="k">return</span> <span class="n">solutions</span></div>
 
 
-<div class="viewcode-block" id="HklSolver.geometries">
-<a class="viewcode-back" href="../../../generated/generated/hklpy2.backends.hkl_soleil.html#hklpy2.backends.hkl_soleil.HklSolver.geometries">[docs]</a>
     <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="HklSolver.geometries">
+<a class="viewcode-back" href="../../../autoapi/hklpy2/backends/hkl_soleil/index.html#hklpy2.backends.hkl_soleil.HklSolver.geometries">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">geometries</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        List all geometries that have one or more computational engines.</span>
@@ -779,8 +857,11 @@
 
 
     <span class="nd">@property</span>
+<div class="viewcode-block" id="HklSolver.geometry">
+<a class="viewcode-back" href="../../../autoapi/hklpy2/backends/hkl_soleil/index.html#hklpy2.backends.hkl_soleil.HklSolver.geometry">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">geometry</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_gname</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_gname</span></div>
+
 
     <span class="nd">@geometry</span><span class="o">.</span><span class="n">setter</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">geometry</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
@@ -791,7 +872,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_gname_locked</span> <span class="o">=</span> <span class="kc">True</span>
 
 <div class="viewcode-block" id="HklSolver.inverse">
-<a class="viewcode-back" href="../../../generated/generated/hklpy2.backends.hkl_soleil.html#hklpy2.backends.hkl_soleil.HklSolver.inverse">[docs]</a>
+<a class="viewcode-back" href="../../../autoapi/hklpy2/backends/hkl_soleil/index.html#hklpy2.backends.hkl_soleil.HklSolver.inverse">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">inverse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reals</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute tuple of pseudos from reals (angles -&gt; hkl).&quot;&quot;&quot;</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;{__name__=} inverse(reals=</span><span class="si">%r</span><span class="s2">)&quot;</span><span class="p">,</span> <span class="n">reals</span><span class="p">)</span>
@@ -823,11 +904,14 @@
 
 
     <span class="nd">@property</span>
+<div class="viewcode-block" id="HklSolver.lattice">
+<a class="viewcode-back" href="../../../autoapi/hklpy2/backends/hkl_soleil/index.html#hklpy2.backends.hkl_soleil.HklSolver.lattice">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">lattice</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">libhkl</span><span class="o">.</span><span class="n">Lattice</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Crystal lattice parameters.  (Not used by this |solver|.)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">lattice_get</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">lattice_get</span><span class="p">()</span></div>
+
 
     <span class="nd">@lattice</span><span class="o">.</span><span class="n">setter</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">lattice</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
@@ -850,9 +934,12 @@
         <span class="p">)</span>
 
     <span class="nd">@property</span>
+<div class="viewcode-block" id="HklSolver.mode">
+<a class="viewcode-back" href="../../../autoapi/hklpy2/backends/hkl_soleil/index.html#hklpy2.backends.hkl_soleil.HklSolver.mode">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">mode</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Name of the current geometry operating mode.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">engine</span><span class="o">.</span><span class="n">current_mode_get</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">engine</span><span class="o">.</span><span class="n">current_mode_get</span><span class="p">()</span></div>
+
 
     <span class="nd">@mode</span><span class="o">.</span><span class="n">setter</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">mode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
@@ -862,24 +949,33 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">engine</span><span class="o">.</span><span class="n">current_mode_set</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
 
     <span class="nd">@property</span>
+<div class="viewcode-block" id="HklSolver.modes">
+<a class="viewcode-back" href="../../../autoapi/hklpy2/backends/hkl_soleil/index.html#hklpy2.backends.hkl_soleil.HklSolver.modes">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">modes</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;List of the geometry operating modes.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">engine</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="p">[]</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">engine</span><span class="o">.</span><span class="n">modes_names_get</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">engine</span><span class="o">.</span><span class="n">modes_names_get</span><span class="p">()</span></div>
+
 
     <span class="nd">@property</span>
+<div class="viewcode-block" id="HklSolver.pseudo_axis_names">
+<a class="viewcode-back" href="../../../autoapi/hklpy2/backends/hkl_soleil/index.html#hklpy2.backends.hkl_soleil.HklSolver.pseudo_axis_names">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">pseudo_axis_names</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Ordered list of the pseudo axis names (such as h, k, l).&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">engine</span><span class="o">.</span><span class="n">pseudo_axis_names_get</span><span class="p">()</span>  <span class="c1"># Do NOT sort.</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">engine</span><span class="o">.</span><span class="n">pseudo_axis_names_get</span><span class="p">()</span>  <span class="c1"># Do NOT sort.</span></div>
+
 
     <span class="nd">@property</span>
+<div class="viewcode-block" id="HklSolver.real_axis_names">
+<a class="viewcode-back" href="../../../autoapi/hklpy2/backends/hkl_soleil/index.html#hklpy2.backends.hkl_soleil.HklSolver.real_axis_names">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">real_axis_names</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Ordered list of the real axis names (such as th, tth).&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_geometry</span><span class="o">.</span><span class="n">axis_names_get</span><span class="p">()</span>  <span class="c1"># Do NOT sort.</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_geometry</span><span class="o">.</span><span class="n">axis_names_get</span><span class="p">()</span>  <span class="c1"># Do NOT sort.</span></div>
+
 
 <div class="viewcode-block" id="HklSolver.refineLattice">
-<a class="viewcode-back" href="../../../generated/generated/hklpy2.backends.hkl_soleil.html#hklpy2.backends.hkl_soleil.HklSolver.refineLattice">[docs]</a>
+<a class="viewcode-back" href="../../../autoapi/hklpy2/backends/hkl_soleil/index.html#hklpy2.backends.hkl_soleil.HklSolver.refineLattice">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">refineLattice</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reflections</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Reflection</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Lattice</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Refine the lattice parameters from a list of reflections.</span>
@@ -907,7 +1003,7 @@
 
 
 <div class="viewcode-block" id="HklSolver.removeAllReflections">
-<a class="viewcode-back" href="../../../generated/generated/hklpy2.backends.hkl_soleil.html#hklpy2.backends.hkl_soleil.HklSolver.removeAllReflections">[docs]</a>
+<a class="viewcode-back" href="../../../autoapi/hklpy2/backends/hkl_soleil/index.html#hklpy2.backends.hkl_soleil.HklSolver.removeAllReflections">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">removeAllReflections</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Remove all reflections.&quot;&quot;&quot;</span>
         <span class="n">refs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">reflections_get</span><span class="p">()</span>
@@ -916,11 +1012,14 @@
 
 
     <span class="nd">@property</span>
+<div class="viewcode-block" id="HklSolver.sample">
+<a class="viewcode-back" href="../../../autoapi/hklpy2/backends/hkl_soleil/index.html#hklpy2.backends.hkl_soleil.HklSolver.sample">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">sample</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">libhkl</span><span class="o">.</span><span class="n">Sample</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Crystalline sample.  libhkl&#39;s sample object.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sample</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sample</span></div>
+
 
     <span class="nd">@sample</span><span class="o">.</span><span class="n">setter</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">sample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Sample</span><span class="p">):</span>
@@ -947,6 +1046,8 @@
         <span class="c1"># print(f&quot;{sample.reflections_get()=!r}&quot;)</span>
 
     <span class="nd">@property</span>
+<div class="viewcode-block" id="HklSolver._summary_dict">
+<a class="viewcode-back" href="../../../autoapi/hklpy2/backends/hkl_soleil/index.html#hklpy2.backends.hkl_soleil.HklSolver._summary_dict">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">_summary_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return a summary of the geometry (engines, modes, axes)&quot;&quot;&quot;</span>
         <span class="n">geometry_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">geometry</span>
@@ -975,9 +1076,12 @@
                 <span class="p">}</span>
                 <span class="n">extras</span> <span class="o">+=</span> <span class="n">eng_desc</span><span class="p">[</span><span class="s2">&quot;modes&quot;</span><span class="p">][</span><span class="n">mode_name</span><span class="p">][</span><span class="s2">&quot;extras&quot;</span><span class="p">]</span>
             <span class="n">eng_desc</span><span class="p">[</span><span class="s2">&quot;extras&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">extras</span><span class="p">)))</span>
-        <span class="k">return</span> <span class="n">description</span>
+        <span class="k">return</span> <span class="n">description</span></div>
+
 
     <span class="nd">@property</span>
+<div class="viewcode-block" id="HklSolver.summary">
+<a class="viewcode-back" href="../../../autoapi/hklpy2/backends/hkl_soleil/index.html#hklpy2.backends.hkl_soleil.HklSolver.summary">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">summary</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Table of engines, modes, &amp; axes for this geometry.</span>
@@ -1014,9 +1118,12 @@
                     <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">mode</span><span class="p">[</span><span class="s2">&quot;extras&quot;</span><span class="p">]),</span>
                 <span class="p">]</span>
                 <span class="n">table</span><span class="o">.</span><span class="n">addRow</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">table</span>
+        <span class="k">return</span> <span class="n">table</span></div>
+
 
     <span class="nd">@property</span>
+<div class="viewcode-block" id="HklSolver.U">
+<a class="viewcode-back" href="../../../autoapi/hklpy2/backends/hkl_soleil/index.html#hklpy2.backends.hkl_soleil.HklSolver.U">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">U</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Relative orientation of crystal on diffractometer.</span>
@@ -1026,7 +1133,8 @@
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">sample</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">IDENTITY_MATRIX_3X3</span>
         <span class="n">matrix</span> <span class="o">=</span> <span class="n">to_numpy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">U_get</span><span class="p">())</span>
-        <span class="k">return</span> <span class="n">matrix</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">decimals</span><span class="o">=</span><span class="n">ROUNDOFF_DIGITS</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">matrix</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">decimals</span><span class="o">=</span><span class="n">ROUNDOFF_DIGITS</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span></div>
+
 
     <span class="nd">@U</span><span class="o">.</span><span class="n">setter</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">U</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -1034,12 +1142,15 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">U_set</span><span class="p">(</span><span class="n">to_hkl</span><span class="p">(</span><span class="n">value</span><span class="p">))</span>
 
     <span class="nd">@property</span>
+<div class="viewcode-block" id="HklSolver.UB">
+<a class="viewcode-back" href="../../../autoapi/hklpy2/backends/hkl_soleil/index.html#hklpy2.backends.hkl_soleil.HklSolver.UB">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">UB</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Orientation matrix (3x3).&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">sample</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">IDENTITY_MATRIX_3X3</span>
         <span class="n">matrix</span> <span class="o">=</span> <span class="n">to_numpy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">UB_get</span><span class="p">())</span>
-        <span class="k">return</span> <span class="n">matrix</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">decimals</span><span class="o">=</span><span class="n">ROUNDOFF_DIGITS</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">matrix</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">decimals</span><span class="o">=</span><span class="n">ROUNDOFF_DIGITS</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span></div>
+
 
     <span class="nd">@UB</span><span class="o">.</span><span class="n">setter</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">UB</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -1047,9 +1158,12 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">UB_set</span><span class="p">(</span><span class="n">to_hkl</span><span class="p">(</span><span class="n">value</span><span class="p">))</span>
 
     <span class="nd">@property</span>
+<div class="viewcode-block" id="HklSolver.wavelength">
+<a class="viewcode-back" href="../../../autoapi/hklpy2/backends/hkl_soleil/index.html#hklpy2.backends.hkl_soleil.HklSolver.wavelength">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">wavelength</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Monochromatic wavelength.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_geometry</span><span class="o">.</span><span class="n">wavelength_get</span><span class="p">(</span><span class="n">LIBHKL_USER_UNITS</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_geometry</span><span class="o">.</span><span class="n">wavelength_get</span><span class="p">(</span><span class="n">LIBHKL_USER_UNITS</span><span class="p">)</span></div>
+
 
     <span class="nd">@wavelength</span><span class="o">.</span><span class="n">setter</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">wavelength</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>

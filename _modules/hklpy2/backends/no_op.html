@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../../../_static/documentation_options.js?v=3711343a"></script>
+    <script src="../../../_static/documentation_options.js?v=2c42f40f"></script>
     <script src="../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -134,13 +134,6 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../api.html">
-    API
-  </a>
-</li>
-
-
-<li class="nav-item ">
   <a class="nav-link nav-internal" href="../../../release_notes.html">
     Releases
   </a>
@@ -150,6 +143,13 @@
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../../../license.html">
     License
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../autoapi/index.html">
+    API Reference
   </a>
 </li>
 
@@ -248,13 +248,6 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../api.html">
-    API
-  </a>
-</li>
-
-
-<li class="nav-item ">
   <a class="nav-link nav-internal" href="../../../release_notes.html">
     Releases
   </a>
@@ -264,6 +257,13 @@
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../../../license.html">
     License
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../autoapi/index.html">
+    API Reference
   </a>
 </li>
 
@@ -343,6 +343,9 @@
     
     <li class="breadcrumb-item"><a href="../../index.html" class="nav-link">Module code</a></li>
     
+    
+    <li class="breadcrumb-item"><a href="../../hklpy2.html" class="nav-link">hklpy2</a></li>
+    
     <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">hklpy2.backends.no_op</span></li>
   </ul>
 </nav>
@@ -383,11 +386,14 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">..blocks.reflection</span><span class="w"> </span><span class="kn">import</span> <span class="n">Reflection</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">SolverBase</span>
 
-<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+<div class="viewcode-block" id="logger">
+<a class="viewcode-back" href="../../../autoapi/hklpy2/backends/no_op/index.html#hklpy2.backends.no_op.logger">[docs]</a>
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span></div>
+
 
 
 <div class="viewcode-block" id="NoOpSolver">
-<a class="viewcode-back" href="../../../generated/generated/hklpy2.backends.no_op.html#hklpy2.backends.no_op.NoOpSolver">[docs]</a>
+<a class="viewcode-back" href="../../../autoapi/hklpy2/backends/no_op/index.html#hklpy2.backends.no_op.NoOpSolver">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">NoOpSolver</span><span class="p">(</span><span class="n">SolverBase</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    ``&quot;no_op&quot;`` (any OS) no transformations.</span>
@@ -420,77 +426,98 @@
 <span class="sd">        ~sample</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;no_op&quot;</span>
-    <span class="n">version</span> <span class="o">=</span> <span class="n">__version__</span>
+<div class="viewcode-block" id="NoOpSolver.name">
+<a class="viewcode-back" href="../../../autoapi/hklpy2/backends/no_op/index.html#hklpy2.backends.no_op.NoOpSolver.name">[docs]</a>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;no_op&quot;</span></div>
+
+<div class="viewcode-block" id="NoOpSolver.version">
+<a class="viewcode-back" href="../../../autoapi/hklpy2/backends/no_op/index.html#hklpy2.backends.no_op.NoOpSolver.version">[docs]</a>
+    <span class="n">version</span> <span class="o">=</span> <span class="n">__version__</span></div>
+
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">geometry</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">geometry</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
 <div class="viewcode-block" id="NoOpSolver.addReflection">
-<a class="viewcode-back" href="../../../generated/generated/hklpy2.backends.no_op.html#hklpy2.backends.no_op.NoOpSolver.addReflection">[docs]</a>
+<a class="viewcode-back" href="../../../autoapi/hklpy2/backends/no_op/index.html#hklpy2.backends.no_op.NoOpSolver.addReflection">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">addReflection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reflection</span><span class="p">:</span> <span class="n">Reflection</span><span class="p">):</span>
         <span class="k">pass</span></div>
 
 
 <div class="viewcode-block" id="NoOpSolver.calculate_UB">
-<a class="viewcode-back" href="../../../generated/generated/hklpy2.backends.no_op.html#hklpy2.backends.no_op.NoOpSolver.calculate_UB">[docs]</a>
+<a class="viewcode-back" href="../../../autoapi/hklpy2/backends/no_op/index.html#hklpy2.backends.no_op.NoOpSolver.calculate_UB">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">calculate_UB</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">r1</span><span class="p">,</span> <span class="n">r2</span><span class="p">):</span>
         <span class="k">return</span></div>
 
 
     <span class="nd">@property</span>
+<div class="viewcode-block" id="NoOpSolver.extra_axis_names">
+<a class="viewcode-back" href="../../../autoapi/hklpy2/backends/no_op/index.html#hklpy2.backends.no_op.NoOpSolver.extra_axis_names">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">extra_axis_names</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="p">[]</span>
+        <span class="k">return</span> <span class="p">[]</span></div>
+
 
 <div class="viewcode-block" id="NoOpSolver.forward">
-<a class="viewcode-back" href="../../../generated/generated/hklpy2.backends.no_op.html#hklpy2.backends.no_op.NoOpSolver.forward">[docs]</a>
+<a class="viewcode-back" href="../../../autoapi/hklpy2/backends/no_op/index.html#hklpy2.backends.no_op.NoOpSolver.forward">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pseudos</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]:</span>
         <span class="k">return</span> <span class="p">[{}]</span></div>
 
 
-<div class="viewcode-block" id="NoOpSolver.geometries">
-<a class="viewcode-back" href="../../../generated/generated/hklpy2.backends.no_op.html#hklpy2.backends.no_op.NoOpSolver.geometries">[docs]</a>
     <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="NoOpSolver.geometries">
+<a class="viewcode-back" href="../../../autoapi/hklpy2/backends/no_op/index.html#hklpy2.backends.no_op.NoOpSolver.geometries">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">geometries</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
         <span class="k">return</span> <span class="p">[]</span></div>
 
 
     <span class="nd">@property</span>
+<div class="viewcode-block" id="NoOpSolver.geometry">
+<a class="viewcode-back" href="../../../autoapi/hklpy2/backends/no_op/index.html#hklpy2.backends.no_op.NoOpSolver.geometry">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">geometry</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Diffractometer geometry.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_geometry</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_geometry</span></div>
+
 
     <span class="nd">@geometry</span><span class="o">.</span><span class="n">setter</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">geometry</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_geometry</span> <span class="o">=</span> <span class="n">value</span>
 
 <div class="viewcode-block" id="NoOpSolver.inverse">
-<a class="viewcode-back" href="../../../generated/generated/hklpy2.backends.no_op.html#hklpy2.backends.no_op.NoOpSolver.inverse">[docs]</a>
+<a class="viewcode-back" href="../../../autoapi/hklpy2/backends/no_op/index.html#hklpy2.backends.no_op.NoOpSolver.inverse">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">inverse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reals</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
         <span class="k">return</span> <span class="p">{}</span></div>
 
 
     <span class="nd">@property</span>
+<div class="viewcode-block" id="NoOpSolver.modes">
+<a class="viewcode-back" href="../../../autoapi/hklpy2/backends/no_op/index.html#hklpy2.backends.no_op.NoOpSolver.modes">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">modes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="p">[]</span>
+        <span class="k">return</span> <span class="p">[]</span></div>
+
 
     <span class="nd">@property</span>
+<div class="viewcode-block" id="NoOpSolver.pseudo_axis_names">
+<a class="viewcode-back" href="../../../autoapi/hklpy2/backends/no_op/index.html#hklpy2.backends.no_op.NoOpSolver.pseudo_axis_names">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">pseudo_axis_names</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="p">[]</span>  <span class="c1"># no axes</span>
+        <span class="k">return</span> <span class="p">[]</span>  <span class="c1"># no axes</span></div>
+
 
     <span class="nd">@property</span>
+<div class="viewcode-block" id="NoOpSolver.real_axis_names">
+<a class="viewcode-back" href="../../../autoapi/hklpy2/backends/no_op/index.html#hklpy2.backends.no_op.NoOpSolver.real_axis_names">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">real_axis_names</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="p">[]</span>  <span class="c1"># no axes</span>
+        <span class="k">return</span> <span class="p">[]</span>  <span class="c1"># no axes</span></div>
+
 
 <div class="viewcode-block" id="NoOpSolver.refineLattice">
-<a class="viewcode-back" href="../../../generated/generated/hklpy2.backends.no_op.html#hklpy2.backends.no_op.NoOpSolver.refineLattice">[docs]</a>
+<a class="viewcode-back" href="../../../autoapi/hklpy2/backends/no_op/index.html#hklpy2.backends.no_op.NoOpSolver.refineLattice">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">refineLattice</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reflections</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Reflection</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;No refinement.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="kc">None</span></div>
 
 
 <div class="viewcode-block" id="NoOpSolver.removeAllReflections">
-<a class="viewcode-back" href="../../../generated/generated/hklpy2.backends.no_op.html#hklpy2.backends.no_op.NoOpSolver.removeAllReflections">[docs]</a>
+<a class="viewcode-back" href="../../../autoapi/hklpy2/backends/no_op/index.html#hklpy2.backends.no_op.NoOpSolver.removeAllReflections">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">removeAllReflections</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Remove all reflections.&quot;&quot;&quot;</span>
         <span class="k">pass</span></div>

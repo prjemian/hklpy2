@@ -1,0 +1,78 @@
+hklpy2.blocks.tests.test_constraints
+====================================
+
+.. py:module:: hklpy2.blocks.tests.test_constraints
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   hklpy2.blocks.tests.test_constraints.PlainConstraint
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   hklpy2.blocks.tests.test_constraints.test_raises
+   hklpy2.blocks.tests.test_constraints.test_LimitsConstraint
+   hklpy2.blocks.tests.test_constraints.test_RealAxisConstraints
+   hklpy2.blocks.tests.test_constraints.test_RealAxisConstraintsKeys
+   hklpy2.blocks.tests.test_constraints.test_fromdict
+   hklpy2.blocks.tests.test_constraints.test_fromdict_KeyError
+   hklpy2.blocks.tests.test_constraints.test_repr
+   hklpy2.blocks.tests.test_constraints.test_limits_property
+   hklpy2.blocks.tests.test_constraints.test_ConstraintsBase
+
+
+Module Contents
+---------------
+
+.. py:class:: PlainConstraint
+
+   Bases: :py:obj:`hklpy2.blocks.constraints.ConstraintBase`
+
+
+   Base class for all constraints for selecting 'forward()' solutions.
+
+   .. autosummary::
+
+       ~_asdict
+       ~valid
+
+
+   .. py:method:: valid(**values)
+
+      Is this constraint satisifed by current value(s)?
+
+      PARAMETERS
+
+      values *dict*:
+          Dictionary of current 'axis: value' pairs for comparison.
+
+
+
+.. py:function:: test_raises()
+
+.. py:function:: test_LimitsConstraint(lo, hi, value, result)
+
+.. py:function:: test_RealAxisConstraints(reals, result)
+
+.. py:function:: test_RealAxisConstraintsKeys(supplied, kwargs, context, expected)
+
+.. py:function:: test_fromdict(config, context, expected)
+
+.. py:function:: test_fromdict_KeyError()
+
+   Edge case: restore custom real which differs from local custom real.
+
+
+.. py:function:: test_repr()
+
+.. py:function:: test_limits_property()
+
+.. py:function:: test_ConstraintsBase()
+

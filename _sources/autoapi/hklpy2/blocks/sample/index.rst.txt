@@ -1,0 +1,133 @@
+hklpy2.blocks.sample
+====================
+
+.. py:module:: hklpy2.blocks.sample
+
+.. autoapi-nested-parse::
+
+   A Crystalline Sample.
+
+   .. autosummary::
+
+       ~Sample
+       ~SampleError
+
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   hklpy2.blocks.sample.logger
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   hklpy2.blocks.sample.Sample
+
+
+Module Contents
+---------------
+
+.. py:data:: logger
+
+.. py:class:: Sample(core, name: str, lattice: hklpy2.blocks.lattice.Lattice)
+
+   A crystalline sample mounted on a diffractometer.
+
+   .. note:: Internal use only.
+
+   .. rubric:: Python Methods
+
+   .. autosummary::
+
+       ~refine_lattice
+
+   .. rubric:: Python Properties
+
+   .. autosummary::
+
+       ~_asdict
+       ~lattice
+       ~name
+       ~reflections
+       ~remove_reflection
+       ~U
+       ~UB
+
+
+   .. py:property:: name
+
+      Sample name.
+
+
+   .. py:attribute:: core
+
+
+   .. py:property:: lattice
+
+      Sample crystal lattice.
+
+
+   .. py:property:: U
+      :type: list[list[float]]
+
+
+      Return the matrix, U, crystal orientation on the diffractometer.
+
+
+   .. py:property:: UB
+      :type: list[list[float]]
+
+
+      Return the crystal orientation matrix, UB.
+
+      * :math:`UB` - orientation matrix
+      * :math:`B` - crystal lattice on the diffractometer
+      * :math:`U` - rotation matrix, relative orientation of crystal on diffractometer
+
+
+   .. py:property:: reflections
+
+      Ordered dictionary of orientation reflections.
+
+
+   .. py:method:: __repr__()
+
+      Brief text representation.
+
+
+
+   .. py:method:: _asdict()
+
+      Describe the sample as a dictionary.
+
+
+
+   .. py:method:: _fromdict(config, core=None)
+
+      Redefine sample from a (configuration) dictionary.
+
+
+
+   .. py:method:: refine_lattice()
+
+      Refine the lattice parameters from 3 or more reflections.
+
+
+
+   .. py:method:: remove_reflection(name: str) -> None
+
+      Remove the named reflection.
+
+
+
+   .. py:property:: digits
+
+      Sample crystal lattice.
+
+

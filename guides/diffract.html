@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=3711343a"></script>
+    <script src="../_static/documentation_options.js?v=2c42f40f"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
@@ -137,13 +137,6 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../api.html">
-    API
-  </a>
-</li>
-
-
-<li class="nav-item ">
   <a class="nav-link nav-internal" href="../release_notes.html">
     Releases
   </a>
@@ -153,6 +146,13 @@
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../license.html">
     License
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../autoapi/index.html">
+    API Reference
   </a>
 </li>
 
@@ -253,13 +253,6 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../api.html">
-    API
-  </a>
-</li>
-
-
-<li class="nav-item ">
   <a class="nav-link nav-internal" href="../release_notes.html">
     Releases
   </a>
@@ -269,6 +262,13 @@
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../license.html">
     License
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../autoapi/index.html">
+    API Reference
   </a>
 </li>
 
@@ -443,7 +443,7 @@ to use any names allowed by ophyd.</p>
 </div>
 <section id="diffractometer-creator">
 <span id="diffract-axes-diffractometer-factory"></span><h3>Diffractometer Creator<a class="headerlink" href="#diffractometer-creator" title="Link to this heading">#</a></h3>
-<p>The <a class="reference internal" href="../generated/hklpy2.geom.html#hklpy2.geom.creator" title="hklpy2.geom.creator"><code class="xref py py-func docutils literal notranslate"><span class="pre">creator()</span></code></a> creates a diffractometer object using the
+<p>The <code class="xref py py-func docutils literal notranslate"><span class="pre">creator()</span></code> creates a diffractometer object using the
 supplied <cite>reals={}</cite> to define their names.  These are mapped to the names used
 by the <strong>Solver</strong>.  Let’s show this cross-reference map with just a few commands:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">hklpy2</span>
@@ -471,7 +471,7 @@ by the <strong>Solver</strong>.  Let’s show this cross-reference map with just
 the detector.</p>
 <p>In addition to defining the diffractometer axes, we name the <strong>Solver</strong> to use
 with our diffractometer. The <code class="docutils literal notranslate"><span class="pre">th_tth</span></code> <strong>Solver</strong> has a
-<a class="reference internal" href="../generated/generated/hklpy2.backends.th_tth_q.html#hklpy2.backends.th_tth_q.ThTthSolver" title="hklpy2.backends.th_tth_q.ThTthSolver"><code class="xref py py-class docutils literal notranslate"><span class="pre">ThTthSolver</span></code></a> with a <code class="docutils literal notranslate"><span class="pre">&quot;TH</span> <span class="pre">TTH</span> <span class="pre">Q&quot;</span></code> geometry
+<a class="reference internal" href="../autoapi/hklpy2/backends/th_tth_q/index.html#hklpy2.backends.th_tth_q.ThTthSolver" title="hklpy2.backends.th_tth_q.ThTthSolver"><code class="xref py py-class docutils literal notranslate"><span class="pre">ThTthSolver</span></code></a> with a <code class="docutils literal notranslate"><span class="pre">&quot;TH</span> <span class="pre">TTH</span> <span class="pre">Q&quot;</span></code> geometry
 that fits our design. We set that up in the <code class="docutils literal notranslate"><span class="pre">__init__()</span></code> method of our new
 class:</p>
 <div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="kn">import</span><span class="w"> </span><span class="nn">hklpy2</span>
@@ -500,7 +500,7 @@ class:</p>
 </div>
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
-<p>Use the <a class="reference internal" href="../generated/hklpy2.geom.html#hklpy2.geom.creator" title="hklpy2.geom.creator"><code class="xref py py-func docutils literal notranslate"><span class="pre">hklpy2.geom.creator()</span></code></a> instead:</p>
+<p>Use the <code class="xref py py-func docutils literal notranslate"><span class="pre">hklpy2.geom.creator()</span></code> instead:</p>
 <div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">twoc</span> <span class="o">=</span> <span class="n">hklpy2</span><span class="o">.</span><span class="n">creator</span><span class="p">(</span>
     <span class="n">name</span><span class="o">=</span><span class="s2">&quot;twoc&quot;</span><span class="p">,</span>
     <span class="n">geometry</span><span class="o">=</span><span class="s2">&quot;TH TTH Q&quot;</span><span class="p">,</span>
@@ -589,7 +589,7 @@ any particular <strong>Solver</strong> library.</p>
 defined by the diffractometer as needed by the <strong>Solver</strong>.</p>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
-<p><a class="reference internal" href="../generated/hklpy2.diffract.html#hklpy2.diffract.DiffractometerBase.auto_assign_axes" title="hklpy2.diffract.DiffractometerBase.auto_assign_axes"><code class="xref py py-meth docutils literal notranslate"><span class="pre">auto_assign_axes()</span></code></a></p>
+<p><a class="reference internal" href="../autoapi/hklpy2/diffract/index.html#hklpy2.diffract.DiffractometerBase.auto_assign_axes" title="hklpy2.diffract.DiffractometerBase.auto_assign_axes"><code class="xref py py-meth docutils literal notranslate"><span class="pre">auto_assign_axes()</span></code></a></p>
 </div>
 <p>In our diffractometer class (MyTwoC), the axes are sorted alphabetically.
 Auto-assignment of axes would not have been correct, because we did not

@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../../../_static/documentation_options.js?v=3711343a"></script>
+    <script src="../../../_static/documentation_options.js?v=2c42f40f"></script>
     <script src="../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -134,13 +134,6 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../api.html">
-    API
-  </a>
-</li>
-
-
-<li class="nav-item ">
   <a class="nav-link nav-internal" href="../../../release_notes.html">
     Releases
   </a>
@@ -150,6 +143,13 @@
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../../../license.html">
     License
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../autoapi/index.html">
+    API Reference
   </a>
 </li>
 
@@ -248,13 +248,6 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../api.html">
-    API
-  </a>
-</li>
-
-
-<li class="nav-item ">
   <a class="nav-link nav-internal" href="../../../release_notes.html">
     Releases
   </a>
@@ -264,6 +257,13 @@
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../../../license.html">
     License
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../autoapi/index.html">
+    API Reference
   </a>
 </li>
 
@@ -343,6 +343,9 @@
     
     <li class="breadcrumb-item"><a href="../../index.html" class="nav-link">Module code</a></li>
     
+    
+    <li class="breadcrumb-item"><a href="../../hklpy2.html" class="nav-link">hklpy2</a></li>
+    
     <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">hklpy2.backends.base</span></li>
   </ul>
 </nav>
@@ -375,17 +378,19 @@
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyRestTable</span><span class="w"> </span><span class="kn">import</span> <span class="n">Table</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">..</span><span class="w"> </span><span class="kn">import</span> <span class="n">__version__</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">..blocks.lattice</span><span class="w"> </span><span class="kn">import</span> <span class="n">Lattice</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">..blocks.reflection</span><span class="w"> </span><span class="kn">import</span> <span class="n">Reflection</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">..blocks.sample</span><span class="w"> </span><span class="kn">import</span> <span class="n">Sample</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">..misc</span><span class="w"> </span><span class="kn">import</span> <span class="n">IDENTITY_MATRIX_3X3</span>
 
-<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+<div class="viewcode-block" id="logger">
+<a class="viewcode-back" href="../../../autoapi/hklpy2/backends/base/index.html#hklpy2.backends.base.logger">[docs]</a>
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span></div>
+
 
 
 <div class="viewcode-block" id="SolverBase">
-<a class="viewcode-back" href="../../../generated/generated/hklpy2.backends.base.html#hklpy2.backends.base.SolverBase">[docs]</a>
+<a class="viewcode-back" href="../../../autoapi/hklpy2/index.html#hklpy2.backends.base.SolverBase">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">SolverBase</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Base class for all |hklpy2| |solver| classes.</span>
@@ -444,10 +449,18 @@
 <span class="sd">        ~UB</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;base&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">..</span><span class="w"> </span><span class="kn">import</span> <span class="n">__version__</span>
+
+<div class="viewcode-block" id="SolverBase.name">
+<a class="viewcode-back" href="../../../autoapi/hklpy2/backends/base/index.html#hklpy2.backends.base.SolverBase.name">[docs]</a>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;base&quot;</span></div>
+
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Name of this Solver.&quot;&quot;&quot;</span>
 
-    <span class="n">version</span> <span class="o">=</span> <span class="n">__version__</span>
+<div class="viewcode-block" id="SolverBase.version">
+<a class="viewcode-back" href="../../../autoapi/hklpy2/backends/base/index.html#hklpy2.backends.base.SolverBase.version">[docs]</a>
+    <span class="n">version</span> <span class="o">=</span> <span class="n">__version__</span></div>
+
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Version of this Solver.&quot;&quot;&quot;</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
@@ -459,10 +472,15 @@
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">geometry</span> <span class="o">=</span> <span class="n">geometry</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">=</span> <span class="n">mode</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_sample</span> <span class="o">=</span> <span class="kc">None</span>
+<div class="viewcode-block" id="SolverBase._sample">
+<a class="viewcode-back" href="../../../autoapi/hklpy2/backends/base/index.html#hklpy2.backends.base.SolverBase._sample">[docs]</a>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_sample</span> <span class="o">=</span> <span class="kc">None</span></div>
+
 
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;geometry=</span><span class="si">%s</span><span class="s2">, kwargs=</span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="nb">repr</span><span class="p">(</span><span class="n">geometry</span><span class="p">),</span> <span class="nb">repr</span><span class="p">(</span><span class="n">kwargs</span><span class="p">))</span>
 
+<div class="viewcode-block" id="SolverBase.__repr__">
+<a class="viewcode-back" href="../../../autoapi/hklpy2/index.html#hklpy2.backends.base.SolverBase.__repr__">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="c1"># fmt: off</span>
         <span class="n">args</span> <span class="o">=</span> <span class="p">[</span>
@@ -470,9 +488,12 @@
             <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="s2">&quot;name version geometry&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
         <span class="p">]</span>
         <span class="c1"># fmt: on</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">(</span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">args</span><span class="p">)</span><span class="si">}</span><span class="s2">)&quot;</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">(</span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">args</span><span class="p">)</span><span class="si">}</span><span class="s2">)&quot;</span></div>
+
 
     <span class="nd">@property</span>
+<div class="viewcode-block" id="SolverBase._metadata">
+<a class="viewcode-back" href="../../../autoapi/hklpy2/backends/base/index.html#hklpy2.backends.base.SolverBase._metadata">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Dictionary with this solver&#39;s summary metadata.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="p">{</span>
@@ -481,18 +502,19 @@
             <span class="s2">&quot;geometry&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">geometry</span><span class="p">,</span>
             <span class="s2">&quot;real_axes&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">real_axis_names</span><span class="p">,</span>
             <span class="s2">&quot;version&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span><span class="p">,</span>
-        <span class="p">}</span>
+        <span class="p">}</span></div>
 
-<div class="viewcode-block" id="SolverBase.addReflection">
-<a class="viewcode-back" href="../../../generated/generated/hklpy2.backends.base.html#hklpy2.backends.base.SolverBase.addReflection">[docs]</a>
+
     <span class="nd">@abstractmethod</span>
+<div class="viewcode-block" id="SolverBase.addReflection">
+<a class="viewcode-back" href="../../../autoapi/hklpy2/index.html#hklpy2.backends.base.SolverBase.addReflection">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">addReflection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reflection</span><span class="p">:</span> <span class="n">Reflection</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Add coordinates of a diffraction condition (a reflection).&quot;&quot;&quot;</span></div>
 
 
-<div class="viewcode-block" id="SolverBase.calculate_UB">
-<a class="viewcode-back" href="../../../generated/generated/hklpy2.backends.base.html#hklpy2.backends.base.SolverBase.calculate_UB">[docs]</a>
     <span class="nd">@abstractmethod</span>
+<div class="viewcode-block" id="SolverBase.calculate_UB">
+<a class="viewcode-back" href="../../../autoapi/hklpy2/index.html#hklpy2.backends.base.SolverBase.calculate_UB">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">calculate_UB</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">r1</span><span class="p">:</span> <span class="n">Reflection</span><span class="p">,</span>
@@ -508,31 +530,37 @@
 
     <span class="nd">@property</span>
     <span class="nd">@abstractmethod</span>
+<div class="viewcode-block" id="SolverBase.extra_axis_names">
+<a class="viewcode-back" href="../../../autoapi/hklpy2/backends/base/index.html#hklpy2.backends.base.SolverBase.extra_axis_names">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">extra_axis_names</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Ordered list of any extra axis names (such as x, y, z).&quot;&quot;&quot;</span>
         <span class="c1"># Do NOT sort.</span>
-        <span class="k">return</span> <span class="p">[]</span>
+        <span class="k">return</span> <span class="p">[]</span></div>
+
 
     <span class="nd">@property</span>
+<div class="viewcode-block" id="SolverBase.extras">
+<a class="viewcode-back" href="../../../autoapi/hklpy2/backends/base/index.html#hklpy2.backends.base.SolverBase.extras">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">extras</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Ordered dictionary of any extra parameters.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="p">{}</span>
+        <span class="k">return</span> <span class="p">{}</span></div>
 
-<div class="viewcode-block" id="SolverBase.forward">
-<a class="viewcode-back" href="../../../generated/generated/hklpy2.backends.base.html#hklpy2.backends.base.SolverBase.forward">[docs]</a>
+
     <span class="nd">@abstractmethod</span>
+<div class="viewcode-block" id="SolverBase.forward">
+<a class="viewcode-back" href="../../../autoapi/hklpy2/index.html#hklpy2.backends.base.SolverBase.forward">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pseudos</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute list of solutions(reals) from pseudos (hkl -&gt; [angles]).&quot;&quot;&quot;</span>
         <span class="c1"># based on geometry and mode</span>
         <span class="k">return</span> <span class="p">[{}]</span></div>
 
 
-<div class="viewcode-block" id="SolverBase.geometries">
-<a class="viewcode-back" href="../../../generated/generated/hklpy2.backends.base.html#hklpy2.backends.base.SolverBase.geometries">[docs]</a>
     <span class="nd">@classmethod</span>
     <span class="nd">@abstractmethod</span>
+<div class="viewcode-block" id="SolverBase.geometries">
+<a class="viewcode-back" href="../../../autoapi/hklpy2/index.html#hklpy2.backends.base.SolverBase.geometries">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">geometries</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Ordered list of the geometry names.</span>
@@ -552,6 +580,8 @@
 
     <span class="nd">@property</span>
     <span class="nd">@abstractmethod</span>
+<div class="viewcode-block" id="SolverBase.geometry">
+<a class="viewcode-back" href="../../../autoapi/hklpy2/backends/base/index.html#hklpy2.backends.base.SolverBase.geometry">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">geometry</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Name of selected diffractometer geometry.</span>
@@ -559,27 +589,31 @@
 <span class="sd">        Cannot be changed once solver is created.  Instead, make a new solver</span>
 <span class="sd">        for each geometry.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_geometry</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_geometry</span></div>
+
 
     <span class="nd">@geometry</span><span class="o">.</span><span class="n">setter</span>
     <span class="nd">@abstractmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">geometry</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_geometry</span> <span class="o">=</span> <span class="n">value</span>
 
-<div class="viewcode-block" id="SolverBase.inverse">
-<a class="viewcode-back" href="../../../generated/generated/hklpy2.backends.base.html#hklpy2.backends.base.SolverBase.inverse">[docs]</a>
     <span class="nd">@abstractmethod</span>
+<div class="viewcode-block" id="SolverBase.inverse">
+<a class="viewcode-back" href="../../../autoapi/hklpy2/index.html#hklpy2.backends.base.SolverBase.inverse">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">inverse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reals</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute dict of pseudos from reals (angles -&gt; hkl).&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="p">{}</span></div>
 
 
     <span class="nd">@property</span>
+<div class="viewcode-block" id="SolverBase.lattice">
+<a class="viewcode-back" href="../../../autoapi/hklpy2/backends/base/index.html#hklpy2.backends.base.SolverBase.lattice">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">lattice</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">object</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Crystal lattice parameters.  (Not used by this |solver|.)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lattice</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lattice</span></div>
+
 
     <span class="nd">@lattice</span><span class="o">.</span><span class="n">setter</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">lattice</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Lattice</span><span class="p">):</span>
@@ -588,6 +622,8 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_lattice</span> <span class="o">=</span> <span class="n">value</span>
 
     <span class="nd">@property</span>
+<div class="viewcode-block" id="SolverBase.mode">
+<a class="viewcode-back" href="../../../autoapi/hklpy2/backends/base/index.html#hklpy2.backends.base.SolverBase.mode">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">mode</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Diffractometer geometry operation mode for :meth:`forward()`.</span>
@@ -599,7 +635,8 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">_mode</span>
         <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_mode</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mode</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mode</span></div>
+
 
     <span class="nd">@mode</span><span class="o">.</span><span class="n">setter</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">mode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
@@ -610,44 +647,56 @@
 
     <span class="nd">@property</span>
     <span class="nd">@abstractmethod</span>
+<div class="viewcode-block" id="SolverBase.modes">
+<a class="viewcode-back" href="../../../autoapi/hklpy2/backends/base/index.html#hklpy2.backends.base.SolverBase.modes">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">modes</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;List of the geometry operating modes.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="p">[]</span>
+        <span class="k">return</span> <span class="p">[]</span></div>
+
 
     <span class="nd">@property</span>
     <span class="nd">@abstractmethod</span>
+<div class="viewcode-block" id="SolverBase.pseudo_axis_names">
+<a class="viewcode-back" href="../../../autoapi/hklpy2/backends/base/index.html#hklpy2.backends.base.SolverBase.pseudo_axis_names">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">pseudo_axis_names</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Ordered list of the pseudo axis names (such as h, k, l).&quot;&quot;&quot;</span>
         <span class="c1"># Do NOT sort.</span>
-        <span class="k">return</span> <span class="p">[]</span>
+        <span class="k">return</span> <span class="p">[]</span></div>
+
 
     <span class="nd">@property</span>
     <span class="nd">@abstractmethod</span>
+<div class="viewcode-block" id="SolverBase.real_axis_names">
+<a class="viewcode-back" href="../../../autoapi/hklpy2/backends/base/index.html#hklpy2.backends.base.SolverBase.real_axis_names">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">real_axis_names</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Ordered list of the real axis names (such as th, tth).&quot;&quot;&quot;</span>
         <span class="c1"># Do NOT sort.</span>
-        <span class="k">return</span> <span class="p">[]</span>
+        <span class="k">return</span> <span class="p">[]</span></div>
 
-<div class="viewcode-block" id="SolverBase.refineLattice">
-<a class="viewcode-back" href="../../../generated/generated/hklpy2.backends.base.html#hklpy2.backends.base.SolverBase.refineLattice">[docs]</a>
+
     <span class="nd">@abstractmethod</span>
+<div class="viewcode-block" id="SolverBase.refineLattice">
+<a class="viewcode-back" href="../../../autoapi/hklpy2/index.html#hklpy2.backends.base.SolverBase.refineLattice">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">refineLattice</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reflections</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Reflection</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Lattice</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Refine the lattice parameters from a list of reflections.&quot;&quot;&quot;</span></div>
 
 
-<div class="viewcode-block" id="SolverBase.removeAllReflections">
-<a class="viewcode-back" href="../../../generated/generated/hklpy2.backends.base.html#hklpy2.backends.base.SolverBase.removeAllReflections">[docs]</a>
     <span class="nd">@abstractmethod</span>
+<div class="viewcode-block" id="SolverBase.removeAllReflections">
+<a class="viewcode-back" href="../../../autoapi/hklpy2/index.html#hklpy2.backends.base.SolverBase.removeAllReflections">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">removeAllReflections</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Remove all reflections.&quot;&quot;&quot;</span></div>
 
 
     <span class="nd">@property</span>
+<div class="viewcode-block" id="SolverBase.sample">
+<a class="viewcode-back" href="../../../autoapi/hklpy2/backends/base/index.html#hklpy2.backends.base.SolverBase.sample">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">sample</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">object</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Crystalline sample.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sample</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sample</span></div>
+
 
     <span class="nd">@sample</span><span class="o">.</span><span class="n">setter</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">sample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Sample</span><span class="p">):</span>
@@ -656,6 +705,8 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_sample</span> <span class="o">=</span> <span class="n">value</span>
 
     <span class="nd">@property</span>
+<div class="viewcode-block" id="SolverBase._summary_dict">
+<a class="viewcode-back" href="../../../autoapi/hklpy2/backends/base/index.html#hklpy2.backends.base.SolverBase._summary_dict">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">_summary_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return a summary of the geometry (modes, axes)&quot;&quot;&quot;</span>
         <span class="n">geometry_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">geometry</span>
@@ -675,9 +726,12 @@
             <span class="p">}</span>
             <span class="n">description</span><span class="p">[</span><span class="s2">&quot;modes&quot;</span><span class="p">][</span><span class="n">mode</span><span class="p">]</span> <span class="o">=</span> <span class="n">desc</span>
 
-        <span class="k">return</span> <span class="n">description</span>
+        <span class="k">return</span> <span class="n">description</span></div>
+
 
     <span class="nd">@property</span>
+<div class="viewcode-block" id="SolverBase.summary">
+<a class="viewcode-back" href="../../../autoapi/hklpy2/backends/base/index.html#hklpy2.backends.base.SolverBase.summary">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">summary</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Table of this geometry (modes, axes).</span>
@@ -698,12 +752,16 @@
                 <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">mode</span><span class="p">[</span><span class="s2">&quot;extras&quot;</span><span class="p">]),</span>
             <span class="p">]</span>
             <span class="n">table</span><span class="o">.</span><span class="n">addRow</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">table</span>
+        <span class="k">return</span> <span class="n">table</span></div>
+
 
     <span class="nd">@property</span>
+<div class="viewcode-block" id="SolverBase.UB">
+<a class="viewcode-back" href="../../../autoapi/hklpy2/backends/base/index.html#hklpy2.backends.base.SolverBase.UB">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">UB</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Orientation matrix (3x3).&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">IDENTITY_MATRIX_3X3</span></div>
+</div>
 
 </pre></div>
 

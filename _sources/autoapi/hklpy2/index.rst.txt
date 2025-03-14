@@ -1,0 +1,1053 @@
+hklpy2
+======
+
+.. py:module:: hklpy2
+
+.. autoapi-nested-parse::
+
+   Package-level initialization.
+
+
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 1
+
+   /autoapi/hklpy2/backends/index
+   /autoapi/hklpy2/blocks/index
+   /autoapi/hklpy2/diffract/index
+   /autoapi/hklpy2/misc/index
+   /autoapi/hklpy2/ops/index
+   /autoapi/hklpy2/tests/index
+   /autoapi/hklpy2/user/index
+   /autoapi/hklpy2/wavelength_support/index
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   hklpy2.__settings_orgName__
+   hklpy2.__package_name__
+   hklpy2.__version__
+   hklpy2.SI_LATTICE_PARAMETER
+   hklpy2.SOLVER_ENTRYPOINT_GROUP
+   hklpy2.A_KEV
+
+
+Exceptions
+----------
+
+.. autoapisummary::
+
+   hklpy2.SolverError
+   hklpy2.WavelengthError
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   hklpy2.SolverBase
+   hklpy2.Configuration
+   hklpy2.DiffractometerBase
+   hklpy2.ConfigurationRunWrapper
+   hklpy2.ConstantMonochromaticWavelength
+   hklpy2.MonochromaticXrayWavelength
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   hklpy2.creator
+   hklpy2.diffractometer_class_factory
+   hklpy2.check_value_in_list
+   hklpy2.get_solver
+   hklpy2.solver_factory
+   hklpy2.solvers
+
+
+Package Contents
+----------------
+
+.. py:data:: __settings_orgName__
+   :value: 'prjemian'
+
+
+.. py:data:: __package_name__
+   :value: 'hklpy2'
+
+
+.. py:data:: __version__
+   :value: None
+
+
+.. py:class:: SolverBase(geometry: str, *, mode: str = '', **kwargs)
+
+   Bases: :py:obj:`abc.ABC`
+
+
+   Base class for all |hklpy2| |solver| classes.
+
+   .. rubric:: Parameters
+
+   * ``geometry``: (str) Name of geometry.
+   * ``mode``: (str) Name of operating mode.  (default: current mode)
+
+   Example::
+
+       import hklpy2
+
+       class MySolver(hklpy2.SolverBase):
+           ...
+
+   .. note:: :class:`~SolverBase`, an `abstract base
+       class <https://docs.python.org/3/library/abc.html#abc.ABC>`_,
+       cannot not be used directly by |hklpy2| users.
+
+   As the parent class for all custom :index:`Solver` classes,
+   :class:`~SolverBase` defines the methods and attributes to be written
+   that will connect |hklpy2| with the support library that defines
+   specific diffractometer geometries and the computations for
+   using them.  Subclasses should implement each of these methods
+   as best fits the underlying support library.
+
+   .. seealso:: :mod:`~hklpy2.backends.hkl_soleil` & :mod:`~hklpy2.backends.no_op`
+
+   .. rubric:: Python Methods
+
+   .. autosummary::
+
+       ~addReflection
+       ~calculate_UB
+       ~extra_axis_names
+       ~forward
+       ~geometries
+       ~inverse
+       ~pseudo_axis_names
+       ~real_axis_names
+       ~refineLattice
+       ~removeAllReflections
+
+   .. rubric:: Python Properties
+
+   .. autosummary::
+
+       ~extra_axis_names
+       ~extras
+       ~geometry
+       ~lattice
+       ~mode
+       ~modes
+       ~sample
+       ~UB
+
+
+   .. py:attribute:: name
+      :value: 'base'
+
+
+      Name of this Solver.
+
+
+   .. py:attribute:: version
+      :value: None
+
+
+      Version of this Solver.
+
+
+   .. py:property:: geometry
+      :type: str
+
+      :abstractmethod:
+
+
+      Name of selected diffractometer geometry.
+
+      Cannot be changed once solver is created.  Instead, make a new solver
+      for each geometry.
+
+
+   .. py:property:: mode
+      :type: str
+
+
+      Diffractometer geometry operation mode for :meth:`forward()`.
+
+      A mode defines which axes will be modified by the
+      :meth:`forward` computation.
+
+
+   .. py:attribute:: _sample
+      :value: None
+
+
+
+   .. py:method:: __repr__() -> str
+
+
+   .. py:property:: _metadata
+      :type: dict
+
+
+      Dictionary with this solver's summary metadata.
+
+
+   .. py:method:: addReflection(reflection: hklpy2.blocks.reflection.Reflection) -> None
+      :abstractmethod:
+
+
+      Add coordinates of a diffraction condition (a reflection).
+
+
+
+   .. py:method:: calculate_UB(r1: hklpy2.blocks.reflection.Reflection, r2: hklpy2.blocks.reflection.Reflection) -> list[list[float]]
+      :abstractmethod:
+
+
+      Calculate the UB (orientation) matrix with two reflections.
+
+      The method of Busing & Levy, Acta Cryst 22 (1967) 457.
+
+
+
+   .. py:property:: extra_axis_names
+      :type: list[str]
+
+      :abstractmethod:
+
+
+      Ordered list of any extra axis names (such as x, y, z).
+
+
+   .. py:property:: extras
+      :type: dict
+
+
+      Ordered dictionary of any extra parameters.
+
+
+   .. py:method:: forward(pseudos: dict) -> list[dict[str, float]]
+      :abstractmethod:
+
+
+      Compute list of solutions(reals) from pseudos (hkl -> [angles]).
+
+
+
+   .. py:method:: geometries() -> list[str]
+      :classmethod:
+
+      :abstractmethod:
+
+
+      Ordered list of the geometry names.
+
+      EXAMPLES::
+
+          >>> from hklpy2 import get_solver
+          >>> Solver = get_solver("no_op")
+          >>> Solver.geometries()
+          []
+          >>> solver = Solver("TH TTH Q")
+          >>> solver.geometries()
+          []
+
+
+
+   .. py:method:: inverse(reals: dict) -> dict[str, float]
+      :abstractmethod:
+
+
+      Compute dict of pseudos from reals (angles -> hkl).
+
+
+
+   .. py:property:: lattice
+      :type: object
+
+
+      Crystal lattice parameters.  (Not used by this |solver|.)
+
+
+   .. py:property:: modes
+      :type: list[str]
+
+      :abstractmethod:
+
+
+      List of the geometry operating modes.
+
+
+   .. py:property:: pseudo_axis_names
+      :type: list[str]
+
+      :abstractmethod:
+
+
+      Ordered list of the pseudo axis names (such as h, k, l).
+
+
+   .. py:property:: real_axis_names
+      :type: list[str]
+
+      :abstractmethod:
+
+
+      Ordered list of the real axis names (such as th, tth).
+
+
+   .. py:method:: refineLattice(reflections: list[hklpy2.blocks.reflection.Reflection]) -> hklpy2.blocks.lattice.Lattice
+      :abstractmethod:
+
+
+      Refine the lattice parameters from a list of reflections.
+
+
+
+   .. py:method:: removeAllReflections() -> None
+      :abstractmethod:
+
+
+      Remove all reflections.
+
+
+
+   .. py:property:: sample
+      :type: object
+
+
+      Crystalline sample.
+
+
+   .. py:property:: _summary_dict
+
+      Return a summary of the geometry (modes, axes)
+
+
+   .. py:property:: summary
+      :type: pyRestTable.Table
+
+
+      Table of this geometry (modes, axes).
+
+      .. seealso:: :ref:`geometries.summary_tables`,
+          :func:`hklpy2.user.solver_summary()`
+
+
+   .. py:property:: UB
+
+      Orientation matrix (3x3).
+
+
+.. py:class:: Configuration(diffractometer)
+
+   Manage diffractometer configurations.
+
+   .. autosummary::
+
+       ~_asdict
+       ~_fromdict
+       ~_valid
+
+
+   .. py:attribute:: diffractometer
+
+
+   .. py:method:: _asdict() -> dict
+
+      Return diffractometer's configuration as a dict.
+
+
+
+   .. py:method:: _fromdict(config: dict, clear: bool = True, restore_constraints: bool = True)
+
+      Restore diffractometer's configuration from a dict.
+
+
+
+   .. py:method:: _valid(config)
+
+      Validate incoming configuration for current diffractometer.
+
+
+
+.. py:data:: SI_LATTICE_PARAMETER
+   :value: 5.431020511
+
+
+   2018 CODATA recommended lattice parameter of silicon, Angstrom.
+
+   :see: https://physics.nist.gov/cgi-bin/cuu/Value?asil
+
+.. py:class:: DiffractometerBase(prefix: str = '', *, solver: str = None, geometry: str = None, solver_kwargs: dict = {}, pseudos: list[str] = None, reals: list[str] = None, **kwargs)
+
+   Bases: :py:obj:`ophyd.PseudoPositioner`
+
+
+   Base class for all diffractometers.
+
+   .. rubric:: Parameters
+
+   *   ``solver`` (*str*) : Name of |solver| library.
+       (default: unspecified)
+   *   ``geometry``: (*str*) : Name of |solver| geometry.
+       (default: unspecified)
+   *   ``solver_kwargs`` (*dict*) : Any additional keyword arguments needed
+       by |solver| library. (default: empty)
+   *   ``pseudos`` ([str]) : List of diffractometer axis names to be used
+       as pseudo axes. (default: unspecified)
+   *   ``reals`` ([str]) : List of diffractometer axis names to be used as
+       real axes. (default: unspecified)
+
+   .. rubric:: (ophyd) Components
+
+   .. rubric :: (ophyd) Attribute Components
+
+   .. autosummary::
+
+       ~geometry
+       ~solver
+       ~wavelength
+
+   .. rubric:: Python Methods
+
+   .. autosummary::
+
+       ~add_reflection
+       ~add_sample
+       ~auto_assign_axes
+       ~export
+       ~forward
+       ~full_position
+       ~inverse
+       ~move_dict
+       ~move_forward_with_extras
+       ~move_reals
+       ~restore
+       ~scan_extra
+       ~wh
+
+   .. rubric:: Python Properties
+
+   .. autosummary::
+       ~configuration
+       ~pseudo_axis_names
+       ~real_axis_names
+       ~sample
+       ~samples
+       ~solver_name
+
+
+   .. py:attribute:: geometry
+
+      Name of backend |solver| geometry.
+
+
+   .. py:attribute:: solver
+
+      Name of backend |solver| (library).
+
+
+   .. py:attribute:: wavelength
+
+      Wavelength of incident radiation.
+
+
+   .. py:attribute:: _backend
+      :value: None
+
+
+
+   .. py:attribute:: _forward_solution
+
+
+   .. py:attribute:: _source
+
+
+   .. py:attribute:: core
+
+
+   .. py:method:: add_reflection(pseudos, reals=None, wavelength=None, name=None, replace: bool = False) -> hklpy2.blocks.reflection.Reflection
+
+      Add a new reflection with this geometry to the selected sample.
+
+      .. rubric:: Parameters
+
+      * ``pseudos`` (various): pseudo-space axes and values.
+      * ``reals`` (various): dictionary of real-space axes and values.
+      * ``wavelength`` (float): Wavelength of incident radiation.
+        If ``None``, diffractometer's current wavelength will be assigned.
+      * ``name`` (str): Reference name for this reflection.
+        If ``None``, a random name will be assigned.
+      * ``replace`` (bool): If ``True``, replace existing reflection of
+        this name.  (default: ``False``)
+
+
+
+   .. py:method:: add_sample(name: str, a: float, b: float = None, c: float = None, alpha: float = 90.0, beta: float = None, gamma: float = None, digits: int = 4, replace: bool = False) -> hklpy2.blocks.sample.Sample
+
+      Add a new sample.
+
+
+
+   .. py:method:: auto_assign_axes()
+
+      Automatically assign diffractometer axes to this solver.
+
+      .. seealso:: :meth:`hklpy2.ops.Operations.auto_assign_axes`
+
+      A |solver| geometry specifies expected pseudo, real, and extra axes
+      for its ``.forward()`` and ``.inverse()`` coordinate transformations.
+
+      This method assigns this diffractometer's:
+
+      *   first PseudoSingle axes
+          to the pseudo axes expected by the selected |solver|.
+      *   first Positioner axes (or subclass,
+          such as EpicsMotor or SoftPositioner) to the real axes expected
+          by the selected |solver|.
+      *   any remaining PseudoSingle and Positioner axes to the
+          extra axes expected by the selected |solver|.
+
+      Any diffractometer axes not expected by the |solver| will
+      not be assigned.
+
+
+
+   .. py:property:: configuration
+      :type: dict
+
+
+      Diffractometer configuration (orientation).
+
+
+   .. py:method:: export(file, comment='')
+
+      Export the diffractometer configuration to a YAML file.
+
+      Example::
+
+          import hklpy2
+
+          e4cv = hklpy2.creator(name="e4cv")
+          e4cv.export("e4cv-config.yml", comment="example")
+
+
+
+   .. py:method:: restore(config, clear=True, restore_constraints=True, restore_wavelength=True)
+
+      Restore diffractometer configuration.
+
+      Example::
+
+          import hklpy2
+
+          e4cv = hklpy2.creator(name="e4cv")
+          e4cv.restore("e4cv-config.yml")
+
+      PARAMETERS
+
+      config *dict*, *str*, or *pathlib.Path* object:
+          Dictionary with configuration, or name (str or pathlib object) of
+          diffractometer configuration YAML file.
+      clear *bool*:
+          If ``True`` (default), remove any previous configuration of the
+          diffractometer and reset it to default values before restoring the
+          configuration.
+
+          If ``False``, sample reflections will be append with all reflections
+          included in the configuration data for that sample.  Existing
+          reflections will not be changed.  The user may need to edit the
+          list of reflections after ``restore(clear=False)``.
+      restore_constraints *bool*:
+          If ``True`` (default), restore any constraints provided.
+      restore_wavelength *bool*:
+          If ``True`` (default), restore wavelength.
+
+      Note: Can't name this method "import", it's a reserved Python word.
+
+
+
+   .. py:method:: forward(pseudos: dict, wavelength: float = None) -> tuple
+
+      Compute real-space coordinates from pseudos (hkl -> angles).
+
+
+
+   .. py:method:: full_position(digits=4) -> dict
+
+      Return dict with positions of pseudos, reals, & extras.
+
+
+
+   .. py:method:: inverse(reals: dict, wavelength: float = None) -> tuple
+
+      Compute pseudo-space coordinates from reals (angles -> hkl).
+
+
+
+   .. py:method:: move_dict(axes: hklpy2.misc.AxesDict)
+
+      (plan) Move diffractometer axes to positions in 'axes'.
+
+
+
+   .. py:method:: move_forward_with_extras(pseudos: hklpy2.misc.AnyAxesType, extras: hklpy2.misc.AxesDict)
+
+      (plan stub) Set extras and compute forward solution at fixed Q and extras.
+
+      EXAMPLE::
+
+          RE(
+              move_forward_with_extras(
+                  diffractometer,
+                  Q=dict(h=2, k=1, l=0),
+                  extras=dict(h2=2, k2=2, l2=0, psi=25),
+              )
+          )
+
+
+
+   .. py:method:: move_reals(reals: hklpy2.misc.AnyAxesType) -> None
+
+      (not a plan) Move the real-space axes as specified in 'real_positions'.
+
+
+
+   .. py:method:: scan_extra(detectors: list, axis: str = None, start: float = None, finish: float = None, num: int = 2, *, pseudos: dict = None, reals: dict = None, extras: dict = {}, fail_on_exception: bool = False, md: dict = None)
+
+      Scan one extra diffractometer parameter, such as 'psi'.
+
+      * TODO: one **or more** (such as bp.scan)
+      * TODO: support "inverse" transformation scan
+
+      * iterate extra positions as decribed:
+          * set extras
+          * solution = forward(pseudos)
+          * move to solution
+          * acquire (trigger) all controls
+          * read and record all controls
+
+
+
+   .. py:property:: pseudo_axis_names
+
+      Names of all the pseudo axes, in order of appearance.
+
+      Example::
+
+          >>> fourc.pseudo_axis_names
+          ['h', 'k', 'l']
+
+
+   .. py:property:: real_axis_names
+
+      Names of all the real axes, in order of appearance.
+
+      Example::
+
+          >>> fourc.real_axis_names
+          ['omega', 'chi, 'phi', 'tth']
+
+
+   .. py:property:: samples
+
+      Dictionary of samples.
+
+
+   .. py:property:: sample
+
+      Current sample object.
+
+
+   .. py:property:: solver_name
+
+      Backend |solver| library name.
+
+
+   .. py:method:: wh(digits=4, full=False)
+
+      Concise report of the current diffractometer positions.
+
+
+
+.. py:function:: creator(*, prefix: str = '', name: str = '', solver: str = 'hkl_soleil', geometry: str = 'E4CV', solver_kwargs: dict = {'engine': 'hkl'}, pseudos: list = [], reals: dict = {}, motor_labels: list = ['motors'], labels: list = ['diffractometer'], class_name: str = 'Hklpy2Diffractometer', class_bases: list = [DiffractometerBase], auto_assign: bool = True, **kwargs)
+
+   Factory function to create a diffractometer instance.
+
+   EXAMPLES:
+
+   Four-circle diffractometer, vertical orientation, Eulerian rotations,
+   canonical real axis names, EPICS motor PVs::
+
+       e4cv = creator(name="e4cv",
+           solver="hkl_soleil", geometry="E4CV",
+           reals=dict(omega="IOC:m1", chi="IOC:m2", phi="IOC:m3", tth="IOC:m4"),
+       )
+
+   Four-circle diffractometer, vertical orientation, Eulerian rotations,
+   custom real axis names, simulated positioners::
+
+       sim4c = creator(name="sim4c",
+           solver="hkl_soleil", geometry="E4CV",
+           reals=dict(uno=None, dos=None, tres=None, cuatro=None),
+       )
+
+   (Simplest case to get a simulator.)
+   Four-circle diffractometer, vertical orientation, Eulerian rotations,
+   canonical real axis names, simulated positioners (all default settings)::
+
+       sim4c = creator(name="sim4c")
+
+   Kappa six-circle diffractometer, simulated motors::
+
+       simk6c = creator(name="simk6c",
+           solver="hkl_soleil", geometry="K6C"
+       )
+
+   PARAMETERS
+
+   prefix : str
+       EPICS PV prefix (default: empty string)
+   name : str
+       Name of the ophyd diffractometer object to be created. (default: '""')
+   solver : str
+       Name of the backend solver providing the geometry. (default: '"hkl_soleil"')
+   geometry : str
+       Name of the diffractometer geometry. (default: '"E4CV"')
+   solver_kwargs : str
+       Additional configuration for the solver. (default: '{"engine": "hkl"}')
+   pseudos : list
+       Specification of the names of any pseudo axis positioners
+       in addition to the ones provided by the solver.
+
+       (default: '[]' which means no additional pseudo axes)
+   reals : dict
+       Specification of the real axis motors.  Dictionary keys are the motor
+       names, values are the EPICS motor PV for that axis.  If the PV is
+       'None', use a simulated positioner.
+
+       The dictionary can be empty or must have at least the canonical number of
+       real axes.  The order of the axes is important.  The names provided will
+       be mapped to the canonical order defined by the solver.  Components will
+       be created for any extra *reals*.
+
+       (default: '{}' which means use the canonical names for the real axes and
+       use simulated positioners)
+   motor_labels : list
+       Ophyd object labels for each real positioner. (default: '["motors"]')
+   labels : list
+       Ophyd object labels for the diffractometer object. (default: '["diffractometer"]')
+   class_name : str
+       Name to use for the diffractometer class.
+       (default: '"Hklpy2Diffractometer"')
+   class_bases : list
+       List of base classes to use for the diffractometer class.
+       (default: '[DiffractometerBase]')
+   auto_assign : bool
+       When 'True', call :meth:`~hklpy2.diffract.DiffractometerBase.auto_assign_axes()`.
+       (default: 'True')
+   kwargs : any
+       Additional keyword arguments will be added when constructing
+       the new diffractometer object.
+
+
+.. py:function:: diffractometer_class_factory(*, solver: str = 'hkl_soleil', geometry: str = 'E4CV', solver_kwargs: dict = {'engine': 'hkl'}, pseudos: list = [], reals: dict = {}, motor_labels: list = ['motors'], class_name: str = 'Hklpy2Diffractometer', class_bases: list = [DiffractometerBase])
+
+   Build a custom class for this diffractometer geometry.
+
+   PARAMETERS
+
+   solver : str
+       Name of the backend solver providing the geometry. (default: '"hkl_soleil"')
+   geometry : str
+       Name of the diffractometer geometry. (default: '"E4CV"')
+   solver_kwargs : str
+       Additional configuration for the solver. (default: '{"engine": "hkl"}')
+   pseudos : list
+       Specification of the names of any pseudo axis positioners
+       in addition to the ones provided by the solver.
+
+       (default: '[]' which means no additional pseudo axes)
+   reals : dict
+       Specification of the real axis motors.  Dictionary keys are the motor
+       names, values are the EPICS motor PV for that axis.  If the PV is
+       'None', use a simulated positioner.
+
+       The dictionary can be empty or must have at least the canonical number of
+       real axes.  The order of the axes is important.  The names provided will
+       be mapped to the canonical order defined by the solver.  Components will
+       be created for any extra *reals*.
+
+       (default: '{}' which means use the canonical names for the real axes and
+       use simulated positioners)
+   motor_labels : list
+       Ophyd object labels for each real positioner. (default: '["motors"]')
+   class_name : str
+       Name to use for the diffractometer class.
+       (default: '"Hklpy2Diffractometer"')
+   class_bases : list
+       List of base classes to use for the diffractometer class.
+       (default: '[DiffractometerBase]')
+
+
+.. py:data:: SOLVER_ENTRYPOINT_GROUP
+   :value: 'hklpy2.solver'
+
+
+   Name by which |hklpy2| backend |solver| classes are grouped.
+
+.. py:class:: ConfigurationRunWrapper(*devices, knowns=None)
+
+   Write configuration of supported device(s) to a bluesky run.
+
+   EXAMPLE::
+
+       crw = ConfigurationRunWrapper(sim4c2)
+       RE.preprocessors.append(crw.wrapper)
+       RE(bp.rel_scan([noisy], m1, -1.2, 1.2, 11))
+
+   Disable the preprocessor::
+
+       crw.enable = False  # 'True' to enable
+
+   Remove the last preprocessor::
+
+       RE.preprocessors.pop()
+
+   Add another diffractometer::
+
+       crw.devices.append(e4cv)
+
+   .. autosummary::
+
+       ~device_names
+       ~devices
+       ~enable
+       ~known_bases
+       ~start_key
+       ~validate
+       ~wrapper
+
+
+   .. py:attribute:: devices
+      :value: []
+
+
+      List of devices to be reported.
+
+
+   .. py:attribute:: known_bases
+      :value: []
+
+
+      Known device base classes.
+
+      Any device (base class) that reports its configuration dictionary in
+      the `.read_configuration()` method can be added to this tuple.
+
+
+   .. py:attribute:: start_key
+      :value: 'diffractometers'
+
+
+      Top-level key in run's metadata dictionary.
+
+
+   .. py:property:: enable
+      :type: bool
+
+
+      Is it permitted to write device configuration?
+
+
+   .. py:property:: device_names
+      :type: [str]
+
+
+      Return list of configured device names.
+
+
+   .. py:method:: validate(devices) -> None
+
+      Verify all are recognized objects.
+
+
+
+   .. py:method:: wrapper(plan)
+
+      Bluesky plan wrapper (preprocessor).
+
+      Writes device(s) configuration to start document metadata.
+
+      Example::
+
+          crw = ConfigurationRunWrapper(e4cv)
+          RE.preprocessors.append(crw.wrapper)
+
+
+
+.. py:exception:: SolverError
+
+   Bases: :py:obj:`Hklpy2Error`
+
+
+   Custom exceptions from a |solver|.
+
+
+.. py:exception:: WavelengthError
+
+   Bases: :py:obj:`Hklpy2Error`
+
+
+   Custom exceptions from :mod:`hklpy2.wavelength_support`.
+
+
+.. py:function:: check_value_in_list(title, value, examples, blank_ok=False)
+
+   Raise ValueError exception if value is not in the list of examples.
+
+
+.. py:function:: get_solver(solver_name)
+
+   Load a Solver class from a named entry point.
+
+   ::
+
+       import hklpy2
+       SolverClass = hklpy2.get_solver("hkl_soleil")
+       libhkl_solver = SolverClass()
+
+
+.. py:function:: solver_factory(solver_name: str, geometry: str, **kwargs)
+
+   Create a |solver| object with geometry and axes.
+
+
+.. py:function:: solvers()
+
+   Dictionary of available Solver classes, mapped by entry point name.
+
+   ::
+
+       import hklpy2
+       print(hklpy2.solvers())
+
+
+.. py:data:: A_KEV
+   :value: 12.398419843856837
+
+
+   X-ray voltage wavelength product (:math:`h \nu`), per NIST standard.
+
+.. py:class:: ConstantMonochromaticWavelength(wavelength: float, **kwargs)
+
+   Bases: :py:obj:`WavelengthBase`
+
+
+   Monochromatic wavelength (and units); cannot be changed.
+
+   Just wavelength.  Can be used with any type of radiation source.
+
+   .. autosummary::
+
+       ~wavelength
+       ~wavelength_units
+       ~source_type
+       ~spectrum_type
+
+
+   .. py:attribute:: source_type
+      :value: 'any'
+
+
+      Nature of the incident radiation.
+
+
+   .. py:attribute:: spectrum_type
+      :value: 'monochromatic'
+
+
+      Description of the spectrum of the incident radiation.
+
+
+   .. py:attribute:: _wavelength
+
+
+   .. py:method:: _fromdict(config)
+
+      Restore configuration from dictionary but not wavelength.
+
+
+
+   .. py:property:: wavelength
+      :type: float
+
+
+      Wavelength (:math:`\lambda`).
+
+
+.. py:class:: MonochromaticXrayWavelength(wavelength: float, energy_units: str = None, **kwargs)
+
+   Bases: :py:obj:`WavelengthBase`
+
+
+   Monochromatic X-ray wavelength (and units).
+
+   .. autosummary::
+
+       ~wavelength
+       ~wavelength_units
+       ~energy
+       ~energy_units
+       ~source_type
+       ~spectrum_type
+
+
+   .. py:attribute:: source_type
+      :value: 'X-ray'
+
+
+      Nature of the incident radiation.
+
+
+   .. py:attribute:: spectrum_type
+      :value: 'monochromatic'
+
+
+      Description of the spectrum of the incident radiation.
+
+
+   .. py:property:: energy_units
+      :type: str
+
+
+      Engineering units of the X-ray photon energy.
+
+
+   .. py:property:: wavelength
+      :type: float
+
+
+      Wavelength (:math:`\lambda`).
+
+
+   .. py:property:: energy
+      :type: float
+
+
+      Incident monochromatic X-ray photon energy (:math:`E`).
+
+      .. math::
+
+          \lambda = (h \nu) / E
+
+

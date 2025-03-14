@@ -1,0 +1,263 @@
+hklpy2.blocks.reflection
+========================
+
+.. py:module:: hklpy2.blocks.reflection
+
+.. autoapi-nested-parse::
+
+   Coordinates of a crystalline reflection.
+
+   Associates diffractometer angles (real-space) with crystalline reciprocal-space
+   (pseudo) coordinates.
+
+   .. autosummary::
+
+       ~Reflection
+       ~ReflectionError
+       ~ReflectionsDict
+       ~UNUSED_REFLECTION
+
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   hklpy2.blocks.reflection.logger
+   hklpy2.blocks.reflection.UNUSED_REFLECTION
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   hklpy2.blocks.reflection.Reflection
+   hklpy2.blocks.reflection.ReflectionsDict
+
+
+Module Contents
+---------------
+
+.. py:data:: logger
+
+.. py:data:: UNUSED_REFLECTION
+   :value: 'unused'
+
+
+   Identifies an unused reflection in the ReflectionsDict.
+
+.. py:class:: Reflection(name: str, pseudos: dict, reals: dict, wavelength: float, geometry: str, pseudo_axis_names: list, real_axis_names: list, digits: int = 4, core: object = None)
+
+   Coordinates real and pseudo axes.
+
+   .. note:: Internal use only.
+
+      It is expected this internal routine is called
+      from a method of :class:`~hklpy2.ops.Operations`,
+      not directly by the user.
+
+   .. rubric:: Parameters
+
+   * ``name`` (str): Reference name for this reflection.
+   * ``pseudos`` (dict): Unordered dictionary of pseudo-space axes and values.
+   * ``reals`` (dict): Unordered dictionary of real-space axes and values.
+   * ``wavelength`` (float): Wavelength of incident radiation.
+   * ``geometry`` (str): Geometry name for this reflection.
+   * ``pseudo_names`` ([str]): Ordered list of pseudo names for this geometry.
+   * ``rnames`` ([str]): Ordered list of real names for this geometry.
+
+   Optional items (such as 'azimuth', 'h1', 'h2', zones, ...) are not
+   part of a "reflection".
+
+   .. autosummary::
+
+       ~__eq__
+       ~_asdict
+       ~_fromdict
+       ~_validate_pseudos
+       ~_validate_reals
+       ~_validate_wavelength
+       ~pseudos
+       ~reals
+       ~wavelength
+
+
+   .. py:attribute:: digits
+      :value: 4
+
+
+
+   .. py:attribute:: geometry
+
+
+   .. py:property:: name
+
+      Sample name.
+
+
+   .. py:attribute:: pseudo_axis_names
+
+
+   .. py:attribute:: real_axis_names
+
+
+   .. py:property:: pseudos
+
+      Ordered dictionary of diffractometer's reciprocal-space axes.
+
+      Dictionary keys are the axis names, as defined by the diffractometer.
+
+
+   .. py:property:: reals
+
+      Ordered dictionary of diffractometer's real-space axes.
+
+      Dictionary keys are the axis names, as defined by the diffractometer.
+
+
+   .. py:property:: wavelength
+
+      Wavelength of reflection.
+
+
+   .. py:method:: _asdict()
+
+      Describe this reflection as a dictionary.
+
+
+
+   .. py:method:: _fromdict(config)
+
+      Redefine this reflection from a (configuration) dictionary.
+
+
+
+   .. py:method:: __repr__()
+
+      Standard brief representation of reflection.
+
+
+
+   .. py:method:: __eq__(r2)
+
+      Compare this reflection with another for equality.
+
+      Precision is controlled by rounding to smallest number of digits
+      between the reflections.
+
+
+
+   .. py:method:: _validate_pseudos(value)
+
+      Raise Exception if pseudos do not match expectations.
+
+
+
+   .. py:method:: _validate_reals(value)
+
+      Raise Exception if reals do not match expectations.
+
+
+
+   .. py:method:: _validate_wavelength(value)
+
+      Raise exception if pseudos do not match expectations.
+
+
+
+.. py:class:: ReflectionsDict(*args, **kwargs)
+
+   Bases: :py:obj:`dict`
+
+
+   Dictionary of Reflections.
+
+   .. autosummary::
+
+       ~_asdict
+       ~_fromdict
+       ~_validate_reflection
+       ~add
+       ~order
+       ~prune
+       ~set_orientation_reflections
+       ~setor
+       ~swap
+
+
+   .. py:attribute:: _order
+      :value: []
+
+
+
+   .. py:attribute:: geometry
+      :value: None
+
+
+
+   .. py:method:: _asdict()
+
+      Describe the reflections list as an ordered dictionary.
+
+      Order by reflections order.
+
+
+
+   .. py:method:: _fromdict(config, core=None)
+
+      Add or redefine reflections from a (configuration) dictionary.
+
+
+
+   .. py:method:: set_orientation_reflections(reflections: list[Reflection]) -> None
+
+      Designate the order of the reflections to be used.
+
+      .. note:: Raises ``KeyError`` if any
+         ``reflections`` are not already defined.
+
+         This method does not *add* any new reflections.
+
+      .. rubric:: Parameters
+
+      * ``reflections`` ([Reflection]) : List of
+        :class:`hklpy2.blocks.reflection.Reflection` objects.
+
+
+
+   .. py:attribute:: setor
+
+      Common alias for :meth:`~set_orientation_reflections`.
+
+
+   .. py:method:: add(reflection: Reflection, replace: bool = False) -> None
+
+      Add a single orientation reflection.
+
+
+
+   .. py:method:: prune()
+
+      Remove any undefined reflections from order list.
+
+
+
+   .. py:method:: swap()
+
+      Swap the first two orientation reflections.
+
+
+
+   .. py:method:: _validate_reflection(reflection, replace)
+
+      Validate the new reflection.
+
+
+
+   .. py:property:: order
+
+      Ordered list of reflection names used for orientation.
+
+

@@ -1,0 +1,561 @@
+hklpy2.misc
+===========
+
+.. py:module:: hklpy2.misc
+
+.. autoapi-nested-parse::
+
+   Miscellaneous Support.
+
+   .. rubric: Functions
+   .. autosummary::
+
+       ~axes_to_dict
+       ~check_value_in_list
+       ~compare_float_dicts
+       ~dict_device_factory
+       ~flatten_lists
+       ~get_run_orientation
+       ~get_solver
+       ~istype
+       ~list_orientation_runs
+       ~load_yaml
+       ~load_yaml_file
+       ~roundoff
+       ~solver_factory
+       ~solvers
+       ~unique_name
+
+   .. rubric: Symbols
+   .. autosummary::
+
+       ~IDENTITY_MATRIX_3X3
+       ~SOLVER_ENTRYPOINT_GROUP
+
+   .. rubric: Custom Data Types
+   .. autosummary::
+
+       ~AnyAxesType
+       ~AxesArray
+       ~AxesDict
+       ~AxesList
+       ~AxesTuple
+
+   .. rubric: Custom Preprocessors
+   .. autosummary::
+
+       ~ConfigurationRunWrapper
+
+   .. rubric: Custom Exceptions
+   .. autosummary::
+
+       ~Hklpy2Error
+       ~ConfigurationError
+       ~ConstraintsError
+       ~DiffractometerError
+       ~LatticeError
+       ~OperationsError
+       ~ReflectionError
+       ~SampleError
+       ~SolverError
+       ~SolverNoForwardSolutions
+       ~WavelengthError
+
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   hklpy2.misc.logger
+   hklpy2.misc.IDENTITY_MATRIX_3X3
+   hklpy2.misc.SOLVER_ENTRYPOINT_GROUP
+   hklpy2.misc.DEFAULT_START_KEY
+   hklpy2.misc.AxesArray
+   hklpy2.misc.AxesDict
+   hklpy2.misc.AxesList
+   hklpy2.misc.AxesTuple
+   hklpy2.misc.AnyAxesType
+
+
+Exceptions
+----------
+
+.. autoapisummary::
+
+   hklpy2.misc.Hklpy2Error
+   hklpy2.misc.ConfigurationError
+   hklpy2.misc.ConstraintsError
+   hklpy2.misc.DiffractometerError
+   hklpy2.misc.LatticeError
+   hklpy2.misc.OperationsError
+   hklpy2.misc.ReflectionError
+   hklpy2.misc.SampleError
+   hklpy2.misc.SolverError
+   hklpy2.misc.SolverNoForwardSolutions
+   hklpy2.misc.WavelengthError
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   hklpy2.misc.ConfigurationRunWrapper
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   hklpy2.misc.axes_to_dict
+   hklpy2.misc.check_value_in_list
+   hklpy2.misc.compare_float_dicts
+   hklpy2.misc.dict_device_factory
+   hklpy2.misc.flatten_lists
+   hklpy2.misc.get_solver
+   hklpy2.misc.get_run_orientation
+   hklpy2.misc.istype
+   hklpy2.misc.list_orientation_runs
+   hklpy2.misc.load_yaml
+   hklpy2.misc.load_yaml_file
+   hklpy2.misc.roundoff
+   hklpy2.misc.solver_factory
+   hklpy2.misc.solvers
+   hklpy2.misc.unique_name
+
+
+Module Contents
+---------------
+
+.. py:data:: logger
+
+.. py:data:: IDENTITY_MATRIX_3X3
+   :value: [[1, 0, 0], [0, 1, 0], [0, 0, 1]]
+
+
+   Identity matrix, 2-D, 3 rows, 3 columns.
+
+.. py:data:: SOLVER_ENTRYPOINT_GROUP
+   :value: 'hklpy2.solver'
+
+
+   Name by which |hklpy2| backend |solver| classes are grouped.
+
+.. py:data:: DEFAULT_START_KEY
+   :value: 'diffractometers'
+
+
+.. py:data:: AxesArray
+
+   Numpy array of axes values.
+
+.. py:data:: AxesDict
+
+   Dictionary of axes names and values.
+
+.. py:data:: AxesList
+
+   List of axes values.
+
+.. py:data:: AxesTuple
+
+   Tuple of axes values.
+
+.. py:data:: AnyAxesType
+
+   Any of these types are used to describe both pseudo and real axes.
+
+   =============   =========================   ====================
+   description     example                     type annotation
+   =============   =========================   ====================
+   dict            {"h": 0, "k": 1, "l": -1}   AxesDict
+   namedtuple      (h=0.0, k=1.0, l=-1.0)      AxesTuple
+   numpy array     numpy.array([0, 1, -1])     AxesArray
+   ordered list    [0, 1, -1]                  AxesList
+   ordered tuple   (0, 1, -1)                  AxesTuple
+   =============   =========================   ====================
+
+.. py:exception:: Hklpy2Error
+
+   Bases: :py:obj:`Exception`
+
+
+   Any exception from the |hklpy2| package.
+
+
+.. py:exception:: ConfigurationError
+
+   Bases: :py:obj:`Hklpy2Error`
+
+
+   Custom exceptions from :mod:`hklpy2.blocks.configure`.
+
+
+.. py:exception:: ConstraintsError
+
+   Bases: :py:obj:`Hklpy2Error`
+
+
+   Custom exceptions from :mod:`hklpy2.blocks.constraints`.
+
+
+.. py:exception:: DiffractometerError
+
+   Bases: :py:obj:`Hklpy2Error`
+
+
+   Custom exceptions from :class:`~DiffractometerBase`.
+
+
+.. py:exception:: LatticeError
+
+   Bases: :py:obj:`Hklpy2Error`
+
+
+   Custom exceptions from :mod:`hklpy2.blocks.lattice`.
+
+
+.. py:exception:: OperationsError
+
+   Bases: :py:obj:`Hklpy2Error`
+
+
+   Custom exceptions from :class:`~Operations`.
+
+
+.. py:exception:: ReflectionError
+
+   Bases: :py:obj:`Hklpy2Error`
+
+
+   Custom exceptions from :mod:`hklpy2.blocks.reflection`.
+
+
+.. py:exception:: SampleError
+
+   Bases: :py:obj:`Hklpy2Error`
+
+
+   Custom exceptions from :mod:`hklpy2.blocks.sample`.
+
+
+.. py:exception:: SolverError
+
+   Bases: :py:obj:`Hklpy2Error`
+
+
+   Custom exceptions from a |solver|.
+
+
+.. py:exception:: SolverNoForwardSolutions
+
+   Bases: :py:obj:`SolverError`
+
+
+   A solver did not find any 'forward()' solutions.
+
+
+.. py:exception:: WavelengthError
+
+   Bases: :py:obj:`Hklpy2Error`
+
+
+   Custom exceptions from :mod:`hklpy2.wavelength_support`.
+
+
+.. py:class:: ConfigurationRunWrapper(*devices, knowns=None)
+
+   Write configuration of supported device(s) to a bluesky run.
+
+   EXAMPLE::
+
+       crw = ConfigurationRunWrapper(sim4c2)
+       RE.preprocessors.append(crw.wrapper)
+       RE(bp.rel_scan([noisy], m1, -1.2, 1.2, 11))
+
+   Disable the preprocessor::
+
+       crw.enable = False  # 'True' to enable
+
+   Remove the last preprocessor::
+
+       RE.preprocessors.pop()
+
+   Add another diffractometer::
+
+       crw.devices.append(e4cv)
+
+   .. autosummary::
+
+       ~device_names
+       ~devices
+       ~enable
+       ~known_bases
+       ~start_key
+       ~validate
+       ~wrapper
+
+
+   .. py:attribute:: devices
+      :value: []
+
+
+      List of devices to be reported.
+
+
+   .. py:attribute:: known_bases
+      :value: []
+
+
+      Known device base classes.
+
+      Any device (base class) that reports its configuration dictionary in
+      the `.read_configuration()` method can be added to this tuple.
+
+
+   .. py:attribute:: start_key
+      :value: 'diffractometers'
+
+
+      Top-level key in run's metadata dictionary.
+
+
+   .. py:property:: enable
+      :type: bool
+
+
+      Is it permitted to write device configuration?
+
+
+   .. py:property:: device_names
+      :type: [str]
+
+
+      Return list of configured device names.
+
+
+   .. py:method:: validate(devices) -> None
+
+      Verify all are recognized objects.
+
+
+
+   .. py:method:: wrapper(plan)
+
+      Bluesky plan wrapper (preprocessor).
+
+      Writes device(s) configuration to start document metadata.
+
+      Example::
+
+          crw = ConfigurationRunWrapper(e4cv)
+          RE.preprocessors.append(crw.wrapper)
+
+
+
+.. py:function:: axes_to_dict(input: AnyAxesType, names: list[str]) -> AxesDict
+
+   Convert any acceptable axes input to standard form (dict).
+
+   User could provide input in several forms:
+
+   * dict: ``{"h": 0, "k": 1, "l": -1}``
+   * namedtuple: ``(h=0.0, k=1.0, l=-1.0)``
+   * ordered list: ``[0, 1, -1]  (for h, k, l)``
+   * ordered tuple: ``(0, 1, -1)  (for h, k, l)``
+
+   PARAMETERS:
+
+   input : AnyAxesType
+       Positions, specified as dict, list, or tuple.
+   names : [str]
+       Expected names of the axes, in order expected by the solver.
+
+
+.. py:function:: check_value_in_list(title, value, examples, blank_ok=False)
+
+   Raise ValueError exception if value is not in the list of examples.
+
+
+.. py:function:: compare_float_dicts(a1, a2, tol=0.0001)
+
+   Compare two dictionaries.  Values are all floats.
+
+
+.. py:function:: dict_device_factory(data: dict, **kwargs)
+
+   Create a DictionaryDevice class using the supplied dictionary.
+
+
+.. py:function:: flatten_lists(xs)
+
+   Convert nested lists into single list.
+
+   https://stackoverflow.com/questions/2158395
+
+
+.. py:function:: get_solver(solver_name)
+
+   Load a Solver class from a named entry point.
+
+   ::
+
+       import hklpy2
+       SolverClass = hklpy2.get_solver("hkl_soleil")
+       libhkl_solver = SolverClass()
+
+
+.. py:function:: get_run_orientation(run, name=None, start_key=DEFAULT_START_KEY)
+
+   Return the orientation information dictionary from a run.
+
+   EXAMPLE::
+
+       In [3]: get_run_orientation(cat[9752], name="sim4c2")
+       Out[3]:
+       {'_header': {'datetime': '2025-02-27 15:54:33.364719',
+       'hklpy2_version': '0.0.26.dev72+gcf9a65a.d20250227',
+       'python_class': 'Hklpy2Diffractometer',
+       'source_type': 'X-ray',
+       'energy_units': 'keV',
+       'energy': 12.398419843856837,
+       'wavelength_units': 'angstrom',
+       'wavelength': 1.0},
+       'name': 'sim4c2',
+       'axes': {'pseudo_axes': ['h', 'k', 'l'],
+       'real_axes': ['omega', 'chi', 'phi', 'tth'],
+       'axes_xref': {'h': 'h',
+       'k': 'k',
+       'l': 'l',
+       'omega': 'omega',
+       'chi': 'chi',
+       'phi': 'phi',
+       'tth': 'tth'},
+       'extra_axes': {}},
+       'sample_name': 'sample',
+       'samples': {'sample': {'name': 'sample',
+       'lattice': {'a': 1,
+           'b': 1,
+           'c': 1,
+           'alpha': 90.0,
+           'beta': 90.0,
+           'gamma': 90.0},
+       'reflections': {},
+       'reflections_order': [],
+       'U': [[1, 0, 0], [0, 1, 0], [0, 0, 1]],
+       'UB': [[1, 0, 0], [0, 1, 0], [0, 0, 1]],
+       'digits': 4}},
+       'constraints': {'omega': {'label': 'omega',
+       'low_limit': -180.0,
+       'high_limit': 180.0,
+       'class': 'LimitsConstraint'},
+       'chi': {'label': 'chi',
+       'low_limit': -180.0,
+       'high_limit': 180.0,
+       'class': 'LimitsConstraint'},
+       'phi': {'label': 'phi',
+       'low_limit': -180.0,
+       'high_limit': 180.0,
+       'class': 'LimitsConstraint'},
+       'tth': {'label': 'tth',
+       'low_limit': -180.0,
+       'high_limit': 180.0,
+       'class': 'LimitsConstraint'}},
+       'solver': {'name': 'hkl_soleil',
+       'description': "HklSolver(name='hkl_soleil', version='5.1.2', geometry='E4CV', engine_name='hkl', mode='bissector')",
+       'geometry': 'E4CV',
+       'real_axes': ['omega', 'chi', 'phi', 'tth'],
+       'version': '5.1.2',
+       'engine': 'hkl'}}
+
+
+   :param run: Bluesky run object.
+   :type run: object
+   :param name: (optional)
+                Name of the diffractometer. (default=None, returns all available.)
+   :type name: str
+   :param start_key: Metadata key where the orientation information is stored in the start
+                     document.  (default="diffractometers")
+   :type start_key: str
+
+
+.. py:function:: istype(value: Any, annotation: Type) -> bool
+
+   Check if 'value' matches the type 'annotation'.
+
+   EXAMPLE::
+
+       >>> istype({"a":1}, AxesDict)
+       True
+
+
+.. py:function:: list_orientation_runs(catalog, limit=10, start_key=DEFAULT_START_KEY, **kwargs)
+
+   List the runs with orientation information.
+
+   EXAMPLE::
+
+       In [42]: list_orientation_runs(cat, limit=5, date="_header.datetime")
+       Out[42]:
+           scan_id      uid  sample diffractometer geometry      solver                        date
+       0      9752  41f71e9  sample         sim4c2     E4CV  hkl_soleil  2025-02-27 15:54:33.364719
+       1      9751  36e38bc  sample         sim4c2     E4CV  hkl_soleil  2025-02-27 15:54:33.364719
+       2      9750  62e425d  sample         sim4c2     E4CV  hkl_soleil  2025-02-27 15:54:33.364719
+       3      9749  18b11f0  sample         sim4c2     E4CV  hkl_soleil  2025-02-27 15:53:55.958929
+       4      9748  bf9912f  sample         sim4c2     E4CV  hkl_soleil  2025-02-27 15:53:55.958929
+
+   :returns: **Table of orientation runs**
+   :rtype: Pandas DataFrame object
+
+   :param catalog: Instance of a databroker catalog.
+   :type catalog: object
+   :param limit: Limit the list to at most ``limit`` runs. (default=10)
+                 It could take a long time to search an entire catalog.
+   :type limit: int
+   :param start_key: Metadata key where the orientation information is stored in the start
+                     document.  (default="diffractometers")
+   :type start_key: str
+   :param \*\*kwargs: Keyword parameters describing data column names to be displayed. The
+                      value of each column name is the dotted path to the orientation
+                      information (in the start document's metadata).
+   :type \*\*kwargs: dict[str:str]
+
+
+.. py:function:: load_yaml(text: str)
+
+   Load YAML from text.
+
+
+.. py:function:: load_yaml_file(file)
+
+   Return contents of a YAML file as a Python object.
+
+
+.. py:function:: roundoff(value, digits=4)
+
+   Round a number to specified precision.
+
+
+.. py:function:: solver_factory(solver_name: str, geometry: str, **kwargs)
+
+   Create a |solver| object with geometry and axes.
+
+
+.. py:function:: solvers()
+
+   Dictionary of available Solver classes, mapped by entry point name.
+
+   ::
+
+       import hklpy2
+       print(hklpy2.solvers())
+
+
+.. py:function:: unique_name(prefix='', length=7)
+
+   Short, unique name, first 7 (at most) characters of a unique, random uuid.
+
+

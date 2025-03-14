@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../../_static/documentation_options.js?v=3711343a"></script>
+    <script src="../../_static/documentation_options.js?v=2c42f40f"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/design-tabs.js?v=f930bc37"></script>
@@ -134,13 +134,6 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../api.html">
-    API
-  </a>
-</li>
-
-
-<li class="nav-item ">
   <a class="nav-link nav-internal" href="../../release_notes.html">
     Releases
   </a>
@@ -150,6 +143,13 @@
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../../license.html">
     License
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../autoapi/index.html">
+    API Reference
   </a>
 </li>
 
@@ -248,13 +248,6 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../api.html">
-    API
-  </a>
-</li>
-
-
-<li class="nav-item ">
   <a class="nav-link nav-internal" href="../../release_notes.html">
     Releases
   </a>
@@ -264,6 +257,13 @@
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../../license.html">
     License
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../autoapi/index.html">
+    API Reference
   </a>
 </li>
 
@@ -343,6 +343,9 @@
     
     <li class="breadcrumb-item"><a href="../index.html" class="nav-link">Module code</a></li>
     
+    
+    <li class="breadcrumb-item"><a href="../hklpy2.html" class="nav-link">hklpy2</a></li>
+    
     <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">hklpy2.wavelength_support</span></li>
   </ul>
 </nav>
@@ -367,7 +370,6 @@
 <span class="sd">Supports compatible unit conversions.</span>
 
 <span class="sd">.. autosummary::</span>
-<span class="sd">   :toctree: generated</span>
 
 <span class="sd">    ~A_KEV</span>
 <span class="sd">    ~ConstantMonochromaticWavelength</span>
@@ -383,13 +385,28 @@
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">.misc</span><span class="w"> </span><span class="kn">import</span> <span class="n">WavelengthError</span>
 
-<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+<div class="viewcode-block" id="logger">
+<a class="viewcode-back" href="../../autoapi/hklpy2/wavelength_support/index.html#hklpy2.logger">[docs]</a>
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span></div>
 
-<span class="n">DEFAULT_ENERGY_UNITS</span> <span class="o">=</span> <span class="s2">&quot;keV&quot;</span>
-<span class="n">DEFAULT_WAVELENGTH</span> <span class="o">=</span> <span class="mf">1.0</span>
-<span class="n">DEFAULT_WAVELENGTH_UNITS</span> <span class="o">=</span> <span class="s2">&quot;angstrom&quot;</span>
 
-<span class="n">XRAY_ENERGY_EQUIVALENT_</span> <span class="o">=</span> <span class="mf">8.065_543_937e5</span>
+<div class="viewcode-block" id="DEFAULT_ENERGY_UNITS">
+<a class="viewcode-back" href="../../autoapi/hklpy2/wavelength_support/index.html#hklpy2.DEFAULT_ENERGY_UNITS">[docs]</a>
+<span class="n">DEFAULT_ENERGY_UNITS</span> <span class="o">=</span> <span class="s2">&quot;keV&quot;</span></div>
+
+<div class="viewcode-block" id="DEFAULT_WAVELENGTH">
+<a class="viewcode-back" href="../../autoapi/hklpy2/wavelength_support/index.html#hklpy2.DEFAULT_WAVELENGTH">[docs]</a>
+<span class="n">DEFAULT_WAVELENGTH</span> <span class="o">=</span> <span class="mf">1.0</span></div>
+
+<div class="viewcode-block" id="DEFAULT_WAVELENGTH_UNITS">
+<a class="viewcode-back" href="../../autoapi/hklpy2/wavelength_support/index.html#hklpy2.DEFAULT_WAVELENGTH_UNITS">[docs]</a>
+<span class="n">DEFAULT_WAVELENGTH_UNITS</span> <span class="o">=</span> <span class="s2">&quot;angstrom&quot;</span></div>
+
+
+<div class="viewcode-block" id="XRAY_ENERGY_EQUIVALENT_">
+<a class="viewcode-back" href="../../autoapi/hklpy2/wavelength_support/index.html#hklpy2.XRAY_ENERGY_EQUIVALENT_">[docs]</a>
+<span class="n">XRAY_ENERGY_EQUIVALENT_</span> <span class="o">=</span> <span class="mf">8.065_543_937e5</span></div>
+
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">Energy equivalent factor :math:`1 / (h \\nu)`</span>
 
@@ -398,14 +415,17 @@
 <span class="sd">:see: https://physics.nist.gov/cuu/Constants/factors.html (&quot;1 eV&quot; *v*. &quot;1/m&quot;)</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="n">A_KEV</span> <span class="o">=</span> <span class="mf">1e7</span> <span class="o">/</span> <span class="n">XRAY_ENERGY_EQUIVALENT_</span>  <span class="c1"># 1 Angstrom ~= 12.39842 keV</span>
+<div class="viewcode-block" id="A_KEV">
+<a class="viewcode-back" href="../../autoapi/hklpy2/wavelength_support/index.html#hklpy2.A_KEV">[docs]</a>
+<span class="n">A_KEV</span> <span class="o">=</span> <span class="mf">1e7</span> <span class="o">/</span> <span class="n">XRAY_ENERGY_EQUIVALENT_</span>  <span class="c1"># 1 Angstrom ~= 12.39842 keV</span></div>
+
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">X-ray voltage wavelength product (:math:`h \\nu`), per NIST standard.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
 
 <div class="viewcode-block" id="WavelengthBase">
-<a class="viewcode-back" href="../../generated/hklpy2.wavelength_support.html#hklpy2.wavelength_support.WavelengthBase">[docs]</a>
+<a class="viewcode-back" href="../../autoapi/hklpy2/wavelength_support/index.html#hklpy2.WavelengthBase">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">WavelengthBase</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Base for all wavelength (:math:`\\lambda`) classes.</span>
@@ -419,26 +439,32 @@
 <span class="sd">        ~spectrum_type</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">source_type</span> <span class="o">=</span> <span class="s2">&quot;any&quot;</span>
+<div class="viewcode-block" id="WavelengthBase.source_type">
+<a class="viewcode-back" href="../../autoapi/hklpy2/wavelength_support/index.html#hklpy2.WavelengthBase.source_type">[docs]</a>
+    <span class="n">source_type</span> <span class="o">=</span> <span class="s2">&quot;any&quot;</span></div>
+
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Nature of the incident radiation.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># Choices: ``any``, ``neutron``, ``X-ray``</span>
 
-    <span class="n">spectrum_type</span> <span class="o">=</span> <span class="s2">&quot;any&quot;</span>
+<div class="viewcode-block" id="WavelengthBase.spectrum_type">
+<a class="viewcode-back" href="../../autoapi/hklpy2/wavelength_support/index.html#hklpy2.WavelengthBase.spectrum_type">[docs]</a>
+    <span class="n">spectrum_type</span> <span class="o">=</span> <span class="s2">&quot;any&quot;</span></div>
+
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Description of the spectrum of the incident radiation.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># Choices: ``any``, ``continuous``, ``monochromatic``, ``time-of-flight``</span>
 
-<div class="viewcode-block" id="WavelengthBase.__init__">
-<a class="viewcode-back" href="../../generated/generated/hklpy2.wavelength_support.WavelengthBase.html#hklpy2.wavelength_support.WavelengthBase.__init__">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">units</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="WavelengthBase._wavelength_units">
+<a class="viewcode-back" href="../../autoapi/hklpy2/wavelength_support/index.html#hklpy2.WavelengthBase._wavelength_units">[docs]</a>
         <span class="bp">self</span><span class="o">.</span><span class="n">_wavelength_units</span> <span class="o">=</span> <span class="n">units</span> <span class="ow">or</span> <span class="n">DEFAULT_WAVELENGTH_UNITS</span></div>
 
 
 <div class="viewcode-block" id="WavelengthBase._asdict">
-<a class="viewcode-back" href="../../generated/hklpy2.wavelength_support.html#hklpy2.wavelength_support.WavelengthBase._asdict">[docs]</a>
+<a class="viewcode-back" href="../../autoapi/hklpy2/wavelength_support/index.html#hklpy2.WavelengthBase._asdict">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">_asdict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return source parameters as a dict.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="p">{</span>
@@ -451,7 +477,7 @@
 
 
 <div class="viewcode-block" id="WavelengthBase._fromdict_core">
-<a class="viewcode-back" href="../../generated/hklpy2.wavelength_support.html#hklpy2.wavelength_support.WavelengthBase._fromdict_core">[docs]</a>
+<a class="viewcode-back" href="../../autoapi/hklpy2/wavelength_support/index.html#hklpy2.WavelengthBase._fromdict_core">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">_fromdict_core</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Restore most items from config dictionary.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
@@ -466,7 +492,7 @@
 
 
 <div class="viewcode-block" id="WavelengthBase._fromdict">
-<a class="viewcode-back" href="../../generated/hklpy2.wavelength_support.html#hklpy2.wavelength_support.WavelengthBase._fromdict">[docs]</a>
+<a class="viewcode-back" href="../../autoapi/hklpy2/wavelength_support/index.html#hklpy2.WavelengthBase._fromdict">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">_fromdict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Restore configuration from dictionary.&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_fromdict_core</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
@@ -475,13 +501,19 @@
 
     <span class="nd">@property</span>
     <span class="nd">@abstractmethod</span>
+<div class="viewcode-block" id="WavelengthBase.wavelength">
+<a class="viewcode-back" href="../../autoapi/hklpy2/wavelength_support/index.html#hklpy2.WavelengthBase.wavelength">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">wavelength</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Wavelength (:math:`\\lambda`).&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Wavelength (:math:`\\lambda`).&quot;&quot;&quot;</span></div>
+
 
     <span class="nd">@property</span>
+<div class="viewcode-block" id="WavelengthBase.wavelength_units">
+<a class="viewcode-back" href="../../autoapi/hklpy2/wavelength_support/index.html#hklpy2.WavelengthBase.wavelength_units">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">wavelength_units</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Engineering units of the wavelength.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_wavelength_units</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_wavelength_units</span></div>
+
 
     <span class="nd">@wavelength_units</span><span class="o">.</span><span class="n">setter</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">wavelength_units</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -495,7 +527,7 @@
 
 
 <div class="viewcode-block" id="ConstantMonochromaticWavelength">
-<a class="viewcode-back" href="../../generated/hklpy2.wavelength_support.html#hklpy2.wavelength_support.ConstantMonochromaticWavelength">[docs]</a>
+<a class="viewcode-back" href="../../autoapi/hklpy2/wavelength_support/index.html#hklpy2.ConstantMonochromaticWavelength">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">ConstantMonochromaticWavelength</span><span class="p">(</span><span class="n">WavelengthBase</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Monochromatic wavelength (and units); cannot be changed.</span>
@@ -510,27 +542,36 @@
 <span class="sd">        ~spectrum_type</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">source_type</span> <span class="o">=</span> <span class="s2">&quot;any&quot;</span>
-    <span class="n">spectrum_type</span> <span class="o">=</span> <span class="s2">&quot;monochromatic&quot;</span>
+<div class="viewcode-block" id="ConstantMonochromaticWavelength.source_type">
+<a class="viewcode-back" href="../../autoapi/hklpy2/wavelength_support/index.html#hklpy2.ConstantMonochromaticWavelength.source_type">[docs]</a>
+    <span class="n">source_type</span> <span class="o">=</span> <span class="s2">&quot;any&quot;</span></div>
 
-<div class="viewcode-block" id="ConstantMonochromaticWavelength.__init__">
-<a class="viewcode-back" href="../../generated/generated/hklpy2.wavelength_support.ConstantMonochromaticWavelength.html#hklpy2.wavelength_support.ConstantMonochromaticWavelength.__init__">[docs]</a>
+<div class="viewcode-block" id="ConstantMonochromaticWavelength.spectrum_type">
+<a class="viewcode-back" href="../../autoapi/hklpy2/wavelength_support/index.html#hklpy2.ConstantMonochromaticWavelength.spectrum_type">[docs]</a>
+    <span class="n">spectrum_type</span> <span class="o">=</span> <span class="s2">&quot;monochromatic&quot;</span></div>
+
+
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">wavelength</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<div class="viewcode-block" id="ConstantMonochromaticWavelength._wavelength">
+<a class="viewcode-back" href="../../autoapi/hklpy2/wavelength_support/index.html#hklpy2.ConstantMonochromaticWavelength._wavelength">[docs]</a>
         <span class="bp">self</span><span class="o">.</span><span class="n">_wavelength</span> <span class="o">=</span> <span class="n">wavelength</span></div>
 
 
 <div class="viewcode-block" id="ConstantMonochromaticWavelength._fromdict">
-<a class="viewcode-back" href="../../generated/hklpy2.wavelength_support.html#hklpy2.wavelength_support.ConstantMonochromaticWavelength._fromdict">[docs]</a>
+<a class="viewcode-back" href="../../autoapi/hklpy2/wavelength_support/index.html#hklpy2.ConstantMonochromaticWavelength._fromdict">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">_fromdict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Restore configuration from dictionary but not wavelength.&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_fromdict_core</span><span class="p">(</span><span class="n">config</span><span class="p">)</span></div>
 
 
     <span class="nd">@property</span>
+<div class="viewcode-block" id="ConstantMonochromaticWavelength.wavelength">
+<a class="viewcode-back" href="../../autoapi/hklpy2/wavelength_support/index.html#hklpy2.ConstantMonochromaticWavelength.wavelength">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">wavelength</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Wavelength (:math:`\\lambda`).&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_wavelength</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_wavelength</span></div>
+
 
     <span class="nd">@wavelength</span><span class="o">.</span><span class="n">setter</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">wavelength</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -540,7 +581,7 @@
 
 
 <div class="viewcode-block" id="MonochromaticXrayWavelength">
-<a class="viewcode-back" href="../../generated/hklpy2.wavelength_support.html#hklpy2.wavelength_support.MonochromaticXrayWavelength">[docs]</a>
+<a class="viewcode-back" href="../../autoapi/hklpy2/wavelength_support/index.html#hklpy2.MonochromaticXrayWavelength">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">MonochromaticXrayWavelength</span><span class="p">(</span><span class="n">WavelengthBase</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Monochromatic X-ray wavelength (and units).</span>
@@ -555,27 +596,35 @@
 <span class="sd">        ~spectrum_type</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">source_type</span> <span class="o">=</span> <span class="s2">&quot;X-ray&quot;</span>
-    <span class="n">spectrum_type</span> <span class="o">=</span> <span class="s2">&quot;monochromatic&quot;</span>
+<div class="viewcode-block" id="MonochromaticXrayWavelength.source_type">
+<a class="viewcode-back" href="../../autoapi/hklpy2/wavelength_support/index.html#hklpy2.MonochromaticXrayWavelength.source_type">[docs]</a>
+    <span class="n">source_type</span> <span class="o">=</span> <span class="s2">&quot;X-ray&quot;</span></div>
 
-<div class="viewcode-block" id="MonochromaticXrayWavelength.__init__">
-<a class="viewcode-back" href="../../generated/generated/hklpy2.wavelength_support.MonochromaticXrayWavelength.html#hklpy2.wavelength_support.MonochromaticXrayWavelength.__init__">[docs]</a>
+<div class="viewcode-block" id="MonochromaticXrayWavelength.spectrum_type">
+<a class="viewcode-back" href="../../autoapi/hklpy2/wavelength_support/index.html#hklpy2.MonochromaticXrayWavelength.spectrum_type">[docs]</a>
+    <span class="n">spectrum_type</span> <span class="o">=</span> <span class="s2">&quot;monochromatic&quot;</span></div>
+
+
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">wavelength</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">energy_units</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">energy_units</span> <span class="o">=</span> <span class="n">energy_units</span> <span class="ow">or</span> <span class="n">DEFAULT_ENERGY_UNITS</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">wavelength</span> <span class="o">=</span> <span class="n">wavelength</span></div>
-
+        <span class="bp">self</span><span class="o">.</span><span class="n">wavelength</span> <span class="o">=</span> <span class="n">wavelength</span>
 
     <span class="nd">@property</span>
+<div class="viewcode-block" id="MonochromaticXrayWavelength.wavelength">
+<a class="viewcode-back" href="../../autoapi/hklpy2/wavelength_support/index.html#hklpy2.MonochromaticXrayWavelength.wavelength">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">wavelength</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Wavelength (:math:`\\lambda`).&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_wavelength</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_wavelength</span></div>
+
 
     <span class="nd">@wavelength</span><span class="o">.</span><span class="n">setter</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">wavelength</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_wavelength</span> <span class="o">=</span> <span class="n">value</span>
 
     <span class="nd">@property</span>
+<div class="viewcode-block" id="MonochromaticXrayWavelength.energy">
+<a class="viewcode-back" href="../../autoapi/hklpy2/wavelength_support/index.html#hklpy2.MonochromaticXrayWavelength.energy">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">energy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Incident monochromatic X-ray photon energy (:math:`E`).</span>
@@ -588,7 +637,8 @@
         <span class="n">wavelength</span> <span class="o">=</span> <span class="n">pint</span><span class="o">.</span><span class="n">Quantity</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">wavelength</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">wavelength_units</span><span class="p">)</span>
         <span class="n">wavelength</span> <span class="o">=</span> <span class="n">wavelength</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">DEFAULT_WAVELENGTH_UNITS</span><span class="p">)</span><span class="o">.</span><span class="n">magnitude</span>
         <span class="n">energy</span> <span class="o">=</span> <span class="n">pint</span><span class="o">.</span><span class="n">Quantity</span><span class="p">(</span><span class="n">A_KEV</span> <span class="o">/</span> <span class="n">wavelength</span><span class="p">,</span> <span class="n">DEFAULT_ENERGY_UNITS</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">energy</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">energy_units</span><span class="p">)</span><span class="o">.</span><span class="n">magnitude</span>
+        <span class="k">return</span> <span class="n">energy</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">energy_units</span><span class="p">)</span><span class="o">.</span><span class="n">magnitude</span></div>
+
 
     <span class="nd">@energy</span><span class="o">.</span><span class="n">setter</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">energy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -598,11 +648,14 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">wavelength</span> <span class="o">=</span> <span class="n">wavelength</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">wavelength_units</span><span class="p">)</span><span class="o">.</span><span class="n">magnitude</span>
 
     <span class="nd">@property</span>
+<div class="viewcode-block" id="MonochromaticXrayWavelength.energy_units">
+<a class="viewcode-back" href="../../autoapi/hklpy2/wavelength_support/index.html#hklpy2.MonochromaticXrayWavelength.energy_units">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">energy_units</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Engineering units of the X-ray photon energy.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_energy_units</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_energy_units</span></div>
+
 
     <span class="nd">@energy_units</span><span class="o">.</span><span class="n">setter</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">energy_units</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>

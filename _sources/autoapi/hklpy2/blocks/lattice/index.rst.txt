@@ -1,0 +1,151 @@
+hklpy2.blocks.lattice
+=====================
+
+.. py:module:: hklpy2.blocks.lattice
+
+.. autoapi-nested-parse::
+
+   Lattice parameters for a single crystal.
+
+   .. autosummary::
+
+       ~Lattice
+       ~SI_LATTICE_PARAMETER
+       ~SI_LATTICE_PARAMETER_UNCERTAINTY
+
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   hklpy2.blocks.lattice.logger
+   hklpy2.blocks.lattice.SI_LATTICE_PARAMETER
+   hklpy2.blocks.lattice.SI_LATTICE_PARAMETER_UNCERTAINTY
+   hklpy2.blocks.lattice.CrystalSystem
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   hklpy2.blocks.lattice.Lattice
+
+
+Module Contents
+---------------
+
+.. py:data:: logger
+
+.. py:data:: SI_LATTICE_PARAMETER
+   :value: 5.431020511
+
+
+   2018 CODATA recommended lattice parameter of silicon, Angstrom.
+
+   :see: https://physics.nist.gov/cgi-bin/cuu/Value?asil
+
+.. py:data:: SI_LATTICE_PARAMETER_UNCERTAINTY
+   :value: 8.9e-08
+
+
+   2018 CODATA reported uncertainty of :data:`SI_LATTICE_PARAMETER`.
+
+.. py:data:: CrystalSystem
+
+.. py:class:: Lattice(a: float, b: float = None, c: float = None, alpha: float = 90.0, beta: float = None, gamma: float = None, digits: int = 4)
+
+   Crystal lattice parameters.
+
+   .. note:: Internal use only.
+
+   EXAMPLE::
+
+       >>> from hklpy2.blocks.lattice import Lattice
+       >>> Lattice(4.74, c=9.515, gamma=120)
+       Lattice(a=4.74, c=9.515, gamma=120, system='hexagonal')
+
+   .. autosummary::
+
+       ~_asdict
+       ~_fromdict
+       ~__eq__
+       ~__repr__
+       ~crystal_system
+       ~system_parameter_names
+
+
+   .. py:attribute:: a
+
+
+   .. py:attribute:: b
+
+
+   .. py:attribute:: c
+
+
+   .. py:attribute:: alpha
+      :value: 90.0
+
+
+
+   .. py:attribute:: beta
+      :value: 90.0
+
+
+
+   .. py:attribute:: gamma
+      :value: 90.0
+
+
+
+   .. py:property:: digits
+      :type: int
+
+
+      Number of digits to display.
+
+
+   .. py:method:: __eq__(latt)
+
+      Compare two lattices for equality.
+
+      EXAMPLE::
+
+          lattice1 == lattice2
+
+
+
+   .. py:method:: __repr__()
+
+      Standard representation of lattice.
+
+
+
+   .. py:method:: _asdict()
+
+      Return a new dict which maps lattice constant names and values.
+
+
+
+   .. py:method:: _fromdict(config)
+
+      Redefine lattice from a (configuration) dictionary.
+
+
+
+   .. py:method:: system_parameter_names(system: str)
+
+      Return list of lattice parameter names for this crystal system.
+
+
+
+   .. py:property:: crystal_system
+
+      The crystal system of this lattice.  By inspection of the parameters.
+
+      .. seealso:: https://dictionary.iucr.org/Crystal_system
+
+

@@ -1,0 +1,1248 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>hklpy2.tests.test_diffract &#8212; hklpy2 0.0</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../../_static/documentation_options.js?v=2c42f40f"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/hklpy2/tests/test_diffract';</script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="0.0" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">hklpy2 0.0</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../user_guide.html">
+    User Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../release_notes.html">
+    Releases
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../license.html">
+    License
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../autoapi/index.html">
+    API Reference
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/prjemian/hklpy2" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../user_guide.html">
+    User Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../release_notes.html">
+    Releases
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../license.html">
+    License
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../autoapi/index.html">
+    API Reference
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/prjemian/hklpy2" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../index.html" class="nav-link">Module code</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="../../hklpy2.html" class="nav-link">hklpy2</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="../tests.html" class="nav-link">hklpy2.tests</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">hklpy2.tests.test_diffract</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Source code for hklpy2.tests.test_diffract</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Test the hklpy2.diffract module.&quot;&quot;&quot;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">deque</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">namedtuple</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">contextlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">nullcontext</span> <span class="k">as</span> <span class="n">does_not_raise</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">bluesky</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pytest</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">numpy.testing</span><span class="w"> </span><span class="kn">import</span> <span class="n">assert_almost_equal</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ophyd</span><span class="w"> </span><span class="kn">import</span> <span class="n">EpicsMotor</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ophyd</span><span class="w"> </span><span class="kn">import</span> <span class="n">SoftPositioner</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ophyd.sim</span><span class="w"> </span><span class="kn">import</span> <span class="n">noisy_det</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">..blocks.reflection</span><span class="w"> </span><span class="kn">import</span> <span class="n">ReflectionError</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">..blocks.sample</span><span class="w"> </span><span class="kn">import</span> <span class="n">Sample</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">..diffract</span><span class="w"> </span><span class="kn">import</span> <span class="n">DiffractometerBase</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">..diffract</span><span class="w"> </span><span class="kn">import</span> <span class="n">creator</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">..diffract</span><span class="w"> </span><span class="kn">import</span> <span class="n">pick_first_item</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">..misc</span><span class="w"> </span><span class="kn">import</span> <span class="n">DiffractometerError</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">..misc</span><span class="w"> </span><span class="kn">import</span> <span class="n">SolverNoForwardSolutions</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">..ops</span><span class="w"> </span><span class="kn">import</span> <span class="n">DEFAULT_SAMPLE_NAME</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">..ops</span><span class="w"> </span><span class="kn">import</span> <span class="n">Operations</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">..ops</span><span class="w"> </span><span class="kn">import</span> <span class="n">OperationsError</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">..wavelength_support</span><span class="w"> </span><span class="kn">import</span> <span class="n">DEFAULT_WAVELENGTH</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">..wavelength_support</span><span class="w"> </span><span class="kn">import</span> <span class="n">DEFAULT_WAVELENGTH_UNITS</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">HKLPY2_DIR</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">assert_context_result</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">AugmentedFourc</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">Fourc</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">MultiAxis99</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">NoOpTh2Th</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">TwoC</span>
+
+
+<div class="viewcode-block" id="test_choice_function">
+<a class="viewcode-back" href="../../../autoapi/hklpy2/tests/test_diffract/index.html#hklpy2.tests.test_diffract.test_choice_function">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_choice_function</span><span class="p">():</span>
+    <span class="n">choice</span> <span class="o">=</span> <span class="n">pick_first_item</span><span class="p">((),</span> <span class="s2">&quot;a b c&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">())</span>
+    <span class="k">assert</span> <span class="n">choice</span> <span class="o">==</span> <span class="s2">&quot;a&quot;</span></div>
+
+
+
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+    <span class="s2">&quot;config_file&quot;</span><span class="p">,</span>
+    <span class="p">[</span><span class="s2">&quot;e4cv_orient.yml&quot;</span><span class="p">,</span> <span class="s2">&quot;fourc-configuration.yml&quot;</span><span class="p">],</span>
+<span class="p">)</span>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+    <span class="s2">&quot;pseudos, reals, positioner_class, context, expected&quot;</span><span class="p">,</span>
+    <span class="p">[</span>
+        <span class="p">[</span>
+            <span class="p">[],</span>
+            <span class="nb">dict</span><span class="p">(</span><span class="n">omega</span><span class="o">=</span><span class="s2">&quot;IOC:m1&quot;</span><span class="p">,</span> <span class="n">chi</span><span class="o">=</span><span class="s2">&quot;IOC:m2&quot;</span><span class="p">,</span> <span class="n">phi</span><span class="o">=</span><span class="s2">&quot;IOC:m3&quot;</span><span class="p">,</span> <span class="n">tth</span><span class="o">=</span><span class="s2">&quot;IOC:m4&quot;</span><span class="p">),</span>
+            <span class="n">EpicsMotor</span><span class="p">,</span>
+            <span class="n">does_not_raise</span><span class="p">(),</span>
+            <span class="kc">None</span><span class="p">,</span>
+        <span class="p">],</span>
+        <span class="p">[</span>
+            <span class="p">[],</span>
+            <span class="nb">dict</span><span class="p">(</span><span class="n">aaa</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">bbb</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ccc</span><span class="o">=</span><span class="kc">None</span><span class="p">),</span>
+            <span class="n">SoftPositioner</span><span class="p">,</span>
+            <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">KeyError</span><span class="p">),</span>
+            <span class="s2">&quot;reals, received &quot;</span><span class="p">,</span>
+        <span class="p">],</span>
+        <span class="p">[</span>
+            <span class="p">[],</span>
+            <span class="nb">dict</span><span class="p">(</span><span class="n">aaa</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">bbb</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ccc</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ddd</span><span class="o">=</span><span class="kc">None</span><span class="p">),</span>
+            <span class="n">SoftPositioner</span><span class="p">,</span>
+            <span class="n">does_not_raise</span><span class="p">(),</span>
+            <span class="kc">None</span><span class="p">,</span>
+        <span class="p">],</span>
+        <span class="p">[</span>
+            <span class="p">[],</span>
+            <span class="nb">dict</span><span class="p">(</span><span class="n">aaa</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">bbb</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ccc</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ddd</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">eee</span><span class="o">=</span><span class="kc">None</span><span class="p">),</span>
+            <span class="n">SoftPositioner</span><span class="p">,</span>
+            <span class="n">does_not_raise</span><span class="p">(),</span>
+            <span class="kc">None</span><span class="p">,</span>
+        <span class="p">],</span>
+        <span class="p">[</span>
+            <span class="p">[],</span>
+            <span class="nb">dict</span><span class="p">(</span><span class="n">aaa</span><span class="o">=</span><span class="s2">&quot;IOC:m1&quot;</span><span class="p">,</span> <span class="n">bbb</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ccc</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ddd</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">eee</span><span class="o">=</span><span class="kc">None</span><span class="p">),</span>
+            <span class="p">(</span><span class="n">EpicsMotor</span><span class="p">,</span> <span class="n">SoftPositioner</span><span class="p">),</span>
+            <span class="n">does_not_raise</span><span class="p">(),</span>
+            <span class="kc">None</span><span class="p">,</span>
+        <span class="p">],</span>
+        <span class="p">[[],</span> <span class="p">{},</span> <span class="n">SoftPositioner</span><span class="p">,</span> <span class="n">does_not_raise</span><span class="p">(),</span> <span class="kc">None</span><span class="p">],</span>
+        <span class="p">[</span>
+            <span class="s2">&quot;h k&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">(),</span>
+            <span class="p">{},</span>
+            <span class="n">SoftPositioner</span><span class="p">,</span>
+            <span class="n">does_not_raise</span><span class="p">(),</span>
+            <span class="kc">None</span><span class="p">,</span>
+        <span class="p">],</span>
+        <span class="p">[</span>
+            <span class="s2">&quot;h2 k2 l2 psi alpha beta&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">(),</span>
+            <span class="p">{},</span>
+            <span class="n">SoftPositioner</span><span class="p">,</span>
+            <span class="n">does_not_raise</span><span class="p">(),</span>
+            <span class="kc">None</span><span class="p">,</span>
+        <span class="p">],</span>
+    <span class="p">],</span>
+<span class="p">)</span>
+<div class="viewcode-block" id="test_creator_reals">
+<a class="viewcode-back" href="../../../autoapi/hklpy2/tests/test_diffract/index.html#hklpy2.tests.test_diffract.test_creator_reals">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_creator_reals</span><span class="p">(</span>
+    <span class="n">pseudos</span><span class="p">,</span> <span class="n">reals</span><span class="p">,</span> <span class="n">positioner_class</span><span class="p">,</span> <span class="n">context</span><span class="p">,</span> <span class="n">expected</span><span class="p">,</span> <span class="n">config_file</span>
+<span class="p">):</span>
+    <span class="k">with</span> <span class="n">context</span> <span class="k">as</span> <span class="n">reason</span><span class="p">:</span>
+        <span class="n">diffractometer</span> <span class="o">=</span> <span class="n">creator</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;diffractometer&quot;</span><span class="p">,</span> <span class="n">pseudos</span><span class="o">=</span><span class="n">pseudos</span><span class="p">,</span> <span class="n">reals</span><span class="o">=</span><span class="n">reals</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="n">diffractometer</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+        <span class="k">for</span> <span class="n">axis</span> <span class="ow">in</span> <span class="n">diffractometer</span><span class="o">.</span><span class="n">real_axis_names</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">reals</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">assert</span> <span class="n">axis</span> <span class="ow">in</span> <span class="n">reals</span>
+            <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">diffractometer</span><span class="p">,</span> <span class="n">axis</span><span class="p">),</span> <span class="n">positioner_class</span><span class="p">)</span>
+        <span class="n">diffractometer</span><span class="o">.</span><span class="n">restore</span><span class="p">(</span><span class="n">HKLPY2_DIR</span> <span class="o">/</span> <span class="s2">&quot;tests&quot;</span> <span class="o">/</span> <span class="n">config_file</span><span class="p">)</span>
+
+    <span class="n">assert_context_result</span><span class="p">(</span><span class="n">expected</span><span class="p">,</span> <span class="n">reason</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="test_DiffractometerBase">
+<a class="viewcode-back" href="../../../autoapi/hklpy2/tests/test_diffract/index.html#hklpy2.tests.test_diffract.test_DiffractometerBase">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_DiffractometerBase</span><span class="p">():</span>
+    <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">((</span><span class="n">DiffractometerError</span><span class="p">,</span> <span class="ne">ValueError</span><span class="p">))</span> <span class="k">as</span> <span class="n">reason</span><span class="p">:</span>
+        <span class="n">DiffractometerBase</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;dbase&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">reason</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">&quot;ValueError&quot;</span><span class="p">:</span>
+        <span class="k">assert</span> <span class="s2">&quot;Must have at least 1 positioner&quot;</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">reason</span><span class="p">)</span></div>
+
+
+
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;axis&quot;</span><span class="p">,</span> <span class="s2">&quot;h k l&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">())</span>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+    <span class="s2">&quot;value, context, expected&quot;</span><span class="p">,</span>
+    <span class="p">[</span>
+        <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">does_not_raise</span><span class="p">(),</span> <span class="kc">None</span><span class="p">],</span>
+        <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="n">does_not_raise</span><span class="p">(),</span> <span class="kc">None</span><span class="p">],</span>
+        <span class="p">[</span><span class="o">-</span><span class="mf">1.2</span><span class="p">,</span> <span class="n">does_not_raise</span><span class="p">(),</span> <span class="kc">None</span><span class="p">],</span>
+        <span class="p">[</span><span class="mf">1.2</span><span class="p">,</span> <span class="n">does_not_raise</span><span class="p">(),</span> <span class="kc">None</span><span class="p">],</span>
+        <span class="p">[</span><span class="mi">12</span><span class="p">,</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="n">SolverNoForwardSolutions</span><span class="p">),</span> <span class="s2">&quot;No forward solutions found.&quot;</span><span class="p">],</span>
+        <span class="p">[</span><span class="o">-</span><span class="mi">12</span><span class="p">,</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="n">SolverNoForwardSolutions</span><span class="p">),</span> <span class="s2">&quot;No forward solutions found.&quot;</span><span class="p">],</span>
+    <span class="p">],</span>
+<span class="p">)</span>
+<div class="viewcode-block" id="test_limits">
+<a class="viewcode-back" href="../../../autoapi/hklpy2/tests/test_diffract/index.html#hklpy2.tests.test_diffract.test_limits">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_limits</span><span class="p">(</span><span class="n">axis</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">context</span><span class="p">,</span> <span class="n">expected</span><span class="p">):</span>
+    <span class="k">with</span> <span class="n">context</span> <span class="k">as</span> <span class="n">reason</span><span class="p">:</span>
+        <span class="n">fourc</span> <span class="o">=</span> <span class="n">creator</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;fourc&quot;</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">fourc</span><span class="p">,</span> <span class="n">axis</span><span class="p">)</span>
+        <span class="n">pseudo</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">fourc</span><span class="p">,</span> <span class="n">axis</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="n">pseudo</span><span class="o">.</span><span class="n">limits</span> <span class="o">==</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="n">pseudo</span><span class="o">.</span><span class="n">check_value</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span>
+
+    <span class="n">assert_context_result</span><span class="p">(</span><span class="n">expected</span><span class="p">,</span> <span class="n">reason</span><span class="p">)</span></div>
+
+
+
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+    <span class="s2">&quot;dclass, np, nr, solver, gname, solver_kwargs, pseudos, reals&quot;</span><span class="p">,</span>
+    <span class="p">[</span>
+        <span class="p">[</span><span class="n">Fourc</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="p">{},</span> <span class="p">[],</span> <span class="p">[]],</span>
+        <span class="p">[</span><span class="n">AugmentedFourc</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="p">{},</span> <span class="p">[],</span> <span class="p">[]],</span>
+        <span class="p">[</span><span class="n">MultiAxis99</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="s2">&quot;hkl_soleil&quot;</span><span class="p">,</span> <span class="s2">&quot;E4CV&quot;</span><span class="p">,</span> <span class="p">{},</span> <span class="p">[],</span> <span class="p">[]],</span>
+        <span class="p">[</span>
+            <span class="n">MultiAxis99</span><span class="p">,</span>
+            <span class="mi">9</span><span class="p">,</span>
+            <span class="mi">9</span><span class="p">,</span>
+            <span class="s2">&quot;hkl_soleil&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;E4CV&quot;</span><span class="p">,</span>
+            <span class="p">{},</span>
+            <span class="s2">&quot;p1 p2 p3 p4&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">(),</span>
+            <span class="s2">&quot;r1 r2 r3 r4&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">(),</span>
+        <span class="p">],</span>
+        <span class="p">[</span><span class="n">MultiAxis99</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="s2">&quot;no_op&quot;</span><span class="p">,</span> <span class="s2">&quot;test&quot;</span><span class="p">,</span> <span class="p">{},</span> <span class="p">[],</span> <span class="p">[]],</span>
+        <span class="p">[</span><span class="n">MultiAxis99</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="s2">&quot;th_tth&quot;</span><span class="p">,</span> <span class="s2">&quot;TH TTH Q&quot;</span><span class="p">,</span> <span class="p">{},</span> <span class="p">[],</span> <span class="p">[]],</span>
+        <span class="p">[</span><span class="n">NoOpTh2Th</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="p">{},</span> <span class="p">[],</span> <span class="p">[]],</span>
+        <span class="p">[</span><span class="n">TwoC</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="p">{},</span> <span class="p">[],</span> <span class="p">[]],</span>
+    <span class="p">],</span>
+<span class="p">)</span>
+<div class="viewcode-block" id="test_diffractometer_class">
+<a class="viewcode-back" href="../../../autoapi/hklpy2/tests/test_diffract/index.html#hklpy2.tests.test_diffract.test_diffractometer_class">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_diffractometer_class</span><span class="p">(</span>
+    <span class="n">dclass</span><span class="p">,</span>
+    <span class="n">np</span><span class="p">,</span>
+    <span class="n">nr</span><span class="p">,</span>
+    <span class="n">solver</span><span class="p">,</span>
+    <span class="n">gname</span><span class="p">,</span>
+    <span class="n">solver_kwargs</span><span class="p">,</span>
+    <span class="n">pseudos</span><span class="p">,</span>
+    <span class="n">reals</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test each diffractometer class.&quot;&quot;&quot;</span>
+    <span class="n">dmeter</span> <span class="o">=</span> <span class="n">dclass</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;goniometer&quot;</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">dmeter</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+    <span class="k">if</span> <span class="n">solver</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">dmeter</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">set_solver</span><span class="p">(</span><span class="n">solver</span><span class="p">,</span> <span class="n">gname</span><span class="p">,</span> <span class="o">**</span><span class="n">solver_kwargs</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">pseudos</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">solver</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">dmeter</span><span class="o">.</span><span class="n">auto_assign_axes</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">dmeter</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">assign_axes</span><span class="p">(</span><span class="n">pseudos</span><span class="p">,</span> <span class="n">reals</span><span class="p">)</span>
+
+    <span class="k">with</span> <span class="n">does_not_raise</span><span class="p">():</span>
+        <span class="c1"># These PseudoPositioner properties _must_ work immediately.</span>
+        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dmeter</span><span class="o">.</span><span class="n">position</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">),</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">dmeter</span><span class="o">.</span><span class="n">position</span><span class="p">)</span><span class="si">=!r}</span><span class="s2">&quot;</span>
+        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dmeter</span><span class="o">.</span><span class="n">report</span><span class="p">,</span> <span class="nb">dict</span><span class="p">),</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">dmeter</span><span class="o">.</span><span class="n">report</span><span class="p">)</span><span class="si">=!r}</span><span class="s2">&quot;</span>
+
+    <span class="k">if</span> <span class="n">solver</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># ophyd components</span>
+        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dmeter</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">get</span><span class="p">(),</span> <span class="nb">str</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dmeter</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">get</span><span class="p">(),</span> <span class="nb">str</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dmeter</span><span class="o">.</span><span class="n">wavelength</span><span class="o">.</span><span class="n">get</span><span class="p">(),</span> <span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">))</span>
+
+        <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">dmeter</span><span class="o">.</span><span class="n">pseudo_positioners</span><span class="p">)</span> <span class="o">==</span> <span class="n">np</span>
+        <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">dmeter</span><span class="o">.</span><span class="n">_pseudo</span><span class="p">)</span> <span class="o">==</span> <span class="n">np</span>
+        <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">dmeter</span><span class="o">.</span><span class="n">real_positioners</span><span class="p">)</span> <span class="o">==</span> <span class="n">nr</span>
+        <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">dmeter</span><span class="o">.</span><span class="n">_real</span><span class="p">)</span> <span class="o">==</span> <span class="n">nr</span>
+        <span class="k">assert</span> <span class="ow">not</span> <span class="n">dmeter</span><span class="o">.</span><span class="n">moving</span>
+
+        <span class="c1"># test the wavelength</span>
+        <span class="k">assert</span> <span class="n">math</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span>
+            <span class="n">dmeter</span><span class="o">.</span><span class="n">_source</span><span class="o">.</span><span class="n">wavelength</span><span class="p">,</span>
+            <span class="n">dmeter</span><span class="o">.</span><span class="n">wavelength</span><span class="o">.</span><span class="n">get</span><span class="p">(),</span>
+            <span class="n">abs_tol</span><span class="o">=</span><span class="mf">0.001</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">assert</span> <span class="n">math</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span>
+            <span class="n">dmeter</span><span class="o">.</span><span class="n">_source</span><span class="o">.</span><span class="n">wavelength</span><span class="p">,</span>
+            <span class="n">DEFAULT_WAVELENGTH</span><span class="p">,</span>
+            <span class="n">abs_tol</span><span class="o">=</span><span class="mf">0.001</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">assert</span> <span class="n">dmeter</span><span class="o">.</span><span class="n">_source</span><span class="o">.</span><span class="n">wavelength_units</span> <span class="o">==</span> <span class="n">DEFAULT_WAVELENGTH_UNITS</span>
+
+        <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">dmeter</span><span class="o">.</span><span class="n">samples</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
+        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dmeter</span><span class="o">.</span><span class="n">sample</span><span class="p">,</span> <span class="n">Sample</span><span class="p">)</span>
+
+        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dmeter</span><span class="o">.</span><span class="n">core</span><span class="p">,</span> <span class="n">Operations</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dmeter</span><span class="o">.</span><span class="n">pseudo_axis_names</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dmeter</span><span class="o">.</span><span class="n">real_axis_names</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span>
+
+        <span class="n">dmeter</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">add_sample</span><span class="p">(</span><span class="s2">&quot;test&quot;</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">dmeter</span><span class="o">.</span><span class="n">samples</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span>
+        <span class="k">assert</span> <span class="n">dmeter</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;test&quot;</span>
+
+        <span class="k">assert</span> <span class="n">dmeter</span><span class="o">.</span><span class="n">solver</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dmeter</span><span class="o">.</span><span class="n">solver_name</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">dmeter</span><span class="o">.</span><span class="n">solver_name</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span></div>
+
+
+
+<div class="viewcode-block" id="test_diffractometer_wh">
+<a class="viewcode-back" href="../../../autoapi/hklpy2/tests/test_diffract/index.html#hklpy2.tests.test_diffract.test_diffractometer_wh">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_diffractometer_wh</span><span class="p">(</span><span class="n">capsys</span><span class="p">):</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">..diffract</span><span class="w"> </span><span class="kn">import</span> <span class="n">creator</span>
+
+    <span class="n">e4cv</span> <span class="o">=</span> <span class="n">creator</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;e4cv&quot;</span><span class="p">)</span>
+    <span class="n">e4cv</span><span class="o">.</span><span class="n">restore</span><span class="p">(</span><span class="n">HKLPY2_DIR</span> <span class="o">/</span> <span class="s2">&quot;tests&quot;</span> <span class="o">/</span> <span class="s2">&quot;e4cv_orient.yml&quot;</span><span class="p">)</span>
+
+    <span class="n">e4cv</span><span class="o">.</span><span class="n">wh</span><span class="p">()</span>
+    <span class="n">captured</span> <span class="o">=</span> <span class="n">capsys</span><span class="o">.</span><span class="n">readouterr</span><span class="p">()</span>
+    <span class="n">lines</span> <span class="o">=</span> <span class="n">captured</span><span class="o">.</span><span class="n">out</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()</span>
+    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">captured</span><span class="o">.</span><span class="n">out</span><span class="si">=}</span><span class="s2">&quot;</span>
+    <span class="k">assert</span> <span class="n">lines</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;wavelength=&quot;</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">lines</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;h=&quot;</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">lines</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;omega=&quot;</span><span class="p">)</span>
+
+    <span class="n">e4cv</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">mode</span> <span class="o">=</span> <span class="s2">&quot;psi_constant&quot;</span>
+    <span class="n">e4cv</span><span class="o">.</span><span class="n">wh</span><span class="p">(</span><span class="n">full</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">captured</span> <span class="o">=</span> <span class="n">capsys</span><span class="o">.</span><span class="n">readouterr</span><span class="p">()</span>
+    <span class="n">lines</span> <span class="o">=</span> <span class="n">captured</span><span class="o">.</span><span class="n">out</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()</span>
+    <span class="n">expected</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        diffractometer=</span>
+<span class="s2">        HklSolver(name</span>
+<span class="s2">        Sample(name=</span>
+<span class="s2">    &quot;&quot;&quot;</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">_r</span> <span class="ow">in</span> <span class="n">e4cv</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">reflections</span><span class="p">:</span>
+        <span class="n">expected</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Reflection(name=&#39;&quot;</span><span class="p">)</span>
+    <span class="n">expected</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Orienting reflections: &quot;</span><span class="p">)</span>
+    <span class="n">expected</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;U=&quot;</span><span class="p">)</span>
+    <span class="n">expected</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;UB=&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">_r</span> <span class="ow">in</span> <span class="n">e4cv</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">constraints</span><span class="p">:</span>
+        <span class="n">expected</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;constraint: &quot;</span><span class="p">)</span>
+    <span class="n">expected</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e4cv</span><span class="o">.</span><span class="n">pseudo_axis_names</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">=&quot;</span><span class="p">)</span>
+    <span class="n">expected</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;wavelength=&quot;</span><span class="p">)</span>
+    <span class="n">expected</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e4cv</span><span class="o">.</span><span class="n">real_axis_names</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">=&quot;</span><span class="p">)</span>
+    <span class="n">extra_names</span> <span class="o">=</span> <span class="n">e4cv</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">extra_axis_names</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">extra_names</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">expected</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">extra_names</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">=&quot;</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">expected</span><span class="p">),</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">captured</span><span class="o">.</span><span class="n">out</span><span class="si">=}</span><span class="s2">&quot;</span>
+    <span class="k">for</span> <span class="n">actual</span><span class="p">,</span> <span class="n">exp</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">lines</span><span class="p">,</span> <span class="n">expected</span><span class="p">):</span>
+        <span class="k">assert</span> <span class="n">actual</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">exp</span><span class="p">)</span></div>
+
+
+
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+    <span class="s2">&quot;mode, keys, context, expected, config_file&quot;</span><span class="p">,</span>
+    <span class="p">[</span>
+        <span class="p">[</span>
+            <span class="s2">&quot;bissector&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;h k l omega chi phi tth&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">(),</span>
+            <span class="n">does_not_raise</span><span class="p">(),</span>
+            <span class="kc">None</span><span class="p">,</span>
+            <span class="s2">&quot;e4cv_orient.yml&quot;</span><span class="p">,</span>
+        <span class="p">],</span>
+        <span class="p">[</span>
+            <span class="s2">&quot;bissector&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;h k l omega chi phi tth&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">(),</span>
+            <span class="n">does_not_raise</span><span class="p">(),</span>
+            <span class="kc">None</span><span class="p">,</span>
+            <span class="s2">&quot;fourc-configuration.yml&quot;</span><span class="p">,</span>
+        <span class="p">],</span>
+    <span class="p">],</span>
+<span class="p">)</span>
+<div class="viewcode-block" id="test_full_position">
+<a class="viewcode-back" href="../../../autoapi/hklpy2/tests/test_diffract/index.html#hklpy2.tests.test_diffract.test_full_position">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_full_position</span><span class="p">(</span><span class="n">mode</span><span class="p">,</span> <span class="n">keys</span><span class="p">,</span> <span class="n">context</span><span class="p">,</span> <span class="n">expected</span><span class="p">,</span> <span class="n">config_file</span><span class="p">):</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">..diffract</span><span class="w"> </span><span class="kn">import</span> <span class="n">creator</span>
+
+    <span class="k">assert</span> <span class="n">config_file</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;.yml&quot;</span><span class="p">)</span>
+
+    <span class="k">with</span> <span class="n">context</span> <span class="k">as</span> <span class="n">reason</span><span class="p">:</span>
+        <span class="n">fourc</span> <span class="o">=</span> <span class="n">creator</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;fourc&quot;</span><span class="p">)</span>
+        <span class="n">fourc</span><span class="o">.</span><span class="n">restore</span><span class="p">(</span><span class="n">HKLPY2_DIR</span> <span class="o">/</span> <span class="s2">&quot;tests&quot;</span> <span class="o">/</span> <span class="n">config_file</span><span class="p">)</span>
+        <span class="n">fourc</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">mode</span> <span class="o">=</span> <span class="n">mode</span>
+        <span class="n">pos</span> <span class="o">=</span> <span class="n">fourc</span><span class="o">.</span><span class="n">full_position</span><span class="p">()</span>
+        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">pos</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span>
+
+    <span class="n">assert_context_result</span><span class="p">(</span><span class="n">expected</span><span class="p">,</span> <span class="n">reason</span><span class="p">)</span></div>
+
+
+
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+    <span class="s2">&quot;pseudos, extras, mode, context, expected&quot;</span><span class="p">,</span>
+    <span class="p">[</span>
+        <span class="p">[</span>
+            <span class="nb">dict</span><span class="p">(</span><span class="n">h</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">l</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
+            <span class="nb">dict</span><span class="p">(</span><span class="n">h2</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">k2</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">l2</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">psi</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
+            <span class="s2">&quot;psi_constant&quot;</span><span class="p">,</span>
+            <span class="n">does_not_raise</span><span class="p">(),</span>
+            <span class="kc">None</span><span class="p">,</span>
+        <span class="p">],</span>
+    <span class="p">],</span>
+<span class="p">)</span>
+<div class="viewcode-block" id="test_move_forward_with_extras">
+<a class="viewcode-back" href="../../../autoapi/hklpy2/tests/test_diffract/index.html#hklpy2.tests.test_diffract.test_move_forward_with_extras">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_move_forward_with_extras</span><span class="p">(</span><span class="n">pseudos</span><span class="p">,</span> <span class="n">extras</span><span class="p">,</span> <span class="n">mode</span><span class="p">,</span> <span class="n">context</span><span class="p">,</span> <span class="n">expected</span><span class="p">):</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">..diffract</span><span class="w"> </span><span class="kn">import</span> <span class="n">creator</span>
+
+    <span class="n">fourc</span> <span class="o">=</span> <span class="n">creator</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;fourc&quot;</span><span class="p">)</span>
+    <span class="n">fourc</span><span class="o">.</span><span class="n">restore</span><span class="p">(</span><span class="n">HKLPY2_DIR</span> <span class="o">/</span> <span class="s2">&quot;tests&quot;</span> <span class="o">/</span> <span class="s2">&quot;e4cv_orient.yml&quot;</span><span class="p">)</span>
+    <span class="n">fourc</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">mode</span> <span class="o">=</span> <span class="n">mode</span>
+    <span class="c1"># fourc.wavelength.put(6)</span>
+    <span class="k">assert</span> <span class="n">fourc</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">mode</span> <span class="o">==</span> <span class="n">mode</span>
+
+    <span class="n">RE</span> <span class="o">=</span> <span class="n">bluesky</span><span class="o">.</span><span class="n">RunEngine</span><span class="p">()</span>
+
+    <span class="k">with</span> <span class="n">context</span> <span class="k">as</span> <span class="n">reason</span><span class="p">:</span>
+        <span class="n">RE</span><span class="p">(</span><span class="n">fourc</span><span class="o">.</span><span class="n">move_forward_with_extras</span><span class="p">(</span><span class="n">pseudos</span><span class="p">,</span> <span class="n">extras</span><span class="p">))</span>
+
+    <span class="n">assert_context_result</span><span class="p">(</span><span class="n">expected</span><span class="p">,</span> <span class="n">reason</span><span class="p">)</span></div>
+
+
+
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+    <span class="s2">&quot;pos, context, expected&quot;</span><span class="p">,</span>
+    <span class="p">[</span>
+        <span class="p">[(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="n">does_not_raise</span><span class="p">(),</span> <span class="kc">None</span><span class="p">],</span>
+        <span class="p">[{</span><span class="s2">&quot;omega&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;chi&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;phi&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="s2">&quot;tth&quot;</span><span class="p">:</span> <span class="mi">4</span><span class="p">},</span> <span class="n">does_not_raise</span><span class="p">(),</span> <span class="kc">None</span><span class="p">],</span>
+        <span class="p">[</span>
+            <span class="n">namedtuple</span><span class="p">(</span>
+                <span class="s2">&quot;RealTuple&quot;</span><span class="p">,</span> <span class="s2">&quot;omega chi phi tth&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">(),</span> <span class="n">defaults</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span>
+            <span class="p">)(),</span>
+            <span class="n">does_not_raise</span><span class="p">(),</span>
+            <span class="kc">None</span><span class="p">,</span>
+        <span class="p">],</span>
+        <span class="p">[(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">),</span> <span class="s2">&quot;too many args&quot;</span><span class="p">],</span>
+        <span class="p">[</span>
+            <span class="p">{</span><span class="s2">&quot;omega&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;chi&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;phi&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="s2">&quot;delta&quot;</span><span class="p">:</span> <span class="o">-</span><span class="mi">4</span><span class="p">},</span>
+            <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">TypeError</span><span class="p">),</span>
+            <span class="s2">&quot;unexpected keyword argument &#39;delta&#39;&quot;</span><span class="p">,</span>
+        <span class="p">],</span>
+    <span class="p">],</span>
+<span class="p">)</span>
+<div class="viewcode-block" id="test_move_reals">
+<a class="viewcode-back" href="../../../autoapi/hklpy2/tests/test_diffract/index.html#hklpy2.tests.test_diffract.test_move_reals">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_move_reals</span><span class="p">(</span><span class="n">pos</span><span class="p">,</span> <span class="n">context</span><span class="p">,</span> <span class="n">expected</span><span class="p">):</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">..diffract</span><span class="w"> </span><span class="kn">import</span> <span class="n">creator</span>
+
+    <span class="n">fourc</span> <span class="o">=</span> <span class="n">creator</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;fourc&quot;</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">context</span> <span class="k">as</span> <span class="n">reason</span><span class="p">:</span>
+        <span class="n">fourc</span><span class="o">.</span><span class="n">move_reals</span><span class="p">(</span><span class="n">pos</span><span class="p">)</span>
+
+    <span class="n">assert_context_result</span><span class="p">(</span><span class="n">expected</span><span class="p">,</span> <span class="n">reason</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="test_null_core">
+<a class="viewcode-back" href="../../../autoapi/hklpy2/tests/test_diffract/index.html#hklpy2.tests.test_diffract.test_null_core">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_null_core</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Tests special cases when diffractometer.core is None.&quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">..diffract</span><span class="w"> </span><span class="kn">import</span> <span class="n">creator</span>
+
+    <span class="n">fourc</span> <span class="o">=</span> <span class="n">creator</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;fourc&quot;</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">fourc</span><span class="o">.</span><span class="n">core</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">fourc</span><span class="o">.</span><span class="n">samples</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span>
+    <span class="k">assert</span> <span class="n">fourc</span><span class="o">.</span><span class="n">sample</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+    <span class="k">assert</span> <span class="n">fourc</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+    <span class="k">assert</span> <span class="n">fourc</span><span class="o">.</span><span class="n">solver_name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+
+    <span class="n">fourc</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">_solver</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">fourc</span><span class="o">.</span><span class="n">samples</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span>
+    <span class="k">assert</span> <span class="n">fourc</span><span class="o">.</span><span class="n">sample</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+    <span class="k">assert</span> <span class="n">fourc</span><span class="o">.</span><span class="n">solver_name</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span>
+
+    <span class="n">fourc</span><span class="o">.</span><span class="n">core</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">fourc</span><span class="o">.</span><span class="n">samples</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span>
+    <span class="k">assert</span> <span class="n">fourc</span><span class="o">.</span><span class="n">sample</span> <span class="ow">is</span> <span class="kc">None</span>
+    <span class="k">assert</span> <span class="n">fourc</span><span class="o">.</span><span class="n">solver_name</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span></div>
+
+
+
+<div class="viewcode-block" id="test_orientation">
+<a class="viewcode-back" href="../../../autoapi/hklpy2/tests/test_diffract/index.html#hklpy2.tests.test_diffract.test_orientation">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_orientation</span><span class="p">():</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">..blocks.lattice</span><span class="w"> </span><span class="kn">import</span> <span class="n">SI_LATTICE_PARAMETER</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">..diffract</span><span class="w"> </span><span class="kn">import</span> <span class="n">creator</span>
+
+    <span class="n">fourc</span> <span class="o">=</span> <span class="n">creator</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;fourc&quot;</span><span class="p">)</span>
+    <span class="n">fourc</span><span class="o">.</span><span class="n">add_sample</span><span class="p">(</span><span class="s2">&quot;silicon&quot;</span><span class="p">,</span> <span class="n">SI_LATTICE_PARAMETER</span><span class="p">)</span>
+    <span class="n">fourc</span><span class="o">.</span><span class="n">wavelength</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">math</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span>
+        <span class="n">fourc</span><span class="o">.</span><span class="n">wavelength</span><span class="o">.</span><span class="n">get</span><span class="p">(),</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">abs_tol</span><span class="o">=</span><span class="mf">0.01</span>
+    <span class="p">),</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">fourc</span><span class="o">.</span><span class="n">wavelength</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="si">=!r}</span><span class="s2">&quot;</span>
+
+    <span class="n">fourc</span><span class="o">.</span><span class="n">add_reflection</span><span class="p">(</span>
+        <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+        <span class="nb">dict</span><span class="p">(</span><span class="n">tth</span><span class="o">=</span><span class="mf">69.0966</span><span class="p">,</span> <span class="n">omega</span><span class="o">=-</span><span class="mf">145.451</span><span class="p">,</span> <span class="n">chi</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">phi</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
+        <span class="n">wavelength</span><span class="o">=</span><span class="mf">1.54</span><span class="p">,</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;(400)&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">fourc</span><span class="o">.</span><span class="n">add_reflection</span><span class="p">(</span>
+        <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+        <span class="nb">dict</span><span class="p">(</span><span class="n">tth</span><span class="o">=</span><span class="mf">69.0966</span><span class="p">,</span> <span class="n">omega</span><span class="o">=-</span><span class="mf">145.451</span><span class="p">,</span> <span class="n">chi</span><span class="o">=</span><span class="mi">90</span><span class="p">,</span> <span class="n">phi</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
+        <span class="n">wavelength</span><span class="o">=</span><span class="mf">1.54</span><span class="p">,</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;(040)&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="k">assert</span> <span class="n">math</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span>
+        <span class="n">fourc</span><span class="o">.</span><span class="n">wavelength</span><span class="o">.</span><span class="n">get</span><span class="p">(),</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">abs_tol</span><span class="o">=</span><span class="mf">0.01</span>
+    <span class="p">),</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">fourc</span><span class="o">.</span><span class="n">wavelength</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="si">=!r}</span><span class="s2">&quot;</span>
+    <span class="k">assert</span> <span class="n">fourc</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">reflections</span><span class="o">.</span><span class="n">order</span> <span class="o">==</span> <span class="s2">&quot;(400) (040)&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+
+    <span class="n">result</span> <span class="o">=</span> <span class="n">fourc</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">calc_UB</span><span class="p">(</span><span class="o">*</span><span class="n">fourc</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">reflections</span><span class="o">.</span><span class="n">order</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">list</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">))</span>
+
+    <span class="n">UB</span> <span class="o">=</span> <span class="n">fourc</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">UB</span>
+    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">UB</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span>
+
+    <span class="n">UBe</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.157</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.157</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mf">1.157</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]]</span>
+    <span class="k">for</span> <span class="n">row</span><span class="p">,</span> <span class="n">row_expected</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">UB</span><span class="p">,</span> <span class="n">UBe</span><span class="p">):</span>
+        <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">row</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">row_expected</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">)),</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">row</span><span class="si">=!r}</span><span class="s2">&quot;</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+            <span class="k">assert</span> <span class="n">math</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span>
+                <span class="n">UB</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">],</span> <span class="n">UBe</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">],</span> <span class="n">abs_tol</span><span class="o">=</span><span class="mf">0.005</span>
+            <span class="p">),</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">i</span><span class="si">=!r}</span><span class="s2">  </span><span class="si">{</span><span class="n">j</span><span class="si">=!r}</span><span class="s2">  </span><span class="si">{</span><span class="n">UB</span><span class="si">=!r}</span><span class="s2">  </span><span class="si">{</span><span class="n">UBe</span><span class="si">=!r}</span><span class="s2">&quot;</span>
+
+    <span class="n">result</span> <span class="o">=</span> <span class="n">fourc</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">math</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">omega</span><span class="p">,</span> <span class="o">-</span><span class="mf">158.39</span><span class="p">,</span> <span class="n">abs_tol</span><span class="o">=</span><span class="mf">0.02</span><span class="p">),</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">result</span><span class="si">=!r}</span><span class="s2">&quot;</span>
+    <span class="k">assert</span> <span class="n">math</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">chi</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">abs_tol</span><span class="o">=</span><span class="mf">0.02</span><span class="p">),</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">result</span><span class="si">=!r}</span><span class="s2">&quot;</span>
+    <span class="k">assert</span> <span class="n">math</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">phi</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">abs_tol</span><span class="o">=</span><span class="mf">0.02</span><span class="p">),</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">result</span><span class="si">=!r}</span><span class="s2">&quot;</span>
+    <span class="k">assert</span> <span class="n">math</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">tth</span><span class="p">,</span> <span class="mf">43.22</span><span class="p">,</span> <span class="n">abs_tol</span><span class="o">=</span><span class="mf">0.02</span><span class="p">),</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">result</span><span class="si">=!r}</span><span class="s2">&quot;</span>
+
+    <span class="n">result</span> <span class="o">=</span> <span class="n">fourc</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">wavelength</span><span class="o">=</span><span class="mf">1.54</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">math</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">omega</span><span class="p">,</span> <span class="o">-</span><span class="mf">145.45</span><span class="p">,</span> <span class="n">abs_tol</span><span class="o">=</span><span class="mf">0.02</span><span class="p">),</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">result</span><span class="si">=!r}</span><span class="s2">&quot;</span>
+    <span class="k">assert</span> <span class="n">math</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">chi</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">abs_tol</span><span class="o">=</span><span class="mf">0.02</span><span class="p">),</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">result</span><span class="si">=!r}</span><span class="s2">&quot;</span>
+    <span class="k">assert</span> <span class="n">math</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">phi</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">abs_tol</span><span class="o">=</span><span class="mf">0.02</span><span class="p">),</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">result</span><span class="si">=!r}</span><span class="s2">&quot;</span>
+    <span class="k">assert</span> <span class="n">math</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">tth</span><span class="p">,</span> <span class="mf">69.098</span><span class="p">,</span> <span class="n">abs_tol</span><span class="o">=</span><span class="mf">0.02</span><span class="p">),</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">result</span><span class="si">=!r}</span><span class="s2">&quot;</span>
+
+    <span class="k">assert</span> <span class="n">math</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span>  <span class="c1"># still did not change the diffractometer wavelength</span>
+        <span class="n">fourc</span><span class="o">.</span><span class="n">wavelength</span><span class="o">.</span><span class="n">get</span><span class="p">(),</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">abs_tol</span><span class="o">=</span><span class="mf">0.01</span>
+    <span class="p">),</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">fourc</span><span class="o">.</span><span class="n">wavelength</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="si">=!r}</span><span class="s2">&quot;</span>
+
+    <span class="n">result</span> <span class="o">=</span> <span class="n">fourc</span><span class="o">.</span><span class="n">inverse</span><span class="p">(</span><span class="o">-</span><span class="mi">145</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">70</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">math</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">h</span><span class="p">,</span> <span class="mf">6.23</span><span class="p">,</span> <span class="n">abs_tol</span><span class="o">=</span><span class="mf">0.02</span><span class="p">),</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">result</span><span class="si">=!r}</span><span class="s2">&quot;</span>
+    <span class="k">assert</span> <span class="n">math</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">k</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">abs_tol</span><span class="o">=</span><span class="mf">0.02</span><span class="p">),</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">result</span><span class="si">=!r}</span><span class="s2">&quot;</span>
+    <span class="k">assert</span> <span class="n">math</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">l</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">abs_tol</span><span class="o">=</span><span class="mf">0.02</span><span class="p">),</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">result</span><span class="si">=!r}</span><span class="s2">&quot;</span>
+
+    <span class="n">result</span> <span class="o">=</span> <span class="n">fourc</span><span class="o">.</span><span class="n">inverse</span><span class="p">(</span><span class="o">-</span><span class="mi">145</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">70</span><span class="p">,</span> <span class="n">wavelength</span><span class="o">=</span><span class="mf">1.54</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">math</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">h</span><span class="p">,</span> <span class="mf">4.05</span><span class="p">,</span> <span class="n">abs_tol</span><span class="o">=</span><span class="mf">0.02</span><span class="p">),</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">result</span><span class="si">=!r}</span><span class="s2">&quot;</span>
+    <span class="k">assert</span> <span class="n">math</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">k</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">abs_tol</span><span class="o">=</span><span class="mf">0.02</span><span class="p">),</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">result</span><span class="si">=!r}</span><span class="s2">&quot;</span>
+    <span class="k">assert</span> <span class="n">math</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">l</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">abs_tol</span><span class="o">=</span><span class="mf">0.02</span><span class="p">),</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">result</span><span class="si">=!r}</span><span class="s2">&quot;</span></div>
+
+
+
+<div class="viewcode-block" id="test_remove_sample">
+<a class="viewcode-back" href="../../../autoapi/hklpy2/tests/test_diffract/index.html#hklpy2.tests.test_diffract.test_remove_sample">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_remove_sample</span><span class="p">():</span>
+    <span class="n">sim</span> <span class="o">=</span> <span class="n">NoOpTh2Th</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;sim&quot;</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">sim</span><span class="o">.</span><span class="n">samples</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">sim</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">remove_sample</span><span class="p">(</span><span class="n">DEFAULT_SAMPLE_NAME</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">OperationsError</span> <span class="k">as</span> <span class="n">reason</span><span class="p">:</span>
+        <span class="n">assert_context_result</span><span class="p">(</span><span class="s2">&quot;Cannot remove last sample.&quot;</span><span class="p">,</span> <span class="n">reason</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">sim</span><span class="o">.</span><span class="n">samples</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span></div>
+
+
+
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+    <span class="s2">&quot;name, pseudos, reals, wavelength, replace, num, context, expected&quot;</span><span class="p">,</span>
+    <span class="p">[</span>
+        <span class="p">[</span><span class="s2">&quot;(100)&quot;</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">20</span><span class="p">),</span> <span class="mi">1</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">does_not_raise</span><span class="p">(),</span> <span class="kc">None</span><span class="p">],</span>
+        <span class="p">[</span>
+            <span class="s2">&quot;(100)&quot;</span><span class="p">,</span>
+            <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+            <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">20</span><span class="p">),</span>
+            <span class="mi">1</span><span class="p">,</span>
+            <span class="kc">False</span><span class="p">,</span>
+            <span class="mi">1</span><span class="p">,</span>
+            <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="n">ReflectionError</span><span class="p">),</span>
+            <span class="s2">&quot;Use &#39;replace=True&#39; to overwrite.&quot;</span><span class="p">,</span>
+        <span class="p">],</span>
+        <span class="p">[</span><span class="s2">&quot;r2&quot;</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">20</span><span class="p">),</span> <span class="mi">1</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">does_not_raise</span><span class="p">(),</span> <span class="kc">None</span><span class="p">],</span>
+        <span class="p">[</span><span class="s2">&quot;r2&quot;</span><span class="p">,</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">20</span><span class="p">),</span> <span class="mi">1</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">does_not_raise</span><span class="p">(),</span> <span class="kc">None</span><span class="p">],</span>
+        <span class="p">[</span><span class="s2">&quot;r2&quot;</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">20</span><span class="p">),</span> <span class="mi">1</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">does_not_raise</span><span class="p">(),</span> <span class="kc">None</span><span class="p">],</span>
+        <span class="p">[</span><span class="s2">&quot;(100)&quot;</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">20</span><span class="p">),</span> <span class="mi">1</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">does_not_raise</span><span class="p">(),</span> <span class="kc">None</span><span class="p">],</span>
+        <span class="p">[</span>
+            <span class="s2">&quot;r2&quot;</span><span class="p">,</span>  <span class="c1"># different name</span>
+            <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>  <span class="c1"># same data</span>
+            <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">20</span><span class="p">),</span>  <span class="c1"># same data</span>
+            <span class="mi">1</span><span class="p">,</span>  <span class="c1"># same data</span>
+            <span class="kc">False</span><span class="p">,</span>
+            <span class="mi">1</span><span class="p">,</span>
+            <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="n">ReflectionError</span><span class="p">),</span>
+            <span class="s2">&quot;Use &#39;replace=True&#39; to overwrite.&quot;</span><span class="p">,</span>
+        <span class="p">],</span>
+        <span class="p">[</span>
+            <span class="s2">&quot;r2&quot;</span><span class="p">,</span>  <span class="c1"># different name</span>
+            <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>  <span class="c1"># same data</span>
+            <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">20</span><span class="p">),</span>  <span class="c1"># same data</span>
+            <span class="mf">1.5</span><span class="p">,</span>  <span class="c1"># different data</span>
+            <span class="kc">False</span><span class="p">,</span>
+            <span class="mi">2</span><span class="p">,</span>
+            <span class="n">does_not_raise</span><span class="p">(),</span>
+            <span class="kc">None</span><span class="p">,</span>
+        <span class="p">],</span>
+    <span class="p">],</span>
+<span class="p">)</span>
+<div class="viewcode-block" id="test_repeated_reflections">
+<a class="viewcode-back" href="../../../autoapi/hklpy2/tests/test_diffract/index.html#hklpy2.tests.test_diffract.test_repeated_reflections">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_repeated_reflections</span><span class="p">(</span>
+    <span class="n">name</span><span class="p">,</span> <span class="n">pseudos</span><span class="p">,</span> <span class="n">reals</span><span class="p">,</span> <span class="n">wavelength</span><span class="p">,</span> <span class="n">replace</span><span class="p">,</span> <span class="n">num</span><span class="p">,</span> <span class="n">context</span><span class="p">,</span> <span class="n">expected</span>
+<span class="p">):</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">..diffract</span><span class="w"> </span><span class="kn">import</span> <span class="n">creator</span>
+
+    <span class="n">e4cv</span> <span class="o">=</span> <span class="n">creator</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;e4cv&quot;</span><span class="p">)</span>
+    <span class="n">e4cv</span><span class="o">.</span><span class="n">add_reflection</span><span class="p">(</span>
+        <span class="nb">dict</span><span class="p">(</span><span class="n">h</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">l</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
+        <span class="nb">dict</span><span class="p">(</span><span class="n">omega</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">chi</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">phi</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">tth</span><span class="o">=</span><span class="mi">20</span><span class="p">),</span>
+        <span class="n">wavelength</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;(100)&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">e4cv</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">reflections</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
+
+    <span class="k">with</span> <span class="n">context</span> <span class="k">as</span> <span class="n">reason</span><span class="p">:</span>
+        <span class="n">e4cv</span><span class="o">.</span><span class="n">add_reflection</span><span class="p">(</span>
+            <span class="n">pseudos</span><span class="p">,</span>
+            <span class="n">reals</span><span class="p">,</span>
+            <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
+            <span class="n">wavelength</span><span class="o">=</span><span class="n">wavelength</span><span class="p">,</span>
+            <span class="n">replace</span><span class="o">=</span><span class="n">replace</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="n">assert_context_result</span><span class="p">(</span><span class="n">expected</span><span class="p">,</span> <span class="n">reason</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">e4cv</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">reflections</span><span class="p">)</span> <span class="o">==</span> <span class="n">num</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e4cv</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">reflections</span><span class="si">=!r}</span><span class="s2">&quot;</span></div>
+
+
+
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+    <span class="s2">&quot;scan_kwargs, mode, context, expected&quot;</span><span class="p">,</span>
+    <span class="p">[</span>
+        <span class="p">[</span>
+            <span class="nb">dict</span><span class="p">(</span>
+                <span class="n">detectors</span><span class="o">=</span><span class="p">[</span><span class="n">noisy_det</span><span class="p">],</span>
+                <span class="n">axis</span><span class="o">=</span><span class="s2">&quot;psi&quot;</span><span class="p">,</span>
+                <span class="n">start</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+                <span class="n">finish</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+                <span class="n">num</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+                <span class="n">pseudos</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">h</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">l</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
+                <span class="n">reals</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                <span class="n">extras</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">h2</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">k2</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">l2</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">psi</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
+                <span class="n">fail_on_exception</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="p">),</span>
+            <span class="s2">&quot;psi_constant&quot;</span><span class="p">,</span>
+            <span class="n">does_not_raise</span><span class="p">(),</span>
+            <span class="kc">None</span><span class="p">,</span>
+        <span class="p">],</span>
+        <span class="p">[</span>
+            <span class="nb">dict</span><span class="p">(</span>
+                <span class="n">detectors</span><span class="o">=</span><span class="p">[</span><span class="n">noisy_det</span><span class="p">],</span>
+                <span class="n">axis</span><span class="o">=</span><span class="s2">&quot;psi&quot;</span><span class="p">,</span>
+                <span class="n">start</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+                <span class="n">finish</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+                <span class="n">num</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+                <span class="n">pseudos</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">h</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">k</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">l</span><span class="o">=</span><span class="mi">10</span><span class="p">),</span>  <span class="c1"># l=10 is unreachable</span>
+                <span class="n">reals</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                <span class="n">extras</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">h2</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">k2</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">l2</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">psi</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
+                <span class="n">fail_on_exception</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="p">),</span>
+            <span class="s2">&quot;psi_constant&quot;</span><span class="p">,</span>
+            <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="n">SolverNoForwardSolutions</span><span class="p">),</span>
+            <span class="s2">&quot;No forward solutions found.&quot;</span><span class="p">,</span>
+        <span class="p">],</span>
+        <span class="p">[</span>
+            <span class="nb">dict</span><span class="p">(</span>
+                <span class="n">detectors</span><span class="o">=</span><span class="p">[</span><span class="n">noisy_det</span><span class="p">],</span>
+                <span class="n">axis</span><span class="o">=</span><span class="s2">&quot;psi&quot;</span><span class="p">,</span>
+                <span class="n">start</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+                <span class="n">finish</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+                <span class="n">num</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+                <span class="n">pseudos</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">h</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">k</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">l</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
+                <span class="n">reals</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                <span class="n">extras</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">h2</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">k2</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">l2</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">psi</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
+                <span class="n">fail_on_exception</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>  <span class="c1"># ignore error that failed previous test</span>
+            <span class="p">),</span>
+            <span class="s2">&quot;psi_constant&quot;</span><span class="p">,</span>
+            <span class="n">does_not_raise</span><span class="p">(),</span>
+            <span class="kc">None</span><span class="p">,</span>
+        <span class="p">],</span>
+        <span class="p">[</span>
+            <span class="nb">dict</span><span class="p">(</span>
+                <span class="n">detectors</span><span class="o">=</span><span class="p">[</span><span class="n">noisy_det</span><span class="p">],</span>
+                <span class="n">axis</span><span class="o">=</span><span class="s2">&quot;psi&quot;</span><span class="p">,</span>
+                <span class="n">start</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+                <span class="n">finish</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+                <span class="n">num</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+                <span class="n">pseudos</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                <span class="n">reals</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">omega</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">chi</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">phi</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">tth</span><span class="o">=</span><span class="mi">4</span><span class="p">),</span>
+                <span class="n">extras</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">h2</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">k2</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">l2</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">psi</span><span class="o">=</span><span class="mi">5</span><span class="p">),</span>
+                <span class="n">fail_on_exception</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="p">),</span>
+            <span class="s2">&quot;psi_constant&quot;</span><span class="p">,</span>
+            <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">NotImplementedError</span><span class="p">),</span>
+            <span class="s2">&quot;Inverse transformation.&quot;</span><span class="p">,</span>
+        <span class="p">],</span>
+        <span class="p">[</span>
+            <span class="nb">dict</span><span class="p">(</span>
+                <span class="n">detectors</span><span class="o">=</span><span class="n">noisy_det</span><span class="p">,</span>
+            <span class="p">),</span>
+            <span class="s2">&quot;psi_constant&quot;</span><span class="p">,</span>
+            <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">TypeError</span><span class="p">),</span>
+            <span class="s2">&quot; is not iterable.&quot;</span><span class="p">,</span>
+        <span class="p">],</span>
+        <span class="p">[</span>
+            <span class="nb">dict</span><span class="p">(</span>
+                <span class="n">detectors</span><span class="o">=</span><span class="p">[</span><span class="n">noisy_det</span><span class="p">],</span>
+                <span class="n">axis</span><span class="o">=</span><span class="s2">&quot;oddball&quot;</span><span class="p">,</span>
+            <span class="p">),</span>
+            <span class="s2">&quot;psi_constant&quot;</span><span class="p">,</span>
+            <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">KeyError</span><span class="p">),</span>
+            <span class="s2">&quot;&#39;oddball&#39; not in &quot;</span><span class="p">,</span>
+        <span class="p">],</span>
+        <span class="p">[</span>
+            <span class="nb">dict</span><span class="p">(</span>
+                <span class="n">detectors</span><span class="o">=</span><span class="p">[</span><span class="n">noisy_det</span><span class="p">],</span>
+                <span class="n">axis</span><span class="o">=</span><span class="s2">&quot;psi&quot;</span><span class="p">,</span>
+                <span class="n">pseudos</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                <span class="n">reals</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="p">),</span>
+            <span class="s2">&quot;psi_constant&quot;</span><span class="p">,</span>
+            <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">),</span>
+            <span class="s2">&quot;Must define either pseudos or reals.&quot;</span><span class="p">,</span>
+        <span class="p">],</span>
+        <span class="p">[</span>
+            <span class="nb">dict</span><span class="p">(</span>
+                <span class="n">detectors</span><span class="o">=</span><span class="p">[</span><span class="n">noisy_det</span><span class="p">],</span>
+                <span class="n">axis</span><span class="o">=</span><span class="s2">&quot;psi&quot;</span><span class="p">,</span>
+                <span class="n">pseudos</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">h</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">k</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">l</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
+                <span class="n">reals</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">omega</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">chi</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">phi</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">tth</span><span class="o">=</span><span class="mi">4</span><span class="p">),</span>
+            <span class="p">),</span>
+            <span class="s2">&quot;psi_constant&quot;</span><span class="p">,</span>
+            <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">),</span>
+            <span class="s2">&quot;Cannot define both pseudos and reals.&quot;</span><span class="p">,</span>
+        <span class="p">],</span>
+    <span class="p">],</span>
+<span class="p">)</span>
+<div class="viewcode-block" id="test_scan_extra">
+<a class="viewcode-back" href="../../../autoapi/hklpy2/tests/test_diffract/index.html#hklpy2.tests.test_diffract.test_scan_extra">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_scan_extra</span><span class="p">(</span><span class="n">scan_kwargs</span><span class="p">,</span> <span class="n">mode</span><span class="p">,</span> <span class="n">context</span><span class="p">,</span> <span class="n">expected</span><span class="p">):</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">..diffract</span><span class="w"> </span><span class="kn">import</span> <span class="n">creator</span>
+
+    <span class="n">fourc</span> <span class="o">=</span> <span class="n">creator</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;fourc&quot;</span><span class="p">)</span>
+    <span class="n">fourc</span><span class="o">.</span><span class="n">restore</span><span class="p">(</span><span class="n">HKLPY2_DIR</span> <span class="o">/</span> <span class="s2">&quot;tests&quot;</span> <span class="o">/</span> <span class="s2">&quot;e4cv_orient.yml&quot;</span><span class="p">)</span>
+    <span class="n">fourc</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">mode</span> <span class="o">=</span> <span class="n">mode</span>
+    <span class="k">assert</span> <span class="n">fourc</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">mode</span> <span class="o">==</span> <span class="n">mode</span>
+
+    <span class="n">RE</span> <span class="o">=</span> <span class="n">bluesky</span><span class="o">.</span><span class="n">RunEngine</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">scan_kwargs</span><span class="p">[</span><span class="s2">&quot;detectors&quot;</span><span class="p">],</span> <span class="nb">dict</span><span class="p">):</span>
+        <span class="c1"># Avoid the test case where detectors is not iterable</span>
+        <span class="n">scan_kwargs</span><span class="p">[</span><span class="s2">&quot;detectors&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fourc</span><span class="p">)</span>
+
+    <span class="k">with</span> <span class="n">context</span> <span class="k">as</span> <span class="n">reason</span><span class="p">:</span>
+        <span class="n">RE</span><span class="p">(</span><span class="n">fourc</span><span class="o">.</span><span class="n">scan_extra</span><span class="p">(</span><span class="o">**</span><span class="n">scan_kwargs</span><span class="p">))</span>
+
+    <span class="n">assert_context_result</span><span class="p">(</span><span class="n">expected</span><span class="p">,</span> <span class="n">reason</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="test_set_UB">
+<a class="viewcode-back" href="../../../autoapi/hklpy2/tests/test_diffract/index.html#hklpy2.tests.test_diffract.test_set_UB">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_set_UB</span><span class="p">():</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">..diffract</span><span class="w"> </span><span class="kn">import</span> <span class="n">creator</span>
+
+    <span class="n">UBe</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.157</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.157</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mf">1.157</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]]</span>
+    <span class="n">fourc</span> <span class="o">=</span> <span class="n">creator</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;fourc&quot;</span><span class="p">)</span>
+
+    <span class="n">fourc</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">UB</span> <span class="o">=</span> <span class="n">UBe</span>
+    <span class="n">UBr</span> <span class="o">=</span> <span class="n">fourc</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">UB</span>
+    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">UBr</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">UBe</span><span class="p">)</span>
+
+    <span class="n">result</span> <span class="o">=</span> <span class="n">fourc</span><span class="o">.</span><span class="n">inverse</span><span class="p">(</span><span class="o">-</span><span class="mi">145</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">70</span><span class="p">,</span> <span class="n">wavelength</span><span class="o">=</span><span class="mf">1.54</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">math</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">h</span><span class="p">,</span> <span class="mf">4.05</span><span class="p">,</span> <span class="n">abs_tol</span><span class="o">=</span><span class="mf">0.02</span><span class="p">),</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">result</span><span class="si">=!r}</span><span class="s2">&quot;</span>
+    <span class="k">assert</span> <span class="n">math</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">k</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">abs_tol</span><span class="o">=</span><span class="mf">0.02</span><span class="p">),</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">result</span><span class="si">=!r}</span><span class="s2">&quot;</span>
+    <span class="k">assert</span> <span class="n">math</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">l</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">abs_tol</span><span class="o">=</span><span class="mf">0.02</span><span class="p">),</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">result</span><span class="si">=!r}</span><span class="s2">&quot;</span></div>
+
+
+
+<div class="viewcode-block" id="test_e4cv_constant_phi">
+<a class="viewcode-back" href="../../../autoapi/hklpy2/tests/test_diffract/index.html#hklpy2.tests.test_diffract.test_e4cv_constant_phi">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_e4cv_constant_phi</span><span class="p">():</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">..diffract</span><span class="w"> </span><span class="kn">import</span> <span class="n">creator</span>
+
+    <span class="n">e4cv</span> <span class="o">=</span> <span class="n">creator</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;e4cv&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Approximate the code presented as the example problem.</span>
+    <span class="n">refl</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">h</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">l</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="n">e4cv</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">mode</span> <span class="o">=</span> <span class="s2">&quot;constant_phi&quot;</span>
+    <span class="n">CONSTANT_PHI</span> <span class="o">=</span> <span class="mf">23.4567</span>
+    <span class="n">e4cv</span><span class="o">.</span><span class="n">phi</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="n">CONSTANT_PHI</span><span class="p">)</span>
+
+    <span class="n">e4cv</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">constraints</span><span class="p">[</span><span class="s2">&quot;phi&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">limits</span> <span class="o">=</span> <span class="o">-</span><span class="mi">180</span><span class="p">,</span> <span class="mi">180</span>
+
+    <span class="c1"># Check that phi is held constant in all forward solutions.</span>
+    <span class="n">solutions</span> <span class="o">=</span> <span class="n">e4cv</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">refl</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">solutions</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">solutions</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">solution</span> <span class="ow">in</span> <span class="n">solutions</span><span class="p">:</span>
+        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">solution</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span>
+        <span class="n">assert_almost_equal</span><span class="p">(</span><span class="n">solution</span><span class="p">[</span><span class="s2">&quot;phi&quot;</span><span class="p">],</span> <span class="n">CONSTANT_PHI</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+
+    <span class="c1"># Check that phi is held constant in forward()</span>
+    <span class="c1"># Returns a position namedtuple.</span>
+    <span class="n">position</span> <span class="o">=</span> <span class="n">e4cv</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">refl</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">position</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)</span>
+    <span class="n">assert_almost_equal</span><span class="p">(</span><span class="n">position</span><span class="o">.</span><span class="n">phi</span><span class="p">,</span> <span class="n">CONSTANT_PHI</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span></div>
+
+
+
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+    <span class="s2">&quot;miller, context, expected&quot;</span><span class="p">,</span>
+    <span class="p">[</span>
+        <span class="p">[(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">does_not_raise</span><span class="p">(),</span> <span class="kc">None</span><span class="p">],</span>
+        <span class="p">[</span><span class="nb">dict</span><span class="p">(</span><span class="n">h</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">l</span><span class="o">=</span><span class="mi">3</span><span class="p">),</span> <span class="n">does_not_raise</span><span class="p">(),</span> <span class="kc">None</span><span class="p">],</span>
+        <span class="p">[[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">],</span> <span class="n">does_not_raise</span><span class="p">(),</span> <span class="kc">None</span><span class="p">],</span>
+        <span class="p">[</span>
+            <span class="kc">None</span><span class="p">,</span>
+            <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">TypeError</span><span class="p">),</span>
+            <span class="s2">&quot;Pseudos must be tuple, list, or dict.&quot;</span><span class="p">,</span>
+        <span class="p">],</span>
+        <span class="p">[</span>
+            <span class="c1"># Tests that h, k, l was omitted, only a position was supplied.</span>
+            <span class="c1"># This is one of the problems reported.</span>
+            <span class="n">namedtuple</span><span class="p">(</span><span class="s2">&quot;PseudoTuple&quot;</span><span class="p">,</span> <span class="s2">&quot;a b c d&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">())(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span>
+            <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">),</span>
+            <span class="s2">&quot;Expected 3 pseudos, received &quot;</span><span class="p">,</span>
+        <span class="p">],</span>
+        <span class="p">[</span>
+            <span class="c1"># Tests that wrong name(s) were supplied.</span>
+            <span class="n">namedtuple</span><span class="p">(</span><span class="s2">&quot;PseudoTuple&quot;</span><span class="p">,</span> <span class="s2">&quot;three wrong names&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">())(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span>
+            <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">),</span>
+            <span class="s2">&quot;Wrong axis names&quot;</span><span class="p">,</span>
+        <span class="p">],</span>
+        <span class="p">[(</span><span class="s2">&quot;1&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">TypeError</span><span class="p">),</span> <span class="s2">&quot;Must be number, received &quot;</span><span class="p">],</span>
+        <span class="p">[(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;3&quot;</span><span class="p">),</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">TypeError</span><span class="p">),</span> <span class="s2">&quot;Must be number, received &quot;</span><span class="p">],</span>
+        <span class="p">[([</span><span class="mi">1</span><span class="p">],</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">TypeError</span><span class="p">),</span> <span class="s2">&quot;Must be number, received &quot;</span><span class="p">],</span>
+        <span class="p">[(</span><span class="nb">object</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">TypeError</span><span class="p">),</span> <span class="s2">&quot;Must be number, received &quot;</span><span class="p">],</span>
+        <span class="p">[(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">TypeError</span><span class="p">),</span> <span class="s2">&quot;Must be number, received &quot;</span><span class="p">],</span>
+        <span class="p">[((</span><span class="mi">1</span><span class="p">,),</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">TypeError</span><span class="p">),</span> <span class="s2">&quot;Must be number, received &quot;</span><span class="p">],</span>
+        <span class="p">[</span><span class="n">deque</span><span class="p">(),</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">TypeError</span><span class="p">),</span> <span class="s2">&quot;Unexpected data type&quot;</span><span class="p">],</span>
+    <span class="p">],</span>
+<span class="p">)</span>
+<div class="viewcode-block" id="test_miller_args">
+<a class="viewcode-back" href="../../../autoapi/hklpy2/tests/test_diffract/index.html#hklpy2.tests.test_diffract.test_miller_args">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_miller_args</span><span class="p">(</span><span class="n">miller</span><span class="p">,</span> <span class="n">context</span><span class="p">,</span> <span class="n">expected</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test the Miller indices arguments: h, k, l.&quot;&quot;&quot;</span>
+
+    <span class="k">with</span> <span class="n">context</span> <span class="k">as</span> <span class="n">reason</span><span class="p">:</span>
+        <span class="n">e4cv</span> <span class="o">=</span> <span class="n">creator</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;e4cv&quot;</span><span class="p">)</span>
+        <span class="n">e4cv</span><span class="o">.</span><span class="n">add_reflection</span><span class="p">(</span><span class="n">miller</span><span class="p">)</span>
+    <span class="n">assert_context_result</span><span class="p">(</span><span class="n">expected</span><span class="p">,</span> <span class="n">reason</span><span class="p">)</span></div>
+
+</pre></div>
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2023-2025, Argonne National Laboratory.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

@@ -1,0 +1,119 @@
+hklpy2.backends.tests.test_base
+===============================
+
+.. py:module:: hklpy2.backends.tests.test_base
+
+.. autoapi-nested-parse::
+
+   Test the solver base class.
+
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   hklpy2.backends.tests.test_base.TrivialSolver
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   hklpy2.backends.tests.test_base.test_SolverBase_extras
+
+
+Module Contents
+---------------
+
+.. py:class:: TrivialSolver(geometry: str, *, mode: str = '', **kwargs)
+
+   Bases: :py:obj:`hklpy2.backends.base.SolverBase`
+
+
+   Trivial implementation for testing.
+
+
+   .. py:method:: addReflection(reflection: hklpy2.blocks.reflection.Reflection)
+
+      .
+
+
+
+   .. py:method:: calculate_UB(r1: hklpy2.blocks.reflection.Reflection, r2: hklpy2.blocks.reflection.Reflection) -> list[list[float]]
+
+      .
+
+
+
+   .. py:property:: extra_axis_names
+      :type: list[str]
+
+
+      .
+
+
+   .. py:method:: forward(pseudos: dict) -> list[dict[str, float]]
+
+      .
+
+
+
+   .. py:method:: geometries() -> list[str]
+      :classmethod:
+
+
+      .
+
+
+
+   .. py:property:: geometry
+      :type: str
+
+
+      .
+
+
+   .. py:method:: inverse(reals: dict) -> dict[str, float]
+
+      .
+
+
+
+   .. py:property:: modes
+      :type: list[str]
+
+
+      .
+
+
+   .. py:property:: pseudo_axis_names
+      :type: list[str]
+
+
+      Ordered list of the pseudo axis names (such as h, k, l).
+
+
+   .. py:property:: real_axis_names
+      :type: list[str]
+
+
+      Ordered list of the real axis names (such as th, tth).
+
+
+   .. py:method:: refineLattice(reflections: list[hklpy2.blocks.reflection.Reflection]) -> hklpy2.blocks.lattice.Lattice
+
+      Refine the lattice parameters from a list of reflections.
+
+
+
+   .. py:method:: removeAllReflections() -> None
+
+      Remove all reflections.
+
+
+
+.. py:function:: test_SolverBase_extras()
+

@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../../../_static/documentation_options.js?v=3711343a"></script>
+    <script src="../../../_static/documentation_options.js?v=2c42f40f"></script>
     <script src="../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -134,13 +134,6 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../api.html">
-    API
-  </a>
-</li>
-
-
-<li class="nav-item ">
   <a class="nav-link nav-internal" href="../../../release_notes.html">
     Releases
   </a>
@@ -150,6 +143,13 @@
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../../../license.html">
     License
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../autoapi/index.html">
+    API Reference
   </a>
 </li>
 
@@ -248,13 +248,6 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../api.html">
-    API
-  </a>
-</li>
-
-
-<li class="nav-item ">
   <a class="nav-link nav-internal" href="../../../release_notes.html">
     Releases
   </a>
@@ -264,6 +257,13 @@
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../../../license.html">
     License
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../autoapi/index.html">
+    API Reference
   </a>
 </li>
 
@@ -343,6 +343,9 @@
     
     <li class="breadcrumb-item"><a href="../../index.html" class="nav-link">Module code</a></li>
     
+    
+    <li class="breadcrumb-item"><a href="../../hklpy2.html" class="nav-link">hklpy2</a></li>
+    
     <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">hklpy2.blocks.reflection</span></li>
   </ul>
 </nav>
@@ -369,7 +372,6 @@
 <span class="sd">(pseudo) coordinates.</span>
 
 <span class="sd">.. autosummary::</span>
-<span class="sd">    :toctree: generated</span>
 
 <span class="sd">    ~Reflection</span>
 <span class="sd">    ~ReflectionError</span>
@@ -384,14 +386,20 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">..misc</span><span class="w"> </span><span class="kn">import</span> <span class="n">check_value_in_list</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">..misc</span><span class="w"> </span><span class="kn">import</span> <span class="n">compare_float_dicts</span>
 
-<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+<div class="viewcode-block" id="logger">
+<a class="viewcode-back" href="../../../autoapi/hklpy2/blocks/reflection/index.html#hklpy2.blocks.reflection.logger">[docs]</a>
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span></div>
 
-<span class="n">UNUSED_REFLECTION</span> <span class="o">=</span> <span class="s2">&quot;unused&quot;</span>
+
+<div class="viewcode-block" id="UNUSED_REFLECTION">
+<a class="viewcode-back" href="../../../autoapi/hklpy2/blocks/reflection/index.html#hklpy2.blocks.reflection.UNUSED_REFLECTION">[docs]</a>
+<span class="n">UNUSED_REFLECTION</span> <span class="o">=</span> <span class="s2">&quot;unused&quot;</span></div>
+
 <span class="sd">&quot;&quot;&quot;Identifies an unused reflection in the ReflectionsDict.&quot;&quot;&quot;</span>
 
 
 <div class="viewcode-block" id="Reflection">
-<a class="viewcode-back" href="../../../generated/generated/hklpy2.blocks.reflection.html#hklpy2.blocks.reflection.Reflection">[docs]</a>
+<a class="viewcode-back" href="../../../autoapi/hklpy2/blocks/reflection/index.html#hklpy2.blocks.reflection.Reflection">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">Reflection</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Coordinates real and pseudo axes.</span>
@@ -428,8 +436,6 @@
 <span class="sd">        ~wavelength</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="Reflection.__init__">
-<a class="viewcode-back" href="../../../generated/generated/generated/hklpy2.blocks.reflection.Reflection.html#hklpy2.blocks.reflection.Reflection.__init__">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
@@ -456,20 +462,31 @@
                     <span class="sa">f</span><span class="s2">&quot; or solver (</span><span class="si">{</span><span class="n">axes_solver</span><span class="si">}</span><span class="s2">).&quot;</span>
                 <span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">digits</span> <span class="o">=</span> <span class="n">digits</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">geometry</span> <span class="o">=</span> <span class="n">geometry</span>
+<div class="viewcode-block" id="Reflection.digits">
+<a class="viewcode-back" href="../../../autoapi/hklpy2/blocks/reflection/index.html#hklpy2.blocks.reflection.Reflection.digits">[docs]</a>
+        <span class="bp">self</span><span class="o">.</span><span class="n">digits</span> <span class="o">=</span> <span class="n">digits</span></div>
+
+<div class="viewcode-block" id="Reflection.geometry">
+<a class="viewcode-back" href="../../../autoapi/hklpy2/blocks/reflection/index.html#hklpy2.blocks.reflection.Reflection.geometry">[docs]</a>
+        <span class="bp">self</span><span class="o">.</span><span class="n">geometry</span> <span class="o">=</span> <span class="n">geometry</span></div>
+
         <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">pseudo_axis_names</span> <span class="o">=</span> <span class="n">pseudo_axis_names</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">real_axis_names</span> <span class="o">=</span> <span class="n">real_axis_names</span>
+<div class="viewcode-block" id="Reflection.pseudo_axis_names">
+<a class="viewcode-back" href="../../../autoapi/hklpy2/blocks/reflection/index.html#hklpy2.blocks.reflection.Reflection.pseudo_axis_names">[docs]</a>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pseudo_axis_names</span> <span class="o">=</span> <span class="n">pseudo_axis_names</span></div>
+
+<div class="viewcode-block" id="Reflection.real_axis_names">
+<a class="viewcode-back" href="../../../autoapi/hklpy2/blocks/reflection/index.html#hklpy2.blocks.reflection.Reflection.real_axis_names">[docs]</a>
+        <span class="bp">self</span><span class="o">.</span><span class="n">real_axis_names</span> <span class="o">=</span> <span class="n">real_axis_names</span></div>
+
 
         <span class="c1"># property setters</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">pseudos</span> <span class="o">=</span> <span class="n">pseudos</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">reals</span> <span class="o">=</span> <span class="n">reals</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">wavelength</span> <span class="o">=</span> <span class="n">wavelength</span></div>
-
+        <span class="bp">self</span><span class="o">.</span><span class="n">wavelength</span> <span class="o">=</span> <span class="n">wavelength</span>
 
 <div class="viewcode-block" id="Reflection._asdict">
-<a class="viewcode-back" href="../../../generated/generated/hklpy2.blocks.reflection.html#hklpy2.blocks.reflection.Reflection._asdict">[docs]</a>
+<a class="viewcode-back" href="../../../autoapi/hklpy2/blocks/reflection/index.html#hklpy2.blocks.reflection.Reflection._asdict">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">_asdict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Describe this reflection as a dictionary.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="p">{</span>
@@ -483,7 +500,7 @@
 
 
 <div class="viewcode-block" id="Reflection._fromdict">
-<a class="viewcode-back" href="../../../generated/generated/hklpy2.blocks.reflection.html#hklpy2.blocks.reflection.Reflection._fromdict">[docs]</a>
+<a class="viewcode-back" href="../../../autoapi/hklpy2/blocks/reflection/index.html#hklpy2.blocks.reflection.Reflection._fromdict">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">_fromdict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Redefine this reflection from a (configuration) dictionary.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">)</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">:</span>
@@ -516,6 +533,8 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">reals</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s2">&quot;reals&quot;</span><span class="p">]</span></div>
 
 
+<div class="viewcode-block" id="Reflection.__repr__">
+<a class="viewcode-back" href="../../../autoapi/hklpy2/blocks/reflection/index.html#hklpy2.blocks.reflection.Reflection.__repr__">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Standard brief representation of reflection.</span>
@@ -525,8 +544,11 @@
             <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">pseudos</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
         <span class="p">]</span>
         <span class="n">guts</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;name=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">!r}</span><span class="s2">&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">pseudos</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">(</span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">guts</span><span class="p">)</span><span class="si">}</span><span class="s2">)&quot;</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">(</span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">guts</span><span class="p">)</span><span class="si">}</span><span class="s2">)&quot;</span></div>
 
+
+<div class="viewcode-block" id="Reflection.__eq__">
+<a class="viewcode-back" href="../../../autoapi/hklpy2/blocks/reflection/index.html#hklpy2.blocks.reflection.Reflection.__eq__">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">r2</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Compare this reflection with another for equality.</span>
@@ -539,10 +561,11 @@
             <span class="n">compare_float_dicts</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pseudos</span><span class="p">,</span> <span class="n">r2</span><span class="o">.</span><span class="n">pseudos</span><span class="p">,</span> <span class="n">digits</span><span class="p">)</span>
             <span class="ow">and</span> <span class="n">compare_float_dicts</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">reals</span><span class="p">,</span> <span class="n">r2</span><span class="o">.</span><span class="n">reals</span><span class="p">,</span> <span class="n">digits</span><span class="p">)</span>
             <span class="ow">and</span> <span class="nb">round</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">wavelength</span><span class="p">,</span> <span class="n">digits</span><span class="p">)</span> <span class="o">==</span> <span class="nb">round</span><span class="p">(</span><span class="n">r2</span><span class="o">.</span><span class="n">wavelength</span><span class="p">,</span> <span class="n">digits</span><span class="p">)</span>
-        <span class="p">)</span>
+        <span class="p">)</span></div>
+
 
 <div class="viewcode-block" id="Reflection._validate_pseudos">
-<a class="viewcode-back" href="../../../generated/generated/hklpy2.blocks.reflection.html#hklpy2.blocks.reflection.Reflection._validate_pseudos">[docs]</a>
+<a class="viewcode-back" href="../../../autoapi/hklpy2/blocks/reflection/index.html#hklpy2.blocks.reflection.Reflection._validate_pseudos">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">_validate_pseudos</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Raise Exception if pseudos do not match expectations.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
@@ -560,7 +583,7 @@
             <span class="c1"># fmt: on</span>
 
 <div class="viewcode-block" id="Reflection._validate_reals">
-<a class="viewcode-back" href="../../../generated/generated/hklpy2.blocks.reflection.html#hklpy2.blocks.reflection.Reflection._validate_reals">[docs]</a>
+<a class="viewcode-back" href="../../../autoapi/hklpy2/blocks/reflection/index.html#hklpy2.blocks.reflection.Reflection._validate_reals">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">_validate_reals</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Raise Exception if reals do not match expectations.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
@@ -578,7 +601,7 @@
             <span class="c1"># fmt: on</span>
 
 <div class="viewcode-block" id="Reflection._validate_wavelength">
-<a class="viewcode-back" href="../../../generated/generated/hklpy2.blocks.reflection.html#hklpy2.blocks.reflection.Reflection._validate_wavelength">[docs]</a>
+<a class="viewcode-back" href="../../../autoapi/hklpy2/blocks/reflection/index.html#hklpy2.blocks.reflection.Reflection._validate_wavelength">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">_validate_wavelength</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Raise exception if pseudos do not match expectations.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
@@ -590,9 +613,12 @@
     <span class="c1"># --------- get/set properties</span>
 
     <span class="nd">@property</span>
+<div class="viewcode-block" id="Reflection.name">
+<a class="viewcode-back" href="../../../autoapi/hklpy2/blocks/reflection/index.html#hklpy2.blocks.reflection.Reflection.name">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sample name.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name</span></div>
+
 
     <span class="nd">@name</span><span class="o">.</span><span class="n">setter</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
@@ -601,13 +627,16 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_name</span> <span class="o">=</span> <span class="n">value</span>
 
     <span class="nd">@property</span>
+<div class="viewcode-block" id="Reflection.pseudos">
+<a class="viewcode-back" href="../../../autoapi/hklpy2/blocks/reflection/index.html#hklpy2.blocks.reflection.Reflection.pseudos">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">pseudos</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Ordered dictionary of diffractometer&#39;s reciprocal-space axes.</span>
 
 <span class="sd">        Dictionary keys are the axis names, as defined by the diffractometer.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pseudos</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pseudos</span></div>
+
 
     <span class="nd">@pseudos</span><span class="o">.</span><span class="n">setter</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">pseudos</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">values</span><span class="p">):</span>
@@ -615,13 +644,16 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_pseudos</span> <span class="o">=</span> <span class="n">values</span>
 
     <span class="nd">@property</span>
+<div class="viewcode-block" id="Reflection.reals">
+<a class="viewcode-back" href="../../../autoapi/hklpy2/blocks/reflection/index.html#hklpy2.blocks.reflection.Reflection.reals">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">reals</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Ordered dictionary of diffractometer&#39;s real-space axes.</span>
 
 <span class="sd">        Dictionary keys are the axis names, as defined by the diffractometer.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reals</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reals</span></div>
+
 
     <span class="nd">@reals</span><span class="o">.</span><span class="n">setter</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">reals</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">values</span><span class="p">):</span>
@@ -629,9 +661,12 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_reals</span> <span class="o">=</span> <span class="n">values</span>
 
     <span class="nd">@property</span>
+<div class="viewcode-block" id="Reflection.wavelength">
+<a class="viewcode-back" href="../../../autoapi/hklpy2/blocks/reflection/index.html#hklpy2.blocks.reflection.Reflection.wavelength">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">wavelength</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Wavelength of reflection.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_wavelength</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_wavelength</span></div>
+
 
     <span class="nd">@wavelength</span><span class="o">.</span><span class="n">setter</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">wavelength</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
@@ -641,7 +676,7 @@
 
 
 <div class="viewcode-block" id="ReflectionsDict">
-<a class="viewcode-back" href="../../../generated/generated/hklpy2.blocks.reflection.html#hklpy2.blocks.reflection.ReflectionsDict">[docs]</a>
+<a class="viewcode-back" href="../../../autoapi/hklpy2/blocks/reflection/index.html#hklpy2.blocks.reflection.ReflectionsDict">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">ReflectionsDict</span><span class="p">(</span><span class="nb">dict</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Dictionary of Reflections.</span>
@@ -659,16 +694,19 @@
 <span class="sd">        ~swap</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="ReflectionsDict.__init__">
-<a class="viewcode-back" href="../../../generated/generated/generated/hklpy2.blocks.reflection.ReflectionsDict.html#hklpy2.blocks.reflection.ReflectionsDict.__init__">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_order</span> <span class="o">=</span> <span class="p">[]</span>
+<div class="viewcode-block" id="ReflectionsDict._order">
+<a class="viewcode-back" href="../../../autoapi/hklpy2/blocks/reflection/index.html#hklpy2.blocks.reflection.ReflectionsDict._order">[docs]</a>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_order</span> <span class="o">=</span> <span class="p">[]</span></div>
+
+<div class="viewcode-block" id="ReflectionsDict.geometry">
+<a class="viewcode-back" href="../../../autoapi/hklpy2/blocks/reflection/index.html#hklpy2.blocks.reflection.ReflectionsDict.geometry">[docs]</a>
         <span class="bp">self</span><span class="o">.</span><span class="n">geometry</span> <span class="o">=</span> <span class="kc">None</span></div>
 
 
 <div class="viewcode-block" id="ReflectionsDict._asdict">
-<a class="viewcode-back" href="../../../generated/generated/hklpy2.blocks.reflection.html#hklpy2.blocks.reflection.ReflectionsDict._asdict">[docs]</a>
+<a class="viewcode-back" href="../../../autoapi/hklpy2/blocks/reflection/index.html#hklpy2.blocks.reflection.ReflectionsDict._asdict">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">_asdict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Describe the reflections list as an ordered dictionary.</span>
@@ -680,7 +718,7 @@
 
 
 <div class="viewcode-block" id="ReflectionsDict._fromdict">
-<a class="viewcode-back" href="../../../generated/generated/hklpy2.blocks.reflection.html#hklpy2.blocks.reflection.ReflectionsDict._fromdict">[docs]</a>
+<a class="viewcode-back" href="../../../autoapi/hklpy2/blocks/reflection/index.html#hklpy2.blocks.reflection.ReflectionsDict._fromdict">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">_fromdict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">,</span> <span class="n">core</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Add or redefine reflections from a (configuration) dictionary.&quot;&quot;&quot;</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">..ops</span><span class="w"> </span><span class="kn">import</span> <span class="n">Operations</span>
@@ -713,7 +751,7 @@
 
 
 <div class="viewcode-block" id="ReflectionsDict.set_orientation_reflections">
-<a class="viewcode-back" href="../../../generated/generated/hklpy2.blocks.reflection.html#hklpy2.blocks.reflection.ReflectionsDict.set_orientation_reflections">[docs]</a>
+<a class="viewcode-back" href="../../../autoapi/hklpy2/blocks/reflection/index.html#hklpy2.blocks.reflection.ReflectionsDict.set_orientation_reflections">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">set_orientation_reflections</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">reflections</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Reflection</span><span class="p">],</span>
@@ -734,11 +772,14 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">order</span> <span class="o">=</span> <span class="p">[</span><span class="n">r</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">reflections</span><span class="p">]</span></div>
 
 
-    <span class="n">setor</span> <span class="o">=</span> <span class="n">set_orientation_reflections</span>
+<div class="viewcode-block" id="ReflectionsDict.setor">
+<a class="viewcode-back" href="../../../autoapi/hklpy2/blocks/reflection/index.html#hklpy2.blocks.reflection.ReflectionsDict.setor">[docs]</a>
+    <span class="n">setor</span> <span class="o">=</span> <span class="n">set_orientation_reflections</span></div>
+
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Common alias for :meth:`~set_orientation_reflections`.&quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="ReflectionsDict.add">
-<a class="viewcode-back" href="../../../generated/generated/hklpy2.blocks.reflection.html#hklpy2.blocks.reflection.ReflectionsDict.add">[docs]</a>
+<a class="viewcode-back" href="../../../autoapi/hklpy2/blocks/reflection/index.html#hklpy2.blocks.reflection.ReflectionsDict.add">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reflection</span><span class="p">:</span> <span class="n">Reflection</span><span class="p">,</span> <span class="n">replace</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Add a single orientation reflection.&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_validate_reflection</span><span class="p">(</span><span class="n">reflection</span><span class="p">,</span> <span class="n">replace</span><span class="p">)</span>
@@ -750,14 +791,14 @@
 
 
 <div class="viewcode-block" id="ReflectionsDict.prune">
-<a class="viewcode-back" href="../../../generated/generated/hklpy2.blocks.reflection.html#hklpy2.blocks.reflection.ReflectionsDict.prune">[docs]</a>
+<a class="viewcode-back" href="../../../autoapi/hklpy2/blocks/reflection/index.html#hklpy2.blocks.reflection.ReflectionsDict.prune">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">prune</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Remove any undefined reflections from order list.&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">order</span> <span class="o">=</span> <span class="p">[</span><span class="n">refl</span> <span class="k">for</span> <span class="n">refl</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">order</span> <span class="k">if</span> <span class="n">refl</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">]</span></div>
 
 
 <div class="viewcode-block" id="ReflectionsDict.swap">
-<a class="viewcode-back" href="../../../generated/generated/hklpy2.blocks.reflection.html#hklpy2.blocks.reflection.ReflectionsDict.swap">[docs]</a>
+<a class="viewcode-back" href="../../../autoapi/hklpy2/blocks/reflection/index.html#hklpy2.blocks.reflection.ReflectionsDict.swap">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">swap</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Swap the first two orientation reflections.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">order</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
@@ -769,7 +810,7 @@
 
 
 <div class="viewcode-block" id="ReflectionsDict._validate_reflection">
-<a class="viewcode-back" href="../../../generated/generated/hklpy2.blocks.reflection.html#hklpy2.blocks.reflection.ReflectionsDict._validate_reflection">[docs]</a>
+<a class="viewcode-back" href="../../../autoapi/hklpy2/blocks/reflection/index.html#hklpy2.blocks.reflection.ReflectionsDict._validate_reflection">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">_validate_reflection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reflection</span><span class="p">,</span> <span class="n">replace</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Validate the new reflection.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">reflection</span><span class="p">,</span> <span class="n">Reflection</span><span class="p">):</span>
@@ -818,9 +859,12 @@
     <span class="c1"># ---- get/set properties</span>
 
     <span class="nd">@property</span>
+<div class="viewcode-block" id="ReflectionsDict.order">
+<a class="viewcode-back" href="../../../autoapi/hklpy2/blocks/reflection/index.html#hklpy2.blocks.reflection.ReflectionsDict.order">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">order</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Ordered list of reflection names used for orientation.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_order</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_order</span></div>
+
 
     <span class="nd">@order</span><span class="o">.</span><span class="n">setter</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">order</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>

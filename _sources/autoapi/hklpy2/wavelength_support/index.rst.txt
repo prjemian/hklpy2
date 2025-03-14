@@ -1,0 +1,248 @@
+hklpy2.wavelength_support
+=========================
+
+.. py:module:: hklpy2.wavelength_support
+
+.. autoapi-nested-parse::
+
+   Wavelength of the incident radiation.
+
+   Supports compatible unit conversions.
+
+   .. autosummary::
+
+       ~A_KEV
+       ~ConstantMonochromaticWavelength
+       ~MonochromaticXrayWavelength
+       ~WavelengthBase
+
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   hklpy2.wavelength_support.logger
+   hklpy2.wavelength_support.DEFAULT_ENERGY_UNITS
+   hklpy2.wavelength_support.DEFAULT_WAVELENGTH
+   hklpy2.wavelength_support.DEFAULT_WAVELENGTH_UNITS
+   hklpy2.wavelength_support.XRAY_ENERGY_EQUIVALENT_
+   hklpy2.wavelength_support.A_KEV
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   hklpy2.wavelength_support.WavelengthBase
+   hklpy2.wavelength_support.ConstantMonochromaticWavelength
+   hklpy2.wavelength_support.MonochromaticXrayWavelength
+
+
+Module Contents
+---------------
+
+.. py:data:: logger
+
+.. py:data:: DEFAULT_ENERGY_UNITS
+   :value: 'keV'
+
+
+.. py:data:: DEFAULT_WAVELENGTH
+   :value: 1.0
+
+
+.. py:data:: DEFAULT_WAVELENGTH_UNITS
+   :value: 'angstrom'
+
+
+.. py:data:: XRAY_ENERGY_EQUIVALENT_
+   :value: 806554.3937
+
+
+   Energy equivalent factor :math:`1 / (h \nu)`
+
+   Per NIST publication, of CODATA Fundamental Physical Constants, 2022 revision.
+
+   :see: https://physics.nist.gov/cuu/Constants/factors.html ("1 eV" *v*. "1/m")
+
+.. py:data:: A_KEV
+   :value: 12.398419843856837
+
+
+   X-ray voltage wavelength product (:math:`h \nu`), per NIST standard.
+
+.. py:class:: WavelengthBase(*, units: str = None)
+
+   Bases: :py:obj:`abc.ABC`
+
+
+   Base for all wavelength (:math:`\lambda`) classes.
+
+   .. autosummary::
+
+       ~_fromdict
+       ~wavelength
+       ~wavelength_units
+       ~source_type
+       ~spectrum_type
+
+
+   .. py:attribute:: source_type
+      :value: 'any'
+
+
+      Nature of the incident radiation.
+
+
+   .. py:attribute:: spectrum_type
+      :value: 'any'
+
+
+      Description of the spectrum of the incident radiation.
+
+
+   .. py:attribute:: _wavelength_units
+      :value: 'angstrom'
+
+
+
+   .. py:method:: _asdict()
+
+      Return source parameters as a dict.
+
+
+
+   .. py:method:: _fromdict_core(config)
+
+      Restore most items from config dictionary.
+
+
+
+   .. py:method:: _fromdict(config)
+
+      Restore configuration from dictionary.
+
+
+
+   .. py:property:: wavelength
+      :type: float
+
+      :abstractmethod:
+
+
+      Wavelength (:math:`\lambda`).
+
+
+   .. py:property:: wavelength_units
+      :type: str
+
+
+      Engineering units of the wavelength.
+
+
+.. py:class:: ConstantMonochromaticWavelength(wavelength: float, **kwargs)
+
+   Bases: :py:obj:`WavelengthBase`
+
+
+   Monochromatic wavelength (and units); cannot be changed.
+
+   Just wavelength.  Can be used with any type of radiation source.
+
+   .. autosummary::
+
+       ~wavelength
+       ~wavelength_units
+       ~source_type
+       ~spectrum_type
+
+
+   .. py:attribute:: source_type
+      :value: 'any'
+
+
+      Nature of the incident radiation.
+
+
+   .. py:attribute:: spectrum_type
+      :value: 'monochromatic'
+
+
+      Description of the spectrum of the incident radiation.
+
+
+   .. py:attribute:: _wavelength
+
+
+   .. py:method:: _fromdict(config)
+
+      Restore configuration from dictionary but not wavelength.
+
+
+
+   .. py:property:: wavelength
+      :type: float
+
+
+      Wavelength (:math:`\lambda`).
+
+
+.. py:class:: MonochromaticXrayWavelength(wavelength: float, energy_units: str = None, **kwargs)
+
+   Bases: :py:obj:`WavelengthBase`
+
+
+   Monochromatic X-ray wavelength (and units).
+
+   .. autosummary::
+
+       ~wavelength
+       ~wavelength_units
+       ~energy
+       ~energy_units
+       ~source_type
+       ~spectrum_type
+
+
+   .. py:attribute:: source_type
+      :value: 'X-ray'
+
+
+      Nature of the incident radiation.
+
+
+   .. py:attribute:: spectrum_type
+      :value: 'monochromatic'
+
+
+      Description of the spectrum of the incident radiation.
+
+
+   .. py:property:: energy_units
+      :type: str
+
+
+      Engineering units of the X-ray photon energy.
+
+
+   .. py:property:: wavelength
+      :type: float
+
+
+      Wavelength (:math:`\lambda`).
+
+
+   .. py:property:: energy
+      :type: float
+
+
+      Incident monochromatic X-ray photon energy (:math:`E`).
+
+      .. math::
+
+          \lambda = (h \nu) / E
+
+

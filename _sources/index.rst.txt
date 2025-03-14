@@ -12,7 +12,6 @@ hklpy2
    :hidden:
 
    user_guide
-   api
    release_notes
 
 .. icons: https://fonts.google.com/icons
@@ -21,7 +20,7 @@ hklpy2
 
     .. grid-item-card:: :material-outlined:`summarize;3em` :ref:`user_guide`
     .. grid-item-card:: :material-regular:`install_desktop;3em`  :ref:`install`
-    .. grid-item-card:: :material-regular:`subscriptions;3em` :ref:`api`
+    .. grid-item-card:: :material-regular:`subscriptions;3em` :doc:`/autoapi/index`
     .. grid-item-card:: :material-regular:`history;3em` :ref:`release_notes`
 
 .. figure:: _static/fcc-ball-and-stick.jpg
