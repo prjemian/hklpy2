@@ -27,7 +27,6 @@ pre:
 
 realclean :: clean
 	/bin/rm -rf ./docs/build
-	/bin/rm -rf ./docs/source/generated
 
 style :: isort pre
 

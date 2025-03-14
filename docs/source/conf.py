@@ -52,6 +52,7 @@ extensions = [
     "sphinx_design",
     "myst_nb",  # includes "myst_parser"
     "nbsphinx",
+    "autoapi.extension",
 ]
 extensions.append("sphinx_tabs.tabs")  # this must be last
 
@@ -62,6 +63,12 @@ templates_path = ["_templates"]
 
 # myst-nb notebook execution when building docs
 nb_execution_mode = "off"
+
+autoapi_dirs = ["../../hklpy2"]
+autoapi_ignore = [
+    "tests/*",
+    "dev_*",
+]
 
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
