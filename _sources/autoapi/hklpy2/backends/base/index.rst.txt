@@ -109,16 +109,7 @@ Module Contents
       Version of this Solver.
 
 
-   .. py:property:: geometry
-      :type: str
-
-      :abstractmethod:
-
-
-      Name of selected diffractometer geometry.
-
-      Cannot be changed once solver is created.  Instead, make a new solver
-      for each geometry.
+   .. py:attribute:: _gname
 
 
    .. py:property:: mode
@@ -206,6 +197,16 @@ Module Contents
           >>> solver.geometries()
           []
 
+
+
+   .. py:property:: geometry
+      :type: str
+
+
+      Name of selected diffractometer geometry.
+
+      Cannot be changed once solver is created.  Instead, make a new solver
+      for each geometry.
 
 
    .. py:method:: inverse(reals: dict) -> dict[str, float]

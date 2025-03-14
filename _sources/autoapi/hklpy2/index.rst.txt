@@ -20,7 +20,6 @@ Submodules
    /autoapi/hklpy2/diffract/index
    /autoapi/hklpy2/misc/index
    /autoapi/hklpy2/ops/index
-   /autoapi/hklpy2/tests/index
    /autoapi/hklpy2/user/index
    /autoapi/hklpy2/wavelength_support/index
 
@@ -163,16 +162,7 @@ Package Contents
       Version of this Solver.
 
 
-   .. py:property:: geometry
-      :type: str
-
-      :abstractmethod:
-
-
-      Name of selected diffractometer geometry.
-
-      Cannot be changed once solver is created.  Instead, make a new solver
-      for each geometry.
+   .. py:attribute:: _gname
 
 
    .. py:property:: mode
@@ -260,6 +250,16 @@ Package Contents
           >>> solver.geometries()
           []
 
+
+
+   .. py:property:: geometry
+      :type: str
+
+
+      Name of selected diffractometer geometry.
+
+      Cannot be changed once solver is created.  Instead, make a new solver
+      for each geometry.
 
 
    .. py:method:: inverse(reals: dict) -> dict[str, float]

@@ -200,13 +200,8 @@ Module Contents
       Version of this Solver.
 
 
-   .. py:attribute:: _engine
+   .. py:attribute:: _hkl_engine
       :value: None
-
-
-
-   .. py:attribute:: _gname_locked
-      :value: False
 
 
 
@@ -215,16 +210,16 @@ Module Contents
 
 
 
-   .. py:attribute:: _detector
+   .. py:attribute:: _hkl_detector
 
 
-   .. py:attribute:: _factory
+   .. py:attribute:: _hkl_factory
 
 
-   .. py:attribute:: _engine_list
+   .. py:attribute:: _hkl_engine_list
 
 
-   .. py:attribute:: _geometry
+   .. py:attribute:: _hkl_geometry
 
 
    .. py:method:: __repr__() -> str
@@ -322,16 +317,6 @@ Module Contents
 
       Geometry is not usable without a computational engine.
 
-
-
-   .. py:property:: geometry
-      :type: str
-
-
-      Name of selected diffractometer geometry.
-
-      Cannot be changed once solver is created.  Instead, make a new solver
-      for each geometry.
 
 
    .. py:method:: inverse(reals: dict[str, float]) -> dict[str, float]

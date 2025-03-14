@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../../../_static/documentation_options.js?v=2c42f40f"></script>
+    <script src="../../../_static/documentation_options.js?v=03de332c"></script>
     <script src="../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -470,7 +470,10 @@
         <span class="n">mode</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>  <span class="c1"># &quot;&quot;: accept solver&#39;s default mode</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">geometry</span> <span class="o">=</span> <span class="n">geometry</span>
+<div class="viewcode-block" id="SolverBase._gname">
+<a class="viewcode-back" href="../../../autoapi/hklpy2/backends/base/index.html#hklpy2.backends.base.SolverBase._gname">[docs]</a>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_gname</span> <span class="o">=</span> <span class="n">geometry</span></div>
+
         <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">=</span> <span class="n">mode</span>
 <div class="viewcode-block" id="SolverBase._sample">
 <a class="viewcode-back" href="../../../autoapi/hklpy2/backends/base/index.html#hklpy2.backends.base.SolverBase._sample">[docs]</a>
@@ -524,19 +527,19 @@
 <span class="sd">        Calculate the UB (orientation) matrix with two reflections.</span>
 
 <span class="sd">        The method of Busing &amp; Levy, Acta Cryst 22 (1967) 457.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">UB</span></div>
+<span class="sd">        &quot;&quot;&quot;</span></div>
 
+        <span class="c1"># return self.UB</span>
 
     <span class="nd">@property</span>
     <span class="nd">@abstractmethod</span>
 <div class="viewcode-block" id="SolverBase.extra_axis_names">
 <a class="viewcode-back" href="../../../autoapi/hklpy2/backends/base/index.html#hklpy2.backends.base.SolverBase.extra_axis_names">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">extra_axis_names</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Ordered list of any extra axis names (such as x, y, z).&quot;&quot;&quot;</span>
-        <span class="c1"># Do NOT sort.</span>
-        <span class="k">return</span> <span class="p">[]</span></div>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Ordered list of any extra axis names (such as x, y, z).&quot;&quot;&quot;</span></div>
 
+        <span class="c1"># Do NOT sort.</span>
+        <span class="c1"># return []</span>
 
     <span class="nd">@property</span>
 <div class="viewcode-block" id="SolverBase.extras">
@@ -552,10 +555,10 @@
 <div class="viewcode-block" id="SolverBase.forward">
 <a class="viewcode-back" href="../../../autoapi/hklpy2/index.html#hklpy2.backends.base.SolverBase.forward">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pseudos</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute list of solutions(reals) from pseudos (hkl -&gt; [angles]).&quot;&quot;&quot;</span>
-        <span class="c1"># based on geometry and mode</span>
-        <span class="k">return</span> <span class="p">[{}]</span></div>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute list of solutions(reals) from pseudos (hkl -&gt; [angles]).&quot;&quot;&quot;</span></div>
 
+        <span class="c1"># based on geometry and mode</span>
+        <span class="c1"># return [{}]</span>
 
     <span class="nd">@classmethod</span>
     <span class="nd">@abstractmethod</span>
@@ -574,12 +577,11 @@
 <span class="sd">            &gt;&gt;&gt; solver = Solver(&quot;TH TTH Q&quot;)</span>
 <span class="sd">            &gt;&gt;&gt; solver.geometries()</span>
 <span class="sd">            []</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="p">[]</span></div>
+<span class="sd">        &quot;&quot;&quot;</span></div>
 
+        <span class="c1"># return []</span>
 
     <span class="nd">@property</span>
-    <span class="nd">@abstractmethod</span>
 <div class="viewcode-block" id="SolverBase.geometry">
 <a class="viewcode-back" href="../../../autoapi/hklpy2/backends/base/index.html#hklpy2.backends.base.SolverBase.geometry">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">geometry</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
@@ -589,21 +591,16 @@
 <span class="sd">        Cannot be changed once solver is created.  Instead, make a new solver</span>
 <span class="sd">        for each geometry.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_geometry</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_gname</span></div>
 
-
-    <span class="nd">@geometry</span><span class="o">.</span><span class="n">setter</span>
-    <span class="nd">@abstractmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">geometry</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_geometry</span> <span class="o">=</span> <span class="n">value</span>
 
     <span class="nd">@abstractmethod</span>
 <div class="viewcode-block" id="SolverBase.inverse">
 <a class="viewcode-back" href="../../../autoapi/hklpy2/index.html#hklpy2.backends.base.SolverBase.inverse">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">inverse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reals</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute dict of pseudos from reals (angles -&gt; hkl).&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="p">{}</span></div>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute dict of pseudos from reals (angles -&gt; hkl).&quot;&quot;&quot;</span></div>
 
+        <span class="c1"># return {}</span>
 
     <span class="nd">@property</span>
 <div class="viewcode-block" id="SolverBase.lattice">
@@ -650,29 +647,29 @@
 <div class="viewcode-block" id="SolverBase.modes">
 <a class="viewcode-back" href="../../../autoapi/hklpy2/backends/base/index.html#hklpy2.backends.base.SolverBase.modes">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">modes</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;List of the geometry operating modes.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="p">[]</span></div>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;List of the geometry operating modes.&quot;&quot;&quot;</span></div>
 
+        <span class="c1"># return []</span>
 
     <span class="nd">@property</span>
     <span class="nd">@abstractmethod</span>
 <div class="viewcode-block" id="SolverBase.pseudo_axis_names">
 <a class="viewcode-back" href="../../../autoapi/hklpy2/backends/base/index.html#hklpy2.backends.base.SolverBase.pseudo_axis_names">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">pseudo_axis_names</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Ordered list of the pseudo axis names (such as h, k, l).&quot;&quot;&quot;</span>
-        <span class="c1"># Do NOT sort.</span>
-        <span class="k">return</span> <span class="p">[]</span></div>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Ordered list of the pseudo axis names (such as h, k, l).&quot;&quot;&quot;</span></div>
 
+        <span class="c1"># Do NOT sort.</span>
+        <span class="c1"># return []</span>
 
     <span class="nd">@property</span>
     <span class="nd">@abstractmethod</span>
 <div class="viewcode-block" id="SolverBase.real_axis_names">
 <a class="viewcode-back" href="../../../autoapi/hklpy2/backends/base/index.html#hklpy2.backends.base.SolverBase.real_axis_names">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">real_axis_names</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Ordered list of the real axis names (such as th, tth).&quot;&quot;&quot;</span>
-        <span class="c1"># Do NOT sort.</span>
-        <span class="k">return</span> <span class="p">[]</span></div>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Ordered list of the real axis names (such as th, tth).&quot;&quot;&quot;</span></div>
 
+        <span class="c1"># Do NOT sort.</span>
+        <span class="c1"># return []</span>
 
     <span class="nd">@abstractmethod</span>
 <div class="viewcode-block" id="SolverBase.refineLattice">
