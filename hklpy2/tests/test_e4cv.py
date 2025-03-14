@@ -85,7 +85,7 @@ def test_inverse(ppos, rpos, context, expected):
     "parms, context, expected",
     [
         [[sim4c.tth, 10, 20, 3], does_not_raise(), None],
-        [[sim4c.k, 0, 0, 3], does_not_raise(), None],
+        [[sim4c.k, 1, 0, 1], does_not_raise(), None],
         [
             [sim4c.tth, 10, 20, sim4c.k, 0, 0, 3],
             pytest.raises(ValueError),
