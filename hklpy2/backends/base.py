@@ -183,11 +183,12 @@ class SolverBase(ABC):
         Cannot be changed once solver is created.  Instead, make a new solver
         for each geometry.
 
-        .. TODO:: How is this enforced?  Remove the setter. Subclasses, too.
+        .. TODO:: How is this enforced?  Remove the setter. Subclasses, tests, too.
+           More consequences that expected.  Needs its own issue.
         """
         # return self._geometry
 
-    @geometry.setter
+    @geometry.setter  # FIXME: remove
     @abstractmethod
     def geometry(self, value: str):
         self._geometry = value
