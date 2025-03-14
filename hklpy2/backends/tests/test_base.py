@@ -2,10 +2,14 @@
 
 # Many features are tested, albeit indrectly, in specific solvers.
 
+import pyRestTable
 from ...blocks.lattice import Lattice
 from ...blocks.reflection import Reflection
 from ...misc import IDENTITY_MATRIX_3X3
 from ..base import SolverBase
+from ..th_tth_q import ThTthSolver, TH_TTH_Q_GEOMETRY
+from ...tests.common import assert_context_result
+import pytest
 
 
 class TrivialSolver(SolverBase):
@@ -74,12 +78,28 @@ class TrivialSolver(SolverBase):
         """Remove all reflections."""
 
 
-def test_SolverBase_extras():
+def test_SolverBase():
+    assert TrivialSolver.geometries() == []
+
     solver = TrivialSolver("test_geo")
     assert isinstance(solver, SolverBase)
     assert solver.name == "base"
+    assert solver.sample is None
+    assert solver.UB == IDENTITY_MATRIX_3X3
+    assert solver.calculate_UB(None, None) == IDENTITY_MATRIX_3X3
     assert solver.extra_axis_names == [], f"{solver.extra_axis_names=}"
     assert solver.extras == {}, f"{solver.extras=}"
+    assert solver.forward({}) == [{}]
+    assert list(solver._metadata) == "name description geometry real_axes version".split()
+    assert solver.mode == ""
+    assert solver.inverse({}) == {}
+    assert solver.inverse({}) == {}
+    assert solver.pseudo_axis_names == [], f"{solver.pseudo_axis_names=}"
+    assert solver.real_axis_names == [], f"{solver.real_axis_names=}"
+    assert solver.refineLattice([]) == Lattice(a=1.0)
+
+    delattr(solver, "_mode")
+    assert solver.mode == ""
 
     md = solver._metadata
     assert isinstance(md, dict)
@@ -91,3 +111,46 @@ def test_SolverBase_extras():
         "version": solver.version,
     }
     assert md == expected
+
+    expected = "\n".join(
+        [
+            "==== ========= ======= =========== ========",
+            "mode pseudo(s) real(s) writable(s) extra(s)",
+            "==== ========= ======= =========== ========",
+            "==== ========= ======= =========== ========",
+        ]
+    )
+    summary = solver.summary
+    assert isinstance(summary, pyRestTable.Table)
+    assert str(summary).strip() == expected
+
+    with pytest.raises(TypeError) as reason:
+        solver.lattice = 1.0
+    assert_context_result("Must supply Lattice object", reason)
+    solver.lattice = Lattice(1, 2, 3)
+    assert solver.lattice == Lattice(1, 2, 3)
+
+    with pytest.raises(TypeError) as reason:
+        solver.sample = 1.0
+    assert_context_result("Must supply Sample object", reason)
+
+
+def test_SolverBase_abstractmethods():
+    # Need to test certain abstract methods of base class code
+    # that require values not in the base class.
+    solver = ThTthSolver(TH_TTH_Q_GEOMETRY)
+    expected = "\n".join(
+        [
+            "======== ========= ======= =========== ========",
+            "mode     pseudo(s) real(s) writable(s) extra(s)",
+            "======== ========= ======= =========== ========",
+            "bisector q         th, tth th, tth             ",
+            "======== ========= ======= =========== ========",
+        ]
+    )
+    summary = solver.summary
+    assert isinstance(summary, pyRestTable.Table)
+    assert str(summary).strip() == expected
+
+    solver.geometry = TH_TTH_Q_GEOMETRY
+    assert solver.geometry == TH_TTH_Q_GEOMETRY

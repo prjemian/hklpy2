@@ -134,14 +134,14 @@ class SolverBase(ABC):
 
         The method of Busing & Levy, Acta Cryst 22 (1967) 457.
         """
-        return self.UB
+        # return self.UB
 
     @property
     @abstractmethod
     def extra_axis_names(self) -> list[str]:
         """Ordered list of any extra axis names (such as x, y, z)."""
         # Do NOT sort.
-        return []
+        # return []
 
     @property
     def extras(self) -> dict:
@@ -154,7 +154,7 @@ class SolverBase(ABC):
     def forward(self, pseudos: dict) -> list[dict[str, float]]:
         """Compute list of solutions(reals) from pseudos (hkl -> [angles])."""
         # based on geometry and mode
-        return [{}]
+        # return [{}]
 
     @classmethod
     @abstractmethod
@@ -172,7 +172,7 @@ class SolverBase(ABC):
             >>> solver.geometries()
             []
         """
-        return []
+        # return []
 
     @property
     @abstractmethod
@@ -182,8 +182,10 @@ class SolverBase(ABC):
 
         Cannot be changed once solver is created.  Instead, make a new solver
         for each geometry.
+
+        .. TODO:: How is this enforced?  Remove the setter. Subclasses, too.
         """
-        return self._geometry
+        # return self._geometry
 
     @geometry.setter
     @abstractmethod
@@ -193,7 +195,7 @@ class SolverBase(ABC):
     @abstractmethod
     def inverse(self, reals: dict) -> dict[str, float]:
         """Compute dict of pseudos from reals (angles -> hkl)."""
-        return {}
+        # return {}
 
     @property
     def lattice(self) -> object:
@@ -233,21 +235,21 @@ class SolverBase(ABC):
     @abstractmethod
     def modes(self) -> list[str]:
         """List of the geometry operating modes."""
-        return []
+        # return []
 
     @property
     @abstractmethod
     def pseudo_axis_names(self) -> list[str]:
         """Ordered list of the pseudo axis names (such as h, k, l)."""
         # Do NOT sort.
-        return []
+        # return []
 
     @property
     @abstractmethod
     def real_axis_names(self) -> list[str]:
         """Ordered list of the real axis names (such as th, tth)."""
         # Do NOT sort.
-        return []
+        # return []
 
     @abstractmethod
     def refineLattice(self, reflections: list[Reflection]) -> Lattice:
