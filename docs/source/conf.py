@@ -66,7 +66,7 @@ nb_execution_mode = "off"
 
 autoapi_dirs = ["../../hklpy2"]
 autoapi_ignore = [
-    "tests/*",
+    "*tests*",
     "dev_*",
 ]
 

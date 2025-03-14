@@ -64,7 +64,6 @@ gi.require_version("Hkl", "5.0")
 
 from gi.repository import GLib  # noqa: E402, F401, W0611
 from gi.repository import Hkl as libhkl  # noqa: E402
-from gi.repository.GLib import GError  # noqa: E402
 
 logger = logging.getLogger(__name__)
 
@@ -350,7 +349,7 @@ class HklSolver(SolverBase):
                 list(pseudos.values()),
                 LIBHKL_USER_UNITS,
             )
-        except GError as exc:
+        except GLib.GError as exc:
             msg = "No forward solutions found."
             raise SolverNoForwardSolutions(msg) from exc
 

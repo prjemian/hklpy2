@@ -3,16 +3,11 @@ import math
 import numpy as np
 import pytest
 from pyRestTable import Table
-from ...misc import IDENTITY_MATRIX_3X3
-from ...tests.common import assert_context_result
-from ...ops import Operations
 
+from ...misc import IDENTITY_MATRIX_3X3
+from ...ops import Operations
+from ...tests.common import assert_context_result
 from .. import hkl_soleil
-# from contextlib import nullcontext as does_not_raise
-# context, expected
-#     with context as reason:
-#         pass
-#     assert_context_result(expected, reason)
 
 
 def test_version():
@@ -28,9 +23,9 @@ def test_version():
 
 def kryptonite():
     """Make a kryptonite sample for E4CV."""
-    from ...blocks.sample import Sample
     from ...blocks.lattice import Lattice
     from ...blocks.reflection import Reflection
+    from ...blocks.sample import Sample
 
     core = Operations(None, default_sample=False)
     sample = Sample(core, "kryptonite", Lattice(0.01))  # should be interesting
