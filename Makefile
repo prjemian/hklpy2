@@ -6,7 +6,7 @@ clean ::
 	make -C docs clean
 
 coverage:
-	coverage run --concurrency=thread --parallel-mode -m pytest -vvv ./hklpy2
+	coverage run --concurrency=thread --parallel-mode -m pytest ./hklpy2
 	coverage combine
 	coverage report --precision 3 -m
 
@@ -31,4 +31,4 @@ realclean :: clean
 style :: isort pre
 
 test:
-	pytest ./hklpy2
+	pytest -vvv --lf ./hklpy2
