@@ -1,9 +1,18 @@
 import math
 
+import numpy as np
 import pytest
 from pyRestTable import Table
+from ...misc import IDENTITY_MATRIX_3X3
+from ...tests.common import assert_context_result
+from ...ops import Operations
 
 from .. import hkl_soleil
+# from contextlib import nullcontext as does_not_raise
+# context, expected
+#     with context as reason:
+#         pass
+#     assert_context_result(expected, reason)
 
 
 def test_version():
@@ -15,6 +24,78 @@ def test_version():
     solver = hkl_soleil.HklSolver("E4CV")
     assert isinstance(solver.version, str)
     assert solver.version == libhkl.VERSION
+
+
+def kryptonite():
+    """Make a kryptonite sample for E4CV."""
+    from ...blocks.sample import Sample
+    from ...blocks.lattice import Lattice
+    from ...blocks.reflection import Reflection
+
+    core = Operations(None, default_sample=False)
+    sample = Sample(core, "kryptonite", Lattice(0.01))  # should be interesting
+    r1 = Reflection(
+        name="r1",
+        pseudos=dict(h=1, k=0, l=0),
+        reals=dict(omega=1, chi=0, phi=0, tth=2),
+        wavelength=1.54,
+        geometry="E4CV",
+        pseudo_axis_names="h k l".split(),
+        real_axis_names="omega chi phi tth".split(),
+    )
+    sample.reflections.add(r1)
+    return sample
+
+
+def test_hkl_soleil():
+    arr = hkl_soleil.libhkl.Matrix.new_euler(0, 0, 0)
+    assert hkl_soleil.to_hkl(arr) == arr
+
+    arr = np.array([1, 2, 3])
+    np.testing.assert_array_equal(hkl_soleil.to_numpy(arr), arr)
+
+
+def test_HklSolver():
+    solver = hkl_soleil.HklSolver(geometry="E4CV", engine="hkl")
+    assert solver.wavelength == 1.54
+    assert solver.axes_c == []
+    assert solver.axes_r == ["omega", "chi", "phi", "tth"]
+    assert solver.axes_w == ["omega", "chi", "phi", "tth"]
+    assert solver.engines == ["hkl", "psi", "q", "incidence", "emergence"]
+
+    assert solver.sample is None  # pre-requisite for next assertions
+    assert solver.U == IDENTITY_MATRIX_3X3
+    assert solver.UB == IDENTITY_MATRIX_3X3
+    assert solver.calculate_UB(None, None) is None
+
+    with pytest.raises(TypeError) as reason:
+        solver.addReflection(1.0)
+    assert_context_result("Must supply Reflection object", reason)
+
+    with pytest.raises(KeyError) as reason:
+        solver.extras = dict(trombone=0)
+    assert_context_result("Unexpected dictionary key received", reason)
+
+    with pytest.raises(ValueError) as reason:
+        solver.inverse(dict(a=1, b=2, c=3, d=4))
+    assert_context_result("Wrong dictionary keys received", reason)
+
+    with pytest.raises(TypeError) as reason:
+        solver.inverse(dict(omega="1", chi=0, phi=0, tth=0))
+    assert_context_result("All values must be numbers", reason)
+
+    with pytest.raises(TypeError) as reason:
+        solver.lattice = 1.0
+    assert_context_result("Must supply Lattice object", reason)
+
+    with pytest.raises(ValueError) as reason:
+        solver.refineLattice([])
+    assert_context_result("Must provide 3 or more reflections", reason)
+
+    with pytest.raises(TypeError) as reason:
+        solver.sample = "kryptonite"
+    assert_context_result("Must supply Sample object", reason)
+    solver.sample = kryptonite()
 
 
 @pytest.mark.parametrize(

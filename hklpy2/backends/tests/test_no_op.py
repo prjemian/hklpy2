@@ -1,15 +1,5 @@
 """Test the no_op solver class."""
 
-# Many features are tested, albeit indrectly, in specific solvers.
-
-# import pyRestTable
-# import pytest
-# from contextlib import nullcontext as does_not_raise
-# context, expected
-#     with context as reason:
-#         pass
-#     assert_context_result(expected, reason)
-
 from ..no_op import NoOpSolver
 
 

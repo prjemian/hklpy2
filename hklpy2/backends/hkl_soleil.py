@@ -222,7 +222,9 @@ class HklSolver(SolverBase):
         self._factory = libhkl.factories()[geometry]
         self._engine_list = self._factory.create_new_engine_list()  # note!
         self._engine = self._engine_list.engine_get_by_name(engine)
-        self._geometry = self._factory.create_new_geometry()
+        self._geometry = (
+            self._factory.create_new_geometry()
+        )  # TODO: rename as self._hkl_geometry?
 
     def __repr__(self) -> str:
         args = [
@@ -330,7 +332,7 @@ class HklSolver(SolverBase):
         known_names = self.extra_axis_names
         for k in values.keys():
             if k not in known_names:
-                raise ValueError(
+                raise KeyError(
                     f"Unexpected dictionary key received: {k!r}"
                     f" Expected one of these: {known_names!r}"
                 )
@@ -412,7 +414,7 @@ class HklSolver(SolverBase):
         if False in [isinstance(v, (float, int)) for v in reals.values()]:
             # fmt: off
             raise TypeError(
-                "All dictionary must be numbers."
+                "All values must be numbers."
                 f"  Received: {reals!r}"
             )
             # fmt: on
