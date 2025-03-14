@@ -50,8 +50,7 @@ extensions = [
     "sphinx.ext.napoleon",
     "sphinx.ext.viewcode",
     "sphinx_design",
-    "myst_nb",
-    # "myst_parser",
+    "myst_nb",  # includes "myst_parser"
     "nbsphinx",
 ]
 extensions.append("sphinx_tabs.tabs")  # this must be last

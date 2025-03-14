@@ -22,7 +22,7 @@ Example::
     choose the mode and set the parameter before the forward() transformation.
 
 .. note:: To scan using ``psi`` and ``hkl2``, see
-    :doc:`../../examples/hkl_soleil-e6c-psi`.
+    :doc:`/examples/hkl_soleil-e6c-psi`.
 
 .. autosummary::
 
