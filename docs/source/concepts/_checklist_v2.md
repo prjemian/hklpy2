@@ -1,5 +1,4 @@
-.. _v2_checklist:
-
+(v2_checklist)=
 # Feature Checklist for v2
 
 This is a first-cut checklist for the v2 release.

@@ -410,6 +410,8 @@ class Operations:
         pdict = self.standardize_pseudos(pseudos)
         reals = self.diffractometer.real_position._asdict()  # Original values.
 
+        # TODO: make sure solver has the sample's UB matrix for 'forward()'
+
         # Filter just the solutions that fit the constraints.
         results = self.solver.forward(self._axes_names_d2s(pdict))
         solutions = []
@@ -480,6 +482,8 @@ class Operations:
         # Just the reals expected by the solver.
         # Dictionary in order expected by the solver.
         reals: AxesDict = self.standardize_reals(reals)
+
+        # TODO: make sure solver has the sample's UB matrix for 'forward()'
 
         # transform: reals -> pseudos
         spdict: AxesDict = self.solver.inverse(self._axes_names_d2s(reals))

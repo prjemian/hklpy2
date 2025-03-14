@@ -42,6 +42,5 @@ Notice
 
 - Ready for relocation to Bluesky organization on GitHub.
 - See :ref:`concepts` for more details about how this works.
-- See :doc:`Feature Checklist </concepts/_checklist_v2>` for progress
-  on what has been planned.
+- See :ref:`v2_checklist` for progress on what has been planned.
 - For those familiar with SPEC, see :ref:`spec_commands_map`.
