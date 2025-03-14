@@ -6,7 +6,6 @@ Associates diffractometer angles (real-space) with crystalline reciprocal-space
 (pseudo) coordinates.
 
 .. autosummary::
-    :toctree: generated
 
     ~Reflection
     ~ReflectionError

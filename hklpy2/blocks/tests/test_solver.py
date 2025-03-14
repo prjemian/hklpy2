@@ -2,8 +2,8 @@ import inspect
 
 import pytest
 
-from ... import SolverError
-from ... import get_solver
+from ...misc import SolverError
+from ...misc import get_solver
 
 
 @pytest.mark.parametrize(

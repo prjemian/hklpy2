@@ -7,7 +7,7 @@ from contextlib import nullcontext as does_not_raise
 import pytest
 
 from ..diffract import DiffractometerBase
-from ..geom import creator
+from ..diffract import creator
 from ..ops import Operations
 from ..ops import OperationsError
 from ..user import set_diffractometer

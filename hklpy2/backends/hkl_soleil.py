@@ -42,16 +42,16 @@ import platform
 
 from pyRestTable import Table
 
-from .. import SolverBase
-from .. import SolverError
-from .. import check_value_in_list
 from ..blocks.lattice import Lattice
 from ..blocks.reflection import Reflection
 from ..blocks.sample import Sample
 from ..misc import IDENTITY_MATRIX_3X3
+from ..misc import SolverError
 from ..misc import SolverNoForwardSolutions
+from ..misc import check_value_in_list
 from ..misc import roundoff
 from ..misc import unique_name
+from .base import SolverBase
 
 if platform.system() != "Linux":
     raise SolverError("'hkl_soleil' only available for linux 64-bit.")

@@ -12,7 +12,6 @@ from abc import abstractmethod
 
 from pyRestTable import Table
 
-from .. import __version__
 from ..blocks.lattice import Lattice
 from ..blocks.reflection import Reflection
 from ..blocks.sample import Sample
@@ -78,6 +77,8 @@ class SolverBase(ABC):
         ~sample
         ~UB
     """
+
+    from .. import __version__
 
     name = "base"
     """Name of this Solver."""

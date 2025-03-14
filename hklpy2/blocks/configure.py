@@ -2,7 +2,6 @@
 Export and restore sample UB matrix and other diffractometer configuration.
 
 .. autosummary::
-    :toctree: generated
 
     ~Configuration
 

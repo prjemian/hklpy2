@@ -2,7 +2,6 @@
 Lattice parameters for a single crystal.
 
 .. autosummary::
-    :toctree: generated
 
     ~Lattice
     ~SI_LATTICE_PARAMETER

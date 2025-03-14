@@ -1,8 +1,8 @@
 import numpy as np
 import pytest
 
-from ... import get_solver
-from ... import solver_factory
+from ...misc import get_solver
+from ...misc import solver_factory
 from .. import SolverBase
 from ..th_tth_q import ThTthSolver
 

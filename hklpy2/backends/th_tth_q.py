@@ -17,10 +17,10 @@ Example::
 import logging
 import math
 
-from .. import SolverError
 from .. import __version__
-from .. import check_value_in_list
 from ..blocks.reflection import Reflection
+from ..misc import SolverError
+from ..misc import check_value_in_list
 from .base import SolverBase
 
 logger = logging.getLogger(__name__)

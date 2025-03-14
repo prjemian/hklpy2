@@ -3,9 +3,9 @@ from contextlib import nullcontext as does_not_raise
 
 import pytest
 
-from ...__init__ import __version__
+from ... import __version__
 from ...diffract import DiffractometerBase
-from ...geom import creator
+from ...diffract import creator
 from ...misc import ConfigurationError
 from ...misc import load_yaml_file
 from ...tests.common import assert_context_result

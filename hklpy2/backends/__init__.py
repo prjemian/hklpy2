@@ -7,7 +7,6 @@ that provides diffractometer geometries & calculations.
 See the API documentation for details.
 
 .. autosummary::
-   :toctree: generated
 
     ~hkl_soleil
     ~no_op

@@ -2,7 +2,8 @@ from contextlib import nullcontext as does_not_raise
 
 import pytest
 
-from ...geom import creator
+from ...diffract import creator
+from ...misc import SampleError
 from ...misc import load_yaml
 from ...misc import unique_name
 from ...tests.common import assert_context_result
@@ -10,7 +11,6 @@ from ...tests.models import add_oriented_vibranium_to_e4cv
 from ..lattice import Lattice
 from ..reflection import ReflectionsDict
 from ..sample import Sample
-from ..sample import SampleError
 
 
 @pytest.mark.parametrize(

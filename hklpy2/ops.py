@@ -5,7 +5,6 @@ Intermediate layer between DiffractometerBase Device and backend |solver|
 library.
 
 .. autosummary::
-   :toctree: generated
 
     ~Operations
 """
@@ -16,9 +15,7 @@ from collections.abc import Iterable
 from typing import List
 from typing import Union
 
-import pyRestTable
-
-from . import SolverBase
+from .backends.base import SolverBase
 from .blocks.configure import Configuration
 from .blocks.constraints import RealAxisConstraints
 from .blocks.lattice import Lattice
@@ -441,7 +438,9 @@ class Operations:
             Number of digits to roundoff each position
             value.  Default is 5.
         """
-        _table = pyRestTable.Table()
+        from pyRestTable import Table
+
+        _table = Table()
         motors = self.diffractometer.real_axis_names
         _table.labels = "(hkl) solution".split() + list(motors)
         for reflection in reflections:

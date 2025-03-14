@@ -3,7 +3,6 @@ Miscellaneous Support.
 
 .. rubric: Functions
 .. autosummary::
-   :toctree: generated
 
     ~axes_to_dict
     ~check_value_in_list
@@ -23,14 +22,12 @@ Miscellaneous Support.
 
 .. rubric: Symbols
 .. autosummary::
-   :toctree: generated
 
     ~IDENTITY_MATRIX_3X3
     ~SOLVER_ENTRYPOINT_GROUP
 
 .. rubric: Custom Data Types
 .. autosummary::
-   :toctree: generated
 
     ~AnyAxesType
     ~AxesArray
@@ -40,14 +37,13 @@ Miscellaneous Support.
 
 .. rubric: Custom Preprocessors
 .. autosummary::
-   :toctree: generated
 
     ~ConfigurationRunWrapper
 
 .. rubric: Custom Exceptions
 .. autosummary::
-   :toctree: generated
 
+    ~Hklpy2Error
     ~ConfigurationError
     ~ConstraintsError
     ~DiffractometerError
@@ -79,9 +75,6 @@ import tqdm
 import yaml
 from ophyd import Component
 from ophyd import Device
-from ophyd import Signal
-
-from . import Hklpy2Error
 
 logger = logging.getLogger(__name__)
 
@@ -124,6 +117,8 @@ ordered tuple   (0, 1, -1)                  AxesTuple
 
 
 # Custom exceptions
+class Hklpy2Error(Exception):
+    """Any exception from the |hklpy2| package."""
 
 
 class ConfigurationError(Hklpy2Error):
@@ -391,6 +386,8 @@ def dict_device_factory(data: dict, **kwargs):
     """
     Create a DictionaryDevice class using the supplied dictionary.
     """
+    from ophyd import Signal
+
     component_dict = {
         k: Component(Signal, value=v, **kwargs)
         # metadata={"description": "solver extra axis"},

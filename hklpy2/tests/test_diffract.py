@@ -8,13 +8,15 @@ from contextlib import nullcontext as does_not_raise
 import bluesky
 import pytest
 from numpy.testing import assert_almost_equal
+from ophyd import EpicsMotor
+from ophyd import SoftPositioner
 from ophyd.sim import noisy_det
 
 from ..blocks.reflection import ReflectionError
 from ..blocks.sample import Sample
 from ..diffract import DiffractometerBase
+from ..diffract import creator
 from ..diffract import pick_first_item
-from ..geom import creator
 from ..misc import DiffractometerError
 from ..misc import SolverNoForwardSolutions
 from ..ops import DEFAULT_SAMPLE_NAME
@@ -34,6 +36,80 @@ from .models import TwoC
 def test_choice_function():
     choice = pick_first_item((), "a b c".split())
     assert choice == "a"
+
+
+@pytest.mark.parametrize(
+    "config_file",
+    ["e4cv_orient.yml", "fourc-configuration.yml"],
+)
+@pytest.mark.parametrize(
+    "pseudos, reals, positioner_class, context, expected",
+    [
+        [
+            [],
+            dict(omega="IOC:m1", chi="IOC:m2", phi="IOC:m3", tth="IOC:m4"),
+            EpicsMotor,
+            does_not_raise(),
+            None,
+        ],
+        [
+            [],
+            dict(aaa=None, bbb=None, ccc=None),
+            SoftPositioner,
+            pytest.raises(KeyError),
+            "reals, received ",
+        ],
+        [
+            [],
+            dict(aaa=None, bbb=None, ccc=None, ddd=None),
+            SoftPositioner,
+            does_not_raise(),
+            None,
+        ],
+        [
+            [],
+            dict(aaa=None, bbb=None, ccc=None, ddd=None, eee=None),
+            SoftPositioner,
+            does_not_raise(),
+            None,
+        ],
+        [
+            [],
+            dict(aaa="IOC:m1", bbb=None, ccc=None, ddd=None, eee=None),
+            (EpicsMotor, SoftPositioner),
+            does_not_raise(),
+            None,
+        ],
+        [[], {}, SoftPositioner, does_not_raise(), None],
+        [
+            "h k".split(),
+            {},
+            SoftPositioner,
+            does_not_raise(),
+            None,
+        ],
+        [
+            "h2 k2 l2 psi alpha beta".split(),
+            {},
+            SoftPositioner,
+            does_not_raise(),
+            None,
+        ],
+    ],
+)
+def test_creator_reals(
+    pseudos, reals, positioner_class, context, expected, config_file
+):
+    with context as reason:
+        diffractometer = creator(name="diffractometer", pseudos=pseudos, reals=reals)
+        assert diffractometer is not None
+        for axis in diffractometer.real_axis_names:
+            if len(reals) > 0:
+                assert axis in reals
+            assert isinstance(getattr(diffractometer, axis), positioner_class)
+        diffractometer.restore(HKLPY2_DIR / "tests" / config_file)
+
+    assert_context_result(expected, reason)
 
 
 def test_DiffractometerBase():
@@ -157,7 +233,7 @@ def test_diffractometer_class(
 
 
 def test_diffractometer_wh(capsys):
-    from ..geom import creator
+    from ..diffract import creator
 
     e4cv = creator(name="e4cv")
     e4cv.restore(HKLPY2_DIR / "tests" / "e4cv_orient.yml")
@@ -217,7 +293,7 @@ def test_diffractometer_wh(capsys):
     ],
 )
 def test_full_position(mode, keys, context, expected, config_file):
-    from ..geom import creator
+    from ..diffract import creator
 
     assert config_file.endswith(".yml")
 
@@ -244,7 +320,7 @@ def test_full_position(mode, keys, context, expected, config_file):
     ],
 )
 def test_move_forward_with_extras(pseudos, extras, mode, context, expected):
-    from ..geom import creator
+    from ..diffract import creator
 
     fourc = creator(name="fourc")
     fourc.restore(HKLPY2_DIR / "tests" / "e4cv_orient.yml")
@@ -281,7 +357,7 @@ def test_move_forward_with_extras(pseudos, extras, mode, context, expected):
     ],
 )
 def test_move_reals(pos, context, expected):
-    from ..geom import creator
+    from ..diffract import creator
 
     fourc = creator(name="fourc")
     with context as reason:
@@ -292,7 +368,7 @@ def test_move_reals(pos, context, expected):
 
 def test_null_core():
     """Tests special cases when diffractometer.core is None."""
-    from ..geom import creator
+    from ..diffract import creator
 
     fourc = creator(name="fourc")
     assert fourc.core is not None
@@ -314,7 +390,7 @@ def test_null_core():
 
 def test_orientation():
     from ..blocks.lattice import SI_LATTICE_PARAMETER
-    from ..geom import creator
+    from ..diffract import creator
 
     fourc = creator(name="fourc")
     fourc.add_sample("silicon", SI_LATTICE_PARAMETER)
@@ -440,7 +516,7 @@ def test_remove_sample():
 def test_repeated_reflections(
     name, pseudos, reals, wavelength, replace, num, context, expected
 ):
-    from ..geom import creator
+    from ..diffract import creator
 
     e4cv = creator(name="e4cv")
     e4cv.add_reflection(
@@ -572,7 +648,7 @@ def test_repeated_reflections(
     ],
 )
 def test_scan_extra(scan_kwargs, mode, context, expected):
-    from ..geom import creator
+    from ..diffract import creator
 
     fourc = creator(name="fourc")
     fourc.restore(HKLPY2_DIR / "tests" / "e4cv_orient.yml")
@@ -592,7 +668,7 @@ def test_scan_extra(scan_kwargs, mode, context, expected):
 
 
 def test_set_UB():
-    from ..geom import creator
+    from ..diffract import creator
 
     UBe = [[0, 0, -1.157], [0, -1.157, 0], [-1.157, 0, 0]]
     fourc = creator(name="fourc")
@@ -608,7 +684,7 @@ def test_set_UB():
 
 
 def test_e4cv_constant_phi():
-    from ..geom import creator
+    from ..diffract import creator
 
     e4cv = creator(name="e4cv")
 

@@ -10,7 +10,6 @@ coordinates can have many solutions. One or more constraints (Constraint)
   implemented yet)
 
 .. autosummary::
-    :toctree: generated
 
     ~RealAxisConstraints
     ~ConstraintBase

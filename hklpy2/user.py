@@ -2,7 +2,6 @@
 Simplified interface for |hklpy2| diffractometer users.
 
 .. autosummary::
-   :toctree: generated
 
     ~add_reflection
     ~add_sample

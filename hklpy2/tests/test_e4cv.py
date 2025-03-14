@@ -9,7 +9,7 @@ from bluesky import RunEngine
 from bluesky import plans as bp
 from numpy.testing import assert_almost_equal
 
-from ..geom import creator
+from ..diffract import creator
 from .common import assert_context_result
 
 sim4c = creator(name="sim4c")
