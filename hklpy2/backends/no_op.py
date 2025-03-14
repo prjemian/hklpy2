@@ -65,7 +65,7 @@ class NoOpSolver(SolverBase):
         pass
 
     def calculate_UB(self, r1, r2):
-        return
+        return []
 
     @property
     def extra_axis_names(self):

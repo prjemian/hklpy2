@@ -3,13 +3,15 @@
 # Many features are tested, albeit indrectly, in specific solvers.
 
 import pyRestTable
+import pytest
+
 from ...blocks.lattice import Lattice
 from ...blocks.reflection import Reflection
 from ...misc import IDENTITY_MATRIX_3X3
-from ..base import SolverBase
-from ..th_tth_q import ThTthSolver, TH_TTH_Q_GEOMETRY
 from ...tests.common import assert_context_result
-import pytest
+from ..base import SolverBase
+from ..th_tth_q import TH_TTH_Q_GEOMETRY
+from ..th_tth_q import ThTthSolver
 
 
 class TrivialSolver(SolverBase):
@@ -90,7 +92,9 @@ def test_SolverBase():
     assert solver.extra_axis_names == [], f"{solver.extra_axis_names=}"
     assert solver.extras == {}, f"{solver.extras=}"
     assert solver.forward({}) == [{}]
-    assert list(solver._metadata) == "name description geometry real_axes version".split()
+    assert (
+        list(solver._metadata) == "name description geometry real_axes version".split()
+    )
     assert solver.mode == ""
     assert solver.inverse({}) == {}
     assert solver.inverse({}) == {}
