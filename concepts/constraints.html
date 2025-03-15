@@ -41,13 +41,11 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=03de332c"></script>
+    <script src="../_static/documentation_options.js?v=238ce8eb"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
-    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'concepts/constraints';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -338,6 +336,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../geometry_tables.html">Diffractometers</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../examples.html">Examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../examples/_api_demo.html">Demonstrate <strong>hklpy2</strong>’s API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/constraints.html">Constraints</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/hkl_soleil-e4ch.html"><strong>hkl_soleil</strong> E4CH</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/hkl_soleil-e4cv.html"><strong>hkl_soleil</strong> E4CV</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/hkl_soleil-e6c-psi.html"><strong>hkl_soleil</strong> E6C psi axis</a></li>
@@ -441,56 +440,14 @@ solutions accepted for that positioner.</p></li>
 <div class="admonition tip" id="index-0">
 <p class="admonition-title">Tip</p>
 <p><em>Constraints</em> are implemented as <em>cut points</em> in other software.
-Similar yet not identical.</p>
+Similar in concept yet not entirely identical in implementation.</p>
 </div>
-<section id="show-the-current-constraints">
-<h2>Show the current constraints<a class="headerlink" href="#show-the-current-constraints" title="Link to this heading">#</a></h2>
-<p>Start with a diffractometer.  This example starts with
-<a class="reference internal" href="../geometry_tables.html#geometries-hkl-soleil-e6c"><span class="std std-ref">E6C</span></a>, as shown in the
-<a class="reference internal" href="../quickstart.html#user-guide-quickstart"><span class="std std-ref">Quickstart</span></a>.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">hklpy2</span>
-<span class="linenos">2</span><span class="gp">&gt;&gt;&gt; </span><span class="n">sixc</span> <span class="o">=</span> <span class="n">hklpy2</span><span class="o">.</span><span class="n">creator</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;sixc&quot;</span><span class="p">,</span> <span class="n">geometry</span><span class="o">=</span><span class="s2">&quot;E6C&quot;</span><span class="p">,</span> <span class="n">solver</span><span class="o">=</span><span class="s2">&quot;hkl_soleil&quot;</span><span class="p">)</span>
-</pre></div>
+<p class="rubric">Examples</p>
+<p>Many of the <a class="reference internal" href="../examples.html#examples"><span class="std std-ref">Examples</span></a> show how to adjust <a class="reference internal" href="../examples/constraints.html#examples-constraints"><span class="std std-ref">constraints</span></a>.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="../glossary.html#glossary"><span class="std std-ref">Glossary</span></a></p>
 </div>
-<p>Show the constraints:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="gp">&gt;&gt;&gt; </span><span class="n">sixc</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">constraints</span>
-<span class="linenos">2</span><span class="go">[&#39;-180.0 &lt;= mu &lt;= 180.0&#39;, &#39;-180.0 &lt;= omega &lt;= 180.0&#39;, &#39;-180.0 &lt;= chi &lt;= 180.0&#39;, &#39;-180.0 &lt;= phi &lt;= 180.0&#39;, &#39;-180.0 &lt;= gamma &lt;= 180.0&#39;, &#39;-180.0 &lt;= delta &lt;= 180.0&#39;]</span>
-</pre></div>
-</div>
-</section>
-<section id="change-a-constraint">
-<h2>Change a constraint<a class="headerlink" href="#change-a-constraint" title="Link to this heading">#</a></h2>
-<p>Only accept <code class="docutils literal notranslate"><span class="pre">forward()</span></code> solutions where <code class="docutils literal notranslate"><span class="pre">omega</span></code> <span class="math notranslate nohighlight">\(&gt;= 0\)</span>.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="gp">&gt;&gt;&gt; </span><span class="n">sixc</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">constraints</span><span class="p">[</span><span class="s2">&quot;omega&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">low_limit</span>
-<span class="linenos">2</span><span class="go">-180.0</span>
-<span class="linenos">3</span><span class="gp">&gt;&gt;&gt; </span><span class="n">sixc</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">constraints</span><span class="p">[</span><span class="s2">&quot;omega&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">low_limit</span> <span class="o">=</span> <span class="mi">0</span>
-<span class="linenos">4</span><span class="gp">&gt;&gt;&gt; </span><span class="n">sixc</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">constraints</span><span class="p">[</span><span class="s2">&quot;omega&quot;</span><span class="p">]</span>
-<span class="linenos">5</span><span class="go">0 &lt;= omega &lt;= 180.0</span>
-</pre></div>
-</div>
-<section id="apply-axis-cuts">
-<h3>Apply axis cuts<a class="headerlink" href="#apply-axis-cuts" title="Link to this heading">#</a></h3>
-<p>Only accept <code class="docutils literal notranslate"><span class="pre">forward()</span></code> solutions where <code class="docutils literal notranslate"><span class="pre">chi</span></code> is between $\pm90$:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="gp">&gt;&gt;&gt; </span><span class="n">sixc</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">constraints</span><span class="p">[</span><span class="s2">&quot;chi&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">limits</span>
-<span class="linenos">2</span><span class="go">(-180.0, 180.0)</span>
-<span class="linenos">3</span><span class="gp">&gt;&gt;&gt; </span><span class="n">sixc</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">constraints</span><span class="p">[</span><span class="s2">&quot;chi&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">limits</span> <span class="o">=</span> <span class="o">-</span><span class="mi">90</span><span class="p">,</span> <span class="mi">90</span>
-<span class="linenos">4</span><span class="gp">&gt;&gt;&gt; </span><span class="n">sixc</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">constraints</span><span class="p">[</span><span class="s2">&quot;chi&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">limits</span>
-<span class="linenos">5</span><span class="go">(-90.0, 90.0)</span>
-</pre></div>
-</div>
-</section>
-<section id="freeze-an-axis">
-<h3>Freeze an axis<a class="headerlink" href="#freeze-an-axis" title="Link to this heading">#</a></h3>
-<p>Only accept <code class="docutils literal notranslate"><span class="pre">forward()</span></code> solutions where <code class="docutils literal notranslate"><span class="pre">mu</span></code> is zero:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="gp">&gt;&gt;&gt; </span><span class="n">sixc</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">constraints</span><span class="p">[</span><span class="s2">&quot;mu&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">limits</span>
-<span class="linenos">2</span><span class="go">(-180.0, 180.0)</span>
-<span class="linenos">3</span><span class="gp">&gt;&gt;&gt; </span><span class="n">sixc</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">constraints</span><span class="p">[</span><span class="s2">&quot;mu&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">limits</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span>
-<span class="linenos">4</span><span class="gp">&gt;&gt;&gt; </span><span class="n">sixc</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">constraints</span><span class="p">[</span><span class="s2">&quot;mu&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">limits</span>
-<span class="linenos">5</span><span class="go">(0.0, 0.0)</span>
-</pre></div>
-</div>
-</section>
-</section>
 </section>
 
 
@@ -531,23 +488,6 @@ Similar yet not identical.</p>
                 <dialog id="pst-secondary-sidebar-modal"></dialog>
                 <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
 
-
-  <div class="sidebar-secondary-item">
-<div
-    id="pst-page-navigation-heading-2"
-    class="page-toc tocsection onthispage">
-    <i class="fa-solid fa-list"></i> On this page
-  </div>
-  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
-    <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#show-the-current-constraints">Show the current constraints</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#change-a-constraint">Change a constraint</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apply-axis-cuts">Apply axis cuts</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#freeze-an-axis">Freeze an axis</a></li>
-</ul>
-</li>
-</ul>
-  </nav></div>
 
   <div class="sidebar-secondary-item">
 

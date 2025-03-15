@@ -4,6 +4,8 @@
 Core Operations
 ===============
 
+.. TODO: How much is guide or example?  This should be a concepts doc. Brief.
+
 .. index:: !core
 
 A diffractometer's ``.core`` provides most of its functionality.

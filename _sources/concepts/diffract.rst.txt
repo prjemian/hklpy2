@@ -4,6 +4,8 @@
 Diffractometer
 ==================
 
+.. TODO: How much is guide or example?  This should be a concepts doc. Brief.
+
 .. index:: !design; diffractometer
 
 Diffractometers are built as a subclass of
@@ -47,6 +49,8 @@ only the pseudos and reals that are identified.
       - save or restore orientation details
       - refine lattice parameters
 
+.. TODO: This is a guide section
+
 Steps to define a diffractometer object
 =======================================
 
@@ -56,6 +60,8 @@ Steps to define a diffractometer object
 #. (optional) Identify the EPICS PVs for the real positioners.
 #. (optional) Connect energy to the control system.
 #. Define the diffractometer object using ``hklpy2.creator()``.
+
+.. TODO: This section should point to the concepts, not re-explain.
 
 A `Diffractometer` object
 =========================

@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=03de332c"></script>
+    <script src="../_static/documentation_options.js?v=238ce8eb"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
@@ -338,6 +338,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../geometry_tables.html">Diffractometers</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../examples.html">Examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../examples/_api_demo.html">Demonstrate <strong>hklpy2</strong>’s API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/constraints.html">Constraints</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/hkl_soleil-e4ch.html"><strong>hkl_soleil</strong> E4CH</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/hkl_soleil-e4cv.html"><strong>hkl_soleil</strong> E4CV</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/hkl_soleil-e6c-psi.html"><strong>hkl_soleil</strong> E6C psi axis</a></li>
@@ -432,7 +433,8 @@
 observation) due to diffraction from a specific orientation of a crystalline
 sample with respect to the incident radiation. The reflection occurs for a
 precise alignment of the sample’s crystalline planes and diffractometer axes
-with the incoming radiation.</p>
+with the incoming radiation.  Information for each reflection is stored in
+an instance of <a class="reference internal" href="../autoapi/hklpy2/blocks/reflection/index.html#hklpy2.blocks.reflection.Reflection" title="hklpy2.blocks.reflection.Reflection"><code class="xref py py-class docutils literal notranslate"><span class="pre">hklpy2.blocks.reflection.Reflection()</span></code></a>.</p>
 <p>The coordinates of two (or more) reflections are used to compute a sample’s
 <span class="math notranslate nohighlight">\(UB\)</span> <span class="target" id="index-1"></span>orientation matrix.  <span class="math notranslate nohighlight">\(UB\)</span> transforms between the
 sample’s crystallographic axes (<span class="target" id="index-2"></span>reciprocal-space) and the
@@ -446,6 +448,14 @@ diffractometer’s physical axes (<span class="target" id="index-3"></span>real-
 <p>Note that the engineering units for the pseudo axes are the reciprocal of the
 units of the wavelength (where <em>angstroms</em> is typical).  The angles are reported
 in <em>degrees</em>.</p>
+<p>Reflections are stored as part of the <a class="reference internal" href="sample.html#concepts-sample"><span class="std std-ref">sample</span></a>.</p>
+<p class="rubric">Examples</p>
+<p>Many of the <a class="reference internal" href="../examples.html#examples"><span class="std std-ref">Examples</span></a> (such as <a class="reference internal" href="../examples/hkl_soleil-e4ch.html"><span class="doc">E4CH</span></a>,
+<a class="reference internal" href="../examples/hkl_soleil-e4cv.html"><span class="doc">E4CV</span></a>, and <a class="reference internal" href="../examples/hkl_soleil-k4cv.html"><span class="doc">K4CV</span></a>) show how to create or add a reflection.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="../glossary.html#glossary"><span class="std std-ref">Glossary</span></a></p>
+</div>
 </section>
 
 

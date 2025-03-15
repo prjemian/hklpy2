@@ -41,11 +41,13 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=03de332c"></script>
+    <script src="../_static/documentation_options.js?v=238ce8eb"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'concepts/__overview';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -336,6 +338,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../geometry_tables.html">Diffractometers</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../examples.html">Examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../examples/_api_demo.html">Demonstrate <strong>hklpy2</strong>’s API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/constraints.html">Constraints</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/hkl_soleil-e4ch.html"><strong>hkl_soleil</strong> E4CH</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/hkl_soleil-e4cv.html"><strong>hkl_soleil</strong> E4CV</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/hkl_soleil-e6c-psi.html"><strong>hkl_soleil</strong> E6C psi axis</a></li>
@@ -430,16 +433,16 @@
 devices.  Each diffractometer is a positioner which may be used with <a class="reference external" href="https://blueskyproject.io/bluesky">bluesky</a> plans.</p>
 <p>Any diffractometer may be provisioned with simulated axes; motors from an EPICS
 control system are not required to use <strong>hklpy2</strong>.</p>
-<p>Built from <code class="xref py py-class docutils literal notranslate"><span class="pre">DiffractometerBase()</span></code>, each diffractometer is
+<p>Built from <a class="reference internal" href="../autoapi/hklpy2/diffract/index.html#hklpy2.diffract.DiffractometerBase" title="hklpy2.diffract.DiffractometerBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">DiffractometerBase()</span></code></a>, each diffractometer is
 an <a class="reference external" href="https://blueskyproject.io/ophyd/positioners.html#pseudopositioner">ophyd.PseudoPositioner</a> that
 defines all the components of a diffractometer. The diffractometer
 <a class="reference internal" href="../geometry_tables.html#geometries"><span class="std std-ref">geometry</span></a> defines the names and order for the real motor
 axes. Geometries are defined by backend  <a class="reference internal" href="solvers.html#concepts-solvers"><span class="std std-ref">Solvers</span></a>. Some solvers
-support different calculation engines (other than $hkl$). It is common for a
+support different calculation engines (other than <span class="math notranslate nohighlight">\(hkl\)</span>). It is common for a
 geometry to support several operating <em>modes</em>.</p>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
-<p><a class="reference internal" href="../glossary.html#glossary"><span class="std std-ref">Glossary</span></a></p>
+<p><a class="reference internal" href="../glossary.html#glossary"><span class="std std-ref">Glossary</span></a>, <a class="reference internal" href="_checklist_v2.html#v2-checklist"><span class="std std-ref">Feature Checklist for v2</span></a></p>
 </div>
 </section>
 

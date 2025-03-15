@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=03de332c"></script>
+    <script src="../_static/documentation_options.js?v=238ce8eb"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
@@ -336,6 +336,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../geometry_tables.html">Diffractometers</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../examples.html">Examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../examples/_api_demo.html">Demonstrate <strong>hklpy2</strong>’s API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/constraints.html">Constraints</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/hkl_soleil-e4ch.html"><strong>hkl_soleil</strong> E4CH</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/hkl_soleil-e4cv.html"><strong>hkl_soleil</strong> E4CV</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/hkl_soleil-e6c-psi.html"><strong>hkl_soleil</strong> E6C psi axis</a></li>
@@ -426,22 +427,54 @@
                   
   <section id="diffractometer-creator">
 <span id="concepts-creator"></span><h1>Diffractometer creator<a class="headerlink" href="#diffractometer-creator" title="Link to this heading">#</a></h1>
-<div class="admonition seealso">
-<p class="admonition-title">See also</p>
-<p><code class="xref py py-func docutils literal notranslate"><span class="pre">creator()</span></code></p>
+<p>The <a class="reference internal" href="../autoapi/hklpy2/diffract/index.html#hklpy2.diffract.creator" title="hklpy2.diffract.creator"><code class="xref py py-func docutils literal notranslate"><span class="pre">creator()</span></code></a>, a <a class="reference external" href="https://en.wikipedia.org/wiki/Factory_(object-oriented_programming)">factory function</a>, reduces
+the effort to create all but the most complex diffractometer objects. It uses
+the <a class="reference internal" href="../autoapi/hklpy2/diffract/index.html#hklpy2.diffract.diffractometer_class_factory" title="hklpy2.diffract.diffractometer_class_factory"><code class="xref py py-func docutils literal notranslate"><span class="pre">diffractometer_class_factory()</span></code></a> to build the Python
+class for those chosen <strong>Solver</strong> and geometry.</p>
+<p class="rubric">Examples</p>
+<p>See <a class="reference internal" href="../examples.html#examples"><span class="std std-ref">Examples</span></a> for many documents which use the
+<a class="reference internal" href="../autoapi/hklpy2/diffract/index.html#hklpy2.diffract.creator" title="hklpy2.diffract.creator"><code class="xref py py-func docutils literal notranslate"><span class="pre">creator()</span></code></a> factory function.
+Here’s a sampler:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>diffractometer description</p></th>
+<th class="head"><p>example</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>simple</p></td>
+<td><p><a class="reference internal" href="../examples/hkl_soleil-e4cv.html"><span class="doc">hkl_soleil E4CV</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p>geometry</p></td>
+<td><p><a class="reference internal" href="../examples/hkl_soleil-k4cv.html"><span class="doc">hkl_soleil K4CV</span></a></p></td>
+</tr>
+<tr class="row-even"><td><p>solver</p></td>
+<td><p><a class="reference internal" href="../examples/_api_demo.html"><span class="doc">Demonstrate hklpy2’s API</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p>engine (via <code class="docutils literal notranslate"><span class="pre">solver_kwargs</span></code>)</p></td>
+<td><p><a class="reference internal" href="../examples/hkl_soleil-e6c-psi.html"><span class="doc">hkl_soleil E6C psi axis</span></a></p></td>
+</tr>
+<tr class="row-even"><td><p>EPICS PVs</p></td>
+<td><p>tbd</p></td>
+</tr>
+<tr class="row-odd"><td><p>renamed axes</p></td>
+<td><p><a class="reference internal" href="../examples/nslsii-tardis.html"><span class="doc">NSLS-II tardis diffractometer</span></a></p></td>
+</tr>
+<tr class="row-even"><td><p>additional reals</p></td>
+<td><p><a class="reference internal" href="../examples/hkl_soleil-e6c-psi.html"><span class="doc">hkl_soleil E6C psi axis</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p>auto assign</p></td>
+<td><p>tbd</p></td>
+</tr>
+<tr class="row-even"><td><p>reals out of order</p></td>
+<td><p>tbd</p></td>
+</tr>
+<tr class="row-odd"><td><p>extras</p></td>
+<td><p><a class="reference internal" href="../examples/hkl_soleil-e6c-psi.html"><span class="doc">hkl_soleil E6C psi axis</span></a></p></td>
+</tr>
+</tbody>
+</table>
 </div>
-<ul class="simple">
-<li><p>simple</p></li>
-<li><p>geometry</p></li>
-<li><p>solver</p></li>
-<li><p>engine (via <code class="docutils literal notranslate"><span class="pre">solver_kwargs</span></code>)</p></li>
-<li><p>EPICS PVs</p></li>
-<li><p>renamed axes</p></li>
-<li><p>additional reals</p></li>
-<li><p>auto assign</p></li>
-<li><p>reals out of order</p></li>
-<li><p>extras</p></li>
-</ul>
 </section>
 
 

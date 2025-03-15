@@ -4,6 +4,8 @@
 Solvers
 ==================
 
+.. TODO: How much is guide or example?  This should be a concepts doc. Brief.
+
 .. TODO:
     - Describe the responsibilities of a |solver|.
     - Define the terms expected (add to glossary.).

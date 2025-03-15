@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../../_static/documentation_options.js?v=03de332c"></script>
+    <script src="../../_static/documentation_options.js?v=238ce8eb"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/design-tabs.js?v=f930bc37"></script>
@@ -834,6 +834,8 @@
         <span class="n">pdict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">standardize_pseudos</span><span class="p">(</span><span class="n">pseudos</span><span class="p">)</span>
         <span class="n">reals</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">diffractometer</span><span class="o">.</span><span class="n">real_position</span><span class="o">.</span><span class="n">_asdict</span><span class="p">()</span>  <span class="c1"># Original values.</span>
 
+        <span class="c1"># TODO: make sure solver has the sample&#39;s UB matrix for &#39;forward()&#39;</span>
+
         <span class="c1"># Filter just the solutions that fit the constraints.</span>
         <span class="n">results</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_axes_names_d2s</span><span class="p">(</span><span class="n">pdict</span><span class="p">))</span>
         <span class="n">solutions</span> <span class="o">=</span> <span class="p">[]</span>
@@ -910,6 +912,8 @@
         <span class="c1"># Just the reals expected by the solver.</span>
         <span class="c1"># Dictionary in order expected by the solver.</span>
         <span class="n">reals</span><span class="p">:</span> <span class="n">AxesDict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">standardize_reals</span><span class="p">(</span><span class="n">reals</span><span class="p">)</span>
+
+        <span class="c1"># TODO: make sure solver has the sample&#39;s UB matrix for &#39;forward()&#39;</span>
 
         <span class="c1"># transform: reals -&gt; pseudos</span>
         <span class="n">spdict</span><span class="p">:</span> <span class="n">AxesDict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">inverse</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_axes_names_d2s</span><span class="p">(</span><span class="n">reals</span><span class="p">))</span>

@@ -41,11 +41,13 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=03de332c"></script>
+    <script src="../_static/documentation_options.js?v=238ce8eb"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'concepts/sample';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -336,6 +338,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../geometry_tables.html">Diffractometers</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../examples.html">Examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../examples/_api_demo.html">Demonstrate <strong>hklpy2</strong>’s API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/constraints.html">Constraints</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/hkl_soleil-e4ch.html"><strong>hkl_soleil</strong> E4CH</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/hkl_soleil-e4cv.html"><strong>hkl_soleil</strong> E4CV</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/hkl_soleil-e6c-psi.html"><strong>hkl_soleil</strong> E6C psi axis</a></li>
@@ -426,115 +429,28 @@
                   
   <section id="sample">
 <span id="concepts-sample"></span><h1>Sample<a class="headerlink" href="#sample" title="Link to this heading">#</a></h1>
-<p>A sample has a name, lattice, reflections, and orientation.</p>
-<p>TODO: Describe the concepts</p>
-<section id="examples">
-<span id="sample-examples"></span><h2>Examples<a class="headerlink" href="#examples" title="Link to this heading">#</a></h2>
-<p>TODO: Duplicate of E4CV example?</p>
-<p>We limit our examples here to just a few brief examples will show how to
-define a sample, its crystal lattice, and orient the crystal to position
-it using reciprocal space coordinates.  We’ll leave it to others (for
-now) to show more comprehensive examples that show additional
-capabilities, such as limiting the ranges of the motors for acceptable
-solutions of the <em>forward</em> calculation from $hkl$ to motor positions.</p>
-<p>These examples use a diffractometer object called <code class="docutils literal notranslate"><span class="pre">fourc</span></code> which we’ll take to
-be an instance of a 4-circle diffractometer in vertical scattering geometry
-(<a class="reference internal" href="../geometry_tables.html#geometries-hkl-soleil-e4cv"><span class="std std-ref">E4CV</span></a>) with simulated motors.  (This is
-similar to the 6-circle example
-<a class="reference internal" href="../examples/hkl_soleil-e6c-test_calculations.html"><span class="doc">hkl_soleil E6C test of calculations</span></a>.)</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="kn">import</span><span class="w"> </span><span class="nn">hklpy2</span>
-<span class="linenos">2</span>
-<span class="linenos">3</span><span class="n">fourc</span> <span class="o">=</span> <span class="n">hklpy2</span><span class="o">.</span><span class="n">creator</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;fourc&#39;</span><span class="p">)</span>
-</pre></div>
+<p>In <strong>hklpy2</strong>, each sample’s name, <a class="reference internal" href="lattice.html#concepts-lattice"><span class="std std-ref">lattice</span></a>,
+<a class="reference internal" href="reflection.html#concepts-reflection"><span class="std std-ref">reflections</span></a>, and <em>orientation</em> are stored in the
+<a class="reference internal" href="../autoapi/hklpy2/blocks/sample/index.html#hklpy2.blocks.sample.Sample" title="hklpy2.blocks.sample.Sample"><code class="xref py py-class docutils literal notranslate"><span class="pre">Sample()</span></code></a> class.  The complete list of all a
+diffractometer’s samples (a Python dictionary) is managed by the core
+<a class="reference internal" href="../autoapi/hklpy2/ops/index.html#hklpy2.ops.Operations" title="hklpy2.ops.Operations"><code class="xref py py-class docutils literal notranslate"><span class="pre">Operations()</span></code></a> class.</p>
+<p>You can find the samples at <code class="docutils literal notranslate"><span class="pre">fourc.core.samples</span></code> (substitute your
+diffractometer’s name here).  There is a shortcut: <code class="docutils literal notranslate"><span class="pre">fourc.samples</span></code>.</p>
+<p>It’s easy to switch between samples when there are choices.  For example, select
+the <em>vibranium</em> sample: <code class="docutils literal notranslate"><span class="pre">fourc.core.sample</span> <span class="pre">=</span> <span class="pre">&quot;vibranium&quot;</span></code> (shortcut:
+<code class="docutils literal notranslate"><span class="pre">fourc.sample</span> <span class="pre">=</span> <span class="pre">&quot;vibranium&quot;</span></code>)</p>
+<p>The operations <code class="docutils literal notranslate"><span class="pre">.core</span></code> sends information <em>from</em> the selected sample <em>to</em> the
+solver when calling a solver function (such as
+<a class="reference internal" href="../autoapi/hklpy2/backends/base/index.html#hklpy2.backends.base.SolverBase.calculate_UB" title="hklpy2.backends.base.SolverBase.calculate_UB"><code class="xref py py-meth docutils literal notranslate"><span class="pre">calculate_UB()</span></code></a>). When the solver
+computes <span class="math notranslate nohighlight">\(U\)</span> and <span class="math notranslate nohighlight">\(UB\)</span>, those orientation matrices are stored in the sample
+structure.</p>
+<p class="rubric">Examples</p>
+<p>Many of the <a class="reference internal" href="../examples.html#examples"><span class="std std-ref">Examples</span></a> (such as <a class="reference internal" href="../examples/hkl_soleil-e4ch.html"><span class="doc">E4CH</span></a>,
+<a class="reference internal" href="../examples/hkl_soleil-e4cv.html"><span class="doc">E4CV</span></a>, and <a class="reference internal" href="../examples/hkl_soleil-k4cv.html"><span class="doc">K4CV</span></a>) show how to create or add a sample.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="../glossary.html#glossary"><span class="std std-ref">Glossary</span></a></p>
 </div>
-<section id="define-a-sample-with-a-lattice">
-<h3>define a sample with a lattice<a class="headerlink" href="#define-a-sample-with-a-lattice" title="Link to this heading">#</a></h3>
-<p>Define a sample with the name <em>EuPtIn4_eh1_ver</em> and define its
-crystal lattice.  Use angstroms as units for the unit cell edges
-and degrees for the angles.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="kn">from</span><span class="w"> </span><span class="nn">hkl</span><span class="w"> </span><span class="kn">import</span> <span class="n">Lattice</span>
-<span class="linenos">2</span><span class="n">fourc</span><span class="o">.</span><span class="n">add_sample</span><span class="p">(</span><span class="s1">&#39;EuPtIn4_eh1_ver&#39;</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="mf">4.542</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mf">16.955</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="mf">7.389</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>The <a class="reference internal" href="../autoapi/hklpy2/blocks/lattice/index.html#hklpy2.blocks.lattice.Lattice" title="hklpy2.blocks.lattice.Lattice"><code class="xref py py-class docutils literal notranslate"><span class="pre">hklpy2.blocks.lattice.Lattice()</span></code></a> class has defaults for the lattice
-parameters.  We only need to provided the parts that are different.  The code
-will identify the crystal system.  Inconsistent lattice parameters will raise an
-exception.</p>
-</section>
-<section id="define-an-orientation-matrix">
-<h3>define an orientation matrix<a class="headerlink" href="#define-an-orientation-matrix" title="Link to this heading">#</a></h3>
-<p>This is a brief example to define two reflections and then
-apply the method of Busing &amp; Levy <a class="footnote-reference brackets" href="#id3" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a> to calculate
-an orientation matrix.</p>
-<p>For this example, the reflection positions were found
-at a wavelength of 1.62751693358 angstroms.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="n">fourc</span><span class="o">.</span><span class="n">wavelength</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="mf">1.62751693358</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>We found the (<em>080</em>) reflection at these motor positions:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="n">p</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">omega</span><span class="o">=</span><span class="mf">22.31594</span><span class="p">,</span> <span class="n">chi</span><span class="o">=</span><span class="mf">89.1377</span><span class="p">,</span> <span class="n">phi</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">tth</span><span class="o">=</span><span class="mf">45.15857</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>Associate <cite>p</cite> (the motor positions) with the (<em>080</em>) reflection:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">r1</span> <span class="o">=</span> <span class="n">fourc</span><span class="o">.</span><span class="n">add_reflection</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">p</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;r080&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>Do the same for the (<em>0 12 1</em>) reflection:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">p</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">omega</span><span class="o">=</span><span class="mf">34.96232</span><span class="p">,</span> <span class="n">chi</span><span class="o">=</span><span class="mf">78.3139</span><span class="p">,</span> <span class="n">phi</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">tth</span><span class="o">=</span><span class="mf">71.8007</span><span class="p">)</span>
-<span class="n">r2</span> <span class="o">=</span> <span class="n">fourc</span><span class="o">.</span><span class="n">add_reflection</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">p</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;r_0_12_1&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>Compute the <strong>UB</strong> matrix:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fourc</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">calc_UB</span><span class="p">(</span><span class="n">r1</span><span class="p">,</span> <span class="n">r2</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>See the <strong>hkl_soleil</strong> documentation <a class="footnote-reference brackets" href="#id4" id="id2" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a> for more details.</p>
-<aside class="footnote-list brackets">
-<aside class="footnote brackets" id="id3" role="doc-footnote">
-<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
-<p>Acta Cryst 22 (1967) 457-464</p>
-</aside>
-<aside class="footnote brackets" id="id4" role="doc-footnote">
-<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id2">2</a><span class="fn-bracket">]</span></span>
-<p><strong>hkl_soleil</strong> documentation:
-<a class="reference external" href="https://people.debian.org/~picca/hkl/hkl.html">https://people.debian.org/~picca/hkl/hkl.html</a></p>
-</aside>
-</aside>
-</section>
-<section id="compute-the-motor-positions-for-a-reflection">
-<h3>compute the motor positions for a reflection<a class="headerlink" href="#compute-the-motor-positions-for-a-reflection" title="Link to this heading">#</a></h3>
-<p>Compute the motor positions for the (<em>100</em>) reflection:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fourc</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>This can be assigned to a python object:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">p</span> <span class="o">=</span> <span class="n">fourc</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>Then, the motor positions can be accessed: <code class="docutils literal notranslate"><span class="pre">p.omega</span></code>, <code class="docutils literal notranslate"><span class="pre">p.chi</span></code>,
-<code class="docutils literal notranslate"><span class="pre">p.phi</span></code>, <code class="docutils literal notranslate"><span class="pre">p.tth</span></code>.</p>
-<p>These are the motor angles computed as the first solution:</p>
-<div class="pst-scrollable-table-container"><table class="table">
-<thead>
-<tr class="row-odd"><th class="head"><p>(hkl)</p></th>
-<th class="head"><p>omega</p></th>
-<th class="head"><p>chi</p></th>
-<th class="head"><p>phi</p></th>
-<th class="head"><p>tth</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p>(1, 0, 0)</p></td>
-<td><p>10.32101</p></td>
-<td><p>0.20845</p></td>
-<td><p>86.38310</p></td>
-<td><p>20.64202</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-</section>
-</section>
 </section>
 
 
@@ -575,23 +491,6 @@ at a wavelength of 1.62751693358 angstroms.</p>
                 <dialog id="pst-secondary-sidebar-modal"></dialog>
                 <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
 
-
-  <div class="sidebar-secondary-item">
-<div
-    id="pst-page-navigation-heading-2"
-    class="page-toc tocsection onthispage">
-    <i class="fa-solid fa-list"></i> On this page
-  </div>
-  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
-    <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#examples">Examples</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#define-a-sample-with-a-lattice">define a sample with a lattice</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#define-an-orientation-matrix">define an orientation matrix</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#compute-the-motor-positions-for-a-reflection">compute the motor positions for a reflection</a></li>
-</ul>
-</li>
-</ul>
-  </nav></div>
 
   <div class="sidebar-secondary-item">
 
