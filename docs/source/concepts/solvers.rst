@@ -36,6 +36,8 @@ that provides diffractometer capabilities, including:
     * crystal lattice parameters: :math:`a, b, c, \alpha, \beta, \gamma`
     * list of orientation reflections
 
+.. index:: entry point
+
 A |solver| class is written as a plugin for |hklpy2| and is connected by an `entry point
 <https://setuptools.pypa.io/en/latest/userguide/entry_point.html#entry-points-for-plugins>`_
 using the ``"hklpy2.solver"`` group.  Here's an example from |hklpy2|'s

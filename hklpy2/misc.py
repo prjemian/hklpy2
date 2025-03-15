@@ -384,7 +384,9 @@ def compare_float_dicts(a1, a2, tol=1e-4):
 
 def dict_device_factory(data: dict, **kwargs):
     """
-    Create a DictionaryDevice class using the supplied dictionary.
+    Create a ``DictionaryDevice()`` class using the supplied dictionary.
+
+    .. index:: factory; dict_device_factory, dict_device_factory
     """
     from ophyd import Signal
 
