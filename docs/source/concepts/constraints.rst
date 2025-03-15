@@ -18,6 +18,8 @@ together with a choice of operating **mode**, can be applied to:
 .. tip:: *Constraints* are implemented as *cut points* in other software.
     Similar in concept yet not entirely identical in implementation.
 
+.. TODO: describe how the constraint class works (the ``valid()`` method)
+
 .. rubric:: Examples
 
 Many of the :ref:`examples` show how to adjust :ref:`constraints <examples.constraints>`.

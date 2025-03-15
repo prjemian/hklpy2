@@ -645,7 +645,7 @@ def creator(
     labels: list = ["diffractometer"],
     class_name: str = "Hklpy2Diffractometer",
     class_bases: list = [DiffractometerBase],
-    auto_assign: bool = True,
+    auto_assign: bool = True,  # TODO: Refactor to assign="auto" or (pseudos, reals)
     **kwargs,
 ):
     """
@@ -736,6 +736,7 @@ def creator(
         motor_labels=motor_labels,
         class_name=class_name,
         class_bases=class_bases,
+        # assign="auto",  # TODO: "auto" or dict(pseudos="", reals="")
     )
 
     diffractometer = DiffractometerClass(

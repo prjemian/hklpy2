@@ -55,8 +55,8 @@ diffractometer description      example
 simple                          :doc:`/examples/hkl_soleil-e4cv`
 geometry                        :doc:`/examples/hkl_soleil-k4cv`
 solver                          :doc:`/examples/_api_demo`
-engine (via ``solver_kwargs``)  :doc:`/examples/hkl_soleil-e6c-psi`
-EPICS PVs                       tbd
+engine (via ``solver_kwargs``)  :doc:`/guides/var_engines`
+EPICS PVs                       :doc:`/examples/hkl_soleil-e4cv+epics`
 renamed axes                    :doc:`/examples/nslsii-tardis`
 additional reals                :doc:`/examples/hkl_soleil-e6c-psi`
 auto assign                     tbd
