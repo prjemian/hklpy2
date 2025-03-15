@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=238ce8eb"></script>
+    <script src="../_static/documentation_options.js?v=d4ab36e5"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
@@ -339,6 +339,7 @@
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="../examples.html">Examples</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">Demonstrate <strong>hklpy2</strong>’s API</a></li>
 <li class="toctree-l2"><a class="reference internal" href="constraints.html">Constraints</a></li>
+<li class="toctree-l2"><a class="reference internal" href="example-4-circle-custom-class.html">Example 4-circle diffractometer custom Python class</a></li>
 <li class="toctree-l2"><a class="reference internal" href="hkl_soleil-e4ch.html"><strong>hkl_soleil</strong> E4CH</a></li>
 <li class="toctree-l2"><a class="reference internal" href="hkl_soleil-e4cv.html"><strong>hkl_soleil</strong> E4CV</a></li>
 <li class="toctree-l2"><a class="reference internal" href="hkl_soleil-e6c-psi.html"><strong>hkl_soleil</strong> E6C psi axis</a></li>
@@ -347,7 +348,7 @@
 <li class="toctree-l2"><a class="reference internal" href="hkl_soleil-lattice_refine.html"><strong>hkl_soleil</strong> Refine lattice from 3 reflections</a></li>
 <li class="toctree-l2"><a class="reference internal" href="hkl_soleil-ub_calc.html"><strong>hkl_soleil</strong> UB matrix : calculate from 2 reflections.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="hkl_soleil-ub_set.html"><strong>hkl_soleil</strong> UB matrix : Set directly</a></li>
-<li class="toctree-l2"><a class="reference internal" href="nslsii-tardis.html">NSLS-II tardis diffractometer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nslsii-tardis.html"><strong>NSLS-II</strong> <strong>tardis</strong> diffractometer</a></li>
 
 <li class="toctree-l2"><a class="reference internal" href="tst_e4cv_fourc.html">Compare <strong>hkl_soleil</strong> <strong>E4CV</strong> with <strong>SPEC</strong> <strong>fourc</strong></a></li>
 </ul>
@@ -618,55 +619,6 @@ fourc.inverse(10, 0, 0, 20)=Hklpy2DiffractometerPseudoPos(h=2.18212732091, k=0, 
 </div>
 </div>
 </section>
-<section id="circle-with-extra-axes">
-<h2>4-circle with extra axes<a class="headerlink" href="#circle-with-extra-axes" title="Link to this heading">#</a></h2>
-<p>Construct a 4-circle diffractometer with many additional axes, both in real (rotation angle) space and in reciprocal (pseudo) space.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ophyd</span><span class="w"> </span><span class="kn">import</span> <span class="n">Component</span> <span class="k">as</span> <span class="n">Cpt</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">ophyd</span><span class="w"> </span><span class="kn">import</span> <span class="n">Kind</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">ophyd</span><span class="w"> </span><span class="kn">import</span> <span class="n">PseudoSingle</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">ophyd</span><span class="w"> </span><span class="kn">import</span> <span class="n">SoftPositioner</span>
-
-<span class="n">NORMAL_HINTED</span> <span class="o">=</span> <span class="n">Kind</span><span class="o">.</span><span class="n">hinted</span> <span class="o">|</span> <span class="n">Kind</span><span class="o">.</span><span class="n">normal</span>
-
-<span class="k">class</span><span class="w"> </span><span class="nc">Fourc</span><span class="p">(</span><span class="n">hklpy2</span><span class="o">.</span><span class="n">DiffractometerBase</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test case.&quot;&quot;&quot;</span>
-
-    <span class="c1"># pseudo-space axes, in order expected by hkl_soleil E4CV, engine=&quot;hkl&quot;</span>
-    <span class="n">h</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">PseudoSingle</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">NORMAL_HINTED</span><span class="p">)</span>  <span class="c1"># noqa: E741</span>
-    <span class="n">k</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">PseudoSingle</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">NORMAL_HINTED</span><span class="p">)</span>  <span class="c1"># noqa: E741</span>
-    <span class="n">l</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">PseudoSingle</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">NORMAL_HINTED</span><span class="p">)</span>  <span class="c1"># noqa: E741</span>
-
-    <span class="c1"># real-space axes, in order expected by hkl_soleil E4CV</span>
-    <span class="c1"># using different names</span>
-    <span class="n">theta</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">SoftPositioner</span><span class="p">,</span> <span class="n">limits</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">180</span><span class="p">,</span> <span class="mi">180</span><span class="p">),</span> <span class="n">init_pos</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">NORMAL_HINTED</span><span class="p">)</span>
-    <span class="n">chi</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">SoftPositioner</span><span class="p">,</span> <span class="n">limits</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">180</span><span class="p">,</span> <span class="mi">180</span><span class="p">),</span> <span class="n">init_pos</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">NORMAL_HINTED</span><span class="p">)</span>
-    <span class="n">phi</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">SoftPositioner</span><span class="p">,</span> <span class="n">limits</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">180</span><span class="p">,</span> <span class="mi">180</span><span class="p">),</span> <span class="n">init_pos</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">NORMAL_HINTED</span><span class="p">)</span>
-    <span class="n">ttheta</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">SoftPositioner</span><span class="p">,</span> <span class="n">limits</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">170</span><span class="p">,</span> <span class="mi">170</span><span class="p">),</span> <span class="n">init_pos</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">NORMAL_HINTED</span><span class="p">)</span>
-
-    <span class="c1"># pseudo-space extra axes used in a couple modes</span>
-    <span class="n">h2</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">PseudoSingle</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">NORMAL_HINTED</span><span class="p">)</span>  <span class="c1"># noqa: E741</span>
-    <span class="n">k2</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">PseudoSingle</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">NORMAL_HINTED</span><span class="p">)</span>  <span class="c1"># noqa: E741</span>
-    <span class="n">l2</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">PseudoSingle</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">NORMAL_HINTED</span><span class="p">)</span>  <span class="c1"># noqa: E741</span>
-
-    <span class="c1"># real-space extra axis used in a couple modes</span>
-    <span class="n">psi</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">SoftPositioner</span><span class="p">,</span> <span class="n">limits</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">170</span><span class="p">,</span> <span class="mi">170</span><span class="p">),</span> <span class="n">init_pos</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">NORMAL_HINTED</span><span class="p">)</span>
-
-    <span class="c1"># another Component, not used (yet)</span>
-    <span class="n">energy</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">SoftPositioner</span><span class="p">,</span> <span class="n">limits</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">35</span><span class="p">),</span> <span class="n">init_pos</span><span class="o">=</span><span class="mf">12.4</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">NORMAL_HINTED</span><span class="p">)</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">solver</span><span class="o">=</span><span class="s2">&quot;hkl_soleil&quot;</span><span class="p">,</span> <span class="n">geometry</span><span class="o">=</span><span class="s2">&quot;E4CV&quot;</span><span class="p">,</span> <span class="n">solver_kwargs</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">engine</span><span class="o">=</span><span class="s2">&quot;hkl&quot;</span><span class="p">),</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">auto_assign_axes</span><span class="p">()</span>
-
-<span class="n">fourc</span> <span class="o">=</span> <span class="n">Fourc</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;fourc&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">fourc</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-</section>
 <section id="additional-design-goals">
 <h2>Additional Design Goals<a class="headerlink" href="#additional-design-goals" title="Link to this heading">#</a></h2>
 <p>Next steps demonstrate some additional design goals:</p>
@@ -789,7 +741,6 @@ fourc.inverse(10, 0, 0, 20)=Hklpy2DiffractometerPseudoPos(h=2.18212732091, k=0, 
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#simulated-fourc">Simulated Fourc</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#change-samples">Change samples</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#orienting-reflections">Orienting Reflections</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#circle-with-extra-axes">4-circle with extra axes</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#additional-design-goals">Additional Design Goals</a></li>
 </ul>
   </nav></div>

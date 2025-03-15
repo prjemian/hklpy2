@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=238ce8eb"></script>
+    <script src="../_static/documentation_options.js?v=d4ab36e5"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
@@ -337,6 +337,7 @@
 <li class="toctree-l1 has-children"><a class="reference internal" href="../examples.html">Examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../examples/_api_demo.html">Demonstrate <strong>hklpy2</strong>’s API</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/constraints.html">Constraints</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/example-4-circle-custom-class.html">Example 4-circle diffractometer custom Python class</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/hkl_soleil-e4ch.html"><strong>hkl_soleil</strong> E4CH</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/hkl_soleil-e4cv.html"><strong>hkl_soleil</strong> E4CV</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/hkl_soleil-e6c-psi.html"><strong>hkl_soleil</strong> E6C psi axis</a></li>
@@ -345,7 +346,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../examples/hkl_soleil-lattice_refine.html"><strong>hkl_soleil</strong> Refine lattice from 3 reflections</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/hkl_soleil-ub_calc.html"><strong>hkl_soleil</strong> UB matrix : calculate from 2 reflections.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/hkl_soleil-ub_set.html"><strong>hkl_soleil</strong> UB matrix : Set directly</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../examples/nslsii-tardis.html">NSLS-II tardis diffractometer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/nslsii-tardis.html"><strong>NSLS-II</strong> <strong>tardis</strong> diffractometer</a></li>
 
 <li class="toctree-l2"><a class="reference internal" href="../examples/tst_e4cv_fourc.html">Compare <strong>hkl_soleil</strong> <strong>E4CV</strong> with <strong>SPEC</strong> <strong>fourc</strong></a></li>
 </ul>
@@ -427,10 +428,39 @@
                   
   <section id="diffractometer-creator">
 <span id="concepts-creator"></span><h1>Diffractometer creator<a class="headerlink" href="#diffractometer-creator" title="Link to this heading">#</a></h1>
-<p>The <a class="reference internal" href="../autoapi/hklpy2/diffract/index.html#hklpy2.diffract.creator" title="hklpy2.diffract.creator"><code class="xref py py-func docutils literal notranslate"><span class="pre">creator()</span></code></a>, a <a class="reference external" href="https://en.wikipedia.org/wiki/Factory_(object-oriented_programming)">factory function</a>, reduces
+<p id="index-0">The <a class="reference internal" href="../autoapi/hklpy2/diffract/index.html#hklpy2.diffract.creator" title="hklpy2.diffract.creator"><code class="xref py py-func docutils literal notranslate"><span class="pre">creator()</span></code></a>, a <a class="reference external" href="https://en.wikipedia.org/wiki/Factory_(object-oriented_programming)">factory function</a>, reduces
 the effort to create all but the most complex diffractometer objects. It uses
 the <a class="reference internal" href="../autoapi/hklpy2/diffract/index.html#hklpy2.diffract.diffractometer_class_factory" title="hklpy2.diffract.diffractometer_class_factory"><code class="xref py py-func docutils literal notranslate"><span class="pre">diffractometer_class_factory()</span></code></a> to build the Python
-class for those chosen <strong>Solver</strong> and geometry.</p>
+class for those chosen <strong>Solver</strong> and geometry.  Here’s an example <a class="reference internal" href="../geometry_tables.html#geometries-hkl-soleil-k6c"><span class="std std-ref">6-circle</span></a> diffractometer in kappa geometry with simulated
+motors:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">k6c</span> <span class="o">=</span> <span class="n">hklpy2</span><span class="o">.</span><span class="n">creator</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;k6c&quot;</span><span class="p">,</span> <span class="n">geometry</span><span class="o">=</span><span class="s2">&quot;K6C&quot;</span><span class="p">,</span> <span class="n">solver</span><span class="o">=</span><span class="s2">&quot;hkl_soleil&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>It’s always possible to define your own subclass of
+<a class="reference internal" href="../autoapi/hklpy2/diffract/index.html#hklpy2.diffract.DiffractometerBase" title="hklpy2.diffract.DiffractometerBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">DiffractometerBase()</span></code></a> when you need more control than
+provided by <a class="reference internal" href="../autoapi/hklpy2/diffract/index.html#hklpy2.diffract.creator" title="hklpy2.diffract.creator"><code class="xref py py-func docutils literal notranslate"><span class="pre">creator()</span></code></a>. See
+<a class="reference internal" href="../examples/example-4-circle-custom-class.html#example-e4cv-custom-class"><span class="std std-ref">Example 4-circle diffractometer custom Python class</span></a>.</p>
+</div>
+<p id="index-1">The <a class="reference internal" href="../autoapi/hklpy2/diffract/index.html#hklpy2.diffract.diffractometer_class_factory" title="hklpy2.diffract.diffractometer_class_factory"><code class="xref py py-func docutils literal notranslate"><span class="pre">diffractometer_class_factory()</span></code></a> gets information
+(the pseudo and real axes) from the <strong>Solver</strong> about the requested geometry, then
+constructs a Python class with this structure.  The class includes
+<code class="docutils literal notranslate"><span class="pre">ophyd.EpicsMotor</span></code> Components when EPICS PVs are provided for the real axes,
+otherwise <code class="docutils literal notranslate"><span class="pre">ophyd.SoftPositioner</span></code> (simulated motor) Components are used.  Names for
+these Components, when provided by the caller are mapped in order to the reals
+expected by the <strong>Solver</strong>.  All real axis name conversion between user-provided
+and <strong>Solver</strong>-defined is handled in the <a class="reference internal" href="ops.html#concepts-ops"><span class="std std-ref">Core Operations</span></a>.</p>
+<p id="index-2">Another factory, <a class="reference internal" href="../autoapi/hklpy2/misc/index.html#hklpy2.misc.solver_factory" title="hklpy2.misc.solver_factory"><code class="xref py py-func docutils literal notranslate"><span class="pre">solver_factory()</span></code></a>, locates if the selected
+<strong>Solver</strong> has been installed and then creates an instance of the corresponding
+<a class="reference internal" href="../autoapi/hklpy2/backends/base/index.html#hklpy2.backends.base.SolverBase" title="hklpy2.backends.base.SolverBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">SolverBase</span></code></a> subclass with the selected geometry
+and any additional keyword arguments provided by the caller.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p><strong>hklpy2</strong> is extensible.  A new <strong>Solver</strong> can be added to the Python
+environment using the <code class="docutils literal notranslate"><span class="pre">&quot;hklpy2.solver&quot;</span></code> <span class="target" id="index-3"></span>entry point.  (See
+<a class="reference internal" href="solvers.html#concepts-solvers"><span class="std std-ref">Solvers</span></a> for more details.)</p>
+</div>
 <p class="rubric">Examples</p>
 <p>See <a class="reference internal" href="../examples.html#examples"><span class="std std-ref">Examples</span></a> for many documents which use the
 <a class="reference internal" href="../autoapi/hklpy2/diffract/index.html#hklpy2.diffract.creator" title="hklpy2.diffract.creator"><code class="xref py py-func docutils literal notranslate"><span class="pre">creator()</span></code></a> factory function.

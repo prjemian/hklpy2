@@ -325,66 +325,6 @@
   },
   {
    "cell_type": "markdown",
-   "id": "89ae8342-d7e0-465e-885e-3e56082f8575",
-   "metadata": {},
-   "source": [
-    "## 4-circle with extra axes\n",
-    "\n",
-    "Construct a 4-circle diffractometer with many additional axes, both in real (rotation angle) space and in reciprocal (pseudo) space."
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": null,
-   "id": "b6f15454-7d0d-418a-bef4-89be51a26cf1",
-   "metadata": {
-    "scrolled": true
-   },
-   "outputs": [],
-   "source": [
-    "from ophyd import Component as Cpt\n",
-    "from ophyd import Kind\n",
-    "from ophyd import PseudoSingle\n",
-    "from ophyd import SoftPositioner\n",
-    "\n",
-    "NORMAL_HINTED = Kind.hinted | Kind.normal\n",
-    "\n",
-    "class Fourc(hklpy2.DiffractometerBase):\n",
-    "    \"\"\"Test case.\"\"\"\n",
-    "\n",
-    "    # pseudo-space axes, in order expected by hkl_soleil E4CV, engine=\"hkl\"\n",
-    "    h = Cpt(PseudoSingle, \"\", kind=NORMAL_HINTED)  # noqa: E741\n",
-    "    k = Cpt(PseudoSingle, \"\", kind=NORMAL_HINTED)  # noqa: E741\n",
-    "    l = Cpt(PseudoSingle, \"\", kind=NORMAL_HINTED)  # noqa: E741\n",
-    "\n",
-    "    # real-space axes, in order expected by hkl_soleil E4CV\n",
-    "    # using different names\n",
-    "    theta = Cpt(SoftPositioner, limits=(-180, 180), init_pos=0, kind=NORMAL_HINTED)\n",
-    "    chi = Cpt(SoftPositioner, limits=(-180, 180), init_pos=0, kind=NORMAL_HINTED)\n",
-    "    phi = Cpt(SoftPositioner, limits=(-180, 180), init_pos=0, kind=NORMAL_HINTED)\n",
-    "    ttheta = Cpt(SoftPositioner, limits=(-170, 170), init_pos=0, kind=NORMAL_HINTED)\n",
-    "\n",
-    "    # pseudo-space extra axes used in a couple modes\n",
-    "    h2 = Cpt(PseudoSingle, \"\", kind=NORMAL_HINTED)  # noqa: E741\n",
-    "    k2 = Cpt(PseudoSingle, \"\", kind=NORMAL_HINTED)  # noqa: E741\n",
-    "    l2 = Cpt(PseudoSingle, \"\", kind=NORMAL_HINTED)  # noqa: E741\n",
-    "\n",
-    "    # real-space extra axis used in a couple modes\n",
-    "    psi = Cpt(SoftPositioner, limits=(-170, 170), init_pos=0, kind=NORMAL_HINTED)\n",
-    "\n",
-    "    # another Component, not used (yet)\n",
-    "    energy = Cpt(SoftPositioner, limits=(5, 35), init_pos=12.4, kind=NORMAL_HINTED)\n",
-    "\n",
-    "    def __init__(self, *args, **kwargs):\n",
-    "        super().__init__(*args, solver=\"hkl_soleil\", geometry=\"E4CV\", solver_kwargs=dict(engine=\"hkl\"), **kwargs)\n",
-    "        self.core.auto_assign_axes()\n",
-    "\n",
-    "fourc = Fourc(name=\"fourc\")\n",
-    "print(f\"{fourc=}\")"
-   ]
-  },
-  {
-   "cell_type": "markdown",
    "id": "53bbbf38-c24e-4898-adf9-75f33db39894",
    "metadata": {},
    "source": [

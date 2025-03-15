@@ -44,17 +44,20 @@ hklpy2
 About
 -----
 
-.. FIXME: this section looks **AWFUL** on small screens such as phones in portrait mode
+.. Use a table so it looks OK on small screens such as phones in portrait mode
 
-:home: https://prjemian.github.io/hklpy2
-:source: https://github.com/prjemian/hklpy2
-:copyright: (c) 2023-2025, Argonne National Laboratory
-:license: :ref:`license`
-:full version: |release|
-:published: |today|
-:index: :ref:`genindex`
-:modules: :ref:`modindex`
-:|hklpy|: |hklpy.url|
-:|libhkl|: https://people.debian.org/~picca/hkl/hkl.html
-:acknowledgement: "This product includes software produced by UChicago Argonne,
-    LLC under Contract No. DE-AC02-06CH11357 with the Department of Energy."
+===============   ================
+about             details
+===============   ================
+home              https://prjemian.github.io/hklpy2
+source            https://github.com/prjemian/hklpy2
+full version      |release|
+published         |today|
+copyright         (c) 2023-2025, Argonne National Laboratory
+license           :ref:`license`
+acknowledgement   "This product includes software produced by UChicago Argonne, LLC
+                  under Contract No. DE-AC02-06CH11357 with the Department of Energy."
+|hklpy|           |hklpy.url|
+|libhkl|          https://people.debian.org/~picca/hkl/hkl.html
+index             :ref:`genindex`
+===============   ================
