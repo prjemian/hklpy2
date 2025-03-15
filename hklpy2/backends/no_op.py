@@ -65,7 +65,7 @@ class NoOpSolver(SolverBase):
         pass
 
     def calculate_UB(self, r1, r2):
-        return
+        return []
 
     @property
     def extra_axis_names(self):
@@ -77,15 +77,6 @@ class NoOpSolver(SolverBase):
     @classmethod
     def geometries(cls):
         return []
-
-    @property
-    def geometry(self) -> str:
-        """Diffractometer geometry."""
-        return self._geometry
-
-    @geometry.setter
-    def geometry(self, value: str):
-        self._geometry = value
 
     def inverse(self, reals: dict):
         return {}

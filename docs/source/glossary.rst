@@ -23,6 +23,12 @@ Glossary
 :axis: Either a *pseudo*, *real*, or *extra*.
 
 ..  index::
+    !definition; backend
+    !backend
+
+:backend: Synonym for *solver*.
+
+..  index::
     !definition; configuration
     !configuration
 
@@ -107,11 +113,11 @@ Glossary
     !geometry
 
 :geometry: The set of *reals* (stacked rotation angles) which
-  define a specific *diffractometer*.
-  A common distinguishing feature is the number of axes in each stack.
-  For example, the ``E4CV`` geometry has 3 sample axes
-  (``omega``, ``chi``, ``phi``) and 1 detector axis (``tth``).
-  In some shorthand reference, this is called "S3D1".
+  define a specific *diffractometer*. A common distinguishing feature is the
+  number of axes in each stack. For example, the :ref:`E4CV
+  <geometries-hkl_soleil-e4cv>`  geometry has 3 sample axes (``omega``, ``chi``,
+  ``phi``) and 1 detector axis (``tth``). In some shorthand reference, this
+  could be called "S3D1".
 
 ..  index::
     !definition; goniometer
@@ -133,17 +139,26 @@ Glossary
     !definition; mode
     !mode
 
-:mode: *Diffractometer* *geometry* operation mode for :meth:`forward()`.
+:mode: *Diffractometer* *geometry* operation mode for
+  :meth:`~hklpy2.diffract.DiffractometerBase.forward()`.
 
-  A *mode* (implemented by a |solver|), defines which axes will be modified by the
-  :meth:`forward()` computation.
+  A *mode* (implemented by a |solver|), defines which axes will be
+  modified by the
+  :meth:`~hklpy2.diffract.DiffractometerBase.forward()` computation.
 
 ..  index::
     !definition; monochromatic
     !monochromatic
 
-:monochromatic: Radiation of a single wavelength.  Or sufficiently narrow
-  range, such that it may be characterized by a single floating point value.
+:monochromatic: Radiation of a single wavelength (or sufficiently narrow
+  range), such that it may be characterized by a single floating point value.
+
+..  index::
+    !definition; OR
+    !OR
+
+:OR: Orienting Reflection, a *reflection* used to define the *sample*
+  *orientation* (and compute the $UB$ matrix).
 
 ..  index::
     !definition; orientation

@@ -8,7 +8,7 @@ import pytest
 from numpy.testing import assert_almost_equal
 
 from ..diffract import DiffractometerBase
-from ..geom import creator
+from ..diffract import creator
 from .common import TESTS_DIR
 from .common import assert_context_result
 

@@ -22,7 +22,7 @@ Example::
     choose the mode and set the parameter before the forward() transformation.
 
 .. note:: To scan using ``psi`` and ``hkl2``, see
-    :doc:`../../examples/hkl_soleil-e6c-psi`.
+    :doc:`/examples/hkl_soleil-e6c-psi`.
 
 .. autosummary::
 
@@ -42,15 +42,16 @@ import platform
 
 from pyRestTable import Table
 
-from .. import SolverBase
-from .. import SolverError
-from .. import check_value_in_list
 from ..blocks.lattice import Lattice
 from ..blocks.reflection import Reflection
 from ..blocks.sample import Sample
 from ..misc import IDENTITY_MATRIX_3X3
+from ..misc import SolverError
+from ..misc import SolverNoForwardSolutions
+from ..misc import check_value_in_list
 from ..misc import roundoff
 from ..misc import unique_name
+from .base import SolverBase
 
 if platform.system() != "Linux":
     raise SolverError("'hkl_soleil' only available for linux 64-bit.")
@@ -206,21 +207,21 @@ class HklSolver(SolverBase):
         mode: str = "",
         **kwargs,
     ) -> None:
-        self._engine = None
-        self._gname_locked = False  # Can't change after setting once.
+        self._hkl_engine = None
         self._sample = None
 
         super().__init__(geometry, **kwargs)
 
-        # note: must keep the '_engine_list' object as class attribute or
+        # Preface libhkl object names with "_hkl".
+        # Note: must keep the '_hkl_engine_list' object as class attribute or
         # random core dumps, usually when accessing 'engine.name_get()'.
-        self._detector = libhkl.Detector.factory_new(
+        self._hkl_detector = libhkl.Detector.factory_new(
             libhkl.DetectorType(LIBHKL_DETECTOR_TYPE)
         )
-        self._factory = libhkl.factories()[geometry]
-        self._engine_list = self._factory.create_new_engine_list()  # note!
-        self._engine = self._engine_list.engine_get_by_name(engine)
-        self._geometry = self._factory.create_new_geometry()
+        self._hkl_factory = libhkl.factories()[geometry]
+        self._hkl_engine_list = self._hkl_factory.create_new_engine_list()  # note!
+        self._hkl_engine = self._hkl_engine_list.engine_get_by_name(engine)
+        self._hkl_geometry = self._hkl_factory.create_new_geometry()
 
     def __repr__(self) -> str:
         args = [
@@ -238,8 +239,8 @@ class HklSolver(SolverBase):
         pseudos = list(reflection.pseudos.values())
         reals = list(reflection.reals.values())
         self.wavelength = reflection.wavelength
-        self._geometry.axis_values_set(reals, LIBHKL_USER_UNITS)
-        self.sample.add_reflection(self._geometry, self._detector, *pseudos)
+        self._hkl_geometry.axis_values_set(reals, LIBHKL_USER_UNITS)
+        self.sample.add_reflection(self._hkl_geometry, self._hkl_detector, *pseudos)
 
     @property
     def axes_c(self) -> list[str]:
@@ -288,7 +289,7 @@ class HklSolver(SolverBase):
     @property
     def engine(self) -> libhkl.Engine:
         """Selected computational engine for this geometry."""
-        return self._engine
+        return self._hkl_engine
 
     @property
     def engine_name(self) -> str:
@@ -298,7 +299,7 @@ class HklSolver(SolverBase):
     @property
     def engines(self) -> list[str]:
         """List of the computational engines available in this geometry."""
-        return [engine.name_get() for engine in self._engine_list.engines_get()]
+        return [engine.name_get() for engine in self._hkl_engine_list.engines_get()]
 
     @property
     def extra_axis_names(self) -> list[str]:
@@ -328,7 +329,7 @@ class HklSolver(SolverBase):
         known_names = self.extra_axis_names
         for k in values.keys():
             if k not in known_names:
-                raise ValueError(
+                raise KeyError(
                     f"Unexpected dictionary key received: {k!r}"
                     f" Expected one of these: {known_names!r}"
                 )
@@ -341,13 +342,17 @@ class HklSolver(SolverBase):
         """Compute list of solutions(reals) from pseudos (hkl -> [angles])."""
         logger.debug("(%r) forward(%r)", __name__, pseudos)
 
-        geometry_list = self.engine.pseudo_axis_values_set(
-            list(pseudos.values()),
-            LIBHKL_USER_UNITS,
-        )
+        try:
+            raw_solutions = self.engine.pseudo_axis_values_set(
+                list(pseudos.values()),
+                LIBHKL_USER_UNITS,
+            )
+        except GLib.GError as exc:
+            msg = "No forward solutions found."
+            raise SolverNoForwardSolutions(msg) from exc
 
         solutions = []
-        for glist_item in geometry_list.items():
+        for glist_item in raw_solutions.items():
             geo = glist_item.geometry_get()
             sol = dict(
                 zip(
@@ -360,19 +365,28 @@ class HklSolver(SolverBase):
 
     @classmethod
     def geometries(cls) -> list[str]:
-        return sorted(libhkl.factories())
+        """
+        List all geometries that have one or more computational engines.
 
-    @property
-    def geometry(self) -> str:
-        return self._gname
+        Geometry is not usable without a computational engine.
+        """
 
-    @geometry.setter
-    def geometry(self, value: str):
-        if self._gname_locked:
-            raise SolverError(f"Geometry {self._gname} cannot be changed.")
-        check_value_in_list("Geometry", value, self.geometries())
-        self._gname = value
-        self._gname_locked = True
+        factories = libhkl.factories()
+
+        def num_engines(geometry):
+            factory = factories[geometry]
+            engine_list = factory.create_new_engine_list()
+            engines = [engine.name_get() for engine in engine_list.engines_get()]
+            return len(engines)
+
+        return sorted(
+            [
+                geometry
+                #
+                for geometry in factories
+                if num_engines(geometry) > 0
+            ]
+        )
 
     def inverse(self, reals: dict[str, float]) -> dict[str, float]:
         """Compute tuple of pseudos from reals (angles -> hkl)."""
@@ -385,15 +399,15 @@ class HklSolver(SolverBase):
         if False in [isinstance(v, (float, int)) for v in reals.values()]:
             # fmt: off
             raise TypeError(
-                "All dictionary must be numbers."
+                "All values must be numbers."
                 f"  Received: {reals!r}"
             )
             # fmt: on
 
         reals = list(reals.values())
-        self._geometry.axis_values_set(reals, LIBHKL_USER_UNITS)
+        self._hkl_geometry.axis_values_set(reals, LIBHKL_USER_UNITS)
 
-        self._engine_list.get()  # reals -> pseudos  (Odd name for this call!)
+        self._hkl_engine_list.get()  # reals -> pseudos  (Odd name for this call!)
 
         pdict = dict(
             zip(
@@ -457,7 +471,7 @@ class HklSolver(SolverBase):
     @property
     def real_axis_names(self) -> list[str]:
         """Ordered list of the real axis names (such as th, tth)."""
-        return self._geometry.axis_names_get()  # Do NOT sort.
+        return self._hkl_geometry.axis_names_get()  # Do NOT sort.
 
     def refineLattice(self, reflections: list[Reflection]) -> Lattice:
         """
@@ -507,7 +521,7 @@ class HklSolver(SolverBase):
         # Doesn't matter what name is used by libhkl. Use a unique name.
         sample = libhkl.Sample.new(unique_name())  # new sample each time
         self._sample = sample
-        self._engine_list.init(self._geometry, self._detector, sample)
+        self._hkl_engine_list.init(self._hkl_geometry, self._hkl_detector, sample)
         logger.debug(
             "sample name=%r, libhkl name=%r",
             value.name,
@@ -520,6 +534,76 @@ class HklSolver(SolverBase):
         for name in value.reflections.order:
             self.addReflection(value.reflections[name])
         # print(f"{sample.reflections_get()=!r}")
+
+    @property
+    def _summary_dict(self):
+        """Return a summary of the geometry (engines, modes, axes)"""
+        geometry_name = self.geometry
+        description = {"name": geometry_name}
+        factories = libhkl.factories()
+
+        factory = factories[geometry_name]
+        engine_list = factory.create_new_engine_list()
+
+        engines = {engine.name_get(): engine for engine in engine_list.engines_get()}
+        description["engines"] = {}
+        for engine_name, engine in engines.items():
+            eng_desc = {
+                "pseudos": engine.pseudo_axis_names_get(),
+                "reals": {},
+                "modes": {},
+            }
+            description["engines"][engine_name] = eng_desc
+            eng_desc["reals"] = engine.axis_names_get(AXES_READ)
+            extras = []
+            for mode_name in engine.modes_names_get():
+                engine.current_mode_set(mode_name)
+                eng_desc["modes"][mode_name] = {
+                    "extras": engine.parameters_names_get(),
+                    "reals": engine.axis_names_get(AXES_WRITTEN),
+                }
+                extras += eng_desc["modes"][mode_name]["extras"]
+            eng_desc["extras"] = list(sorted(set(extras)))
+        return description
+
+    @property
+    def summary(self) -> Table:
+        """
+        Table of engines, modes, & axes for this geometry.
+
+        EXAMPLE::
+
+            >>> fourc = hklpy2.creator(name="fourc", geometry="E4CV")
+            >>> print(fourc.core.solver.summary)
+            ========= ================== ================== ==================== ==================== ===============
+            engine    mode               pseudo(s)          real(s)              writable(s)          extra(s)
+            ========= ================== ================== ==================== ==================== ===============
+            hkl       bissector          h, k, l            omega, chi, phi, tth omega, chi, phi, tth
+            hkl       constant_omega     h, k, l            omega, chi, phi, tth chi, phi, tth
+            hkl       constant_chi       h, k, l            omega, chi, phi, tth omega, phi, tth
+            hkl       constant_phi       h, k, l            omega, chi, phi, tth omega, chi, tth
+            hkl       double_diffraction h, k, l            omega, chi, phi, tth omega, chi, phi, tth h2, k2, l2
+            hkl       psi_constant       h, k, l            omega, chi, phi, tth omega, chi, phi, tth h2, k2, l2, psi
+            psi       psi                psi                omega, chi, phi, tth omega, chi, phi, tth h2, k2, l2
+            q         q                  q                  tth                  tth
+            incidence incidence          incidence, azimuth omega, chi, phi                           x, y, z
+            emergence emergence          emergence, azimuth omega, chi, phi, tth                      x, y, z
+            ========= ================== ================== ==================== ==================== ===============
+        """
+        table = Table()
+        table.labels = "engine mode pseudo(s) real(s) writable(s) extra(s)".split()
+        for engine_name, engine in self._summary_dict["engines"].items():
+            for mode_name, mode in engine["modes"].items():
+                row = [
+                    engine_name,
+                    mode_name,
+                    ", ".join(engine["pseudos"]),
+                    ", ".join(engine["reals"]),
+                    ", ".join(mode["reals"]),
+                    ", ".join(mode["extras"]),
+                ]
+                table.addRow(row)
+        return table
 
     @property
     def U(self) -> list[list[float]]:
@@ -554,61 +638,8 @@ class HklSolver(SolverBase):
     @property
     def wavelength(self) -> float:
         """Monochromatic wavelength."""
-        return self._geometry.wavelength_get(LIBHKL_USER_UNITS)
+        return self._hkl_geometry.wavelength_get(LIBHKL_USER_UNITS)
 
     @wavelength.setter
     def wavelength(self, value: float) -> None:
-        return self._geometry.wavelength_set(value, LIBHKL_USER_UNITS)
-
-    @property
-    def _summary_dict(self):  # TODO: add to base class
-        """Return a summary of the geometry (engines, modes, axes)"""
-        geometry_name = self.geometry
-        description = {"name": geometry_name}
-        factories = libhkl.factories()
-
-        factory = factories[geometry_name]
-        engine_list = factory.create_new_engine_list()
-
-        engines = {engine.name_get(): engine for engine in engine_list.engines_get()}
-        description["engines"] = {}
-        for engine_name, engine in engines.items():
-            eng_desc = {
-                "pseudos": engine.pseudo_axis_names_get(),
-                "reals": {},
-                "modes": {},
-            }
-            description["engines"][engine_name] = eng_desc
-            eng_desc["reals"] = engine.axis_names_get(AXES_READ)
-            extras = []
-            for mode_name in engine.modes_names_get():
-                engine.current_mode_set(mode_name)
-                eng_desc["modes"][mode_name] = {
-                    "extras": engine.parameters_names_get(),
-                    "reals": engine.axis_names_get(AXES_WRITTEN),
-                }
-                extras += eng_desc["modes"][mode_name]["extras"]
-            eng_desc["extras"] = list(sorted(set(extras)))
-
-        return description
-
-    @property
-    def summary(self) -> Table:  # TODO: add to base class
-        """Table of engines, modes, & axes for this geometry."""
-        table = Table()
-        table.labels = "engine pseudo(s) mode real(s) writable(s) extra(s)".split()
-        for engine_name, engine in self._summary_dict["engines"].items():
-            row_start = [
-                engine_name,
-                ", ".join(engine["pseudos"]),
-            ]
-            for mode_name, mode in engine["modes"].items():
-                row = row_start + [
-                    mode_name,
-                    ", ".join(engine["reals"]),
-                    ", ".join(mode["reals"]),
-                    ", ".join(mode["extras"]),
-                ]
-                table.addRow(row)
-
-        return table
+        return self._hkl_geometry.wavelength_set(value, LIBHKL_USER_UNITS)

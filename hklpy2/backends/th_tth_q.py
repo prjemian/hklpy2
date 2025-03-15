@@ -17,10 +17,9 @@ Example::
 import logging
 import math
 
-from .. import SolverError
 from .. import __version__
-from .. import check_value_in_list
 from ..blocks.reflection import Reflection
+from ..misc import SolverError
 from .base import SolverBase
 
 logger = logging.getLogger(__name__)
@@ -123,16 +122,6 @@ class ThTthSolver(SolverBase):
     @classmethod
     def geometries(cls):
         return [TH_TTH_Q_GEOMETRY]  # only one geometry
-
-    @property
-    def geometry(self) -> str:
-        """Diffractometer geometry."""
-        return self._geometry
-
-    @geometry.setter
-    def geometry(self, value: str):
-        check_value_in_list("Geometry", value, self.geometries())
-        self._geometry = value
 
     def inverse(self, reals: dict):
         """Transform reals to pseudos."""

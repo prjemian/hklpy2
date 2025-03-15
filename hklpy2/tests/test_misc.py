@@ -14,7 +14,7 @@ from ophyd import Device
 from ophyd import Signal
 from yaml.parser import ParserError
 
-from ..geom import creator
+from ..diffract import creator
 from ..misc import AnyAxesType
 from ..misc import AxesArray
 from ..misc import AxesDict

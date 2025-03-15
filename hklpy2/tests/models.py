@@ -11,7 +11,7 @@ from ophyd import PseudoSingle
 from ophyd import SoftPositioner
 
 from ..diffract import DiffractometerBase
-from ..geom import diffractometer_class_factory
+from ..diffract import diffractometer_class_factory
 from ..misc import load_yaml_file
 
 E4CV_CONFIG_FILE = pathlib.Path(__file__).parent / "e4cv_orient.yml"

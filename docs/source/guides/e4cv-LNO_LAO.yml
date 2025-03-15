@@ -1,0 +1,153 @@
+#hklpy2 configuration file
+
+_header:
+  datetime: '2025-03-13 01:24:41.222680'
+  hklpy2_version: 0.0.28.dev44+g09f42ff
+  python_class: Hklpy2Diffractometer
+  source_type: X-ray
+  energy_units: keV
+  energy: 10.003370326044433
+  wavelength_units: angstrom
+  wavelength: 1.239424258
+  file: e4cv-LNO_LAO.yml
+  comment: ''
+name: fourc
+axes:
+  pseudo_axes:
+  - h
+  - k
+  - l
+  real_axes:
+  - th
+  - chi
+  - phi
+  - tth
+  axes_xref:
+    h: h
+    k: k
+    l: l
+    th: omega
+    chi: chi
+    phi: phi
+    tth: tth
+  extra_axes: {}
+sample_name: LNO_LAO
+samples:
+  sample:
+    name: sample
+    lattice:
+      a: 1
+      b: 1
+      c: 1
+      alpha: 90.0
+      beta: 90.0
+      gamma: 90.0
+    reflections: {}
+    reflections_order: []
+    U: &id001
+    - - 1
+      - 0
+      - 0
+    - - 0
+      - 1
+      - 0
+    - - 0
+      - 0
+      - 1
+    UB: *id001
+    digits: 4
+  LNO_LAO:
+    name: LNO_LAO
+    lattice:
+      a: 3.781726143
+      b: 3.791444574
+      c: 3.79890313
+      alpha: 90.2546203
+      beta: 90.01815424
+      gamma: 89.89967858
+    reflections:
+      r_85d9:
+        name: r_85d9
+        geometry: E4CV
+        pseudos:
+          h: 0.0
+          k: 0.0
+          l: 2.0
+        reals:
+          th: 19.1335
+          chi: 90.0135
+          phi: 0.0
+          tth: 38.09875
+        wavelength: 1.239424258
+        digits: 4
+      r_bca7:
+        name: r_bca7
+        geometry: E4CV
+        pseudos:
+          h: 1.0
+          k: 1.0
+          l: 3.0
+        reals:
+          th: 32.82125
+          chi: 115.23625
+          phi: 48.1315
+          tth: 65.644
+        wavelength: 1.239424258
+        digits: 4
+    reflections_order:
+    - r_85d9
+    - r_bca7
+    U:
+    - - -0.057509522654
+      - -0.998327393204
+      - 0.005922059067
+    - - 0.000158283449
+      - 0.005922758763
+      - 0.999982447783
+    - - -0.998344945272
+      - 0.057509450598
+      - -0.000182596327
+    UB:
+    - - -0.095549901092
+      - -1.654278634916
+      - 0.002428444854
+    - - 0.000262981975
+      - 0.009814839065
+      - 1.65396180769
+    - - -1.658712442301
+      - 0.098200239641
+      - -0.000389705577
+    digits: 4
+constraints:
+  th:
+    label: th
+    low_limit: -180.0
+    high_limit: 180.0
+    class: LimitsConstraint
+  chi:
+    label: chi
+    low_limit: -180.0
+    high_limit: 180.0
+    class: LimitsConstraint
+  phi:
+    label: phi
+    low_limit: -50.0
+    high_limit: 100.0
+    class: LimitsConstraint
+  tth:
+    label: tth
+    low_limit: -2.0
+    high_limit: 180.0
+    class: LimitsConstraint
+solver:
+  name: hkl_soleil
+  description: HklSolver(name='hkl_soleil', version='5.1.2', geometry='E4CV', engine_name='hkl',
+    mode='bissector')
+  geometry: E4CV
+  real_axes:
+  - omega
+  - chi
+  - phi
+  - tth
+  version: 5.1.2
+  engine: hkl

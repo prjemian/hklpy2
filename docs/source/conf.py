@@ -50,8 +50,9 @@ extensions = [
     "sphinx.ext.napoleon",
     "sphinx.ext.viewcode",
     "sphinx_design",
-    "myst_parser",
+    "myst_nb",  # includes "myst_parser"
     "nbsphinx",
+    "autoapi.extension",
 ]
 extensions.append("sphinx_tabs.tabs")  # this must be last
 
@@ -59,6 +60,15 @@ exclude_patterns = ["**.ipynb_checkpoints"]
 myst_enable_extensions = ["colon_fence"]
 source_suffix = ".rst .md".split()
 templates_path = ["_templates"]
+
+# myst-nb notebook execution when building docs
+nb_execution_mode = "off"
+
+autoapi_dirs = ["../../hklpy2"]
+autoapi_ignore = [
+    "*tests*",
+    "dev_*",
+]
 
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
@@ -105,12 +115,14 @@ autodoc_exclude_members = ",".join(
     """.split()
 )
 autodoc_default_options = {
-    # 'members': 'var1, var2',
+    "members": True,
     # 'member-order': 'bysource',
     "private-members": True,
-    # "special-members": "__init__",
-    # 'undoc-members': True,
+    # "special-members": True,
+    "undoc-members": True,
     "exclude-members": autodoc_exclude_members,
+    "show-inheritance": True,
+    "inherited-members": True,
 }
 autodoc_mock_imports = """
     bluesky

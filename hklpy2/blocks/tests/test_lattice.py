@@ -2,9 +2,9 @@ from contextlib import nullcontext as does_not_raise
 
 import pytest
 
+from ...misc import LatticeError
 from ...tests.common import assert_context_result
 from ..lattice import Lattice
-from ..lattice import LatticeError
 
 
 @pytest.mark.parametrize(
