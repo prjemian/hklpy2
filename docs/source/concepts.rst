@@ -27,7 +27,8 @@ two spaces.
 .. note:: A monochromatic [#]_ radiation source is expected.  See
    :ref:`concepts.wavelength` for more details.
 
-.. rubric:: Coordinates
+Coordinates
+===========
 
 :pseudos:
    Virtual coordinates (crystallographic `h`, `k`, `l`), computed from *reals*.
@@ -38,7 +39,8 @@ An ophyd *PseudoPositioner* relies on the
 :meth:`~hklpy2.diffract.DiffractometerBase.forward()` and
 :meth:`~hklpy2.diffract.DiffractometerBase.inverse()` methods.
 
-.. rubric:: Transformations
+Transformations
+===============
 
 ==========  =========   ============== ================
 from        to          solution(s)     transformation
@@ -47,20 +49,36 @@ from        to          solution(s)     transformation
 *pseudos*   *reals*     0, 1, or more  :meth:`~hklpy2.diffract.DiffractometerBase.forward()`
 ==========  =========   ============== ================
 
-.. rubric:: Solvers
+Solvers
+===============
 
 A |solver| provides computational support for one or more diffractometer
 geometries. Each geometry has a specific set of *pseudos*, *reals*, and other
 terms which support the ``forward()`` and ``inverse()`` transformations.  See
 :ref:`concepts.solvers` for more details.
 
-.. rubric:: Core Operations
+Core Operations
+===============
 
 The :class:`~hklpy2.diffract.DiffractometerBase` class provides the ophyd
 *PseudoPositioner*.  This class relies on :class:`~hklpy2.ops.Operations` to
 provide most features (sample, lattice, reflections, ...) and to connect with
 the diffractometer's chosen |solver|.  See
 :ref:`concepts.ops` for more details.
+
+``hklpy2.creator()``
+====================
+
+The ``creator()`` function reduces the effort to create all but the most
+complex diffractometer objects.  See :ref:`concepts.creator` for more details.
+
+``DiffractometerBase()``
+========================
+
+All diffractometers are created as subclasses of
+:class:`!hklpy2.diffract.DiffractometerBase`.  This base class defines a
+diffractometer as an ``ophyd.PseudoPositioner``.  See :ref:`concepts.diffract`
+for more details.
 
 ----
 
@@ -70,5 +88,5 @@ the diffractometer's chosen |solver|.  See
 
 .. [#] https://en.wikipedia.org/wiki/Diffractometer
 .. [#] https://blueskyproject.io/ophyd/user/how-to/pseudopositioner.html
-.. [#] *monochromatic*: The range of wavelengths in the source is negligible
+.. [#] *monochromatic*: The variation of wavelengths in the source is negligible
    for scientific interpretation.

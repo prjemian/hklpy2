@@ -10,11 +10,11 @@ The :func:`~hklpy2.diffract.creator()`, a `factory function
 <https://en.wikipedia.org/wiki/Factory_(object-oriented_programming)>`_, reduces
 the effort to create all but the most complex diffractometer objects. It uses
 the :func:`~hklpy2.diffract.diffractometer_class_factory()` to build the Python
-class for those chosen |solver| and geometry.  Here's an example :ref:`6-circle
+class for the chosen |solver| and geometry.  Here's an example :ref:`6-circle
 <geometries-hkl_soleil-k6c>` diffractometer in kappa geometry with simulated
 motors::
 
-    k6c = hklpy2.creator(name="k6c", geometry="K6C", solver="hkl_soleil")
+    k6c = hklpy2.creator(name="k6c", solver="hkl_soleil", geometry="K6C")
 
 .. tip:: It's always possible to define your own subclass of
     :class:`~hklpy2.diffract.DiffractometerBase()` when you need more control than
