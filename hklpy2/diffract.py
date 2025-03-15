@@ -545,10 +545,9 @@ class DiffractometerBase(PseudoPositioner):
                 except Exception as reason:
                     if fail_on_exception:
                         raise reason
-                    # else:
-                    #     TODO What conditions reach this line?
-                    #     fail_on_exception=True and some Exception
-                    #     print(f"FAIL: {axis}={value} {reason}")  # Inform the user!
+                    else:
+                        # Needs a special test for this output.
+                        print(f"FAIL: {axis}={value} {reason}")  # Inform the user!
 
         return (yield from _inner())
 

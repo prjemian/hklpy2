@@ -666,6 +666,46 @@ def test_scan_extra(scan_kwargs, mode, context, expected):
     assert_context_result(expected, reason)
 
 
+@pytest.mark.parametrize(
+    "scan_kwargs, mode, context, expected",
+    [
+        [
+            dict(
+                detectors=[noisy_det],
+                axis="psi",
+                start=-5,  # expect to fail at psi=0
+                finish=5,
+                num=3,
+                pseudos=dict(h=2, k=-1, l=0),
+                reals=None,
+                extras=dict(h2=2, k2=2, l2=0, psi=0),
+                fail_on_exception=False,  # prepare to print FAIL
+            ),
+            "psi_constant",
+            does_not_raise(),
+            None,
+        ],
+    ],
+)
+def test_scan_extra_print_fail(scan_kwargs, mode, context, expected, capsys):
+    from ..diffract import creator
+
+    fourc = creator(name="fourc")
+    fourc.restore(HKLPY2_DIR / "tests" / "e4cv_orient.yml")
+    fourc.core.solver.mode = mode
+    assert fourc.core.solver.mode == mode
+
+    RE = bluesky.RunEngine()
+
+    with context as reason:
+        RE(fourc.scan_extra(**scan_kwargs))
+
+    assert_context_result(expected, reason)
+    out, err = capsys.readouterr()
+    assert len(err) == 0
+    assert "FAIL: psi=0" in out
+
+
 def test_set_UB():
     from ..diffract import creator
 
