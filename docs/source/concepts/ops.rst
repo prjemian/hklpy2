@@ -1,8 +1,10 @@
-.. _api.ops:
+.. _concepts.ops:
 
-==================
-Operations
-==================
+===============
+Core Operations
+===============
+
+.. TODO: How much is guide or example?  This should be a concepts doc. Brief.
 
 .. index:: !core
 
@@ -23,9 +25,8 @@ Python class                                    Purpose
 In addition to |solver| transactions, the ``.core`` manages all
 details involving the set of samples and their lattices & reflections.
 
-Here, we use the :func:`hklpy2.geom.creator()` to create a
-simulated 4-circle diffractometer with the ``E4CV`` geometry provided by the
-``hkl_soleil`` |solver|.
+Here, we use the :func:`~hklpy2.geom.creator()` to create a simulated 4-circle
+diffractometer with the :ref:`E4CV <geometries-hkl_soleil-e4cv>` geometry.
 
 EXAMPLE::
 

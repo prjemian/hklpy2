@@ -2,12 +2,12 @@ import math
 
 import pytest
 
+from ..misc import WavelengthError
 from ..tests.common import assert_context_result
 from ..wavelength_support import DEFAULT_ENERGY_UNITS
 from ..wavelength_support import DEFAULT_WAVELENGTH_UNITS
 from ..wavelength_support import ConstantMonochromaticWavelength
 from ..wavelength_support import MonochromaticXrayWavelength
-from ..wavelength_support import WavelengthError
 
 
 @pytest.mark.parametrize(

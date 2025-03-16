@@ -26,18 +26,16 @@ except (LookupError, ModuleNotFoundError):
     del version
 
 
-class Hklpy2Error(Exception):
-    """Any exception from the |hklpy2| package."""
-
-
 from .backends import SolverBase  # noqa: E402, F401
 from .blocks.configure import Configuration  # noqa: E402, F401
 from .blocks.lattice import SI_LATTICE_PARAMETER  # noqa: E402, F401
 from .diffract import DiffractometerBase  # noqa: E402, F401
-from .geom import *  # noqa: E402, F401, F403
+from .diffract import creator  # noqa: E402, F401, F403
+from .diffract import diffractometer_class_factory  # noqa: E402, F401, F403
 from .misc import SOLVER_ENTRYPOINT_GROUP  # noqa: E402, F401
 from .misc import ConfigurationRunWrapper  # noqa: E402, F401
 from .misc import SolverError  # noqa: E402, F401
+from .misc import WavelengthError  # noqa: E402, F401
 from .misc import check_value_in_list  # noqa: E402, F401
 from .misc import get_solver  # noqa: E402, F401
 from .misc import solver_factory  # noqa: E402, F401
@@ -45,4 +43,3 @@ from .misc import solvers  # noqa: E402, F401
 from .wavelength_support import A_KEV  # noqa: E402, F401
 from .wavelength_support import ConstantMonochromaticWavelength  # noqa: E402, F401
 from .wavelength_support import MonochromaticXrayWavelength  # noqa: E402, F401
-from .wavelength_support import WavelengthError  # noqa: E402, F401

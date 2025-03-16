@@ -3,7 +3,6 @@ Miscellaneous Support.
 
 .. rubric: Functions
 .. autosummary::
-   :toctree: generated
 
     ~axes_to_dict
     ~check_value_in_list
@@ -23,14 +22,12 @@ Miscellaneous Support.
 
 .. rubric: Symbols
 .. autosummary::
-   :toctree: generated
 
     ~IDENTITY_MATRIX_3X3
     ~SOLVER_ENTRYPOINT_GROUP
 
 .. rubric: Custom Data Types
 .. autosummary::
-   :toctree: generated
 
     ~AnyAxesType
     ~AxesArray
@@ -40,14 +37,13 @@ Miscellaneous Support.
 
 .. rubric: Custom Preprocessors
 .. autosummary::
-   :toctree: generated
 
     ~ConfigurationRunWrapper
 
 .. rubric: Custom Exceptions
 .. autosummary::
-   :toctree: generated
 
+    ~Hklpy2Error
     ~ConfigurationError
     ~ConstraintsError
     ~DiffractometerError
@@ -56,6 +52,7 @@ Miscellaneous Support.
     ~ReflectionError
     ~SampleError
     ~SolverError
+    ~SolverNoForwardSolutions
     ~WavelengthError
 """
 
@@ -78,9 +75,6 @@ import tqdm
 import yaml
 from ophyd import Component
 from ophyd import Device
-from ophyd import Signal
-
-from . import Hklpy2Error
 
 logger = logging.getLogger(__name__)
 
@@ -123,6 +117,8 @@ ordered tuple   (0, 1, -1)                  AxesTuple
 
 
 # Custom exceptions
+class Hklpy2Error(Exception):
+    """Any exception from the |hklpy2| package."""
 
 
 class ConfigurationError(Hklpy2Error):
@@ -155,6 +151,10 @@ class SampleError(Hklpy2Error):
 
 class SolverError(Hklpy2Error):
     """Custom exceptions from a |solver|."""
+
+
+class SolverNoForwardSolutions(SolverError):
+    """A solver did not find any 'forward()' solutions."""
 
 
 class WavelengthError(Hklpy2Error):
@@ -317,7 +317,7 @@ def axes_to_dict(input: AnyAxesType, names: list[str]) -> AxesDict:
             UserWarning(
                 f" Extra inputs will be ignored. Expected {len(names)}."
                 #
-                f" Received {input=!r}"
+                f" Received {input=!r}, {names=!r}"
             )
         )
 
@@ -339,7 +339,7 @@ def axes_to_dict(input: AnyAxesType, names: list[str]) -> AxesDict:
         for name, value in zip(names, input):
             axes[name] = value
 
-    else:  # TODO: generic test is Iterable? AxesArray
+    else:  # TODO: #57 generic test is Iterable? AxesArray
         raise TypeError(f"Unexpected type: {input!r}.  Expected 'AnyAxesType'.")
 
     for name, value in axes.items():
@@ -384,8 +384,12 @@ def compare_float_dicts(a1, a2, tol=1e-4):
 
 def dict_device_factory(data: dict, **kwargs):
     """
-    Create a DictionaryDevice class using the supplied dictionary.
+    Create a ``DictionaryDevice()`` class using the supplied dictionary.
+
+    .. index:: factory; dict_device_factory, dict_device_factory
     """
+    from ophyd import Signal
+
     component_dict = {
         k: Component(Signal, value=v, **kwargs)
         # metadata={"description": "solver extra axis"},

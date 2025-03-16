@@ -1,9 +1,16 @@
+from contextlib import nullcontext as does_not_raise
+
 import numpy as np
 import pytest
 
-from ... import get_solver
-from ... import solver_factory
-from .. import SolverBase
+from ...blocks.reflection import Reflection
+from ...misc import SolverError
+from ...misc import get_solver
+from ...misc import solver_factory
+from ...tests.common import assert_context_result
+from ..base import SolverBase
+from ..th_tth_q import BISECTOR_MODE
+from ..th_tth_q import TH_TTH_Q_GEOMETRY
 from ..th_tth_q import ThTthSolver
 
 
@@ -20,10 +27,48 @@ def test_solver():
     assert solver.geometry == gname
     assert solver.pseudo_axis_names == ["q"]
     assert solver.real_axis_names == "th tth".split()
+    assert solver.extra_axis_names == []
+    assert solver.refineLattice([]) is None
+    assert solver.calculate_UB(None, None) == []
 
     assert solver.mode == "", f"{solver.mode=!r}"
-    solver.mode = "bisector"
-    assert solver.mode == "bisector"
+    solver.mode = BISECTOR_MODE
+    assert solver.mode == BISECTOR_MODE
+
+    with pytest.raises(TypeError) as reason:
+        solver.forward([0])
+    assert_context_result("Must supply dict", reason)
+
+    with pytest.raises(SolverError) as reason:
+        solver.forward({})
+    assert_context_result("'q' not defined.", reason)
+
+    with pytest.raises(SolverError) as reason:
+        solver.forward(dict(q=0.1))
+    assert_context_result("Wavelength is not set.", reason)
+
+    with pytest.raises(TypeError) as reason:
+        solver.inverse([0, 20])
+    assert_context_result("Must supply dict", reason)
+
+    with pytest.raises(SolverError) as reason:
+        solver.inverse(dict(th=0))
+    assert_context_result("'tth' not defined.", reason)
+
+    with pytest.raises(SolverError) as reason:
+        solver.inverse(dict(th=0, tth=20))
+    assert_context_result("Wavelength is not set. Add a reflection", reason)
+
+    with pytest.raises(TypeError) as reason:
+        solver.wavelength = "-1"
+    assert_context_result("Must supply number", reason)
+
+    with pytest.raises(ValueError) as reason:
+        solver.wavelength = -1
+    assert_context_result("Must supply positive number", reason)
+
+    with pytest.raises(NotImplementedError) as reason:
+        solver.removeAllReflections()
 
 
 @pytest.mark.parametrize(
@@ -45,7 +90,7 @@ def test_solver():
 )
 def test_transforms(transform, wavelength, inputs, outputs, tol):
     solver = solver_factory("th_tth", "TH TTH Q")
-    solver.mode = "bisector"
+    solver.mode = BISECTOR_MODE
     solver.wavelength = wavelength
     if transform == "forward":
         result = solver.forward(inputs)
@@ -62,3 +107,52 @@ def test_transforms(transform, wavelength, inputs, outputs, tol):
     arr_r = np.array(list(result.values()))
     arr_o = np.array(list(outputs.values()))
     assert np.allclose(arr_r, arr_o, atol=tol), f"{result=}  {outputs=}"
+
+
+@pytest.mark.parametrize(
+    "value, context, expected",
+    [
+        [
+            Reflection(
+                name="r1",
+                pseudos=dict(q=0),
+                reals=dict(th=0, tth=0),
+                wavelength=1.0,
+                geometry=TH_TTH_Q_GEOMETRY,
+                pseudo_axis_names=["q"],
+                real_axis_names=["th", "tth"],
+            ),
+            does_not_raise(),
+            None,
+        ],
+        ["wrong object", pytest.raises(TypeError), "Must supply Reflection object"],
+        [
+            Reflection(
+                name="r1",
+                pseudos=dict(q=0),
+                reals=dict(th=0, tth=0),
+                wavelength=10.0,
+                geometry=TH_TTH_Q_GEOMETRY,
+                pseudo_axis_names=["q"],
+                real_axis_names=["th", "tth"],
+            ),
+            pytest.raises(SolverError),
+            "All reflections must have same wavelength",
+        ],
+    ],
+)
+def test_reflections(value, context, expected):
+    with context as reason:
+        solver = solver_factory("th_tth", "TH TTH Q")
+        r0 = Reflection(
+            name="r0",
+            pseudos=dict(q=0.1),
+            reals=dict(th=0, tth=1),
+            wavelength=1.0,
+            geometry=TH_TTH_Q_GEOMETRY,
+            pseudo_axis_names=["q"],
+            real_axis_names=["th", "tth"],
+        )
+        solver.addReflection(r0)  # pre-existing
+        solver.addReflection(value)
+    assert_context_result(expected, reason)

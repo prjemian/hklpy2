@@ -3,9 +3,9 @@ from contextlib import nullcontext as does_not_raise
 
 import pytest
 
-from ...__init__ import __version__
+from ... import __version__
 from ...diffract import DiffractometerBase
-from ...geom import creator
+from ...diffract import creator
 from ...misc import ConfigurationError
 from ...misc import load_yaml_file
 from ...tests.common import assert_context_result
@@ -107,7 +107,7 @@ def test_asdict():
         if not isinstance(module_config, dict):
             module_config = module_config._asdict()
         module_config["_header"].pop("datetime", None)
-        for section in "".split():
+        for section in "axes samples constraints solver".split():
             assert cfg[section] == module_config[section]
 
 

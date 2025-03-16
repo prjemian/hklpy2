@@ -7,16 +7,18 @@ from contextlib import nullcontext as does_not_raise
 
 import bluesky
 import pytest
-from gi.repository.GLib import GError
 from numpy.testing import assert_almost_equal
+from ophyd import EpicsMotor
+from ophyd import SoftPositioner
 from ophyd.sim import noisy_det
 
 from ..blocks.reflection import ReflectionError
 from ..blocks.sample import Sample
 from ..diffract import DiffractometerBase
+from ..diffract import creator
 from ..diffract import pick_first_item
-from ..geom import creator
 from ..misc import DiffractometerError
+from ..misc import SolverNoForwardSolutions
 from ..ops import DEFAULT_SAMPLE_NAME
 from ..ops import Operations
 from ..ops import OperationsError
@@ -35,12 +37,89 @@ def test_choice_function():
     choice = pick_first_item((), "a b c".split())
     assert choice == "a"
 
+    with pytest.raises(DiffractometerError) as reason:
+        pick_first_item((), [])
+    assert_context_result("No solutions.", reason)
+
+
+@pytest.mark.parametrize(
+    "config_file",
+    ["e4cv_orient.yml", "fourc-configuration.yml"],
+)
+@pytest.mark.parametrize(
+    "pseudos, reals, positioner_class, context, expected",
+    [
+        [
+            [],
+            dict(omega="IOC:m1", chi="IOC:m2", phi="IOC:m3", tth="IOC:m4"),
+            EpicsMotor,
+            does_not_raise(),
+            None,
+        ],
+        [
+            [],
+            dict(aaa=None, bbb=None, ccc=None),
+            SoftPositioner,
+            pytest.raises(KeyError),
+            "reals, received ",
+        ],
+        [
+            [],
+            dict(aaa=None, bbb=None, ccc=None, ddd=None),
+            SoftPositioner,
+            does_not_raise(),
+            None,
+        ],
+        [
+            [],
+            dict(aaa=None, bbb=None, ccc=None, ddd=None, eee=None),
+            SoftPositioner,
+            does_not_raise(),
+            None,
+        ],
+        [
+            [],
+            dict(aaa="IOC:m1", bbb=None, ccc=None, ddd=None, eee=None),
+            (EpicsMotor, SoftPositioner),
+            does_not_raise(),
+            None,
+        ],
+        [[], {}, SoftPositioner, does_not_raise(), None],
+        [
+            "h k".split(),
+            {},
+            SoftPositioner,
+            does_not_raise(),
+            None,
+        ],
+        [
+            "h2 k2 l2 psi alpha beta".split(),
+            {},
+            SoftPositioner,
+            does_not_raise(),
+            None,
+        ],
+    ],
+)
+def test_creator_reals(
+    pseudos, reals, positioner_class, context, expected, config_file
+):
+    with context as reason:
+        diffractometer = creator(name="diffractometer", pseudos=pseudos, reals=reals)
+        assert diffractometer is not None
+        for axis in diffractometer.real_axis_names:
+            if len(reals) > 0:
+                assert axis in reals
+            assert isinstance(getattr(diffractometer, axis), positioner_class)
+        diffractometer.restore(HKLPY2_DIR / "tests" / config_file)
+
+    assert_context_result(expected, reason)
+
 
 def test_DiffractometerBase():
     with pytest.raises((DiffractometerError, ValueError)) as reason:
         DiffractometerBase(name="dbase")
-    if reason.type == "ValueError":
-        assert "Must have at least 1 positioner" in str(reason)
+    assert_context_result("Must have at least 1 positioner", reason)
 
 
 @pytest.mark.parametrize("axis", "h k l".split())
@@ -51,8 +130,8 @@ def test_DiffractometerBase():
         [1, does_not_raise(), None],
         [-1.2, does_not_raise(), None],
         [1.2, does_not_raise(), None],
-        [12, pytest.raises(GError), "unreachable hkl"],
-        [-12, pytest.raises(GError), "unreachable hkl"],
+        [12, pytest.raises(SolverNoForwardSolutions), "No forward solutions found."],
+        [-12, pytest.raises(SolverNoForwardSolutions), "No forward solutions found."],
     ],
 )
 def test_limits(axis, value, context, expected):
@@ -157,7 +236,7 @@ def test_diffractometer_class(
 
 
 def test_diffractometer_wh(capsys):
-    from ..geom import creator
+    from ..diffract import creator
 
     e4cv = creator(name="e4cv")
     e4cv.restore(HKLPY2_DIR / "tests" / "e4cv_orient.yml")
@@ -217,7 +296,7 @@ def test_diffractometer_wh(capsys):
     ],
 )
 def test_full_position(mode, keys, context, expected, config_file):
-    from ..geom import creator
+    from ..diffract import creator
 
     assert config_file.endswith(".yml")
 
@@ -232,7 +311,7 @@ def test_full_position(mode, keys, context, expected, config_file):
 
 
 @pytest.mark.parametrize(
-    "pseudos, reals, mode, context, expected",
+    "pseudos, extras, mode, context, expected",
     [
         [
             dict(h=1, k=1, l=0),
@@ -243,8 +322,8 @@ def test_full_position(mode, keys, context, expected, config_file):
         ],
     ],
 )
-def test_move_forward_with_extras(pseudos, reals, mode, context, expected):
-    from ..geom import creator
+def test_move_forward_with_extras(pseudos, extras, mode, context, expected):
+    from ..diffract import creator
 
     fourc = creator(name="fourc")
     fourc.restore(HKLPY2_DIR / "tests" / "e4cv_orient.yml")
@@ -255,7 +334,7 @@ def test_move_forward_with_extras(pseudos, reals, mode, context, expected):
     RE = bluesky.RunEngine()
 
     with context as reason:
-        RE(fourc.move_forward_with_extras(pseudos, reals))
+        RE(fourc.move_forward_with_extras(pseudos, extras))
 
     assert_context_result(expected, reason)
 
@@ -281,7 +360,7 @@ def test_move_forward_with_extras(pseudos, reals, mode, context, expected):
     ],
 )
 def test_move_reals(pos, context, expected):
-    from ..geom import creator
+    from ..diffract import creator
 
     fourc = creator(name="fourc")
     with context as reason:
@@ -292,7 +371,7 @@ def test_move_reals(pos, context, expected):
 
 def test_null_core():
     """Tests special cases when diffractometer.core is None."""
-    from ..geom import creator
+    from ..diffract import creator
 
     fourc = creator(name="fourc")
     assert fourc.core is not None
@@ -314,7 +393,7 @@ def test_null_core():
 
 def test_orientation():
     from ..blocks.lattice import SI_LATTICE_PARAMETER
-    from ..geom import creator
+    from ..diffract import creator
 
     fourc = creator(name="fourc")
     fourc.add_sample("silicon", SI_LATTICE_PARAMETER)
@@ -440,7 +519,7 @@ def test_remove_sample():
 def test_repeated_reflections(
     name, pseudos, reals, wavelength, replace, num, context, expected
 ):
-    from ..geom import creator
+    from ..diffract import creator
 
     e4cv = creator(name="e4cv")
     e4cv.add_reflection(
@@ -495,8 +574,8 @@ def test_repeated_reflections(
                 fail_on_exception=True,
             ),
             "psi_constant",
-            pytest.raises(GError),  # TODO: #39
-            "unreachable hkl",  # hkl-engine-error-quark:
+            pytest.raises(SolverNoForwardSolutions),
+            "No forward solutions found.",
         ],
         [
             dict(
@@ -572,7 +651,7 @@ def test_repeated_reflections(
     ],
 )
 def test_scan_extra(scan_kwargs, mode, context, expected):
-    from ..geom import creator
+    from ..diffract import creator
 
     fourc = creator(name="fourc")
     fourc.restore(HKLPY2_DIR / "tests" / "e4cv_orient.yml")
@@ -581,18 +660,54 @@ def test_scan_extra(scan_kwargs, mode, context, expected):
 
     RE = bluesky.RunEngine()
 
-    if isinstance(scan_kwargs["detectors"], dict):
-        # Avoid the test case where detectors is not iterable
-        scan_kwargs["detectors"].append(fourc)
-
     with context as reason:
         RE(fourc.scan_extra(**scan_kwargs))
 
     assert_context_result(expected, reason)
 
 
+@pytest.mark.parametrize(
+    "scan_kwargs, mode, context, expected",
+    [
+        [
+            dict(
+                detectors=[noisy_det],
+                axis="psi",
+                start=-5,  # expect to fail at psi=0
+                finish=5,
+                num=3,
+                pseudos=dict(h=2, k=-1, l=0),
+                reals=None,
+                extras=dict(h2=2, k2=2, l2=0, psi=0),
+                fail_on_exception=False,  # prepare to print FAIL
+            ),
+            "psi_constant",
+            does_not_raise(),
+            None,
+        ],
+    ],
+)
+def test_scan_extra_print_fail(scan_kwargs, mode, context, expected, capsys):
+    from ..diffract import creator
+
+    fourc = creator(name="fourc")
+    fourc.restore(HKLPY2_DIR / "tests" / "e4cv_orient.yml")
+    fourc.core.solver.mode = mode
+    assert fourc.core.solver.mode == mode
+
+    RE = bluesky.RunEngine()
+
+    with context as reason:
+        RE(fourc.scan_extra(**scan_kwargs))
+
+    assert_context_result(expected, reason)
+    out, err = capsys.readouterr()
+    assert len(err) == 0
+    assert "FAIL: psi=0" in out
+
+
 def test_set_UB():
-    from ..geom import creator
+    from ..diffract import creator
 
     UBe = [[0, 0, -1.157], [0, -1.157, 0], [-1.157, 0, 0]]
     fourc = creator(name="fourc")
@@ -608,7 +723,7 @@ def test_set_UB():
 
 
 def test_e4cv_constant_phi():
-    from ..geom import creator
+    from ..diffract import creator
 
     e4cv = creator(name="e4cv")
 
@@ -675,4 +790,28 @@ def test_miller_args(miller, context, expected):
     with context as reason:
         e4cv = creator(name="e4cv")
         e4cv.add_reflection(miller)
+    assert_context_result(expected, reason)
+
+
+def test_failed_restore():
+    from ..misc import load_yaml_file
+
+    config = load_yaml_file(HKLPY2_DIR / "tests" / "e4cv_orient.yml")
+    assert isinstance(config, dict)
+    assert "_header" in config
+    with does_not_raise():
+        e4cv = creator(name="e4cv")
+        e4cv.restore(config)
+
+    config.pop("_header")
+    with pytest.raises(KeyError) as reason:
+        e4cv = creator(name="e4cv")
+        e4cv.restore(config)
+    expected = "Configuration is missing '_header' key"
+    assert_context_result(expected, reason)
+
+    with pytest.raises(TypeError) as reason:
+        e4cv = creator(name="e4cv")
+        e4cv.restore(12345)
+    expected = "Unrecognized configuration"
     assert_context_result(expected, reason)

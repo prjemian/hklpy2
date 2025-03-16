@@ -1,10 +1,10 @@
-.. index::!Solver class
-
-.. _api.solvers:
+.. _concepts.solvers:
 
 ==================
 Solvers
 ==================
+
+.. TODO: How much is guide or example?  This should be a concepts doc. Brief.
 
 .. TODO:
     - Describe the responsibilities of a |solver|.
@@ -36,14 +36,17 @@ that provides diffractometer capabilities, including:
     * crystal lattice parameters: :math:`a, b, c, \alpha, \beta, \gamma`
     * list of orientation reflections
 
+.. index:: entry point
+
 A |solver| class is written as a plugin for |hklpy2| and is connected by an `entry point
 <https://setuptools.pypa.io/en/latest/userguide/entry_point.html#entry-points-for-plugins>`_
 using the ``"hklpy2.solver"`` group.  Here's an example from |hklpy2|'s
 ``pyproject.toml`` file for two such |solver| classes::
 
     [project.entry-points."hklpy2.solver"]
-    no_op = "hklpy2.backends.no_op:NoOpSolver"
     hkl_soleil = "hklpy2.backends.hkl_soleil:HklSolver"
+    th_tth = "hklpy2.backends.th_tth_q:ThTthSolver"
+
 
 .. _api.solvers.set:
 
@@ -57,13 +60,16 @@ This example shows the |solver| classes supplied with |hklpy2|::
     >>> from hklpy2 import solvers
     >>> solvers()
     {'hkl_soleil': 'hklpy2.backends.hkl_soleil:HklSolver',
-     'no_op': 'hklpy2.backends.no_op:NoOpSolver'}
+     'th_tth': 'hklpy2.backends.th_tth_q:ThTthSolver'}
 
 This is a dictionary, keyed by the solver names.  To create an instance
 of a specific |solver| class, use :func:`~hklpy2.misc.solver_factory`.
 In the next example (Linux-only), the first argument, `hkl_soleil`, picks the
 :class:`~hklpy2.backends.hkl_soleil.HklSolver`, the `geometry` keyword
-picks the Eulerian 4-circle geometry with the *hkl* engine::
+picks the Eulerian 4-circle geometry with the *hkl* engine:
+
+.. code-block: Python
+    :linenos:
 
     >>> from hklpy2 import solver_factory
     >>> solver = solver_factory("hkl_soleil", "E4CV")
@@ -72,38 +78,43 @@ picks the Eulerian 4-circle geometry with the *hkl* engine::
 
 To select a |solver| class without creating an instance, call
 :func:`~hklpy2.misc.get_solver`. This example
-selects the |libhkl| |solver| (using its entry point name: ``"hkl_soleil"``)::
+selects the |libhkl| |solver| (using its entry point name:
+``"hkl_soleil"``):
+
+.. code-block: Python
+    :linenos:
 
     >>> from hklpy2 import get_solver
     >>> Solver = get_solver("hkl_soleil")
     >>> print(f"{Solver=}")
     Solver=<class 'hklpy2.backends.hkl_soleil.HklSolver'>
 
-.. _api.solvers.howto:
+Solver: hkl_soleil
+~~~~~~~~~~~~~~~~~~~~~~
 
-How to write a new Solver
--------------------------
+*Hkl* (`documentation <https://people.debian.org/~picca/hkl/hkl.html>`_), from
+Synchrotron Soleil, is used as a backend library to convert between real-space
+motor coordinates and reciprocal-space crystallographic coordinates.  Here, we
+refer to this library as **hkl_soleil** to clarify and distinguish from other
+use of of the term *hkl*.  Multiple source code repositories exist. |hklpy2|
+uses the `active development repository <https://repo.or.cz/hkl.git>`_.
 
-.. caution:: TODO:: work-in-progress
+.. caution:: At this time, it is only compiled for 64-bit Linux.  Not Windows, not Mac OS.
 
-|solver| classes always subclass :class:`~hklpy2.backends.base.SolverBase`::
+Solver: no_op
+~~~~~~~~~~~~~~~~~~~~~~
 
-    from hklpy2.backends.SolverBase
+This solver was built for testing the |hklpy2| code.  It provides no useful
+geometries for diffractometer users.
 
-    class MySolver(SolverBase):
-        ...
+Solver: th_tth
+~~~~~~~~~~~~~~~~~~~~~~
 
-.. TODO: Collected considerations for Solvers
-    - https://github.com/bluesky/hklpy/issues/14
-    - https://github.com/bluesky/hklpy/issues/161
-    - https://github.com/bluesky/hklpy/issues/162
-    - https://github.com/bluesky/hklpy/issues/163
-    - https://github.com/bluesky/hklpy/issues/165
-    - https://github.com/bluesky/hklpy/issues/244
-    - https://xrayutilities.sourceforge.io/
-    - https://cohere.readthedocs.io
-    - https://github.com/AdvancedPhotonSource/cohere-scripts/tree/main/scripts/beamlines/aps_34idc
-    - https://xrayutilities.sourceforge.io/_modules/xrayutilities/experiment.html#QConversion
-    - https://github.com/DiamondLightSource/diffcalc
-    - SPEC server mode
-    - https://github.com/prjemian/pyub
+This solver was built as a demonstration of a minimal all Python solver.  It
+provides basic support for $\theta, 2\theta$ geometry with a $Q$ pseudo axis.
+It can be used on any OS where Python runs.
+
+How to write a Solver
+----------------------
+
+.. seealso:: :ref:`howto.solvers.write`

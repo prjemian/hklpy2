@@ -2,7 +2,8 @@ from contextlib import nullcontext as does_not_raise
 
 import pytest
 
-from ...geom import creator
+from ...diffract import creator
+from ...misc import SampleError
 from ...misc import load_yaml
 from ...misc import unique_name
 from ...tests.common import assert_context_result
@@ -10,7 +11,6 @@ from ...tests.models import add_oriented_vibranium_to_e4cv
 from ..lattice import Lattice
 from ..reflection import ReflectionsDict
 from ..sample import Sample
-from ..sample import SampleError
 
 
 @pytest.mark.parametrize(
@@ -231,5 +231,23 @@ def test_refine(remove, context, expected):
         if remove is not None:
             e4cv.core.sample.reflections.pop(remove)
         e4cv.core.sample.refine_lattice()
+
+    assert_context_result(expected, reason)
+
+
+@pytest.mark.parametrize(
+    "rname, context, expected",
+    [
+        ["r400", does_not_raise(), None],
+        ["r1", pytest.raises(KeyError), "Reflection 'r1' is not found"],
+    ],
+)
+def test_remove_reflection(rname, context, expected):
+    with context as reason:
+        e4cv = creator(name="e4cv")
+        add_oriented_vibranium_to_e4cv(e4cv)
+        e4cv.core.calc_UB("r040", "r400")
+        e4cv.core.sample.remove_reflection(rname)
+        assert rname not in e4cv.core.sample.reflections.order
 
     assert_context_result(expected, reason)

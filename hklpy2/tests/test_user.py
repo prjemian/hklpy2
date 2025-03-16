@@ -4,9 +4,10 @@ from contextlib import nullcontext as does_not_raise
 
 import numpy.testing
 import pytest
+from pyRestTable import Table
 
 from ..blocks.lattice import SI_LATTICE_PARAMETER
-from ..geom import creator
+from ..diffract import creator
 from ..misc import ReflectionError
 from ..ops import OperationsError
 from ..user import add_sample
@@ -23,6 +24,7 @@ from ..user import set_diffractometer
 from ..user import set_energy
 from ..user import set_lattice
 from ..user import setor
+from ..user import solver_summary
 from ..user import wh
 from ..wavelength_support import ConstantMonochromaticWavelength
 from .common import TESTS_DIR
@@ -219,8 +221,8 @@ def test_pa(fourc, capsys):
         "HklSolver(name='hkl_soleil', version='5.1.2', geometry='E4CV', engine_name='hkl', mode='bissector')",
         "Sample(name='sample', lattice=Lattice(a=1, system='cubic'))",
         "Orienting reflections: []",
-        "U=[[1.0, 0.0, 0.0], [0.0, 1.0, 0.0], [0.0, 0.0, 1.0]]",
-        "UB=[[6.28318530718, -0.0, -0.0], [0.0, 6.28318530718, -0.0], [0.0, 0.0, 6.28318530718]]",
+        "U=[[1, 0, 0], [0, 1, 0], [0, 0, 1]]",
+        "UB=[[1, 0, 0], [0, 1, 0], [0, 0, 1]]",
         "constraint: -180.0 <= omega <= 180.0",
         "constraint: -180.0 <= chi <= 180.0",
         "constraint: -180.0 <= phi <= 180.0",
@@ -385,3 +387,28 @@ def test_wh(fourc, capsys):
     ]
     assert len(out) == len(expected)
     assert out == expected
+
+
+def test_solver_summary(fourc, capsys):
+    set_diffractometer(fourc)
+
+    summary = solver_summary()
+    assert summary is None
+    out, err = capsys.readouterr()
+    assert len(out) > 0
+    assert err == ""
+    assert "bissector" in out
+    assert "azimuth" in out
+    assert "incidence" in out
+    assert "h2, k2, l2, psi" in out
+
+    summary = solver_summary(write=False)
+    assert isinstance(summary, Table)
+    out, err = capsys.readouterr()
+    assert out == ""
+    assert err == ""
+    summary = str(summary)
+    assert "bissector" in summary
+    assert "azimuth" in summary
+    assert "incidence" in summary
+    assert "h2, k2, l2, psi" in summary

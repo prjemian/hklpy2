@@ -9,7 +9,7 @@ from bluesky import RunEngine
 from bluesky import plans as bp
 from numpy.testing import assert_almost_equal
 
-from ..geom import creator
+from ..diffract import creator
 from .common import assert_context_result
 
 sim4c = creator(name="sim4c")
@@ -85,7 +85,7 @@ def test_inverse(ppos, rpos, context, expected):
     "parms, context, expected",
     [
         [[sim4c.tth, 10, 20, 3], does_not_raise(), None],
-        [[sim4c.k, 0, 0, 3], does_not_raise(), None],
+        [[sim4c.k, 1, 0, 1], does_not_raise(), None],
         [
             [sim4c.tth, 10, 20, sim4c.k, 0, 0, 3],
             pytest.raises(ValueError),

@@ -5,7 +5,6 @@ Intermediate layer between DiffractometerBase Device and backend |solver|
 library.
 
 .. autosummary::
-   :toctree: generated
 
     ~Operations
 """
@@ -16,9 +15,7 @@ from collections.abc import Iterable
 from typing import List
 from typing import Union
 
-import pyRestTable
-
-from . import SolverBase
+from .backends.base import SolverBase
 from .blocks.configure import Configuration
 from .blocks.constraints import RealAxisConstraints
 from .blocks.lattice import Lattice
@@ -44,8 +41,10 @@ class Operations:
 
     .. rubric:: Parameters
 
-    * ``solver`` (str): Name of the backend |solver| library.
-    * ``geometry`` (str): Name of the backend |solver| geometry.
+    ``diffractometer`` (DiffractometerBase):
+        The diffractometer parent.
+    ``default_sample`` (bool):
+        If 'True' (default), create a 'sample' with 1 angstrom cubic lattice.
 
     .. rubric:: Python Methods
 
@@ -411,6 +410,8 @@ class Operations:
         pdict = self.standardize_pseudos(pseudos)
         reals = self.diffractometer.real_position._asdict()  # Original values.
 
+        # TODO: #58 make sure solver has the sample's UB matrix for 'forward()'
+
         # Filter just the solutions that fit the constraints.
         results = self.solver.forward(self._axes_names_d2s(pdict))
         solutions = []
@@ -421,6 +422,7 @@ class Operations:
 
         return solutions
 
+    # TODO: #59
     def forward_solutions_table(self, reflections, full=False, digits=5):
         """
         Return table of computed solutions for each supplied (hkl) reflection.
@@ -439,27 +441,21 @@ class Operations:
             Number of digits to roundoff each position
             value.  Default is 5.
         """
-        _table = pyRestTable.Table()
+        from pyRestTable import Table
+
+        _table = Table()
         motors = self.diffractometer.real_axis_names
         _table.labels = "(hkl) solution".split() + list(motors)
         for reflection in reflections:
-            try:
-                solutions = self.forward(reflection)
-            except ValueError as exc:
-                solutions = exc
-            if isinstance(solutions, ValueError):
-                row = [reflection, "none"]
-                row += ["" for m in motors]
+            solutions = self.forward(reflection)
+            # TODO: #59 get default solution first, then any others
+            # Don't assume (as now) that the defaults is the first.
+            for i, s in enumerate(solutions):
+                row = [reflection, i]
+                row += [round(getattr(s, m), digits) for m in motors]
                 _table.addRow(row)
-            else:
-                # TODO: get default solution first, then any others
-                # Don't assume (as now) that the defaults is the first.
-                for i, s in enumerate(solutions):
-                    row = [reflection, i]
-                    row += [round(getattr(s, m), digits) for m in motors]
-                    _table.addRow(row)
-                    if not full:
-                        break  # only show the first (default) solution
+                if not full:
+                    break  # only show the first (default) solution
         return _table
 
     def inverse(
@@ -488,12 +484,10 @@ class Operations:
         # Dictionary in order expected by the solver.
         reals: AxesDict = self.standardize_reals(reals)
 
+        # TODO: #58 make sure solver has the sample's UB matrix for 'forward()'
+
         # transform: reals -> pseudos
-        try:
-            spdict: AxesDict = self.solver.inverse(self._axes_names_d2s(reals))
-        except Exception as excuse:
-            print(f"{excuse=!r}")
-            raise excuse
+        spdict: AxesDict = self.solver.inverse(self._axes_names_d2s(reals))
 
         pseudos.update(self._axes_names_s2d(spdict))  # Update with new values.
         return pseudos

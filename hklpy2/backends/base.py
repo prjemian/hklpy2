@@ -10,7 +10,8 @@ import logging
 from abc import ABC
 from abc import abstractmethod
 
-from .. import __version__
+from pyRestTable import Table
+
 from ..blocks.lattice import Lattice
 from ..blocks.reflection import Reflection
 from ..blocks.sample import Sample
@@ -46,7 +47,7 @@ class SolverBase(ABC):
     using them.  Subclasses should implement each of these methods
     as best fits the underlying support library.
 
-    .. seealso:: :ref:`api.solvers.hkl_soleil` & :ref:`api.solvers.no_op`
+    .. seealso:: :mod:`~hklpy2.backends.hkl_soleil` & :mod:`~hklpy2.backends.no_op`
 
     .. rubric:: Python Methods
 
@@ -77,6 +78,8 @@ class SolverBase(ABC):
         ~UB
     """
 
+    from .. import __version__
+
     name = "base"
     """Name of this Solver."""
 
@@ -90,7 +93,7 @@ class SolverBase(ABC):
         mode: str = "",  # "": accept solver's default mode
         **kwargs,
     ) -> None:
-        self.geometry = geometry
+        self._gname = geometry
         self.mode = mode
         self._sample = None
 
@@ -131,14 +134,14 @@ class SolverBase(ABC):
 
         The method of Busing & Levy, Acta Cryst 22 (1967) 457.
         """
-        return self.UB
+        # return self.UB
 
     @property
     @abstractmethod
     def extra_axis_names(self) -> list[str]:
         """Ordered list of any extra axis names (such as x, y, z)."""
         # Do NOT sort.
-        return []
+        # return []
 
     @property
     def extras(self) -> dict:
@@ -151,7 +154,7 @@ class SolverBase(ABC):
     def forward(self, pseudos: dict) -> list[dict[str, float]]:
         """Compute list of solutions(reals) from pseudos (hkl -> [angles])."""
         # based on geometry and mode
-        return [{}]
+        # return [{}]
 
     @classmethod
     @abstractmethod
@@ -169,10 +172,9 @@ class SolverBase(ABC):
             >>> solver.geometries()
             []
         """
-        return []
+        # return []
 
     @property
-    @abstractmethod
     def geometry(self) -> str:
         """
         Name of selected diffractometer geometry.
@@ -180,17 +182,12 @@ class SolverBase(ABC):
         Cannot be changed once solver is created.  Instead, make a new solver
         for each geometry.
         """
-        return self._geometry
-
-    @geometry.setter
-    @abstractmethod
-    def geometry(self, value: str):
-        self._geometry = value
+        return self._gname
 
     @abstractmethod
     def inverse(self, reals: dict) -> dict[str, float]:
         """Compute dict of pseudos from reals (angles -> hkl)."""
-        return {}
+        # return {}
 
     @property
     def lattice(self) -> object:
@@ -230,21 +227,21 @@ class SolverBase(ABC):
     @abstractmethod
     def modes(self) -> list[str]:
         """List of the geometry operating modes."""
-        return []
+        # return []
 
     @property
     @abstractmethod
     def pseudo_axis_names(self) -> list[str]:
         """Ordered list of the pseudo axis names (such as h, k, l)."""
         # Do NOT sort.
-        return []
+        # return []
 
     @property
     @abstractmethod
     def real_axis_names(self) -> list[str]:
         """Ordered list of the real axis names (such as th, tth)."""
         # Do NOT sort.
-        return []
+        # return []
 
     @abstractmethod
     def refineLattice(self, reflections: list[Reflection]) -> Lattice:
@@ -266,6 +263,51 @@ class SolverBase(ABC):
         if not isinstance(value, Sample):
             raise TypeError(f"Must supply Sample object, received {value!r}")
         self._sample = value
+
+    @property
+    def _summary_dict(self):
+        """Return a summary of the geometry (modes, axes)"""
+        geometry_name = self.geometry
+        description = {
+            "name": geometry_name,
+            "pseudos": self.pseudo_axis_names,
+            "reals": self.real_axis_names,
+            "modes": {},
+        }
+
+        for mode in self.modes:
+            self.mode = mode
+            desc = {
+                "extras": [],
+                # the reals to be written in this mode (solver should override)
+                "reals": self.real_axis_names,
+            }
+            description["modes"][mode] = desc
+
+        return description
+
+    @property
+    def summary(self) -> Table:
+        """
+        Table of this geometry (modes, axes).
+
+        .. seealso:: :ref:`geometries.summary_tables`,
+            :func:`hklpy2.user.solver_summary()`
+        """
+        table = Table()
+        table.labels = "mode pseudo(s) real(s) writable(s) extra(s)".split()
+        sdict = self._summary_dict
+        for mode_name, mode in sdict["modes"].items():
+            self.mode = mode_name
+            row = [
+                mode_name,
+                ", ".join(sdict["pseudos"]),
+                ", ".join(sdict["reals"]),
+                ", ".join(mode["reals"]),
+                ", ".join(mode["extras"]),
+            ]
+            table.addRow(row)
+        return table
 
     @property
     def UB(self):

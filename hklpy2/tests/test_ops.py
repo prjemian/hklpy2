@@ -7,7 +7,7 @@ from contextlib import nullcontext as does_not_raise
 import pytest
 
 from ..diffract import DiffractometerBase
-from ..geom import creator
+from ..diffract import creator
 from ..ops import Operations
 from ..ops import OperationsError
 from ..user import set_diffractometer
@@ -165,17 +165,31 @@ def test_unknown_reflection():
     assert_context_result(" unknown.  Knowns: ", reason)
 
 
-def test_assign_axes_error():
-    flaky = creator(
-        name="flaky",
-        pseudos="h k l".split(),
-        reals=dict(a=1, b=2, c=3, d=4),
-    )
-    assert flaky.pseudo_axis_names == "h k l".split()
-    assert flaky.real_axis_names == "a b c d".split()
-    with pytest.raises(ValueError) as reason:
-        flaky.core.assign_axes("h k l".split(), "h b c d".split())
-    expected = "Axis name cannot be in more than list."
+@pytest.mark.parametrize(
+    "pseudos, reals, assign, context, expected",
+    [
+        [
+            "h k l".split(),
+            dict(a=1, b=2, c=3, d=4),
+            "h b c d".split(),
+            pytest.raises(ValueError),
+            "Axis name cannot be in more than list.",
+        ],
+        [
+            "h k l".split(),
+            dict(a=1, b=2, c=3, d=4),
+            "x y z".split(),
+            pytest.raises(KeyError),
+            "Unknown",
+        ],
+    ],
+)
+def test_assign_axes_error(pseudos, reals, assign, context, expected):
+    flaky = creator(name="flaky", pseudos=pseudos, reals=reals)
+    assert flaky.pseudo_axis_names == pseudos
+    assert flaky.real_axis_names == list(reals)
+    with context as reason:
+        flaky.core.assign_axes("h k l".split(), assign)
     assert_context_result(expected, reason)
 
 
@@ -267,5 +281,4 @@ def test_local_pseudo_axes(gonio, axes, prop, context, expected):
     assert_context_result(expected, reason)
 
 
-# FIXME: reset_samples is not tested yet
-# FIXME: remove_sample is not tested yet
+# FIXME: #56 reset_samples is not tested yet
