@@ -16,7 +16,7 @@ from ..sample import Sample
 @pytest.mark.parametrize(
     "context, expected",
     [
-        [pytest.raises(TypeError), "expected Operations"],
+        [pytest.raises(TypeError), "expected Core"],
     ],
 )
 def test_sample_constructor_no_core(context, expected):

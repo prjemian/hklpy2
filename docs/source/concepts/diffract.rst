@@ -124,7 +124,7 @@ sample
 The purpose of a diffractometer is to position a sample for scientific
 measurements. The ``sample`` attribute is an instance of
 :class:`~hklpy2.blocks.sample.Sample`. Behind the scenes, the
-:class:`~hklpy2.ops.Operations` class maintains a *dictionary* of samples (keyed
+:class:`~hklpy2.ops.Core` class maintains a *dictionary* of samples (keyed
 by ``name``), each with its own :class:`~hklpy2.blocks.lattice.Lattice` and
 orientation :class:`~hklpy2.blocks.reflection.Reflection` information.
 
@@ -155,7 +155,7 @@ The **UB** matrix describes the :meth:`~hklpy2.diffract.DiffractometerBase.forwa
 and :meth:`~hklpy2.diffract.DiffractometerBase.inverse()` transformations that allow
 precise positioning of a crystalline sample's atomic planes in the laboratory
 reference system of the diffractometer.  It is common to compute the **UB** matrix
-from two orientation reflections using :meth:`~hklpy2.ops.Operations.calc_UB()`.
+from two orientation reflections using :meth:`~hklpy2.ops.Core.calc_UB()`.
 
 orientation reflections
 ~~~~~~~~~~~~~~~~~~~~~~~
@@ -210,11 +210,11 @@ A :class:`~hklpy2.diffract.DiffractometerBase` object has several parts:
 
 The :class:`~hklpy2.diffract.DiffractometerBase()` class should
 be a thin interface. Most real diffractometer capability should be
-provided in the :class:`~hklpy2.ops.Operations()` class (or one of
-its attributes, such as :attr:`~hklpy2.ops.Operations.solver`
-and :attr:`~hklpy2.ops.Operations.sample`)
+provided in the :class:`~hklpy2.ops.Core()` class (or one of
+its attributes, such as :attr:`~hklpy2.ops.Core.solver`
+and :attr:`~hklpy2.ops.Core.sample`)
 
-.. rubric:: Operations-related methods and properties
+.. rubric:: Core-related methods and properties
 .. autosummary::
 
     ~hklpy2.diffract.DiffractometerBase.auto_assign_axes (method)
@@ -243,12 +243,12 @@ and :attr:`~hklpy2.ops.Operations.sample`)
 .. rubric:: Related methods and properties from other classes
 .. autosummary::
 
-    ~hklpy2.ops.Operations.assign_axes (method)
+    ~hklpy2.ops.Core.assign_axes (method)
     ~hklpy2.backends.base.SolverBase.extra_axis_names (property)
     ~hklpy2.blocks.sample.Sample.lattice (property)
     ~hklpy2.blocks.sample.Sample.refine_lattice (method)
     ~hklpy2.blocks.sample.Sample.reflections (property)
-    ~hklpy2.ops.Operations.set_solver (method)
+    ~hklpy2.ops.Core.set_solver (method)
     ~hklpy2.blocks.sample.Sample.U (property)
     ~hklpy2.blocks.sample.Sample.UB (property)
 

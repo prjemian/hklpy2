@@ -9,7 +9,7 @@ from pyRestTable import Table
 from ..blocks.lattice import SI_LATTICE_PARAMETER
 from ..diffract import creator
 from ..misc import ReflectionError
-from ..ops import OperationsError
+from ..ops import CoreError
 from ..user import add_sample
 from ..user import cahkl
 from ..user import cahkl_table
@@ -262,7 +262,7 @@ def test_remove_reflection(fourc, name, error, config, context, expected):
             None,
             "sample",
             None,
-            pytest.raises(OperationsError),
+            pytest.raises(CoreError),
             "Cannot remove last sample.",
         ],
         [None, "vibranium", None, pytest.raises(KeyError), "'vibranium' not in "],

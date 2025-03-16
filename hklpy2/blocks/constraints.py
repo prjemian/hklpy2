@@ -62,7 +62,7 @@ class ConstraintBase(ABC):
 
     def _fromdict(self, config, core=None):
         """Redefine this constraint from a (configuration) dictionary."""
-        from ..ops import Operations
+        from ..ops import Core
 
         if self.__class__.__name__ != config["class"]:
             raise ConfigurationError(
@@ -70,7 +70,7 @@ class ConstraintBase(ABC):
                 f" Received: {config!r}"
             )
 
-        if isinstance(core, Operations):
+        if isinstance(core, Core):
             # Validate with solver.
             axis = config["label"]
             axes_local = list(core.diffractometer.real_axis_names)

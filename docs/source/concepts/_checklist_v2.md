@@ -61,7 +61,7 @@ It could be re-organized.
   * [x] How to refine lattice from 3 reflections.
   * [x] Save & restore diffractometer configuration (includes orientation).
   * [x] How to set UB directly.
-* [x] Diffractometer-Operations API
+* [x] Diffractometer-Core API
   * [x] solver:
   * [x] geometry:
   * [x] samples:
@@ -92,7 +92,7 @@ It could be re-organized.
     * [ ] numpy arrays
     * [x] scalars
     * [x] tuples
-* [x] Operations-Solver interface transactions API
+* [x] Core-Solver interface transactions API
   * [x] axes : assignment : automatic
   * [x] axes : assignment : named
   * [x] axes : convert names between diffractometer and solver

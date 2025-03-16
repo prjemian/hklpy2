@@ -6,7 +6,7 @@ library.
 
 .. autosummary::
 
-    ~Operations
+    ~Core
 """
 
 import datetime
@@ -23,21 +23,21 @@ from .blocks.reflection import Reflection
 from .blocks.sample import Sample
 from .misc import AnyAxesType
 from .misc import AxesDict
-from .misc import OperationsError
+from .misc import CoreError
 from .misc import axes_to_dict
 from .misc import solver_factory
 from .misc import unique_name
 
-__all__ = ["Operations"]
+__all__ = ["Core"]
 
 Number = Union[int, float]
 logger = logging.getLogger(__name__)
 DEFAULT_SAMPLE_NAME = "sample"
 
 
-class Operations:
+class Core:
     """
-    Operate the diffractometer using a |solver|.
+    Core operations of a diffractometer, coordinating with sample & |solver|.
 
     .. rubric:: Parameters
 
@@ -259,7 +259,7 @@ class Operations:
         """Add a new sample."""
         if name in self.samples:
             if not replace:
-                raise OperationsError(f"Sample {name=!r} already defined.")
+                raise CoreError(f"Sample {name=!r} already defined.")
         lattice = Lattice(a, b, c, alpha, beta, gamma, digits)
         self._samples[name] = Sample(self, name, lattice)
         self.sample = name
@@ -325,7 +325,7 @@ class Operations:
                 names = self.solver.pseudo_axis_names + self.solver.real_axis_names
                 if len(names) == 0:
                     return {}
-            raise OperationsError(
+            raise CoreError(
                 "Did you forget to call `assign_axes()` or `auto_assign_axes()`?"
             )
         return {v: k for k, v in self.axes_xref.items()}
@@ -544,7 +544,7 @@ class Operations:
         if name not in self.samples:
             raise KeyError(f"{name!r} not in sample list:{list(self.samples)}.")
         if len(self.samples) == 1:
-            raise OperationsError("Cannot remove last sample.")
+            raise CoreError("Cannot remove last sample.")
 
         self._samples.pop(name)
         self._sample_name = list(self.samples)[0]

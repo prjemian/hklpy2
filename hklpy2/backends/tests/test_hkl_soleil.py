@@ -5,7 +5,7 @@ import pytest
 from pyRestTable import Table
 
 from ...misc import IDENTITY_MATRIX_3X3
-from ...ops import Operations
+from ...ops import Core
 from ...tests.common import assert_context_result
 from .. import hkl_soleil
 
@@ -27,7 +27,7 @@ def kryptonite():
     from ...blocks.reflection import Reflection
     from ...blocks.sample import Sample
 
-    core = Operations(None, default_sample=False)
+    core = Core(None, default_sample=False)
     sample = Sample(core, "kryptonite", Lattice(0.01))  # should be interesting
     r1 = Reflection(
         name="r1",

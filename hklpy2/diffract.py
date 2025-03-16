@@ -164,13 +164,13 @@ class DiffractometerBase(PseudoPositioner):
         reals: list[str] = None,
         **kwargs,
     ):
-        from .ops import Operations
+        from .ops import Core
 
         self._backend = None
         self._forward_solution = pick_first_item
         self._source = MonochromaticXrayWavelength(DEFAULT_WAVELENGTH)
 
-        self.core = Operations(self)
+        self.core = Core(self)
 
         super().__init__(prefix, **kwargs)
 
@@ -234,7 +234,7 @@ class DiffractometerBase(PseudoPositioner):
         """
         Automatically assign diffractometer axes to this solver.
 
-        .. seealso:: :meth:`hklpy2.ops.Operations.auto_assign_axes`
+        .. seealso:: :meth:`hklpy2.ops.Core.auto_assign_axes`
 
         A |solver| geometry specifies expected pseudo, real, and extra axes
         for its ``.forward()`` and ``.inverse()`` coordinate transformations.
