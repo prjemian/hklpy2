@@ -9,6 +9,7 @@ from ...misc import get_solver
 from ...misc import solver_factory
 from ...tests.common import assert_context_result
 from ..base import SolverBase
+from ..th_tth_q import BISECTOR_MODE
 from ..th_tth_q import TH_TTH_Q_GEOMETRY
 from ..th_tth_q import ThTthSolver
 
@@ -31,8 +32,8 @@ def test_solver():
     assert solver.calculate_UB(None, None) == []
 
     assert solver.mode == "", f"{solver.mode=!r}"
-    solver.mode = "bisector"
-    assert solver.mode == "bisector"
+    solver.mode = BISECTOR_MODE
+    assert solver.mode == BISECTOR_MODE
 
     with pytest.raises(TypeError) as reason:
         solver.forward([0])
@@ -89,7 +90,7 @@ def test_solver():
 )
 def test_transforms(transform, wavelength, inputs, outputs, tol):
     solver = solver_factory("th_tth", "TH TTH Q")
-    solver.mode = "bisector"
+    solver.mode = BISECTOR_MODE
     solver.wavelength = wavelength
     if transform == "forward":
         result = solver.forward(inputs)

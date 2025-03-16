@@ -25,6 +25,7 @@ from .base import SolverBase
 logger = logging.getLogger(__name__)
 TH_TTH_Q_GEOMETRY = "TH TTH Q"
 TH_Q_GEOMETRY = "TH Q"  # TODO: Second geometry?
+BISECTOR_MODE = "bissector"  # spelled same as in E4CV
 
 
 class ThTthSolver(SolverBase):
@@ -109,7 +110,7 @@ class ThTthSolver(SolverBase):
                 raise SolverError(f"'q' not defined. Received {pseudos!r}.")
             if self.wavelength is None:
                 raise SolverError("Wavelength is not set. Add a reflection.")
-            if self.mode == "bisector":
+            if self.mode == BISECTOR_MODE:
                 th = math.degrees(math.asin(q * self.wavelength / 4 / math.pi))
                 solutions.append({"th": th, "tth": 2 * th})
 
@@ -135,7 +136,7 @@ class ThTthSolver(SolverBase):
                 raise SolverError(f"'tth' not defined. Received {reals!r}.")
             if self.wavelength is None:
                 raise SolverError("Wavelength is not set. Add a reflection.")
-            if self.mode == "bisector":
+            if self.mode == BISECTOR_MODE:
                 q = (4 * math.pi) / self.wavelength
                 q *= math.sin(math.radians(tth / 2))
                 pseudos["q"] = q
@@ -145,7 +146,7 @@ class ThTthSolver(SolverBase):
     def modes(self):
         if self.geometry == TH_TTH_Q_GEOMETRY:
             # TODO: use a symbol, change spelling to match E4CV: bissector
-            return ["bisector"]
+            return [BISECTOR_MODE]
 
     @property
     def pseudo_axis_names(self):

@@ -136,11 +136,11 @@ def test_SolverBase_abstractmethods():
     solver = ThTthSolver(TH_TTH_Q_GEOMETRY)
     expected = "\n".join(
         [
-            "======== ========= ======= =========== ========",
-            "mode     pseudo(s) real(s) writable(s) extra(s)",
-            "======== ========= ======= =========== ========",
-            "bisector q         th, tth th, tth             ",
-            "======== ========= ======= =========== ========",
+            "========= ========= ======= =========== ========",
+            "mode      pseudo(s) real(s) writable(s) extra(s)",
+            "========= ========= ======= =========== ========",
+            "bissector q         th, tth th, tth             ",
+            "========= ========= ======= =========== ========",
         ]
     )
     summary = solver.summary
