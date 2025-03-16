@@ -49,10 +49,10 @@ class Sample:
         lattice: Lattice,
     ) -> None:
         from ..misc import IDENTITY_MATRIX_3X3
-        from ..ops import Operations
+        from ..ops import Core
 
-        if not isinstance(core, Operations):
-            raise TypeError(f"Unexpected type {core=!r}, expected Operations")
+        if not isinstance(core, Core):
+            raise TypeError(f"Unexpected type {core=!r}, expected Core")
         self.name = name or unique_name()
         self.core = core
         self.lattice = lattice

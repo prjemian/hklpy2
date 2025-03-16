@@ -33,7 +33,7 @@ class Reflection:
     .. note:: Internal use only.
 
        It is expected this internal routine is called
-       from a method of :class:`~hklpy2.ops.Operations`,
+       from a method of :class:`~hklpy2.ops.Core`,
        not directly by the user.
 
     .. rubric:: Parameters
@@ -74,9 +74,9 @@ class Reflection:
         digits: int = 4,
         core: object = None,
     ) -> None:
-        from ..ops import Operations
+        from ..ops import Core
 
-        if isinstance(core, Operations):
+        if isinstance(core, Core):
             # What if axes names in wrong sequence?  Required order is assumed.
             # What if axes renamed?  All reflections must use the same real_axis_names.
             axes_local = core.diffractometer.real_axis_names
@@ -288,10 +288,10 @@ class ReflectionsDict(dict):
 
     def _fromdict(self, config, core=None):
         """Add or redefine reflections from a (configuration) dictionary."""
-        from ..ops import Operations
+        from ..ops import Core
 
         for refl_config in config.values():
-            if isinstance(core, Operations):
+            if isinstance(core, Core):
                 # Remap the names of all the real axes to the current solver.
                 # Real axes MUST be specified in the order specified by the solver.
                 refl_config["reals"] = {

@@ -48,7 +48,7 @@ Miscellaneous Support.
     ~ConstraintsError
     ~DiffractometerError
     ~LatticeError
-    ~OperationsError
+    ~CoreError
     ~ReflectionError
     ~SampleError
     ~SolverError
@@ -137,8 +137,8 @@ class LatticeError(Hklpy2Error):
     """Custom exceptions from :mod:`hklpy2.blocks.lattice`."""
 
 
-class OperationsError(Hklpy2Error):
-    """Custom exceptions from :class:`~Operations`."""
+class CoreError(Hklpy2Error):
+    """Custom exceptions from :class:`~Core`."""
 
 
 class ReflectionError(Hklpy2Error):

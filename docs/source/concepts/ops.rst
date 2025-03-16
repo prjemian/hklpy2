@@ -18,7 +18,7 @@ a diffractometer.
 Python class                                    Purpose
 =============================================   ==============
 :class:`~hklpy2.diffract.DiffractometerBase`    ophyd `PseudoPositioner <https://blueskyproject.io/ophyd/user/reference/positioners.html#pseudopositioner>`_
-:class:`~klpy2.ops.Operations`                  The class for a diffractometer's ``.core`` operations.
+:class:`~klpy2.ops.Core`                        The class for a diffractometer's ``.core`` operations.
 :class:`~hklpy2.backends.base.SolverBase`       Code for diffractometer geometries and capabilities.
 =============================================   ==============
 
@@ -45,7 +45,7 @@ EXAMPLE::
     >>> e4cv.core.sample.reflections
     {'r1': {'name': 'r1', 'geometry': 'E4CV', 'pseudos': {'h': 1, 'k': 0, 'l': 0}, 'reals': {'omega': 10, 'chi': 0, 'phi': 0, 'tth': 20}, 'wavelength': 1.0, 'order': 0}, 'r2': {'name': 'r2', 'geometry': 'E4CV', 'pseudos': {'h': 0, 'k': 1, 'l': 0}, 'reals': {'omega': 10, 'chi': -90, 'phi': 0, 'tth': 20}, 'wavelength': 1.0, 'order': 1}}
 
-..  note:: The :class:`~hklpy2.ops.Operations` class provides
+..  note:: The :class:`~hklpy2.ops.Core` class provides
     key diffractometer features as Python properties.  This enables their
     inclusion in the :class:`~hklpy2.diffract.DiffractometerBase` class
     using ophyd `AttributeSignal <https://github.com/bluesky/ophyd/blob/5c03c3fff974dc6390836fc83dae4c247a35e662/ophyd/signal.py#L2192>`_.

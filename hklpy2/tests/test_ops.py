@@ -8,8 +8,8 @@ import pytest
 
 from ..diffract import DiffractometerBase
 from ..diffract import creator
-from ..ops import Operations
-from ..ops import OperationsError
+from ..ops import Core
+from ..ops import CoreError
 from ..user import set_diffractometer
 from ..user import setor
 from .common import assert_context_result
@@ -57,7 +57,7 @@ def test_asdict(geometry, solver, name, keypath, value):
     assert isinstance(
         diffractometer, DiffractometerBase
     ), f"{geometry=} {solver=} {name=}"
-    assert isinstance(diffractometer.core, Operations), f"{geometry=} {solver=} {name=}"
+    assert isinstance(diffractometer.core, Core), f"{geometry=} {solver=} {name=}"
 
     db = diffractometer.core._asdict()
     assert db["name"] == name
@@ -75,7 +75,7 @@ def test_asdict(geometry, solver, name, keypath, value):
 
 def test_axes_xref_empty():
     expected = "Did you forget to call `assign_axes()`"
-    with pytest.raises(OperationsError) as reason:
+    with pytest.raises(CoreError) as reason:
         e4cv = creator(name="e4cv", auto_assign=False)
         e4cv.add_reflection((1, 0, 0), (10, 0, 0, 20), name="r1")
     assert_context_result(expected, reason)
@@ -195,7 +195,7 @@ def test_assign_axes_error(pseudos, reals, assign, context, expected):
 
 def test_repeat_sample():
     geom = creator(name="geom")
-    with pytest.raises(OperationsError) as reason:
+    with pytest.raises(CoreError) as reason:
         geom.add_sample("sample", 4.1)
     expected = "Sample name='sample' already defined."
     assert_context_result(expected, reason)

@@ -34,7 +34,7 @@ from .diffract import DiffractometerBase
 from .misc import AnyAxesType
 from .misc import AxesDict
 from .misc import AxesTuple
-from .ops import OperationsError
+from .ops import CoreError
 from .wavelength_support import MonochromaticXrayWavelength
 
 __all__ = """
@@ -445,7 +445,7 @@ def remove_sample(name: str, error: bool = True) -> None:
         and                             will raise
         =============================   =============
         ``name`` is not found.          ``KeyError``
-        ``name`` is the only sample.    :class:`~hklpy2.ops.OperationsError`
+        ``name`` is the only sample.    :class:`~hklpy2.ops.CoreError`
         =============================   =============
 
         Provide ``error=False`` to avoid raising an exception.
@@ -454,7 +454,7 @@ def remove_sample(name: str, error: bool = True) -> None:
     """
     try:
         get_diffractometer().core.remove_sample(name)
-    except (KeyError, OperationsError) as exinfo:
+    except (KeyError, CoreError) as exinfo:
         if error:
             raise exinfo
 

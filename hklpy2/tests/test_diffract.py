@@ -20,8 +20,8 @@ from ..diffract import pick_first_item
 from ..misc import DiffractometerError
 from ..misc import SolverNoForwardSolutions
 from ..ops import DEFAULT_SAMPLE_NAME
-from ..ops import Operations
-from ..ops import OperationsError
+from ..ops import Core
+from ..ops import CoreError
 from ..wavelength_support import DEFAULT_WAVELENGTH
 from ..wavelength_support import DEFAULT_WAVELENGTH_UNITS
 from .common import HKLPY2_DIR
@@ -222,7 +222,7 @@ def test_diffractometer_class(
         assert len(dmeter.samples) == 1
         assert isinstance(dmeter.sample, Sample)
 
-        assert isinstance(dmeter.core, Operations)
+        assert isinstance(dmeter.core, Core)
         assert isinstance(dmeter.pseudo_axis_names, list)
         assert isinstance(dmeter.real_axis_names, list)
 
@@ -471,7 +471,7 @@ def test_remove_sample():
     assert len(sim.samples) == 1
     try:
         sim.core.remove_sample(DEFAULT_SAMPLE_NAME)
-    except OperationsError as reason:
+    except CoreError as reason:
         assert_context_result("Cannot remove last sample.", reason)
     assert len(sim.samples) == 1
 
