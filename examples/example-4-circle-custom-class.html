@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=d4ab36e5"></script>
+    <script src="../_static/documentation_options.js?v=1030592f"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
@@ -340,6 +340,7 @@
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">Example 4-circle diffractometer custom Python class</a></li>
 <li class="toctree-l2"><a class="reference internal" href="hkl_soleil-e4ch.html"><strong>hkl_soleil</strong> E4CH</a></li>
 <li class="toctree-l2"><a class="reference internal" href="hkl_soleil-e4cv.html"><strong>hkl_soleil</strong> E4CV</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hkl_soleil-e4cv%2Bepics.html"><strong>hkl_soleil</strong> E4CV with EPICS motors</a></li>
 <li class="toctree-l2"><a class="reference internal" href="hkl_soleil-e6c-psi.html"><strong>hkl_soleil</strong> E6C psi axis</a></li>
 <li class="toctree-l2"><a class="reference internal" href="hkl_soleil-e6c-test_calculations.html"><strong>hkl_soleil</strong> E6C test of calculations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="hkl_soleil-k4cv.html"><strong>hkl_soleil</strong> K4CV</a></li>
@@ -510,7 +511,7 @@ Add many additional axes, both in real (rotation angle) space and in reciprocal
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Brief &#39;where&#39; report:
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/home/zorinvm/Documents/projects/prjemian/hklpy2/hklpy2/misc.py:316: UserWarning:  Extra inputs will be ignored. Expected 4. Received input=FourcRealPos(ttheta=0.0, theta=0.0, chi=0.0, phi=0.0, psi=0, energy=12.4), names=[&#39;theta&#39;, &#39;chi&#39;, &#39;phi&#39;, &#39;ttheta&#39;]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/home/zorinvm/Documents/projects/prjemian/hklpy2/hklpy2/misc.py:316: UserWarning:  Extra inputs will be ignored. Expected 4. Received input=FourcRealPos(ttheta=0.0, theta=0.0, chi=0.0, phi=0.0, psi=0, energy=12.4), names=[&#39;ttheta&#39;, &#39;theta&#39;, &#39;chi&#39;, &#39;phi&#39;]
   warnings.warn(
 </pre></div>
 </div>
@@ -557,13 +558,11 @@ ttheta=0, theta=0, chi=0, phi=0, psi=0, energy=12.4
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/home/zorinvm/Documents/projects/prjemian/hklpy2/hklpy2/misc.py:316: UserWarning:  Extra inputs will be ignored. Expected 4. Received input=FourcRealPos(ttheta=0.0, theta=0.0, chi=0.0, phi=0.0, psi=0, energy=12.4), names=[&#39;theta&#39;, &#39;chi&#39;, &#39;phi&#39;, &#39;ttheta&#39;]
-  warnings.warn(
-/home/zorinvm/Documents/projects/prjemian/hklpy2/hklpy2/misc.py:316: UserWarning:  Extra inputs will be ignored. Expected 3. Received input=FourcPseudoPos(h=1, k=0, l=0, h2=0, k2=0, l2=0), names=[&#39;h&#39;, &#39;k&#39;, &#39;l&#39;]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/home/zorinvm/Documents/projects/prjemian/hklpy2/hklpy2/misc.py:316: UserWarning:  Extra inputs will be ignored. Expected 3. Received input=FourcPseudoPos(h=1, k=0, l=0, h2=0, k2=0, l2=0), names=[&#39;h&#39;, &#39;k&#39;, &#39;l&#39;]
   warnings.warn(
 </pre></div>
 </div>
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>FourcRealPos(ttheta=-60.000000362418, theta=-30.000000181209, chi=-9.5582e-08, phi=-89.999999974224, psi=0, energy=12.4)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>FourcRealPos(ttheta=30.00000000079, theta=-4.747e-09, chi=90.00000000447, phi=60.00000000158, psi=0, energy=12.4)
 </pre></div>
 </div>
 </div>
@@ -575,18 +574,18 @@ ttheta=0, theta=0, chi=0, phi=0, psi=0, energy=12.4
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[FourcRealPos(ttheta=60.00000000158, theta=30.00000000079, chi=-4.747e-09, phi=90.00000000447, psi=0, energy=12.4),
- FourcRealPos(ttheta=-60.00000000158, theta=-30.00000000079, chi=-4.747e-09, phi=-89.99999999553, psi=0, energy=12.4),
- FourcRealPos(ttheta=-60.000000004807, theta=30.00000000079, chi=-4.747e-09, phi=-149.99999999711, psi=0, energy=12.4),
- FourcRealPos(ttheta=-60.000000004807, theta=-149.99999999921, chi=-4.747e-09, phi=30.00000000289, psi=0, energy=12.4),
- FourcRealPos(ttheta=59.99999993585, theta=-30.00000000079, chi=-4.747e-09, phi=150.00000000605, psi=0, energy=12.4),
- FourcRealPos(ttheta=60.00000000158, theta=-149.99999999921, chi=-4.747e-09, phi=-89.99999999553, psi=0, energy=12.4),
- FourcRealPos(ttheta=60.00000000158, theta=30.00000000079, chi=-179.999999995253, phi=-89.99999999553, psi=0, energy=12.4),
- FourcRealPos(ttheta=-60.00000000158, theta=-30.00000000079, chi=-179.999999995253, phi=90.00000000447, psi=0, energy=12.4),
- FourcRealPos(ttheta=-60.000000004807, theta=30.00000000079, chi=-179.999999995253, phi=150.00000000605, psi=0, energy=12.4),
- FourcRealPos(ttheta=-60.000000004807, theta=-149.99999999921, chi=-179.999999995253, phi=-29.99999999395, psi=0, energy=12.4),
- FourcRealPos(ttheta=59.99999993585, theta=-30.00000000079, chi=-179.999999995253, phi=-149.99999999711, psi=0, energy=12.4),
- FourcRealPos(ttheta=60.00000000158, theta=-149.99999999921, chi=-179.999999995253, phi=90.00000000447, psi=0, energy=12.4)]
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[FourcRealPos(ttheta=-30.000000181209, theta=-9.5582e-08, chi=-89.999999974224, phi=-60.000000362418, psi=0, energy=12.4),
+ FourcRealPos(ttheta=30.000000181209, theta=-9.5582e-08, chi=90.000000025776, phi=60.000000362418, psi=0, energy=12.4),
+ FourcRealPos(ttheta=-30.000000181209, theta=-9.5582e-08, chi=150.000000388193, phi=60.000000396423, psi=0, energy=12.4),
+ FourcRealPos(ttheta=-149.999999818791, theta=-9.5582e-08, chi=29.999999663358, phi=-60.000000465387, psi=0, energy=12.4),
+ FourcRealPos(ttheta=30.000000181209, theta=-9.5582e-08, chi=-150.000000336642, phi=-60.000000465387, psi=0, energy=12.4),
+ FourcRealPos(ttheta=-149.999999818791, theta=-9.5582e-08, chi=-89.999999974224, phi=60.000000362418, psi=0, energy=12.4),
+ FourcRealPos(ttheta=-30.000000181209, theta=-179.999999904418, chi=90.000000025776, phi=-60.000000362418, psi=0, energy=12.4),
+ FourcRealPos(ttheta=30.000000181209, theta=-179.999999904418, chi=-89.999999974224, phi=60.000000362418, psi=0, energy=12.4),
+ FourcRealPos(ttheta=-30.000000181209, theta=-179.999999904418, chi=-150.000000336642, phi=60.000000396423, psi=0, energy=12.4),
+ FourcRealPos(ttheta=-149.999999818791, theta=-179.999999904418, chi=-29.999999611807, phi=-60.000000465387, psi=0, energy=12.4),
+ FourcRealPos(ttheta=30.000000181209, theta=-179.999999904418, chi=150.000000388193, phi=-60.000000465387, psi=0, energy=12.4),
+ FourcRealPos(ttheta=-149.999999818791, theta=-179.999999904418, chi=90.000000025776, phi=60.000000362418, psi=0, energy=12.4)]
 </pre></div>
 </div>
 </div>
@@ -598,7 +597,12 @@ ttheta=0, theta=0, chi=0, phi=0, psi=0, energy=12.4
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;h&#39;: 0.517638090205, &#39;k&#39;: 0, &#39;l&#39;: 0, &#39;h2&#39;: 0, &#39;k2&#39;: 0, &#39;l2&#39;: 0}
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;h&#39;: -0.366025403784,
+ &#39;k&#39;: 0.353553390593,
+ &#39;l&#39;: 1.319479216882,
+ &#39;h2&#39;: 0,
+ &#39;k2&#39;: 0,
+ &#39;l2&#39;: 0}
 </pre></div>
 </div>
 </div>

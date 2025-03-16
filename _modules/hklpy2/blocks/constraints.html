@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../../../_static/documentation_options.js?v=d4ab36e5"></script>
+    <script src="../../../_static/documentation_options.js?v=1030592f"></script>
     <script src="../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -450,7 +450,7 @@
 <a class="viewcode-back" href="../../../autoapi/hklpy2/blocks/constraints/index.html#hklpy2.blocks.constraints.ConstraintBase._fromdict">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">_fromdict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">,</span> <span class="n">core</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Redefine this constraint from a (configuration) dictionary.&quot;&quot;&quot;</span>
-        <span class="kn">from</span><span class="w"> </span><span class="nn">..ops</span><span class="w"> </span><span class="kn">import</span> <span class="n">Operations</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">..ops</span><span class="w"> </span><span class="kn">import</span> <span class="n">Core</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">!=</span> <span class="n">config</span><span class="p">[</span><span class="s2">&quot;class&quot;</span><span class="p">]:</span>
             <span class="k">raise</span> <span class="n">ConfigurationError</span><span class="p">(</span>
@@ -458,7 +458,7 @@
                 <span class="sa">f</span><span class="s2">&quot; Received: </span><span class="si">{</span><span class="n">config</span><span class="si">!r}</span><span class="s2">&quot;</span>
             <span class="p">)</span>
 
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">core</span><span class="p">,</span> <span class="n">Operations</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">core</span><span class="p">,</span> <span class="n">Core</span><span class="p">):</span>
             <span class="c1"># Validate with solver.</span>
             <span class="n">axis</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s2">&quot;label&quot;</span><span class="p">]</span>
             <span class="n">axes_local</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">diffractometer</span><span class="o">.</span><span class="n">real_axis_names</span><span class="p">)</span>

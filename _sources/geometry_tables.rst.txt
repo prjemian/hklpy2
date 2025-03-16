@@ -503,8 +503,8 @@ solver='th_tth', geometry='TH TTH Q'
 
 .. index:: geometries; th_tth; TH TTH Q
 
-======== ========= ======= =========== ========
-mode     pseudo(s) real(s) writable(s) extra(s)
-======== ========= ======= =========== ========
-bisector q         th, tth th, tth
-======== ========= ======= =========== ========
+========= ========= ======= =========== ========
+mode      pseudo(s) real(s) writable(s) extra(s)
+========= ========= ======= =========== ========
+bissector q         th, tth th, tth
+========= ========= ======= =========== ========

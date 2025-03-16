@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../../../_static/documentation_options.js?v=d4ab36e5"></script>
+    <script src="../../../_static/documentation_options.js?v=1030592f"></script>
     <script src="../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -400,6 +400,10 @@
 <a class="viewcode-back" href="../../../autoapi/hklpy2/backends/th_tth_q/index.html#hklpy2.backends.th_tth_q.TH_Q_GEOMETRY">[docs]</a>
 <span class="n">TH_Q_GEOMETRY</span> <span class="o">=</span> <span class="s2">&quot;TH Q&quot;</span>  <span class="c1"># TODO: Second geometry?</span></div>
 
+<div class="viewcode-block" id="BISECTOR_MODE">
+<a class="viewcode-back" href="../../../autoapi/hklpy2/backends/th_tth_q/index.html#hklpy2.backends.th_tth_q.BISECTOR_MODE">[docs]</a>
+<span class="n">BISECTOR_MODE</span> <span class="o">=</span> <span class="s2">&quot;bissector&quot;</span>  <span class="c1"># spelled same as in E4CV</span></div>
+
 
 
 <div class="viewcode-block" id="ThTthSolver">
@@ -506,7 +510,7 @@
                 <span class="k">raise</span> <span class="n">SolverError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&#39;q&#39; not defined. Received </span><span class="si">{</span><span class="n">pseudos</span><span class="si">!r}</span><span class="s2">.&quot;</span><span class="p">)</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">wavelength</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="n">SolverError</span><span class="p">(</span><span class="s2">&quot;Wavelength is not set. Add a reflection.&quot;</span><span class="p">)</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;bisector&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">==</span> <span class="n">BISECTOR_MODE</span><span class="p">:</span>
                 <span class="n">th</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">degrees</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">asin</span><span class="p">(</span><span class="n">q</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">wavelength</span> <span class="o">/</span> <span class="mi">4</span> <span class="o">/</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">))</span>
                 <span class="n">solutions</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">&quot;th&quot;</span><span class="p">:</span> <span class="n">th</span><span class="p">,</span> <span class="s2">&quot;tth&quot;</span><span class="p">:</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">th</span><span class="p">})</span>
 
@@ -541,7 +545,7 @@
                 <span class="k">raise</span> <span class="n">SolverError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&#39;tth&#39; not defined. Received </span><span class="si">{</span><span class="n">reals</span><span class="si">!r}</span><span class="s2">.&quot;</span><span class="p">)</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">wavelength</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="n">SolverError</span><span class="p">(</span><span class="s2">&quot;Wavelength is not set. Add a reflection.&quot;</span><span class="p">)</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;bisector&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">==</span> <span class="n">BISECTOR_MODE</span><span class="p">:</span>
                 <span class="n">q</span> <span class="o">=</span> <span class="p">(</span><span class="mi">4</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">wavelength</span>
                 <span class="n">q</span> <span class="o">*=</span> <span class="n">math</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">tth</span> <span class="o">/</span> <span class="mi">2</span><span class="p">))</span>
                 <span class="n">pseudos</span><span class="p">[</span><span class="s2">&quot;q&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">q</span>
@@ -553,7 +557,8 @@
 <a class="viewcode-back" href="../../../autoapi/hklpy2/backends/th_tth_q/index.html#hklpy2.backends.th_tth_q.ThTthSolver.modes">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">modes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">geometry</span> <span class="o">==</span> <span class="n">TH_TTH_Q_GEOMETRY</span><span class="p">:</span>
-            <span class="k">return</span> <span class="p">[</span><span class="s2">&quot;bisector&quot;</span><span class="p">]</span></div>
+            <span class="c1"># TODO: use a symbol, change spelling to match E4CV: bissector</span>
+            <span class="k">return</span> <span class="p">[</span><span class="n">BISECTOR_MODE</span><span class="p">]</span></div>
 
 
     <span class="nd">@property</span>

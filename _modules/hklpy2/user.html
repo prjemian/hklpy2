@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../../_static/documentation_options.js?v=d4ab36e5"></script>
+    <script src="../../_static/documentation_options.js?v=1030592f"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/design-tabs.js?v=f930bc37"></script>
@@ -400,7 +400,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">.misc</span><span class="w"> </span><span class="kn">import</span> <span class="n">AnyAxesType</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.misc</span><span class="w"> </span><span class="kn">import</span> <span class="n">AxesDict</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.misc</span><span class="w"> </span><span class="kn">import</span> <span class="n">AxesTuple</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">.ops</span><span class="w"> </span><span class="kn">import</span> <span class="n">OperationsError</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.ops</span><span class="w"> </span><span class="kn">import</span> <span class="n">CoreError</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.wavelength_support</span><span class="w"> </span><span class="kn">import</span> <span class="n">MonochromaticXrayWavelength</span>
 
 <div class="viewcode-block" id="__all__">
@@ -861,7 +861,7 @@
 <span class="sd">        and                             will raise</span>
 <span class="sd">        =============================   =============</span>
 <span class="sd">        ``name`` is not found.          ``KeyError``</span>
-<span class="sd">        ``name`` is the only sample.    :class:`~hklpy2.ops.OperationsError`</span>
+<span class="sd">        ``name`` is the only sample.    :class:`~hklpy2.ops.CoreError`</span>
 <span class="sd">        =============================   =============</span>
 
 <span class="sd">        Provide ``error=False`` to avoid raising an exception.</span>
@@ -870,7 +870,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">get_diffractometer</span><span class="p">()</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">remove_sample</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
-    <span class="k">except</span> <span class="p">(</span><span class="ne">KeyError</span><span class="p">,</span> <span class="n">OperationsError</span><span class="p">)</span> <span class="k">as</span> <span class="n">exinfo</span><span class="p">:</span>
+    <span class="k">except</span> <span class="p">(</span><span class="ne">KeyError</span><span class="p">,</span> <span class="n">CoreError</span><span class="p">)</span> <span class="k">as</span> <span class="n">exinfo</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">error</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">exinfo</span></div>
 
@@ -917,7 +917,7 @@
     <span class="k">if</span> <span class="n">units</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">source</span><span class="o">.</span><span class="n">energy_units</span> <span class="o">=</span> <span class="n">units</span>
     <span class="k">if</span> <span class="n">offset</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">source</span><span class="o">.</span><span class="n">energy_offset</span> <span class="o">=</span> <span class="n">offset</span>  <span class="c1"># TODO: requires feature addition</span>
+        <span class="n">source</span><span class="o">.</span><span class="n">energy_offset</span> <span class="o">=</span> <span class="n">offset</span>  <span class="c1"># TODO: #35 requires feature addition</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
             <span class="s2">&quot;Monochromatic source energy offset not implemented (yet).&quot;</span>
         <span class="p">)</span>

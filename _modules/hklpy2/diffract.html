@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../../_static/documentation_options.js?v=d4ab36e5"></script>
+    <script src="../../_static/documentation_options.js?v=1030592f"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/design-tabs.js?v=f930bc37"></script>
@@ -556,7 +556,7 @@
         <span class="n">reals</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
     <span class="p">):</span>
-        <span class="kn">from</span><span class="w"> </span><span class="nn">.ops</span><span class="w"> </span><span class="kn">import</span> <span class="n">Operations</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">.ops</span><span class="w"> </span><span class="kn">import</span> <span class="n">Core</span>
 
 <div class="viewcode-block" id="DiffractometerBase._backend">
 <a class="viewcode-back" href="../../autoapi/hklpy2/diffract/index.html#hklpy2.diffract.DiffractometerBase._backend">[docs]</a>
@@ -573,7 +573,7 @@
 
 <div class="viewcode-block" id="DiffractometerBase.core">
 <a class="viewcode-back" href="../../autoapi/hklpy2/diffract/index.html#hklpy2.diffract.DiffractometerBase.core">[docs]</a>
-        <span class="bp">self</span><span class="o">.</span><span class="n">core</span> <span class="o">=</span> <span class="n">Operations</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">core</span> <span class="o">=</span> <span class="n">Core</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
 
 
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">prefix</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
@@ -646,7 +646,7 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Automatically assign diffractometer axes to this solver.</span>
 
-<span class="sd">        .. seealso:: :meth:`hklpy2.ops.Operations.auto_assign_axes`</span>
+<span class="sd">        .. seealso:: :meth:`hklpy2.ops.Core.auto_assign_axes`</span>
 
 <span class="sd">        A |solver| geometry specifies expected pseudo, real, and extra axes</span>
 <span class="sd">        for its ``.forward()`` and ``.inverse()`` coordinate transformations.</span>
@@ -987,8 +987,9 @@
                 <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">reason</span><span class="p">:</span>
                     <span class="k">if</span> <span class="n">fail_on_exception</span><span class="p">:</span>
                         <span class="k">raise</span> <span class="n">reason</span>
-                    <span class="c1"># else:</span>
-                    <span class="c1">#     print(f&quot;FAIL: {axis}={value} {reason}&quot;)  # TODO What conditions reach this line?</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="c1"># Needs a special test for this output.</span>
+                        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;FAIL: </span><span class="si">{</span><span class="n">axis</span><span class="si">}</span><span class="s2">=</span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">reason</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>  <span class="c1"># Inform the user!</span>
 
         <span class="k">return</span> <span class="p">(</span><span class="k">yield from</span> <span class="n">_inner</span><span class="p">())</span></div>
 
@@ -1108,7 +1109,7 @@
     <span class="n">labels</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;diffractometer&quot;</span><span class="p">],</span>
     <span class="n">class_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;Hklpy2Diffractometer&quot;</span><span class="p">,</span>
     <span class="n">class_bases</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[</span><span class="n">DiffractometerBase</span><span class="p">],</span>
-    <span class="n">auto_assign</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">auto_assign</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>  <span class="c1"># TODO: #51 Refactor to assign=&quot;auto&quot; or (pseudos, reals)</span>
     <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -1199,6 +1200,7 @@
         <span class="n">motor_labels</span><span class="o">=</span><span class="n">motor_labels</span><span class="p">,</span>
         <span class="n">class_name</span><span class="o">=</span><span class="n">class_name</span><span class="p">,</span>
         <span class="n">class_bases</span><span class="o">=</span><span class="n">class_bases</span><span class="p">,</span>
+        <span class="c1"># assign=&quot;auto&quot;,  # TODO: #51</span>
     <span class="p">)</span>
 
     <span class="n">diffractometer</span> <span class="o">=</span> <span class="n">DiffractometerClass</span><span class="p">(</span>

@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=d4ab36e5"></script>
+    <script src="../_static/documentation_options.js?v=1030592f"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
@@ -340,6 +340,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../examples/example-4-circle-custom-class.html">Example 4-circle diffractometer custom Python class</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/hkl_soleil-e4ch.html"><strong>hkl_soleil</strong> E4CH</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/hkl_soleil-e4cv.html"><strong>hkl_soleil</strong> E4CV</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/hkl_soleil-e4cv%2Bepics.html"><strong>hkl_soleil</strong> E4CV with EPICS motors</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/hkl_soleil-e6c-psi.html"><strong>hkl_soleil</strong> E6C psi axis</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/hkl_soleil-e6c-test_calculations.html"><strong>hkl_soleil</strong> E6C test of calculations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/hkl_soleil-k4cv.html"><strong>hkl_soleil</strong> K4CV</a></li>
@@ -431,9 +432,9 @@
 <p id="index-0">The <a class="reference internal" href="../autoapi/hklpy2/diffract/index.html#hklpy2.diffract.creator" title="hklpy2.diffract.creator"><code class="xref py py-func docutils literal notranslate"><span class="pre">creator()</span></code></a>, a <a class="reference external" href="https://en.wikipedia.org/wiki/Factory_(object-oriented_programming)">factory function</a>, reduces
 the effort to create all but the most complex diffractometer objects. It uses
 the <a class="reference internal" href="../autoapi/hklpy2/diffract/index.html#hklpy2.diffract.diffractometer_class_factory" title="hklpy2.diffract.diffractometer_class_factory"><code class="xref py py-func docutils literal notranslate"><span class="pre">diffractometer_class_factory()</span></code></a> to build the Python
-class for those chosen <strong>Solver</strong> and geometry.  Here’s an example <a class="reference internal" href="../geometry_tables.html#geometries-hkl-soleil-k6c"><span class="std std-ref">6-circle</span></a> diffractometer in kappa geometry with simulated
+class for the chosen <strong>Solver</strong> and geometry.  Here’s an example <a class="reference internal" href="../geometry_tables.html#geometries-hkl-soleil-k6c"><span class="std std-ref">6-circle</span></a> diffractometer in kappa geometry with simulated
 motors:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">k6c</span> <span class="o">=</span> <span class="n">hklpy2</span><span class="o">.</span><span class="n">creator</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;k6c&quot;</span><span class="p">,</span> <span class="n">geometry</span><span class="o">=</span><span class="s2">&quot;K6C&quot;</span><span class="p">,</span> <span class="n">solver</span><span class="o">=</span><span class="s2">&quot;hkl_soleil&quot;</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">k6c</span> <span class="o">=</span> <span class="n">hklpy2</span><span class="o">.</span><span class="n">creator</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;k6c&quot;</span><span class="p">,</span> <span class="n">solver</span><span class="o">=</span><span class="s2">&quot;hkl_soleil&quot;</span><span class="p">,</span> <span class="n">geometry</span><span class="o">=</span><span class="s2">&quot;K6C&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 <div class="admonition tip">
@@ -482,10 +483,10 @@ Here’s a sampler:</p>
 <td><p><a class="reference internal" href="../examples/_api_demo.html"><span class="doc">Demonstrate hklpy2’s API</span></a></p></td>
 </tr>
 <tr class="row-odd"><td><p>engine (via <code class="docutils literal notranslate"><span class="pre">solver_kwargs</span></code>)</p></td>
-<td><p><a class="reference internal" href="../examples/hkl_soleil-e6c-psi.html"><span class="doc">hkl_soleil E6C psi axis</span></a></p></td>
+<td><p><a class="reference internal" href="../guides/var_engines.html"><span class="doc">Use E4CV’s $Q$ calculation engine</span></a></p></td>
 </tr>
 <tr class="row-even"><td><p>EPICS PVs</p></td>
-<td><p>tbd</p></td>
+<td><p><a class="reference internal" href="../examples/hkl_soleil-e4cv%2Bepics.html"><span class="doc">hkl_soleil E4CV with EPICS motors</span></a></p></td>
 </tr>
 <tr class="row-odd"><td><p>renamed axes</p></td>
 <td><p><a class="reference internal" href="../examples/nslsii-tardis.html"><span class="doc">NSLS-II tardis diffractometer</span></a></p></td>

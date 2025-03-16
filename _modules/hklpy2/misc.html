@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../../_static/documentation_options.js?v=d4ab36e5"></script>
+    <script src="../../_static/documentation_options.js?v=1030592f"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/design-tabs.js?v=f930bc37"></script>
@@ -414,7 +414,7 @@
 <span class="sd">    ~ConstraintsError</span>
 <span class="sd">    ~DiffractometerError</span>
 <span class="sd">    ~LatticeError</span>
-<span class="sd">    ~OperationsError</span>
+<span class="sd">    ~CoreError</span>
 <span class="sd">    ~ReflectionError</span>
 <span class="sd">    ~SampleError</span>
 <span class="sd">    ~SolverError</span>
@@ -545,10 +545,10 @@
 
 
 
-<div class="viewcode-block" id="OperationsError">
-<a class="viewcode-back" href="../../autoapi/hklpy2/misc/index.html#hklpy2.OperationsError">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">OperationsError</span><span class="p">(</span><span class="n">Hklpy2Error</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Custom exceptions from :class:`~Operations`.&quot;&quot;&quot;</span></div>
+<div class="viewcode-block" id="CoreError">
+<a class="viewcode-back" href="../../autoapi/hklpy2/misc/index.html#hklpy2.CoreError">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">CoreError</span><span class="p">(</span><span class="n">Hklpy2Error</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Custom exceptions from :class:`~Core`.&quot;&quot;&quot;</span></div>
 
 
 
@@ -791,7 +791,7 @@
         <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">names</span><span class="p">,</span> <span class="nb">input</span><span class="p">):</span>
             <span class="n">axes</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
 
-    <span class="k">else</span><span class="p">:</span>  <span class="c1"># TODO: generic test is Iterable? AxesArray</span>
+    <span class="k">else</span><span class="p">:</span>  <span class="c1"># TODO: #57 generic test is Iterable? AxesArray</span>
         <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unexpected type: </span><span class="si">{</span><span class="nb">input</span><span class="si">!r}</span><span class="s2">.  Expected &#39;AnyAxesType&#39;.&quot;</span><span class="p">)</span>
 
     <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">axes</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>

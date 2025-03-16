@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=d4ab36e5"></script>
+    <script src="../_static/documentation_options.js?v=1030592f"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
@@ -342,6 +342,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../examples/example-4-circle-custom-class.html">Example 4-circle diffractometer custom Python class</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/hkl_soleil-e4ch.html"><strong>hkl_soleil</strong> E4CH</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/hkl_soleil-e4cv.html"><strong>hkl_soleil</strong> E4CV</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/hkl_soleil-e4cv%2Bepics.html"><strong>hkl_soleil</strong> E4CV with EPICS motors</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/hkl_soleil-e6c-psi.html"><strong>hkl_soleil</strong> E6C psi axis</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/hkl_soleil-e6c-test_calculations.html"><strong>hkl_soleil</strong> E6C test of calculations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/hkl_soleil-k4cv.html"><strong>hkl_soleil</strong> K4CV</a></li>
@@ -553,7 +554,7 @@ Python reserves <cite>lambda</cite> as a type of expression:
 <p>The purpose of a diffractometer is to position a sample for scientific
 measurements. The <code class="docutils literal notranslate"><span class="pre">sample</span></code> attribute is an instance of
 <a class="reference internal" href="../autoapi/hklpy2/blocks/sample/index.html#hklpy2.blocks.sample.Sample" title="hklpy2.blocks.sample.Sample"><code class="xref py py-class docutils literal notranslate"><span class="pre">Sample</span></code></a>. Behind the scenes, the
-<a class="reference internal" href="../autoapi/hklpy2/ops/index.html#hklpy2.ops.Operations" title="hklpy2.ops.Operations"><code class="xref py py-class docutils literal notranslate"><span class="pre">Operations</span></code></a> class maintains a <em>dictionary</em> of samples (keyed
+<a class="reference internal" href="../autoapi/hklpy2/ops/index.html#hklpy2.ops.Core" title="hklpy2.ops.Core"><code class="xref py py-class docutils literal notranslate"><span class="pre">Core</span></code></a> class maintains a <em>dictionary</em> of samples (keyed
 by <code class="docutils literal notranslate"><span class="pre">name</span></code>), each with its own <a class="reference internal" href="../autoapi/hklpy2/blocks/lattice/index.html#hklpy2.blocks.lattice.Lattice" title="hklpy2.blocks.lattice.Lattice"><code class="xref py py-class docutils literal notranslate"><span class="pre">Lattice</span></code></a> and
 orientation <a class="reference internal" href="../autoapi/hklpy2/blocks/reflection/index.html#hklpy2.blocks.reflection.Reflection" title="hklpy2.blocks.reflection.Reflection"><code class="xref py py-class docutils literal notranslate"><span class="pre">Reflection</span></code></a> information.</p>
 <section id="lattice">
@@ -600,7 +601,7 @@ with lattice parameter of exactly <span class="math notranslate nohighlight">\(2
 and <a class="reference internal" href="../autoapi/hklpy2/diffract/index.html#hklpy2.diffract.DiffractometerBase.inverse" title="hklpy2.diffract.DiffractometerBase.inverse"><code class="xref py py-meth docutils literal notranslate"><span class="pre">inverse()</span></code></a> transformations that allow
 precise positioning of a crystalline sample’s atomic planes in the laboratory
 reference system of the diffractometer.  It is common to compute the <strong>UB</strong> matrix
-from two orientation reflections using <a class="reference internal" href="../autoapi/hklpy2/ops/index.html#hklpy2.ops.Operations.calc_UB" title="hklpy2.ops.Operations.calc_UB"><code class="xref py py-meth docutils literal notranslate"><span class="pre">calc_UB()</span></code></a>.</p>
+from two orientation reflections using <a class="reference internal" href="../autoapi/hklpy2/ops/index.html#hklpy2.ops.Core.calc_UB" title="hklpy2.ops.Core.calc_UB"><code class="xref py py-meth docutils literal notranslate"><span class="pre">calc_UB()</span></code></a>.</p>
 <section id="orientation-reflections">
 <h5>orientation reflections<a class="headerlink" href="#orientation-reflections" title="Link to this heading">#</a></h5>
 <p>An orientation reflection consists of a set of matching pseudos
@@ -703,10 +704,10 @@ determine the outcome of the <code class="docutils literal notranslate"><span cl
 <p>A <a class="reference internal" href="../autoapi/hklpy2/diffract/index.html#hklpy2.diffract.DiffractometerBase" title="hklpy2.diffract.DiffractometerBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">DiffractometerBase</span></code></a> object has several parts:</p>
 <p>The <a class="reference internal" href="../autoapi/hklpy2/diffract/index.html#hklpy2.diffract.DiffractometerBase" title="hklpy2.diffract.DiffractometerBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">DiffractometerBase()</span></code></a> class should
 be a thin interface. Most real diffractometer capability should be
-provided in the <a class="reference internal" href="../autoapi/hklpy2/ops/index.html#hklpy2.ops.Operations" title="hklpy2.ops.Operations"><code class="xref py py-class docutils literal notranslate"><span class="pre">Operations()</span></code></a> class (or one of
-its attributes, such as <a class="reference internal" href="../autoapi/hklpy2/ops/index.html#hklpy2.ops.Operations.solver" title="hklpy2.ops.Operations.solver"><code class="xref py py-attr docutils literal notranslate"><span class="pre">solver</span></code></a>
-and <a class="reference internal" href="../autoapi/hklpy2/ops/index.html#hklpy2.ops.Operations.sample" title="hklpy2.ops.Operations.sample"><code class="xref py py-attr docutils literal notranslate"><span class="pre">sample</span></code></a>)</p>
-<p class="rubric">Operations-related methods and properties</p>
+provided in the <a class="reference internal" href="../autoapi/hklpy2/ops/index.html#hklpy2.ops.Core" title="hklpy2.ops.Core"><code class="xref py py-class docutils literal notranslate"><span class="pre">Core()</span></code></a> class (or one of
+its attributes, such as <a class="reference internal" href="../autoapi/hklpy2/ops/index.html#hklpy2.ops.Core.solver" title="hklpy2.ops.Core.solver"><code class="xref py py-attr docutils literal notranslate"><span class="pre">solver</span></code></a>
+and <a class="reference internal" href="../autoapi/hklpy2/ops/index.html#hklpy2.ops.Core.sample" title="hklpy2.ops.Core.sample"><code class="xref py py-attr docutils literal notranslate"><span class="pre">sample</span></code></a>)</p>
+<p class="rubric">Core-related methods and properties</p>
 <div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="../autoapi/hklpy2/diffract/index.html#hklpy2.diffract.DiffractometerBase.auto_assign_axes" title="hklpy2.diffract.DiffractometerBase.auto_assign_axes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">auto_assign_axes</span></code></a>()</p></td>
@@ -769,7 +770,7 @@ and <a class="reference internal" href="../autoapi/hklpy2/ops/index.html#hklpy2.
 <p class="rubric">Related methods and properties from other classes</p>
 <div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="../autoapi/hklpy2/ops/index.html#hklpy2.ops.Operations.assign_axes" title="hklpy2.ops.Operations.assign_axes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">assign_axes</span></code></a>(pseudos, reals)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="../autoapi/hklpy2/ops/index.html#hklpy2.ops.Core.assign_axes" title="hklpy2.ops.Core.assign_axes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">assign_axes</span></code></a>(pseudos, reals)</p></td>
 <td><p>Designate attributes for use by the PseudoPositioner class.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="../autoapi/hklpy2/backends/base/index.html#hklpy2.backends.base.SolverBase.extra_axis_names" title="hklpy2.backends.base.SolverBase.extra_axis_names"><code class="xref py py-obj docutils literal notranslate"><span class="pre">extra_axis_names</span></code></a></p></td>
@@ -784,7 +785,7 @@ and <a class="reference internal" href="../autoapi/hklpy2/ops/index.html#hklpy2.
 <tr class="row-odd"><td><p><a class="reference internal" href="../autoapi/hklpy2/blocks/sample/index.html#hklpy2.blocks.sample.Sample.reflections" title="hklpy2.blocks.sample.Sample.reflections"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reflections</span></code></a></p></td>
 <td><p>Ordered dictionary of orientation reflections.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="../autoapi/hklpy2/ops/index.html#hklpy2.ops.Operations.set_solver" title="hklpy2.ops.Operations.set_solver"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_solver</span></code></a>(name, geometry, **kwargs)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="../autoapi/hklpy2/ops/index.html#hklpy2.ops.Core.set_solver" title="hklpy2.ops.Core.set_solver"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_solver</span></code></a>(name, geometry, **kwargs)</p></td>
 <td><p>Create an instance of the backend <strong>Solver</strong> library and geometry.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="../autoapi/hklpy2/blocks/sample/index.html#hklpy2.blocks.sample.Sample.U" title="hklpy2.blocks.sample.Sample.U"><code class="xref py py-obj docutils literal notranslate"><span class="pre">U</span></code></a></p></td>
