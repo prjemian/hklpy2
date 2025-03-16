@@ -736,7 +736,7 @@ def creator(
         motor_labels=motor_labels,
         class_name=class_name,
         class_bases=class_bases,
-        # assign="auto",  # TODO: "auto" or dict(pseudos="", reals="")
+        # assign="auto",  # TODO: #51
     )
 
     diffractometer = DiffractometerClass(
