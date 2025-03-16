@@ -144,6 +144,7 @@ class ThTthSolver(SolverBase):
     @property
     def modes(self):
         if self.geometry == TH_TTH_Q_GEOMETRY:
+            # TODO: use a symbol, change spelling to match E4CV: bissector
             return ["bisector"]
 
     @property

@@ -495,7 +495,7 @@ def set_energy(value: float, units=None, offset=None):
     if units is not None:
         source.energy_units = units
     if offset is not None:
-        source.energy_offset = offset  # TODO: requires feature addition
+        source.energy_offset = offset  # TODO: #35 requires feature addition
         raise NotImplementedError(
             "Monochromatic source energy offset not implemented (yet)."
         )

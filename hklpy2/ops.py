@@ -410,7 +410,7 @@ class Operations:
         pdict = self.standardize_pseudos(pseudos)
         reals = self.diffractometer.real_position._asdict()  # Original values.
 
-        # TODO: make sure solver has the sample's UB matrix for 'forward()'
+        # TODO: #58 make sure solver has the sample's UB matrix for 'forward()'
 
         # Filter just the solutions that fit the constraints.
         results = self.solver.forward(self._axes_names_d2s(pdict))
@@ -422,6 +422,7 @@ class Operations:
 
         return solutions
 
+    # TODO: #59
     def forward_solutions_table(self, reflections, full=False, digits=5):
         """
         Return table of computed solutions for each supplied (hkl) reflection.
@@ -447,7 +448,7 @@ class Operations:
         _table.labels = "(hkl) solution".split() + list(motors)
         for reflection in reflections:
             solutions = self.forward(reflection)
-            # TODO: get default solution first, then any others
+            # TODO: #59 get default solution first, then any others
             # Don't assume (as now) that the defaults is the first.
             for i, s in enumerate(solutions):
                 row = [reflection, i]
@@ -483,7 +484,7 @@ class Operations:
         # Dictionary in order expected by the solver.
         reals: AxesDict = self.standardize_reals(reals)
 
-        # TODO: make sure solver has the sample's UB matrix for 'forward()'
+        # TODO: #58 make sure solver has the sample's UB matrix for 'forward()'
 
         # transform: reals -> pseudos
         spdict: AxesDict = self.solver.inverse(self._axes_names_d2s(reals))

@@ -281,4 +281,4 @@ def test_local_pseudo_axes(gonio, axes, prop, context, expected):
     assert_context_result(expected, reason)
 
 
-# FIXME: reset_samples is not tested yet
+# FIXME: #56 reset_samples is not tested yet
