@@ -183,12 +183,6 @@ def test_diffractometer_class(
     if solver is not None:
         dmeter.core.set_solver(solver, gname, **solver_kwargs)
 
-    if len(pseudos) == 0:
-        if solver is not None:
-            dmeter.auto_assign_axes()
-    else:
-        dmeter.core.assign_axes(pseudos, reals)
-
     with does_not_raise():
         # These PseudoPositioner properties _must_ work immediately.
         assert isinstance(dmeter.position, tuple), f"{type(dmeter.position)=!r}"

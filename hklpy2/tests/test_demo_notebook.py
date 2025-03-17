@@ -20,6 +20,9 @@ def fourc():
     class Fourc(hklpy2.DiffractometerBase):
         """Test case."""
 
+        _pseudo = "h k l".split()
+        _real = "theta chi phi ttheta".split()
+
         # pseudo-space axes, in order expected by hkl_soleil E4CV, engine="hkl"
         h = Cpt(PseudoSingle, kind=NORMAL_HINTED)  # noqa: E741
         k = Cpt(PseudoSingle, kind=NORMAL_HINTED)  # noqa: E741
@@ -33,7 +36,7 @@ def fourc():
         ttheta = Cpt(SoftPositioner, limits=(-170, 170), init_pos=0, kind=NORMAL_HINTED)
 
         # pseudo-space extra axes used in a couple modes
-        h2 = Cpt(PseudoSingle, kind=NORMAL_HINTED)  # noqa: E741
+        h2 = Cpt(PseudoSingle, kind=NORMAL_HINTED)  # noqa: E741  FIXME #51
         k2 = Cpt(PseudoSingle, kind=NORMAL_HINTED)  # noqa: E741
         l2 = Cpt(PseudoSingle, kind=NORMAL_HINTED)  # noqa: E741
 
@@ -51,7 +54,6 @@ def fourc():
                 solver_kwargs={"engine": "hkl"},
                 **kwargs,
             )
-            self.core.auto_assign_axes()
 
     fourc = Fourc(name="fourc")
     yield fourc

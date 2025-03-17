@@ -76,7 +76,7 @@ def test_asdict(geometry, solver, name, keypath, value):
 def test_axes_xref_empty():
     expected = "Did you forget to call `assign_axes()`"
     with pytest.raises(CoreError) as reason:
-        e4cv = creator(name="e4cv", auto_assign=False)
+        e4cv = creator(name="e4cv")  # TODO #51
         e4cv.add_reflection((1, 0, 0), (10, 0, 0, 20), name="r1")
     assert_context_result(expected, reason)
 

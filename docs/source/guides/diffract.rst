@@ -11,13 +11,10 @@ to use any names allowed by ophyd.
 User-defined axis names
 -----------------------
 
-Let's see a few examples of diffractometers built with user-defined names.
+Let's see examples of diffractometers built with user-defined names.
 
 * :ref:`diffract_axes.diffractometer-factory` with automatic mapping
-* :ref:`diffract_axes.custom-auto-assign` with automatic mapping
 * :ref:`diffract_axes.direct-assign` with directed mapping
-
-.. seealso:: :ref:`diffract_axes.auto-assign`
 
 .. _diffract_axes.diffractometer-factory:
 
@@ -45,10 +42,12 @@ by the |solver|.  Let's show this cross-reference map with just a few commands::
     wavelength=1.0
     sample=0, detector=0
 
-.. _diffract_axes.custom-auto-assign:
+.. _diffract_axes.custom-assign:
 
 Custom Diffractometer class
 +++++++++++++++++++++++++++++++++++++
+
+.. TODO #51
 
 Construct a 2-circle diffractometer, one axis for the sample and one axis for
 the detector.
@@ -72,6 +71,8 @@ class:
         sample = Component(SoftPositioner, init_pos=0)
         detector = Component(SoftPositioner, init_pos=0)
 
+        _real = ["sample", "detector"]  # Maps 'sample' to 'th', 'detector' to 'tth'
+
         def __init__(self, *args, **kwargs):
             super().__init__(
                 *args,
@@ -79,7 +80,6 @@ class:
                 geometry="TH TTH Q",            # solver geometry
                 **kwargs,
             )
-            self.core.auto_assign_axes()    # assign axes
 
 Create a Python object that uses this class:
 
@@ -133,13 +133,14 @@ and ``reals=["theta", "ttheta"]`` parts where we define the mapping.
         ttheta = Component(SoftPositioner, init_pos=0)
         vertical = Component(SoftPositioner, init_pos=0)
 
+        _pseudo = ["q"]  # TODO: #51
+        _real = ["theta", "ttheta"]
+
         def __init__(self, *args, **kwargs):
             super().__init__(
               *args,
               solver="th_tth",
               geometry="TH TTH Q",
-              pseudos=["q"],
-              reals=["theta", "ttheta"],
               **kwargs
               )
 
@@ -183,31 +184,3 @@ to |solver| axis names (as defined in our MyTwoC class above):
 
     >>> twoc.core.axes_xref
     {'q': 'q', 'theta': 'th', 'ttheta': 'tth'}
-
-..  index::
-    !auto-assign axes
-    !axis names
-.. _diffract_axes.auto-assign:
-
-Auto-assignment
-++++++++++++++++++
-
-In |hklpy2|, the names of diffractometer axes are not required to match
-any particular |solver| library.
-
-Auto-assignment assigns the first pseudo(s), real(s), and extra(s)
-defined by the diffractometer as needed by the |solver|.
-
-.. seealso:: :meth:`~hklpy2.diffract.DiffractometerBase.auto_assign_axes`
-
-In our diffractometer class (MyTwoC), the axes are sorted alphabetically.
-Auto-assignment of axes would not have been correct, because we did not
-define the ``q`` axis Component as the first pseudo and ``theta`` & ``ttheta``
-as the first real axis Components.  Let's show what auto-assignment
-chooses in this case:
-
-.. code-block:: Python
-
-    >>> twoc.auto_assign_axes()
-    >>> twoc.core.axes_xref
-    {'another': 'q', 'horizontal': 'th', 'theta': 'tth'}
