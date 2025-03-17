@@ -98,7 +98,6 @@ class DiffractometerBase(PseudoPositioner):
 
         ~add_reflection
         ~add_sample
-        ~auto_assign_axes
         ~export
         ~forward
         ~full_position
@@ -121,10 +120,7 @@ class DiffractometerBase(PseudoPositioner):
         ~solver_name
     """
 
-    # These two attributes are used by the PseudoPositioner class.
-    # _pseudo = []  # List of pseudo-space objects.
-    # _real = []  # List of real-space objects.
-    # This code does NOT redefine them.
+    # solver
 
     geometry = Cpt(
         AttributeSignal,
@@ -160,8 +156,8 @@ class DiffractometerBase(PseudoPositioner):
         solver: str = None,
         geometry: str = None,
         solver_kwargs: dict = {},
-        pseudos: list[str] = None,
-        reals: list[str] = None,
+        pseudos: list[str] = [],
+        reals: list[str] = [],
         **kwargs,
     ):
         from .ops import Core
@@ -174,9 +170,17 @@ class DiffractometerBase(PseudoPositioner):
 
         super().__init__(prefix, **kwargs)
 
+        # After __init__, syncs solver with the diffractometer.wavelength signal.
+        #   This code in ops.Core
+        #   self._solver.wavelength = self.diffractometer.wavelength.get()
+        #   TODO: #35 Refactor?
         if isinstance(solver, str) and isinstance(geometry, str):
             self.core.set_solver(solver, geometry, **solver_kwargs)
 
+        if len(pseudos) == 0:
+            pseudos = [axis.attr_name for axis in self._pseudo]
+        if len(reals) == 0:
+            reals = [axis.attr_name for axis in self._real]
         self.core.assign_axes(pseudos, reals)
 
     def add_reflection(
@@ -229,30 +233,6 @@ class DiffractometerBase(PseudoPositioner):
             digits,
             replace,
         )
-
-    def auto_assign_axes(self):
-        """
-        Automatically assign diffractometer axes to this solver.
-
-        .. seealso:: :meth:`hklpy2.ops.Core.auto_assign_axes`
-
-        A |solver| geometry specifies expected pseudo, real, and extra axes
-        for its ``.forward()`` and ``.inverse()`` coordinate transformations.
-
-        This method assigns this diffractometer's:
-
-        *   first PseudoSingle axes
-            to the pseudo axes expected by the selected |solver|.
-        *   first Positioner axes (or subclass,
-            such as EpicsMotor or SoftPositioner) to the real axes expected
-            by the selected |solver|.
-        *   any remaining PseudoSingle and Positioner axes to the
-            extra axes expected by the selected |solver|.
-
-        Any diffractometer axes not expected by the |solver| will
-        not be assigned.
-        """
-        self.core.auto_assign_axes()
 
     @property
     def configuration(self) -> dict:
@@ -640,12 +620,12 @@ def creator(
     geometry: str = "E4CV",
     solver_kwargs: dict = {"engine": "hkl"},
     pseudos: list = [],
-    reals: dict = {},
+    reals: list[str] | dict[str, str|None] = {},
+    assignments: dict[str, list[str]] = {},
     motor_labels: list = ["motors"],
     labels: list = ["diffractometer"],
     class_name: str = "Hklpy2Diffractometer",
     class_bases: list = [DiffractometerBase],
-    auto_assign: bool = True,  # TODO: #51 Refactor to assign="auto" or (pseudos, reals)
     **kwargs,
 ):
     """
@@ -710,6 +690,12 @@ def creator(
 
         (default: '{}' which means use the canonical names for the real axes and
         use simulated positioners)
+    assignments: dict[str, list[str]]
+        Map of diffractometer axes to solver pseudos and reals.
+
+        FIXME: #51 better explanation.
+
+        (default: '{}' which means use the first axes from each to match the solver.)
     motor_labels : list
         Ophyd object labels for each real positioner. (default: '["motors"]')
     labels : list
@@ -720,9 +706,6 @@ def creator(
     class_bases : list
         List of base classes to use for the diffractometer class.
         (default: '[DiffractometerBase]')
-    auto_assign : bool
-        When 'True', call :meth:`~hklpy2.diffract.DiffractometerBase.auto_assign_axes()`.
-        (default: 'True')
     kwargs : any
         Additional keyword arguments will be added when constructing
         the new diffractometer object.
@@ -736,21 +719,9 @@ def creator(
         motor_labels=motor_labels,
         class_name=class_name,
         class_bases=class_bases,
-        # assign="auto",  # TODO: #51
+        assignments=assignments,
     )
-
-    diffractometer = DiffractometerClass(
-        prefix,
-        name=name,
-        solver=solver,
-        geometry=geometry,
-        solver_kwargs=solver_kwargs,
-        labels=labels,
-        **kwargs,
-    )
-    if auto_assign:
-        diffractometer.auto_assign_axes()
-    return diffractometer
+    return DiffractometerClass(prefix, name=name, labels=labels, **kwargs)
 
 
 def diffractometer_class_factory(
@@ -759,11 +730,12 @@ def diffractometer_class_factory(
     geometry: str = "E4CV",
     solver_kwargs: dict = {"engine": "hkl"},
     pseudos: list = [],
-    reals: dict = {},
+    reals: list[str] | dict[str, str|None] = {},
     motor_labels: list = ["motors"],
     class_name: str = "Hklpy2Diffractometer",
     class_bases: list = [DiffractometerBase],
-):
+    assignments: dict[str, list[str]] = {},
+) -> DiffractometerBase:
     """
     Build a custom class for this diffractometer geometry.
 
@@ -803,33 +775,79 @@ def diffractometer_class_factory(
     """
     from .misc import solver_factory
 
-    # The solver object describes its structure. Also verifies the solver is found.
-    solver_object = solver_factory(solver, geometry, **solver_kwargs)
-    class_attributes = {}
-
-    for axis in solver_object.pseudo_axis_names:
-        class_attributes[axis] = Cpt(PseudoSingle, "", kind=H_OR_N)
-    for axis in pseudos:
-        if axis not in solver_object.pseudo_axis_names:
-            class_attributes[axis] = Cpt(PseudoSingle, "", kind=H_OR_N)
-
-    real_names = solver_object.real_axis_names
-    if 0 < len(reals) < len(solver_object.real_axis_names):
-        raise KeyError(f"Expected {len(real_names)} reals, received {reals}.")
-    if len(reals) >= len(solver_object.real_axis_names):
-        real_names = list(reals)
-    for axis in real_names:
-        pv = reals.get(axis)
-        if pv is None:
-            attr = Cpt(
-                SoftPositioner,
-                limits=(-180, 180),
-                init_pos=0,
-                kind=H_OR_N,
-                labels=motor_labels,
-            )
+    # Validation.  Fail early, fail hard.
+    if not isinstance(pseudos, list):
+        raise TypeError(f"Expected a list.  Received {pseudos=!r}")
+    if not isinstance(reals, dict):
+        if isinstance(reals, list):
+            reals = {axis: None for axis in reals}
         else:
-            attr = Cpt(EpicsMotor, pv, kind=H_OR_N, labels=motor_labels)
-        class_attributes[axis] = attr
+            raise TypeError(f"Expected a dict.  Received {reals=!r}")
+    if not isinstance(assignments, dict):
+        raise TypeError(f"Expected a dict.  Received {assignments=!r}")
 
-    return type(class_name, tuple(class_bases), class_attributes)
+    def make_component(axis_type, labels=[], pv=None):
+        if axis_type == "pseudo":
+            return Cpt(PseudoSingle, "", kind=H_OR_N)
+        elif axis_type == "real":
+            if pv is None:
+                return Cpt(
+                    SoftPositioner,
+                    limits=(-180, 180),
+                    init_pos=0,
+                    kind=H_OR_N,
+                    labels=motor_labels,
+                )
+            else:
+                return Cpt(EpicsMotor, pv, kind=H_OR_N, labels=motor_labels)
+
+    factory_class_attributes = {}  # Set defaults for this custom class.
+
+    # Find the chosen solver.  It describes its various axes.
+    solver_object = solver_factory(solver, geometry, **solver_kwargs)
+
+    for space in "pseudos reals".split():
+        singular = space.rstrip("s")
+        if space == "pseudos":
+            solver_axes = solver_object.pseudo_axis_names
+            all_axes = pseudos if len(pseudos) > 0 else solver_axes
+            for axis in all_axes:
+                factory_class_attributes[axis] = make_component(singular)
+        else:
+            solver_axes = solver_object.real_axis_names
+            all_axes = list(reals) if len(reals) > 0 else solver_axes
+            for axis in all_axes:
+                factory_class_attributes[axis] = make_component(
+                    singular,
+                    labels=motor_labels,
+                    pv=reals.get(axis, None),
+                )
+
+        assignments[space] = assignments.get(space, all_axes[: len(solver_axes)])
+        factory_class_attributes[f"_{singular}"] = assignments[space]
+
+    def constructor(
+        self,
+        prefix: str = "",
+        *,
+        solver: str = solver,
+        geometry: str = geometry,
+        solver_kwargs: dict = solver_kwargs,
+        pseudos: list[str] = assignments["pseudos"],
+        reals: list[str] = assignments["reals"],
+        **kwargs,
+    ):
+        print("Factory constructor.")
+        super(type(self), self).__init__(
+            prefix=prefix,
+            solver=solver,
+            geometry=geometry,
+            solver_kwargs=solver_kwargs,
+            pseudos=pseudos,
+            reals=reals,
+            **kwargs,
+        )
+
+    factory_class_attributes["__init__"] = constructor
+
+    return type(class_name, tuple(class_bases), factory_class_attributes)
