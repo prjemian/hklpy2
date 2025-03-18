@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=1030592f"></script>
+    <script src="../_static/documentation_options.js?v=485d0293"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
@@ -358,7 +358,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../guides/configuration_save_restore.html">Diffractometer Configuration – Save and Restore</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../guides/diffract.html">Diffractometer Axis Names</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../guides/how_additional_parameters.html">Diffractometer Extra Solver Parameters</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../guides/how_extra_real_axis.html">Diffractometer Extra Motors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/how_extra_reals_and_pseudos.html">Diffractometer Extra Motors and/or Pseudos</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../guides/howto_write_solver.html">How to write a new Solver</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../guides/spec_xref.html">SPEC commands in hklpy2</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../guides/var_engines.html">Use <code class="docutils literal notranslate"><span class="pre">E4CV</span></code>’s $Q$ calculation engine</a></li>
@@ -710,25 +710,22 @@ and <a class="reference internal" href="../autoapi/hklpy2/ops/index.html#hklpy2.
 <p class="rubric">Core-related methods and properties</p>
 <div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="../autoapi/hklpy2/diffract/index.html#hklpy2.diffract.DiffractometerBase.auto_assign_axes" title="hklpy2.diffract.DiffractometerBase.auto_assign_axes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">auto_assign_axes</span></code></a>()</p></td>
-<td><p>Automatically assign diffractometer axes to this solver.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="../autoapi/hklpy2/diffract/index.html#hklpy2.diffract.DiffractometerBase.forward" title="hklpy2.diffract.DiffractometerBase.forward"><code class="xref py py-obj docutils literal notranslate"><span class="pre">forward</span></code></a>(pseudos[, wavelength])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="../autoapi/hklpy2/diffract/index.html#hklpy2.diffract.DiffractometerBase.forward" title="hklpy2.diffract.DiffractometerBase.forward"><code class="xref py py-obj docutils literal notranslate"><span class="pre">forward</span></code></a>(pseudos[, wavelength])</p></td>
 <td><p>Compute real-space coordinates from pseudos (hkl -&gt; angles).</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="../autoapi/hklpy2/diffract/index.html#hklpy2.diffract.DiffractometerBase.inverse" title="hklpy2.diffract.DiffractometerBase.inverse"><code class="xref py py-obj docutils literal notranslate"><span class="pre">inverse</span></code></a>(reals[, wavelength])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="../autoapi/hklpy2/diffract/index.html#hklpy2.diffract.DiffractometerBase.inverse" title="hklpy2.diffract.DiffractometerBase.inverse"><code class="xref py py-obj docutils literal notranslate"><span class="pre">inverse</span></code></a>(reals[, wavelength])</p></td>
 <td><p>Compute pseudo-space coordinates from reals (angles -&gt; hkl).</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">position</span></code></p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">position</span></code></p></td>
 <td><p>Pseudo motor position namedtuple</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="../autoapi/hklpy2/diffract/index.html#hklpy2.diffract.DiffractometerBase.pseudo_axis_names" title="hklpy2.diffract.DiffractometerBase.pseudo_axis_names"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pseudo_axis_names</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="../autoapi/hklpy2/diffract/index.html#hklpy2.diffract.DiffractometerBase.pseudo_axis_names" title="hklpy2.diffract.DiffractometerBase.pseudo_axis_names"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pseudo_axis_names</span></code></a></p></td>
 <td><p>Names of all the pseudo axes, in order of appearance.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="../autoapi/hklpy2/diffract/index.html#hklpy2.diffract.DiffractometerBase.real_axis_names" title="hklpy2.diffract.DiffractometerBase.real_axis_names"><code class="xref py py-obj docutils literal notranslate"><span class="pre">real_axis_names</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="../autoapi/hklpy2/diffract/index.html#hklpy2.diffract.DiffractometerBase.real_axis_names" title="hklpy2.diffract.DiffractometerBase.real_axis_names"><code class="xref py py-obj docutils literal notranslate"><span class="pre">real_axis_names</span></code></a></p></td>
 <td><p>Names of all the real axes, in order of appearance.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="../autoapi/hklpy2/diffract/index.html#hklpy2.diffract.DiffractometerBase.wh" title="hklpy2.diffract.DiffractometerBase.wh"><code class="xref py py-obj docutils literal notranslate"><span class="pre">wh</span></code></a>([digits, full])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="../autoapi/hklpy2/diffract/index.html#hklpy2.diffract.DiffractometerBase.wh" title="hklpy2.diffract.DiffractometerBase.wh"><code class="xref py py-obj docutils literal notranslate"><span class="pre">wh</span></code></a>([digits, full])</p></td>
 <td><p>Concise report of the current diffractometer positions.</p></td>
 </tr>
 </tbody>

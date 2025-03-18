@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../../_static/documentation_options.js?v=1030592f"></script>
+    <script src="../../_static/documentation_options.js?v=485d0293"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/design-tabs.js?v=f930bc37"></script>
@@ -424,7 +424,6 @@
 <span class="sd">        ~add_reflection</span>
 <span class="sd">        ~add_sample</span>
 <span class="sd">        ~assign_axes</span>
-<span class="sd">        ~auto_assign_axes</span>
 <span class="sd">        ~calc_UB</span>
 <span class="sd">        ~forward</span>
 <span class="sd">        ~inverse</span>
@@ -740,50 +739,8 @@
                 <span class="n">names</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">pseudo_axis_names</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">real_axis_names</span>
                 <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">names</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
                     <span class="k">return</span> <span class="p">{}</span>
-            <span class="k">raise</span> <span class="n">CoreError</span><span class="p">(</span>
-                <span class="s2">&quot;Did you forget to call `assign_axes()` or `auto_assign_axes()`?&quot;</span>
-            <span class="p">)</span>
+            <span class="k">raise</span> <span class="n">CoreError</span><span class="p">(</span><span class="s2">&quot;Did you forget to call `assign_axes()`?&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="p">{</span><span class="n">v</span><span class="p">:</span> <span class="n">k</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">axes_xref</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span></div>
-
-
-<div class="viewcode-block" id="Core.auto_assign_axes">
-<a class="viewcode-back" href="../../autoapi/hklpy2/ops/index.html#hklpy2.ops.Core.auto_assign_axes">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">auto_assign_axes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Automatically assign diffractometer axes to this solver.</span>
-
-<span class="sd">        .. note:: The ordered lists of axes names **could change**</span>
-<span class="sd">           when the |solver|, or any of its settings, such as `mode`,</span>
-<span class="sd">           are changed.  The lists are defined by the |solver| library.</span>
-
-<span class="sd">           .. seealso:: Each |solver| provides ordered lists of the</span>
-<span class="sd">              names it expects:</span>
-
-<span class="sd">              * :attr:`~hklpy2.backends.base.SolverBase.extra_axis_names`</span>
-<span class="sd">              * :attr:`~hklpy2.backends.base.SolverBase.pseudo_axis_names`</span>
-<span class="sd">              * :attr:`~hklpy2.backends.base.SolverBase.real_axis_names`</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-
-        <span class="k">def</span><span class="w"> </span><span class="nf">get_keys</span><span class="p">(</span><span class="n">getter</span><span class="p">):</span>
-            <span class="k">return</span> <span class="p">[</span><span class="n">name</span> <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">_obj</span> <span class="ow">in</span> <span class="n">getter</span><span class="p">]</span>
-
-        <span class="k">def</span><span class="w"> </span><span class="nf">lister</span><span class="p">(</span><span class="n">dnames</span><span class="p">,</span> <span class="n">snames</span><span class="p">):</span>
-            <span class="n">items</span> <span class="o">=</span> <span class="n">dnames</span><span class="p">[:</span> <span class="nb">len</span><span class="p">(</span><span class="n">snames</span><span class="p">)]</span>  <span class="c1"># first ones expected by the solver</span>
-            <span class="k">for</span> <span class="n">dname</span> <span class="ow">in</span> <span class="n">items</span><span class="p">:</span>
-                <span class="n">both_p_r</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">dname</span><span class="p">)</span>
-            <span class="k">return</span> <span class="n">items</span>
-
-        <span class="n">all_pseudos</span> <span class="o">=</span> <span class="n">get_keys</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">diffractometer</span><span class="o">.</span><span class="n">_get_pseudo_positioners</span><span class="p">())</span>
-        <span class="n">all_reals</span> <span class="o">=</span> <span class="n">get_keys</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">diffractometer</span><span class="o">.</span><span class="n">_get_real_positioners</span><span class="p">())</span>
-        <span class="n">both_p_r</span> <span class="o">=</span> <span class="n">all_pseudos</span> <span class="o">+</span> <span class="n">all_reals</span>
-
-        <span class="n">solver</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">diffractometer</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver</span>
-        <span class="n">pseudos</span> <span class="o">=</span> <span class="n">lister</span><span class="p">(</span><span class="n">all_pseudos</span><span class="p">,</span> <span class="n">solver</span><span class="o">.</span><span class="n">pseudo_axis_names</span><span class="p">)</span>
-        <span class="n">reals</span> <span class="o">=</span> <span class="n">lister</span><span class="p">(</span><span class="n">all_reals</span><span class="p">,</span> <span class="n">solver</span><span class="o">.</span><span class="n">real_axis_names</span><span class="p">)</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">assign_axes</span><span class="p">(</span><span class="n">pseudos</span><span class="p">,</span> <span class="n">reals</span><span class="p">)</span>
-
-        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;axes_xref=</span><span class="si">%r</span><span class="s2">&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">axes_xref</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="Core.calc_UB">
@@ -908,7 +865,7 @@
 
         <span class="k">if</span> <span class="n">wavelength</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">wavelength</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">diffractometer</span><span class="o">.</span><span class="n">wavelength</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">wavelength</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">wavelength</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">wavelength</span> <span class="o">=</span> <span class="n">wavelength</span>
 
         <span class="c1"># Just the reals expected by the solver.</span>
         <span class="c1"># Dictionary in order expected by the solver.</span>

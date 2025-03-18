@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Diffractometer Extra Motors &#8212; hklpy2 0.0</title>
+    <title>Diffractometer Extra Motors and/or Pseudos &#8212; hklpy2 0.0</title>
   
   
   
@@ -41,12 +41,12 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=1030592f"></script>
+    <script src="../_static/documentation_options.js?v=485d0293"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'guides/how_extra_real_axis';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'guides/how_extra_reals_and_pseudos';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="How to write a new Solver" href="howto_write_solver.html" />
@@ -356,7 +356,7 @@
 <li class="toctree-l2"><a class="reference internal" href="configuration_save_restore.html">Diffractometer Configuration – Save and Restore</a></li>
 <li class="toctree-l2"><a class="reference internal" href="diffract.html">Diffractometer Axis Names</a></li>
 <li class="toctree-l2"><a class="reference internal" href="how_additional_parameters.html">Diffractometer Extra Solver Parameters</a></li>
-<li class="toctree-l2 current active"><a class="current reference internal" href="#">Diffractometer Extra Motors</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Diffractometer Extra Motors and/or Pseudos</a></li>
 <li class="toctree-l2"><a class="reference internal" href="howto_write_solver.html">How to write a new Solver</a></li>
 <li class="toctree-l2"><a class="reference internal" href="spec_xref.html">SPEC commands in hklpy2</a></li>
 <li class="toctree-l2"><a class="reference internal" href="var_engines.html">Use <code class="docutils literal notranslate"><span class="pre">E4CV</span></code>’s $Q$ calculation engine</a></li>
@@ -410,7 +410,7 @@
     
     <li class="breadcrumb-item"><a href="../guides.html" class="nav-link">Guides</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Diffractometer Extra Motors</span></li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Diffractometer Extra Motors and/or Pseudos</span></li>
   </ul>
 </nav>
 </div>
@@ -427,10 +427,10 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="diffractometer-extra-motors">
-<h1>Diffractometer Extra Motors<a class="headerlink" href="#diffractometer-extra-motors" title="Link to this heading">#</a></h1>
-<p>Sometimes, it is desired to add additional motor(s) (or other components) to
-a diffractometer object.</p>
+  <section id="diffractometer-extra-motors-and-or-pseudos">
+<h1>Diffractometer Extra Motors and/or Pseudos<a class="headerlink" href="#diffractometer-extra-motors-and-or-pseudos" title="Link to this heading">#</a></h1>
+<p>Sometimes, it is desired to add additional ophyd components to
+a diffractometer object.  Such components could include additional motor axes, azimuthal reference vectors, temperature, etc.</p>
 <p><strong>Objective</strong></p>
 <p>Add one or more real positioners to the standard positioners of the 2-circle
 diffractometer (<em>tth_tth</em>, <em>TH TTH Q</em> <a class="reference internal" href="../geometry_tables.html"><span class="std std-doc">geometry</span></a>).  Use
@@ -467,10 +467,11 @@ simulated motors for the example (no EPICS required).</p>
 </div>
 </div>
 </div>
-<p>Show the configuration of this diffractometer.</p>
+<p>Show the diffractometer configuration and all the ophyd components.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">th2th</span><span class="o">.</span><span class="n">wh</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">th2th</span><span class="o">.</span><span class="n">component_names</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -478,6 +479,7 @@ simulated motors for the example (no EPICS required).</p>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>q=0
 wavelength=1.0
 th=0, tth=0
+th2th.component_names=(&#39;geometry&#39;, &#39;solver&#39;, &#39;wavelength&#39;, &#39;q&#39;, &#39;th&#39;, &#39;tth&#39;)
 </pre></div>
 </div>
 </div>
@@ -495,17 +497,15 @@ th=0, tth=0
     <span class="n">reals</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">th</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tth</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">spinner</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
 <span class="p">)</span>
 <span class="n">th2th</span><span class="o">.</span><span class="n">wh</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">th2th</span><span class="o">.</span><span class="n">component_names</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/home/zorinvm/Documents/projects/prjemian/hklpy2/hklpy2/misc.py:321: UserWarning:  Extra inputs will be ignored. Expected 2. Received input=Hklpy2DiffractometerRealPos(th=0, tth=0, spinner=0), names=[&#39;th&#39;, &#39;tth&#39;]
-  warnings.warn(
-</pre></div>
-</div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>q=0
 wavelength=1.0
-th=0, tth=0, spinner=0
+th=0, tth=0
+th2th.component_names=(&#39;geometry&#39;, &#39;solver&#39;, &#39;wavelength&#39;, &#39;q&#39;, &#39;th&#39;, &#39;tth&#39;, &#39;spinner&#39;)
 </pre></div>
 </div>
 </div>
@@ -530,30 +530,25 @@ th=0, tth=0, spinner=0
 <h2>Can we add other pseudo axes?<a class="headerlink" href="#can-we-add-other-pseudo-axes" title="Link to this heading">#</a></h2>
 <p><strong>Q</strong>: With this capability to add additional real positioners, can we add axes
 to the pseudo positioners?</p>
-<p><strong>A</strong>: Yes.  There is a <code class="docutils literal notranslate"><span class="pre">pseudos=list()</span></code> keyword argument.  (Pseudos, as virtual
-axes, are not connected to EPICS PVs.)</p>
-<p>See this example:</p>
+<p><strong>A</strong>: Yes. See this example.  It defines two pseudo axes: <code class="docutils literal notranslate"><span class="pre">Q</span></code> and <code class="docutils literal notranslate"><span class="pre">d</span></code>.  As shown in <code class="docutils literal notranslate"><span class="pre">aliases</span></code>, the <code class="docutils literal notranslate"><span class="pre">Q</span></code> axis is mapped to the <a class="reference internal" href="../geometry_tables.html#geometries-th-tth-th-tth-q"><span class="std std-ref">solver</span></a> <code class="docutils literal notranslate"><span class="pre">q</span></code> axis.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">th2th</span> <span class="o">=</span> <span class="n">hklpy2</span><span class="o">.</span><span class="n">creator</span><span class="p">(</span>
     <span class="n">name</span><span class="o">=</span><span class="s2">&quot;th2th&quot;</span><span class="p">,</span>
     <span class="n">geometry</span><span class="o">=</span><span class="s2">&quot;TH TTH Q&quot;</span><span class="p">,</span>
     <span class="n">solver</span><span class="o">=</span><span class="s2">&quot;th_tth&quot;</span><span class="p">,</span>
-    <span class="n">pseudos</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Q&quot;</span><span class="p">,</span> <span class="s2">&quot;d&quot;</span><span class="p">],</span>
-    <span class="n">reals</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">sample</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">detector</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">spinner</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+    <span class="n">pseudos</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Q&quot;</span><span class="p">,</span> <span class="s2">&quot;d&quot;</span><span class="p">],</span>  <span class="c1"># </span>
+    <span class="n">reals</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">sample</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">detector</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">spinner</span><span class="o">=</span><span class="kc">None</span><span class="p">),</span>
+    <span class="n">aliases</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">pseudos</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Q&quot;</span><span class="p">],</span> <span class="n">reals</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;sample&quot;</span><span class="p">,</span> <span class="s2">&quot;detector&quot;</span><span class="p">]),</span>
 <span class="p">)</span>
 <span class="n">th2th</span><span class="o">.</span><span class="n">wh</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/home/zorinvm/Documents/projects/prjemian/hklpy2/hklpy2/misc.py:321: UserWarning:  Extra inputs will be ignored. Expected 2. Received input=Hklpy2DiffractometerRealPos(sample=0, detector=0, spinner=0), names=[&#39;sample&#39;, &#39;detector&#39;]
-  warnings.warn(
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>q=0, Q=0, d=0
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Q=0
 wavelength=1.0
-sample=0, detector=0, spinner=0
+sample=0, detector=0
 </pre></div>
 </div>
 </div>
@@ -563,7 +558,7 @@ sample=0, detector=0, spinner=0
 <h2>Add additional Signals and Devices<a class="headerlink" href="#add-additional-signals-and-devices" title="Link to this heading">#</a></h2>
 <p>Finally, we add additional Signals and Component Devices as a demonstration.</p>
 <p>The {func}function]<code class="docutils literal notranslate"><span class="pre">~hklpy2.diffract.creator()</span></code> has its limits.  The <code class="docutils literal notranslate"><span class="pre">creator()</span></code>
-relies on a {func}function]<code class="docutils literal notranslate"><span class="pre">~hklpy2.diffract.diffractometer_class_factory()</span></code>..
+relies on a {func}function]<code class="docutils literal notranslate"><span class="pre">~hklpy2.diffract.diffractometer_class_factory()</span></code>.
 Let’s skip the factory function and show how to build a structure directly.</p>
 <p>Demonstrate a variety of additional components.</p>
 <div class="cell docutils container">
@@ -608,7 +603,6 @@ Let’s skip the factory function and show how to build a structure directly.</p
             <span class="n">geometry</span><span class="o">=</span><span class="s2">&quot;TH TTH Q&quot;</span><span class="p">,</span>  <span class="c1"># solver geometry</span>
             <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
         <span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">auto_assign_axes</span><span class="p">()</span>  <span class="c1"># assign axes</span>
 
 
 <span class="n">th2tth</span> <span class="o">=</span> <span class="n">MyTwoCircle</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;th2tth&quot;</span><span class="p">)</span>
@@ -624,19 +618,19 @@ wavelength=1.0
 th=0, tth=0
 </pre></div>
 </div>
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>OrderedDict([(&#39;th2tth_q&#39;, {&#39;value&#39;: 0, &#39;timestamp&#39;: 1741815899.2081861}),
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>OrderedDict([(&#39;th2tth_q&#39;, {&#39;value&#39;: 0, &#39;timestamp&#39;: 1742331926.1215284}),
              (&#39;th2tth_q_setpoint&#39;,
-              {&#39;value&#39;: 0, &#39;timestamp&#39;: 1741815899.2081976}),
-             (&#39;th2tth_th&#39;, {&#39;value&#39;: 0, &#39;timestamp&#39;: 1741815899.232872}),
-             (&#39;th2tth_tth&#39;, {&#39;value&#39;: 0, &#39;timestamp&#39;: 1741815899.232875}),
-             (&#39;th2tth_spinner&#39;, {&#39;value&#39;: 0, &#39;timestamp&#39;: 1741815899.232877}),
-             (&#39;th2tth_atth&#39;, {&#39;value&#39;: 0, &#39;timestamp&#39;: 1741815899.2328792}),
+              {&#39;value&#39;: 0, &#39;timestamp&#39;: 1742331926.1215405}),
+             (&#39;th2tth_th&#39;, {&#39;value&#39;: 0, &#39;timestamp&#39;: 1742331926.2609282}),
+             (&#39;th2tth_tth&#39;, {&#39;value&#39;: 0, &#39;timestamp&#39;: 1742331926.2609332}),
+             (&#39;th2tth_spinner&#39;, {&#39;value&#39;: 0, &#39;timestamp&#39;: 1742331926.260936}),
+             (&#39;th2tth_atth&#39;, {&#39;value&#39;: 0, &#39;timestamp&#39;: 1742331926.2609384}),
              (&#39;th2tth_temperature&#39;,
-              {&#39;value&#39;: 25, &#39;timestamp&#39;: 1741815899.2089827}),
-             (&#39;th2tth_xy_x&#39;, {&#39;value&#39;: 0, &#39;timestamp&#39;: 1741815899.2328923}),
-             (&#39;th2tth_xy_y&#39;, {&#39;value&#39;: 0, &#39;timestamp&#39;: 1741815899.2328947}),
+              {&#39;value&#39;: 25, &#39;timestamp&#39;: 1742331926.1221745}),
+             (&#39;th2tth_xy_x&#39;, {&#39;value&#39;: 0, &#39;timestamp&#39;: 1742331926.2609541}),
+             (&#39;th2tth_xy_y&#39;, {&#39;value&#39;: 0, &#39;timestamp&#39;: 1742331926.2609572}),
              (&#39;th2tth_xy_solenoid_lock&#39;,
-              {&#39;value&#39;: True, &#39;timestamp&#39;: 1741815899.2091966})])
+              {&#39;value&#39;: True, &#39;timestamp&#39;: 1742331926.1224165})])
 </pre></div>
 </div>
 </div>
@@ -702,7 +696,7 @@ th=0, tth=0
 
   
   <div class="tocsection editthispage">
-    <a href="https://github.com/prjemian/hklpy2/edit/main/docs/guides/how_extra_real_axis.ipynb">
+    <a href="https://github.com/prjemian/hklpy2/edit/main/docs/guides/how_extra_reals_and_pseudos.ipynb">
       <i class="fa-solid fa-pencil"></i>
       
       
@@ -718,7 +712,7 @@ th=0, tth=0
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="../_sources/guides/how_extra_real_axis.ipynb.txt"
+      <li><a href="../_sources/guides/how_extra_reals_and_pseudos.ipynb.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div></div>

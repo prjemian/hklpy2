@@ -217,7 +217,6 @@ and :attr:`~hklpy2.ops.Core.sample`)
 .. rubric:: Core-related methods and properties
 .. autosummary::
 
-    ~hklpy2.diffract.DiffractometerBase.auto_assign_axes (method)
     ~hklpy2.diffract.DiffractometerBase.forward (method)
     ~hklpy2.diffract.DiffractometerBase.inverse (method)
     ~hklpy2.diffract.DiffractometerBase.position (method)

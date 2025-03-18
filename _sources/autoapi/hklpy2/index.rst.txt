@@ -387,7 +387,7 @@ Package Contents
 
    :see: https://physics.nist.gov/cgi-bin/cuu/Value?asil
 
-.. py:class:: DiffractometerBase(prefix: str = '', *, solver: str = None, geometry: str = None, solver_kwargs: dict = {}, pseudos: list[str] = None, reals: list[str] = None, **kwargs)
+.. py:class:: DiffractometerBase(prefix: str = '', *, solver: str = None, geometry: str = None, solver_kwargs: dict = {}, pseudos: list[str] = [], reals: list[str] = [], **kwargs)
 
    Bases: :py:obj:`ophyd.PseudoPositioner`
 
@@ -423,7 +423,6 @@ Package Contents
 
        ~add_reflection
        ~add_sample
-       ~auto_assign_axes
        ~export
        ~forward
        ~full_position
@@ -498,30 +497,6 @@ Package Contents
 
 
 
-   .. py:method:: auto_assign_axes()
-
-      Automatically assign diffractometer axes to this solver.
-
-      .. seealso:: :meth:`hklpy2.ops.Core.auto_assign_axes`
-
-      A |solver| geometry specifies expected pseudo, real, and extra axes
-      for its ``.forward()`` and ``.inverse()`` coordinate transformations.
-
-      This method assigns this diffractometer's:
-
-      *   first PseudoSingle axes
-          to the pseudo axes expected by the selected |solver|.
-      *   first Positioner axes (or subclass,
-          such as EpicsMotor or SoftPositioner) to the real axes expected
-          by the selected |solver|.
-      *   any remaining PseudoSingle and Positioner axes to the
-          extra axes expected by the selected |solver|.
-
-      Any diffractometer axes not expected by the |solver| will
-      not be assigned.
-
-
-
    .. py:property:: configuration
       :type: dict
 
@@ -588,7 +563,7 @@ Package Contents
 
 
 
-   .. py:method:: inverse(reals: dict, wavelength: float = None) -> tuple
+   .. py:method:: inverse(reals: tuple, wavelength: float = None) -> tuple
 
       Compute pseudo-space coordinates from reals (angles -> hkl).
 
@@ -679,7 +654,7 @@ Package Contents
 
 
 
-.. py:function:: creator(*, prefix: str = '', name: str = '', solver: str = 'hkl_soleil', geometry: str = 'E4CV', solver_kwargs: dict = {'engine': 'hkl'}, pseudos: list = [], reals: dict = {}, motor_labels: list = ['motors'], labels: list = ['diffractometer'], class_name: str = 'Hklpy2Diffractometer', class_bases: list = [DiffractometerBase], auto_assign: bool = True, **kwargs)
+.. py:function:: creator(*, prefix: str = '', name: str = '', solver: str = 'hkl_soleil', geometry: str = 'E4CV', solver_kwargs: dict = {}, pseudos: list = [], reals: list[str] | dict[str, str | None] = {}, aliases: dict[str, list[str]] = {}, motor_labels: list = ['motors'], labels: list = ['diffractometer'], class_name: str = 'Hklpy2Diffractometer', class_bases: list = [DiffractometerBase], **kwargs)
 
    Factory function to create a diffractometer instance.
 
@@ -742,6 +717,10 @@ Package Contents
 
        (default: '{}' which means use the canonical names for the real axes and
        use simulated positioners)
+   aliases: dict[str, list[str]]
+       Aliases of diffractometer axes for solver's pseudos and reals.
+
+       (default: '{}' which means use the first diffractometer axes from each to match the solver.)
    motor_labels : list
        Ophyd object labels for each real positioner. (default: '["motors"]')
    labels : list
@@ -752,15 +731,12 @@ Package Contents
    class_bases : list
        List of base classes to use for the diffractometer class.
        (default: '[DiffractometerBase]')
-   auto_assign : bool
-       When 'True', call :meth:`~hklpy2.diffract.DiffractometerBase.auto_assign_axes()`.
-       (default: 'True')
    kwargs : any
        Additional keyword arguments will be added when constructing
        the new diffractometer object.
 
 
-.. py:function:: diffractometer_class_factory(*, solver: str = 'hkl_soleil', geometry: str = 'E4CV', solver_kwargs: dict = {'engine': 'hkl'}, pseudos: list = [], reals: dict = {}, motor_labels: list = ['motors'], class_name: str = 'Hklpy2Diffractometer', class_bases: list = [DiffractometerBase])
+.. py:function:: diffractometer_class_factory(*, solver: str = 'hkl_soleil', geometry: str = 'E4CV', solver_kwargs: dict = {'engine': 'hkl'}, pseudos: list = [], reals: list[str] | dict[str, str | None] = {}, motor_labels: list = ['motors'], class_name: str = 'Hklpy2Diffractometer', class_bases: list = [DiffractometerBase], aliases: dict[str, list[str]] = {}) -> DiffractometerBase
 
    Build a custom class for this diffractometer geometry.
 
@@ -797,6 +773,10 @@ Package Contents
    class_bases : list
        List of base classes to use for the diffractometer class.
        (default: '[DiffractometerBase]')
+   aliases: dict[str, list[str]]
+       Aliases of diffractometer axes for solver's pseudos and reals.
+
+       (default: '{}' which means use the first diffractometer axes from each to match the solver.)
 
 
 .. py:data:: SOLVER_ENTRYPOINT_GROUP

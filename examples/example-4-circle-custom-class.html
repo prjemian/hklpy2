@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=1030592f"></script>
+    <script src="../_static/documentation_options.js?v=485d0293"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
@@ -356,7 +356,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../guides/configuration_save_restore.html">Diffractometer Configuration – Save and Restore</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../guides/diffract.html">Diffractometer Axis Names</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../guides/how_additional_parameters.html">Diffractometer Extra Solver Parameters</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../guides/how_extra_real_axis.html">Diffractometer Extra Motors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/how_extra_reals_and_pseudos.html">Diffractometer Extra Motors and/or Pseudos</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../guides/howto_write_solver.html">How to write a new Solver</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../guides/spec_xref.html">SPEC commands in hklpy2</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../guides/var_engines.html">Use <code class="docutils literal notranslate"><span class="pre">E4CV</span></code>’s $Q$ calculation engine</a></li>
@@ -473,6 +473,10 @@ Add many additional axes, both in real (rotation angle) space and in reciprocal
     <span class="c1"># another Component, not used (yet)</span>
     <span class="n">energy</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">SoftPositioner</span><span class="p">,</span> <span class="n">limits</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">35</span><span class="p">),</span> <span class="n">init_pos</span><span class="o">=</span><span class="mf">12.4</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">NORMAL_HINTED</span><span class="p">)</span>
 
+    <span class="c1"># Just the axes in expected order by hkl_soleil E4CV.</span>
+    <span class="c1"># _pseudo = &quot;h k l&quot;.split()  # Needed when axes renamed or specified out-of-order.</span>
+    <span class="n">_real</span> <span class="o">=</span> <span class="s2">&quot;theta chi phi ttheta&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="o">*</span><span class="n">args</span><span class="p">,</span>
@@ -480,12 +484,6 @@ Add many additional axes, both in real (rotation angle) space and in reciprocal
             <span class="n">geometry</span><span class="o">=</span><span class="s2">&quot;E4CV&quot;</span><span class="p">,</span>
             <span class="n">solver_kwargs</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">engine</span><span class="o">=</span><span class="s2">&quot;hkl&quot;</span><span class="p">),</span>
             <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
-        <span class="p">)</span>
-        <span class="c1"># self.core.auto_assign_axes()  # When axes are specified in expected order.</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">assign_axes</span><span class="p">(</span>
-            <span class="s2">&quot;h k l&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">(),</span>
-            <span class="c1"># Just the axes expected by hkl_soleil E4CV, in order.</span>
-            <span class="s2">&quot;theta chi phi ttheta&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">(),</span>
         <span class="p">)</span>
 
 
@@ -509,15 +507,9 @@ Add many additional axes, both in real (rotation angle) space and in reciprocal
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Brief &#39;where&#39; report:
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/home/zorinvm/Documents/projects/prjemian/hklpy2/hklpy2/misc.py:316: UserWarning:  Extra inputs will be ignored. Expected 4. Received input=FourcRealPos(ttheta=0.0, theta=0.0, chi=0.0, phi=0.0, psi=0, energy=12.4), names=[&#39;ttheta&#39;, &#39;theta&#39;, &#39;chi&#39;, &#39;phi&#39;]
-  warnings.warn(
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>h=0, k=0, l=0, h2=0, k2=0, l2=0
+h=0, k=0, l=0, h2=0, k2=0, l2=0
 wavelength=1.0
-ttheta=0, theta=0, chi=0, phi=0, psi=0, energy=12.4
+theta=0, chi=0, phi=0, ttheta=0
 </pre></div>
 </div>
 </div>
@@ -537,15 +529,13 @@ Sample(name=&#39;sample&#39;, lattice=Lattice(a=1, system=&#39;cubic&#39;))
 Orienting reflections: []
 U=[[1, 0, 0], [0, 1, 0], [0, 0, 1]]
 UB=[[1, 0, 0], [0, 1, 0], [0, 0, 1]]
-constraint: -180.0 &lt;= ttheta &lt;= 180.0
 constraint: -180.0 &lt;= theta &lt;= 180.0
 constraint: -180.0 &lt;= chi &lt;= 180.0
 constraint: -180.0 &lt;= phi &lt;= 180.0
-constraint: -180.0 &lt;= psi &lt;= 180.0
-constraint: -180.0 &lt;= energy &lt;= 180.0
+constraint: -180.0 &lt;= ttheta &lt;= 180.0
 h=0, k=0, l=0, h2=0, k2=0, l2=0
 wavelength=1.0
-ttheta=0, theta=0, chi=0, phi=0, psi=0, energy=12.4
+theta=0, chi=0, phi=0, ttheta=0
 </pre></div>
 </div>
 </div>
@@ -562,7 +552,7 @@ ttheta=0, theta=0, chi=0, phi=0, psi=0, energy=12.4
   warnings.warn(
 </pre></div>
 </div>
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>FourcRealPos(ttheta=30.00000000079, theta=-4.747e-09, chi=90.00000000447, phi=60.00000000158, psi=0, energy=12.4)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>FourcRealPos(theta=30.00000000079, chi=-4.747e-09, phi=90.00000000447, ttheta=60.00000000158)
 </pre></div>
 </div>
 </div>
@@ -574,18 +564,18 @@ ttheta=0, theta=0, chi=0, phi=0, psi=0, energy=12.4
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[FourcRealPos(ttheta=-30.000000181209, theta=-9.5582e-08, chi=-89.999999974224, phi=-60.000000362418, psi=0, energy=12.4),
- FourcRealPos(ttheta=30.000000181209, theta=-9.5582e-08, chi=90.000000025776, phi=60.000000362418, psi=0, energy=12.4),
- FourcRealPos(ttheta=-30.000000181209, theta=-9.5582e-08, chi=150.000000388193, phi=60.000000396423, psi=0, energy=12.4),
- FourcRealPos(ttheta=-149.999999818791, theta=-9.5582e-08, chi=29.999999663358, phi=-60.000000465387, psi=0, energy=12.4),
- FourcRealPos(ttheta=30.000000181209, theta=-9.5582e-08, chi=-150.000000336642, phi=-60.000000465387, psi=0, energy=12.4),
- FourcRealPos(ttheta=-149.999999818791, theta=-9.5582e-08, chi=-89.999999974224, phi=60.000000362418, psi=0, energy=12.4),
- FourcRealPos(ttheta=-30.000000181209, theta=-179.999999904418, chi=90.000000025776, phi=-60.000000362418, psi=0, energy=12.4),
- FourcRealPos(ttheta=30.000000181209, theta=-179.999999904418, chi=-89.999999974224, phi=60.000000362418, psi=0, energy=12.4),
- FourcRealPos(ttheta=-30.000000181209, theta=-179.999999904418, chi=-150.000000336642, phi=60.000000396423, psi=0, energy=12.4),
- FourcRealPos(ttheta=-149.999999818791, theta=-179.999999904418, chi=-29.999999611807, phi=-60.000000465387, psi=0, energy=12.4),
- FourcRealPos(ttheta=30.000000181209, theta=-179.999999904418, chi=150.000000388193, phi=-60.000000465387, psi=0, energy=12.4),
- FourcRealPos(ttheta=-149.999999818791, theta=-179.999999904418, chi=90.000000025776, phi=60.000000362418, psi=0, energy=12.4)]
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[FourcRealPos(theta=-30.000000181209, chi=-9.5582e-08, phi=-89.999999974224, ttheta=-60.000000362418),
+ FourcRealPos(theta=30.000000181209, chi=-9.5582e-08, phi=90.000000025776, ttheta=60.000000362418),
+ FourcRealPos(theta=-30.000000181209, chi=-9.5582e-08, phi=150.000000388193, ttheta=60.000000396423),
+ FourcRealPos(theta=-149.999999818791, chi=-9.5582e-08, phi=29.999999663358, ttheta=-60.000000465387),
+ FourcRealPos(theta=30.000000181209, chi=-9.5582e-08, phi=-150.000000336642, ttheta=-60.000000465387),
+ FourcRealPos(theta=-149.999999818791, chi=-9.5582e-08, phi=-89.999999974224, ttheta=60.000000362418),
+ FourcRealPos(theta=-30.000000181209, chi=-179.999999904418, phi=90.000000025776, ttheta=-60.000000362418),
+ FourcRealPos(theta=30.000000181209, chi=-179.999999904418, phi=-89.999999974224, ttheta=60.000000362418),
+ FourcRealPos(theta=-30.000000181209, chi=-179.999999904418, phi=-150.000000336642, ttheta=60.000000396423),
+ FourcRealPos(theta=-149.999999818791, chi=-179.999999904418, phi=-29.999999611807, ttheta=-60.000000465387),
+ FourcRealPos(theta=30.000000181209, chi=-179.999999904418, phi=150.000000388193, ttheta=-60.000000465387),
+ FourcRealPos(theta=-149.999999818791, chi=-179.999999904418, phi=90.000000025776, ttheta=60.000000362418)]
 </pre></div>
 </div>
 </div>
@@ -597,12 +587,7 @@ ttheta=0, theta=0, chi=0, phi=0, psi=0, energy=12.4
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;h&#39;: -0.366025403784,
- &#39;k&#39;: 0.353553390593,
- &#39;l&#39;: 1.319479216882,
- &#39;h2&#39;: 0,
- &#39;k2&#39;: 0,
- &#39;l2&#39;: 0}
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;h&#39;: 0.517638090205, &#39;k&#39;: 0, &#39;l&#39;: 0, &#39;h2&#39;: 0, &#39;k2&#39;: 0, &#39;l2&#39;: 0}
 </pre></div>
 </div>
 </div>

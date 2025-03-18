@@ -11,13 +11,10 @@ to use any names allowed by ophyd.
 User-defined axis names
 -----------------------
 
-Let's see a few examples of diffractometers built with user-defined names.
+Let's see examples of diffractometers built with user-defined names.
 
 * :ref:`diffract_axes.diffractometer-factory` with automatic mapping
-* :ref:`diffract_axes.custom-auto-assign` with automatic mapping
 * :ref:`diffract_axes.direct-assign` with directed mapping
-
-.. seealso:: :ref:`diffract_axes.auto-assign`
 
 .. _diffract_axes.diffractometer-factory:
 
@@ -45,7 +42,7 @@ by the |solver|.  Let's show this cross-reference map with just a few commands::
     wavelength=1.0
     sample=0, detector=0
 
-.. _diffract_axes.custom-auto-assign:
+.. _diffract_axes.custom-assign:
 
 Custom Diffractometer class
 +++++++++++++++++++++++++++++++++++++
@@ -57,7 +54,16 @@ In addition to defining the diffractometer axes, we name the |solver| to use
 with our diffractometer. The ``th_tth`` |solver| has a
 :class:`~hklpy2.backends.th_tth_q.ThTthSolver` with a ``"TH TTH Q"`` geometry
 that fits our design. We set that up in the ``__init__()`` method of our new
-class:
+class.
+
+The :ref:`TH TTH Q <geometries-th_tth-th-tth-q>` geometry has real axes named
+``th`` and ``tth``. Even though we are using different names, it is not
+necessary to define ``_real`` (as shown in :ref:`diffract_axes.direct-assign`)
+as long as:
+
+* We define the *same number of pseudos* as the solver expects.
+* We define the *same number of reals* as the solver expects.
+* We *specify each in the order expected by the solver*.
 
 .. code-block:: Python
     :linenos:
@@ -72,6 +78,9 @@ class:
         sample = Component(SoftPositioner, init_pos=0)
         detector = Component(SoftPositioner, init_pos=0)
 
+        # Alias 'sample' to 'th', 'detector' to 'tth'
+        _real = ["sample", "detector"]
+
         def __init__(self, *args, **kwargs):
             super().__init__(
                 *args,
@@ -79,7 +88,6 @@ class:
                 geometry="TH TTH Q",            # solver geometry
                 **kwargs,
             )
-            self.core.auto_assign_axes()    # assign axes
 
 Create a Python object that uses this class:
 
@@ -113,9 +121,10 @@ The ``"TH TTH Q"`` |solver| geometry expects ``q`` as
 the only pseudo axis and ``th`` and ``tth`` as the two real axes
 (no extra axes).
 
-We construct this example so that we'll need to override the
-automatic assignment of axes. Look for the ``pseudos=["q"]``
-and ``reals=["theta", "ttheta"]`` parts where we define the mapping.
+We construct this example so that we'll need to override the automatic
+assignment of axes (lots of extra pseudo and real axes, none of them in the
+order expected by the solver). Look for the ``_pseudo=["q"]`` and
+``_real=["theta", "ttheta"]`` parts where we define the mapping.
 
 .. code-block:: Python
     :linenos:
@@ -133,13 +142,14 @@ and ``reals=["theta", "ttheta"]`` parts where we define the mapping.
         ttheta = Component(SoftPositioner, init_pos=0)
         vertical = Component(SoftPositioner, init_pos=0)
 
+        _pseudo = ["q"]
+        _real = ["theta", "ttheta"]
+
         def __init__(self, *args, **kwargs):
             super().__init__(
               *args,
               solver="th_tth",
               geometry="TH TTH Q",
-              pseudos=["q"],
-              reals=["theta", "ttheta"],
               **kwargs
               )
 
@@ -183,31 +193,3 @@ to |solver| axis names (as defined in our MyTwoC class above):
 
     >>> twoc.core.axes_xref
     {'q': 'q', 'theta': 'th', 'ttheta': 'tth'}
-
-..  index::
-    !auto-assign axes
-    !axis names
-.. _diffract_axes.auto-assign:
-
-Auto-assignment
-++++++++++++++++++
-
-In |hklpy2|, the names of diffractometer axes are not required to match
-any particular |solver| library.
-
-Auto-assignment assigns the first pseudo(s), real(s), and extra(s)
-defined by the diffractometer as needed by the |solver|.
-
-.. seealso:: :meth:`~hklpy2.diffract.DiffractometerBase.auto_assign_axes`
-
-In our diffractometer class (MyTwoC), the axes are sorted alphabetically.
-Auto-assignment of axes would not have been correct, because we did not
-define the ``q`` axis Component as the first pseudo and ``theta`` & ``ttheta``
-as the first real axis Components.  Let's show what auto-assignment
-chooses in this case:
-
-.. code-block:: Python
-
-    >>> twoc.auto_assign_axes()
-    >>> twoc.core.axes_xref
-    {'another': 'q', 'horizontal': 'th', 'theta': 'tth'}

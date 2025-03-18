@@ -48,7 +48,6 @@ Module Contents
        ~add_reflection
        ~add_sample
        ~assign_axes
-       ~auto_assign_axes
        ~calc_UB
        ~forward
        ~inverse
@@ -163,23 +162,6 @@ Module Contents
    .. py:property:: axes_xref_reversed
 
       Map axis names from solver to diffractometer.
-
-
-   .. py:method:: auto_assign_axes()
-
-      Automatically assign diffractometer axes to this solver.
-
-      .. note:: The ordered lists of axes names **could change**
-         when the |solver|, or any of its settings, such as `mode`,
-         are changed.  The lists are defined by the |solver| library.
-
-         .. seealso:: Each |solver| provides ordered lists of the
-            names it expects:
-
-            * :attr:`~hklpy2.backends.base.SolverBase.extra_axis_names`
-            * :attr:`~hklpy2.backends.base.SolverBase.pseudo_axis_names`
-            * :attr:`~hklpy2.backends.base.SolverBase.real_axis_names`
-
 
 
    .. py:method:: calc_UB(r1: Union[hklpy2.blocks.reflection.Reflection, str], r2: Union[hklpy2.blocks.reflection.Reflection, str]) -> List[List[Number]]
