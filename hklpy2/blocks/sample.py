@@ -23,6 +23,9 @@ class Sample:
 
     .. note:: Internal use only.
 
+       It is expected this class is called from a method of
+       :class:`~hklpy2.ops.Core`, not directly by the user.
+
     .. rubric:: Python Methods
 
     .. autosummary::

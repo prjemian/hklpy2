@@ -56,7 +56,6 @@ class Core:
         ~add_reflection
         ~add_sample
         ~assign_axes
-        ~auto_assign_axes
         ~calc_UB
         ~forward
         ~inverse
@@ -325,47 +324,8 @@ class Core:
                 names = self.solver.pseudo_axis_names + self.solver.real_axis_names
                 if len(names) == 0:
                     return {}
-            raise CoreError(
-                "Did you forget to call `assign_axes()` or `auto_assign_axes()`?"
-            )
+            raise CoreError("Did you forget to call `assign_axes()`?")
         return {v: k for k, v in self.axes_xref.items()}
-
-    def auto_assign_axes(self):
-        """
-        Automatically assign diffractometer axes to this solver.
-
-        .. note:: The ordered lists of axes names **could change**
-           when the |solver|, or any of its settings, such as `mode`,
-           are changed.  The lists are defined by the |solver| library.
-
-           .. seealso:: Each |solver| provides ordered lists of the
-              names it expects:
-
-              * :attr:`~hklpy2.backends.base.SolverBase.extra_axis_names`
-              * :attr:`~hklpy2.backends.base.SolverBase.pseudo_axis_names`
-              * :attr:`~hklpy2.backends.base.SolverBase.real_axis_names`
-        """
-
-        def get_keys(getter):
-            return [name for name, _obj in getter]
-
-        def lister(dnames, snames):
-            items = dnames[: len(snames)]  # first ones expected by the solver
-            for dname in items:
-                both_p_r.remove(dname)
-            return items
-
-        all_pseudos = get_keys(self.diffractometer._get_pseudo_positioners())
-        all_reals = get_keys(self.diffractometer._get_real_positioners())
-        both_p_r = all_pseudos + all_reals
-
-        solver = self.diffractometer.core.solver
-        pseudos = lister(all_pseudos, solver.pseudo_axis_names)
-        reals = lister(all_reals, solver.real_axis_names)
-
-        self.assign_axes(pseudos, reals)
-
-        logger.debug("axes_xref=%r", self.axes_xref)
 
     def calc_UB(
         self, r1: Union[Reflection, str], r2: Union[Reflection, str]
@@ -478,7 +438,7 @@ class Core:
 
         if wavelength is None:
             wavelength: float = self.diffractometer.wavelength.get()
-        self.solver.wavelength: float = wavelength
+        self.solver.wavelength = wavelength
 
         # Just the reals expected by the solver.
         # Dictionary in order expected by the solver.

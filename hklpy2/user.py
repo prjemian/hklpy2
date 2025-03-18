@@ -341,7 +341,8 @@ def or_swap() -> list[list[float]]:
     """
     Swap the first 2 ORienting reflections, re-compute & return new [UB].
 
-    .. note:: The SPEC user community knows this function as ``or_swap``.
+    .. note:: The SPEC user community knows this function as ``or_swap``
+        (swap the first two orienting reflections).
 
     EXAMPLE:
 

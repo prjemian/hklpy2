@@ -20,6 +20,9 @@ def fourc():
     class Fourc(hklpy2.DiffractometerBase):
         """Test case."""
 
+        _pseudo = "h k l".split()
+        _real = "theta chi phi ttheta".split()
+
         # pseudo-space axes, in order expected by hkl_soleil E4CV, engine="hkl"
         h = Cpt(PseudoSingle, kind=NORMAL_HINTED)  # noqa: E741
         k = Cpt(PseudoSingle, kind=NORMAL_HINTED)  # noqa: E741
@@ -51,7 +54,6 @@ def fourc():
                 solver_kwargs={"engine": "hkl"},
                 **kwargs,
             )
-            self.core.auto_assign_axes()
 
     fourc = Fourc(name="fourc")
     yield fourc
@@ -72,13 +74,13 @@ def test_as_in_demo_notebook(fourc):
         "ttheta": "tth",
     }
 
-    assert fourc.pseudo_axis_names == ["h", "k", "l", "h2", "k2", "l2"]
-    assert fourc.real_axis_names == ["theta", "chi", "phi", "ttheta", "psi", "energy"]
+    assert fourc.pseudo_axis_names == ["h", "k", "l"]
+    assert fourc.real_axis_names == ["theta", "chi", "phi", "ttheta"]
     assert fourc.core.solver.pseudo_axis_names == ["h", "k", "l"]
     assert fourc.core.solver.real_axis_names == ["omega", "chi", "phi", "tth"]
     assert fourc.core.solver.extra_axis_names == []
 
-    expected = "{'position': FourcPseudoPos(h=0, k=0, l=0, h2=0, k2=0, l2=0)}"
+    expected = "{'position': FourcPseudoPos(h=0, k=0, l=0)}"
     assert str(fourc.report) == expected, f"{fourc.report=!r}"
 
     assert len(fourc.samples) == 1

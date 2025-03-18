@@ -48,8 +48,6 @@ class Lattice:
     """
     Crystal lattice parameters.
 
-    .. note:: Internal use only.
-
     EXAMPLE::
 
         >>> from hklpy2.blocks.lattice import Lattice
