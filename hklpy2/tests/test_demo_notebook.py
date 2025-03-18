@@ -36,7 +36,7 @@ def fourc():
         ttheta = Cpt(SoftPositioner, limits=(-170, 170), init_pos=0, kind=NORMAL_HINTED)
 
         # pseudo-space extra axes used in a couple modes
-        h2 = Cpt(PseudoSingle, kind=NORMAL_HINTED)  # noqa: E741  FIXME #51
+        h2 = Cpt(PseudoSingle, kind=NORMAL_HINTED)  # noqa: E741
         k2 = Cpt(PseudoSingle, kind=NORMAL_HINTED)  # noqa: E741
         l2 = Cpt(PseudoSingle, kind=NORMAL_HINTED)  # noqa: E741
 

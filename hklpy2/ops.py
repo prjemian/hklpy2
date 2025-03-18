@@ -438,7 +438,7 @@ class Core:
 
         if wavelength is None:
             wavelength: float = self.diffractometer.wavelength.get()
-        self.solver.wavelength: float = wavelength
+        self.solver.wavelength = wavelength
 
         # Just the reals expected by the solver.
         # Dictionary in order expected by the solver.

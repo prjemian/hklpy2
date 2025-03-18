@@ -19,6 +19,7 @@ from ophyd import Kind
 from ophyd import PseudoPositioner
 from ophyd import PseudoSingle
 from ophyd import SoftPositioner
+from ophyd.device import required_for_connection
 from ophyd.pseudopos import pseudo_position_argument
 from ophyd.pseudopos import real_position_argument
 from ophyd.signal import AttributeSignal
@@ -63,6 +64,22 @@ def pick_first_item(now: tuple, solutions: list):
     if len(solutions) == 0:
         raise DiffractometerError("No solutions.")
     return solutions[0]
+
+
+class DiffractometerPseudo(PseudoSingle):
+    "Override to allow additional pseudos."
+
+    @required_for_connection(description="{device.name} readback subscription")
+    def _sub_proxy_readback(self, obj=None, value=None, **kwargs):
+        """Parent callbacks including a position value will be filtered through
+        this function and re-broadcast using only the relevant position to this
+        pseudo axis.
+        """
+        if hasattr(value, "__getitem__"):
+            if self._idx is not None:  # <-- filters out any extra pseudos
+                value = value[self._idx]
+
+        return self._run_subs(obj=self, value=value, **kwargs)
 
 
 class DiffractometerBase(PseudoPositioner):
@@ -353,7 +370,7 @@ class DiffractometerBase(PseudoPositioner):
         return pdict
 
     @real_position_argument
-    def inverse(self, reals: dict, wavelength: float = None) -> tuple:
+    def inverse(self, reals: tuple, wavelength: float = None) -> tuple:
         """Compute pseudo-space coordinates from reals (angles -> hkl)."""
         logger.debug("inverse: reals=%r", reals)
         pos = self.core.inverse(reals, wavelength=wavelength)
@@ -794,7 +811,7 @@ def diffractometer_class_factory(
 
     def make_component(axis_type, labels=[], pv=None):
         if axis_type == "pseudo":
-            return Cpt(PseudoSingle, "", kind=H_OR_N)
+            return Cpt(DiffractometerPseudo, "", kind=H_OR_N)
         elif axis_type == "real":
             if pv is None:
                 return Cpt(

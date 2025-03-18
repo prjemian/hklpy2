@@ -47,8 +47,6 @@ by the |solver|.  Let's show this cross-reference map with just a few commands::
 Custom Diffractometer class
 +++++++++++++++++++++++++++++++++++++
 
-.. TODO #51
-
 Construct a 2-circle diffractometer, one axis for the sample and one axis for
 the detector.
 
@@ -56,7 +54,16 @@ In addition to defining the diffractometer axes, we name the |solver| to use
 with our diffractometer. The ``th_tth`` |solver| has a
 :class:`~hklpy2.backends.th_tth_q.ThTthSolver` with a ``"TH TTH Q"`` geometry
 that fits our design. We set that up in the ``__init__()`` method of our new
-class:
+class.
+
+The :ref:`TH TTH Q <geometries-th_tth-th-tth-q>` geometry has real axes named
+``th`` and ``tth``. Even though we are using different names, it is not
+necessary to define ``_real`` (as shown in :ref:`diffract_axes.direct-assign`)
+as long as:
+
+* We define the *same number of pseudos* as the solver expects.
+* We define the *same number of reals* as the solver expects.
+* We *specify each in the order expected by the solver*.
 
 .. code-block:: Python
     :linenos:
@@ -71,7 +78,8 @@ class:
         sample = Component(SoftPositioner, init_pos=0)
         detector = Component(SoftPositioner, init_pos=0)
 
-        _real = ["sample", "detector"]  # Maps 'sample' to 'th', 'detector' to 'tth'
+        # Alias 'sample' to 'th', 'detector' to 'tth'
+        _real = ["sample", "detector"]
 
         def __init__(self, *args, **kwargs):
             super().__init__(
@@ -113,9 +121,10 @@ The ``"TH TTH Q"`` |solver| geometry expects ``q`` as
 the only pseudo axis and ``th`` and ``tth`` as the two real axes
 (no extra axes).
 
-We construct this example so that we'll need to override the
-automatic assignment of axes. Look for the ``pseudos=["q"]``
-and ``reals=["theta", "ttheta"]`` parts where we define the mapping.
+We construct this example so that we'll need to override the automatic
+assignment of axes (lots of extra pseudo and real axes, none of them in the
+order expected by the solver). Look for the ``_pseudo=["q"]`` and
+``_real=["theta", "ttheta"]`` parts where we define the mapping.
 
 .. code-block:: Python
     :linenos:
@@ -133,7 +142,7 @@ and ``reals=["theta", "ttheta"]`` parts where we define the mapping.
         ttheta = Component(SoftPositioner, init_pos=0)
         vertical = Component(SoftPositioner, init_pos=0)
 
-        _pseudo = ["q"]  # TODO: #51
+        _pseudo = ["q"]
         _real = ["theta", "ttheta"]
 
         def __init__(self, *args, **kwargs):
