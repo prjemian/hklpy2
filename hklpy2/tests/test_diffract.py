@@ -12,10 +12,12 @@ from ophyd import EpicsMotor
 from ophyd import SoftPositioner
 from ophyd.sim import noisy_det
 
+from ..backends.base import SolverBase
 from ..blocks.reflection import ReflectionError
 from ..blocks.sample import Sample
 from ..diffract import DiffractometerBase
 from ..diffract import creator
+from ..diffract import diffractometer_class_factory
 from ..diffract import pick_first_item
 from ..misc import ConfigurationError
 from ..misc import DiffractometerError
@@ -23,11 +25,12 @@ from ..misc import SolverNoForwardSolutions
 from ..ops import DEFAULT_SAMPLE_NAME
 from ..ops import Core
 from ..ops import CoreError
-from ..wavelength_support import DEFAULT_WAVELENGTH
-from ..wavelength_support import DEFAULT_WAVELENGTH_UNITS
 from .common import HKLPY2_DIR
 from .common import assert_context_result
+from .models import AugmentedFourc
 from .models import Fourc
+from .models import MultiAxis99
+from .models import MultiAxis99NoSolver
 from .models import NoOpTh2Th
 from .models import TwoC
 
@@ -145,87 +148,63 @@ def test_limits(axis, value, context, expected):
 
 
 @pytest.mark.parametrize(
-    "dclass, np, nr, solver, gname, solver_kwargs, pseudos, reals",
+    "base, pseudos, reals, context, expected",
     [
-        [Fourc, 3, 4, None, None, {}, [], []],
-        # [AugmentedFourc, 7, 8, None, None, {}, [], []],  # FIXME #51
-        # [MultiAxis99, 9, 9, "hkl_soleil", "E4CV", {}, [], []],  # FIXME #51
-        # [
-        #     MultiAxis99,  # FIXME #51
-        #     9,
-        #     9,
-        #     "hkl_soleil",
-        #     "E4CV",
-        #     {},
-        #     "p1 p2 p3 p4".split(),
-        #     "r1 r2 r3 r4".split(),
-        # ],
-        # [MultiAxis99, 9, 9, "no_op", "test", {}, [], []],  # FIXME #51
-        # [MultiAxis99, 9, 9, "th_tth", "TH TTH Q", {}, [], []],  # FIXME #51
-        [NoOpTh2Th, 1, 2, None, None, {}, [], []],
-        [TwoC, 2, 4, None, None, {}, [], []],
+        [Fourc, "h k l".split(), "omega chi phi tth".split(), does_not_raise(), None],
+        [
+            AugmentedFourc,
+            "h k l".split(),
+            "omega chi phi tth".split(),
+            does_not_raise(),
+            None,
+        ],
+        [
+            MultiAxis99NoSolver,
+            "p1 p2".split(),
+            "r1 r2 r3 r4".split(),
+            pytest.raises(AssertionError),
+            "where False = isinstance(None, SolverBase)",  # no solver
+        ],
+        [
+            MultiAxis99,
+            "p1 p2".split(),
+            "r1 r2 r3 r4".split(),
+            does_not_raise(),
+            None,
+        ],
+        [NoOpTh2Th, "q".split(), "th tth".split(), does_not_raise(), None],
+        [TwoC, "q".split(), "theta ttheta".split(), does_not_raise(), None],
     ],
 )
-def test_diffractometer_class(
-    dclass,
-    np,
-    nr,
-    solver,
-    gname,
-    solver_kwargs,
-    pseudos,
-    reals,
-):
-    """Test each diffractometer class."""
-    dmeter = dclass("", name="goniometer")
-    assert dmeter is not None
-    if solver is not None:
-        dmeter.core.set_solver(solver, gname, **solver_kwargs)
+def test_diffractometer_class_models(base, pseudos, reals, context, expected):
+    with context as reason:
+        gonio = base(name="gonio")
+        assert isinstance(gonio, DiffractometerBase)
+        assert isinstance(gonio.sample, Sample)
+        assert isinstance(gonio.core, Core)
+        assert not gonio.moving
 
-    with does_not_raise():
-        # These PseudoPositioner properties _must_ work immediately.
-        assert isinstance(dmeter.position, tuple), f"{type(dmeter.position)=!r}"
-        assert isinstance(dmeter.report, dict), f"{type(dmeter.report)=!r}"
+        # These property methods _must_ work immediately.
+        assert isinstance(gonio.position, tuple), f"{type(gonio.position)=!r}"
+        assert isinstance(gonio.real_position, tuple), f"{type(gonio.real_position)=!r}"
+        assert isinstance(gonio.report, dict), f"{type(gonio.report)=!r}"
 
-    if solver is not None:
-        # ophyd components
-        assert isinstance(dmeter.geometry.get(), str)
-        assert isinstance(dmeter.solver.get(), str)
-        assert isinstance(dmeter.wavelength.get(), (float, int))
+        assert [axis.attr_name for axis in gonio._pseudo] == pseudos
+        assert [axis.attr_name for axis in gonio._real] == reals
+        assert list(gonio.position._fields) == pseudos
+        assert list(gonio.real_position._fields) == reals
+        assert len(gonio.pseudo_axis_names) >= len(pseudos)
+        assert len(gonio.real_axis_names) >= len(reals)
 
-        assert len(dmeter.pseudo_positioners) == np
-        assert len(dmeter._pseudo) == np
-        assert len(dmeter.real_positioners) == nr
-        assert len(dmeter._real) == nr
-        assert not dmeter.moving
+        assert len(gonio.samples) == 1
+        assert gonio.sample.name == "sample"  # default sample
 
-        # test the wavelength
-        assert math.isclose(
-            dmeter._source.wavelength,
-            dmeter.wavelength.get(),
-            abs_tol=0.001,
-        )
-        assert math.isclose(
-            dmeter._source.wavelength,
-            DEFAULT_WAVELENGTH,
-            abs_tol=0.001,
-        )
-        assert dmeter._source.wavelength_units == DEFAULT_WAVELENGTH_UNITS
+        gonio.core.add_sample("test", 5)
+        assert len(gonio.samples) == 2
+        assert gonio.sample.name == "test"
 
-        assert len(dmeter.samples) == 1
-        assert isinstance(dmeter.sample, Sample)
-
-        assert isinstance(dmeter.core, Core)
-        assert isinstance(dmeter.pseudo_axis_names, list)
-        assert isinstance(dmeter.real_axis_names, list)
-
-        dmeter.core.add_sample("test", 5)
-        assert len(dmeter.samples) == 2
-        assert dmeter.sample.name == "test"
-
-        assert dmeter.solver is not None
-        assert isinstance(dmeter.solver_name, str)
-        assert len(dmeter.solver_name) > 0
+        assert isinstance(gonio.core.solver, SolverBase)
+    assert_context_result(expected, reason)
 
 
 def test_diffractometer_wh(capsys):
@@ -807,4 +786,37 @@ def test_failed_restore():
         e4cv = creator(name="e4cv")
         e4cv.restore(12345)
     expected = "Unrecognized configuration"
+    assert_context_result(expected, reason)
+
+
+@pytest.mark.parametrize(
+    "specs, context, expected",
+    [
+        [{}, does_not_raise(), None],
+        [{"pseudos": "axis"}, pytest.raises(TypeError), "Expected a list"],
+        [{"reals": "omega chi phi tth".split()}, does_not_raise(), None],
+        [
+            {
+                "reals": dict(
+                    omega=None,
+                    chi=None,
+                    phi=None,
+                    tth=None,
+                )
+            },
+            does_not_raise(),
+            None,
+        ],
+        [{"reals": "axis"}, pytest.raises(TypeError), "Expected a dict"],
+        [{"aliases": "alias"}, pytest.raises(TypeError), "Expected a dict"],
+    ],
+)
+def test_diffractometer_class_factory(specs, context, expected):
+    with context as reason:
+        klass = diffractometer_class_factory(**specs)
+        assert not isinstance(klass, DiffractometerBase)
+        assert issubclass(klass, DiffractometerBase)
+
+        gonio = klass(name="gonio")
+        assert isinstance(gonio, DiffractometerBase)
     assert_context_result(expected, reason)

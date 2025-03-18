@@ -59,8 +59,11 @@ class AugmentedFourc(Fourc):
     omicron = Cpt(SoftPositioner, limits=(-170, 170), init_pos=0, kind=HN)
 
 
-class MultiAxis99(DiffractometerBase):
+class MultiAxis99NoSolver(DiffractometerBase):
     """Test case.  9 pseudo axes and 9 real axes."""
+
+    _pseudo = "p1 p2".split()
+    _real = "r1 r2 r3 r4".split()
 
     p1 = Cpt(PseudoSingle, "", kind=HN)  # noqa: E741
     p2 = Cpt(PseudoSingle, "", kind=HN)  # noqa: E741
@@ -82,8 +85,19 @@ class MultiAxis99(DiffractometerBase):
     r8 = Cpt(SoftPositioner, init_pos=0, kind=HN)
     r9 = Cpt(SoftPositioner, init_pos=0, kind=HN)
 
+    # Should fail if no solver identified
+
+
+class MultiAxis99(MultiAxis99NoSolver):
+    """Fix by calling constructor with a solver & geometry."""
+
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+        super().__init__(
+            *args,
+            solver="no_op",  # no-op accepts ANY geometry name.
+            geometry="multi-axis",
+            **kwargs,
+        )
 
 
 class NoOpTh2Th(DiffractometerBase):
@@ -97,14 +111,17 @@ class NoOpTh2Th(DiffractometerBase):
     def __init__(self, *args, **kwargs):
         super().__init__(
             *args,
-            solver="no_op",
-            geometry="TH TTH Q",
+            solver="no_op",  # no-op accepts ANY geometry name.
+            geometry="powder",
             **kwargs,
         )
 
 
 class TwoC(DiffractometerBase):
     """Test case with custom names and additional axes."""
+
+    _pseudo = "q".split()
+    _real = "theta ttheta".split()
 
     # sorted alphabetically
     another = Cpt(PseudoSingle, "", kind=HN)  # noqa: E741
@@ -119,7 +136,5 @@ class TwoC(DiffractometerBase):
             *args,
             solver="th_tth",
             geometry="TH TTH Q",
-            pseudos=["q"],
-            reals="theta ttheta".split(),
             **kwargs,
         )

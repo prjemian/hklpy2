@@ -13,7 +13,9 @@ from ..ops import CoreError
 from ..user import set_diffractometer
 from ..user import setor
 from .common import assert_context_result
+from .models import AugmentedFourc
 from .models import MultiAxis99
+from .models import MultiAxis99NoSolver
 from .models import TwoC
 
 SKIP_EXACT_VALUE_TEST = str(uuid.uuid4())
@@ -210,13 +212,13 @@ def test_repeat_sample():
             does_not_raise(),
             None,
         ],
-        # [  # FIXME #51
-        #     AugmentedFourc(name="a4c"),
-        #     "h k l".split(),
-        #     "local_pseudo_axes",
-        #     does_not_raise(),
-        #     None,
-        # ],
+        [
+            AugmentedFourc(name="a4c"),
+            "h k l".split(),
+            "local_pseudo_axes",
+            does_not_raise(),
+            None,
+        ],
         [
             TwoC(name="cc"),
             ["another"],
@@ -225,7 +227,13 @@ def test_repeat_sample():
             "assert ['q'] == ['another']",
         ],
         [TwoC(name="cc"), ["q"], "local_pseudo_axes", does_not_raise(), None],
-        [MultiAxis99(name="ma99"), [], "local_pseudo_axes", does_not_raise(), None],
+        [
+            MultiAxis99NoSolver(name="ma99"),
+            [],
+            "local_pseudo_axes",
+            does_not_raise(),
+            None,
+        ],
         # ------------------
         [fourc, "omega chi phi tth".split(), "local_real_axes", does_not_raise(), None],
         [
@@ -242,13 +250,13 @@ def test_repeat_sample():
             does_not_raise(),
             None,
         ],
-        # [  # FIXME #51
-        #     AugmentedFourc(name="a4c_again"),
-        #     "omega chi phi tth".split(),
-        #     "local_real_axes",
-        #     does_not_raise(),
-        #     None,
-        # ],
+        [
+            AugmentedFourc(name="a4c_again"),
+            "omega chi phi tth".split(),
+            "local_real_axes",
+            does_not_raise(),
+            None,
+        ],
         [
             TwoC(name="cc"),
             ["another"],
@@ -263,12 +271,36 @@ def test_repeat_sample():
             does_not_raise(),
             None,
         ],
-        [MultiAxis99(name="ma99"), [], "local_real_axes", does_not_raise(), None],
+        [
+            MultiAxis99NoSolver(name="ma99"),
+            [],
+            "local_real_axes",
+            does_not_raise(),
+            None,
+        ],
     ],
 )
 def test_local_pseudo_axes(gonio, axes, prop, context, expected):
     with context as reason:
         assert getattr(gonio.core, prop) == axes
+    assert_context_result(expected, reason)
+
+
+@pytest.mark.parametrize(
+    "gonio, context, expected",
+    [
+        [MultiAxis99(name="ma99"), does_not_raise(), None],
+        [
+            MultiAxis99NoSolver(name="ma99"),
+            pytest.raises(CoreError),
+            "Did you forget to call `assign_axes()`?",
+        ],
+    ],
+)
+def test_axes_xref_reversed(gonio, context, expected):
+    with context as reason:
+        xref = gonio.core.axes_xref_reversed
+        assert isinstance(xref, dict)
     assert_context_result(expected, reason)
 
 

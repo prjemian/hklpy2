@@ -844,7 +844,8 @@ def diffractometer_class_factory(
         reals: list[str] = factory_class_attributes["_real"],
         **kwargs,
     ):
-        super(type(self), self).__init__(
+        DiffractometerBase.__init__(
+            self,
             prefix=prefix,
             solver=solver,
             geometry=geometry,
