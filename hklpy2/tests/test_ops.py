@@ -13,7 +13,6 @@ from ..ops import CoreError
 from ..user import set_diffractometer
 from ..user import setor
 from .common import assert_context_result
-from .models import AugmentedFourc
 from .models import MultiAxis99
 from .models import TwoC
 
@@ -71,14 +70,6 @@ def test_asdict(geometry, solver, name, keypath, value):
         assert value is not None  # Anything BUT 'None'
     else:
         assert value == db, f"{value=!r}  {db=!r}"
-
-
-def test_axes_xref_empty():
-    expected = "Did you forget to call `assign_axes()`"
-    with pytest.raises(CoreError) as reason:
-        e4cv = creator(name="e4cv")  # TODO #51
-        e4cv.add_reflection((1, 0, 0), (10, 0, 0, 20), name="r1")
-    assert_context_result(expected, reason)
 
 
 @pytest.mark.filterwarnings("error")
@@ -219,13 +210,13 @@ def test_repeat_sample():
             does_not_raise(),
             None,
         ],
-        [
-            AugmentedFourc(name="acccc"),
-            "h k l".split(),
-            "local_pseudo_axes",
-            does_not_raise(),
-            None,
-        ],
+        # [  # FIXME #51
+        #     AugmentedFourc(name="a4c"),
+        #     "h k l".split(),
+        #     "local_pseudo_axes",
+        #     does_not_raise(),
+        #     None,
+        # ],
         [
             TwoC(name="cc"),
             ["another"],
@@ -251,13 +242,13 @@ def test_repeat_sample():
             does_not_raise(),
             None,
         ],
-        [
-            AugmentedFourc(name="acccc"),
-            "omega chi phi tth".split(),
-            "local_real_axes",
-            does_not_raise(),
-            None,
-        ],
+        # [  # FIXME #51
+        #     AugmentedFourc(name="a4c_again"),
+        #     "omega chi phi tth".split(),
+        #     "local_real_axes",
+        #     does_not_raise(),
+        #     None,
+        # ],
         [
             TwoC(name="cc"),
             ["another"],

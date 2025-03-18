@@ -324,9 +324,7 @@ class Core:
                 names = self.solver.pseudo_axis_names + self.solver.real_axis_names
                 if len(names) == 0:
                     return {}
-            raise CoreError(
-                "Did you forget to call `assign_axes()`?"
-            )
+            raise CoreError("Did you forget to call `assign_axes()`?")
         return {v: k for k, v in self.axes_xref.items()}
 
     def calc_UB(

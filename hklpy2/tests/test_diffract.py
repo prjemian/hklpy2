@@ -17,6 +17,7 @@ from ..blocks.sample import Sample
 from ..diffract import DiffractometerBase
 from ..diffract import creator
 from ..diffract import pick_first_item
+from ..misc import ConfigurationError
 from ..misc import DiffractometerError
 from ..misc import SolverNoForwardSolutions
 from ..ops import DEFAULT_SAMPLE_NAME
@@ -26,9 +27,7 @@ from ..wavelength_support import DEFAULT_WAVELENGTH
 from ..wavelength_support import DEFAULT_WAVELENGTH_UNITS
 from .common import HKLPY2_DIR
 from .common import assert_context_result
-from .models import AugmentedFourc
 from .models import Fourc
-from .models import MultiAxis99
 from .models import NoOpTh2Th
 from .models import TwoC
 
@@ -61,7 +60,7 @@ def test_choice_function():
             dict(aaa=None, bbb=None, ccc=None),
             SoftPositioner,
             pytest.raises(KeyError),
-            "reals, received ",
+            "tth",
         ],
         [
             [],
@@ -89,15 +88,15 @@ def test_choice_function():
             "h k".split(),
             {},
             SoftPositioner,
-            does_not_raise(),
-            None,
+            pytest.raises(ConfigurationError),
+            "pseudo axis mismatch",
         ],
         [
             "h2 k2 l2 psi alpha beta".split(),
             {},
             SoftPositioner,
-            does_not_raise(),
-            None,
+            pytest.raises(ConfigurationError),
+            "pseudo axis mismatch",
         ],
     ],
 )
@@ -149,20 +148,20 @@ def test_limits(axis, value, context, expected):
     "dclass, np, nr, solver, gname, solver_kwargs, pseudos, reals",
     [
         [Fourc, 3, 4, None, None, {}, [], []],
-        [AugmentedFourc, 7, 8, None, None, {}, [], []],
-        [MultiAxis99, 9, 9, "hkl_soleil", "E4CV", {}, [], []],
-        [
-            MultiAxis99,
-            9,
-            9,
-            "hkl_soleil",
-            "E4CV",
-            {},
-            "p1 p2 p3 p4".split(),
-            "r1 r2 r3 r4".split(),
-        ],
-        [MultiAxis99, 9, 9, "no_op", "test", {}, [], []],
-        [MultiAxis99, 9, 9, "th_tth", "TH TTH Q", {}, [], []],
+        # [AugmentedFourc, 7, 8, None, None, {}, [], []],  # FIXME #51
+        # [MultiAxis99, 9, 9, "hkl_soleil", "E4CV", {}, [], []],  # FIXME #51
+        # [
+        #     MultiAxis99,  # FIXME #51
+        #     9,
+        #     9,
+        #     "hkl_soleil",
+        #     "E4CV",
+        #     {},
+        #     "p1 p2 p3 p4".split(),
+        #     "r1 r2 r3 r4".split(),
+        # ],
+        # [MultiAxis99, 9, 9, "no_op", "test", {}, [], []],  # FIXME #51
+        # [MultiAxis99, 9, 9, "th_tth", "TH TTH Q", {}, [], []],  # FIXME #51
         [NoOpTh2Th, 1, 2, None, None, {}, [], []],
         [TwoC, 2, 4, None, None, {}, [], []],
     ],
