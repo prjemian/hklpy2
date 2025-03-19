@@ -1,4 +1,5 @@
 import logging
+import math
 from collections import namedtuple
 from contextlib import nullcontext as does_not_raise
 
@@ -29,6 +30,8 @@ from ..user import wh
 from ..wavelength_support import ConstantMonochromaticWavelength
 from .common import TESTS_DIR
 from .common import assert_context_result
+
+twopi = 2 * math.pi
 
 
 @pytest.fixture(scope="function")
@@ -222,7 +225,7 @@ def test_pa(fourc, capsys):
         "Sample(name='sample', lattice=Lattice(a=1, system='cubic'))",
         "Orienting reflections: []",
         "U=[[1, 0, 0], [0, 1, 0], [0, 0, 1]]",
-        "UB=[[1, 0, 0], [0, 1, 0], [0, 0, 1]]",
+        f"UB=[[{twopi}, 0.0, 0.0], [0.0, {twopi}, 0.0], [0.0, 0.0, {twopi}]]",
         "constraint: -180.0 <= omega <= 180.0",
         "constraint: -180.0 <= chi <= 180.0",
         "constraint: -180.0 <= phi <= 180.0",

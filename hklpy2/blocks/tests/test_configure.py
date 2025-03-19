@@ -1,3 +1,4 @@
+import math
 import pathlib
 from contextlib import nullcontext as does_not_raise
 
@@ -18,6 +19,7 @@ e4cv = creator(name="e4cv")
 add_oriented_vibranium_to_e4cv(e4cv)
 
 sim2c = creator(name="sim2c", solver="th_tth", geometry="TH TTH Q")
+twopi = 2 * math.pi
 
 
 @pytest.mark.parametrize(
@@ -46,7 +48,7 @@ sim2c = creator(name="sim2c", solver="th_tth", geometry="TH TTH Q")
         ["samples.sample.reflections_order", []],
         ["samples.sample.reflections", {}],
         ["samples.sample.U", [[1, 0, 0], [0, 1, 0], [0, 0, 1]]],
-        ["samples.sample.UB", [[1, 0, 0], [0, 1, 0], [0, 0, 1]]],
+        ["samples.sample.UB", [[twopi, 0, 0], [0, twopi, 0], [0, 0, twopi]]],
         ["samples.vibranium.name", "vibranium"],
         ["samples.vibranium.reflections_order", "r040 r004".split()],
         ["samples.vibranium.reflections_order", "r040 r004".split()],

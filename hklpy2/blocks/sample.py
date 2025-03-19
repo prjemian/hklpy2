@@ -8,6 +8,9 @@ A Crystalline Sample.
 """
 
 import logging
+import math
+
+import numpy as np
 
 from ..misc import SampleError
 from ..misc import unique_name
@@ -60,7 +63,7 @@ class Sample:
         self.core = core
         self.lattice = lattice
         self.U = IDENTITY_MATRIX_3X3
-        self.UB = IDENTITY_MATRIX_3X3  # TODO: * 2 * math.pi
+        self.UB = (2 * math.pi * self.lattice.a * np.array(self.U)).tolist()
         # TODO: reciprocal_lattice
         self.reflections = ReflectionsDict()
 
