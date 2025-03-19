@@ -1,5 +1,6 @@
 """Test the hklpy2.ops module."""
 
+import math
 import uuid
 from collections import namedtuple
 from contextlib import nullcontext as does_not_raise
@@ -8,6 +9,7 @@ import pytest
 
 from ..diffract import DiffractometerBase
 from ..diffract import creator
+from ..ops import DEFAULT_SAMPLE_NAME
 from ..ops import Core
 from ..ops import CoreError
 from ..user import set_diffractometer
@@ -304,4 +306,17 @@ def test_axes_xref_reversed(gonio, context, expected):
     assert_context_result(expected, reason)
 
 
-# FIXME: #56 reset_samples is not tested yet
+def test_reset_samples():
+    gonio = creator(name="gonio", solver="hkl_soleil", geometry="SOLEIL SIXS MED1+2")
+    assert isinstance(gonio, DiffractometerBase)
+    assert len(gonio.core.samples) == 1
+    assert gonio.sample.name == DEFAULT_SAMPLE_NAME
+
+    gonio.add_sample("vibranium", 2 * math.pi)
+    assert len(gonio.core.samples) == 2
+    gonio.add_sample("kryptonite", 0.01)
+    assert len(gonio.core.samples) == 3
+
+    gonio.core.reset_samples()
+    assert len(gonio.core.samples) == 1
+    assert gonio.sample.name == DEFAULT_SAMPLE_NAME
