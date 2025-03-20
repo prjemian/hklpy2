@@ -69,11 +69,12 @@ as long as:
     :linenos:
 
     import hklpy2
-    from ophyd import Component, PseudoSingle, SoftPositioner
+    from hklpy2.diffract import Hklpy2PseudoAxis
+    from ophyd import Component, SoftPositioner
 
     class S1D1(hklpy2.DiffractometerBase):
 
-        q = Component(PseudoSingle, "", kind=H_OR_N)
+        q = Component(Hklpy2PseudoAxis, "", kind=H_OR_N)
 
         sample = Component(SoftPositioner, init_pos=0)
         detector = Component(SoftPositioner, init_pos=0)
@@ -129,15 +130,16 @@ order expected by the solver). Look for the ``_pseudo=["q"]`` and
 .. code-block:: Python
     :linenos:
 
-    from ophyd import Component, PseudoSingle, SoftPositioner
     import hklpy2
+    from hklpy2.diffract import Hklpy2PseudoAxis
+    from ophyd import Component, SoftPositioner
 
     class MyTwoC(hklpy2.DiffractometerBase):
 
         # sorted alphabetically for this example
-        another = Component(PseudoSingle)
+        another = Component(Hklpy2PseudoAxis)
         horizontal = Component(SoftPositioner, init_pos=0)
-        q = Component(PseudoSingle)
+        q = Component(Hklpy2PseudoAxis)
         theta = Component(SoftPositioner, init_pos=0)
         ttheta = Component(SoftPositioner, init_pos=0)
         vertical = Component(SoftPositioner, init_pos=0)

@@ -4,6 +4,7 @@ import pytest
 
 import hklpy2
 
+from ..diffract import Hklpy2PseudoAxis
 from ..ops import DEFAULT_SAMPLE_NAME
 from .common import assert_context_result
 
@@ -12,7 +13,6 @@ from .common import assert_context_result
 def fourc():
     from ophyd import Component as Cpt
     from ophyd import Kind
-    from ophyd import PseudoSingle
     from ophyd import SoftPositioner
 
     NORMAL_HINTED = Kind.hinted | Kind.normal
@@ -24,9 +24,9 @@ def fourc():
         _real = "theta chi phi ttheta".split()
 
         # pseudo-space axes, in order expected by hkl_soleil E4CV, engine="hkl"
-        h = Cpt(PseudoSingle, kind=NORMAL_HINTED)  # noqa: E741
-        k = Cpt(PseudoSingle, kind=NORMAL_HINTED)  # noqa: E741
-        l = Cpt(PseudoSingle, kind=NORMAL_HINTED)  # noqa: E741
+        h = Cpt(Hklpy2PseudoAxis, kind=NORMAL_HINTED)  # noqa: E741
+        k = Cpt(Hklpy2PseudoAxis, kind=NORMAL_HINTED)  # noqa: E741
+        l = Cpt(Hklpy2PseudoAxis, kind=NORMAL_HINTED)  # noqa: E741
 
         # real-space axes, in order expected by hkl_soleil E4CV
         # using different names
@@ -36,9 +36,9 @@ def fourc():
         ttheta = Cpt(SoftPositioner, limits=(-170, 170), init_pos=0, kind=NORMAL_HINTED)
 
         # pseudo-space extra axes used in a couple modes
-        h2 = Cpt(PseudoSingle, kind=NORMAL_HINTED)  # noqa: E741
-        k2 = Cpt(PseudoSingle, kind=NORMAL_HINTED)  # noqa: E741
-        l2 = Cpt(PseudoSingle, kind=NORMAL_HINTED)  # noqa: E741
+        h2 = Cpt(Hklpy2PseudoAxis, kind=NORMAL_HINTED)  # noqa: E741
+        k2 = Cpt(Hklpy2PseudoAxis, kind=NORMAL_HINTED)  # noqa: E741
+        l2 = Cpt(Hklpy2PseudoAxis, kind=NORMAL_HINTED)  # noqa: E741
 
         # real-space extra axis used in a couple modes
         psi = Cpt(SoftPositioner, limits=(-170, 170), init_pos=0, kind=NORMAL_HINTED)

@@ -7,10 +7,10 @@ import pathlib
 
 from ophyd import Component as Cpt
 from ophyd import Kind
-from ophyd import PseudoSingle
 from ophyd import SoftPositioner
 
 from ..diffract import DiffractometerBase
+from ..diffract import Hklpy2PseudoAxis
 from ..diffract import diffractometer_class_factory
 from ..misc import load_yaml_file
 
@@ -46,14 +46,14 @@ class AugmentedFourc(Fourc):
     # define a few more axes,
     # extra parameters for some geometries/engines/modes
 
-    h2 = Cpt(PseudoSingle, "", kind=HN)  # noqa: E741
-    k2 = Cpt(PseudoSingle, "", kind=HN)  # noqa: E741
-    l2 = Cpt(PseudoSingle, "", kind=HN)  # noqa: E741
+    h2 = Cpt(Hklpy2PseudoAxis, "", kind=HN)  # noqa: E741
+    k2 = Cpt(Hklpy2PseudoAxis, "", kind=HN)  # noqa: E741
+    l2 = Cpt(Hklpy2PseudoAxis, "", kind=HN)  # noqa: E741
     psi = Cpt(SoftPositioner, limits=(-170, 170), init_pos=0, kind=HN)
 
     # and a few more axes not used by 4-circle code
 
-    q = Cpt(PseudoSingle, "", kind=HN)  # noqa: E741
+    q = Cpt(Hklpy2PseudoAxis, "", kind=HN)  # noqa: E741
     mu = Cpt(SoftPositioner, limits=(-170, 170), init_pos=0, kind=HN)
     nu = Cpt(SoftPositioner, limits=(-170, 170), init_pos=0, kind=HN)
     omicron = Cpt(SoftPositioner, limits=(-170, 170), init_pos=0, kind=HN)
@@ -65,15 +65,15 @@ class MultiAxis99NoSolver(DiffractometerBase):
     _pseudo = "p1 p2".split()
     _real = "r1 r2 r3 r4".split()
 
-    p1 = Cpt(PseudoSingle, "", kind=HN)  # noqa: E741
-    p2 = Cpt(PseudoSingle, "", kind=HN)  # noqa: E741
-    p3 = Cpt(PseudoSingle, "", kind=HN)  # noqa: E741
-    p4 = Cpt(PseudoSingle, "", kind=HN)  # noqa: E741
-    p5 = Cpt(PseudoSingle, "", kind=HN)  # noqa: E741
-    p6 = Cpt(PseudoSingle, "", kind=HN)  # noqa: E741
-    p7 = Cpt(PseudoSingle, "", kind=HN)  # noqa: E741
-    p8 = Cpt(PseudoSingle, "", kind=HN)  # noqa: E741
-    p9 = Cpt(PseudoSingle, "", kind=HN)  # noqa: E741
+    p1 = Cpt(Hklpy2PseudoAxis, "", kind=HN)  # noqa: E741
+    p2 = Cpt(Hklpy2PseudoAxis, "", kind=HN)  # noqa: E741
+    p3 = Cpt(Hklpy2PseudoAxis, "", kind=HN)  # noqa: E741
+    p4 = Cpt(Hklpy2PseudoAxis, "", kind=HN)  # noqa: E741
+    p5 = Cpt(Hklpy2PseudoAxis, "", kind=HN)  # noqa: E741
+    p6 = Cpt(Hklpy2PseudoAxis, "", kind=HN)  # noqa: E741
+    p7 = Cpt(Hklpy2PseudoAxis, "", kind=HN)  # noqa: E741
+    p8 = Cpt(Hklpy2PseudoAxis, "", kind=HN)  # noqa: E741
+    p9 = Cpt(Hklpy2PseudoAxis, "", kind=HN)  # noqa: E741
 
     r1 = Cpt(SoftPositioner, init_pos=0, kind=HN)
     r2 = Cpt(SoftPositioner, init_pos=0, kind=HN)
@@ -103,7 +103,7 @@ class MultiAxis99(MultiAxis99NoSolver):
 class NoOpTh2Th(DiffractometerBase):
     """Test case."""
 
-    q = Cpt(PseudoSingle, "", kind=HN)  # noqa: E741
+    q = Cpt(Hklpy2PseudoAxis, "", kind=HN)  # noqa: E741
 
     th = Cpt(SoftPositioner, limits=(-90, 90), init_pos=0, kind=HN)
     tth = Cpt(SoftPositioner, limits=(-170, 170), init_pos=0, kind=HN)
@@ -124,8 +124,8 @@ class TwoC(DiffractometerBase):
     _real = "theta ttheta".split()
 
     # sorted alphabetically
-    another = Cpt(PseudoSingle, "", kind=HN)  # noqa: E741
-    q = Cpt(PseudoSingle, "", kind=HN)  # noqa: E741
+    another = Cpt(Hklpy2PseudoAxis, "", kind=HN)  # noqa: E741
+    q = Cpt(Hklpy2PseudoAxis, "", kind=HN)  # noqa: E741
     horizontal = Cpt(SoftPositioner, limits=(-10, 855), init_pos=0, kind=HN)
     theta = Cpt(SoftPositioner, limits=(-90, 90), init_pos=0, kind=HN)
     ttheta = Cpt(SoftPositioner, limits=(-170, 170), init_pos=0, kind=HN)

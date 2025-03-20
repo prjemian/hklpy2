@@ -6,6 +6,7 @@ Base class for all diffractometers
     ~creator
     ~diffractometer_class_factory
     ~DiffractometerBase
+    ~Hklpy2PseudoAxis
     ~pick_first_item
 """
 
@@ -66,7 +67,7 @@ def pick_first_item(now: tuple, solutions: list):
     return solutions[0]
 
 
-class DiffractometerPseudo(PseudoSingle):
+class Hklpy2PseudoAxis(PseudoSingle):
     "Override to allow additional pseudos."
 
     @required_for_connection(description="{device.name} readback subscription")
@@ -811,7 +812,7 @@ def diffractometer_class_factory(
 
     def make_component(axis_type, labels=[], pv=None):
         if axis_type == "pseudo":
-            return Cpt(DiffractometerPseudo, "", kind=H_OR_N)
+            return Cpt(Hklpy2PseudoAxis, "", kind=H_OR_N)
         elif axis_type == "real":
             if pv is None:
                 return Cpt(

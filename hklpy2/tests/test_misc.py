@@ -289,7 +289,7 @@ def test_roundoff(value, digits, expected_text):
         [[sim4c], does_not_raise(), None],
         [[sim4c.chi], pytest.raises(TypeError), "SoftPositioner"],
         [[sim4c, sim6c], does_not_raise(), None],
-        [[sim4c, sim6c.h], pytest.raises(TypeError), "DiffractometerPseudo"],
+        [[sim4c, sim6c.h], pytest.raises(TypeError), "Hklpy2PseudoAxis"],
     ],
 )
 @pytest.mark.parametrize("enabled", [True, False])
