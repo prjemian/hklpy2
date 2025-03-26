@@ -24,7 +24,7 @@ jobs:
 
       - uses: actions/setup-python@v5
         with:
-          python-version: "3.11"
+          python-version: "3.12"
 
       - name: Install package
         run: |
@@ -34,7 +34,7 @@ jobs:
       - name: Run ruff
         uses: davidslusser/actions_python_ruff@v1.0.2
         with:
-          python_version: "3.11"
+          python_version: "3.12"
 
   tests:
     name: Python ${{ matrix.python-version }}
