@@ -78,6 +78,10 @@ jobs:
 
     - name: Install source code and all requirements (includes pre-releases)
       run: |
+        set -vxeuo pipefail
+        pip install coverage coveralls
+        # Test it!
+        python -c "from coverage.report import Reporter"
         pip install --pre tiled
         pip install --pre -e .[all]
 
@@ -98,7 +102,6 @@ jobs:
         coverage report --precision 3 -m
 
     - name: Upload to coveralls
-      # https://github.com/TheKevJames/coveralls-python
       shell: bash -l {0}
       run: |
         set -vxeuo pipefail
@@ -112,7 +115,6 @@ jobs:
         COVERALLS_FLAG_NAME: ${{ matrix.test-name }}
         COVERALLS_PARALLEL: true
 
-  # https://coveralls-python.readthedocs.io/en/latest/usage/configuration.html#github-actions-support
   coveralls:
     name: Report unit test coverage to coveralls
     needs: tests
@@ -131,10 +133,6 @@ jobs:
             --upgrade pip coveralls
           #
           echo "Finally!"
-          #
-          # debug mode: output prepared json and reported files list to stdout
-          # https://coveralls-python.readthedocs.io/en/latest/troubleshooting.html
-          #
           # coveralls debug
           coveralls --service=github --finish
         env:
