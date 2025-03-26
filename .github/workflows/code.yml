@@ -78,7 +78,6 @@ jobs:
       - name: Install source code and all requirements (includes pre-releases)
         run: |
           set -vxeuo pipefail
-          python -c "from coverage.report import Reporter"
           pip install --pre tiled
           pip install --pre -e .[all]
 
