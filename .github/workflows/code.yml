@@ -98,6 +98,12 @@ jobs:
           coverage combine
           coverage report --precision 3 -m
 
+      - name: Force Install coveralls by pip
+        shell: bash -l {0}
+        run: |
+          set -vxeuo pipefail
+          python -m pip install --force-reinstall coveralls
+
       - name: Upload to coveralls
         shell: bash -l {0}
         run: |
