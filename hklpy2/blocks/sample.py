@@ -11,6 +11,7 @@ import logging
 import math
 
 import numpy as np
+from numpy.linalg import norm
 
 from ..misc import SampleError
 from ..misc import unique_name
@@ -34,6 +35,7 @@ class Sample:
     .. autosummary::
 
         ~refine_lattice
+        ~_validate_matrices
 
     .. rubric:: Python Properties
 
@@ -152,6 +154,23 @@ class Sample:
             raise TypeError(f"Must supply ReflectionsDict() object, received {value!r}")
         self._reflections = value
 
+    def _validate_matrices(self, value: list[list[float]], name: str) -> None:
+        """(internal) Validate U & UB matrices."""
+        arr = np.array(value)
+        if not np.isreal(arr).all():
+            raise TypeError(f"{name} matrix must be numerical.  Received {value}")
+        if arr.shape != (3, 3):
+            raise ValueError(f"{name} matrix must by 3x3. Received {value}")
+        if name == "UB":
+            return
+        # Rows and columns of U matrix must have unit norms.
+        if not np.allclose(norm(arr, axis=1), [1, 1, 1], atol=1e-6):
+            raise ValueError(f"{name} matrix rows must be normalized. Received {value}")
+        if not np.allclose(norm(arr.T, axis=1), [1, 1, 1], atol=1e-6):
+            raise ValueError(
+                f"{name} matrix columns must be normalized. Received {value}"
+            )
+
     @property
     def U(self) -> list[list[float]]:
         """Return the matrix, U, crystal orientation on the diffractometer."""
@@ -159,6 +178,8 @@ class Sample:
 
     @U.setter
     def U(self, value: list[list[float]]):
+        self._validate_matrices(value, "U")
+
         self._U = value
         self.core._solver_needs_update = True
 
@@ -175,6 +196,7 @@ class Sample:
 
     @UB.setter
     def UB(self, value: list[list[float]]):
-        # TODO: #41 validate
+        self._validate_matrices(value, "UB")
+
         self._UB = value
         self.core._solver_needs_update = True
