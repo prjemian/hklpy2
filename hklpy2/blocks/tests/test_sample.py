@@ -3,6 +3,7 @@ from contextlib import nullcontext as does_not_raise
 import pytest
 
 from ...diffract import creator
+from ...misc import IDENTITY_MATRIX_3X3
 from ...misc import SampleError
 from ...misc import load_yaml
 from ...misc import unique_name
@@ -249,5 +250,39 @@ def test_remove_reflection(rname, context, expected):
         e4cv.core.calc_UB("r040", "r400")
         e4cv.core.sample.remove_reflection(rname)
         assert rname not in e4cv.core.sample.reflections.order
+
+    assert_context_result(expected, reason)
+
+
+@pytest.mark.parametrize(
+    "name, value, context, expected",
+    [
+        [
+            "U",
+            [[1, 0, 0], [1, 0, 0], [1, 0, 0]],
+            pytest.raises(ValueError),
+            "columns must be normalized",
+        ],
+        [
+            "U",
+            [[1, 1, 0], [1, 0, 0], [1, 0, 0]],
+            pytest.raises(ValueError),
+            "rows must be normalized",
+        ],
+        ["U", [1, 2, "3"], pytest.raises(TypeError), "must be numerical"],
+        ["U", [1, 2, 3], pytest.raises(ValueError), "must by 3x3."],
+        ["U", IDENTITY_MATRIX_3X3, does_not_raise(), None],
+        ["UB", [1, 2, "3"], pytest.raises(TypeError), "must be numerical"],
+        ["UB", [1, 2, 3], pytest.raises(ValueError), "must by 3x3."],
+        ["UB", IDENTITY_MATRIX_3X3, does_not_raise(), None],
+    ],
+)
+def test_matrix_validation(name, value, context, expected):
+    with context as reason:
+        e4cv = creator(name="e4cv")
+        if name == "U":
+            e4cv.core.sample.U = value
+        else:
+            e4cv.core.sample.UB = value
 
     assert_context_result(expected, reason)
