@@ -13,6 +13,7 @@ import datetime
 import logging
 from collections.abc import Iterable
 from typing import List
+from typing import Optional
 from typing import Union
 
 from .backends.base import SolverBase
@@ -41,9 +42,9 @@ class Core:
 
     .. rubric:: Parameters
 
-    ``diffractometer`` (DiffractometerBase):
+    diffractometer (DiffractometerBase):
         The diffractometer parent.
-    ``default_sample`` (bool):
+    default_sample (bool):
         If 'True' (default), create a 'sample' with 1 angstrom cubic lattice.
 
     .. rubric:: Python Methods
@@ -89,6 +90,7 @@ class Core:
         self._sample_name = None
         self._samples = {}
         self._solver = None
+        self._solver_needs_update: bool = True
         self.constraints = None
         self.configuration = None
 
@@ -262,9 +264,10 @@ class Core:
         lattice = Lattice(a, b, c, alpha, beta, gamma, digits)
         self._samples[name] = Sample(self, name, lattice)
         self.sample = name
+        self._solver_needs_update = True  # 58  test_diffract line 410: 2 pi a
         if self.solver is not None:
-            self.solver.sample = self._samples[name]
-        return self._samples[name]
+            self.solver.sample = self.sample
+        return self.sample
 
     def assign_axes(self, pseudos: list[str], reals: list[str]) -> None:
         """
@@ -291,18 +294,17 @@ class Core:
         if len(set(pseudos + reals)) != len(pseudos + reals):
             raise ValueError("Axis name cannot be in more than list.")
 
-        dfrct = self.diffractometer
-        solver = dfrct.core.solver
-        if solver is None:
+        if self.solver is None:
             return  # such as initialization
 
+        dfrct = self.diffractometer
         all_pseudos = itemize("pseudo", pseudos, dfrct._get_pseudo_positioners())
         all_reals = itemize("real", reals, dfrct._get_real_positioners())
         both_p_r = all_pseudos + all_reals
 
         self.axes_xref = {}
-        rebuild_axes_xref(pseudos, solver.pseudo_axis_names)
-        rebuild_axes_xref(reals, solver.real_axis_names)
+        rebuild_axes_xref(pseudos, self.solver.pseudo_axis_names)
+        rebuild_axes_xref(reals, self.solver.real_axis_names)
         self.reset_constraints()
         logger.debug("axes_xref=%r", self.axes_xref)
         self.configuration = Configuration(self.diffractometer)
@@ -350,10 +352,11 @@ class Core:
 
         two_reflections = [_get(r1), _get(r2)]
         self.sample.reflections.set_orientation_reflections(two_reflections)
-        self.solver.calculate_UB(*two_reflections)
+        ub = self.solver.calculate_UB(*two_reflections)
         self.sample.U = self.solver.U
-        self.sample.UB = self.solver.UB
-        return self.sample.UB
+        self.sample.UB = ub
+        self._solver_needs_update = False
+        return ub
 
     def forward(self, pseudos: AnyAxesType, wavelength: float = None) -> list:
         """Compute [{names:reals}] from {names: pseudos} (hkl -> angles)."""
@@ -363,14 +366,10 @@ class Core:
             pseudos,
         )
 
-        if wavelength is None:
-            wavelength = self.diffractometer.wavelength.get()
-        self.solver.wavelength = wavelength
-
         pdict = self.standardize_pseudos(pseudos)
         reals = self.diffractometer.real_position._asdict()  # Original values.
 
-        # TODO: #58 make sure solver has the sample's UB matrix for 'forward()'
+        self.update_solver(wavelength=wavelength)
 
         # Filter just the solutions that fit the constraints.
         results = self.solver.forward(self._axes_names_d2s(pdict))
@@ -436,15 +435,11 @@ class Core:
             # Called from the constructor before solver is defined.
             return pseudos  # current values of pseudos
 
-        if wavelength is None:
-            wavelength: float = self.diffractometer.wavelength.get()
-        self.solver.wavelength = wavelength
-
         # Just the reals expected by the solver.
         # Dictionary in order expected by the solver.
         reals: AxesDict = self.standardize_reals(reals)
 
-        # TODO: #58 make sure solver has the sample's UB matrix for 'forward()'
+        self.update_solver(wavelength=wavelength)
 
         # transform: reals -> pseudos
         spdict: AxesDict = self.solver.inverse(self._axes_names_d2s(reals))
@@ -542,8 +537,8 @@ class Core:
             kwargs,
         )
         self._solver = solver_factory(name, geometry, **kwargs)
-        self._solver.sample = self.sample
-        self._solver.wavelength = self.diffractometer.wavelength.get()
+        self.update_solver()
+        self._solver_needs_update = True
         return self._solver
 
     def standardize_pseudos(self, pseudos: AnyAxesType) -> AxesDict:
@@ -580,6 +575,19 @@ class Core:
             }
 
         return axes_to_dict(reals, self.local_real_axes)
+
+    def update_solver(self, wavelength: Optional[float] = None) -> None:
+        """Update solver data if needed."""
+        if self._solver_needs_update or wavelength is not None:
+            self.solver.sample = self.sample  # lattice & reflections
+            self.solver.wavelength = wavelength or self.diffractometer.wavelength.get()
+            # print(f"DEBUG update_solver(): {self.sample.UB=}")
+            try:
+                self.solver.U = self.sample.U
+                self.solver.UB = self.sample.UB
+            except AttributeError:
+                pass  # Some solvers have no setter for U & UB
+            self._solver_needs_update = False
 
     # ---- get/set properties
 

@@ -233,3 +233,19 @@ def test_summary():
     # TODO: expand this test
     summary = k4cv.core.solver.summary
     assert isinstance(summary, Table)
+
+
+@pytest.mark.parametrize("geometry", ["APS POLAR", "ZAXIS"])
+def test__details(geometry):
+    from ... import creator
+
+    diffractometer = creator(name="diffractometer", geometry=geometry)
+    assert diffractometer is not None
+
+    review = diffractometer.core.solver._details
+    assert isinstance(review, dict)
+    keys = "name geometry engine sample lattice U UB wavelength mode extras".split()
+    assert list(sorted(review.keys())) == sorted(keys)
+    assert review["engine"] == "hkl"
+    assert review["geometry"] == geometry
+    assert review["name"] == "hkl_soleil"

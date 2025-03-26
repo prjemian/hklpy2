@@ -63,7 +63,7 @@ class Sample:
         self.core = core
         self.lattice = lattice
         self.U = IDENTITY_MATRIX_3X3
-        self.UB = (2 * math.pi * self.lattice.a * np.array(self.U)).tolist()
+        self.UB = ((2 * math.pi / self.lattice.a) * np.array(self.U)).tolist()
         # TODO: reciprocal_lattice
         self.reflections = ReflectionsDict()
 
@@ -160,6 +160,7 @@ class Sample:
     @U.setter
     def U(self, value: list[list[float]]):
         self._U = value
+        self.core._solver_needs_update = True
 
     @property
     def UB(self) -> list[list[float]]:
@@ -176,3 +177,4 @@ class Sample:
     def UB(self, value: list[list[float]]):
         # TODO: #41 validate
         self._UB = value
+        self.core._solver_needs_update = True
