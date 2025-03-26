@@ -168,10 +168,12 @@ class MonochromaticXrayWavelength(WavelengthBase):
     source_type = "X-ray"
     spectrum_type = "monochromatic"
 
-    def __init__(self, wavelength: float, energy_units: str = None, **kwargs):
+    def __init__(
+        self, wavelength: float = DEFAULT_WAVELENGTH, energy_units: str = None, **kwargs
+    ):
         self.energy_units = energy_units or DEFAULT_ENERGY_UNITS
         super().__init__(**kwargs)
-        self.wavelength = wavelength
+        self._wavelength = wavelength
 
     @property
     def wavelength(self) -> float:

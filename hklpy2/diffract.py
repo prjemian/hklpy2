@@ -12,6 +12,7 @@ Base class for all diffractometers
 
 import logging
 import pathlib
+from typing import Optional
 
 import yaml
 from ophyd import Component as Cpt
@@ -32,7 +33,6 @@ from .misc import AxesDict
 from .misc import DiffractometerError
 from .misc import load_yaml_file
 from .misc import roundoff
-from .wavelength_support import DEFAULT_WAVELENGTH
 from .wavelength_support import MonochromaticXrayWavelength
 
 __all__ = """
@@ -184,7 +184,7 @@ class DiffractometerBase(PseudoPositioner):
 
         self._backend = None
         self._forward_solution = pick_first_item
-        self._source = MonochromaticXrayWavelength(DEFAULT_WAVELENGTH)
+        self._source = MonochromaticXrayWavelength()
 
         self.core = Core(self)
 
@@ -431,16 +431,18 @@ class DiffractometerBase(PseudoPositioner):
     def scan_extra(
         self,
         detectors: list,
-        axis: str = None,  # name of extra parameter to be scanned
-        start: float = None,
-        finish: float = None,
-        num: int = 2,
+        axis: Optional[str] = None,  # name of extra parameter to be scanned
+        start: Optional[float] = None,
+        finish: Optional[float] = None,
+        num: Optional[int] = 2,
         *,
-        pseudos: dict = None,  # h, k, l
-        reals: dict = None,  # angles
-        extras: dict = {},  # define all but the 'axis', these will remain constant
-        fail_on_exception: bool = False,
-        md: dict = None,
+        pseudos: Optional[dict] = None,  # h, k, l
+        reals: Optional[dict] = None,  # angles
+        extras: Optional[
+            dict
+        ] = {},  # define all but the 'axis', these will remain constant
+        fail_on_exception: Optional[bool] = False,
+        md: Optional[dict] = None,
     ):
         """
         Scan one extra diffractometer parameter, such as 'psi'.
@@ -468,13 +470,12 @@ class DiffractometerBase(PseudoPositioner):
             raise TypeError(f"{detectors=} is not iterable.")
         if axis not in self.core.solver.extra_axis_names:
             raise KeyError(f"{axis!r} not in {self.core.solver.extra_axis_names}")
-        if pseudos is None and reals is None:
-            raise ValueError("Must define either pseudos or reals.")
-        if pseudos is not None and reals is not None:
-            raise ValueError("Cannot define both pseudos and reals.")
-
         if reals is not None:
             raise NotImplementedError("Inverse transformation.")  # FIXME: #37
+        if pseudos is None and reals is None:
+            raise ValueError("Must define either pseudos or reals.")
+        # if pseudos is not None and reals is not None:  # TODO: #37
+        #     raise ValueError("Cannot define both pseudos and reals.")
 
         _md = {
             "diffractometer": {
@@ -546,7 +547,7 @@ class DiffractometerBase(PseudoPositioner):
                     if fail_on_exception:
                         raise reason
                     else:
-                        # Needs a special test for this output.
+                        # Scan psi beyond limits will trigger this code.
                         print(f"FAIL: {axis}={value} {reason}")  # Inform the user!
 
         return (yield from _inner())

@@ -21,7 +21,7 @@ Let's see examples of diffractometers built with user-defined names.
 Diffractometer Creator
 +++++++++++++++++++++++++++++++
 
-The :func:`~hklpy2.geom.creator()` creates a diffractometer object using the
+The :func:`~hklpy2.geom.creator()` function constructs a diffractometer object using the
 supplied `reals={}` to define their names.  These are mapped to the names used
 by the |solver|.  Let's show this cross-reference map with just a few commands::
 

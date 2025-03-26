@@ -53,16 +53,17 @@ from ..misc import roundoff
 from ..misc import unique_name
 from .base import SolverBase
 
-if platform.system() != "Linux":
+if platform.system() != "Linux":  # TODO: How to test?
+    # see https://softwareengineering.stackexchange.com/questions/222383
     raise SolverError("'hkl_soleil' only available for linux 64-bit.")
 try:
     import gi
-except ModuleNotFoundError:
+except ModuleNotFoundError:  # TODO: How to test?  Mock?
     raise SolverError("No gobject-introspection library.  Is libhkl installed?")
 
 gi.require_version("Hkl", "5.0")
 
-from gi.repository import GLib  # noqa: E402, F401, W0611
+from gi.repository import GLib  # noqa: E402, F401  # W0611
 from gi.repository import Hkl as libhkl  # noqa: E402
 
 logger = logging.getLogger(__name__)
@@ -170,6 +171,7 @@ class HklSolver(SolverBase):
         ~inverse
         ~refineLattice
         ~removeAllReflections
+        ~_details
 
     .. rubric:: Python Properties
 
@@ -333,6 +335,7 @@ class HklSolver(SolverBase):
                     f"Unexpected dictionary key received: {k!r}"
                     f" Expected one of these: {known_names!r}"
                 )
+        logger.debug("extras.setter(): values=%s", values)
         for k, v in values.items():
             p = self.engine.parameter_get(k)
             p.value_set(v, LIBHKL_USER_UNITS)
@@ -429,6 +432,7 @@ class HklSolver(SolverBase):
         if not isinstance(value, Lattice):
             raise TypeError(f"Must supply Lattice object, received {value!r}")
 
+        logger.debug("lattice.setter(): value=%s", value)
         self.sample.lattice_set(
             libhkl.Lattice.new(
                 value.a,
@@ -454,6 +458,7 @@ class HklSolver(SolverBase):
         check_value_in_list("Mode", value, self.modes, blank_ok=True)
         if value == "":
             return  # keep current mode
+        logger.debug("mode.setter(): value=%s", value)
         self.engine.current_mode_set(value)
 
     @property
@@ -519,6 +524,7 @@ class HklSolver(SolverBase):
         # Just drop the old sample and make a new one.
         # Python knows its correct name.
         # Doesn't matter what name is used by libhkl. Use a unique name.
+        logger.debug("sample.setter(): value=%s", value)
         sample = libhkl.Sample.new(unique_name())  # new sample each time
         self._sample = sample
         self._hkl_engine_list.init(self._hkl_geometry, self._hkl_detector, sample)
@@ -620,6 +626,7 @@ class HklSolver(SolverBase):
     @U.setter
     def U(self, value: list[list[float]]) -> None:
         if self.sample is not None:
+            logger.debug("U.setter(): value=%s", value)
             self.sample.U_set(to_hkl(value))
 
     @property
@@ -633,6 +640,7 @@ class HklSolver(SolverBase):
     @UB.setter
     def UB(self, value: list[list[float]]) -> None:
         if self.sample is not None:
+            logger.debug("UB.setter(): value=%s", value)
             self.sample.UB_set(to_hkl(value))
 
     @property
@@ -642,4 +650,21 @@ class HklSolver(SolverBase):
 
     @wavelength.setter
     def wavelength(self, value: float) -> None:
+        logger.debug("wavelength.setter(): value=%s", value)
         return self._hkl_geometry.wavelength_set(value, LIBHKL_USER_UNITS)
+
+    @property
+    def _details(self) -> dict:
+        """(internal use) Current settings for diagnostic review."""
+        return dict(
+            name=self.name,
+            geometry=self.geometry,
+            engine=self.engine_name,
+            sample=self.sample.name_get(),
+            lattice=self.lattice.get(LIBHKL_USER_UNITS),
+            U=self.U,
+            UB=self.UB,
+            wavelength=self.wavelength,
+            mode=self.mode,
+            extras=self.extras,
+        )

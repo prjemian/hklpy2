@@ -400,42 +400,31 @@ def test_orientation():
     UB = fourc.core.solver.UB
     assert len(UB) == 3
 
-    UBe = [[0, 0, -1.157], [0, -1.157, 0], [-1.157, 0, 0]]
-    for row, row_expected in zip(UB, UBe):
-        assert len(row) == len(row_expected)
-        assert isinstance(row[0], (float, int)), f"{row=!r}"
-
-    for i in range(3):
-        for j in range(3):
-            assert math.isclose(
-                UB[i][j], UBe[i][j], abs_tol=0.005
-            ), f"{i=!r}  {j=!r}  {UB=!r}  {UBe=!r}"
+    e = -1.157
+    UBe = [[0, 0, e], [0, e, 0], [e, 0, 0]]
+    assert_almost_equal(UB, UBe, 3)
 
     result = fourc.forward(4, 0, 0)
-    assert math.isclose(result.omega, -158.39, abs_tol=0.02), f"{result=!r}"
-    assert math.isclose(result.chi, 0, abs_tol=0.02), f"{result=!r}"
-    assert math.isclose(result.phi, 0, abs_tol=0.02), f"{result=!r}"
-    assert math.isclose(result.tth, 43.22, abs_tol=0.02), f"{result=!r}"
+    reals = [-145.4509, 0, 0, 69.0982]  # at wavelength = 1.54
+    assert_almost_equal(list(result._asdict().values()), reals, 3)
 
-    result = fourc.forward(4, 0, 0, wavelength=1.54)
-    assert math.isclose(result.omega, -145.45, abs_tol=0.02), f"{result=!r}"
-    assert math.isclose(result.chi, 0, abs_tol=0.02), f"{result=!r}"
-    assert math.isclose(result.phi, 0, abs_tol=0.02), f"{result=!r}"
-    assert math.isclose(result.tth, 69.098, abs_tol=0.02), f"{result=!r}"
+    result = fourc.forward(4, 0, 0, wavelength=1)
+    reals = [-158.3920, 0, 0, 43.2161]
+    assert_almost_equal(list(result._asdict().values()), reals, 3)
 
     assert math.isclose(  # still did not change the diffractometer wavelength
         fourc.wavelength.get(), 1.0, abs_tol=0.01
     ), f"{fourc.wavelength.get()=!r}"
 
+    fourc.wavelength.put(1.54)
+    fourc.core._solver_needs_update = True  # FIXME: in wavelength.setter
     result = fourc.inverse(-145, 0, 0, 70)
-    assert math.isclose(result.h, 6.23, abs_tol=0.02), f"{result=!r}"
-    assert math.isclose(result.k, 0, abs_tol=0.02), f"{result=!r}"
-    assert math.isclose(result.l, 0, abs_tol=0.02), f"{result=!r}"
+    pseudos = [4.0456, 0, 0]  # at wavelength = 1.54
+    assert_almost_equal(list(result._asdict().values()), pseudos, 3)
 
-    result = fourc.inverse(-145, 0, 0, 70, wavelength=1.54)
-    assert math.isclose(result.h, 4.05, abs_tol=0.02), f"{result=!r}"
-    assert math.isclose(result.k, 0, abs_tol=0.02), f"{result=!r}"
-    assert math.isclose(result.l, 0, abs_tol=0.02), f"{result=!r}"
+    result = fourc.inverse(-145, 0, 0, 70, wavelength=1)
+    pseudos = [6.2302, 0, 0]
+    assert_almost_equal(list(result._asdict().values()), pseudos, 3)
 
 
 def test_remove_sample():
@@ -617,8 +606,11 @@ def test_repeated_reflections(
                 reals=dict(omega=1, chi=2, phi=3, tth=4),
             ),
             "psi_constant",
-            pytest.raises(ValueError),
-            "Cannot define both pseudos and reals.",
+            pytest.raises(NotImplementedError),
+            "Inverse transformation",
+            # TODO: will change with #37
+            # pytest.raises(ValueError),
+            # "Cannot define both pseudos and reals.",
         ],
     ],
 )
@@ -646,8 +638,8 @@ def test_scan_extra(scan_kwargs, mode, context, expected):
                 detectors=[noisy_det],
                 axis="psi",
                 start=-5,  # expect to fail at psi=0
-                finish=5,
-                num=3,
+                finish=555,
+                num=2,
                 pseudos=dict(h=2, k=-1, l=0),
                 reals=None,
                 extras=dict(h2=2, k2=2, l2=0, psi=0),
@@ -673,25 +665,38 @@ def test_scan_extra_print_fail(scan_kwargs, mode, context, expected, capsys):
         RE(fourc.scan_extra(**scan_kwargs))
 
     assert_context_result(expected, reason)
+
     out, err = capsys.readouterr()
     assert len(err) == 0
-    assert "FAIL: psi=0" in out
+    assert "FAIL: psi=555.0 No forward solutions found." in out
 
 
 def test_set_UB():
+    """UB chosen to get hkl ~= (1.0, 0, 0), to 3 digits."""
     from ..diffract import creator
 
-    UBe = [[0, 0, -1.157], [0, -1.157, 0], [-1.157, 0, 0]]
     fourc = creator(name="fourc")
 
-    fourc.core.solver.UB = UBe
-    UBr = fourc.core.solver.UB
-    assert len(UBr) == len(UBe)
+    e = 6.28319  # 2 pi.
+    assert_almost_equal(
+        fourc.core.solver.UB,  # Default UB (sent to solver) is 2 pi I
+        [[e, 0, 0], [0, e, 0], [0, 0, e]],
+        3,
+    )
 
-    result = fourc.inverse(-145, 0, 0, 70, wavelength=1.54)
-    assert math.isclose(result.h, 4.05, abs_tol=0.02), f"{result=!r}"
-    assert math.isclose(result.k, 0, abs_tol=0.02), f"{result=!r}"
-    assert math.isclose(result.l, 0, abs_tol=0.02), f"{result=!r}"
+    e = 6.25
+    UBe = [[e, 0, 0], [0, e, 0], [0, 0, e]]
+    fourc.sample.UB = UBe
+    with pytest.raises(AssertionError) as exinfo:
+        assert_almost_equal(fourc.core.solver.UB, UBe, 2)
+    assert "Arrays are not almost equal to 2 decimals" in str(exinfo)
+
+    reals = dict(omega=130, chi=0, phi=90, tth=-100)
+    result = fourc.inverse(reals, wavelength=1.54)
+    assert math.isclose(result.h, 1.0, abs_tol=0.001), f"{result=!r}"
+    assert math.isclose(result.k, 0, abs_tol=0.001), f"{result=!r}"
+    assert math.isclose(result.l, 0, abs_tol=0.001), f"{result=!r}"
+    assert_almost_equal(fourc.core.solver.UB, UBe, 3)
 
 
 def test_e4cv_constant_phi():
