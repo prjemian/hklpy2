@@ -8,14 +8,13 @@ on:
   pull_request:
     branches:
       - main
-  workflow_dispatch:   # allow manual triggering
+  workflow_dispatch: # allow manual triggering
 
 defaults:
   run:
     shell: bash -l {0}
 
 jobs:
-
   lint:
     name: Code style
     runs-on: ubuntu-latest
@@ -44,76 +43,74 @@ jobs:
     strategy:
       matrix:
         python-version:
-          - "3.10"  # not 3.10 which truncates to 3.1
+          - "3.10" # not 3.10 which truncates to 3.1
           - "3.11"
           - "3.12"
           - "3.13"
       max-parallel: 5
 
     steps:
-    - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-    - name: Create Python ${{ matrix.python-version }} environment
-      uses: mamba-org/setup-micromamba@v2
-      with:
-        cache-environment: true
-        cache-environment-key: env-key-${{ matrix.python-version }}
-        condarc: |
-          channels:
-            - conda-forge
-            - nodefaults
-          channel-priority: flexible
-        environment-name: anaconda-test-env-py-${{ matrix.python-version }}
-        create-args: >-
-          bson
-          hkl
-          pyepics
-          pytest
-          python=${{ matrix.python-version }}
-          pyyaml
-          ruamel.yaml
-          setuptools-scm
-          tiled
-          yaml
+      - name: Create Python ${{ matrix.python-version }} environment
+        uses: mamba-org/setup-micromamba@v2
+        with:
+          cache-environment: true
+          cache-environment-key: env-key-${{ matrix.python-version }}
+          condarc: |
+            channels:
+              - conda-forge
+              - nodefaults
+            channel-priority: flexible
+          environment-name: anaconda-test-env-py-${{ matrix.python-version }}
+          create-args: >-
+            bson
+            hkl
+            pyepics
+            pytest
+            python=${{ matrix.python-version }}
+            pyyaml
+            ruamel.yaml
+            setuptools-scm
+            tiled
+            yaml
 
-    - name: Install source code and all requirements (includes pre-releases)
-      run: |
-        set -vxeuo pipefail
-        pip install coverage coveralls
-        # Test it!
-        python -c "from coverage.report import Reporter"
-        pip install --pre tiled
-        pip install --pre -e .[all]
+      - name: Install source code and all requirements (includes pre-releases)
+        run: |
+          set -vxeuo pipefail
+          python -c "from coverage.report import Reporter"
+          pip install --pre tiled
+          pip install --pre -e .[all]
 
-    - name: Diagnostic
-      run: |
-        micromamba info
-        micromamba list
-        conda config --show-sources
-        conda config --show
-        micromamba env list
-        printenv | sort
+      - name: Diagnostic
+        run: |
+          micromamba info
+          micromamba list
+          conda config --show-sources
+          conda config --show
+          micromamba env list
+          printenv | sort
 
-    - name: Run tests with pytest & coverage
-      shell: bash -l {0}
-      run: |
-        coverage run --concurrency=thread --parallel-mode -m pytest -vvv .
-        coverage combine
-        coverage report --precision 3 -m
+      - name: Run tests with pytest & coverage
+        shell: bash -l {0}
+        run: |
+          coverage run --concurrency=thread --parallel-mode -m pytest -vvv .
+          coverage combine
+          coverage report --precision 3 -m
 
-    - name: Upload to coveralls
-      shell: bash -l {0}
-      run: |
-        set -vxeuo pipefail
-        micromamba list cover
-        micromamba list git
-        which coveralls
-        coveralls debug
-        coveralls --service=github
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        COVERALLS_FLAG_NAME: ${{ matrix.test-name }}
-        COVERALLS_PARALLEL: true
+      - name: Upload to coveralls
+        shell: bash -l {0}
+        run: |
+          set -vxeuo pipefail
+          micromamba list cover
+          micromamba list git
+          which coveralls
+          coveralls debug
+          coveralls --service=github
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          COVERALLS_FLAG_NAME: ${{ matrix.test-name }}
+          COVERALLS_PARALLEL: true
 
   coveralls:
     name: Report unit test coverage to coveralls
