@@ -35,7 +35,7 @@ describe future plans.
 
 .. rubric:: Initial project development complete.
 
-release expected by 2025-04-04
+release expected by 2025-04-17
 
 Notice
 ------
