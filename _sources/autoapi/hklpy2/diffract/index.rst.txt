@@ -12,6 +12,7 @@ hklpy2.diffract
        ~creator
        ~diffractometer_class_factory
        ~DiffractometerBase
+       ~Hklpy2PseudoAxis
        ~pick_first_item
 
 
@@ -32,7 +33,7 @@ Classes
 
 .. autoapisummary::
 
-   hklpy2.diffract.DiffractometerPseudo
+   hklpy2.diffract.Hklpy2PseudoAxis
    hklpy2.diffract.DiffractometerBase
 
 
@@ -75,7 +76,7 @@ Module Contents
    * ``solutions`` (*[tuple]*) : List of positions.
 
 
-.. py:class:: DiffractometerPseudo(prefix='', *, limits=None, egu='', parent=None, name=None, source='computed', target_initial_position=False, **kwargs)
+.. py:class:: Hklpy2PseudoAxis(prefix='', *, limits=None, egu='', parent=None, name=None, source='computed', target_initial_position=False, **kwargs)
 
    Bases: :py:obj:`ophyd.PseudoSingle`
 
@@ -301,7 +302,7 @@ Module Contents
 
 
 
-   .. py:method:: scan_extra(detectors: list, axis: str = None, start: float = None, finish: float = None, num: int = 2, *, pseudos: dict = None, reals: dict = None, extras: dict = {}, fail_on_exception: bool = False, md: dict = None)
+   .. py:method:: scan_extra(detectors: list, axis: Optional[str] = None, start: Optional[float] = None, finish: Optional[float] = None, num: Optional[int] = 2, *, pseudos: Optional[dict] = None, reals: Optional[dict] = None, extras: Optional[dict] = {}, fail_on_exception: Optional[bool] = False, md: Optional[dict] = None)
 
       Scan one extra diffractometer parameter, such as 'psi'.
 

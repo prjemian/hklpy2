@@ -95,9 +95,9 @@
     {
      "data": {
       "text/plain": [
-       "[[6.28318530718, -0.0, 0.0],\n",
-       " [0.0, 6.28318530718, 0.0],\n",
-       " [-0.0, -0.0, 6.28318530718]]"
+       "[[6.283183866345, 2.367192e-06, 0.0],\n",
+       " [0.0, 6.28318625087, 0.0],\n",
+       " [2.66395e-07, -1.611768e-06, 6.283184307075]]"
       ]
      },
      "execution_count": 3,
@@ -136,7 +136,9 @@
     {
      "data": {
       "text/plain": [
-       "[[1.0, -0.0, 0.0], [0.0, 1.0, 0.0], [-0.0, -0.0, 1.0]]"
+       "[[1.0, 0.0, -4.2398e-08],\n",
+       " [0.0, 1.0, 2.56521e-07],\n",
+       " [4.2398e-08, -2.56521e-07, 1.0]]"
       ]
      },
      "execution_count": 4,
@@ -170,9 +172,9 @@
     {
      "data": {
       "text/plain": [
-       "[[6.28318530718, -0.0, 0.0],\n",
-       " [0.0, 6.28318530718, 0.0],\n",
-       " [-0.0, -0.0, 6.28318530718]]"
+       "[[6.283183866345, 2.367192e-06, 0.0],\n",
+       " [0.0, 6.28318625087, 0.0],\n",
+       " [2.66395e-07, -1.611768e-06, 6.283184307075]]"
       ]
      },
      "execution_count": 5,
@@ -209,7 +211,7 @@
      "name": "stdout",
      "output_type": "stream",
      "text": [
-      "expecting (0,1,0)= Hklpy2DiffractometerPseudoPos(h=0, k=1.0, l=0)\n"
+      "expecting (0,1,0)= Hklpy2DiffractometerPseudoPos(h=-3.7675e-07, k=0.999999849807, l=2.56521e-07)\n"
      ]
     }
    ],
@@ -232,7 +234,7 @@
      "name": "stdout",
      "output_type": "stream",
      "text": [
-      "expecting (0,1,0)= Hklpy2DiffractometerPseudoPos(h=0, k=1.0, l=0)\n"
+      "expecting (0,1,0)= Hklpy2DiffractometerPseudoPos(h=-3.7675e-07, k=0.999999849807, l=2.56521e-07)\n"
      ]
     }
    ],
@@ -263,7 +265,7 @@
      "name": "stdout",
      "output_type": "stream",
      "text": [
-      "expecting (0,-1,0)= Hklpy2DiffractometerPseudoPos(h=0, k=-1.0, l=0)\n"
+      "expecting (0,-1,0)= Hklpy2DiffractometerPseudoPos(h=3.7675e-07, k=-0.999999849807, l=-2.56521e-07)\n"
      ]
     }
    ],
@@ -293,7 +295,7 @@
      "name": "stdout",
      "output_type": "stream",
      "text": [
-      "expecting (-1,0,0)= Hklpy2DiffractometerPseudoPos(h=-1.0, k=0, l=0)\n"
+      "expecting (-1,0,0)= Hklpy2DiffractometerPseudoPos(h=-1.000000229316, k=0, l=4.2398e-08)\n"
      ]
     }
    ],
@@ -334,9 +336,9 @@
      "name": "stdout",
      "output_type": "stream",
      "text": [
-      "expecting (1,0,0)= Hklpy2DiffractometerPseudoPos(h=1.0, k=0, l=0)\n",
-      "expecting (1,0,0)= Hklpy2DiffractometerPseudoPos(h=1.0, k=0, l=0)\n",
-      "expecting (1,0,0)= Hklpy2DiffractometerPseudoPos(h=1.0, k=0, l=0)\n"
+      "expecting (1,0,0)= Hklpy2DiffractometerPseudoPos(h=1.000000229316, k=0, l=-4.2398e-08)\n",
+      "expecting (1,0,0)= Hklpy2DiffractometerPseudoPos(h=1.000000229316, k=0, l=-4.2398e-08)\n",
+      "expecting (1,0,0)= Hklpy2DiffractometerPseudoPos(h=1.000000229316, k=0, l=-4.2398e-08)\n"
      ]
     }
    ],
@@ -372,7 +374,7 @@
      "name": "stdout",
      "output_type": "stream",
      "text": [
-      "expecting (0,1,1)= Hklpy2DiffractometerPseudoPos(h=0, k=1.0, l=1.0)\n"
+      "expecting (0,1,1)= Hklpy2DiffractometerPseudoPos(h=-3.7675e-07, k=0.999999849807, l=1.000000415693)\n"
      ]
     }
    ],
@@ -392,7 +394,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 12,
+   "execution_count": 22,
    "metadata": {
     "collapsed": false,
     "jupyter": {
@@ -405,24 +407,24 @@
      "output_type": "stream",
      "text": [
       "expecting either omega+phi = 120 or -120 (approximately)\n",
-      "========= ======== == ===== ==== === ===== =====\n",
-      "(hkl)     solution mu omega chi  phi gamma delta\n",
-      "========= ======== == ===== ==== === ===== =====\n",
-      "(1, 0, 0) 0        0  120.0 45.0 0   0     60.0 \n",
-      "========= ======== == ===== ==== === ===== =====\n",
-      "\n"
+      "0 Hklpy2DiffractometerRealPos(mu=0, omega=119.999992124449, chi=45.0, phi=-2.429236e-06, gamma=0, delta=59.999984419525)\n",
+      "1 Hklpy2DiffractometerRealPos(mu=0, omega=-119.999992124449, chi=45.0, phi=-2.429236e-06, gamma=0, delta=-59.999984419525)\n",
+      "2 Hklpy2DiffractometerRealPos(mu=0, omega=-60.000007875551, chi=45.0, phi=-179.999997570764, gamma=0, delta=59.999984419525)\n",
+      "3 Hklpy2DiffractometerRealPos(mu=0, omega=60.000007875551, chi=45.0, phi=-179.999997570764, gamma=0, delta=-59.999984419525)\n"
      ]
     }
    ],
    "source": [
     "print(\"expecting either omega+phi = 120 or -120 (approximately)\")\n",
-    "print(e6c.core.forward_solutions_table([(1,0,0)]))"
+    "solutions = e6c.core.forward([1, 0, 0])\n",
+    "for i, sol in enumerate(solutions):\n",
+    "    print(i, sol)"
    ]
   }
  ],
  "metadata": {
   "kernelspec": {
-   "display_name": "test",
+   "display_name": "hklpy2",
    "language": "python",
    "name": "python3"
   },

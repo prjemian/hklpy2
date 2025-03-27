@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=485d0293"></script>
+    <script src="../_static/documentation_options.js?v=26ffa1e9"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
@@ -746,7 +746,7 @@ e6c_hkl.core.solver.U=[[0.034882054037, 0.999391435978, 0.0], [0.0, 0.0, 1.0], [
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>p_111=Hklpy2DiffractometerRealPos(mu=0, omega=66.391607045543, chi=99.77381778179, phi=-49.997332854697, gamma=0, delta=24.509844391025)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>p_111=Hklpy2DiffractometerRealPos(mu=0, omega=66.391607045542, chi=99.77381778179, phi=-49.997332854696, gamma=0, delta=24.509844391026)
 </pre></div>
 </div>
 </div>
@@ -763,7 +763,7 @@ e6c_hkl.core.solver.U=[[0.034882054037, 0.999391435978, 0.0], [0.0, 0.0, 1.0], [
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>e6c_hkl.position=Hklpy2DiffractometerPseudoPos(h=1.000000009255, k=0.999999994159, l=0.999999984039)
-e6c_hkl.real_position=Hklpy2DiffractometerRealPos(mu=0, omega=66.391607045543, chi=99.77381778179, phi=-49.997332854697, gamma=0, delta=24.509844391025)
+e6c_hkl.real_position=Hklpy2DiffractometerRealPos(mu=0, omega=66.391607045542, chi=99.77381778179, phi=-49.997332854696, gamma=0, delta=24.509844391026)
 e6c_hkl.core.solver.extras={&#39;h2&#39;: 1.0, &#39;k2&#39;: 1.0, &#39;l2&#39;: 0.0, &#39;psi&#39;: 12.0}
 </pre></div>
 </div>
@@ -852,8 +852,8 @@ e6c_hkl.core.solver.U=[[0.034882054037, 0.999391435978, 0.0], [0.0, 0.0, 1.0], [
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>e6c_psi.pseudo_axis_names=[&#39;psi&#39;]
 e6c_psi.core.solver.pseudo_axis_names=[&#39;psi&#39;]
-e6c_psi.position=Hklpy2DiffractometerPseudoPos(psi=11.999993753339)
-e6c_psi.real_position=Hklpy2DiffractometerRealPos(mu=0, omega=66.391607045543, chi=99.77381778179, phi=-49.997332854697, gamma=0, delta=24.509844391025)
+e6c_psi.position=Hklpy2DiffractometerPseudoPos(psi=132.03129879634)
+e6c_psi.real_position=Hklpy2DiffractometerRealPos(mu=0, omega=66.391607045542, chi=99.77381778179, phi=-49.997332854696, gamma=0, delta=24.509844391026)
 </pre></div>
 </div>
 </div>
@@ -875,7 +875,7 @@ wavelength=1.54
 mu=0, omega=66.3916, chi=99.7738, phi=-49.9973, gamma=0, delta=24.5098
 h2=1.0 k2=1.0 l2=0 psi=12.0
 Hklpy2Diffractometer(prefix=&#39;&#39;, name=&#39;e6c_psi&#39;, settle_time=0.0, timeout=None, egu=&#39;&#39;, limits=(0, 0), source=&#39;computed&#39;, read_attrs=[&#39;psi&#39;, &#39;psi.readback&#39;, &#39;psi.setpoint&#39;, &#39;mu&#39;, &#39;omega&#39;, &#39;chi&#39;, &#39;phi&#39;, &#39;gamma&#39;, &#39;delta&#39;], configuration_attrs=[&#39;geometry&#39;, &#39;solver&#39;, &#39;wavelength&#39;, &#39;psi&#39;], concurrent=True)
-psi=12.0
+psi=132.0313
 wavelength=1.0
 mu=0, omega=66.3916, chi=99.7738, phi=-49.9973, gamma=0, delta=24.5098
 h2=1.0 k2=1.0 l2=0
@@ -927,7 +927,7 @@ constant values.</p>
 <p>This example chooses $Q=(002)$ and $hkl_2=(120)$. (The reference $hkl_2$
 was chosen to be perpendicular to $Q$.)  Save the <code class="docutils literal notranslate"><span class="pre">uid</span></code> from the scan for later
 reference.</p>
-<p>To control the solution space, we adjust the low limit of both $\phi$ and
+<p>To control the solution space, we adjust the low limit of both $\varphi$ and
 $\omega$ so their ranges are limited to $0..180^o$.</p>
 <p>The <code class="docutils literal notranslate"><span class="pre">e6c_hkl</span></code> diffractometer is added as a detector here so that all the
 positioner values will be available for plotting later.</p>
@@ -940,7 +940,7 @@ positioner values will be available for plotting later.</p>
     <span class="n">e6c_hkl</span><span class="o">.</span><span class="n">scan_extra</span><span class="p">(</span>
         <span class="p">[</span><span class="n">noisy_det</span><span class="p">,</span> <span class="n">e6c_hkl</span><span class="p">],</span>
         <span class="n">axis</span><span class="o">=</span><span class="s2">&quot;psi&quot;</span><span class="p">,</span>
-        <span class="n">start</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
+        <span class="n">start</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
         <span class="n">finish</span><span class="o">=</span><span class="mi">150</span><span class="p">,</span>
         <span class="n">num</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span>
         <span class="n">pseudos</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">h</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">l</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span>
@@ -951,36 +951,36 @@ positioner values will be available for plotting later.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Transient Scan ID: 1     Time: 2025-03-03 02:39:38
-Persistent Unique Scan ID: &#39;746aac09-c5d3-495c-90f5-60cf02d22794&#39;
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Transient Scan ID: 1     Time: 2025-03-26 13:07:53
+Persistent Unique Scan ID: &#39;2d161957-ee99-431d-bfa4-e5c9f0d6610d&#39;
 New stream: &#39;primary&#39;
-+-----------+------------+--------------------+------------+------------+------------+------------+------------+---------------+-------------+-------------+---------------+---------------+
-|   seq_num |       time | e6c_hkl_extras_psi |  noisy_det |  e6c_hkl_h |  e6c_hkl_k |  e6c_hkl_l | e6c_hkl_mu | e6c_hkl_omega | e6c_hkl_chi | e6c_hkl_phi | e6c_hkl_gamma | e6c_hkl_delta |
-+-----------+------------+--------------------+------------+------------+------------+------------+------------+---------------+-------------+-------------+---------------+---------------+
-|         1 | 02:39:38.7 |              0.100 |      0.904 |     -0.000 |     -0.000 |      2.000 |          0 |       165.812 |      90.000 |     155.334 |             0 |       -28.375 |
-|         2 | 02:39:38.7 |             10.807 |      1.053 |      0.000 |      0.000 |      2.000 |          0 |       165.812 |      90.000 |     144.627 |             0 |       -28.375 |
-|         3 | 02:39:38.7 |             21.514 |      1.017 |     -0.000 |      0.000 |      2.000 |          0 |       165.812 |      90.000 |     133.920 |             0 |       -28.375 |
-|         4 | 02:39:38.7 |             32.221 |      1.052 |     -0.000 |      0.000 |      2.000 |          0 |       165.812 |      90.000 |     123.213 |             0 |       -28.375 |
-|         5 | 02:39:38.7 |             42.929 |      1.015 |      0.000 |      0.000 |      2.000 |          0 |       165.812 |      90.000 |     112.505 |             0 |       -28.375 |
-|         6 | 02:39:38.7 |             53.636 |      0.931 |     -0.000 |      0.000 |      2.000 |          0 |       165.812 |      90.000 |     101.798 |             0 |       -28.375 |
-|         7 | 02:39:38.7 |             64.343 |      0.963 |     -0.000 |     -0.000 |      2.000 |          0 |       165.812 |      90.000 |      91.091 |             0 |       -28.375 |
-|         8 | 02:39:38.7 |             75.050 |      1.099 |     -0.000 |      0.000 |      2.000 |          0 |       165.812 |      90.000 |      80.384 |             0 |       -28.375 |
-|         9 | 02:39:38.7 |             85.757 |      1.006 |     -0.000 |      0.000 |      2.000 |          0 |       165.812 |      90.000 |      69.677 |             0 |       -28.375 |
-|        10 | 02:39:38.7 |             96.464 |      1.031 |      0.000 |      0.000 |      2.000 |          0 |       165.812 |      90.000 |      58.970 |             0 |       -28.375 |
-|        11 | 02:39:38.7 |            107.171 |      1.067 |     -0.000 |     -0.000 |      2.000 |          0 |       165.812 |      90.000 |      48.263 |             0 |       -28.375 |
-|        12 | 02:39:38.7 |            117.879 |      1.076 |     -0.000 |     -0.000 |      2.000 |          0 |       165.812 |      90.000 |      37.555 |             0 |       -28.375 |
-|        13 | 02:39:38.7 |            128.586 |      1.072 |     -0.000 |      0.000 |      2.000 |          0 |       165.812 |      90.000 |      26.848 |             0 |       -28.375 |
-|        14 | 02:39:38.7 |            139.293 |      0.959 |      0.000 |     -0.000 |      2.000 |          0 |       165.812 |      90.000 |      16.141 |             0 |       -28.375 |
-|        15 | 02:39:38.7 |            150.000 |      1.088 |      0.000 |     -0.000 |      2.000 |          0 |       165.812 |      90.000 |       5.434 |             0 |       -28.375 |
-+-----------+------------+--------------------+------------+------------+------------+------------+------------+---------------+-------------+-------------+---------------+---------------+
-generator scan_extra [&#39;746aac09&#39;] (scan num: 1)
++-----------+------------+------------+------------+------------+------------+---------------+-------------+-------------+---------------+---------------+------------+--------------------+
+|   seq_num |       time |  e6c_hkl_h |  e6c_hkl_k |  e6c_hkl_l | e6c_hkl_mu | e6c_hkl_omega | e6c_hkl_chi | e6c_hkl_phi | e6c_hkl_gamma | e6c_hkl_delta |  noisy_det | e6c_hkl_extras_psi |
++-----------+------------+------------+------------+------------+------------+---------------+-------------+-------------+---------------+---------------+------------+--------------------+
+|         1 | 13:07:53.9 |     -0.000 |     -0.000 |      2.000 |          0 |       165.812 |      90.000 |     155.434 |             0 |       -28.375 |      0.913 |              0.000 |
+|         2 | 13:07:53.9 |      0.000 |      0.000 |      2.000 |          0 |       165.812 |      90.000 |     144.720 |             0 |       -28.375 |      1.065 |             10.714 |
+|         3 | 13:07:53.9 |      0.000 |     -0.000 |      2.000 |          0 |       165.812 |      90.000 |     134.005 |             0 |       -28.375 |      0.908 |             21.429 |
+|         4 | 13:07:53.9 |      0.000 |     -0.000 |      2.000 |          0 |       165.812 |      90.000 |     123.291 |             0 |       -28.375 |      0.913 |             32.143 |
+|         5 | 13:07:53.9 |     -0.000 |      0.000 |      2.000 |          0 |       165.812 |      90.000 |     112.577 |             0 |       -28.375 |      1.077 |             42.857 |
+|         6 | 13:07:53.9 |     -0.000 |      0.000 |      2.000 |          0 |       165.812 |      90.000 |     101.863 |             0 |       -28.375 |      1.074 |             53.571 |
+|         7 | 13:07:54.0 |      0.000 |     -0.000 |      2.000 |          0 |       165.812 |      90.000 |      91.148 |             0 |       -28.375 |      0.970 |             64.286 |
+|         8 | 13:07:54.0 |     -0.000 |      0.000 |      2.000 |          0 |       165.812 |      90.000 |      80.434 |             0 |       -28.375 |      0.928 |             75.000 |
+|         9 | 13:07:54.0 |     -0.000 |     -0.000 |      2.000 |          0 |       165.812 |      90.000 |      69.720 |             0 |       -28.375 |      0.902 |             85.714 |
+|        10 | 13:07:54.0 |     -0.000 |      0.000 |      2.000 |          0 |       165.812 |      90.000 |      59.005 |             0 |       -28.375 |      0.986 |             96.429 |
+|        11 | 13:07:54.0 |     -0.000 |      0.000 |      2.000 |          0 |       165.812 |      90.000 |      48.291 |             0 |       -28.375 |      1.045 |            107.143 |
+|        12 | 13:07:54.0 |      0.000 |      0.000 |      2.000 |          0 |       165.812 |      90.000 |      37.577 |             0 |       -28.375 |      1.062 |            117.857 |
+|        13 | 13:07:54.0 |     -0.000 |     -0.000 |      2.000 |          0 |       165.812 |      90.000 |      26.863 |             0 |       -28.375 |      0.916 |            128.571 |
+|        14 | 13:07:54.0 |      0.000 |      0.000 |      2.000 |          0 |       165.812 |      90.000 |      16.148 |             0 |       -28.375 |      1.024 |            139.286 |
+|        15 | 13:07:54.0 |     -0.000 |      0.000 |      2.000 |          0 |       165.812 |      90.000 |       5.434 |             0 |       -28.375 |      0.996 |            150.000 |
++-----------+------------+------------+------------+------------+------------+---------------+-------------+-------------+---------------+---------------+------------+--------------------+
+generator scan_extra [&#39;2d161957&#39;] (scan num: 1)
 </pre></div>
 </div>
 </div>
 </div>
 <section id="plot-any-motions">
 <h3>Plot any motions<a class="headerlink" href="#plot-any-motions" title="Link to this heading">#</a></h3>
-<p>The only real-space axis to be moved by this scan is $\phi$.  Plot $\phi$ <em>vs.</em>
+<p>The only real-space axis to be moved by this scan is $\varphi$.  Plot $\phi$ <em>vs.</em>
 $\psi$.</p>
 <div class="pst-scrollable-table-container"><table class="table">
 <thead>
@@ -989,7 +989,7 @@ $\psi$.</p>
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p>$\phi$</p></td>
+<tr class="row-even"><td><p>$\varphi$</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">e6c_hkl_phi</span></code></p></td>
 </tr>
 <tr class="row-odd"><td><p>$\psi$</p></td>
@@ -1022,11 +1022,11 @@ name.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/home/prjemian/.conda/envs/bluesky_2025_1/lib/python3.11/site-packages/databroker/intake_xarray_core/base.py:23: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/home/prjemian/.conda/envs/hklpy2/lib/python3.13/site-packages/databroker/intake_xarray_core/base.py:23: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
   &#39;dims&#39;: dict(self._ds.dims),
 </pre></div>
 </div>
-<img alt="../_images/aaf41c94867ee56f0edff48eca76e1a7f6e910c83ce459ab6b44024b605f2e1d.png" src="../_images/aaf41c94867ee56f0edff48eca76e1a7f6e910c83ce459ab6b44024b605f2e1d.png" />
+<img alt="../_images/3a10cec1f3fd49332af1cd66acc664bdcdcd696c7cf4319b33b698589be78d2f.png" src="../_images/3a10cec1f3fd49332af1cd66acc664bdcdcd696c7cf4319b33b698589be78d2f.png" />
 </div>
 </div>
 </section>

@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../../../_static/documentation_options.js?v=485d0293"></script>
+    <script src="../../../_static/documentation_options.js?v=26ffa1e9"></script>
     <script src="../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -419,16 +419,17 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">..misc</span><span class="w"> </span><span class="kn">import</span> <span class="n">unique_name</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">SolverBase</span>
 
-<span class="k">if</span> <span class="n">platform</span><span class="o">.</span><span class="n">system</span><span class="p">()</span> <span class="o">!=</span> <span class="s2">&quot;Linux&quot;</span><span class="p">:</span>
+<span class="k">if</span> <span class="n">platform</span><span class="o">.</span><span class="n">system</span><span class="p">()</span> <span class="o">!=</span> <span class="s2">&quot;Linux&quot;</span><span class="p">:</span>  <span class="c1"># TODO: How to test?</span>
+    <span class="c1"># see https://softwareengineering.stackexchange.com/questions/222383</span>
     <span class="k">raise</span> <span class="n">SolverError</span><span class="p">(</span><span class="s2">&quot;&#39;hkl_soleil&#39; only available for linux 64-bit.&quot;</span><span class="p">)</span>
 <span class="k">try</span><span class="p">:</span>
     <span class="kn">import</span><span class="w"> </span><span class="nn">gi</span>
-<span class="k">except</span> <span class="ne">ModuleNotFoundError</span><span class="p">:</span>
+<span class="k">except</span> <span class="ne">ModuleNotFoundError</span><span class="p">:</span>  <span class="c1"># TODO: How to test?  Mock?</span>
     <span class="k">raise</span> <span class="n">SolverError</span><span class="p">(</span><span class="s2">&quot;No gobject-introspection library.  Is libhkl installed?&quot;</span><span class="p">)</span>
 
 <span class="n">gi</span><span class="o">.</span><span class="n">require_version</span><span class="p">(</span><span class="s2">&quot;Hkl&quot;</span><span class="p">,</span> <span class="s2">&quot;5.0&quot;</span><span class="p">)</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">gi.repository</span><span class="w"> </span><span class="kn">import</span> <span class="n">GLib</span>  <span class="c1"># noqa: E402, F401, W0611</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">gi.repository</span><span class="w"> </span><span class="kn">import</span> <span class="n">GLib</span>  <span class="c1"># noqa: E402, F401  # W0611</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">gi.repository</span><span class="w"> </span><span class="kn">import</span> <span class="n">Hkl</span> <span class="k">as</span> <span class="n">libhkl</span>  <span class="c1"># noqa: E402</span>
 
 <div class="viewcode-block" id="logger">
@@ -571,6 +572,7 @@
 <span class="sd">        ~inverse</span>
 <span class="sd">        ~refineLattice</span>
 <span class="sd">        ~removeAllReflections</span>
+<span class="sd">        ~_details</span>
 
 <span class="sd">    .. rubric:: Python Properties</span>
 
@@ -701,7 +703,7 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        HKL real axis names.</span>
 
-<span class="sd">                Updated by &#39;forward()&#39; computation.</span>
+<span class="sd">        Updated by &#39;forward()&#39; computation.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">engine</span><span class="o">.</span><span class="n">axis_names_get</span><span class="p">(</span><span class="n">AXES_WRITTEN</span><span class="p">)</span>  <span class="c1"># Do NOT sort.</span></div>
 
@@ -791,6 +793,7 @@
                     <span class="sa">f</span><span class="s2">&quot;Unexpected dictionary key received: </span><span class="si">{</span><span class="n">k</span><span class="si">!r}</span><span class="s2">&quot;</span>
                     <span class="sa">f</span><span class="s2">&quot; Expected one of these: </span><span class="si">{</span><span class="n">known_names</span><span class="si">!r}</span><span class="s2">&quot;</span>
                 <span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;extras.setter(): values=</span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">values</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">values</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="n">p</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">engine</span><span class="o">.</span><span class="n">parameter_get</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
             <span class="n">p</span><span class="o">.</span><span class="n">value_set</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">LIBHKL_USER_UNITS</span><span class="p">)</span>
@@ -899,6 +902,7 @@
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">Lattice</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Must supply Lattice object, received </span><span class="si">{</span><span class="n">value</span><span class="si">!r}</span><span class="s2">&quot;</span><span class="p">)</span>
 
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;lattice.setter(): value=</span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">lattice_set</span><span class="p">(</span>
             <span class="n">libhkl</span><span class="o">.</span><span class="n">Lattice</span><span class="o">.</span><span class="n">new</span><span class="p">(</span>
                 <span class="n">value</span><span class="o">.</span><span class="n">a</span><span class="p">,</span>
@@ -927,6 +931,7 @@
         <span class="n">check_value_in_list</span><span class="p">(</span><span class="s2">&quot;Mode&quot;</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">modes</span><span class="p">,</span> <span class="n">blank_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">value</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
             <span class="k">return</span>  <span class="c1"># keep current mode</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;mode.setter(): value=</span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">engine</span><span class="o">.</span><span class="n">current_mode_set</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
 
     <span class="nd">@property</span>
@@ -1010,6 +1015,7 @@
         <span class="c1"># Just drop the old sample and make a new one.</span>
         <span class="c1"># Python knows its correct name.</span>
         <span class="c1"># Doesn&#39;t matter what name is used by libhkl. Use a unique name.</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;sample.setter(): value=</span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
         <span class="n">sample</span> <span class="o">=</span> <span class="n">libhkl</span><span class="o">.</span><span class="n">Sample</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">unique_name</span><span class="p">())</span>  <span class="c1"># new sample each time</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_sample</span> <span class="o">=</span> <span class="n">sample</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_hkl_engine_list</span><span class="o">.</span><span class="n">init</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_hkl_geometry</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_hkl_detector</span><span class="p">,</span> <span class="n">sample</span><span class="p">)</span>
@@ -1120,6 +1126,7 @@
     <span class="nd">@U</span><span class="o">.</span><span class="n">setter</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">U</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">sample</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;U.setter(): value=</span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">U_set</span><span class="p">(</span><span class="n">to_hkl</span><span class="p">(</span><span class="n">value</span><span class="p">))</span>
 
     <span class="nd">@property</span>
@@ -1136,6 +1143,7 @@
     <span class="nd">@UB</span><span class="o">.</span><span class="n">setter</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">UB</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">sample</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;UB.setter(): value=</span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">UB_set</span><span class="p">(</span><span class="n">to_hkl</span><span class="p">(</span><span class="n">value</span><span class="p">))</span>
 
     <span class="nd">@property</span>
@@ -1148,7 +1156,27 @@
 
     <span class="nd">@wavelength</span><span class="o">.</span><span class="n">setter</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">wavelength</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_hkl_geometry</span><span class="o">.</span><span class="n">wavelength_set</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">LIBHKL_USER_UNITS</span><span class="p">)</span></div>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;wavelength.setter(): value=</span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_hkl_geometry</span><span class="o">.</span><span class="n">wavelength_set</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">LIBHKL_USER_UNITS</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="HklSolver._details">
+<a class="viewcode-back" href="../../../autoapi/hklpy2/backends/hkl_soleil/index.html#hklpy2.backends.hkl_soleil.HklSolver._details">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_details</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;(internal use) Current settings for diagnostic review.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+            <span class="n">geometry</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">geometry</span><span class="p">,</span>
+            <span class="n">engine</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">engine_name</span><span class="p">,</span>
+            <span class="n">sample</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">name_get</span><span class="p">(),</span>
+            <span class="n">lattice</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">lattice</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">LIBHKL_USER_UNITS</span><span class="p">),</span>
+            <span class="n">U</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">U</span><span class="p">,</span>
+            <span class="n">UB</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">UB</span><span class="p">,</span>
+            <span class="n">wavelength</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">wavelength</span><span class="p">,</span>
+            <span class="n">mode</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">mode</span><span class="p">,</span>
+            <span class="n">extras</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">extras</span><span class="p">,</span>
+        <span class="p">)</span></div>
+</div>
 
 </pre></div>
 

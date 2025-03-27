@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=485d0293"></script>
+    <script src="../_static/documentation_options.js?v=26ffa1e9"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
@@ -432,7 +432,7 @@
 <p>Following the E4CV <a class="reference internal" href="hkl_soleil-e4cv.html"><span class="std std-doc">example</span></a>, compare the orientation matix and
 positioning operations of <strong>hkl_soleil</strong> <strong>E4CV</strong> with <strong>SPEC</strong> <strong>fourc</strong></p>
 <p>Information from a <strong>SPEC</strong> data file will be used for the comparison.</p>
-<p>In SPEC <em>fourc</em> geometry (https://certif.com/spec_help/fourc.html):</p>
+<p>In SPEC <em>fourc</em> <a class="reference external" href="https://certif.com/spec_help/fourc.html">geometry</a>:</p>
 <div class="pst-scrollable-table-container"><table class="table">
 <thead>
 <tr class="row-odd"><th class="head"><p>SPEC name</p></th>
@@ -604,7 +604,9 @@ those calculated by <strong>libhkl</strong>.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[1, 0, 0], [0, 1, 0], [0, 0, 1]]
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[1.6614596270567616, 0.0, 0.0],
+ [0.0, 1.6614596270567616, 0.0],
+ [0.0, 0.0, 1.6614596270567616]]
 </pre></div>
 </div>
 </div>
@@ -633,8 +635,8 @@ those calculated by <strong>libhkl</strong>.</p>
 [[-9.55499031e-02 -1.65427863e+00  2.42844486e-03]
  [ 2.62981891e-04  9.81574682e-03  1.65396181e+00]
  [-1.65871244e+00  9.82002413e-02 -3.89705578e-04]]=
-(002) : Hklpy2DiffractometerRealPos(th=15.262190928219, chi=0.254588904154, phi=0.017709205452, tth=30.524381856439)
-(113) : Hklpy2DiffractometerRealPos(th=25.930670824236, chi=17.793974665134, phi=18.498831314951, tth=51.861341648471)
+(002) : Hklpy2DiffractometerRealPos(th=15.262191782015, chi=89.914805456892, phi=99.115948808545, tth=30.52438356403)
+(113) : Hklpy2DiffractometerRealPos(th=25.930677549264, chi=115.202910930796, phi=48.133061382025, tth=51.861355098529)
 </pre></div>
 </div>
 </div>
@@ -681,18 +683,18 @@ E4CV and SPEC.  We’ll only pick positions where $2\theta\ge 0$.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>======= ===== ======== ========= ==========
-(hkl)   motor E4CV     SPEC      difference
-======= ===== ======== ========= ==========
-(0 0 2) th    15.26219 19.13350  -3.87131  
-(0 0 2) chi   0.25459  90.01350  -89.75891 
-(0 0 2) phi   0.01771  0.00000   0.01771   
-(0 0 2) tth   30.52438 38.09875  -7.57437  
-(1 1 3) th    25.93067 32.82125  -6.89058  
-(1 1 3) chi   17.79397 115.23625 -97.44228 
-(1 1 3) phi   18.49883 48.13150  -29.63267 
-(1 1 3) tth   51.86134 65.64400  -13.78266 
-======= ===== ======== ========= ==========
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>======= ===== ========= ========= ==========
+(hkl)   motor E4CV      SPEC      difference
+======= ===== ========= ========= ==========
+(0 0 2) th    15.26219  19.13350  -3.87131  
+(0 0 2) chi   89.91481  90.01350  -0.09869  
+(0 0 2) phi   99.11595  0.00000   99.11595  
+(0 0 2) tth   30.52438  38.09875  -7.57437  
+(1 1 3) th    25.93068  32.82125  -6.89057  
+(1 1 3) chi   115.20291 115.23625 -0.03334  
+(1 1 3) phi   48.13306  48.13150  0.00156   
+(1 1 3) tth   51.86136  65.64400  -13.78264 
+======= ===== ========= ========= ==========
 </pre></div>
 </div>
 </div>
@@ -733,14 +735,14 @@ then compute the UB matrix.  Follow in the section below.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>========= =========================================================================================================================================================
-term      value                                                                                                                                                    
-========= =========================================================================================================================================================
-SPEC [UB] [[-1.65871244e+00  9.82002413e-02 -3.89705578e-04]                                                                                                       
-           [-9.55499031e-02 -1.65427863e+00  2.42844486e-03]                                                                                                       
-           [ 2.62981891e-04  9.81574682e-03  1.65396181e+00]]                                                                                                      
-E4CV [UB] [[-0.095549901092, -1.654278634916, 0.002428444854], [0.000262981975, 0.009814839065, 1.65396180769], [-1.658712442301, 0.098200239641, -0.000389705577]]
-========= =========================================================================================================================================================
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>========= ==========================================================================================================================================================
+term      value                                                                                                                                                     
+========= ==========================================================================================================================================================
+SPEC [UB] [[-1.65871244e+00  9.82002413e-02 -3.89705578e-04]                                                                                                        
+           [-9.55499031e-02 -1.65427863e+00  2.42844486e-03]                                                                                                        
+           [ 2.62981891e-04  9.81574682e-03  1.65396181e+00]]                                                                                                       
+E4CV [UB] [[-0.095549863427, -1.654278751664, 0.002428444976], [0.000263111155, 0.009815859008, 1.653961890838], [-1.658712537638, 0.098200262676, -0.000389705597]]
+========= ==========================================================================================================================================================
 </pre></div>
 </div>
 </div>
@@ -784,8 +786,8 @@ position             Hklpy2DiffractometerPseudoPos(h=0, k=0, l=0)
 sample name          LNO_LAO                                                                                                                                                   
 lattice              Lattice(a=3.7817, b=3.7914, c=3.7989, alpha=90.2546, beta=90.0182, gamma=89.8997, system=&#39;triclinic&#39;)                                                     
 crystal system       triclinic                                                                                                                                                 
-[U]                  [[-0.057509522654, -0.998327393204, 0.005922059067], [0.000158283449, 0.005922758763, 0.999982447783], [-0.998344945272, 0.057509450598, -0.000182596327]]
-[UB]                 [[-0.095549901092, -1.654278634916, 0.002428444854], [0.000262981975, 0.009814839065, 1.65396180769], [-1.658712442301, 0.098200239641, -0.000389705577]] 
+[U]                  [[-0.057509496764, -0.998327391025, 0.005922677679], [0.000158361191, 0.005923373917, 0.999982444127], [-0.998344946751, 0.057509425056, -0.000182553939]]
+[UB]                 [[-0.095549863427, -1.654278751664, 0.002428444976], [0.000263111155, 0.009815859008, 1.653961890838], [-1.658712537638, 0.098200262676, -0.000389705597]]
 ==================== ==========================================================================================================================================================
 </pre></div>
 </div>
@@ -818,11 +820,11 @@ crystal system       triclinic
 (0 0 2) th    19.12616  19.13350  -0.00734  
 (0 0 2) chi   90.01350  90.01350  -0.00000  
 (0 0 2) phi   0.00000   0.00000   0.00000   
-(0 0 2) tth   38.08406  38.09875  -0.01469  
-(1 1 3) th    32.81849  32.82125  -0.00276  
+(0 0 2) tth   38.08407  38.09875  -0.01468  
+(1 1 3) th    32.81850  32.82125  -0.00275  
 (1 1 3) chi   115.20291 115.23625 -0.03334  
 (1 1 3) phi   48.13305  48.13150  0.00155   
-(1 1 3) tth   65.63699  65.64400  -0.00701  
+(1 1 3) tth   65.63700  65.64400  -0.00700  
 ======= ===== ========= ========= ==========
 </pre></div>
 </div>

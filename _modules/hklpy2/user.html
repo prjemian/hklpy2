@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../../_static/documentation_options.js?v=485d0293"></script>
+    <script src="../../_static/documentation_options.js?v=26ffa1e9"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/design-tabs.js?v=f930bc37"></script>
@@ -391,8 +391,9 @@
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">uuid</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">namedtuple</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Union</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyRestTable</span><span class="w"> </span><span class="kn">import</span> <span class="n">Table</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">.blocks.lattice</span><span class="w"> </span><span class="kn">import</span> <span class="n">Lattice</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.blocks.reflection</span><span class="w"> </span><span class="kn">import</span> <span class="n">Reflection</span>
@@ -563,7 +564,7 @@
 
 <div class="viewcode-block" id="cahkl_table">
 <a class="viewcode-back" href="../../autoapi/hklpy2/user/index.html#hklpy2.user.cahkl_table">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">cahkl_table</span><span class="p">(</span><span class="o">*</span><span class="n">reflections</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">AxesTuple</span><span class="p">],</span> <span class="n">digits</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">cahkl_table</span><span class="p">(</span><span class="o">*</span><span class="n">reflections</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">AxesTuple</span><span class="p">],</span> <span class="n">digits</span><span class="o">=</span><span class="mi">4</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Print a table with motor positions for each reflection given.</span>
 
@@ -572,16 +573,23 @@
 <span class="sd">    .. code-block:: python</span>
 <span class="sd">        :linenos:</span>
 
-<span class="sd">        &gt;&gt;&gt; cahkl_table((1, 1, 0), (1, 1, 1), (1,0,0), (0,1,0), (1,-1,1))</span>
-<span class="sd">        =========================== ======== ======== ========= ========= ========</span>
-<span class="sd">        (hkl)                       solution omega    chi       phi       tth</span>
-<span class="sd">        =========================== ======== ======== ========= ========= ========</span>
-<span class="sd">        HklPosition(h=1, k=1, l=0)  0        -9.98038 0.0       -25.02325 19.96077</span>
-<span class="sd">        HklPosition(h=1, k=1, l=1)  0        12.25493 -35.26438 -44.98402 24.50985</span>
-<span class="sd">        HklPosition(h=1, k=0, l=0)  0        7.03925  0.0       0.01596   14.07851</span>
-<span class="sd">        HklPosition(h=0, k=1, l=0)  0        -7.03925 0.0       -75.90549 14.07851</span>
-<span class="sd">        HklPosition(h=1, k=-1, l=1) 0        12.25492 -35.26441 45.01598  24.50984</span>
-<span class="sd">        =========================== ======== ======== ========= ========= ========</span>
+<span class="sd">        &gt;&gt;&gt; cahkl_table((1, 1, 0), (1, 1, 1))</span>
+<span class="sd">        ======= = ====== ========= ====== ======</span>
+<span class="sd">        (hkl)   # omega  chi       phi    tth</span>
+<span class="sd">        ======= = ====== ========= ====== ======</span>
+<span class="sd">        (1 1 0) 1 45.0   45.0      90.0   90.0</span>
+<span class="sd">        (1 1 0) 2 -45.0  -45.0     -90.0  -90.0</span>
+<span class="sd">        (1 1 0) 3 45.0   135.0     -90.0  90.0</span>
+<span class="sd">        (1 1 0) 4 -135.0 -45.0     -90.0  90.0</span>
+<span class="sd">        (1 1 0) 5 -45.0  -135.0    90.0   -90.0</span>
+<span class="sd">        (1 1 0) 6 -135.0 -135.0    90.0   90.0</span>
+<span class="sd">        (1 1 1) 1 60.0   35.2644   45.0   120.0</span>
+<span class="sd">        (1 1 1) 2 -60.0  -35.2644  -135.0 -120.0</span>
+<span class="sd">        (1 1 1) 3 -60.0  -144.7356 45.0   -120.0</span>
+<span class="sd">        (1 1 1) 4 -120.0 -35.2644  -135.0 120.0</span>
+<span class="sd">        (1 1 1) 5 -120.0 -144.7356 45.0   120.0</span>
+<span class="sd">        (1 1 1) 6 60.0   144.7356  -135.0 120.0</span>
+<span class="sd">        ======= = ====== ========= ====== ======</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -596,10 +604,23 @@
 <span class="sd">        Number of digits to roundoff each position</span>
 <span class="sd">        value.  Default is 5.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">brief</span><span class="p">(</span><span class="nb">input</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="p">(</span><span class="nb">float</span> <span class="o">|</span> <span class="nb">int</span><span class="p">)])</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[(</span><span class="nb">float</span> <span class="o">|</span> <span class="nb">int</span><span class="p">)]:</span>
+        <span class="k">return</span> <span class="p">[</span><span class="nb">round</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">digits</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">input</span><span class="o">.</span><span class="n">values</span><span class="p">()]</span>
+
     <span class="n">core</span> <span class="o">=</span> <span class="n">get_diffractometer</span><span class="p">()</span><span class="o">.</span><span class="n">core</span>
-    <span class="n">PseudoTuple</span> <span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span><span class="s2">&quot;PseudoTuple&quot;</span><span class="p">,</span> <span class="s2">&quot;h k l&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">())</span>
-    <span class="n">reflections</span> <span class="o">=</span> <span class="p">[</span><span class="n">PseudoTuple</span><span class="p">(</span><span class="o">*</span><span class="n">r</span><span class="p">)</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">reflections</span><span class="p">]</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">forward_solutions_table</span><span class="p">(</span><span class="n">reflections</span><span class="p">,</span> <span class="n">digits</span><span class="o">=</span><span class="n">digits</span><span class="p">))</span></div>
+    <span class="n">reals</span> <span class="o">=</span> <span class="n">get_diffractometer</span><span class="p">()</span><span class="o">.</span><span class="n">real_axis_names</span>
+    <span class="n">table</span> <span class="o">=</span> <span class="n">Table</span><span class="p">()</span>
+    <span class="n">table</span><span class="o">.</span><span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;(hkl)&quot;</span><span class="p">,</span> <span class="s2">&quot;#&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">reals</span>
+    <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">reflections</span><span class="p">:</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">standardize_pseudos</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
+        <span class="n">rstr</span> <span class="o">=</span> <span class="s2">&quot;(&quot;</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="nb">str</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">brief</span><span class="p">(</span><span class="n">r</span><span class="p">)])</span> <span class="o">+</span> <span class="s2">&quot;)&quot;</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">solution</span> <span class="ow">in</span> <span class="n">core</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">r</span><span class="p">):</span>
+            <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">s</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">standardize_reals</span><span class="p">(</span><span class="n">solution</span><span class="p">)</span>
+            <span class="n">table</span><span class="o">.</span><span class="n">addRow</span><span class="p">([</span><span class="n">rstr</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">brief</span><span class="p">(</span><span class="n">s</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">table</span><span class="p">)</span></div>
 
 
 

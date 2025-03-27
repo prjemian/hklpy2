@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../../_static/documentation_options.js?v=485d0293"></script>
+    <script src="../../_static/documentation_options.js?v=26ffa1e9"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/design-tabs.js?v=f930bc37"></script>
@@ -605,10 +605,15 @@
     <span class="n">spectrum_type</span> <span class="o">=</span> <span class="s2">&quot;monochromatic&quot;</span></div>
 
 
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">wavelength</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">energy_units</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">wavelength</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">DEFAULT_WAVELENGTH</span><span class="p">,</span> <span class="n">energy_units</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+    <span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">energy_units</span> <span class="o">=</span> <span class="n">energy_units</span> <span class="ow">or</span> <span class="n">DEFAULT_ENERGY_UNITS</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">wavelength</span> <span class="o">=</span> <span class="n">wavelength</span>
+<div class="viewcode-block" id="MonochromaticXrayWavelength._wavelength">
+<a class="viewcode-back" href="../../autoapi/hklpy2/wavelength_support/index.html#hklpy2.MonochromaticXrayWavelength._wavelength">[docs]</a>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_wavelength</span> <span class="o">=</span> <span class="n">wavelength</span></div>
+
 
     <span class="nd">@property</span>
 <div class="viewcode-block" id="MonochromaticXrayWavelength.wavelength">

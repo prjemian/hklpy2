@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="_static/documentation_options.js?v=485d0293"></script>
+    <script src="_static/documentation_options.js?v=26ffa1e9"></script>
     <script src="_static/doctools.js?v=9bcbadda"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/design-tabs.js?v=f930bc37"></script>
@@ -477,15 +477,26 @@ two spaces.</p>
 <tr class="row-even"><td><p><em>reals</em></p></td>
 <td><p><em>pseudos</em></p></td>
 <td><p>1</p></td>
-<td><p><a class="reference internal" href="autoapi/hklpy2/diffract/index.html#hklpy2.diffract.DiffractometerBase.inverse" title="hklpy2.diffract.DiffractometerBase.inverse"><code class="xref py py-meth docutils literal notranslate"><span class="pre">inverse()</span></code></a></p></td>
+<td><p><a class="reference internal" href="autoapi/hklpy2/diffract/index.html#hklpy2.diffract.DiffractometerBase.inverse" title="hklpy2.diffract.DiffractometerBase.inverse"><code class="xref py py-meth docutils literal notranslate"><span class="pre">hklpy2.diffract.DiffractometerBase.inverse()</span></code></a></p></td>
 </tr>
 <tr class="row-odd"><td><p><em>pseudos</em></p></td>
 <td><p><em>reals</em></p></td>
-<td><p>0, 1, or more</p></td>
-<td><p><a class="reference internal" href="autoapi/hklpy2/diffract/index.html#hklpy2.diffract.DiffractometerBase.forward" title="hklpy2.diffract.DiffractometerBase.forward"><code class="xref py py-meth docutils literal notranslate"><span class="pre">forward()</span></code></a></p></td>
+<td><p>1 or exception</p></td>
+<td><p><a class="reference internal" href="autoapi/hklpy2/diffract/index.html#hklpy2.diffract.DiffractometerBase.forward" title="hklpy2.diffract.DiffractometerBase.forward"><code class="xref py py-meth docutils literal notranslate"><span class="pre">hklpy2.diffract.DiffractometerBase.forward()</span></code></a></p></td>
+</tr>
+<tr class="row-even"><td><p><em>pseudos</em></p></td>
+<td><p><em>reals</em></p></td>
+<td><p>0, 1 or more</p></td>
+<td><p><a class="reference internal" href="autoapi/hklpy2/ops/index.html#hklpy2.ops.Core.forward" title="hklpy2.ops.Core.forward"><code class="xref py py-meth docutils literal notranslate"><span class="pre">hklpy2.ops.Core.forward()</span></code></a></p></td>
 </tr>
 </tbody>
 </table>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The diffractometer’s <cite>forward()</cite> method picks the default solution from
+the list returned from <code class="docutils literal notranslate"><span class="pre">core.forward()</span></code>.  Initially, the first solution in
+the list is chosen.</p>
 </div>
 </section>
 <section id="solvers">

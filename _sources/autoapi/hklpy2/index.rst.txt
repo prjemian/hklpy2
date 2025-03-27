@@ -597,7 +597,7 @@ Package Contents
 
 
 
-   .. py:method:: scan_extra(detectors: list, axis: str = None, start: float = None, finish: float = None, num: int = 2, *, pseudos: dict = None, reals: dict = None, extras: dict = {}, fail_on_exception: bool = False, md: dict = None)
+   .. py:method:: scan_extra(detectors: list, axis: Optional[str] = None, start: Optional[float] = None, finish: Optional[float] = None, num: Optional[int] = 2, *, pseudos: Optional[dict] = None, reals: Optional[dict] = None, extras: Optional[dict] = {}, fail_on_exception: Optional[bool] = False, md: Optional[dict] = None)
 
       Scan one extra diffractometer parameter, such as 'psi'.
 
@@ -975,7 +975,7 @@ Package Contents
       Wavelength (:math:`\lambda`).
 
 
-.. py:class:: MonochromaticXrayWavelength(wavelength: float, energy_units: str = None, **kwargs)
+.. py:class:: MonochromaticXrayWavelength(wavelength: float = DEFAULT_WAVELENGTH, energy_units: str = None, **kwargs)
 
    Bases: :py:obj:`WavelengthBase`
 
@@ -1011,6 +1011,11 @@ Package Contents
 
 
       Engineering units of the X-ray photon energy.
+
+
+   .. py:attribute:: _wavelength
+      :value: 1.0
+
 
 
    .. py:property:: wavelength

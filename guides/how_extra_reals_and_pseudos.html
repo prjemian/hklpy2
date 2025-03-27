@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=485d0293"></script>
+    <script src="../_static/documentation_options.js?v=26ffa1e9"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
@@ -563,7 +563,8 @@ Let’s skip the factory function and show how to build a structure directly.</p
 <p>Demonstrate a variety of additional components.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ophyd</span><span class="w"> </span><span class="kn">import</span> <span class="n">Component</span><span class="p">,</span> <span class="n">Device</span><span class="p">,</span> <span class="n">PseudoSingle</span><span class="p">,</span> <span class="n">Signal</span><span class="p">,</span> <span class="n">SoftPositioner</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">hklpy2.diffract</span><span class="w"> </span><span class="kn">import</span> <span class="n">Hklpy2PseudoAxis</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ophyd</span><span class="w"> </span><span class="kn">import</span> <span class="n">Component</span><span class="p">,</span> <span class="n">Device</span><span class="p">,</span> <span class="n">Signal</span><span class="p">,</span> <span class="n">SoftPositioner</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">ophyd.signal</span><span class="w"> </span><span class="kn">import</span> <span class="n">SignalRO</span>
 
 
@@ -576,7 +577,7 @@ Let’s skip the factory function and show how to build a structure directly.</p
 <span class="k">class</span><span class="w"> </span><span class="nc">MyTwoCircle</span><span class="p">(</span><span class="n">hklpy2</span><span class="o">.</span><span class="n">DiffractometerBase</span><span class="p">):</span>
     <span class="n">_real</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;th&quot;</span><span class="p">,</span> <span class="s2">&quot;tth&quot;</span><span class="p">]</span>
 
-    <span class="n">q</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">PseudoSingle</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;hinted&quot;</span><span class="p">)</span>
+    <span class="n">q</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">Hklpy2PseudoAxis</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;hinted&quot;</span><span class="p">)</span>
     <span class="n">th</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span>
         <span class="n">SoftPositioner</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;hinted&quot;</span><span class="p">,</span> <span class="n">limits</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">180</span><span class="p">,</span> <span class="mi">180</span><span class="p">),</span> <span class="n">egu</span><span class="o">=</span><span class="s2">&quot;degrees&quot;</span><span class="p">,</span> <span class="n">init_pos</span><span class="o">=</span><span class="mi">0</span>
     <span class="p">)</span>
@@ -618,19 +619,19 @@ wavelength=1.0
 th=0, tth=0
 </pre></div>
 </div>
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>OrderedDict([(&#39;th2tth_q&#39;, {&#39;value&#39;: 0, &#39;timestamp&#39;: 1742331926.1215284}),
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>OrderedDict([(&#39;th2tth_q&#39;, {&#39;value&#39;: 0, &#39;timestamp&#39;: 1743011146.56252}),
              (&#39;th2tth_q_setpoint&#39;,
-              {&#39;value&#39;: 0, &#39;timestamp&#39;: 1742331926.1215405}),
-             (&#39;th2tth_th&#39;, {&#39;value&#39;: 0, &#39;timestamp&#39;: 1742331926.2609282}),
-             (&#39;th2tth_tth&#39;, {&#39;value&#39;: 0, &#39;timestamp&#39;: 1742331926.2609332}),
-             (&#39;th2tth_spinner&#39;, {&#39;value&#39;: 0, &#39;timestamp&#39;: 1742331926.260936}),
-             (&#39;th2tth_atth&#39;, {&#39;value&#39;: 0, &#39;timestamp&#39;: 1742331926.2609384}),
+              {&#39;value&#39;: 0, &#39;timestamp&#39;: 1743011146.5625339}),
+             (&#39;th2tth_th&#39;, {&#39;value&#39;: 0, &#39;timestamp&#39;: 1743011146.5971136}),
+             (&#39;th2tth_tth&#39;, {&#39;value&#39;: 0, &#39;timestamp&#39;: 1743011146.5971181}),
+             (&#39;th2tth_spinner&#39;, {&#39;value&#39;: 0, &#39;timestamp&#39;: 1743011146.5971215}),
+             (&#39;th2tth_atth&#39;, {&#39;value&#39;: 0, &#39;timestamp&#39;: 1743011146.5971239}),
              (&#39;th2tth_temperature&#39;,
-              {&#39;value&#39;: 25, &#39;timestamp&#39;: 1742331926.1221745}),
-             (&#39;th2tth_xy_x&#39;, {&#39;value&#39;: 0, &#39;timestamp&#39;: 1742331926.2609541}),
-             (&#39;th2tth_xy_y&#39;, {&#39;value&#39;: 0, &#39;timestamp&#39;: 1742331926.2609572}),
+              {&#39;value&#39;: 25, &#39;timestamp&#39;: 1743011146.5629923}),
+             (&#39;th2tth_xy_x&#39;, {&#39;value&#39;: 0, &#39;timestamp&#39;: 1743011146.5971382}),
+             (&#39;th2tth_xy_y&#39;, {&#39;value&#39;: 0, &#39;timestamp&#39;: 1743011146.597141}),
              (&#39;th2tth_xy_solenoid_lock&#39;,
-              {&#39;value&#39;: True, &#39;timestamp&#39;: 1742331926.1224165})])
+              {&#39;value&#39;: True, &#39;timestamp&#39;: 1743011146.563218})])
 </pre></div>
 </div>
 </div>

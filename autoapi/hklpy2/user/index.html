@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../../../_static/documentation_options.js?v=485d0293"></script>
+    <script src="../../../_static/documentation_options.js?v=26ffa1e9"></script>
     <script src="../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -631,19 +631,26 @@
 
 <dl class="py function">
 <dt class="sig sig-object py" id="hklpy2.user.cahkl_table">
-<span class="sig-prename descclassname"><span class="pre">hklpy2.user.</span></span><span class="sig-name descname"><span class="pre">cahkl_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">reflections</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><span class="pre">hklpy2.misc.AxesTuple</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">digits</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/hklpy2/user.html#cahkl_table"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.user.cahkl_table" title="Link to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">hklpy2.user.</span></span><span class="sig-name descname"><span class="pre">cahkl_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">reflections</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><span class="pre">hklpy2.misc.AxesTuple</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">digits</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">4</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/hklpy2/user.html#cahkl_table"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.user.cahkl_table" title="Link to this definition">#</a></dt>
 <dd><p>Print a table with motor positions for each reflection given.</p>
 <p>EXAMPLE:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="gp">&gt;&gt;&gt; </span><span class="n">cahkl_table</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
-<span class="linenos"> 2</span><span class="go">=========================== ======== ======== ========= ========= ========</span>
-<span class="linenos"> 3</span><span class="go">(hkl)                       solution omega    chi       phi       tth</span>
-<span class="linenos"> 4</span><span class="go">=========================== ======== ======== ========= ========= ========</span>
-<span class="linenos"> 5</span><span class="go">HklPosition(h=1, k=1, l=0)  0        -9.98038 0.0       -25.02325 19.96077</span>
-<span class="linenos"> 6</span><span class="go">HklPosition(h=1, k=1, l=1)  0        12.25493 -35.26438 -44.98402 24.50985</span>
-<span class="linenos"> 7</span><span class="go">HklPosition(h=1, k=0, l=0)  0        7.03925  0.0       0.01596   14.07851</span>
-<span class="linenos"> 8</span><span class="go">HklPosition(h=0, k=1, l=0)  0        -7.03925 0.0       -75.90549 14.07851</span>
-<span class="linenos"> 9</span><span class="go">HklPosition(h=1, k=-1, l=1) 0        12.25492 -35.26441 45.01598  24.50984</span>
-<span class="linenos">10</span><span class="go">=========================== ======== ======== ========= ========= ========</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="gp">&gt;&gt;&gt; </span><span class="n">cahkl_table</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+<span class="linenos"> 2</span><span class="go">======= = ====== ========= ====== ======</span>
+<span class="linenos"> 3</span><span class="go">(hkl)   # omega  chi       phi    tth</span>
+<span class="linenos"> 4</span><span class="go">======= = ====== ========= ====== ======</span>
+<span class="linenos"> 5</span><span class="go">(1 1 0) 1 45.0   45.0      90.0   90.0</span>
+<span class="linenos"> 6</span><span class="go">(1 1 0) 2 -45.0  -45.0     -90.0  -90.0</span>
+<span class="linenos"> 7</span><span class="go">(1 1 0) 3 45.0   135.0     -90.0  90.0</span>
+<span class="linenos"> 8</span><span class="go">(1 1 0) 4 -135.0 -45.0     -90.0  90.0</span>
+<span class="linenos"> 9</span><span class="go">(1 1 0) 5 -45.0  -135.0    90.0   -90.0</span>
+<span class="linenos">10</span><span class="go">(1 1 0) 6 -135.0 -135.0    90.0   90.0</span>
+<span class="linenos">11</span><span class="go">(1 1 1) 1 60.0   35.2644   45.0   120.0</span>
+<span class="linenos">12</span><span class="go">(1 1 1) 2 -60.0  -35.2644  -135.0 -120.0</span>
+<span class="linenos">13</span><span class="go">(1 1 1) 3 -60.0  -144.7356 45.0   -120.0</span>
+<span class="linenos">14</span><span class="go">(1 1 1) 4 -120.0 -35.2644  -135.0 120.0</span>
+<span class="linenos">15</span><span class="go">(1 1 1) 5 -120.0 -144.7356 45.0   120.0</span>
+<span class="linenos">16</span><span class="go">(1 1 1) 6 60.0   144.7356  -135.0 120.0</span>
+<span class="linenos">17</span><span class="go">======= = ====== ========= ====== ======</span>
 </pre></div>
 </div>
 <dl class="field-list simple">

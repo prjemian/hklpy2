@@ -38,10 +38,10 @@
    ],
    "source": [
     "import hklpy2\n",
+    "from hklpy2.diffract import Hklpy2PseudoAxis\n",
     "from ophyd import Component as Cpt\n",
     "from ophyd import EpicsMotor\n",
     "from ophyd import Kind\n",
-    "from ophyd import PseudoSingle\n",
     "from ophyd import SoftPositioner\n",
     "\n",
     "NORMAL_HINTED = Kind.hinted | Kind.normal\n",
@@ -51,9 +51,9 @@
     "    \"\"\"Test case.\"\"\"\n",
     "\n",
     "    # Pseudo-space axes, in order expected by hkl_soleil E4CV, engine=\"hkl\"\n",
-    "    h = Cpt(PseudoSingle, \"\", kind=NORMAL_HINTED)  # noqa: E741\n",
-    "    k = Cpt(PseudoSingle, \"\", kind=NORMAL_HINTED)  # noqa: E741\n",
-    "    l = Cpt(PseudoSingle, \"\", kind=NORMAL_HINTED)  # noqa: E741\n",
+    "    h = Cpt(Hklpy2PseudoAxis, \"\", kind=NORMAL_HINTED)  # noqa: E741\n",
+    "    k = Cpt(Hklpy2PseudoAxis, \"\", kind=NORMAL_HINTED)  # noqa: E741\n",
+    "    l = Cpt(Hklpy2PseudoAxis, \"\", kind=NORMAL_HINTED)  # noqa: E741\n",
     "\n",
     "    # Real-space axes, in our own order..\n",
     "    # Use different names than the solver for some axes\n",
@@ -63,9 +63,9 @@
     "    phi = Cpt(EpicsMotor, \"m32\", kind=NORMAL_HINTED)\n",
     "\n",
     "    # Pseudo-space extra axes used in a couple modes.\n",
-    "    h2 = Cpt(PseudoSingle, \"\", kind=NORMAL_HINTED)  # noqa: E741\n",
-    "    k2 = Cpt(PseudoSingle, \"\", kind=NORMAL_HINTED)  # noqa: E741\n",
-    "    l2 = Cpt(PseudoSingle, \"\", kind=NORMAL_HINTED)  # noqa: E741\n",
+    "    h2 = Cpt(Hklpy2PseudoAxis, \"\", kind=NORMAL_HINTED)  # noqa: E741\n",
+    "    k2 = Cpt(Hklpy2PseudoAxis, \"\", kind=NORMAL_HINTED)  # noqa: E741\n",
+    "    l2 = Cpt(Hklpy2PseudoAxis, \"\", kind=NORMAL_HINTED)  # noqa: E741\n",
     "\n",
     "    # real-space extra axis used in a couple modes\n",
     "    psi = Cpt(SoftPositioner, limits=(-170, 170), init_pos=0, kind=NORMAL_HINTED)\n",
@@ -74,7 +74,7 @@
     "    energy = Cpt(SoftPositioner, limits=(5, 35), init_pos=12.4, kind=NORMAL_HINTED)\n",
     "\n",
     "    # Just the axes in expected order by hkl_soleil E4CV.\n",
-    "    # _pseudo = \"h k l\".split()  # Needed when axes renamed or specified out-of-order.\n",
+    "    _pseudo = \"h k l\".split()\n",
     "    _real = \"theta chi phi ttheta\".split()\n",
     "\n",
     "    def __init__(self, *args, **kwargs):\n",
@@ -83,11 +83,14 @@
     "            solver=\"hkl_soleil\",\n",
     "            geometry=\"E4CV\",\n",
     "            solver_kwargs=dict(engine=\"hkl\"),\n",
+    "            pseudos=\"h k l\".split(),\n",
+    "            reals=\"theta chi phi ttheta\".split(),\n",
     "            **kwargs,\n",
     "        )\n",
     "\n",
     "\n",
     "fourc = Fourc(\"gp:\", name=\"fourc\")\n",
+    "fourc.wait_for_connection()  # Recommended when connecting to control system.\n",
     "fourc"
    ]
   },
@@ -102,7 +105,7 @@
      "output_type": "stream",
      "text": [
       "Brief 'where' report:\n",
-      "h=0, k=0, l=0, h2=0, k2=0, l2=0\n",
+      "h=0, k=0, l=0\n",
       "wavelength=1.0\n",
       "theta=0, chi=0, phi=0, ttheta=0\n"
      ]
@@ -129,12 +132,12 @@
       "Sample(name='sample', lattice=Lattice(a=1, system='cubic'))\n",
       "Orienting reflections: []\n",
       "U=[[1, 0, 0], [0, 1, 0], [0, 0, 1]]\n",
-      "UB=[[1, 0, 0], [0, 1, 0], [0, 0, 1]]\n",
+      "UB=[[6.283185307179586, 0.0, 0.0], [0.0, 6.283185307179586, 0.0], [0.0, 0.0, 6.283185307179586]]\n",
       "constraint: -180.0 <= theta <= 180.0\n",
       "constraint: -180.0 <= chi <= 180.0\n",
       "constraint: -180.0 <= phi <= 180.0\n",
       "constraint: -180.0 <= ttheta <= 180.0\n",
-      "h=0, k=0, l=0, h2=0, k2=0, l2=0\n",
+      "h=0, k=0, l=0\n",
       "wavelength=1.0\n",
       "theta=0, chi=0, phi=0, ttheta=0\n"
      ]
@@ -160,17 +163,9 @@
    "metadata": {},
    "outputs": [
     {
-     "name": "stderr",
-     "output_type": "stream",
-     "text": [
-      "/home/zorinvm/Documents/projects/prjemian/hklpy2/hklpy2/misc.py:316: UserWarning:  Extra inputs will be ignored. Expected 3. Received input=FourcPseudoPos(h=1, k=0, l=0, h2=0, k2=0, l2=0), names=['h', 'k', 'l']\n",
-      "  warnings.warn(\n"
-     ]
-    },
-    {
      "data": {
       "text/plain": [
-       "FourcRealPos(theta=30.00000000079, chi=-4.747e-09, phi=90.00000000447, ttheta=60.00000000158)"
+       "FourcRealPos(theta=29.999992418917, chi=1.3051987e-05, phi=89.999997321112, ttheta=59.999984837834)"
       ]
      },
      "execution_count": 4,
@@ -191,18 +186,12 @@
     {
      "data": {
       "text/plain": [
-       "[FourcRealPos(theta=-30.000000181209, chi=-9.5582e-08, phi=-89.999999974224, ttheta=-60.000000362418),\n",
-       " FourcRealPos(theta=30.000000181209, chi=-9.5582e-08, phi=90.000000025776, ttheta=60.000000362418),\n",
-       " FourcRealPos(theta=-30.000000181209, chi=-9.5582e-08, phi=150.000000388193, ttheta=60.000000396423),\n",
-       " FourcRealPos(theta=-149.999999818791, chi=-9.5582e-08, phi=29.999999663358, ttheta=-60.000000465387),\n",
-       " FourcRealPos(theta=30.000000181209, chi=-9.5582e-08, phi=-150.000000336642, ttheta=-60.000000465387),\n",
-       " FourcRealPos(theta=-149.999999818791, chi=-9.5582e-08, phi=-89.999999974224, ttheta=60.000000362418),\n",
-       " FourcRealPos(theta=-30.000000181209, chi=-179.999999904418, phi=90.000000025776, ttheta=-60.000000362418),\n",
-       " FourcRealPos(theta=30.000000181209, chi=-179.999999904418, phi=-89.999999974224, ttheta=60.000000362418),\n",
-       " FourcRealPos(theta=-30.000000181209, chi=-179.999999904418, phi=-150.000000336642, ttheta=60.000000396423),\n",
-       " FourcRealPos(theta=-149.999999818791, chi=-179.999999904418, phi=-29.999999611807, ttheta=-60.000000465387),\n",
-       " FourcRealPos(theta=30.000000181209, chi=-179.999999904418, phi=150.000000388193, ttheta=-60.000000465387),\n",
-       " FourcRealPos(theta=-149.999999818791, chi=-179.999999904418, phi=90.000000025776, ttheta=60.000000362418)]"
+       "[FourcRealPos(theta=29.999992418917, chi=1.3051987e-05, phi=89.999997321112, ttheta=59.999984837834),\n",
+       " FourcRealPos(theta=-29.999992418917, chi=-1.3051987e-05, phi=-90.000002678888, ttheta=-59.999984837834),\n",
+       " FourcRealPos(theta=-150.000007581083, chi=-1.3051987e-05, phi=-90.000002678888, ttheta=59.999984837834),\n",
+       " FourcRealPos(theta=29.999992418917, chi=179.999986948013, phi=-90.000002678888, ttheta=59.999984837834),\n",
+       " FourcRealPos(theta=-29.999992418917, chi=-179.999986948013, phi=89.999997321112, ttheta=-59.999984837834),\n",
+       " FourcRealPos(theta=-150.000007581083, chi=-179.999986948013, phi=89.999997321112, ttheta=59.999984837834)]"
       ]
      },
      "execution_count": 5,
@@ -223,7 +212,7 @@
     {
      "data": {
       "text/plain": [
-       "{'h': 0.517638090205, 'k': 0, 'l': 0, 'h2': 0, 'k2': 0, 'l2': 0}"
+       "{'h': 1.000000229316, 'k': -2.28495e-07, 'l': -4.7217e-08}"
       ]
      },
      "execution_count": 6,
@@ -232,7 +221,7 @@
     }
    ],
    "source": [
-    "fourc.core.inverse(dict(ttheta=30, theta=15, chi=0, phi=90))"
+    "fourc.core.inverse(dict(ttheta=60, theta=30, chi=0, phi=90))"
    ]
   }
  ],

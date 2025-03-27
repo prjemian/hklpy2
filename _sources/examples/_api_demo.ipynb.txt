@@ -25,7 +25,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": null,
+   "execution_count": 1,
    "id": "61d5927e-d2d3-4fae-9b47-eb5fdb6117c1",
    "metadata": {},
    "outputs": [
@@ -33,8 +33,8 @@
      "name": "stdout",
      "output_type": "stream",
      "text": [
-      "2025-03-13 02:16:34.053053\n",
-      "hklpy2.__version__='0.0.28.dev45+g204bb2b'\n",
+      "2025-03-26 12:20:47.933934\n",
+      "hklpy2.__version__='0.0.28.dev92+g12cedce'\n",
       "hklpy2.solvers()={'hkl_soleil': 'hklpy2.backends.hkl_soleil:HklSolver', 'no_op': 'hklpy2.backends.no_op:NoOpSolver', 'th_tth': 'hklpy2.backends.th_tth_q:ThTthSolver'}\n"
      ]
     }
@@ -213,7 +213,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 11,
+   "execution_count": 7,
    "id": "6d1dd853",
    "metadata": {},
    "outputs": [
@@ -273,8 +273,8 @@
       "r1=Reflection(name='r1', h=1, k=0, l=0)\n",
       "r2=Reflection(name='r2', h=0, k=1, l=0)\n",
       "fourc.sample.U=[[-0.0, -0.0, 1.0], [0.0, -1.0, -0.0], [1.0, -0.0, 0.0]]\n",
-      "fourc.sample.UB=[[-0.0, -0.0, 1.000000025846], [0.0, -1.000000005699, 1.7421e-08], [1.000000016571, -7.0482e-08, -4.7758e-08]]\n",
-      "fourc.inverse(10, 0, 0, 20)=Hklpy2DiffractometerPseudoPos(h=2.18212732091, k=0, l=0)\n"
+      "fourc.sample.UB=[[-0.0, -0.0, 1.000000103446], [0.0, -0.999999873545, 1.45487e-07], [0.9999999899, 1.81162e-07, -8.7108e-08]]\n",
+      "fourc.inverse(10, 0, 0, 20)=Hklpy2DiffractometerPseudoPos(h=2.182127379109, k=0, l=0)\n"
      ]
     }
    ],
@@ -309,9 +309,9 @@
      "output_type": "stream",
      "text": [
       "fourc.sample.U=[[-0.0, -0.0, 1.0], [0.0, -1.0, -0.0], [1.0, -0.0, 0.0]]\n",
-      "fourc.sample.UB=[[-0.0, -0.0, 1.000000025846], [0.0, -1.000000005699, 1.7421e-08], [1.000000016571, -7.0482e-08, -4.7758e-08]]\n",
-      "fourc.forward(1, 0, 0)=Hklpy2DiffractometerRealPos(omega=4.564279283548, chi=0, phi=-2.0227e-08, tth=9.128558567096)\n",
-      "fourc.inverse(10, 0, 0, 20)=Hklpy2DiffractometerPseudoPos(h=2.18212732091, k=0, l=0)\n"
+      "fourc.sample.UB=[[-0.0, -0.0, 1.000000103446], [0.0, -0.999999873545, 1.45487e-07], [0.9999999899, 1.81162e-07, -8.7108e-08]]\n",
+      "fourc.forward(1, 0, 0)=Hklpy2DiffractometerRealPos(omega=4.564279161557, chi=0, phi=-2.0227e-08, tth=9.128558323113)\n",
+      "fourc.inverse(10, 0, 0, 20)=Hklpy2DiffractometerPseudoPos(h=2.182127379109, k=0, l=0)\n"
      ]
     }
    ],
@@ -346,20 +346,38 @@
   },
   {
    "cell_type": "code",
-   "execution_count": null,
+   "execution_count": 11,
    "id": "42e286ed-f07a-4815-9708-d8ff40978a4e",
    "metadata": {},
-   "outputs": [],
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "fourc.core.solver.geometries()=['APS POLAR', 'E4CH', 'E4CV', 'E6C', 'ESRF ID01 PSIC', 'K4CV', 'K6C', 'PETRA3 P09 EH2', 'PETRA3 P23 4C', 'PETRA3 P23 6C', 'SOLEIL MARS', 'SOLEIL NANOSCOPIUM ROBOT', 'SOLEIL SIRIUS KAPPA', 'SOLEIL SIRIUS TURRET', 'SOLEIL SIXS MED1+2', 'SOLEIL SIXS MED2+2', 'SOLEIL SIXS MED2+3', 'SOLEIL SIXS MED2+3 v2', 'ZAXIS']\n"
+     ]
+    }
+   ],
    "source": [
     "print(f\"{fourc.core.solver.geometries()=}\")"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": null,
+   "execution_count": 12,
    "id": "c3d78dda-a773-4ed1-a388-212b54f4ea85",
    "metadata": {},
-   "outputs": [],
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "fourc.solver.get()='hkl_soleil'\n",
+      "fourc.geometry.get()='E4CV'\n",
+      "fourc.wavelength.get()=1.0\n"
+     ]
+    }
+   ],
    "source": [
     "print(f\"{fourc.solver.get()=}\")\n",
     "print(f\"{fourc.geometry.get()=}\")\n",
@@ -368,10 +386,25 @@
   },
   {
    "cell_type": "code",
-   "execution_count": null,
+   "execution_count": 13,
    "id": "8ceb97f6-6235-41b1-8b5c-474469f1a428",
    "metadata": {},
-   "outputs": [],
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "fourc.solver_name='hkl_soleil'\n",
+      "fourc.core.solver=HklSolver(name='hkl_soleil', version='5.1.2', geometry='E4CV', engine_name='hkl', mode='bissector')\n",
+      "fourc.core.axes_xref={'h': 'h', 'k': 'k', 'l': 'l', 'omega': 'omega', 'chi': 'chi', 'phi': 'phi', 'tth': 'tth'}\n",
+      "fourc.pseudo_axis_names=['h', 'k', 'l']\n",
+      "fourc.real_axis_names=['omega', 'chi', 'phi', 'tth']\n",
+      "fourc.core.solver.pseudo_axis_names=['h', 'k', 'l']\n",
+      "fourc.core.solver.real_axis_names=['omega', 'chi', 'phi', 'tth']\n",
+      "fourc.core.solver.extra_axis_names=[]\n"
+     ]
+    }
+   ],
    "source": [
     "print(f\"{fourc.solver_name=}\")\n",
     "print(f\"{fourc.core.solver=}\")\n",
@@ -393,10 +426,20 @@
   },
   {
    "cell_type": "code",
-   "execution_count": null,
+   "execution_count": 14,
    "id": "b255aa63",
    "metadata": {},
-   "outputs": [],
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "h=0, k=0, l=0\n",
+      "wavelength=1.0\n",
+      "omega=0, chi=0, phi=0, tth=0\n"
+     ]
+    }
+   ],
    "source": [
     "fourc.wh()"
    ]
@@ -411,12 +454,66 @@
   },
   {
    "cell_type": "code",
-   "execution_count": null,
+   "execution_count": 15,
    "id": "c7be3657-7b17-42ba-9746-0bdfbc7e0bb4",
    "metadata": {
     "scrolled": true
    },
-   "outputs": [],
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "data keys (* hints)\n",
+      "-------------------\n",
+      "*fourc_chi\n",
+      "*fourc_h\n",
+      " fourc_h_setpoint\n",
+      "*fourc_k\n",
+      " fourc_k_setpoint\n",
+      "*fourc_l\n",
+      " fourc_l_setpoint\n",
+      "*fourc_omega\n",
+      "*fourc_phi\n",
+      "*fourc_tth\n",
+      "\n",
+      "read attrs\n",
+      "----------\n",
+      "h                    Hklpy2PseudoAxis    ('fourc_h')\n",
+      "h.readback           AttributeSignal     ('fourc_h')\n",
+      "h.setpoint           AttributeSignal     ('fourc_h_setpoint')\n",
+      "k                    Hklpy2PseudoAxis    ('fourc_k')\n",
+      "k.readback           AttributeSignal     ('fourc_k')\n",
+      "k.setpoint           AttributeSignal     ('fourc_k_setpoint')\n",
+      "l                    Hklpy2PseudoAxis    ('fourc_l')\n",
+      "l.readback           AttributeSignal     ('fourc_l')\n",
+      "l.setpoint           AttributeSignal     ('fourc_l_setpoint')\n",
+      "omega                SoftPositioner      ('fourc_omega')\n",
+      "chi                  SoftPositioner      ('fourc_chi')\n",
+      "phi                  SoftPositioner      ('fourc_phi')\n",
+      "tth                  SoftPositioner      ('fourc_tth')\n",
+      "\n",
+      "config keys\n",
+      "-----------\n",
+      "fourc_geometry\n",
+      "fourc_solver\n",
+      "fourc_wavelength\n",
+      "\n",
+      "configuration attrs\n",
+      "-------------------\n",
+      "geometry             AttributeSignal     ('fourc_geometry')\n",
+      "solver               AttributeSignal     ('fourc_solver')\n",
+      "wavelength           AttributeSignal     ('fourc_wavelength')\n",
+      "h                    Hklpy2PseudoAxis    ('fourc_h')\n",
+      "k                    Hklpy2PseudoAxis    ('fourc_k')\n",
+      "l                    Hklpy2PseudoAxis    ('fourc_l')\n",
+      "\n",
+      "unused attrs\n",
+      "------------\n",
+      "\n"
+     ]
+    }
+   ],
    "source": [
     "fourc.summary()"
    ]

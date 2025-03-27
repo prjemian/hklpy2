@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=485d0293"></script>
+    <script src="../_static/documentation_options.js?v=26ffa1e9"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
@@ -438,10 +438,10 @@ Add many additional axes, both in real (rotation angle) space and in reciprocal
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">hklpy2</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">hklpy2.diffract</span><span class="w"> </span><span class="kn">import</span> <span class="n">Hklpy2PseudoAxis</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">ophyd</span><span class="w"> </span><span class="kn">import</span> <span class="n">Component</span> <span class="k">as</span> <span class="n">Cpt</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">ophyd</span><span class="w"> </span><span class="kn">import</span> <span class="n">EpicsMotor</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">ophyd</span><span class="w"> </span><span class="kn">import</span> <span class="n">Kind</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">ophyd</span><span class="w"> </span><span class="kn">import</span> <span class="n">PseudoSingle</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">ophyd</span><span class="w"> </span><span class="kn">import</span> <span class="n">SoftPositioner</span>
 
 <span class="n">NORMAL_HINTED</span> <span class="o">=</span> <span class="n">Kind</span><span class="o">.</span><span class="n">hinted</span> <span class="o">|</span> <span class="n">Kind</span><span class="o">.</span><span class="n">normal</span>
@@ -451,9 +451,9 @@ Add many additional axes, both in real (rotation angle) space and in reciprocal
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Test case.&quot;&quot;&quot;</span>
 
     <span class="c1"># Pseudo-space axes, in order expected by hkl_soleil E4CV, engine=&quot;hkl&quot;</span>
-    <span class="n">h</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">PseudoSingle</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">NORMAL_HINTED</span><span class="p">)</span>  <span class="c1"># noqa: E741</span>
-    <span class="n">k</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">PseudoSingle</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">NORMAL_HINTED</span><span class="p">)</span>  <span class="c1"># noqa: E741</span>
-    <span class="n">l</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">PseudoSingle</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">NORMAL_HINTED</span><span class="p">)</span>  <span class="c1"># noqa: E741</span>
+    <span class="n">h</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">Hklpy2PseudoAxis</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">NORMAL_HINTED</span><span class="p">)</span>  <span class="c1"># noqa: E741</span>
+    <span class="n">k</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">Hklpy2PseudoAxis</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">NORMAL_HINTED</span><span class="p">)</span>  <span class="c1"># noqa: E741</span>
+    <span class="n">l</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">Hklpy2PseudoAxis</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">NORMAL_HINTED</span><span class="p">)</span>  <span class="c1"># noqa: E741</span>
 
     <span class="c1"># Real-space axes, in our own order..</span>
     <span class="c1"># Use different names than the solver for some axes</span>
@@ -463,9 +463,9 @@ Add many additional axes, both in real (rotation angle) space and in reciprocal
     <span class="n">phi</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsMotor</span><span class="p">,</span> <span class="s2">&quot;m32&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">NORMAL_HINTED</span><span class="p">)</span>
 
     <span class="c1"># Pseudo-space extra axes used in a couple modes.</span>
-    <span class="n">h2</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">PseudoSingle</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">NORMAL_HINTED</span><span class="p">)</span>  <span class="c1"># noqa: E741</span>
-    <span class="n">k2</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">PseudoSingle</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">NORMAL_HINTED</span><span class="p">)</span>  <span class="c1"># noqa: E741</span>
-    <span class="n">l2</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">PseudoSingle</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">NORMAL_HINTED</span><span class="p">)</span>  <span class="c1"># noqa: E741</span>
+    <span class="n">h2</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">Hklpy2PseudoAxis</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">NORMAL_HINTED</span><span class="p">)</span>  <span class="c1"># noqa: E741</span>
+    <span class="n">k2</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">Hklpy2PseudoAxis</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">NORMAL_HINTED</span><span class="p">)</span>  <span class="c1"># noqa: E741</span>
+    <span class="n">l2</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">Hklpy2PseudoAxis</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">NORMAL_HINTED</span><span class="p">)</span>  <span class="c1"># noqa: E741</span>
 
     <span class="c1"># real-space extra axis used in a couple modes</span>
     <span class="n">psi</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">SoftPositioner</span><span class="p">,</span> <span class="n">limits</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">170</span><span class="p">,</span> <span class="mi">170</span><span class="p">),</span> <span class="n">init_pos</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">NORMAL_HINTED</span><span class="p">)</span>
@@ -474,7 +474,7 @@ Add many additional axes, both in real (rotation angle) space and in reciprocal
     <span class="n">energy</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">SoftPositioner</span><span class="p">,</span> <span class="n">limits</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">35</span><span class="p">),</span> <span class="n">init_pos</span><span class="o">=</span><span class="mf">12.4</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">NORMAL_HINTED</span><span class="p">)</span>
 
     <span class="c1"># Just the axes in expected order by hkl_soleil E4CV.</span>
-    <span class="c1"># _pseudo = &quot;h k l&quot;.split()  # Needed when axes renamed or specified out-of-order.</span>
+    <span class="n">_pseudo</span> <span class="o">=</span> <span class="s2">&quot;h k l&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
     <span class="n">_real</span> <span class="o">=</span> <span class="s2">&quot;theta chi phi ttheta&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
@@ -483,11 +483,14 @@ Add many additional axes, both in real (rotation angle) space and in reciprocal
             <span class="n">solver</span><span class="o">=</span><span class="s2">&quot;hkl_soleil&quot;</span><span class="p">,</span>
             <span class="n">geometry</span><span class="o">=</span><span class="s2">&quot;E4CV&quot;</span><span class="p">,</span>
             <span class="n">solver_kwargs</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">engine</span><span class="o">=</span><span class="s2">&quot;hkl&quot;</span><span class="p">),</span>
+            <span class="n">pseudos</span><span class="o">=</span><span class="s2">&quot;h k l&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">(),</span>
+            <span class="n">reals</span><span class="o">=</span><span class="s2">&quot;theta chi phi ttheta&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">(),</span>
             <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
         <span class="p">)</span>
 
 
 <span class="n">fourc</span> <span class="o">=</span> <span class="n">Fourc</span><span class="p">(</span><span class="s2">&quot;gp:&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;fourc&quot;</span><span class="p">)</span>
+<span class="n">fourc</span><span class="o">.</span><span class="n">wait_for_connection</span><span class="p">()</span>  <span class="c1"># Recommended when connecting to control system.</span>
 <span class="n">fourc</span>
 </pre></div>
 </div>
@@ -507,7 +510,7 @@ Add many additional axes, both in real (rotation angle) space and in reciprocal
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Brief &#39;where&#39; report:
-h=0, k=0, l=0, h2=0, k2=0, l2=0
+h=0, k=0, l=0
 wavelength=1.0
 theta=0, chi=0, phi=0, ttheta=0
 </pre></div>
@@ -528,12 +531,12 @@ HklSolver(name=&#39;hkl_soleil&#39;, version=&#39;5.1.2&#39;, geometry=&#39;E4CV
 Sample(name=&#39;sample&#39;, lattice=Lattice(a=1, system=&#39;cubic&#39;))
 Orienting reflections: []
 U=[[1, 0, 0], [0, 1, 0], [0, 0, 1]]
-UB=[[1, 0, 0], [0, 1, 0], [0, 0, 1]]
+UB=[[6.283185307179586, 0.0, 0.0], [0.0, 6.283185307179586, 0.0], [0.0, 0.0, 6.283185307179586]]
 constraint: -180.0 &lt;= theta &lt;= 180.0
 constraint: -180.0 &lt;= chi &lt;= 180.0
 constraint: -180.0 &lt;= phi &lt;= 180.0
 constraint: -180.0 &lt;= ttheta &lt;= 180.0
-h=0, k=0, l=0, h2=0, k2=0, l2=0
+h=0, k=0, l=0
 wavelength=1.0
 theta=0, chi=0, phi=0, ttheta=0
 </pre></div>
@@ -548,11 +551,7 @@ theta=0, chi=0, phi=0, ttheta=0
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/home/zorinvm/Documents/projects/prjemian/hklpy2/hklpy2/misc.py:316: UserWarning:  Extra inputs will be ignored. Expected 3. Received input=FourcPseudoPos(h=1, k=0, l=0, h2=0, k2=0, l2=0), names=[&#39;h&#39;, &#39;k&#39;, &#39;l&#39;]
-  warnings.warn(
-</pre></div>
-</div>
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>FourcRealPos(theta=30.00000000079, chi=-4.747e-09, phi=90.00000000447, ttheta=60.00000000158)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>FourcRealPos(theta=29.999992418917, chi=1.3051987e-05, phi=89.999997321112, ttheta=59.999984837834)
 </pre></div>
 </div>
 </div>
@@ -564,30 +563,24 @@ theta=0, chi=0, phi=0, ttheta=0
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[FourcRealPos(theta=-30.000000181209, chi=-9.5582e-08, phi=-89.999999974224, ttheta=-60.000000362418),
- FourcRealPos(theta=30.000000181209, chi=-9.5582e-08, phi=90.000000025776, ttheta=60.000000362418),
- FourcRealPos(theta=-30.000000181209, chi=-9.5582e-08, phi=150.000000388193, ttheta=60.000000396423),
- FourcRealPos(theta=-149.999999818791, chi=-9.5582e-08, phi=29.999999663358, ttheta=-60.000000465387),
- FourcRealPos(theta=30.000000181209, chi=-9.5582e-08, phi=-150.000000336642, ttheta=-60.000000465387),
- FourcRealPos(theta=-149.999999818791, chi=-9.5582e-08, phi=-89.999999974224, ttheta=60.000000362418),
- FourcRealPos(theta=-30.000000181209, chi=-179.999999904418, phi=90.000000025776, ttheta=-60.000000362418),
- FourcRealPos(theta=30.000000181209, chi=-179.999999904418, phi=-89.999999974224, ttheta=60.000000362418),
- FourcRealPos(theta=-30.000000181209, chi=-179.999999904418, phi=-150.000000336642, ttheta=60.000000396423),
- FourcRealPos(theta=-149.999999818791, chi=-179.999999904418, phi=-29.999999611807, ttheta=-60.000000465387),
- FourcRealPos(theta=30.000000181209, chi=-179.999999904418, phi=150.000000388193, ttheta=-60.000000465387),
- FourcRealPos(theta=-149.999999818791, chi=-179.999999904418, phi=90.000000025776, ttheta=60.000000362418)]
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[FourcRealPos(theta=29.999992418917, chi=1.3051987e-05, phi=89.999997321112, ttheta=59.999984837834),
+ FourcRealPos(theta=-29.999992418917, chi=-1.3051987e-05, phi=-90.000002678888, ttheta=-59.999984837834),
+ FourcRealPos(theta=-150.000007581083, chi=-1.3051987e-05, phi=-90.000002678888, ttheta=59.999984837834),
+ FourcRealPos(theta=29.999992418917, chi=179.999986948013, phi=-90.000002678888, ttheta=59.999984837834),
+ FourcRealPos(theta=-29.999992418917, chi=-179.999986948013, phi=89.999997321112, ttheta=-59.999984837834),
+ FourcRealPos(theta=-150.000007581083, chi=-179.999986948013, phi=89.999997321112, ttheta=59.999984837834)]
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fourc</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">inverse</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">ttheta</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">theta</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">chi</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">phi</span><span class="o">=</span><span class="mi">90</span><span class="p">))</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fourc</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">inverse</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">ttheta</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span> <span class="n">theta</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">chi</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">phi</span><span class="o">=</span><span class="mi">90</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;h&#39;: 0.517638090205, &#39;k&#39;: 0, &#39;l&#39;: 0, &#39;h2&#39;: 0, &#39;k2&#39;: 0, &#39;l2&#39;: 0}
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;h&#39;: 1.000000229316, &#39;k&#39;: -2.28495e-07, &#39;l&#39;: -4.7217e-08}
 </pre></div>
 </div>
 </div>

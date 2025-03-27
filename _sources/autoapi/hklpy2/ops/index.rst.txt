@@ -33,9 +33,9 @@ Module Contents
 
    .. rubric:: Parameters
 
-   ``diffractometer`` (DiffractometerBase):
+   diffractometer (DiffractometerBase):
        The diffractometer parent.
-   ``default_sample`` (bool):
+   default_sample (bool):
        If 'True' (default), create a 'sample' with 1 angstrom cubic lattice.
 
    .. rubric:: Python Methods
@@ -86,6 +86,12 @@ Module Contents
 
    .. py:attribute:: _solver
       :value: None
+
+
+
+   .. py:attribute:: _solver_needs_update
+      :type:  bool
+      :value: True
 
 
 
@@ -178,24 +184,6 @@ Module Contents
 
 
 
-   .. py:method:: forward_solutions_table(reflections, full=False, digits=5)
-
-      Return table of computed solutions for each supplied (hkl) reflection.
-
-      The solutions are calculated using the current UB matrix & constraints.
-
-      :param reflections: Each reflection is a tuple of 3 numbers,
-                          (h, k, l) of the reflection.
-      :type reflections: list of (h, k, l) reflections
-      :param full: If ``True``, show all solutions.  If ``False``,
-                   only show the default solution.
-      :type full: bool
-      :param digits: Number of digits to roundoff each position
-                     value.  Default is 5.
-      :type digits: int
-
-
-
    .. py:method:: inverse(reals: Union[hklpy2.misc.AnyAxesType, None], wavelength: float = None) -> hklpy2.misc.AxesDict
 
       Compute (pseudos) from {names: reals} (angles -> hkl).
@@ -284,6 +272,12 @@ Module Contents
       * namedtuple: (omega=120, chi=35.3, phi=45, tth=-120)
       * ordered list: [120, 35.3, 45, -120]  (for omega, chi, phi, tth)
       * ordered tuple: (120, 35.3, 45, -120)  (for omega, chi, phi, tth)
+
+
+
+   .. py:method:: update_solver(wavelength: Optional[float] = None) -> None
+
+      Update solver data if needed.
 
 
 

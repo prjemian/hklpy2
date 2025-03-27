@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=485d0293"></script>
+    <script src="../_static/documentation_options.js?v=26ffa1e9"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
@@ -450,8 +450,8 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-03-13 02:16:34.053053
-hklpy2.__version__=&#39;0.0.28.dev45+g204bb2b&#39;
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-03-26 12:20:47.933934
+hklpy2.__version__=&#39;0.0.28.dev92+g12cedce&#39;
 hklpy2.solvers()={&#39;hkl_soleil&#39;: &#39;hklpy2.backends.hkl_soleil:HklSolver&#39;, &#39;no_op&#39;: &#39;hklpy2.backends.no_op:NoOpSolver&#39;, &#39;th_tth&#39;: &#39;hklpy2.backends.th_tth_q:ThTthSolver&#39;}
 </pre></div>
 </div>
@@ -593,8 +593,8 @@ all samples: fourc.samples={&#39;sample&#39;: Sample(name=&#39;sample&#39;, latt
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>r1=Reflection(name=&#39;r1&#39;, h=1, k=0, l=0)
 r2=Reflection(name=&#39;r2&#39;, h=0, k=1, l=0)
 fourc.sample.U=[[-0.0, -0.0, 1.0], [0.0, -1.0, -0.0], [1.0, -0.0, 0.0]]
-fourc.sample.UB=[[-0.0, -0.0, 1.000000025846], [0.0, -1.000000005699, 1.7421e-08], [1.000000016571, -7.0482e-08, -4.7758e-08]]
-fourc.inverse(10, 0, 0, 20)=Hklpy2DiffractometerPseudoPos(h=2.18212732091, k=0, l=0)
+fourc.sample.UB=[[-0.0, -0.0, 1.000000103446], [0.0, -0.999999873545, 1.45487e-07], [0.9999999899, 1.81162e-07, -8.7108e-08]]
+fourc.inverse(10, 0, 0, 20)=Hklpy2DiffractometerPseudoPos(h=2.182127379109, k=0, l=0)
 </pre></div>
 </div>
 </div>
@@ -612,9 +612,9 @@ fourc.inverse(10, 0, 0, 20)=Hklpy2DiffractometerPseudoPos(h=2.18212732091, k=0, 
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>fourc.sample.U=[[-0.0, -0.0, 1.0], [0.0, -1.0, -0.0], [1.0, -0.0, 0.0]]
-fourc.sample.UB=[[-0.0, -0.0, 1.000000025846], [0.0, -1.000000005699, 1.7421e-08], [1.000000016571, -7.0482e-08, -4.7758e-08]]
-fourc.forward(1, 0, 0)=Hklpy2DiffractometerRealPos(omega=4.564279283548, chi=0, phi=-2.0227e-08, tth=9.128558567096)
-fourc.inverse(10, 0, 0, 20)=Hklpy2DiffractometerPseudoPos(h=2.18212732091, k=0, l=0)
+fourc.sample.UB=[[-0.0, -0.0, 1.000000103446], [0.0, -0.999999873545, 1.45487e-07], [0.9999999899, 1.81162e-07, -8.7108e-08]]
+fourc.forward(1, 0, 0)=Hklpy2DiffractometerRealPos(omega=4.564279161557, chi=0, phi=-2.0227e-08, tth=9.128558323113)
+fourc.inverse(10, 0, 0, 20)=Hklpy2DiffractometerPseudoPos(h=2.182127379109, k=0, l=0)
 </pre></div>
 </div>
 </div>
@@ -647,12 +647,24 @@ fourc.inverse(10, 0, 0, 20)=Hklpy2DiffractometerPseudoPos(h=2.18212732091, k=0, 
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>fourc.core.solver.geometries()=[&#39;APS POLAR&#39;, &#39;E4CH&#39;, &#39;E4CV&#39;, &#39;E6C&#39;, &#39;ESRF ID01 PSIC&#39;, &#39;K4CV&#39;, &#39;K6C&#39;, &#39;PETRA3 P09 EH2&#39;, &#39;PETRA3 P23 4C&#39;, &#39;PETRA3 P23 6C&#39;, &#39;SOLEIL MARS&#39;, &#39;SOLEIL NANOSCOPIUM ROBOT&#39;, &#39;SOLEIL SIRIUS KAPPA&#39;, &#39;SOLEIL SIRIUS TURRET&#39;, &#39;SOLEIL SIXS MED1+2&#39;, &#39;SOLEIL SIXS MED2+2&#39;, &#39;SOLEIL SIXS MED2+3&#39;, &#39;SOLEIL SIXS MED2+3 v2&#39;, &#39;ZAXIS&#39;]
+</pre></div>
+</div>
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">fourc</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">fourc</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">fourc</span><span class="o">.</span><span class="n">wavelength</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>fourc.solver.get()=&#39;hkl_soleil&#39;
+fourc.geometry.get()=&#39;E4CV&#39;
+fourc.wavelength.get()=1.0
 </pre></div>
 </div>
 </div>
@@ -670,6 +682,18 @@ fourc.inverse(10, 0, 0, 20)=Hklpy2DiffractometerPseudoPos(h=2.18212732091, k=0, 
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>fourc.solver_name=&#39;hkl_soleil&#39;
+fourc.core.solver=HklSolver(name=&#39;hkl_soleil&#39;, version=&#39;5.1.2&#39;, geometry=&#39;E4CV&#39;, engine_name=&#39;hkl&#39;, mode=&#39;bissector&#39;)
+fourc.core.axes_xref={&#39;h&#39;: &#39;h&#39;, &#39;k&#39;: &#39;k&#39;, &#39;l&#39;: &#39;l&#39;, &#39;omega&#39;: &#39;omega&#39;, &#39;chi&#39;: &#39;chi&#39;, &#39;phi&#39;: &#39;phi&#39;, &#39;tth&#39;: &#39;tth&#39;}
+fourc.pseudo_axis_names=[&#39;h&#39;, &#39;k&#39;, &#39;l&#39;]
+fourc.real_axis_names=[&#39;omega&#39;, &#39;chi&#39;, &#39;phi&#39;, &#39;tth&#39;]
+fourc.core.solver.pseudo_axis_names=[&#39;h&#39;, &#39;k&#39;, &#39;l&#39;]
+fourc.core.solver.real_axis_names=[&#39;omega&#39;, &#39;chi&#39;, &#39;phi&#39;, &#39;tth&#39;]
+fourc.core.solver.extra_axis_names=[]
+</pre></div>
+</div>
+</div>
 </div>
 <p>Where is the diffractometer now?</p>
 <div class="cell docutils container">
@@ -678,11 +702,68 @@ fourc.inverse(10, 0, 0, 20)=Hklpy2DiffractometerPseudoPos(h=2.18212732091, k=0, 
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>h=0, k=0, l=0
+wavelength=1.0
+omega=0, chi=0, phi=0, tth=0
+</pre></div>
+</div>
+</div>
 </div>
 <p>Show ophyd’s description of the diffractometer object.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fourc</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>data keys (* hints)
+-------------------
+*fourc_chi
+*fourc_h
+ fourc_h_setpoint
+*fourc_k
+ fourc_k_setpoint
+*fourc_l
+ fourc_l_setpoint
+*fourc_omega
+*fourc_phi
+*fourc_tth
+
+read attrs
+----------
+h                    Hklpy2PseudoAxis    (&#39;fourc_h&#39;)
+h.readback           AttributeSignal     (&#39;fourc_h&#39;)
+h.setpoint           AttributeSignal     (&#39;fourc_h_setpoint&#39;)
+k                    Hklpy2PseudoAxis    (&#39;fourc_k&#39;)
+k.readback           AttributeSignal     (&#39;fourc_k&#39;)
+k.setpoint           AttributeSignal     (&#39;fourc_k_setpoint&#39;)
+l                    Hklpy2PseudoAxis    (&#39;fourc_l&#39;)
+l.readback           AttributeSignal     (&#39;fourc_l&#39;)
+l.setpoint           AttributeSignal     (&#39;fourc_l_setpoint&#39;)
+omega                SoftPositioner      (&#39;fourc_omega&#39;)
+chi                  SoftPositioner      (&#39;fourc_chi&#39;)
+phi                  SoftPositioner      (&#39;fourc_phi&#39;)
+tth                  SoftPositioner      (&#39;fourc_tth&#39;)
+
+config keys
+-----------
+fourc_geometry
+fourc_solver
+fourc_wavelength
+
+configuration attrs
+-------------------
+geometry             AttributeSignal     (&#39;fourc_geometry&#39;)
+solver               AttributeSignal     (&#39;fourc_solver&#39;)
+wavelength           AttributeSignal     (&#39;fourc_wavelength&#39;)
+h                    Hklpy2PseudoAxis    (&#39;fourc_h&#39;)
+k                    Hklpy2PseudoAxis    (&#39;fourc_k&#39;)
+l                    Hklpy2PseudoAxis    (&#39;fourc_l&#39;)
+
+unused attrs
+------------
 </pre></div>
 </div>
 </div>

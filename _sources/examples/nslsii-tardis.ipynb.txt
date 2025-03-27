@@ -56,12 +56,12 @@
   },
   {
    "cell_type": "code",
-   "execution_count": null,
+   "execution_count": 1,
    "metadata": {},
    "outputs": [],
    "source": [
     "import hklpy2\n",
-    "from hklpy2.user import add_sample, calc_UB, cahkl, pa, set_diffractometer, setor, wh\n",
+    "from hklpy2.user import add_sample, calc_UB, cahkl, cahkl_table, pa, set_diffractometer, setor, wh\n",
     "\n",
     "tardis = hklpy2.creator(\n",
     "    name=\"tardis\",\n",
@@ -265,8 +265,8 @@
       "\u001b[38;5;66;03m#hklpy2 configuration file\u001b[39;00m\n",
       "\n",
       "_header:\n",
-      "  datetime: \u001b[33m'2025-03-11 14:51:41.087348'\u001b[39m\n",
-      "  hklpy2_version: \u001b[32m0.0\u001b[39m\u001b[32m.28\u001b[39m.dev22+gdba3850.d20250311\n",
+      "  datetime: \u001b[33m'2025-03-26 19:16:38.839911'\u001b[39m\n",
+      "  hklpy2_version: \u001b[32m0.0\u001b[39m\u001b[32m.28\u001b[39m.dev104+g1a2d5d7.d20250327\n",
       "  python_class: Hklpy2Diffractometer\n",
       "  source_type: X-ray\n",
       "  energy_units: eV\n",
@@ -312,7 +312,7 @@
       "      gamma: \u001b[32m90.0\u001b[39m\n",
       "    reflections: {}\n",
       "    reflections_order: []\n",
-      "    U: &id001\n",
+      "    U:\n",
       "    - - \u001b[32m1\u001b[39m\n",
       "      - \u001b[32m0\u001b[39m\n",
       "      - \u001b[32m0\u001b[39m\n",
@@ -322,7 +322,16 @@
       "    - - \u001b[32m0\u001b[39m\n",
       "      - \u001b[32m0\u001b[39m\n",
       "      - \u001b[32m1\u001b[39m\n",
-      "    UB: *id001\n",
+      "    UB:\n",
+      "    - - \u001b[32m6.283185307179586\u001b[39m\n",
+      "      - \u001b[32m0.0\u001b[39m\n",
+      "      - \u001b[32m0.0\u001b[39m\n",
+      "    - - \u001b[32m0.0\u001b[39m\n",
+      "      - \u001b[32m6.283185307179586\u001b[39m\n",
+      "      - \u001b[32m0.0\u001b[39m\n",
+      "    - - \u001b[32m0.0\u001b[39m\n",
+      "      - \u001b[32m0.0\u001b[39m\n",
+      "      - \u001b[32m6.283185307179586\u001b[39m\n",
       "    digits: \u001b[32m4\u001b[39m\n",
       "  cmazzoli:\n",
       "    name: cmazzoli\n",
@@ -448,7 +457,7 @@
    "source": [
     "# Calculate motor positions for *hkl*\n",
     "\n",
-    "**Only** calculate the motor positions, does not move them."
+    "**Just** calculate the motor positions.  These commands do not move the motors."
    ]
   },
   {
@@ -468,27 +477,30 @@
     }
    ],
    "source": [
-    "cahkl(4, 4, 0)"
+    "cahkl(4, 0, 0)"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 11,
+   "execution_count": 19,
    "metadata": {},
    "outputs": [
     {
-     "data": {
-      "text/plain": [
-       "Hklpy2DiffractometerRealPos(theta=40.219920037459, mu=0, chi=0, phi=0, delta=56.097041918285, gamma=-1.083660865505)"
-      ]
-     },
-     "execution_count": 11,
-     "metadata": {},
-     "output_type": "execute_result"
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "======= = ======= == === === ======= =======\n",
+      "(hkl)   # theta   mu chi phi delta   gamma  \n",
+      "======= = ======= == === === ======= =======\n",
+      "(4 0 0) 1 47.2988 0  0   0   48.4622 -1.0578\n",
+      "(4 4 0) 1 38.3762 0  0   0   90.6303 -1.1613\n",
+      "======= = ======= == === === ======= =======\n",
+      "\n"
+     ]
     }
    ],
    "source": [
-    "cahkl(4, 1, 0)"
+    "cahkl_table((4, 0, 0), (4, 4, 0))"
    ]
   },
   {
@@ -502,20 +514,9 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 12,
+   "execution_count": null,
    "metadata": {},
-   "outputs": [
-    {
-     "data": {
-      "text/plain": [
-       "MoveStatus(done=True, pos=tardis, elapsed=0.0, success=True, settle_time=0.0)"
-      ]
-     },
-     "execution_count": 12,
-     "metadata": {},
-     "output_type": "execute_result"
-    }
-   ],
+   "outputs": [],
    "source": [
     "tardis.move(4, 1, 0)"
    ]
@@ -529,19 +530,9 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 13,
+   "execution_count": null,
    "metadata": {},
-   "outputs": [
-    {
-     "name": "stdout",
-     "output_type": "stream",
-     "text": [
-      "h=4.0, k=1.0, l=0\n",
-      "wavelength=1.61198\n",
-      "theta=40.2199, mu=0, chi=0, phi=0, delta=56.097, gamma=-1.0837\n"
-     ]
-    }
-   ],
+   "outputs": [],
    "source": [
     "wh()"
    ]
@@ -555,33 +546,9 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 14,
+   "execution_count": null,
    "metadata": {},
-   "outputs": [
-    {
-     "name": "stdout",
-     "output_type": "stream",
-     "text": [
-      "diffractometer='tardis'\n",
-      "HklSolver(name='hkl_soleil', version='5.1.2', geometry='E6C', engine_name='hkl', mode='lifting_detector_mu')\n",
-      "Sample(name='cmazzoli', lattice=Lattice(a=9.069, c=10.39, gamma=120.0, system='hexagonal'))\n",
-      "Reflection(name='r1', h=3, k=3, l=0)\n",
-      "Reflection(name='r2', h=5, k=2, l=0)\n",
-      "Orienting reflections: ['r1', 'r2']\n",
-      "U=[[0.391544524019, -0.919974864499, 0.018415602128], [0.919884370594, 0.391838271968, 0.016598595077], [-0.022486227972, 0.010441135564, 0.999692628881]]\n",
-      "UB=[[0.313235509421, -0.480759304678, 0.011136539049], [0.735907238528, 0.639427042267, 0.010037733273], [-0.017988976072, -0.001760659657, 0.604548030557]]\n",
-      "constraint: -181.0 <= theta <= 181.0\n",
-      "constraint: 0.0 <= mu <= 0.0\n",
-      "constraint: 0.0 <= chi <= 0.0\n",
-      "constraint: 0.0 <= phi <= 0.0\n",
-      "constraint: -5.0 <= delta <= 180.0\n",
-      "constraint: -5.0 <= gamma <= 180.0\n",
-      "h=4.0, k=1.0, l=0\n",
-      "wavelength=1.61198\n",
-      "theta=40.2199, mu=0, chi=0, phi=0, delta=56.097, gamma=-1.0837\n"
-     ]
-    }
-   ],
+   "outputs": [],
    "source": [
     "pa()"
    ]

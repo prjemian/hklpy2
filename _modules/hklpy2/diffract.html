@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../../_static/documentation_options.js?v=485d0293"></script>
+    <script src="../../_static/documentation_options.js?v=26ffa1e9"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/design-tabs.js?v=f930bc37"></script>
@@ -372,11 +372,13 @@
 <span class="sd">    ~creator</span>
 <span class="sd">    ~diffractometer_class_factory</span>
 <span class="sd">    ~DiffractometerBase</span>
+<span class="sd">    ~Hklpy2PseudoAxis</span>
 <span class="sd">    ~pick_first_item</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">pathlib</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">yaml</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">ophyd</span><span class="w"> </span><span class="kn">import</span> <span class="n">Component</span> <span class="k">as</span> <span class="n">Cpt</span>
@@ -397,7 +399,6 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">.misc</span><span class="w"> </span><span class="kn">import</span> <span class="n">DiffractometerError</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.misc</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_yaml_file</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.misc</span><span class="w"> </span><span class="kn">import</span> <span class="n">roundoff</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">.wavelength_support</span><span class="w"> </span><span class="kn">import</span> <span class="n">DEFAULT_WAVELENGTH</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.wavelength_support</span><span class="w"> </span><span class="kn">import</span> <span class="n">MonochromaticXrayWavelength</span>
 
 <div class="viewcode-block" id="__all__">
@@ -447,14 +448,14 @@
 
 
 
-<div class="viewcode-block" id="DiffractometerPseudo">
-<a class="viewcode-back" href="../../autoapi/hklpy2/diffract/index.html#hklpy2.diffract.DiffractometerPseudo">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">DiffractometerPseudo</span><span class="p">(</span><span class="n">PseudoSingle</span><span class="p">):</span>
+<div class="viewcode-block" id="Hklpy2PseudoAxis">
+<a class="viewcode-back" href="../../autoapi/hklpy2/diffract/index.html#hklpy2.diffract.Hklpy2PseudoAxis">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Hklpy2PseudoAxis</span><span class="p">(</span><span class="n">PseudoSingle</span><span class="p">):</span>
     <span class="s2">&quot;Override to allow additional pseudos.&quot;</span>
 
     <span class="nd">@required_for_connection</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">{device.name}</span><span class="s2"> readback subscription&quot;</span><span class="p">)</span>
-<div class="viewcode-block" id="DiffractometerPseudo._sub_proxy_readback">
-<a class="viewcode-back" href="../../autoapi/hklpy2/diffract/index.html#hklpy2.diffract.DiffractometerPseudo._sub_proxy_readback">[docs]</a>
+<div class="viewcode-block" id="Hklpy2PseudoAxis._sub_proxy_readback">
+<a class="viewcode-back" href="../../autoapi/hklpy2/diffract/index.html#hklpy2.diffract.Hklpy2PseudoAxis._sub_proxy_readback">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">_sub_proxy_readback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Parent callbacks including a position value will be filtered through</span>
 <span class="sd">        this function and re-broadcast using only the relevant position to this</span>
@@ -589,7 +590,7 @@
 
 <div class="viewcode-block" id="DiffractometerBase._source">
 <a class="viewcode-back" href="../../autoapi/hklpy2/diffract/index.html#hklpy2.diffract.DiffractometerBase._source">[docs]</a>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_source</span> <span class="o">=</span> <span class="n">MonochromaticXrayWavelength</span><span class="p">(</span><span class="n">DEFAULT_WAVELENGTH</span><span class="p">)</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_source</span> <span class="o">=</span> <span class="n">MonochromaticXrayWavelength</span><span class="p">()</span></div>
 
 
 <div class="viewcode-block" id="DiffractometerBase.core">
@@ -875,16 +876,18 @@
     <span class="k">def</span><span class="w"> </span><span class="nf">scan_extra</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">detectors</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span>
-        <span class="n">axis</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>  <span class="c1"># name of extra parameter to be scanned</span>
-        <span class="n">start</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">finish</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">num</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span>
+        <span class="n">axis</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>  <span class="c1"># name of extra parameter to be scanned</span>
+        <span class="n">start</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">finish</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">num</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span>
         <span class="o">*</span><span class="p">,</span>
-        <span class="n">pseudos</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>  <span class="c1"># h, k, l</span>
-        <span class="n">reals</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>  <span class="c1"># angles</span>
-        <span class="n">extras</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{},</span>  <span class="c1"># define all but the &#39;axis&#39;, these will remain constant</span>
-        <span class="n">fail_on_exception</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-        <span class="n">md</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">pseudos</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>  <span class="c1"># h, k, l</span>
+        <span class="n">reals</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>  <span class="c1"># angles</span>
+        <span class="n">extras</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span>
+            <span class="nb">dict</span>
+        <span class="p">]</span> <span class="o">=</span> <span class="p">{},</span>  <span class="c1"># define all but the &#39;axis&#39;, these will remain constant</span>
+        <span class="n">fail_on_exception</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">md</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Scan one extra diffractometer parameter, such as &#39;psi&#39;.</span>
@@ -912,13 +915,12 @@
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">detectors</span><span class="si">=}</span><span class="s2"> is not iterable.&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">axis</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">extra_axis_names</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">axis</span><span class="si">!r}</span><span class="s2"> not in </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">extra_axis_names</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">pseudos</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">reals</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Must define either pseudos or reals.&quot;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">pseudos</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">reals</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Cannot define both pseudos and reals.&quot;</span><span class="p">)</span>
-
         <span class="k">if</span> <span class="n">reals</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Inverse transformation.&quot;</span><span class="p">)</span>  <span class="c1"># FIXME: #37</span>
+        <span class="k">if</span> <span class="n">pseudos</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">reals</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Must define either pseudos or reals.&quot;</span><span class="p">)</span>
+        <span class="c1"># if pseudos is not None and reals is not None:  # TODO: #37</span>
+        <span class="c1">#     raise ValueError(&quot;Cannot define both pseudos and reals.&quot;)</span>
 
         <span class="n">_md</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s2">&quot;diffractometer&quot;</span><span class="p">:</span> <span class="p">{</span>
@@ -990,7 +992,7 @@
                     <span class="k">if</span> <span class="n">fail_on_exception</span><span class="p">:</span>
                         <span class="k">raise</span> <span class="n">reason</span>
                     <span class="k">else</span><span class="p">:</span>
-                        <span class="c1"># Needs a special test for this output.</span>
+                        <span class="c1"># Scan psi beyond limits will trigger this code.</span>
                         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;FAIL: </span><span class="si">{</span><span class="n">axis</span><span class="si">}</span><span class="s2">=</span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">reason</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>  <span class="c1"># Inform the user!</span>
 
         <span class="k">return</span> <span class="p">(</span><span class="k">yield from</span> <span class="n">_inner</span><span class="p">())</span></div>
@@ -1281,7 +1283,7 @@
 
     <span class="k">def</span><span class="w"> </span><span class="nf">make_component</span><span class="p">(</span><span class="n">axis_type</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">[],</span> <span class="n">pv</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">axis_type</span> <span class="o">==</span> <span class="s2">&quot;pseudo&quot;</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">DiffractometerPseudo</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">H_OR_N</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">Hklpy2PseudoAxis</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">H_OR_N</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">axis_type</span> <span class="o">==</span> <span class="s2">&quot;real&quot;</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">pv</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="k">return</span> <span class="n">Cpt</span><span class="p">(</span>

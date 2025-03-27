@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=485d0293"></script>
+    <script src="../_static/documentation_options.js?v=26ffa1e9"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
@@ -499,7 +499,7 @@ are <em>eV</em>, wavelength units are <em>angstrom</em>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">hklpy2</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">hklpy2.user</span><span class="w"> </span><span class="kn">import</span> <span class="n">add_sample</span><span class="p">,</span> <span class="n">calc_UB</span><span class="p">,</span> <span class="n">cahkl</span><span class="p">,</span> <span class="n">pa</span><span class="p">,</span> <span class="n">set_diffractometer</span><span class="p">,</span> <span class="n">setor</span><span class="p">,</span> <span class="n">wh</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">hklpy2.user</span><span class="w"> </span><span class="kn">import</span> <span class="n">add_sample</span><span class="p">,</span> <span class="n">calc_UB</span><span class="p">,</span> <span class="n">cahkl</span><span class="p">,</span> <span class="n">cahkl_table</span><span class="p">,</span> <span class="n">pa</span><span class="p">,</span> <span class="n">set_diffractometer</span><span class="p">,</span> <span class="n">setor</span><span class="p">,</span> <span class="n">wh</span>
 
 <span class="n">tardis</span> <span class="o">=</span> <span class="n">hklpy2</span><span class="o">.</span><span class="n">creator</span><span class="p">(</span>
     <span class="n">name</span><span class="o">=</span><span class="s2">&quot;tardis&quot;</span><span class="p">,</span>
@@ -633,8 +633,8 @@ any order we choose.</p>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-C66">#hklpy2 configuration file</span>
 
 _header:
-  datetime: <span class=" -Color -Color-Yellow">&#39;2025-03-11 14:51:41.087348&#39;</span>
-  hklpy2_version: <span class=" -Color -Color-Green">0.0.28</span>.dev22+gdba3850.d20250311
+  datetime: <span class=" -Color -Color-Yellow">&#39;2025-03-26 19:16:38.839911&#39;</span>
+  hklpy2_version: <span class=" -Color -Color-Green">0.0.28</span>.dev104+g1a2d5d7.d20250327
   python_class: Hklpy2Diffractometer
   source_type: X-ray
   energy_units: eV
@@ -680,7 +680,7 @@ samples:
       gamma: <span class=" -Color -Color-Green">90.0</span>
     reflections: {}
     reflections_order: []
-    U: &amp;id001
+    U:
     - - <span class=" -Color -Color-Green">1</span>
       - <span class=" -Color -Color-Green">0</span>
       - <span class=" -Color -Color-Green">0</span>
@@ -690,7 +690,16 @@ samples:
     - - <span class=" -Color -Color-Green">0</span>
       - <span class=" -Color -Color-Green">0</span>
       - <span class=" -Color -Color-Green">1</span>
-    UB: *id001
+    UB:
+    - - <span class=" -Color -Color-Green">6.283185307179586</span>
+      - <span class=" -Color -Color-Green">0.0</span>
+      - <span class=" -Color -Color-Green">0.0</span>
+    - - <span class=" -Color -Color-Green">0.0</span>
+      - <span class=" -Color -Color-Green">6.283185307179586</span>
+      - <span class=" -Color -Color-Green">0.0</span>
+    - - <span class=" -Color -Color-Green">0.0</span>
+      - <span class=" -Color -Color-Green">0.0</span>
+      - <span class=" -Color -Color-Green">6.283185307179586</span>
     digits: <span class=" -Color -Color-Green">4</span>
   cmazzoli:
     name: cmazzoli
@@ -811,10 +820,10 @@ solver:
 </section>
 <section id="calculate-motor-positions-for-hkl">
 <h1>Calculate motor positions for <em>hkl</em><a class="headerlink" href="#calculate-motor-positions-for-hkl" title="Link to this heading">#</a></h1>
-<p><strong>Only</strong> calculate the motor positions, does not move them.</p>
+<p><strong>Just</strong> calculate the motor positions.  These commands do not move the motors.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cahkl</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cahkl</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -826,12 +835,17 @@ solver:
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cahkl</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cahkl_table</span><span class="p">((</span><span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Hklpy2DiffractometerRealPos(theta=40.219920037459, mu=0, chi=0, phi=0, delta=56.097041918285, gamma=-1.083660865505)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>======= = ======= == === === ======= =======
+(hkl)   # theta   mu chi phi delta   gamma  
+======= = ======= == === === ======= =======
+(4 0 0) 1 47.2988 0  0   0   48.4622 -1.0578
+(4 4 0) 1 38.3762 0  0   0   90.6303 -1.1613
+======= = ======= == === === ======= =======
 </pre></div>
 </div>
 </div>
@@ -845,11 +859,6 @@ solver:
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>MoveStatus(done=True, pos=tardis, elapsed=0.0, success=True, settle_time=0.0)
-</pre></div>
-</div>
-</div>
 </div>
 <p>Where is the <em>tardis</em> now?</p>
 <div class="cell docutils container">
@@ -858,39 +867,11 @@ solver:
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>h=4.0, k=1.0, l=0
-wavelength=1.61198
-theta=40.2199, mu=0, chi=0, phi=0, delta=56.097, gamma=-1.0837
-</pre></div>
-</div>
-</div>
 </div>
 <p>Show more details.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pa</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>diffractometer=&#39;tardis&#39;
-HklSolver(name=&#39;hkl_soleil&#39;, version=&#39;5.1.2&#39;, geometry=&#39;E6C&#39;, engine_name=&#39;hkl&#39;, mode=&#39;lifting_detector_mu&#39;)
-Sample(name=&#39;cmazzoli&#39;, lattice=Lattice(a=9.069, c=10.39, gamma=120.0, system=&#39;hexagonal&#39;))
-Reflection(name=&#39;r1&#39;, h=3, k=3, l=0)
-Reflection(name=&#39;r2&#39;, h=5, k=2, l=0)
-Orienting reflections: [&#39;r1&#39;, &#39;r2&#39;]
-U=[[0.391544524019, -0.919974864499, 0.018415602128], [0.919884370594, 0.391838271968, 0.016598595077], [-0.022486227972, 0.010441135564, 0.999692628881]]
-UB=[[0.313235509421, -0.480759304678, 0.011136539049], [0.735907238528, 0.639427042267, 0.010037733273], [-0.017988976072, -0.001760659657, 0.604548030557]]
-constraint: -181.0 &lt;= theta &lt;= 181.0
-constraint: 0.0 &lt;= mu &lt;= 0.0
-constraint: 0.0 &lt;= chi &lt;= 0.0
-constraint: 0.0 &lt;= phi &lt;= 0.0
-constraint: -5.0 &lt;= delta &lt;= 180.0
-constraint: -5.0 &lt;= gamma &lt;= 180.0
-h=4.0, k=1.0, l=0
-wavelength=1.61198
-theta=40.2199, mu=0, chi=0, phi=0, delta=56.097, gamma=-1.0837
 </pre></div>
 </div>
 </div>
