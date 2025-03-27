@@ -25,8 +25,9 @@ Simplified interface for |hklpy2| diffractometer users.
 """
 
 import uuid
-from collections import namedtuple
 from typing import Union
+
+from pyRestTable import Table
 
 from .blocks.lattice import Lattice
 from .blocks.reflection import Reflection
@@ -171,7 +172,7 @@ def cahkl(h: float, k: float, l: float):  # noqa: E741
     )
 
 
-def cahkl_table(*reflections: list[AxesTuple], digits=5):
+def cahkl_table(*reflections: list[AxesTuple], digits=4):
     """
     Print a table with motor positions for each reflection given.
 
@@ -180,16 +181,23 @@ def cahkl_table(*reflections: list[AxesTuple], digits=5):
     .. code-block:: python
         :linenos:
 
-        >>> cahkl_table((1, 1, 0), (1, 1, 1), (1,0,0), (0,1,0), (1,-1,1))
-        =========================== ======== ======== ========= ========= ========
-        (hkl)                       solution omega    chi       phi       tth
-        =========================== ======== ======== ========= ========= ========
-        HklPosition(h=1, k=1, l=0)  0        -9.98038 0.0       -25.02325 19.96077
-        HklPosition(h=1, k=1, l=1)  0        12.25493 -35.26438 -44.98402 24.50985
-        HklPosition(h=1, k=0, l=0)  0        7.03925  0.0       0.01596   14.07851
-        HklPosition(h=0, k=1, l=0)  0        -7.03925 0.0       -75.90549 14.07851
-        HklPosition(h=1, k=-1, l=1) 0        12.25492 -35.26441 45.01598  24.50984
-        =========================== ======== ======== ========= ========= ========
+        >>> cahkl_table((1, 1, 0), (1, 1, 1))
+        ======= = ====== ========= ====== ======
+        (hkl)   # omega  chi       phi    tth
+        ======= = ====== ========= ====== ======
+        (1 1 0) 1 45.0   45.0      90.0   90.0
+        (1 1 0) 2 -45.0  -45.0     -90.0  -90.0
+        (1 1 0) 3 45.0   135.0     -90.0  90.0
+        (1 1 0) 4 -135.0 -45.0     -90.0  90.0
+        (1 1 0) 5 -45.0  -135.0    90.0   -90.0
+        (1 1 0) 6 -135.0 -135.0    90.0   90.0
+        (1 1 1) 1 60.0   35.2644   45.0   120.0
+        (1 1 1) 2 -60.0  -35.2644  -135.0 -120.0
+        (1 1 1) 3 -60.0  -144.7356 45.0   -120.0
+        (1 1 1) 4 -120.0 -35.2644  -135.0 120.0
+        (1 1 1) 5 -120.0 -144.7356 45.0   120.0
+        (1 1 1) 6 60.0   144.7356  -135.0 120.0
+        ======= = ====== ========= ====== ======
 
     Parameters
     ----------
@@ -204,10 +212,23 @@ def cahkl_table(*reflections: list[AxesTuple], digits=5):
         Number of digits to roundoff each position
         value.  Default is 5.
     """
+
+    def brief(input: dict[str, (float | int)]) -> list[(float | int)]:
+        return [round(v, digits) for v in input.values()]
+
     core = get_diffractometer().core
-    PseudoTuple = namedtuple("PseudoTuple", "h k l".split())
-    reflections = [PseudoTuple(*r) for r in reflections]
-    print(core.forward_solutions_table(reflections, digits=digits))
+    reals = get_diffractometer().real_axis_names
+    table = Table()
+    table.labels = ["(hkl)", "#"] + reals
+    for r in reflections:
+        r = core.standardize_pseudos(r)
+        rstr = "(" + " ".join([str(v) for v in brief(r)]) + ")"
+        i = 0
+        for solution in core.forward(r):
+            i += 1
+            s = core.standardize_reals(solution)
+            table.addRow([rstr, i] + brief(s))
+    print(table)
 
 
 def calc_UB(
