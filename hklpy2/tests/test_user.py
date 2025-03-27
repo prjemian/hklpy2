@@ -118,18 +118,21 @@ def test_cahkl_table(fourc, capsys):
     out, err = capsys.readouterr()
     assert len(err) == 0
 
-    expected = """
-    ========= ======== ===== === === ===
-    (hkl)     solution omega chi phi tth
-    ========= ======== ===== === === ===
-    (1, 0, 0) 0        30    0   90  60
-    (0, 1, 0) 0        30    90  0   60
-    ========= ======== ===== === === ===
-    """.strip().splitlines()
-    for el, rl in list(zip(expected[3:5], out.strip().splitlines()[3:5])):
-        # just compare the position values
-        for e, r in list(zip(el.split()[-4:], rl.split()[-4:])):
-            assert float(r) == float(e)
+    expected = "\n".join(
+        [
+            "======= = ====== ====== ===== ====",
+            "(hkl)   # omega  chi    phi   tth ",
+            "======= = ====== ====== ===== ====",
+            "(1 0 0) 1 30.0   0.0    90.0  60.0",
+            "(1 0 0) 2 -150.0 -0.0   -90.0 60.0",
+            "(1 0 0) 3 30.0   180.0  -90.0 60.0",
+            "(1 0 0) 4 -150.0 -180.0 90.0  60.0",
+            "(0 1 0) 1 30.0   90.0   0     60.0",
+            "(0 1 0) 2 -150.0 -90.0  0     60.0",
+            "======= = ====== ====== ===== ====",
+        ]
+    )
+    assert expected == out.strip(), f"{out.strip()}"
 
 
 def test_calc_UB(fourc):

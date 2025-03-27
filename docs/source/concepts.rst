@@ -45,9 +45,14 @@ Transformations
 ==========  =========   ============== ================
 from        to          solution(s)     transformation
 ==========  =========   ============== ================
-*reals*     *pseudos*   1              :meth:`~hklpy2.diffract.DiffractometerBase.inverse()`
-*pseudos*   *reals*     0, 1, or more  :meth:`~hklpy2.diffract.DiffractometerBase.forward()`
+*reals*     *pseudos*   1              :meth:`hklpy2.diffract.DiffractometerBase.inverse()`
+*pseudos*   *reals*     1 or exception :meth:`hklpy2.diffract.DiffractometerBase.forward()`
+*pseudos*   *reals*     0, 1 or more   :meth:`hklpy2.ops.Core.forward()`
 ==========  =========   ============== ================
+
+.. note:: The diffractometer's `forward()` method picks the default solution from
+   the list returned from ``core.forward()``.  Initially, the first solution in
+   the list is chosen.
 
 Solvers
 ===============

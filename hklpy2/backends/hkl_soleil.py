@@ -264,7 +264,7 @@ class HklSolver(SolverBase):
         """
         HKL real axis names.
 
-                Updated by 'forward()' computation.
+        Updated by 'forward()' computation.
         """
         return self.engine.axis_names_get(AXES_WRITTEN)  # Do NOT sort.
 
