@@ -339,3 +339,22 @@ def test_signature(solver: str, geometry: str):
     assert isinstance(signature, str)
     assert solver in signature
     assert geometry in signature
+
+
+@pytest.mark.parametrize(
+    "solver, geometry, mode",
+    [
+        ["hkl_soleil", "E4CV", "bissector"],
+        ["hkl_soleil", "E4CV", "double_diffraction"],
+        ["th_tth", "TH TTH Q", "bissector"],
+    ],
+)
+def test_modes(solver: str, geometry: str, mode: str):
+    sim = creator(name="sim", solver=solver, geometry=geometry)
+    assert isinstance(sim, DiffractometerBase)
+    core = sim.core
+    assert isinstance(core, Core)
+
+    assert mode in core.modes  # Is it available?
+    core.mode = mode  # Set it.
+    assert core.mode == mode  # Check it.

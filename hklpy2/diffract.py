@@ -404,7 +404,11 @@ class DiffractometerBase(PseudoPositioner):
                 )
             )
         """
-        self.core.solver.extras = extras  # must come first
+        if self.core.solver.mode != self.core.mode:
+            self.core._solver_needs_update = True  # force the update
+            self.core.update_solver()
+
+        self.core.solver.extras = extras  # before forward()
         solution = self.forward(self.core.standardize_pseudos(pseudos))
         yield from self.move_dict(solution)
 
@@ -453,6 +457,8 @@ class DiffractometerBase(PseudoPositioner):
 
         from .misc import dict_device_factory
 
+        self.core.update_solver()
+
         # validate
         if not isinstance(detectors, Iterable):
             raise TypeError(f"{detectors=} is not iterable.")
@@ -470,7 +476,7 @@ class DiffractometerBase(PseudoPositioner):
                 "name": self.name,
                 "geometry": self.core.solver.geometry,
                 "engine": self.core.solver.engine_name,
-                "mode": self.core.solver.mode,
+                "mode": self.core.mode,
                 "extra_axes": self.core.solver.extra_axis_names,
             },
             "axis": axis,

@@ -222,7 +222,7 @@ def test_diffractometer_wh(capsys):
     assert lines[0].startswith("h=")
     assert lines[2].startswith("omega=")
 
-    e4cv.core.solver.mode = "psi_constant"
+    e4cv.core.mode = "psi_constant"
     e4cv.wh(full=True)
     captured = capsys.readouterr()
     lines = captured.out.splitlines()
@@ -276,7 +276,7 @@ def test_full_position(mode, keys, context, expected, config_file):
     with context as reason:
         fourc = creator(name="fourc")
         fourc.restore(HKLPY2_DIR / "tests" / config_file)
-        fourc.core.solver.mode = mode
+        fourc.core.mode = mode
         pos = fourc.full_position()
         assert isinstance(pos, dict)
 
@@ -300,9 +300,9 @@ def test_move_forward_with_extras(pseudos, extras, mode, context, expected):
 
     fourc = creator(name="fourc")
     fourc.restore(HKLPY2_DIR / "tests" / "e4cv_orient.yml")
-    fourc.core.solver.mode = mode
+    fourc.core.mode = mode
     # fourc.wavelength.put(6)
-    assert fourc.core.solver.mode == mode
+    assert fourc.core.mode == mode
 
     RE = bluesky.RunEngine()
 
@@ -620,8 +620,8 @@ def test_scan_extra(scan_kwargs, mode, context, expected):
 
     fourc = creator(name="fourc")
     fourc.restore(HKLPY2_DIR / "tests" / "e4cv_orient.yml")
-    fourc.core.solver.mode = mode
-    assert fourc.core.solver.mode == mode
+    fourc.core.mode = mode
+    assert fourc.core.mode == mode
 
     RE = bluesky.RunEngine()
 
@@ -657,8 +657,8 @@ def test_scan_extra_print_fail(scan_kwargs, mode, context, expected, capsys):
 
     fourc = creator(name="fourc")
     fourc.restore(HKLPY2_DIR / "tests" / "e4cv_orient.yml")
-    fourc.core.solver.mode = mode
-    assert fourc.core.solver.mode == mode
+    fourc.core.mode = mode
+    assert fourc.core.mode == mode
 
     RE = bluesky.RunEngine()
 
@@ -708,7 +708,7 @@ def test_e4cv_constant_phi():
     # Approximate the code presented as the example problem.
     refl = dict(h=1, k=1, l=1)
 
-    e4cv.core.solver.mode = "constant_phi"
+    e4cv.core.mode = "constant_phi"
     CONSTANT_PHI = 23.4567
     e4cv.phi.move(CONSTANT_PHI)
 

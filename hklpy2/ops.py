@@ -74,6 +74,8 @@ class Core:
 
     .. autosummary::
 
+        ~mode
+        ~modes
         ~sample
         ~solver
         ~solver_signature
@@ -87,6 +89,7 @@ class Core:
         # values: solver axis names
         self.axes_xref = {}
         self.diffractometer = diffractometer
+        self._mode = None
         self._sample_name = None
         self._samples = {}
         self._solver = None
@@ -443,6 +446,26 @@ class Core:
             for k in self.solver.real_axis_names
         ]
 
+    @property
+    def mode(self) -> str:
+        """Return the current computation mode."""
+        if self._mode is None:
+            self._mode = self.solver.mode
+            self._solver_needs_update = True
+        return self._mode
+
+    @mode.setter
+    def mode(self, value: str) -> None:
+        """Set the computation mode to be used."""
+        if value in self.modes:
+            self._mode = value
+            self._solver_needs_update = True
+
+    @property
+    def modes(self) -> list[str]:
+        """Return the list of available |solver| modes."""
+        return self.solver.modes
+
     def refine_lattice(self, reflections: list = None) -> Lattice:
         """
         Return the sample lattice computed from 3 or more reflections.
@@ -551,6 +574,7 @@ class Core:
                 self.solver.UB = self.sample.UB
             except AttributeError:
                 pass  # Some solvers have no setter for U & UB
+            self.solver.mode = self.mode
             self._solver_needs_update = False
 
     # ---- get/set properties
