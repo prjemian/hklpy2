@@ -74,7 +74,6 @@ class Core:
 
     .. autosummary::
 
-        ~geometry
         ~sample
         ~solver
         ~solver_signature
@@ -555,11 +554,6 @@ class Core:
             self._solver_needs_update = False
 
     # ---- get/set properties
-
-    @property
-    def geometry(self) -> str:
-        """Backend |solver| geometry name."""
-        return self.solver.geometry
 
     @property
     def sample(self) -> Sample:
