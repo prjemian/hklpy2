@@ -74,9 +74,9 @@ class Core:
 
     .. autosummary::
 
-        ~geometry
         ~sample
         ~solver
+        ~solver_signature
     """
 
     from .blocks.sample import Sample
@@ -556,11 +556,6 @@ class Core:
     # ---- get/set properties
 
     @property
-    def geometry(self) -> str:
-        """Backend |solver| geometry name."""
-        return self.solver.geometry
-
-    @property
     def sample(self) -> Sample:
         """Current Sample (Python object)."""
         return self.samples[self._sample_name]
@@ -579,6 +574,11 @@ class Core:
     def samples(self) -> dict:
         """Sample dictionary."""
         return self._samples
+
+    @property
+    def solver_signature(self) -> str:
+        """Return 'repr(self.solver)' for use as ophyd.AttributeSignal."""
+        return repr(self.solver)
 
     @property
     def solver(self) -> SolverBase:

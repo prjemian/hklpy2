@@ -231,13 +231,12 @@ and :attr:`~hklpy2.ops.Core.sample`)
     ~hklpy2.diffract.DiffractometerBase.add_sample (method)
     ~hklpy2.diffract.DiffractometerBase.sample (property)
     ~hklpy2.diffract.DiffractometerBase.samples (property)
+    ~hklpy2.diffract.DiffractometerBase.solver_name (property)
 
 .. rubric:: Solver-related methods and properties
 .. autosummary::
 
-    ~hklpy2.diffract.DiffractometerBase.geometry (ophyd Signal)
-    ~hklpy2.diffract.DiffractometerBase.solver (property)
-    ~hklpy2.diffract.DiffractometerBase.solver_name (ophyd Signal)
+    ~hklpy2.diffract.DiffractometerBase.solver_signature (ophyd AttributeSignal)
 
 .. rubric:: Related methods and properties from other classes
 .. autosummary::

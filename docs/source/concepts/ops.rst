@@ -25,7 +25,7 @@ Python class                                    Purpose
 In addition to |solver| transactions, the ``.core`` manages all
 details involving the set of samples and their lattices & reflections.
 
-Here, we use the :func:`~hklpy2.geom.creator()` to create a simulated 4-circle
+Here, we use the :func:`~hklpy2.diffract.creator()` to create a simulated 4-circle
 diffractometer with the :ref:`E4CV <geometries-hkl_soleil-e4cv>` geometry.
 
 EXAMPLE::
@@ -49,23 +49,29 @@ EXAMPLE::
     key diffractometer features as Python properties.  This enables their
     inclusion in the :class:`~hklpy2.diffract.DiffractometerBase` class
     using ophyd `AttributeSignal <https://github.com/bluesky/ophyd/blob/5c03c3fff974dc6390836fc83dae4c247a35e662/ophyd/signal.py#L2192>`_.
-    One such example is the |solver| geometry name::
+    One such example is the |solver| geometry name:
 
-        geometry = Cpt(
+    .. code-block:: Python
+        :linenos:
+
+        solver_signature = Cpt(
             AttributeSignal,
-            attr="core.geometry",
-            doc="Name of backend |solver| geometry.",
+            attr="core.solver_signature",
+            doc="Description of diffractometer's |solver|.",
             write_access=False,
             kind="config",
         )
-        """Name of backend |solver| geometry."""
+        """Name of backend |solver| (library)."""
 
     Using the ``e4cv`` simulator, the property is::
 
-        >>> e4cv.core.geometry
-        'E4CV'
+        >>> e4cv.core.solver_signature
+        "HklSolver(name='hkl_soleil', version='5.1.2', geometry='E4CV', engine_name='hkl', mode='bissector')"
 
-    From the ophyd diffractometer object reports this:
+    The diffractometer object reports the same:
 
-        >>> e4cv.geometry.get()
-        'E4CV'
+        >>> e4cv.solver_signature.get()
+        "HklSolver(name='hkl_soleil', version='5.1.2', geometry='E4CV', engine_name='hkl', mode='bissector')"
+
+    The signal is assigned ``kind="config"``: so it shows up in the
+    data from the ``RE`` (in the ``descriptor`` document).
