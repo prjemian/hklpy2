@@ -320,3 +320,22 @@ def test_reset_samples():
     gonio.core.reset_samples()
     assert len(gonio.core.samples) == 1
     assert gonio.sample.name == DEFAULT_SAMPLE_NAME
+
+
+@pytest.mark.parametrize(
+    "solver, geometry",
+    [
+        ["hkl_soleil", "E4CV"],
+        ["th_tth", "TH TTH Q"],
+    ],
+)
+def test_signature(solver: str, geometry: str):
+    sim = creator(name="sim", solver=solver, geometry=geometry)
+    assert isinstance(sim, DiffractometerBase)
+    core = sim.core
+    assert isinstance(core, Core)
+
+    signature: str = core.solver_signature
+    assert isinstance(signature, str)
+    assert solver in signature
+    assert geometry in signature

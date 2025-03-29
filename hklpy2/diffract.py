@@ -106,8 +106,7 @@ class DiffractometerBase(PseudoPositioner):
 
     .. autosummary::
 
-        ~geometry
-        ~solver
+        ~solver_signature
         ~wavelength
 
     .. rubric:: Python Methods
@@ -138,21 +137,10 @@ class DiffractometerBase(PseudoPositioner):
         ~solver_name
     """
 
-    # solver
-
-    geometry = Cpt(
+    solver_signature = Cpt(
         AttributeSignal,
-        attr="core.geometry",
-        doc="Name of backend |solver| geometry.",
-        write_access=False,
-        kind="config",
-    )
-    """Name of backend |solver| geometry."""
-
-    solver = Cpt(
-        AttributeSignal,
-        attr="solver_name",
-        doc="Name of backend |solver| (library).",
+        attr="core.solver_signature",
+        doc="Description of diffractometer's |solver|.",
         write_access=False,
         kind="config",
     )

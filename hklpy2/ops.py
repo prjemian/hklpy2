@@ -77,6 +77,7 @@ class Core:
         ~geometry
         ~sample
         ~solver
+        ~solver_signature
     """
 
     from .blocks.sample import Sample
@@ -579,6 +580,11 @@ class Core:
     def samples(self) -> dict:
         """Sample dictionary."""
         return self._samples
+
+    @property
+    def solver_signature(self) -> str:
+        """Return 'repr(self.solver)' for use as ophyd.AttributeSignal."""
+        return repr(self.solver)
 
     @property
     def solver(self) -> SolverBase:
