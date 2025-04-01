@@ -287,7 +287,7 @@ def solver_summary(write=True):
     .. seealso:: :ref:`geometries.summary_tables`,
         :meth:`hklpy2.backends.base.SolverBase.summary()`
     """
-    table = get_diffractometer().core.solver.summary
+    table = get_diffractometer().core.solver_summary
     if write:
         print(table)
     else:

@@ -5,6 +5,7 @@ import uuid
 from collections import namedtuple
 from contextlib import nullcontext as does_not_raise
 
+import pyRestTable
 import pytest
 
 from ..diffract import DiffractometerBase
@@ -358,3 +359,18 @@ def test_modes(solver: str, geometry: str, mode: str):
     assert mode in core.modes  # Is it available?
     core.mode = mode  # Set it.
     assert core.mode == mode  # Check it.
+
+
+@pytest.mark.parametrize(
+    "solver, geometry",
+    [
+        ["hkl_soleil", "E4CV"],
+        ["hkl_soleil", "APS POLAR"],
+        ["th_tth", "TH TTH Q"],
+    ],
+)
+def test_solver_summary(solver: str, geometry: str):
+    sim = creator(name="sim", solver=solver, geometry=geometry)
+    assert isinstance(sim, DiffractometerBase)
+    summary = sim.core.solver_summary
+    assert isinstance(summary, pyRestTable.Table)

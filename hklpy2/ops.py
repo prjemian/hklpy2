@@ -79,6 +79,7 @@ class Core:
         ~sample
         ~solver
         ~solver_signature
+        ~solver_summary
     """
 
     from .blocks.sample import Sample
@@ -605,11 +606,16 @@ class Core:
         return self._samples
 
     @property
+    def solver(self) -> SolverBase:
+        """Backend |solver| object."""
+        return self._solver
+
+    @property
     def solver_signature(self) -> str:
         """Return 'repr(self.solver)' for use as ophyd.AttributeSignal."""
         return repr(self.solver)
 
     @property
-    def solver(self) -> SolverBase:
-        """Backend |solver| object."""
-        return self._solver
+    def solver_summary(self) -> str:
+        """Return table of solver's geometry (modes, axes).."""
+        return self.solver.summary

@@ -580,7 +580,7 @@ class HklSolver(SolverBase):
         EXAMPLE::
 
             >>> fourc = hklpy2.creator(name="fourc", geometry="E4CV")
-            >>> print(fourc.core.solver.summary)
+            >>> print(fourc.core.solver_summary)
             ========= ================== ================== ==================== ==================== ===============
             engine    mode               pseudo(s)          real(s)              writable(s)          extra(s)
             ========= ================== ================== ==================== ==================== ===============
