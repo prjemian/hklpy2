@@ -78,30 +78,32 @@ class Configuration:
 
         compare(
             config.get("solver", {}).get("name"),
-            self.diffractometer.core.solver.name,
+            self.diffractometer.core.solver.name,  # TODO #79
             "solver mismatch: incoming=%r existing=%r",
         )
         if "engine" in dir(self.diffractometer.core.solver):
             compare(
                 config.get("solver", {}).get("engine"),
-                self.diffractometer.core.solver.engine_name,
+                self.diffractometer.core.solver.engine_name,  # TODO #79
                 "engine mismatch: incoming=%r existing=%r",
             )
         compare(
             config.get("solver", {}).get("geometry"),
-            self.diffractometer.core.solver.geometry,
+            self.diffractometer.core.geometry,
             "geometry mismatch: incoming=%r existing=%r",
         )
         compare(
             config.get("axes", {}).get("pseudo_axes"),
             # ignore any extra pseudos
             self.diffractometer.pseudo_axis_names[
-                : len(self.diffractometer.core.solver.pseudo_axis_names)
+                : len(
+                    self.diffractometer.core.solver.pseudo_axis_names
+                )  # TODO #79
             ],
             "pseudo axis mismatch: incoming=%r existing=%r",
         )
         compare(
             config.get("solver", {}).get("real_axes"),
-            self.diffractometer.core.solver.real_axis_names,
+            self.diffractometer.core.solver.real_axis_names,  # TODO #79
             "solver real axis mismatch: incoming=%r existing=%r",
         )

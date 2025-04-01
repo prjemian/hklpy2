@@ -59,6 +59,7 @@ class Core:
         ~assign_axes
         ~calc_UB
         ~forward
+        ~geometries
         ~inverse
         ~local_pseudo_axes
         ~local_real_axes
@@ -74,6 +75,7 @@ class Core:
 
     .. autosummary::
 
+        ~geometry
         ~mode
         ~modes
         ~sample
@@ -384,6 +386,11 @@ class Core:
                 solutions.append(self.diffractometer.RealPosition(**reals))
 
         return solutions
+
+    def geometries(self) -> list[str]:
+        """Return all available |solver| geometries."""
+        # Not a @property since it's a classmethod of a Solver.
+        return self.solver.geometries()
 
     @property
     def geometry(self) -> str:

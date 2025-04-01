@@ -241,7 +241,7 @@ def test_diffractometer_wh(capsys):
     expected.append(f"{e4cv.pseudo_axis_names[0]}=")
     expected.append("wavelength=")
     expected.append(f"{e4cv.real_axis_names[0]}=")
-    extra_names = e4cv.core.solver.extra_axis_names
+    extra_names = e4cv.core.solver.extra_axis_names  # TODO #79
     if len(extra_names) > 0:
         expected.append(f"{extra_names[0]}=")
     assert len(lines) == len(expected), f"{captured.out=}"
@@ -398,7 +398,7 @@ def test_orientation():
     assert isinstance(result[0], list)
     assert isinstance(result[0][0], (float, int))
 
-    UB = fourc.core.solver.UB
+    UB = fourc.core.solver.UB  # TODO #79
     assert len(UB) == 3
 
     e = -1.157
@@ -679,7 +679,7 @@ def test_set_UB():
     fourc = creator(name="fourc")
 
     e = 6.28319  # 2 pi.
-    assert_almost_equal(
+    assert_almost_equal(  # TODO #79
         fourc.core.solver.UB,  # Default UB (sent to solver) is 2 pi I
         [[e, 0, 0], [0, e, 0], [0, 0, e]],
         3,
@@ -689,7 +689,7 @@ def test_set_UB():
     UBe = [[e, 0, 0], [0, e, 0], [0, 0, e]]
     fourc.sample.UB = UBe
     with pytest.raises(AssertionError) as exinfo:
-        assert_almost_equal(fourc.core.solver.UB, UBe, 2)
+        assert_almost_equal(fourc.core.solver.UB, UBe, 2)  # TODO #79
     assert "Arrays are not almost equal to 2 decimals" in str(exinfo)
 
     reals = dict(omega=130, chi=0, phi=90, tth=-100)
@@ -697,7 +697,7 @@ def test_set_UB():
     assert math.isclose(result.h, 1.0, abs_tol=0.001), f"{result=!r}"
     assert math.isclose(result.k, 0, abs_tol=0.001), f"{result=!r}"
     assert math.isclose(result.l, 0, abs_tol=0.001), f"{result=!r}"
-    assert_almost_equal(fourc.core.solver.UB, UBe, 3)
+    assert_almost_equal(fourc.core.solver.UB, UBe, 3)  # TODO #79
 
 
 def test_e4cv_constant_phi():
@@ -715,7 +715,7 @@ def test_e4cv_constant_phi():
     e4cv.core.constraints["phi"].limits = -180, 180
 
     # Check that phi is held constant in all forward solutions.
-    solutions = e4cv.core.solver.forward(refl)
+    solutions = e4cv.core.solver.forward(refl)  # TODO #79
     assert isinstance(solutions, list)
     assert len(solutions) > 0
     for solution in solutions:

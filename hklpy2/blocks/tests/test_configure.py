@@ -60,7 +60,7 @@ twopi = 2 * math.pi
         ["samples.vibranium.U", e4cv.core.solver.U],
         ["samples.vibranium.UB", e4cv.core.solver.UB],
         ["solver.engine", e4cv.core.solver.engine_name],
-        ["solver.geometry", e4cv.core.solver.geometry],
+        ["solver.geometry", e4cv.core.geometry],
         ["solver.name", e4cv.core.solver.name],
         ["solver.real_axes", e4cv.core.solver.real_axis_names],
     ],
