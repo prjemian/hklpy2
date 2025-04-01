@@ -353,7 +353,7 @@ class DiffractometerBase(PseudoPositioner):
 
         pdict = self.position._asdict()
         pdict.update(self.real_position._asdict())
-        pdict.update(self.core.solver.extras)
+        pdict.update(self.core.solver.extras)  # TODO #79
         for k in pdict:
             pdict[k] = roundoff(pdict[k], digits)
         return pdict
@@ -408,7 +408,7 @@ class DiffractometerBase(PseudoPositioner):
             self.core._solver_needs_update = True  # force the update
             self.core.update_solver()
 
-        self.core.solver.extras = extras  # before forward()
+        self.core.solver.extras = extras  # before forward()  # TODO #79
         solution = self.forward(self.core.standardize_pseudos(pseudos))
         yield from self.move_dict(solution)
 
@@ -462,8 +462,10 @@ class DiffractometerBase(PseudoPositioner):
         # validate
         if not isinstance(detectors, Iterable):
             raise TypeError(f"{detectors=} is not iterable.")
-        if axis not in self.core.solver.extra_axis_names:
-            raise KeyError(f"{axis!r} not in {self.core.solver.extra_axis_names}")
+        if axis not in self.core.solver.extra_axis_names:  # TODO #79
+            raise KeyError(
+                f"{axis!r} not in {self.core.solver.extra_axis_names}"
+            )  # TODO #79
         if reals is not None:
             raise NotImplementedError("Inverse transformation.")  # FIXME: #37
         if pseudos is None and reals is None:
@@ -474,10 +476,10 @@ class DiffractometerBase(PseudoPositioner):
         _md = {
             "diffractometer": {
                 "name": self.name,
-                "geometry": self.core.solver.geometry,
-                "engine": self.core.solver.engine_name,
+                "solver_signature": self.core.solver_signature,
+                "geometry": self.core.geometry,
                 "mode": self.core.mode,
-                "extra_axes": self.core.solver.extra_axis_names,
+                "extra_axes": self.core.solver.extra_axis_names,  # TODO #79
             },
             "axis": axis,
             "start": start,
@@ -591,10 +593,10 @@ class DiffractometerBase(PseudoPositioner):
         self.core.sample = value
 
     @property
-    def solver_name(self):
+    def solver_name(self):  # TODO #79 keep?
         """Backend |solver| library name."""
         if self.core is not None and self.core.solver is not None:
-            return self.core.solver.name
+            return self.core.solver.name  # TODO #79
         return ""
 
     def wh(self, digits=4, full=False):
@@ -622,7 +624,7 @@ class DiffractometerBase(PseudoPositioner):
         print(f"wavelength={self.wavelength.get()}")
         print_axes(self.real_axis_names)
 
-        extras = self.core.solver.extras
+        extras = self.core.solver.extras  # TODO #79
         if len(extras) > 0:
             print(" ".join([wh_round(k, v) for k, v in extras.items()]))
 

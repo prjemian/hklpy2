@@ -221,7 +221,7 @@ class Core:
         logger.debug(
             "name=%r, geometry=%r, wavelength=%r",
             name,
-            self.solver.geometry,
+            self.geometry,
             wavelength,
         )
 
@@ -241,7 +241,7 @@ class Core:
             pdict,
             rdict,
             wavelength,
-            self.solver.geometry,
+            self.geometry,
             pnames,
             rnames,
         )
@@ -383,6 +383,11 @@ class Core:
                 solutions.append(self.diffractometer.RealPosition(**reals))
 
         return solutions
+
+    @property
+    def geometry(self) -> str:
+        """Return the |solver| geometry."""
+        return self.solver.geometry
 
     def inverse(
         self, reals: Union[AnyAxesType, None], wavelength: float = None
