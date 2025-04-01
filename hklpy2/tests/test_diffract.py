@@ -241,7 +241,7 @@ def test_diffractometer_wh(capsys):
     expected.append(f"{e4cv.pseudo_axis_names[0]}=")
     expected.append("wavelength=")
     expected.append(f"{e4cv.real_axis_names[0]}=")
-    extra_names = e4cv.core.solver.extra_axis_names  # TODO #79
+    extra_names = e4cv.core.solver_extra_axis_names
     if len(extra_names) > 0:
         expected.append(f"{extra_names[0]}=")
     assert len(lines) == len(expected), f"{captured.out=}"

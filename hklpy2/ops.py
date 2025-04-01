@@ -80,6 +80,9 @@ class Core:
         ~modes
         ~sample
         ~solver
+        ~solver_extra_axis_names
+        ~solver_pseudo_axis_names
+        ~solver_real_axis_names
         ~solver_signature
         ~solver_summary
     """
@@ -578,7 +581,10 @@ class Core:
 
     def update_solver(self, wavelength: Optional[float] = None) -> None:
         """Update solver data if needed."""
-        if self._solver_needs_update or wavelength is not None:
+        if self.solver.mode != self.mode or wavelength is not None:
+            self._solver_needs_update = True  # force the update
+
+        if self._solver_needs_update:
             self.solver.sample = self.sample  # lattice & reflections
             self.solver.wavelength = wavelength or self.diffractometer.wavelength.get()
             # print(f"DEBUG update_solver(): {self.sample.UB=}")
@@ -616,6 +622,24 @@ class Core:
     def solver(self) -> SolverBase:
         """Backend |solver| object."""
         return self._solver
+
+    @property
+    def solver_extra_axis_names(self) -> list[str]:
+        """Ordered list of any |solver| extra axis names in current mode."""
+        self.update_solver()
+        return self.solver.extra_axis_names
+
+    @property
+    def solver_pseudo_axis_names(self) -> list[str]:
+        """Ordered list of |solver| pseudo axis names."""
+        self.update_solver()
+        return self.solver.pseudo_axis_names
+
+    @property
+    def solver_real_axis_names(self) -> list[str]:
+        """Ordered list of |solver| real axis names."""
+        self.update_solver()
+        return self.solver.real_axis_names
 
     @property
     def solver_signature(self) -> str:

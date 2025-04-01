@@ -97,13 +97,14 @@ class Configuration:
             # ignore any extra pseudos
             self.diffractometer.pseudo_axis_names[
                 : len(
-                    self.diffractometer.core.solver.pseudo_axis_names
-                )  # TODO #79
+                    # long line
+                    self.diffractometer.core.solver_pseudo_axis_names
+                )
             ],
             "pseudo axis mismatch: incoming=%r existing=%r",
         )
         compare(
             config.get("solver", {}).get("real_axes"),
-            self.diffractometer.core.solver.real_axis_names,  # TODO #79
+            self.diffractometer.core.solver_real_axis_names,
             "solver real axis mismatch: incoming=%r existing=%r",
         )

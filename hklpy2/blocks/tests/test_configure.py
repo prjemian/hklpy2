@@ -62,6 +62,7 @@ twopi = 2 * math.pi
         ["solver.engine", e4cv.core.solver.engine_name],
         ["solver.geometry", e4cv.core.geometry],
         ["solver.name", e4cv.core.solver.name],
+        ["solver.real_axes", e4cv.core.solver_real_axis_names],
         ["solver.real_axes", e4cv.core.solver.real_axis_names],
     ],
 )

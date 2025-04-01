@@ -378,11 +378,8 @@ class DiffractometerBase(PseudoPositioner):
         # Transform axes dict to args for bps.mv(position, value)
         moves = list(
             flatten_lists(
-                [
-                    [getattr(self, k), v]  # move the diffractometer axes
-                    for k, v in axes.items()
-                ]
-            )
+                [[getattr(self, k), v] for k, v in axes.items()]
+            )  # move the diffractometer axes
         )
         yield from bps.mv(*moves)
 
@@ -404,9 +401,7 @@ class DiffractometerBase(PseudoPositioner):
                 )
             )
         """
-        if self.core.solver.mode != self.core.mode:
-            self.core._solver_needs_update = True  # force the update
-            self.core.update_solver()
+        self.core.update_solver()
 
         self.core.solver.extras = extras  # before forward()  # TODO #79
         solution = self.forward(self.core.standardize_pseudos(pseudos))
@@ -462,10 +457,8 @@ class DiffractometerBase(PseudoPositioner):
         # validate
         if not isinstance(detectors, Iterable):
             raise TypeError(f"{detectors=} is not iterable.")
-        if axis not in self.core.solver.extra_axis_names:  # TODO #79
-            raise KeyError(
-                f"{axis!r} not in {self.core.solver.extra_axis_names}"
-            )  # TODO #79
+        if axis not in self.core.solver_extra_axis_names:
+            raise KeyError(f"{axis!r} not in {self.core.solver_extra_axis_names}")
         if reals is not None:
             raise NotImplementedError("Inverse transformation.")  # FIXME: #37
         if pseudos is None and reals is None:
@@ -479,7 +472,7 @@ class DiffractometerBase(PseudoPositioner):
                 "solver_signature": self.core.solver_signature,
                 "geometry": self.core.geometry,
                 "mode": self.core.mode,
-                "extra_axes": self.core.solver.extra_axis_names,  # TODO #79
+                "extra_axes": self.core.solver_extra_axis_names,
             },
             "axis": axis,
             "start": start,

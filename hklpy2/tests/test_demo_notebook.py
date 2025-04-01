@@ -76,14 +76,9 @@ def test_as_in_demo_notebook(fourc):
 
     assert fourc.pseudo_axis_names == ["h", "k", "l"]
     assert fourc.real_axis_names == ["theta", "chi", "phi", "ttheta"]
-    assert fourc.core.solver.pseudo_axis_names == ["h", "k", "l"]  # TODO #79
-    assert fourc.core.solver.real_axis_names == [
-        "omega",
-        "chi",
-        "phi",
-        "tth",
-    ]  # TODO #79
-    assert fourc.core.solver.extra_axis_names == []  # TODO #79
+    assert fourc.core.solver_pseudo_axis_names == ["h", "k", "l"]
+    assert fourc.core.solver_real_axis_names == "omega chi phi tth".split()
+    assert fourc.core.solver_extra_axis_names == []
 
     expected = "{'position': FourcPseudoPos(h=0, k=0, l=0)}"
     assert str(fourc.report) == expected, f"{fourc.report=!r}"
