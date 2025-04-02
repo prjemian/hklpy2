@@ -465,7 +465,7 @@ def test_fromdict(config, context, expected):
         assert isinstance(config, dict)
         e4cv = creator(name="e4cv")
         add_oriented_vibranium_to_e4cv(e4cv)
-        r400 = e4cv.core.sample.reflections["r400"]
+        r400 = e4cv.sample.reflections["r400"]
         assert isinstance(r400, Reflection)
         r400._fromdict(config)
 

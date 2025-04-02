@@ -68,6 +68,7 @@ class SolverBase(ABC):
 
     .. autosummary::
 
+        ~all_extra_axis_names
         ~extra_axis_names
         ~extras
         ~geometry
@@ -95,6 +96,7 @@ class SolverBase(ABC):
     ) -> None:
         self._gname = geometry
         self.mode = mode
+        self._all_extra_axis_names = None
         self._sample = None
 
         logger.debug("geometry=%s, kwargs=%s", repr(geometry), repr(kwargs))
@@ -122,6 +124,20 @@ class SolverBase(ABC):
     @abstractmethod
     def addReflection(self, reflection: Reflection) -> None:
         """Add coordinates of a diffraction condition (a reflection)."""
+
+    @property
+    def all_extra_axis_names(self) -> list[str]:
+        """Unique, sorted list of extra axis names in all modes for chosen engine."""
+        if self._all_extra_axis_names is None:
+            # Only collect this once.
+            original = self.mode
+            names = []
+            for mode in self.modes:
+                self.mode = mode
+                names += self.extra_axis_names
+            self.mode = original  # put it back
+            self._all_extra_axis_names = sorted(list(set(names)))
+        return self._all_extra_axis_names
 
     @abstractmethod
     def calculate_UB(

@@ -10,12 +10,11 @@ In |hklpy2|, each sample's name, :ref:`lattice <concepts.lattice>`,
 diffractometer's samples (a Python dictionary) is managed by the core
 :class:`~hklpy2.ops.Core()` class.
 
-You can find the samples at ``fourc.core.samples`` (substitute your
-diffractometer's name here).  There is a shortcut: ``fourc.samples``.
+You can find the samples at ``fourc.samples``, a shortcut to
+``fourc.core.samples`` (substitute your diffractometer's name here).
 
 It's easy to switch between samples when there are choices.  For example, select
-the *vibranium* sample: ``fourc.core.sample = "vibranium"`` (shortcut:
-``fourc.sample = "vibranium"``)
+the *vibranium* sample: ``fourc.sample = "vibranium"``
 
 The operations ``.core`` sends information *from* the selected sample *to* the
 solver when calling a solver function (such as

@@ -34,14 +34,14 @@ twopi = 2 * math.pi
         ["_header.wavelength_units", e4cv._source.wavelength_units],
         ["_header.wavelength", e4cv._source.wavelength],
         ["axes.axes_xref", e4cv.core.axes_xref],
-        ["axes.extra_axes", e4cv.core.solver.extras],
+        ["axes.extra_axes", e4cv.core.all_extras],
         ["axes.pseudo_axes", e4cv.pseudo_axis_names],
         ["axes.real_axes", e4cv.real_axis_names],
         ["constraints.chi.high_limit", 180.2],
         ["constraints.omega.label", "omega"],
         ["constraints.tth.low_limit", -180.2],
         ["name", e4cv.name],
-        ["sample_name", e4cv.core.sample.name],
+        ["sample_name", e4cv.sample.name],
         ["samples.sample.lattice.a", 1],
         ["samples.sample.lattice.alpha", 90],
         ["samples.sample.name", "sample"],
@@ -57,13 +57,12 @@ twopi = 2 * math.pi
         ["samples.vibranium.reflections.r004.pseudos.k", 0],
         ["samples.vibranium.reflections.r004.pseudos.l", 4],
         ["samples.vibranium.reflections.r004.reals.chi", 90],
-        ["samples.vibranium.U", e4cv.core.solver.U],
-        ["samples.vibranium.UB", e4cv.core.solver.UB],
+        ["samples.vibranium.U", e4cv.sample.U],
+        ["samples.vibranium.UB", e4cv.sample.UB],
         ["solver.engine", e4cv.core.solver.engine_name],
         ["solver.geometry", e4cv.core.geometry],
-        ["solver.name", e4cv.core.solver.name],
+        ["solver.name", e4cv.core.solver_name],
         ["solver.real_axes", e4cv.core.solver_real_axis_names],
-        ["solver.real_axes", e4cv.core.solver.real_axis_names],
     ],
 )
 def test_Configuration(keypath, value):
@@ -131,14 +130,14 @@ def test_fromdict():
     add_oriented_vibranium_to_e4cv(fourc)
 
     assert fourc.name != config["name"]
-    assert len(fourc.core.samples) == 2
+    assert len(fourc.samples) == 2
     assert len(fourc.core.constraints) == 4
 
     fourc.core.reset_constraints()
     fourc.core.reset_samples()
-    assert len(fourc.core.samples) == 1
+    assert len(fourc.samples) == 1
     assert len(fourc.core.constraints) == 4
-    assert len(fourc.core.sample.reflections) == 0
+    assert len(fourc.sample.reflections) == 0
 
     for key, constraint in fourc.core.constraints.items():
         assert key in config["constraints"]
@@ -163,16 +162,15 @@ def test_fromdict():
     fourc.core.configuration._fromdict(config), f"{fourc=!r}"
 
     sample = config["sample_name"]
-    assert sample == fourc.core.sample.name, f"{sample=!r}  {fourc.core.sample.name=!r}"
-    assert len(fourc.core.samples) == len(config["samples"]), f"{config['samples']=!r}"
+    assert sample == fourc.sample.name, f"{sample=!r}  {fourc.sample.name=!r}"
+    assert len(fourc.samples) == len(config["samples"]), f"{config['samples']=!r}"
     assert (
-        fourc.core.sample.reflections.order
-        == config["samples"][sample]["reflections_order"]
+        fourc.sample.reflections.order == config["samples"][sample]["reflections_order"]
     )
 
-    assert len(fourc.core.sample.reflections) == 3
-    for refl in fourc.core.sample.reflections.order:
-        assert refl in fourc.core.sample.reflections
+    assert len(fourc.sample.reflections) == 3
+    for refl in fourc.sample.reflections.order:
+        assert refl in fourc.sample.reflections
     # TODO: compare reflections
 
     assert len(fourc.core.constraints) == len(config["constraints"])

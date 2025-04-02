@@ -134,7 +134,6 @@ class DiffractometerBase(PseudoPositioner):
         ~real_axis_names
         ~sample
         ~samples
-        ~solver_name
     """
 
     solver_signature = Cpt(
@@ -353,7 +352,7 @@ class DiffractometerBase(PseudoPositioner):
 
         pdict = self.position._asdict()
         pdict.update(self.real_position._asdict())
-        pdict.update(self.core.solver.extras)  # TODO #79
+        pdict.update(self.core.extras)
         for k in pdict:
             pdict[k] = roundoff(pdict[k], digits)
         return pdict
@@ -401,9 +400,8 @@ class DiffractometerBase(PseudoPositioner):
                 )
             )
         """
+        self.core.extras = extras  # before forward()
         self.core.update_solver()
-
-        self.core.solver.extras = extras  # before forward()  # TODO #79
         solution = self.forward(self.core.standardize_pseudos(pseudos))
         yield from self.move_dict(solution)
 
@@ -585,13 +583,6 @@ class DiffractometerBase(PseudoPositioner):
     def sample(self, value: str) -> None:
         self.core.sample = value
 
-    @property
-    def solver_name(self):  # TODO #79 keep?
-        """Backend |solver| library name."""
-        if self.core is not None and self.core.solver is not None:
-            return self.core.solver.name  # TODO #79
-        return ""
-
     def wh(self, digits=4, full=False):
         """Concise report of the current diffractometer positions."""
 
@@ -612,12 +603,12 @@ class DiffractometerBase(PseudoPositioner):
             print(f"UB={self.sample.UB}")
             for v in self.core.constraints.values():
                 print(f"constraint: {v}")
+            print(f"Mode: {self.core.mode}")
 
         print_axes(self.pseudo_axis_names)
         print(f"wavelength={self.wavelength.get()}")
         print_axes(self.real_axis_names)
-
-        extras = self.core.solver.extras  # TODO #79
+        extras = self.core.extras
         if len(extras) > 0:
             print(" ".join([wh_round(k, v) for k, v in extras.items()]))
 

@@ -231,19 +231,21 @@ def test_diffractometer_wh(capsys):
         HklSolver(name
         Sample(name=
     """.strip().split()
-    for _r in e4cv.core.sample.reflections:
+    for _r in e4cv.sample.reflections:
         expected.append("Reflection(name='")
     expected.append("Orienting reflections: ")
     expected.append("U=")
     expected.append("UB=")
     for _r in e4cv.core.constraints:
         expected.append("constraint: ")
+    expected.append(f"Mode: {e4cv.core.mode}")
     expected.append(f"{e4cv.pseudo_axis_names[0]}=")
     expected.append("wavelength=")
     expected.append(f"{e4cv.real_axis_names[0]}=")
     extra_names = e4cv.core.solver_extra_axis_names
     if len(extra_names) > 0:
         expected.append(f"{extra_names[0]}=")
+
     assert len(lines) == len(expected), f"{captured.out=}"
     for actual, exp in zip(lines, expected):
         assert actual.startswith(exp)
@@ -351,17 +353,14 @@ def test_null_core():
     assert len(fourc.samples) > 0
     assert fourc.sample is not None
     assert fourc.core.solver is not None
-    assert fourc.solver_name is not None
 
     fourc.core._solver = None
     assert len(fourc.samples) > 0
     assert fourc.sample is not None
-    assert fourc.solver_name == ""
 
     fourc.core = None
     assert len(fourc.samples) == 0
     assert fourc.sample is None
-    assert fourc.solver_name == ""
 
 
 def test_orientation():
@@ -391,14 +390,14 @@ def test_orientation():
     assert math.isclose(
         fourc.wavelength.get(), 1.0, abs_tol=0.01
     ), f"{fourc.wavelength.get()=!r}"
-    assert fourc.core.sample.reflections.order == "(400) (040)".split()
+    assert fourc.sample.reflections.order == "(400) (040)".split()
 
-    result = fourc.core.calc_UB(*fourc.core.sample.reflections.order)
+    result = fourc.core.calc_UB(*fourc.sample.reflections.order)
     assert isinstance(result, list)
     assert isinstance(result[0], list)
     assert isinstance(result[0][0], (float, int))
 
-    UB = fourc.core.solver.UB  # TODO #79
+    UB = fourc.sample.UB
     assert len(UB) == 3
 
     e = -1.157
@@ -679,8 +678,8 @@ def test_set_UB():
     fourc = creator(name="fourc")
 
     e = 6.28319  # 2 pi.
-    assert_almost_equal(  # TODO #79
-        fourc.core.solver.UB,  # Default UB (sent to solver) is 2 pi I
+    assert_almost_equal(
+        fourc.sample.UB,  # Default UB (sent to solver) is 2 pi I
         [[e, 0, 0], [0, e, 0], [0, 0, e]],
         3,
     )
@@ -688,16 +687,14 @@ def test_set_UB():
     e = 6.25
     UBe = [[e, 0, 0], [0, e, 0], [0, 0, e]]
     fourc.sample.UB = UBe
-    with pytest.raises(AssertionError) as exinfo:
-        assert_almost_equal(fourc.core.solver.UB, UBe, 2)  # TODO #79
-    assert "Arrays are not almost equal to 2 decimals" in str(exinfo)
+    assert_almost_equal(fourc.sample.UB, UBe, 5)
 
     reals = dict(omega=130, chi=0, phi=90, tth=-100)
     result = fourc.inverse(reals, wavelength=1.54)
     assert math.isclose(result.h, 1.0, abs_tol=0.001), f"{result=!r}"
     assert math.isclose(result.k, 0, abs_tol=0.001), f"{result=!r}"
     assert math.isclose(result.l, 0, abs_tol=0.001), f"{result=!r}"
-    assert_almost_equal(fourc.core.solver.UB, UBe, 3)  # TODO #79
+    assert_almost_equal(fourc.sample.UB, UBe, 3)
 
 
 def test_e4cv_constant_phi():
@@ -709,24 +706,25 @@ def test_e4cv_constant_phi():
     refl = dict(h=1, k=1, l=1)
 
     e4cv.core.mode = "constant_phi"
-    CONSTANT_PHI = 23.4567
-    e4cv.phi.move(CONSTANT_PHI)
+    phi = 23.4567
+    e4cv.phi.move(phi)
 
     e4cv.core.constraints["phi"].limits = -180, 180
 
     # Check that phi is held constant in all forward solutions.
-    solutions = e4cv.core.solver.forward(refl)  # TODO #79
+    solutions = e4cv.core.forward(refl)
     assert isinstance(solutions, list)
     assert len(solutions) > 0
     for solution in solutions:
-        assert isinstance(solution, dict)
-        assert_almost_equal(solution["phi"], CONSTANT_PHI, 4)
+        assert solution.__class__.__name__.endswith("RealPos")
+        solution = solution._asdict()
+        assert_almost_equal(solution["phi"], phi, 4)
 
     # Check that phi is held constant in forward()
     # Returns a position namedtuple.
     position = e4cv.forward(refl)
     assert isinstance(position, tuple)
-    assert_almost_equal(position.phi, CONSTANT_PHI, 4)
+    assert_almost_equal(position.phi, phi, 4)
 
 
 @pytest.mark.parametrize(

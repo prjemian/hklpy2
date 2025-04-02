@@ -78,13 +78,13 @@ class Configuration:
 
         compare(
             config.get("solver", {}).get("name"),
-            self.diffractometer.core.solver.name,  # TODO #79
+            self.diffractometer.core.solver_name,
             "solver mismatch: incoming=%r existing=%r",
         )
         if "engine" in dir(self.diffractometer.core.solver):
             compare(
                 config.get("solver", {}).get("engine"),
-                self.diffractometer.core.solver.engine_name,  # TODO #79
+                self.diffractometer.core.solver.engine_name,
                 "engine mismatch: incoming=%r existing=%r",
             )
         compare(
