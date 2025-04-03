@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=26ffa1e9"></script>
+    <script src="../_static/documentation_options.js?v=47cb9828"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
@@ -333,7 +333,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../concepts/wavelength.html">Wavelength</a></li>
 </ul>
 </details></li>
-<li class="toctree-l1"><a class="reference internal" href="../geometry_tables.html">Diffractometers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../diffractometers.html">Diffractometers</a></li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="../examples.html">Examples</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="_api_demo.html">Demonstrate <strong>hklpy2</strong>’s API</a></li>
 <li class="toctree-l2"><a class="reference internal" href="constraints.html">Constraints</a></li>
@@ -438,9 +438,9 @@ non-parallel reflections, using the method of Busing and Levy (<em>Acta Cryst</e
 <strong>22</strong> (1967) 457).</p>
 <section id="quick-example">
 <h2>Quick example<a class="headerlink" href="#quick-example" title="Link to this heading">#</a></h2>
-<p>In <strong>hklpy2</strong>, the $UB$ matrix is a property of the <em>solver</em>.  For a
+<p>In <strong>hklpy2</strong>, the $UB$ matrix is a property of the <em>sample</em>.  For a
 diffractometer object named <code class="docutils literal notranslate"><span class="pre">diffractometer</span></code>, set $UB$ such as:</p>
-<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="n">diffractometer</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">UB</span> <span class="o">=</span> <span class="p">[</span>
+<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="n">diffractometer</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">UB</span> <span class="o">=</span> <span class="p">[</span>
     <span class="p">[</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">6.24</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">],</span>
     <span class="p">[</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">6.24</span><span class="p">],</span>
     <span class="p">[</span><span class="o">-</span><span class="mf">6.24</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">],</span>
@@ -479,22 +479,17 @@ geometry from the solver’s <code class="docutils literal notranslate"><span cl
 </div>
 </div>
 <p>This is the sample the solver will be using.</p>
-<p>$U$ is the orientation of the sample’s crystal lattice as mounted on the diffractometer
-sample holder.  The default is to assume $U=I$, where $I$ is the 3x3 identity
-matrix.</p>
-<p>$U$ is provided by the <em>solver</em>, in this case <code class="docutils literal notranslate"><span class="pre">&quot;hkl_soleil&quot;</span></code>.  From the
-diffractometer object, the solver’s default sample $U$ is accessed through a
-couple software layers:</p>
+<p>$U$ (a property of the <em>sample</em>) is the orientation of the sample’s crystal
+lattice as mounted on the diffractometer sample holder.  The default is to
+assume $U=I$, where $I$ is the 3x3 identity matrix.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diffractometer</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">U</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diffractometer</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">U</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[1.0, -2.28495e-07, -4.7217e-08],
- [2.28495e-07, 1.0, 9.0229e-08],
- [4.7216e-08, -9.0229e-08, 1.0]]
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[1, 0, 0], [0, 1, 0], [0, 0, 1]]
 </pre></div>
 </div>
 </div>
@@ -505,14 +500,14 @@ is the 3x3 identity matrix and $a$ is the lattice parameter.  Like $U$, this is
 provided by the <em>solver</em>, in this case <code class="docutils literal notranslate"><span class="pre">&quot;hkl_soleil&quot;</span></code>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diffractometer</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">UB</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diffractometer</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">UB</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[6.283183866345, 9.31516e-07, -3.0274e-08],
- [1.435676e-06, 6.28318625087, -1.044844e-06],
- [2.9667e-07, -5.66923e-07, 6.283184307075]]
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[6.283185307179586, 0.0, 0.0],
+ [0.0, 6.283185307179586, 0.0],
+ [0.0, 0.0, 6.283185307179586]]
 </pre></div>
 </div>
 </div>
@@ -536,7 +531,7 @@ directly.</p>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diffractometer</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">mode</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diffractometer</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">mode</span>
 </pre></div>
 </div>
 </div>
@@ -573,33 +568,19 @@ Here is a matrix for a cubic sample, oriented previously:</p>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diffractometer</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">UB</span> <span class="o">=</span> <span class="p">[</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diffractometer</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">UB</span> <span class="o">=</span> <span class="p">[</span>
     <span class="p">[</span><span class="mf">0.545455316412</span><span class="p">,</span> <span class="o">-</span><span class="mf">6.239788968842</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.495930309978</span><span class="p">],</span>
     <span class="p">[</span><span class="o">-</span><span class="mf">0.547615630691</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.543471652084</span><span class="p">,</span> <span class="mf">6.235639164201</span><span class="p">],</span>
     <span class="p">[</span><span class="o">-</span><span class="mf">6.235463558747</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.498103654451</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.591011669061</span><span class="p">]</span>
 <span class="p">]</span>
-<span class="n">diffractometer</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">UB</span>
+<span class="n">diffractometer</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">UB</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[0.545457225972, -6.239789175362, -0.495932073845],
- [-0.547614402008, -0.543469679002, 6.235639497651],
- [-6.235462520451, -0.498102997207, -0.591014567627]]
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diffractometer</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">U</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[0.086812235355, -0.993093022199, -0.078929620878],
- [-0.087155560669, -0.086495919275, 0.992432548939],
- [-0.99240492947, -0.079276132651, -0.094062483248]]
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[0.545455316412, -6.239788968842, -0.495930309978],
+ [-0.547615630691, -0.543471652084, 6.235639164201],
+ [-6.235463558747, -0.498103654451, -0.591011669061]]
 </pre></div>
 </div>
 </div>
@@ -615,7 +596,7 @@ Here is a matrix for a cubic sample, oriented previously:</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Hklpy2DiffractometerPseudoPos(h=0.82195245423, k=0.989925535285, l=1.159499834922)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Hklpy2DiffractometerPseudoPos(h=0.821953663396, k=0.989926119534, l=1.159500990198)
 </pre></div>
 </div>
 </div>
@@ -624,7 +605,7 @@ Here is a matrix for a cubic sample, oriented previously:</p>
 <p>The E4CV geometry’s <code class="docutils literal notranslate"><span class="pre">&quot;bissector&quot;</span></code> mode adds this relationship: <code class="docutils literal notranslate"><span class="pre">tth</span> <span class="pre">=</span> <span class="pre">2</span> <span class="pre">*</span> <span class="pre">omega</span></code>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diffractometer</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">mode</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diffractometer</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">mode</span>
 </pre></div>
 </div>
 </div>
@@ -655,7 +636,7 @@ Here is a matrix for a cubic sample, oriented previously:</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Hklpy2DiffractometerRealPos(omega=-60.000016806342, chi=-28.211236858993, phi=40.202345307388, tth=-120.000033612684)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Hklpy2DiffractometerRealPos(omega=-59.999921375969, chi=-28.211225311916, phi=40.202361982144, tth=-119.999842751938)
 </pre></div>
 </div>
 </div>

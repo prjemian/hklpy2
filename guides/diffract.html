@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=26ffa1e9"></script>
+    <script src="../_static/documentation_options.js?v=47cb9828"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
@@ -333,7 +333,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../concepts/wavelength.html">Wavelength</a></li>
 </ul>
 </details></li>
-<li class="toctree-l1"><a class="reference internal" href="../geometry_tables.html">Diffractometers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../diffractometers.html">Diffractometers</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../examples.html">Examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../examples/_api_demo.html">Demonstrate <strong>hklpy2</strong>’s API</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/constraints.html">Constraints</a></li>
@@ -441,7 +441,7 @@ to use any names allowed by ophyd.</p>
 </ul>
 <section id="diffractometer-creator">
 <span id="diffract-axes-diffractometer-factory"></span><h3>Diffractometer Creator<a class="headerlink" href="#diffractometer-creator" title="Link to this heading">#</a></h3>
-<p>The <code class="xref py py-func docutils literal notranslate"><span class="pre">creator()</span></code> function constructs a diffractometer object using the
+<p>The <a class="reference internal" href="../autoapi/hklpy2/diffract/index.html#hklpy2.diffract.creator" title="hklpy2.diffract.creator"><code class="xref py py-func docutils literal notranslate"><span class="pre">creator()</span></code></a> function constructs a diffractometer object using the
 supplied <cite>reals={}</cite> to define their names.  These are mapped to the names used
 by the <strong>Solver</strong>.  Let’s show this cross-reference map with just a few commands:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">hklpy2</span>
@@ -472,7 +472,7 @@ with our diffractometer. The <code class="docutils literal notranslate"><span cl
 <a class="reference internal" href="../autoapi/hklpy2/backends/th_tth_q/index.html#hklpy2.backends.th_tth_q.ThTthSolver" title="hklpy2.backends.th_tth_q.ThTthSolver"><code class="xref py py-class docutils literal notranslate"><span class="pre">ThTthSolver</span></code></a> with a <code class="docutils literal notranslate"><span class="pre">&quot;TH</span> <span class="pre">TTH</span> <span class="pre">Q&quot;</span></code> geometry
 that fits our design. We set that up in the <code class="docutils literal notranslate"><span class="pre">__init__()</span></code> method of our new
 class.</p>
-<p>The <a class="reference internal" href="../geometry_tables.html#geometries-th-tth-th-tth-q"><span class="std std-ref">TH TTH Q</span></a> geometry has real axes named
+<p>The <a class="reference internal" href="../diffractometers.html#geometries-th-tth-th-tth-q"><span class="std std-ref">TH TTH Q</span></a> geometry has real axes named
 <code class="docutils literal notranslate"><span class="pre">th</span></code> and <code class="docutils literal notranslate"><span class="pre">tth</span></code>. Even though we are using different names, it is not
 necessary to define <code class="docutils literal notranslate"><span class="pre">_real</span></code> (as shown in <a class="reference internal" href="#diffract-axes-direct-assign"><span class="std std-ref">Custom Diffractometer with additional axes</span></a>)
 as long as:</p>
@@ -510,7 +510,7 @@ as long as:</p>
 </div>
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
-<p>Use the <code class="xref py py-func docutils literal notranslate"><span class="pre">hklpy2.geom.creator()</span></code> instead:</p>
+<p>Use the <a class="reference internal" href="../autoapi/hklpy2/diffract/index.html#hklpy2.diffract.creator" title="hklpy2.diffract.creator"><code class="xref py py-func docutils literal notranslate"><span class="pre">hklpy2.diffract.creator()</span></code></a> instead:</p>
 <div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">twoc</span> <span class="o">=</span> <span class="n">hklpy2</span><span class="o">.</span><span class="n">creator</span><span class="p">(</span>
     <span class="n">name</span><span class="o">=</span><span class="s2">&quot;twoc&quot;</span><span class="p">,</span>
     <span class="n">geometry</span><span class="o">=</span><span class="s2">&quot;TH TTH Q&quot;</span><span class="p">,</span>
@@ -579,11 +579,11 @@ order expected by the solver). Look for the <code class="docutils literal notran
 </pre></div>
 </div>
 <p>What are the axes expected by this <strong>Solver</strong>?</p>
-<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="n">twoc</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">pseudo_axis_names</span>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="n">twoc</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver_pseudo_axis_names</span>
 <span class="p">[</span><span class="s1">&#39;q&#39;</span><span class="p">]</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">twoc</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">real_axis_names</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">twoc</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver_real_axis_names</span>
 <span class="p">[</span><span class="s1">&#39;th&#39;</span><span class="p">,</span> <span class="s1">&#39;tth&#39;</span><span class="p">]</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">twoc</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">extra_axis_names</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">twoc</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver_extra_axis_names</span>
 <span class="p">[]</span>
 </pre></div>
 </div>

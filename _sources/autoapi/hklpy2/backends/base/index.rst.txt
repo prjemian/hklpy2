@@ -85,6 +85,7 @@ Module Contents
 
    .. autosummary::
 
+       ~all_extra_axis_names
        ~extra_axis_names
        ~extras
        ~geometry
@@ -122,6 +123,11 @@ Module Contents
       :meth:`forward` computation.
 
 
+   .. py:attribute:: _all_extra_axis_names
+      :value: None
+
+
+
    .. py:attribute:: _sample
       :value: None
 
@@ -143,6 +149,13 @@ Module Contents
 
       Add coordinates of a diffraction condition (a reflection).
 
+
+
+   .. py:property:: all_extra_axis_names
+      :type: list[str]
+
+
+      Unique, sorted list of extra axis names in all modes for chosen engine.
 
 
    .. py:method:: calculate_UB(r1: hklpy2.blocks.reflection.Reflection, r2: hklpy2.blocks.reflection.Reflection) -> list[list[float]]

@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=26ffa1e9"></script>
+    <script src="../_static/documentation_options.js?v=47cb9828"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
@@ -333,7 +333,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../concepts/wavelength.html">Wavelength</a></li>
 </ul>
 </details></li>
-<li class="toctree-l1"><a class="reference internal" href="../geometry_tables.html">Diffractometers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../diffractometers.html">Diffractometers</a></li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="../examples.html">Examples</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="_api_demo.html">Demonstrate <strong>hklpy2</strong>’s API</a></li>
 <li class="toctree-l2"><a class="reference internal" href="constraints.html">Constraints</a></li>
@@ -599,7 +599,7 @@ compute the forward reflection positions and compare with
 those calculated by <strong>libhkl</strong>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fourc</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">UB</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fourc</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">UB</span>
 </pre></div>
 </div>
 </div>
@@ -615,12 +615,12 @@ those calculated by <strong>libhkl</strong>.</p>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># get the UB matrix from the SPEC data</span>
 <span class="c1"># SPEC&#39;s UB first row moved (via numpy slicing) to last row for hklpy</span>
-<span class="n">fourc</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">UB</span> <span class="o">=</span> <span class="n">spec_d</span><span class="o">.</span><span class="n">UB</span><span class="p">[[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="p">:]</span>
+<span class="n">fourc</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">UB</span> <span class="o">=</span> <span class="n">spec_d</span><span class="o">.</span><span class="n">UB</span><span class="p">[[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="p">:]</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">spec_d</span><span class="o">.</span><span class="n">UB</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">fourc</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">UB</span><span class="si">}</span><span class="s2">=&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">fourc</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">UB</span><span class="si">}</span><span class="s2">=&quot;</span><span class="p">)</span>
 
 <span class="c1"># calculate angles with hklpy using the SPEC UB matrix</span>
-<span class="n">fourc</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">mode</span> <span class="o">=</span> <span class="s2">&quot;bissector&quot;</span>
+<span class="n">fourc</span><span class="o">.</span><span class="n">mode</span> <span class="o">=</span> <span class="s2">&quot;bissector&quot;</span>
 <span class="n">fourc</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">constraints</span><span class="p">[</span><span class="s2">&quot;phi&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">limits</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mi">50</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
 <span class="n">fourc</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">constraints</span><span class="p">[</span><span class="s2">&quot;tth&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">limits</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">180</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;(002) : </span><span class="si">{</span><span class="n">fourc</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -671,7 +671,7 @@ E4CV and SPEC.  We’ll only pick positions where $2\theta\ge 0$.</p>
 <span class="n">tbl</span><span class="o">.</span><span class="n">labels</span> <span class="o">=</span> <span class="s2">&quot;(hkl) motor E4CV SPEC difference&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
 <span class="n">r1</span><span class="p">,</span> <span class="n">r2</span> <span class="o">=</span> <span class="n">spec_d</span><span class="o">.</span><span class="n">reflections</span>
 
-<span class="n">fourc</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">mode</span> <span class="o">=</span> <span class="s2">&quot;bissector&quot;</span>
+<span class="n">fourc</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">mode</span> <span class="o">=</span> <span class="s2">&quot;bissector&quot;</span>
 <span class="n">fourc</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">constraints</span><span class="p">[</span><span class="s2">&quot;tth&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">limits</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">180</span><span class="p">)</span>
 <span class="n">add_ref_to_table</span><span class="p">(</span><span class="n">tbl</span><span class="p">,</span> <span class="n">r1</span><span class="p">)</span>
 
@@ -802,11 +802,11 @@ crystal system       triclinic
 <span class="n">r1</span><span class="p">,</span> <span class="n">r2</span> <span class="o">=</span> <span class="n">spec_d</span><span class="o">.</span><span class="n">reflections</span>
 <span class="n">fourc</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">constraints</span><span class="p">[</span><span class="s2">&quot;tth&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">limits</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">180</span><span class="p">)</span>
 
-<span class="n">fourc</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">mode</span> <span class="o">=</span> <span class="s2">&quot;constant_phi&quot;</span>
+<span class="n">fourc</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">mode</span> <span class="o">=</span> <span class="s2">&quot;constant_phi&quot;</span>
 <span class="n">fourc</span><span class="o">.</span><span class="n">phi</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 <span class="n">add_ref_to_table</span><span class="p">(</span><span class="n">tbl</span><span class="p">,</span> <span class="n">r1</span><span class="p">)</span>
 
-<span class="n">fourc</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">mode</span> <span class="o">=</span> <span class="s2">&quot;bissector&quot;</span>
+<span class="n">fourc</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">mode</span> <span class="o">=</span> <span class="s2">&quot;bissector&quot;</span>
 <span class="n">add_ref_to_table</span><span class="p">(</span><span class="n">tbl</span><span class="p">,</span> <span class="n">r2</span><span class="p">)</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="n">tbl</span><span class="p">)</span>
@@ -817,13 +817,13 @@ crystal system       triclinic
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>======= ===== ========= ========= ==========
 (hkl)   motor E4CV      SPEC      difference
 ======= ===== ========= ========= ==========
-(0 0 2) th    19.12616  19.13350  -0.00734  
+(0 0 2) th    19.12617  19.13350  -0.00733  
 (0 0 2) chi   90.01350  90.01350  -0.00000  
 (0 0 2) phi   0.00000   0.00000   0.00000   
 (0 0 2) tth   38.08407  38.09875  -0.01468  
 (1 1 3) th    32.81850  32.82125  -0.00275  
-(1 1 3) chi   115.20291 115.23625 -0.03334  
-(1 1 3) phi   48.13305  48.13150  0.00155   
+(1 1 3) chi   115.20290 115.23625 -0.03335  
+(1 1 3) phi   48.13304  48.13150  0.00154   
 (1 1 3) tth   65.63700  65.64400  -0.00700  
 ======= ===== ========= ========= ==========
 </pre></div>

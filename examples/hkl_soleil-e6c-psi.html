@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=26ffa1e9"></script>
+    <script src="../_static/documentation_options.js?v=47cb9828"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
@@ -335,7 +335,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../concepts/wavelength.html">Wavelength</a></li>
 </ul>
 </details></li>
-<li class="toctree-l1"><a class="reference internal" href="../geometry_tables.html">Diffractometers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../diffractometers.html">Diffractometers</a></li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="../examples.html">Examples</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="_api_demo.html">Demonstrate <strong>hklpy2</strong>’s API</a></li>
 <li class="toctree-l2"><a class="reference internal" href="constraints.html">Constraints</a></li>
@@ -432,7 +432,7 @@
   <section id="hkl-soleil-e6c-psi-axis">
 <h1><strong>hkl_soleil</strong> E6C psi axis<a class="headerlink" href="#hkl-soleil-e6c-psi-axis" title="Link to this heading">#</a></h1>
 <p>Show how to set, compute, and scan $\psi$ with the E6C diffractometer
-<a class="reference internal" href="../geometry_tables.html#geometries-hkl-soleil-e6c"><span class="std std-ref">geometry</span></a>. Use the <code class="docutils literal notranslate"><span class="pre">hkl_soleil</span></code> solver.  Scan
+<a class="reference internal" href="../diffractometers.html#geometries-hkl-soleil-e6c"><span class="std std-ref">geometry</span></a>. Use the <code class="docutils literal notranslate"><span class="pre">hkl_soleil</span></code> solver.  Scan
 <span class="math notranslate nohighlight">\(\psi\)</span> at fixed <span class="math notranslate nohighlight">\(Q\)</span> and <span class="math notranslate nohighlight">\(hkl_2\)</span>.</p>
 <p>Virtual axes, such as $\psi$, are features provided by the solver as <em>extras</em>.
 <em>Extras</em> are not necessarily available in every solver.  Consult the solver
@@ -476,7 +476,7 @@ specifying both $hkl$ (as <code class="docutils literal notranslate"><span class
 </section>
 <section id="overview">
 <h2>Overview<a class="headerlink" href="#overview" title="Link to this heading">#</a></h2>
-<p>To work with $\psi$ we’ll use the <code class="docutils literal notranslate"><span class="pre">&quot;hkl&quot;</span></code> engine of the E6C <a class="reference internal" href="../geometry_tables.html"><span class="std std-doc">geometry</span></a>. To compute
+<p>To work with $\psi$ we’ll use the <code class="docutils literal notranslate"><span class="pre">&quot;hkl&quot;</span></code> engine of the E6C <a class="reference internal" href="#../geometry_tables.rst"><span class="xref myst">geometry</span></a>. To compute
 $\psi$ we’ll use the <code class="docutils literal notranslate"><span class="pre">&quot;psi&quot;</span></code> engine.  This table summarizes our use:</p>
 <div class="pst-scrollable-table-container"><table class="table">
 <thead>
@@ -611,14 +611,14 @@ lower level libraries.)</p>
 <p>The <code class="docutils literal notranslate"><span class="pre">hkl</span></code> engine has a <code class="docutils literal notranslate"><span class="pre">&quot;psi_constant_vertical&quot;</span></code> mode that can be used to calculate reals given some fixed parameters (UB, wavelength, $(hkl)$, $(hkl)_2$, $\psi$).  The <code class="docutils literal notranslate"><span class="pre">psi</span></code> engine has only one mode.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e6c_hkl</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">modes</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e6c_psi</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">modes</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e6c_hkl</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">modes</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e6c_psi</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">modes</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>e6c_hkl.core.solver.modes=[&#39;bissector_vertical&#39;, &#39;constant_omega_vertical&#39;, &#39;constant_chi_vertical&#39;, &#39;constant_phi_vertical&#39;, &#39;lifting_detector_phi&#39;, &#39;lifting_detector_omega&#39;, &#39;lifting_detector_mu&#39;, &#39;double_diffraction_vertical&#39;, &#39;bissector_horizontal&#39;, &#39;double_diffraction_horizontal&#39;, &#39;psi_constant_vertical&#39;, &#39;psi_constant_horizontal&#39;, &#39;constant_mu_horizontal&#39;]
-e6c_psi.core.solver.modes=[&#39;psi_vertical&#39;]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>e6c_hkl.core.modes=[&#39;bissector_vertical&#39;, &#39;constant_omega_vertical&#39;, &#39;constant_chi_vertical&#39;, &#39;constant_phi_vertical&#39;, &#39;lifting_detector_phi&#39;, &#39;lifting_detector_omega&#39;, &#39;lifting_detector_mu&#39;, &#39;double_diffraction_vertical&#39;, &#39;bissector_horizontal&#39;, &#39;double_diffraction_horizontal&#39;, &#39;psi_constant_vertical&#39;, &#39;psi_constant_horizontal&#39;, &#39;constant_mu_horizontal&#39;]
+e6c_psi.core.modes=[&#39;psi_vertical&#39;]
 </pre></div>
 </div>
 </div>
@@ -628,27 +628,27 @@ have default values at this time.)</p>
 <p>The <code class="docutils literal notranslate"><span class="pre">psi</span></code> engine has a pseudo axis <code class="docutils literal notranslate"><span class="pre">&quot;psi&quot;</span></code> that can be used to calculate $\psi$ given some fixed parameters (reals, UB, wavelength, $(hkl)$, $(hkl)_2$)</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">e6c_hkl</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">mode</span> <span class="o">=</span> <span class="s2">&quot;bissector_vertical&quot;</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e6c_hkl</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">mode</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e6c_hkl</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">extras</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">e6c_hkl</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">mode</span> <span class="o">=</span> <span class="s2">&quot;bissector_vertical&quot;</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e6c_hkl</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">mode</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e6c_hkl</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">extras</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
 
-<span class="n">e6c_hkl</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">mode</span> <span class="o">=</span> <span class="s2">&quot;psi_constant_vertical&quot;</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e6c_hkl</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">mode</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e6c_hkl</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">extras</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">e6c_hkl</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">mode</span> <span class="o">=</span> <span class="s2">&quot;psi_constant_vertical&quot;</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e6c_hkl</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">mode</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e6c_hkl</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">extras</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
 
 <span class="c1"># &quot;psi&quot; engine has only one mode, do not need to set it</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e6c_psi</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">mode</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e6c_psi</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">extras</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e6c_psi</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">mode</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e6c_psi</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">extras</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>e6c_hkl.core.solver.mode=&#39;bissector_vertical&#39;
-e6c_hkl.core.solver.extras={}
-e6c_hkl.core.solver.mode=&#39;psi_constant_vertical&#39;
-e6c_hkl.core.solver.extras={&#39;h2&#39;: 1.0, &#39;k2&#39;: 0.0, &#39;l2&#39;: 0.0, &#39;psi&#39;: 0.0}
-e6c_psi.core.solver.mode=&#39;psi_vertical&#39;
-e6c_psi.core.solver.extras={&#39;h2&#39;: 1.0, &#39;k2&#39;: 1.0, &#39;l2&#39;: 1.0}
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>e6c_hkl.core.mode=&#39;bissector_vertical&#39;
+e6c_hkl.core.extras={}
+e6c_hkl.core.mode=&#39;psi_constant_vertical&#39;
+e6c_hkl.core.extras={&#39;h2&#39;: 0, &#39;k2&#39;: 0, &#39;l2&#39;: 0, &#39;psi&#39;: 0}
+e6c_psi.core.mode=&#39;psi_vertical&#39;
+e6c_psi.core.extras={&#39;h2&#39;: 0, &#39;k2&#39;: 0, &#39;l2&#39;: 0}
 </pre></div>
 </div>
 </div>
@@ -670,16 +670,16 @@ e6c_psi.core.solver.extras={&#39;h2&#39;: 1.0, &#39;k2&#39;: 1.0, &#39;l2&#39;: 
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e6c_hkl</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">reflections</span><span class="p">[</span><span class="n">r</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 <span class="n">e6c_hkl</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">calc_UB</span><span class="p">(</span><span class="o">*</span><span class="n">e6c_hkl</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">reflections</span><span class="o">.</span><span class="n">order</span><span class="p">)</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e6c_hkl</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">UB</span><span class="si">=!r}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e6c_hkl</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">U</span><span class="si">=!r}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e6c_hkl</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">UB</span><span class="si">=!r}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e6c_hkl</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">U</span><span class="si">=!r}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Reflection(name=&#39;r400&#39;, h=4, k=0, l=0)
 Reflection(name=&#39;r040&#39;, h=0, k=4, l=0)
-e6c_hkl.core.solver.UB=[[0.034882054037, 0.999391435978, -0.0], [0.0, 0.0, 1.0], [0.999391435978, -0.034882054037, -0.0]]
-e6c_hkl.core.solver.U=[[0.034882054037, 0.999391435978, 0.0], [0.0, 0.0, 1.0], [0.999391435978, -0.034882054037, 0.0]]
+e6c_hkl.sample.UB=[[0.034882054037, 0.999391435978, -0.0], [0.0, 0.0, 1.0], [0.999391435978, -0.034882054037, -0.0]]
+e6c_hkl.sample.U=[[0.034882054037, 0.999391435978, 0.0], [0.0, 0.0, 1.0], [0.999391435978, -0.034882054037, 0.0]]
 </pre></div>
 </div>
 </div>
@@ -691,7 +691,7 @@ e6c_hkl.core.solver.U=[[0.034882054037, 0.999391435978, 0.0], [0.0, 0.0, 1.0], [
 <em>mode</em>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">e6c_hkl</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">mode</span> <span class="o">=</span> <span class="s2">&quot;bissector_vertical&quot;</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">e6c_hkl</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">mode</span> <span class="o">=</span> <span class="s2">&quot;bissector_vertical&quot;</span>
 <span class="n">e6c_hkl</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
 <span class="n">e6c_hkl</span><span class="o">.</span><span class="n">position</span><span class="p">,</span> <span class="n">e6c_hkl</span><span class="o">.</span><span class="n">real_position</span>
 </pre></div>
@@ -699,7 +699,7 @@ e6c_hkl.core.solver.U=[[0.034882054037, 0.999391435978, 0.0], [0.0, 0.0, 1.0], [
 </div>
 <div class="cell_output docutils container">
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(Hklpy2DiffractometerPseudoPos(h=1.00000000737, k=-8.2488e-08, l=0),
- Hklpy2DiffractometerRealPos(mu=0, omega=7.039253278732, chi=0, phi=1.998995273774, gamma=0, delta=14.078506557465))
+ Hklpy2DiffractometerRealPos(mu=0, omega=7.039252630487, chi=-2.512923e-06, phi=1.998994715295, gamma=0, delta=14.078505260974))
 </pre></div>
 </div>
 </div>
@@ -711,13 +711,13 @@ e6c_hkl.core.solver.U=[[0.034882054037, 0.999391435978, 0.0], [0.0, 0.0, 1.0], [
 <p>Show the extra axes available with <code class="docutils literal notranslate"><span class="pre">psi_constant_vertical</span></code> mode.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">e6c_hkl</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">mode</span> <span class="o">=</span> <span class="s2">&quot;psi_constant_vertical&quot;</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e6c_hkl</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">extra_axis_names</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">e6c_hkl</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">mode</span> <span class="o">=</span> <span class="s2">&quot;psi_constant_vertical&quot;</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e6c_hkl</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver_extra_axis_names</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>e6c_hkl.core.solver.extra_axis_names=[&#39;h2&#39;, &#39;k2&#39;, &#39;l2&#39;, &#39;psi&#39;]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>e6c_hkl.core.solver_extra_axis_names=[&#39;h2&#39;, &#39;k2&#39;, &#39;l2&#39;, &#39;psi&#39;]
 </pre></div>
 </div>
 </div>
@@ -726,13 +726,13 @@ e6c_hkl.core.solver.U=[[0.034882054037, 0.999391435978, 0.0], [0.0, 0.0, 1.0], [
 <p>The <code class="docutils literal notranslate"><span class="pre">extras</span></code> are described as a Python dictionary with values for each of the parameters.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">e6c_hkl</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">extras</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">h2</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">k2</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">l2</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">psi</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e6c_hkl</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">extras</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">e6c_hkl</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">extras</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">h2</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">k2</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">l2</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">psi</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e6c_hkl</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">extras</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>e6c_hkl.core.solver.extras={&#39;h2&#39;: 1.0, &#39;k2&#39;: 1.0, &#39;l2&#39;: 0.0, &#39;psi&#39;: 12.0}
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>e6c_hkl.core.extras={&#39;h2&#39;: 1, &#39;k2&#39;: 1, &#39;l2&#39;: 0, &#39;psi&#39;: 12}
 </pre></div>
 </div>
 </div>
@@ -746,7 +746,7 @@ e6c_hkl.core.solver.U=[[0.034882054037, 0.999391435978, 0.0], [0.0, 0.0, 1.0], [
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>p_111=Hklpy2DiffractometerRealPos(mu=0, omega=66.391607045542, chi=99.77381778179, phi=-49.997332854696, gamma=0, delta=24.509844391026)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>p_111=Hklpy2DiffractometerRealPos(mu=0, omega=113.608391926862, chi=80.226182466798, phi=130.002672432183, gamma=0, delta=-24.50984311379)
 </pre></div>
 </div>
 </div>
@@ -757,14 +757,14 @@ e6c_hkl.core.solver.U=[[0.034882054037, 0.999391435978, 0.0], [0.0, 0.0, 1.0], [
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">e6c_hkl</span><span class="o">.</span><span class="n">move_reals</span><span class="p">(</span><span class="n">p_111</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e6c_hkl</span><span class="o">.</span><span class="n">position</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e6c_hkl</span><span class="o">.</span><span class="n">real_position</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e6c_hkl</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">extras</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e6c_hkl</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">extras</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>e6c_hkl.position=Hklpy2DiffractometerPseudoPos(h=1.000000009255, k=0.999999994159, l=0.999999984039)
-e6c_hkl.real_position=Hklpy2DiffractometerRealPos(mu=0, omega=66.391607045542, chi=99.77381778179, phi=-49.997332854696, gamma=0, delta=24.509844391026)
-e6c_hkl.core.solver.extras={&#39;h2&#39;: 1.0, &#39;k2&#39;: 1.0, &#39;l2&#39;: 0.0, &#39;psi&#39;: 12.0}
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>e6c_hkl.position=Hklpy2DiffractometerPseudoPos(h=0.999999999997, k=0.999999999998, l=1.000000000001)
+e6c_hkl.real_position=Hklpy2DiffractometerRealPos(mu=0, omega=113.608391926862, chi=80.226182466798, phi=130.002672432183, gamma=0, delta=-24.50984311379)
+e6c_hkl.core.extras={&#39;h2&#39;: 1, &#39;k2&#39;: 1, &#39;l2&#39;: 0, &#39;psi&#39;: 12}
 </pre></div>
 </div>
 </div>
@@ -776,14 +776,14 @@ e6c_hkl.core.solver.extras={&#39;h2&#39;: 1.0, &#39;k2&#39;: 1.0, &#39;l2&#39;: 
 ${hkl}_2$, and the real-space motor positions.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e6c_psi</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">mode</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e6c_psi</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">extras</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e6c_psi</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">mode</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e6c_psi</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">extras</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>e6c_psi.core.solver.mode=&#39;psi_vertical&#39;
-e6c_psi.core.solver.extras={&#39;h2&#39;: 1.0, &#39;k2&#39;: 1.0, &#39;l2&#39;: 1.0}
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>e6c_psi.core.mode=&#39;psi_vertical&#39;
+e6c_psi.core.extras={&#39;h2&#39;: 0, &#39;k2&#39;: 0, &#39;l2&#39;: 0}
 </pre></div>
 </div>
 </div>
@@ -805,21 +805,21 @@ e6c_psi.core.solver.extras={&#39;h2&#39;: 1.0, &#39;k2&#39;: 1.0, &#39;l2&#39;: 
 not exactly equal.  Equal to about 5 decimal places.)</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">e6c_psi</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">UB</span> <span class="o">=</span> <span class="n">e6c_hkl</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">UB</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">e6c_psi</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">UB</span> <span class="o">=</span> <span class="n">e6c_hkl</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">UB</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e6c_psi</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">UB</span><span class="si">=!r}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e6c_psi</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">U</span><span class="si">=!r}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e6c_psi</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">UB</span><span class="si">=!r}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e6c_psi</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">U</span><span class="si">=!r}</span><span class="s2">&quot;</span><span class="p">)</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e6c_hkl</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">UB</span><span class="si">=!r}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e6c_hkl</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">U</span><span class="si">=!r}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e6c_hkl</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">UB</span><span class="si">=!r}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e6c_hkl</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">U</span><span class="si">=!r}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>e6c_psi.core.solver.UB=[[0.034882112737, 0.999391462637, -7.7669e-08], [-1.1035e-07, 3.7043e-08, 0.999999954315], [0.999391567978, -0.034881973051, -8.4609e-08]]
-e6c_psi.core.solver.U=[[0.034882108064, 0.999391434092, -3.3171e-08], [-1.1035e-07, 3.7043e-08, 1.0], [0.999391434092, -0.034882108064, 1.11575e-07]]
-e6c_hkl.core.solver.UB=[[0.034882054037, 0.999391435978, -0.0], [0.0, 0.0, 1.0], [0.999391435978, -0.034882054037, -0.0]]
-e6c_hkl.core.solver.U=[[0.034882054037, 0.999391435978, 0.0], [0.0, 0.0, 1.0], [0.999391435978, -0.034882054037, 0.0]]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>e6c_psi.sample.UB=[[0.034882054037, 0.999391435978, -0.0], [0.0, 0.0, 1.0], [0.999391435978, -0.034882054037, -0.0]]
+e6c_psi.sample.U=[[1, 0, 0], [0, 1, 0], [0, 0, 1]]
+e6c_hkl.sample.UB=[[0.034882054037, 0.999391435978, -0.0], [0.0, 0.0, 1.0], [0.999391435978, -0.034882054037, -0.0]]
+e6c_hkl.sample.U=[[0.034882054037, 0.999391435978, 0.0], [0.0, 0.0, 1.0], [0.999391435978, -0.034882054037, 0.0]]
 </pre></div>
 </div>
 </div>
@@ -827,13 +827,13 @@ e6c_hkl.core.solver.U=[[0.034882054037, 0.999391435978, 0.0], [0.0, 0.0, 1.0], [
 <p>Set ${hkl}_2=(1, 1, 0)$.  As above, describe these parameters in a Python dictionary.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">e6c_psi</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">extras</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">h2</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">k2</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">l2</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e6c_psi</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">extras</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">e6c_psi</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">extras</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">h2</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">k2</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">l2</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e6c_psi</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">extras</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>e6c_psi.core.solver.extras={&#39;h2&#39;: 1.0, &#39;k2&#39;: 1.0, &#39;l2&#39;: 0.0}
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>e6c_psi.core.extras={&#39;h2&#39;: 1, &#39;k2&#39;: 1, &#39;l2&#39;: 0}
 </pre></div>
 </div>
 </div>
@@ -843,7 +843,7 @@ e6c_hkl.core.solver.U=[[0.034882054037, 0.999391435978, 0.0], [0.0, 0.0, 1.0], [
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">e6c_psi</span><span class="o">.</span><span class="n">move_reals</span><span class="p">(</span><span class="n">p_111</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e6c_psi</span><span class="o">.</span><span class="n">pseudo_axis_names</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e6c_psi</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">pseudo_axis_names</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e6c_psi</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver_pseudo_axis_names</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e6c_psi</span><span class="o">.</span><span class="n">position</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e6c_psi</span><span class="o">.</span><span class="n">real_position</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
@@ -851,9 +851,9 @@ e6c_hkl.core.solver.U=[[0.034882054037, 0.999391435978, 0.0], [0.0, 0.0, 1.0], [
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>e6c_psi.pseudo_axis_names=[&#39;psi&#39;]
-e6c_psi.core.solver.pseudo_axis_names=[&#39;psi&#39;]
-e6c_psi.position=Hklpy2DiffractometerPseudoPos(psi=132.03129879634)
-e6c_psi.real_position=Hklpy2DiffractometerRealPos(mu=0, omega=66.391607045542, chi=99.77381778179, phi=-49.997332854696, gamma=0, delta=24.509844391026)
+e6c_psi.core.solver_pseudo_axis_names=[&#39;psi&#39;]
+e6c_psi.position=Hklpy2DiffractometerPseudoPos(psi=11.999985086114)
+e6c_psi.real_position=Hklpy2DiffractometerRealPos(mu=0, omega=113.608391926862, chi=80.226182466798, phi=130.002672432183, gamma=0, delta=-24.50984311379)
 </pre></div>
 </div>
 </div>
@@ -869,16 +869,16 @@ e6c_psi.real_position=Hklpy2DiffractometerRealPos(mu=0, omega=66.391607045542, c
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Hklpy2Diffractometer(prefix=&#39;&#39;, name=&#39;e6c_hkl&#39;, settle_time=0.0, timeout=None, egu=&#39;&#39;, limits=(0, 0), source=&#39;computed&#39;, read_attrs=[&#39;h&#39;, &#39;h.readback&#39;, &#39;h.setpoint&#39;, &#39;k&#39;, &#39;k.readback&#39;, &#39;k.setpoint&#39;, &#39;l&#39;, &#39;l.readback&#39;, &#39;l.setpoint&#39;, &#39;mu&#39;, &#39;omega&#39;, &#39;chi&#39;, &#39;phi&#39;, &#39;gamma&#39;, &#39;delta&#39;], configuration_attrs=[&#39;geometry&#39;, &#39;solver&#39;, &#39;wavelength&#39;, &#39;h&#39;, &#39;k&#39;, &#39;l&#39;], concurrent=True)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Hklpy2Diffractometer(prefix=&#39;&#39;, name=&#39;e6c_hkl&#39;, settle_time=0.0, timeout=None, egu=&#39;&#39;, limits=(0, 0), source=&#39;computed&#39;, read_attrs=[&#39;h&#39;, &#39;h.readback&#39;, &#39;h.setpoint&#39;, &#39;k&#39;, &#39;k.readback&#39;, &#39;k.setpoint&#39;, &#39;l&#39;, &#39;l.readback&#39;, &#39;l.setpoint&#39;, &#39;mu&#39;, &#39;omega&#39;, &#39;chi&#39;, &#39;phi&#39;, &#39;gamma&#39;, &#39;delta&#39;], configuration_attrs=[&#39;solver_signature&#39;, &#39;wavelength&#39;, &#39;h&#39;, &#39;k&#39;, &#39;l&#39;], concurrent=True)
 h=1.0, k=1.0, l=1.0
 wavelength=1.54
-mu=0, omega=66.3916, chi=99.7738, phi=-49.9973, gamma=0, delta=24.5098
-h2=1.0 k2=1.0 l2=0 psi=12.0
-Hklpy2Diffractometer(prefix=&#39;&#39;, name=&#39;e6c_psi&#39;, settle_time=0.0, timeout=None, egu=&#39;&#39;, limits=(0, 0), source=&#39;computed&#39;, read_attrs=[&#39;psi&#39;, &#39;psi.readback&#39;, &#39;psi.setpoint&#39;, &#39;mu&#39;, &#39;omega&#39;, &#39;chi&#39;, &#39;phi&#39;, &#39;gamma&#39;, &#39;delta&#39;], configuration_attrs=[&#39;geometry&#39;, &#39;solver&#39;, &#39;wavelength&#39;, &#39;psi&#39;], concurrent=True)
-psi=132.0313
+mu=0, omega=113.6084, chi=80.2262, phi=130.0027, gamma=0, delta=-24.5098
+h2=1 k2=1 l2=0 psi=12
+Hklpy2Diffractometer(prefix=&#39;&#39;, name=&#39;e6c_psi&#39;, settle_time=0.0, timeout=None, egu=&#39;&#39;, limits=(0, 0), source=&#39;computed&#39;, read_attrs=[&#39;psi&#39;, &#39;psi.readback&#39;, &#39;psi.setpoint&#39;, &#39;mu&#39;, &#39;omega&#39;, &#39;chi&#39;, &#39;phi&#39;, &#39;gamma&#39;, &#39;delta&#39;], configuration_attrs=[&#39;solver_signature&#39;, &#39;wavelength&#39;, &#39;psi&#39;], concurrent=True)
+psi=12.0
 wavelength=1.0
-mu=0, omega=66.3916, chi=99.7738, phi=-49.9973, gamma=0, delta=24.5098
-h2=1.0 k2=1.0 l2=0
+mu=0, omega=113.6084, chi=80.2262, phi=130.0027, gamma=0, delta=-24.5098
+h2=1 k2=1 l2=0
 </pre></div>
 </div>
 </div>
@@ -933,7 +933,7 @@ $\omega$ so their ranges are limited to $0..180^o$.</p>
 positioner values will be available for plotting later.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">e6c_hkl</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">mode</span> <span class="o">=</span> <span class="s2">&quot;psi_constant_vertical&quot;</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">e6c_hkl</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">mode</span> <span class="o">=</span> <span class="s2">&quot;psi_constant_vertical&quot;</span>
 <span class="n">e6c_hkl</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">constraints</span><span class="p">[</span><span class="s2">&quot;phi&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">low_limit</span> <span class="o">=</span> <span class="mi">0</span>
 <span class="n">e6c_hkl</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">constraints</span><span class="p">[</span><span class="s2">&quot;omega&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">low_limit</span> <span class="o">=</span> <span class="mi">0</span>
 <span class="p">(</span><span class="n">uid</span><span class="p">,)</span> <span class="o">=</span> <span class="n">RE</span><span class="p">(</span>
@@ -951,29 +951,29 @@ positioner values will be available for plotting later.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Transient Scan ID: 1     Time: 2025-03-26 13:07:53
-Persistent Unique Scan ID: &#39;2d161957-ee99-431d-bfa4-e5c9f0d6610d&#39;
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Transient Scan ID: 1     Time: 2025-04-02 18:42:05
+Persistent Unique Scan ID: &#39;dd55a11f-8669-4fff-85d8-a82bbd22a970&#39;
 New stream: &#39;primary&#39;
 +-----------+------------+------------+------------+------------+------------+---------------+-------------+-------------+---------------+---------------+------------+--------------------+
 |   seq_num |       time |  e6c_hkl_h |  e6c_hkl_k |  e6c_hkl_l | e6c_hkl_mu | e6c_hkl_omega | e6c_hkl_chi | e6c_hkl_phi | e6c_hkl_gamma | e6c_hkl_delta |  noisy_det | e6c_hkl_extras_psi |
 +-----------+------------+------------+------------+------------+------------+---------------+-------------+-------------+---------------+---------------+------------+--------------------+
-|         1 | 13:07:53.9 |     -0.000 |     -0.000 |      2.000 |          0 |       165.812 |      90.000 |     155.434 |             0 |       -28.375 |      0.913 |              0.000 |
-|         2 | 13:07:53.9 |      0.000 |      0.000 |      2.000 |          0 |       165.812 |      90.000 |     144.720 |             0 |       -28.375 |      1.065 |             10.714 |
-|         3 | 13:07:53.9 |      0.000 |     -0.000 |      2.000 |          0 |       165.812 |      90.000 |     134.005 |             0 |       -28.375 |      0.908 |             21.429 |
-|         4 | 13:07:53.9 |      0.000 |     -0.000 |      2.000 |          0 |       165.812 |      90.000 |     123.291 |             0 |       -28.375 |      0.913 |             32.143 |
-|         5 | 13:07:53.9 |     -0.000 |      0.000 |      2.000 |          0 |       165.812 |      90.000 |     112.577 |             0 |       -28.375 |      1.077 |             42.857 |
-|         6 | 13:07:53.9 |     -0.000 |      0.000 |      2.000 |          0 |       165.812 |      90.000 |     101.863 |             0 |       -28.375 |      1.074 |             53.571 |
-|         7 | 13:07:54.0 |      0.000 |     -0.000 |      2.000 |          0 |       165.812 |      90.000 |      91.148 |             0 |       -28.375 |      0.970 |             64.286 |
-|         8 | 13:07:54.0 |     -0.000 |      0.000 |      2.000 |          0 |       165.812 |      90.000 |      80.434 |             0 |       -28.375 |      0.928 |             75.000 |
-|         9 | 13:07:54.0 |     -0.000 |     -0.000 |      2.000 |          0 |       165.812 |      90.000 |      69.720 |             0 |       -28.375 |      0.902 |             85.714 |
-|        10 | 13:07:54.0 |     -0.000 |      0.000 |      2.000 |          0 |       165.812 |      90.000 |      59.005 |             0 |       -28.375 |      0.986 |             96.429 |
-|        11 | 13:07:54.0 |     -0.000 |      0.000 |      2.000 |          0 |       165.812 |      90.000 |      48.291 |             0 |       -28.375 |      1.045 |            107.143 |
-|        12 | 13:07:54.0 |      0.000 |      0.000 |      2.000 |          0 |       165.812 |      90.000 |      37.577 |             0 |       -28.375 |      1.062 |            117.857 |
-|        13 | 13:07:54.0 |     -0.000 |     -0.000 |      2.000 |          0 |       165.812 |      90.000 |      26.863 |             0 |       -28.375 |      0.916 |            128.571 |
-|        14 | 13:07:54.0 |      0.000 |      0.000 |      2.000 |          0 |       165.812 |      90.000 |      16.148 |             0 |       -28.375 |      1.024 |            139.286 |
-|        15 | 13:07:54.0 |     -0.000 |      0.000 |      2.000 |          0 |       165.812 |      90.000 |       5.434 |             0 |       -28.375 |      0.996 |            150.000 |
+|         1 | 18:42:05.8 |     -0.000 |      0.000 |      2.000 |          0 |       165.812 |      90.000 |     155.434 |             0 |       -28.375 |      1.063 |              0.000 |
+|         2 | 18:42:05.8 |      0.000 |      0.000 |      2.000 |          0 |       165.812 |      90.000 |     144.720 |             0 |       -28.375 |      0.997 |             10.714 |
+|         3 | 18:42:05.8 |     -0.000 |      0.000 |      2.000 |          0 |       165.812 |      90.000 |     134.005 |             0 |       -28.375 |      0.989 |             21.429 |
+|         4 | 18:42:05.9 |      0.000 |      0.000 |      2.000 |          0 |       165.812 |      90.000 |     123.291 |             0 |       -28.375 |      1.075 |             32.143 |
+|         5 | 18:42:05.9 |      0.000 |     -0.000 |      2.000 |          0 |       165.812 |      90.000 |     112.577 |             0 |       -28.375 |      0.924 |             42.857 |
+|         6 | 18:42:05.9 |      0.000 |      0.000 |      2.000 |          0 |       165.812 |      90.000 |     101.863 |             0 |       -28.375 |      0.901 |             53.571 |
+|         7 | 18:42:05.9 |      0.000 |     -0.000 |      2.000 |          0 |       165.812 |      90.000 |      91.148 |             0 |       -28.375 |      0.970 |             64.286 |
+|         8 | 18:42:06.0 |      0.000 |     -0.000 |      2.000 |          0 |       165.812 |      90.000 |      80.434 |             0 |       -28.375 |      1.090 |             75.000 |
+|         9 | 18:42:06.0 |     -0.000 |     -0.000 |      2.000 |          0 |       165.812 |      90.000 |      69.720 |             0 |       -28.375 |      1.050 |             85.714 |
+|        10 | 18:42:06.0 |     -0.000 |     -0.000 |      2.000 |          0 |       165.812 |      90.000 |      59.005 |             0 |       -28.375 |      0.944 |             96.429 |
+|        11 | 18:42:06.0 |     -0.000 |     -0.000 |      2.000 |          0 |       165.812 |      90.000 |      48.291 |             0 |       -28.375 |      0.999 |            107.143 |
+|        12 | 18:42:06.0 |     -0.000 |     -0.000 |      2.000 |          0 |       165.812 |      90.000 |      37.577 |             0 |       -28.375 |      0.930 |            117.857 |
+|        13 | 18:42:06.0 |      0.000 |     -0.000 |      2.000 |          0 |       165.812 |      90.000 |      26.863 |             0 |       -28.375 |      1.058 |            128.571 |
+|        14 | 18:42:06.1 |     -0.000 |     -0.000 |      2.000 |          0 |       165.812 |      90.000 |      16.148 |             0 |       -28.375 |      0.990 |            139.286 |
+|        15 | 18:42:06.1 |     -0.000 |     -0.000 |      2.000 |          0 |       165.812 |      90.000 |       5.434 |             0 |       -28.375 |      1.018 |            150.000 |
 +-----------+------------+------------+------------+------------+------------+---------------+-------------+-------------+---------------+---------------+------------+--------------------+
-generator scan_extra [&#39;2d161957&#39;] (scan num: 1)
+generator scan_extra [&#39;dd55a11f&#39;] (scan num: 1)
 </pre></div>
 </div>
 </div>
@@ -1026,7 +1026,7 @@ name.</p>
   &#39;dims&#39;: dict(self._ds.dims),
 </pre></div>
 </div>
-<img alt="../_images/3a10cec1f3fd49332af1cd66acc664bdcdcd696c7cf4319b33b698589be78d2f.png" src="../_images/3a10cec1f3fd49332af1cd66acc664bdcdcd696c7cf4319b33b698589be78d2f.png" />
+<img alt="../_images/c9fc95b5255eab453285bd75c1eff72aba1e94b6079e26f4209ce296b8479ed5.png" src="../_images/c9fc95b5255eab453285bd75c1eff72aba1e94b6079e26f4209ce296b8479ed5.png" />
 </div>
 </div>
 </section>

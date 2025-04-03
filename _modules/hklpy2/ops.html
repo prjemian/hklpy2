@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../../_static/documentation_options.js?v=26ffa1e9"></script>
+    <script src="../../_static/documentation_options.js?v=47cb9828"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/design-tabs.js?v=f930bc37"></script>
@@ -399,6 +399,7 @@
 
 <span class="n">Number</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span>
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+<span class="n">DEFAULT_EXTRA_VALUE</span> <span class="o">=</span> <span class="mi">0</span>
 <span class="n">DEFAULT_SAMPLE_NAME</span> <span class="o">=</span> <span class="s2">&quot;sample&quot;</span>
 
 
@@ -427,6 +428,7 @@
 <span class="sd">        ~assign_axes</span>
 <span class="sd">        ~calc_UB</span>
 <span class="sd">        ~forward</span>
+<span class="sd">        ~geometries</span>
 <span class="sd">        ~inverse</span>
 <span class="sd">        ~local_pseudo_axes</span>
 <span class="sd">        ~local_real_axes</span>
@@ -442,24 +444,39 @@
 
 <span class="sd">    .. autosummary::</span>
 
+<span class="sd">        ~all_extras</span>
+<span class="sd">        ~extras</span>
 <span class="sd">        ~geometry</span>
+<span class="sd">        ~mode</span>
+<span class="sd">        ~modes</span>
 <span class="sd">        ~sample</span>
 <span class="sd">        ~solver</span>
+<span class="sd">        ~solver_extra_axis_names</span>
+<span class="sd">        ~solver_name</span>
+<span class="sd">        ~solver_pseudo_axis_names</span>
+<span class="sd">        ~solver_real_axis_names</span>
+<span class="sd">        ~solver_signature</span>
+<span class="sd">        ~solver_summary</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="kn">from</span><span class="w"> </span><span class="nn">.blocks.sample</span><span class="w"> </span><span class="kn">import</span> <span class="n">Sample</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">diffractometer</span><span class="p">,</span> <span class="n">default_sample</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="c1"># axes names cross-reference</span>
-        <span class="c1"># keys: diffractometer axis names</span>
-        <span class="c1"># values: solver axis names</span>
 <div class="viewcode-block" id="Core.axes_xref">
 <a class="viewcode-back" href="../../autoapi/hklpy2/ops/index.html#hklpy2.ops.Core.axes_xref">[docs]</a>
-        <span class="bp">self</span><span class="o">.</span><span class="n">axes_xref</span> <span class="o">=</span> <span class="p">{}</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">axes_xref</span> <span class="o">=</span> <span class="p">{}</span>  <span class="c1"># cross-reference:  diffractometer name : solver name</span></div>
 
 <div class="viewcode-block" id="Core.diffractometer">
 <a class="viewcode-back" href="../../autoapi/hklpy2/ops/index.html#hklpy2.ops.Core.diffractometer">[docs]</a>
         <span class="bp">self</span><span class="o">.</span><span class="n">diffractometer</span> <span class="o">=</span> <span class="n">diffractometer</span></div>
+
+<div class="viewcode-block" id="Core._extras">
+<a class="viewcode-back" href="../../autoapi/hklpy2/ops/index.html#hklpy2.ops.Core._extras">[docs]</a>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_extras</span> <span class="o">=</span> <span class="p">{}</span>  <span class="c1"># Dictionary of any extra solver axis (across all modes).</span></div>
+
+<div class="viewcode-block" id="Core._mode">
+<a class="viewcode-back" href="../../autoapi/hklpy2/ops/index.html#hklpy2.ops.Core._mode">[docs]</a>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_mode</span> <span class="o">=</span> <span class="kc">None</span></div>
 
 <div class="viewcode-block" id="Core._sample_name">
 <a class="viewcode-back" href="../../autoapi/hklpy2/ops/index.html#hklpy2.ops.Core._sample_name">[docs]</a>
@@ -496,23 +513,18 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Describe the diffractometer as a dictionary.&quot;&quot;&quot;</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">.__init__</span><span class="w"> </span><span class="kn">import</span> <span class="n">__version__</span>
 
-        <span class="n">dfrct</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">diffractometer</span>
-        <span class="c1"># 2025-02-26: Apparently not needed, not easy to setup either.</span>
-        <span class="c1">#     Retain in comment, just in case...</span>
-        <span class="c1"># if not hasattr(dfrct, &quot;name&quot;) or not hasattr(dfrct, &quot;_source&quot;):</span>
-        <span class="c1">#     return {}  # Ophyd Device not initialized yet.  Empty dict is OK.</span>
-
         <span class="n">config</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s2">&quot;_header&quot;</span><span class="p">:</span> <span class="p">{</span>
                 <span class="s2">&quot;datetime&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()),</span>
                 <span class="s2">&quot;hklpy2_version&quot;</span><span class="p">:</span> <span class="n">__version__</span><span class="p">,</span>
-                <span class="s2">&quot;python_class&quot;</span><span class="p">:</span> <span class="n">dfrct</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span>
+                <span class="s2">&quot;python_class&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">diffractometer</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span>
             <span class="p">},</span>
             <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">diffractometer</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
             <span class="s2">&quot;axes&quot;</span><span class="p">:</span> <span class="p">{</span>
                 <span class="s2">&quot;pseudo_axes&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">diffractometer</span><span class="o">.</span><span class="n">pseudo_axis_names</span><span class="p">,</span>
                 <span class="s2">&quot;real_axes&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">diffractometer</span><span class="o">.</span><span class="n">real_axis_names</span><span class="p">,</span>
                 <span class="s2">&quot;axes_xref&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">axes_xref</span><span class="p">,</span>
+                <span class="s2">&quot;extra_axes&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">all_extras</span><span class="p">,</span>
             <span class="p">},</span>
             <span class="s2">&quot;sample_name&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
             <span class="s2">&quot;samples&quot;</span><span class="p">:</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span><span class="o">.</span><span class="n">_asdict</span><span class="p">()</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_samples</span><span class="o">.</span><span class="n">items</span><span class="p">()},</span>
@@ -521,17 +533,36 @@
         <span class="p">}</span>
         <span class="n">config</span><span class="p">[</span><span class="s2">&quot;_header&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">diffractometer</span><span class="o">.</span><span class="n">_source</span><span class="o">.</span><span class="n">_asdict</span><span class="p">())</span>
 
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;hkl_soleil&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="s2">&quot;engine_name&quot;</span> <span class="ow">in</span> <span class="nb">dir</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="p">):</span>
             <span class="n">config</span><span class="p">[</span><span class="s2">&quot;solver&quot;</span><span class="p">][</span><span class="s2">&quot;engine&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">engine_name</span>
-            <span class="n">config</span><span class="p">[</span><span class="s2">&quot;axes&quot;</span><span class="p">][</span><span class="s2">&quot;extra_axes&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">extras</span>
 
         <span class="k">return</span> <span class="n">config</span></div>
+
+
+<div class="viewcode-block" id="Core._axes_names_s2d">
+<a class="viewcode-back" href="../../autoapi/hklpy2/ops/index.html#hklpy2.ops.Core._axes_names_s2d">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_axes_names_s2d</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axis_dict</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert keys of axis dictionary from solver to diffractometer.&quot;&quot;&quot;</span>
+        <span class="n">reverse</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">axes_xref_reversed</span>
+        <span class="k">return</span> <span class="p">{</span><span class="n">reverse</span><span class="p">[</span><span class="n">k</span><span class="p">]:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">axis_dict</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span></div>
+
+
+<div class="viewcode-block" id="Core._axes_names_d2s">
+<a class="viewcode-back" href="../../autoapi/hklpy2/ops/index.html#hklpy2.ops.Core._axes_names_d2s">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_axes_names_d2s</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axis_dict</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert keys of axis dictionary from diffractometer to solver.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">{</span><span class="bp">self</span><span class="o">.</span><span class="n">axes_xref</span><span class="p">[</span><span class="n">k</span><span class="p">]:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">axis_dict</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span></div>
 
 
 <div class="viewcode-block" id="Core._fromdict">
 <a class="viewcode-back" href="../../autoapi/hklpy2/ops/index.html#hklpy2.ops.Core._fromdict">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">_fromdict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Redefine diffractometer from a (configuration) dictionary.&quot;&quot;&quot;</span>
+        <span class="c1"># Since this code might raise, validate first.</span>
+        <span class="n">extras</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_validate_extras</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;axes&quot;</span><span class="p">][</span><span class="s2">&quot;extra_axes&quot;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">all_extras</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">extras</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_extras</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">extras</span><span class="p">)</span>
+
         <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">sample</span> <span class="ow">in</span> <span class="n">config</span><span class="p">[</span><span class="s2">&quot;samples&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="n">sample_object</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">add_sample</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
             <span class="n">sample_object</span><span class="o">.</span><span class="n">_fromdict</span><span class="p">(</span><span class="n">sample</span><span class="p">,</span> <span class="n">core</span><span class="o">=</span><span class="bp">self</span><span class="p">)</span>
@@ -549,6 +580,29 @@
                 <span class="n">axis_local</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">axes_xref_reversed</span><span class="p">[</span><span class="n">axis_canonical</span><span class="p">]</span>
                 <span class="n">constraint</span><span class="p">[</span><span class="s2">&quot;label&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">axis_local</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">constraints</span><span class="o">.</span><span class="n">_fromdict</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;constraints&quot;</span><span class="p">],</span> <span class="n">core</span><span class="o">=</span><span class="bp">self</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Core._validate_extras">
+<a class="viewcode-back" href="../../autoapi/hklpy2/ops/index.html#hklpy2.ops.Core._validate_extras">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_validate_extras</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">values</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Number</span><span class="p">],</span>
+        <span class="n">expected</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Number</span><span class="p">],</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Number</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Validate that the supplied extras are acceptable.&quot;&quot;&quot;</span>
+        <span class="n">extras</span><span class="p">,</span> <span class="n">unexpected</span> <span class="o">=</span> <span class="p">{},</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">values</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">expected</span><span class="p">:</span>
+                <span class="n">extras</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">unexpected</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">unexpected</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Unexpected extra axis name(s) </span><span class="si">{</span><span class="n">unexpected</span><span class="si">!r}</span><span class="s2">.&quot;</span>
+                <span class="c1"># ..</span>
+                <span class="sa">f</span><span class="s2">&quot;  Expected names: </span><span class="si">{</span><span class="n">expected</span><span class="si">}</span><span class="s2">.&quot;</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="n">extras</span></div>
 
 
 <div class="viewcode-block" id="Core._validate_pseudos">
@@ -621,7 +675,7 @@
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
             <span class="s2">&quot;name=</span><span class="si">%r</span><span class="s2">, geometry=</span><span class="si">%r</span><span class="s2">, wavelength=</span><span class="si">%r</span><span class="s2">&quot;</span><span class="p">,</span>
             <span class="n">name</span><span class="p">,</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">geometry</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">geometry</span><span class="p">,</span>
             <span class="n">wavelength</span><span class="p">,</span>
         <span class="p">)</span>
 
@@ -641,7 +695,7 @@
             <span class="n">pdict</span><span class="p">,</span>
             <span class="n">rdict</span><span class="p">,</span>
             <span class="n">wavelength</span><span class="p">,</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">geometry</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">geometry</span><span class="p">,</span>
             <span class="n">pnames</span><span class="p">,</span>
             <span class="n">rnames</span><span class="p">,</span>
         <span class="p">)</span>
@@ -674,6 +728,14 @@
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">solver</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">sample</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sample</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">sample</span></div>
+
+
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="Core.all_extras">
+<a class="viewcode-back" href="../../autoapi/hklpy2/ops/index.html#hklpy2.ops.Core.all_extras">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">all_extras</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sorted dictionary of |solver| extra parameters in any mode.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_extras</span></div>
 
 
 <div class="viewcode-block" id="Core.assign_axes">
@@ -717,21 +779,6 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">reset_constraints</span><span class="p">()</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;axes_xref=</span><span class="si">%r</span><span class="s2">&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">axes_xref</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">configuration</span> <span class="o">=</span> <span class="n">Configuration</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">diffractometer</span><span class="p">)</span></div>
-
-
-<div class="viewcode-block" id="Core._axes_names_s2d">
-<a class="viewcode-back" href="../../autoapi/hklpy2/ops/index.html#hklpy2.ops.Core._axes_names_s2d">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">_axes_names_s2d</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axis_dict</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert keys of axis dictionary from solver to diffractometer.&quot;&quot;&quot;</span>
-        <span class="n">reverse</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">axes_xref_reversed</span>
-        <span class="k">return</span> <span class="p">{</span><span class="n">reverse</span><span class="p">[</span><span class="n">k</span><span class="p">]:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">axis_dict</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span></div>
-
-
-<div class="viewcode-block" id="Core._axes_names_d2s">
-<a class="viewcode-back" href="../../autoapi/hklpy2/ops/index.html#hklpy2.ops.Core._axes_names_d2s">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">_axes_names_d2s</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axis_dict</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert keys of axis dictionary from diffractometer to solver.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="p">{</span><span class="bp">self</span><span class="o">.</span><span class="n">axes_xref</span><span class="p">[</span><span class="n">k</span><span class="p">]:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">axis_dict</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span></div>
 
 
     <span class="nd">@property</span>
@@ -780,6 +827,24 @@
         <span class="k">return</span> <span class="n">ub</span></div>
 
 
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="Core.extras">
+<a class="viewcode-back" href="../../autoapi/hklpy2/ops/index.html#hklpy2.ops.Core.extras">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">extras</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Ordered dictionary of |solver| extra parameters in current mode.&quot;&quot;&quot;</span>
+        <span class="n">every</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">all_extras</span>
+        <span class="n">current</span> <span class="o">=</span> <span class="p">{</span><span class="n">axis</span><span class="p">:</span> <span class="n">every</span><span class="p">[</span><span class="n">axis</span><span class="p">]</span> <span class="k">for</span> <span class="n">axis</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">solver_extra_axis_names</span><span class="p">}</span>
+        <span class="k">return</span> <span class="n">current</span></div>
+
+
+    <span class="nd">@extras</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">extras</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Number</span><span class="p">]):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set |solver| extra parameters for the current mode.&quot;&quot;&quot;</span>
+        <span class="n">incoming</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_validate_extras</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">extras</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">incoming</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_extras</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">incoming</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_solver_needs_update</span> <span class="o">=</span> <span class="kc">True</span>
+
 <div class="viewcode-block" id="Core.forward">
 <a class="viewcode-back" href="../../autoapi/hklpy2/ops/index.html#hklpy2.ops.Core.forward">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pseudos</span><span class="p">:</span> <span class="n">AnyAxesType</span><span class="p">,</span> <span class="n">wavelength</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
@@ -804,6 +869,22 @@
                 <span class="n">solutions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">diffractometer</span><span class="o">.</span><span class="n">RealPosition</span><span class="p">(</span><span class="o">**</span><span class="n">reals</span><span class="p">))</span>
 
         <span class="k">return</span> <span class="n">solutions</span></div>
+
+
+<div class="viewcode-block" id="Core.geometries">
+<a class="viewcode-back" href="../../autoapi/hklpy2/ops/index.html#hklpy2.ops.Core.geometries">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">geometries</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return all available |solver| geometries.&quot;&quot;&quot;</span>
+        <span class="c1"># Not a @property since it&#39;s a classmethod of a Solver.</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">geometries</span><span class="p">()</span></div>
+
+
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="Core.geometry">
+<a class="viewcode-back" href="../../autoapi/hklpy2/ops/index.html#hklpy2.ops.Core.geometry">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">geometry</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the |solver| geometry.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">geometry</span></div>
 
 
 <div class="viewcode-block" id="Core.inverse">
@@ -877,6 +958,32 @@
         <span class="p">]</span></div>
 
 
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="Core.mode">
+<a class="viewcode-back" href="../../autoapi/hklpy2/ops/index.html#hklpy2.ops.Core.mode">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">mode</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the current computation mode.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mode</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_mode</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">mode</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_solver_needs_update</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mode</span></div>
+
+
+    <span class="nd">@mode</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">mode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the computation mode to be used.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">modes</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_mode</span> <span class="o">=</span> <span class="n">value</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_solver_needs_update</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="Core.modes">
+<a class="viewcode-back" href="../../autoapi/hklpy2/ops/index.html#hklpy2.ops.Core.modes">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">modes</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the list of available |solver| modes.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">modes</span></div>
+
+
 <div class="viewcode-block" id="Core.refine_lattice">
 <a class="viewcode-back" href="../../autoapi/hklpy2/ops/index.html#hklpy2.ops.Core.refine_lattice">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">refine_lattice</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reflections</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Lattice</span><span class="p">:</span>
@@ -924,6 +1031,91 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">add_sample</span><span class="p">(</span><span class="n">DEFAULT_SAMPLE_NAME</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span></div>
 
 
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="Core.sample">
+<a class="viewcode-back" href="../../autoapi/hklpy2/ops/index.html#hklpy2.ops.Core.sample">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">sample</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Sample</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Current Sample (Python object).&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">samples</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_sample_name</span><span class="p">]</span></div>
+
+
+    <span class="nd">@sample</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">sample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_sample_name</span> <span class="o">=</span> <span class="n">value</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">solver</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">U</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">U</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">UB</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">UB</span>
+            <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+                <span class="k">pass</span>  <span class="c1"># property is not settable</span>
+
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="Core.samples">
+<a class="viewcode-back" href="../../autoapi/hklpy2/ops/index.html#hklpy2.ops.Core.samples">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">samples</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sample dictionary.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_samples</span></div>
+
+
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="Core.solver">
+<a class="viewcode-back" href="../../autoapi/hklpy2/ops/index.html#hklpy2.ops.Core.solver">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">solver</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SolverBase</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Backend |solver| object.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_solver</span></div>
+
+
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="Core.solver_extra_axis_names">
+<a class="viewcode-back" href="../../autoapi/hklpy2/ops/index.html#hklpy2.ops.Core.solver_extra_axis_names">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">solver_extra_axis_names</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Ordered list of any |solver| extra axis names in current mode.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">update_solver</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">extra_axis_names</span></div>
+
+
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="Core.solver_name">
+<a class="viewcode-back" href="../../autoapi/hklpy2/ops/index.html#hklpy2.ops.Core.solver_name">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">solver_name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Name of |solver|.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">name</span></div>
+
+
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="Core.solver_pseudo_axis_names">
+<a class="viewcode-back" href="../../autoapi/hklpy2/ops/index.html#hklpy2.ops.Core.solver_pseudo_axis_names">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">solver_pseudo_axis_names</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Ordered list of |solver| pseudo axis names.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">update_solver</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">pseudo_axis_names</span></div>
+
+
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="Core.solver_real_axis_names">
+<a class="viewcode-back" href="../../autoapi/hklpy2/ops/index.html#hklpy2.ops.Core.solver_real_axis_names">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">solver_real_axis_names</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Ordered list of |solver| real axis names.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">update_solver</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">real_axis_names</span></div>
+
+
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="Core.solver_signature">
+<a class="viewcode-back" href="../../autoapi/hklpy2/ops/index.html#hklpy2.ops.Core.solver_signature">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">solver_signature</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return &#39;repr(self.solver)&#39; for use as ophyd.AttributeSignal.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">repr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="p">)</span></div>
+
+
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="Core.solver_summary">
+<a class="viewcode-back" href="../../autoapi/hklpy2/ops/index.html#hklpy2.ops.Core.solver_summary">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">solver_summary</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return table of solver&#39;s geometry (modes, axes)..&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">summary</span></div>
+
+
 <div class="viewcode-block" id="Core.set_solver">
 <a class="viewcode-back" href="../../autoapi/hklpy2/ops/index.html#hklpy2.ops.Core.set_solver">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">set_solver</span><span class="p">(</span>
@@ -949,6 +1141,9 @@
             <span class="n">kwargs</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_solver</span> <span class="o">=</span> <span class="n">solver_factory</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">geometry</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_extras</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="n">k</span><span class="p">:</span> <span class="n">DEFAULT_EXTRA_VALUE</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">all_extra_axis_names</span>
+        <span class="p">}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">update_solver</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_solver_needs_update</span> <span class="o">=</span> <span class="kc">True</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_solver</span></div>
@@ -999,60 +1194,30 @@
 <a class="viewcode-back" href="../../autoapi/hklpy2/ops/index.html#hklpy2.ops.Core.update_solver">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">update_solver</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">wavelength</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Update solver data if needed.&quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_solver_needs_update</span> <span class="ow">or</span> <span class="n">wavelength</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">mode</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="ow">or</span> <span class="n">wavelength</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_solver_needs_update</span> <span class="o">=</span> <span class="kc">True</span>  <span class="c1"># force the update</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_solver_needs_update</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">sample</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sample</span>  <span class="c1"># lattice &amp; reflections</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">wavelength</span> <span class="o">=</span> <span class="n">wavelength</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">diffractometer</span><span class="o">.</span><span class="n">wavelength</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
-            <span class="c1"># print(f&quot;DEBUG update_solver(): {self.sample.UB=}&quot;)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">mode</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span>
+
+            <span class="k">try</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">extras</span> <span class="o">=</span> <span class="p">{</span>
+                    <span class="n">axis</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_extras</span><span class="p">[</span><span class="n">axis</span><span class="p">]</span>
+                    <span class="c1"># multiline</span>
+                    <span class="k">for</span> <span class="n">axis</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">extra_axis_names</span>
+                <span class="p">}</span>
+            <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+                <span class="k">pass</span>  <span class="c1"># Some solvers have no setter for extras</span>
+
             <span class="k">try</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">U</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">U</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">UB</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">UB</span>
             <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
                 <span class="k">pass</span>  <span class="c1"># Some solvers have no setter for U &amp; UB</span>
+
             <span class="bp">self</span><span class="o">.</span><span class="n">_solver_needs_update</span> <span class="o">=</span> <span class="kc">False</span></div>
-
-
-    <span class="c1"># ---- get/set properties</span>
-
-    <span class="nd">@property</span>
-<div class="viewcode-block" id="Core.geometry">
-<a class="viewcode-back" href="../../autoapi/hklpy2/ops/index.html#hklpy2.ops.Core.geometry">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">geometry</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Backend |solver| geometry name.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">geometry</span></div>
-
-
-    <span class="nd">@property</span>
-<div class="viewcode-block" id="Core.sample">
-<a class="viewcode-back" href="../../autoapi/hklpy2/ops/index.html#hklpy2.ops.Core.sample">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">sample</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Sample</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Current Sample (Python object).&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">samples</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_sample_name</span><span class="p">]</span></div>
-
-
-    <span class="nd">@sample</span><span class="o">.</span><span class="n">setter</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">sample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_sample_name</span> <span class="o">=</span> <span class="n">value</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">solver</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">try</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">U</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">U</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">UB</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">UB</span>
-            <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
-                <span class="k">pass</span>  <span class="c1"># property is not settable</span>
-
-    <span class="nd">@property</span>
-<div class="viewcode-block" id="Core.samples">
-<a class="viewcode-back" href="../../autoapi/hklpy2/ops/index.html#hklpy2.ops.Core.samples">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">samples</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sample dictionary.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_samples</span></div>
-
-
-    <span class="nd">@property</span>
-<div class="viewcode-block" id="Core.solver">
-<a class="viewcode-back" href="../../autoapi/hklpy2/ops/index.html#hklpy2.ops.Core.solver">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">solver</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SolverBase</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Backend |solver| object.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_solver</span></div>
 </div>
 
 </pre></div>

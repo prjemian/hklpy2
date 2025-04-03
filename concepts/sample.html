@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=26ffa1e9"></script>
+    <script src="../_static/documentation_options.js?v=47cb9828"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
@@ -335,7 +335,7 @@
 <li class="toctree-l2"><a class="reference internal" href="wavelength.html">Wavelength</a></li>
 </ul>
 </details></li>
-<li class="toctree-l1"><a class="reference internal" href="../geometry_tables.html">Diffractometers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../diffractometers.html">Diffractometers</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../examples.html">Examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../examples/_api_demo.html">Demonstrate <strong>hklpy2</strong>’s API</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/constraints.html">Constraints</a></li>
@@ -436,11 +436,10 @@
 <a class="reference internal" href="../autoapi/hklpy2/blocks/sample/index.html#hklpy2.blocks.sample.Sample" title="hklpy2.blocks.sample.Sample"><code class="xref py py-class docutils literal notranslate"><span class="pre">Sample()</span></code></a> class.  The complete list of all a
 diffractometer’s samples (a Python dictionary) is managed by the core
 <a class="reference internal" href="../autoapi/hklpy2/ops/index.html#hklpy2.ops.Core" title="hklpy2.ops.Core"><code class="xref py py-class docutils literal notranslate"><span class="pre">Core()</span></code></a> class.</p>
-<p>You can find the samples at <code class="docutils literal notranslate"><span class="pre">fourc.core.samples</span></code> (substitute your
-diffractometer’s name here).  There is a shortcut: <code class="docutils literal notranslate"><span class="pre">fourc.samples</span></code>.</p>
+<p>You can find the samples at <code class="docutils literal notranslate"><span class="pre">fourc.samples</span></code>, a shortcut to
+<code class="docutils literal notranslate"><span class="pre">fourc.core.samples</span></code> (substitute your diffractometer’s name here).</p>
 <p>It’s easy to switch between samples when there are choices.  For example, select
-the <em>vibranium</em> sample: <code class="docutils literal notranslate"><span class="pre">fourc.core.sample</span> <span class="pre">=</span> <span class="pre">&quot;vibranium&quot;</span></code> (shortcut:
-<code class="docutils literal notranslate"><span class="pre">fourc.sample</span> <span class="pre">=</span> <span class="pre">&quot;vibranium&quot;</span></code>)</p>
+the <em>vibranium</em> sample: <code class="docutils literal notranslate"><span class="pre">fourc.sample</span> <span class="pre">=</span> <span class="pre">&quot;vibranium&quot;</span></code></p>
 <p>The operations <code class="docutils literal notranslate"><span class="pre">.core</span></code> sends information <em>from</em> the selected sample <em>to</em> the
 solver when calling a solver function (such as
 <a class="reference internal" href="../autoapi/hklpy2/backends/base/index.html#hklpy2.backends.base.SolverBase.calculate_UB" title="hklpy2.backends.base.SolverBase.calculate_UB"><code class="xref py py-meth docutils literal notranslate"><span class="pre">calculate_UB()</span></code></a>). When the solver

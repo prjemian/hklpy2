@@ -21,7 +21,7 @@ Let's see examples of diffractometers built with user-defined names.
 Diffractometer Creator
 +++++++++++++++++++++++++++++++
 
-The :func:`~hklpy2.geom.creator()` function constructs a diffractometer object using the
+The :func:`~hklpy2.diffract.creator()` function constructs a diffractometer object using the
 supplied `reals={}` to define their names.  These are mapped to the names used
 by the |solver|.  Let's show this cross-reference map with just a few commands::
 
@@ -96,7 +96,7 @@ Create a Python object that uses this class:
 
     twoc = S1D1(name="twoc")
 
-.. tip:: Use the :func:`hklpy2.geom.creator()` instead:
+.. tip:: Use the :func:`hklpy2.diffract.creator()` instead:
 
     .. code-block:: Python
 
@@ -181,11 +181,11 @@ What are the axes expected by this |solver|?
 
 .. code-block:: Python
 
-    >>> twoc.core.solver.pseudo_axis_names
+    >>> twoc.core.solver_pseudo_axis_names
     ['q']
-    >>> twoc.core.solver.real_axis_names
+    >>> twoc.core.solver_real_axis_names
     ['th', 'tth']
-    >>> twoc.core.solver.extra_axis_names
+    >>> twoc.core.solver_extra_axis_names
     []
 
 Show the cross-reference mapping from diffractometer

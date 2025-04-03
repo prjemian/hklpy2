@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=26ffa1e9"></script>
+    <script src="../_static/documentation_options.js?v=47cb9828"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
@@ -335,7 +335,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../concepts/wavelength.html">Wavelength</a></li>
 </ul>
 </details></li>
-<li class="toctree-l1"><a class="reference internal" href="../geometry_tables.html">Diffractometers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../diffractometers.html">Diffractometers</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../examples.html">Examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../examples/_api_demo.html">Demonstrate <strong>hklpy2</strong>’s API</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/constraints.html">Constraints</a></li>
@@ -431,7 +431,7 @@
                   
   <section id="diffractometer-extra-solver-parameters">
 <h1>Diffractometer Extra Solver Parameters<a class="headerlink" href="#diffractometer-extra-solver-parameters" title="Link to this heading">#</a></h1>
-<p>Some of the diffractometer <em>modes</em> use extra parameters.  The <a class="reference internal" href="../geometry_tables.html#geometries-hkl-soleil-e4cv"><span class="std std-ref">E4CV</span></a> geometry, for example, has a <code class="docutils literal notranslate"><span class="pre">double_diffraction</span></code> mode which requires a reference <span class="math notranslate nohighlight">\(hkl_2\)</span> vector.  The vector is set as a Python dictionary:</p>
+<p>Some diffractometer <em>modes</em> use extra parameters.  The <a class="reference internal" href="../diffractometers.html#geometries-hkl-soleil-e4cv"><span class="std std-ref">E4CV</span></a> geometry, for example, has a <code class="docutils literal notranslate"><span class="pre">double_diffraction</span></code> mode which requires a reference <span class="math notranslate nohighlight">\(hkl_2\)</span> vector.  The vector is set as a Python dictionary:</p>
 <div class="pst-scrollable-table-container"><table class="table">
 <thead>
 <tr class="row-odd"><th class="head text-left"><p>action</p></th>
@@ -440,10 +440,10 @@
 </thead>
 <tbody>
 <tr class="row-even"><td class="text-left"><p>read</p></td>
-<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">e4cv.core.solver.extras</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">e4cv.core.extras</span></code></p></td>
 </tr>
 <tr class="row-odd"><td class="text-left"><p>write</p></td>
-<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">e4cv.core.solver.extras</span> <span class="pre">=</span></code> dictionary</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">e4cv.core.extras</span> <span class="pre">=</span></code> dictionary</p></td>
 </tr>
 </tbody>
 </table>
@@ -495,6 +495,7 @@ constraint: -180.0 &lt;= omega &lt;= 180.0
 constraint: -180.0 &lt;= chi &lt;= 180.0
 constraint: -50.0 &lt;= phi &lt;= 100.0
 constraint: -2.0 &lt;= tth &lt;= 180.0
+Mode: bissector
 h=0, k=0, l=0
 wavelength=1.239424258
 omega=0, chi=0, phi=0, tth=0
@@ -505,15 +506,15 @@ omega=0, chi=0, phi=0, tth=0
 <p>Set the <code class="docutils literal notranslate"><span class="pre">double_diffraction</span></code> mode.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">e4cv</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">mode</span> <span class="o">=</span> <span class="s2">&quot;double_diffraction&quot;</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e4cv</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">mode</span><span class="si">=!r}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e4cv</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">extras</span><span class="si">=!r}</span><span class="s2">&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">e4cv</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">mode</span> <span class="o">=</span> <span class="s2">&quot;double_diffraction&quot;</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e4cv</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">mode</span><span class="si">=!r}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e4cv</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">extras</span><span class="si">=!r}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>e4cv.core.solver.mode=&#39;double_diffraction&#39;
-e4cv.core.solver.extras={&#39;h2&#39;: 1.0, &#39;k2&#39;: 1.0, &#39;l2&#39;: 1.0}
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>e4cv.core.mode=&#39;double_diffraction&#39;
+e4cv.core.extras={&#39;h2&#39;: 0, &#39;k2&#39;: 0, &#39;l2&#39;: 0}
 </pre></div>
 </div>
 </div>
@@ -521,7 +522,7 @@ e4cv.core.solver.extras={&#39;h2&#39;: 1.0, &#39;k2&#39;: 1.0, &#39;l2&#39;: 1.0
 <p>Set $hkl_2=(2\ 2\ 0)$.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">e4cv</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">extras</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;h2&#39;</span><span class="p">:</span> <span class="mf">2.0</span><span class="p">,</span> <span class="s1">&#39;k2&#39;</span><span class="p">:</span> <span class="mf">2.0</span><span class="p">,</span> <span class="s1">&#39;l2&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">}</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">e4cv</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">extras</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;h2&#39;</span><span class="p">:</span> <span class="mf">2.0</span><span class="p">,</span> <span class="s1">&#39;k2&#39;</span><span class="p">:</span> <span class="mf">2.0</span><span class="p">,</span> <span class="s1">&#39;l2&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">}</span>
 </pre></div>
 </div>
 </div>
@@ -531,14 +532,14 @@ e4cv.core.solver.extras={&#39;h2&#39;: 1.0, &#39;k2&#39;: 1.0, &#39;l2&#39;: 1.0
 <h2>Calculate (002) with (220) as second diffracting plane<a class="headerlink" href="#calculate-002-with-220-as-second-diffracting-plane" title="Link to this heading">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e4cv</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">extras</span><span class="si">=!r}</span><span class="s2">&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e4cv</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">extras</span><span class="si">=!r}</span><span class="s2">&quot;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;(002) :&quot;</span><span class="p">,</span> <span class="n">e4cv</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>e4cv.core.solver.extras={&#39;h2&#39;: 2.0, &#39;k2&#39;: 2.0, &#39;l2&#39;: 0.0}
-(002) : Hklpy2DiffractometerRealPos(omega=19.125950423193, chi=89.98528785702, phi=19.056580679972, tth=38.084061000204)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>e4cv.core.extras={&#39;h2&#39;: 2.0, &#39;k2&#39;: 2.0, &#39;l2&#39;: 0}
+(002) : Hklpy2DiffractometerRealPos(omega=19.125950225128, chi=89.985287878118, phi=19.056580793553, tth=38.084060865636)
 </pre></div>
 </div>
 </div>
@@ -548,15 +549,15 @@ e4cv.core.solver.extras={&#39;h2&#39;: 1.0, &#39;k2&#39;: 1.0, &#39;l2&#39;: 1.0
 <h2>Calculate (002) with (222) as second diffracting plane<a class="headerlink" href="#calculate-002-with-222-as-second-diffracting-plane" title="Link to this heading">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">e4cv</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">extras</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;h2&#39;</span><span class="p">:</span> <span class="mf">2.0</span><span class="p">,</span> <span class="s1">&#39;k2&#39;</span><span class="p">:</span> <span class="mf">2.0</span><span class="p">,</span> <span class="s1">&#39;l2&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">}</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e4cv</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">extras</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">e4cv</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">extras</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;h2&#39;</span><span class="p">:</span> <span class="mf">2.0</span><span class="p">,</span> <span class="s1">&#39;k2&#39;</span><span class="p">:</span> <span class="mf">2.0</span><span class="p">,</span> <span class="s1">&#39;l2&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">}</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e4cv</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">extras</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;(002) :&quot;</span><span class="p">,</span> <span class="n">e4cv</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>e4cv.core.solver.extras={&#39;h2&#39;: 2.0, &#39;k2&#39;: 2.0, &#39;l2&#39;: 2.0}
-(002) : Hklpy2DiffractometerRealPos(omega=19.125989270384, chi=89.985511037941, phi=18.904237535436, tth=38.084060988627)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>e4cv.core.extras={&#39;h2&#39;: 2.0, &#39;k2&#39;: 2.0, &#39;l2&#39;: 2}
+(002) : Hklpy2DiffractometerRealPos(omega=19.125989212654, chi=89.985511048367, phi=18.904237611193, tth=38.084060993071)
 </pre></div>
 </div>
 </div>

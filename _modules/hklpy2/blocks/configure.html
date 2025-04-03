@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../../../_static/documentation_options.js?v=26ffa1e9"></script>
+    <script src="../../../_static/documentation_options.js?v=47cb9828"></script>
     <script src="../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -460,7 +460,7 @@
 
         <span class="n">compare</span><span class="p">(</span>
             <span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;solver&quot;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">),</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">diffractometer</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">diffractometer</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver_name</span><span class="p">,</span>
             <span class="s2">&quot;solver mismatch: incoming=</span><span class="si">%r</span><span class="s2"> existing=</span><span class="si">%r</span><span class="s2">&quot;</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="k">if</span> <span class="s2">&quot;engine&quot;</span> <span class="ow">in</span> <span class="nb">dir</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">diffractometer</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver</span><span class="p">):</span>
@@ -471,20 +471,23 @@
             <span class="p">)</span>
         <span class="n">compare</span><span class="p">(</span>
             <span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;solver&quot;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;geometry&quot;</span><span class="p">),</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">diffractometer</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">geometry</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">diffractometer</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">geometry</span><span class="p">,</span>
             <span class="s2">&quot;geometry mismatch: incoming=</span><span class="si">%r</span><span class="s2"> existing=</span><span class="si">%r</span><span class="s2">&quot;</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="n">compare</span><span class="p">(</span>
             <span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;axes&quot;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;pseudo_axes&quot;</span><span class="p">),</span>
             <span class="c1"># ignore any extra pseudos</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">diffractometer</span><span class="o">.</span><span class="n">pseudo_axis_names</span><span class="p">[</span>
-                <span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">diffractometer</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">pseudo_axis_names</span><span class="p">)</span>
+                <span class="p">:</span> <span class="nb">len</span><span class="p">(</span>
+                    <span class="c1"># long line</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">diffractometer</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver_pseudo_axis_names</span>
+                <span class="p">)</span>
             <span class="p">],</span>
             <span class="s2">&quot;pseudo axis mismatch: incoming=</span><span class="si">%r</span><span class="s2"> existing=</span><span class="si">%r</span><span class="s2">&quot;</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="n">compare</span><span class="p">(</span>
             <span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;solver&quot;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;real_axes&quot;</span><span class="p">),</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">diffractometer</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">real_axis_names</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">diffractometer</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver_real_axis_names</span><span class="p">,</span>
             <span class="s2">&quot;solver real axis mismatch: incoming=</span><span class="si">%r</span><span class="s2"> existing=</span><span class="si">%r</span><span class="s2">&quot;</span><span class="p">,</span>
         <span class="p">)</span></div>
 </div>

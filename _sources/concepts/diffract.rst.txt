@@ -194,12 +194,12 @@ real positioners in addition to limiting the motion of a real positioner.
 Further, a mode can specify an additional reflection which will be used to
 determine the outcome of the ``forward()`` transformation.
 
-============================  =======================
-object                        meaning
-============================  =======================
-``DFRCT.core.solver.mode``    mode selected now
-``DFRCT.core.solver.modes``   list of possible modes
-============================  =======================
+=====================  =======================
+object                 meaning
+=====================  =======================
+``DFRCT.core.mode``    mode selected now
+``DFRCT.core.modes``   list of possible modes
+=====================  =======================
 
 Here, ``DFRCT`` is the diffractometer object (such as ``e4cv`` above).
 
@@ -231,13 +231,12 @@ and :attr:`~hklpy2.ops.Core.sample`)
     ~hklpy2.diffract.DiffractometerBase.add_sample (method)
     ~hklpy2.diffract.DiffractometerBase.sample (property)
     ~hklpy2.diffract.DiffractometerBase.samples (property)
+    ~hklpy2.diffract.DiffractometerBase.solver_name (property)
 
 .. rubric:: Solver-related methods and properties
 .. autosummary::
 
-    ~hklpy2.diffract.DiffractometerBase.geometry (ophyd Signal)
-    ~hklpy2.diffract.DiffractometerBase.solver (property)
-    ~hklpy2.diffract.DiffractometerBase.solver_name (ophyd Signal)
+    ~hklpy2.diffract.DiffractometerBase.solver_signature (ophyd AttributeSignal)
 
 .. rubric:: Related methods and properties from other classes
 .. autosummary::

@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=26ffa1e9"></script>
+    <script src="../_static/documentation_options.js?v=47cb9828"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
@@ -333,7 +333,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../concepts/wavelength.html">Wavelength</a></li>
 </ul>
 </details></li>
-<li class="toctree-l1"><a class="reference internal" href="../geometry_tables.html">Diffractometers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../diffractometers.html">Diffractometers</a></li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="../examples.html">Examples</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="_api_demo.html">Demonstrate <strong>hklpy2</strong>’s API</a></li>
 <li class="toctree-l2"><a class="reference internal" href="constraints.html">Constraints</a></li>
@@ -432,7 +432,7 @@
 <p>The steps to setup <em>TARDIS</em> in <strong>hklpy2</strong> are described below. Includes adding a
 sample and orienting it with the method of Busing &amp; Levy, Acta Cryst 22 (1967)
 457, then calculating and moving in $hkl$.</p>
-<p><em>TARDIS</em> is an environmental chamber with a 3-axis diffractometer (see <em>hkl_soleil, E6C</em> geometry in the <a class="reference internal" href="../geometry_tables.html"><span class="std std-doc">tables</span></a>).  Some of the real axes are
+<p><em>TARDIS</em> is an environmental chamber with a 3-axis diffractometer (see <em>hkl_soleil, E6C</em> geometry in the <a class="reference internal" href="#../geometry_tables.rst"><span class="xref myst">tables</span></a>).  Some of the real axes are
 <a class="reference external" href="https://github.com/NSLS-II-CSX/profile_collection/blob/fc5d2bc5c542d83c2593b4f5066f52a5b04d748d/startup/csx1/startup/tardis.py#L31-L37">renamed</a>.
 Some E6C axes do not exist in <em>TARDIS</em>; they are fixed at zero.</p>
 <p>The <em>TARDIS</em> axes, in the order expected by the E6C geometry:</p>
@@ -539,7 +539,7 @@ are <em>eV</em>, wavelength units are <em>angstrom</em>.</p>
 <p>Set the operating mode.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tardis</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">mode</span> <span class="o">=</span> <span class="s2">&quot;lifting_detector_mu&quot;</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tardis</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">mode</span> <span class="o">=</span> <span class="s2">&quot;lifting_detector_mu&quot;</span>
 </pre></div>
 </div>
 </div>
@@ -633,8 +633,8 @@ any order we choose.</p>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-C66">#hklpy2 configuration file</span>
 
 _header:
-  datetime: <span class=" -Color -Color-Yellow">&#39;2025-03-26 19:16:38.839911&#39;</span>
-  hklpy2_version: <span class=" -Color -Color-Green">0.0.28</span>.dev104+g1a2d5d7.d20250327
+  datetime: <span class=" -Color -Color-Yellow">&#39;2025-03-29 11:53:14.186769&#39;</span>
+  hklpy2_version: <span class=" -Color -Color-Green">0.0.29</span>.dev3+g27885c5.d20250329
   python_class: Hklpy2Diffractometer
   source_type: X-ray
   energy_units: eV
@@ -828,7 +828,7 @@ solver:
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Hklpy2DiffractometerRealPos(theta=38.376221272748, mu=0, chi=0, phi=0, delta=90.63030468362, gamma=-1.161318197094)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Hklpy2DiffractometerRealPos(theta=47.298770262588, mu=0, chi=0, phi=0, delta=48.462236849798, gamma=-1.057775537788)
 </pre></div>
 </div>
 </div>
@@ -859,6 +859,11 @@ solver:
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>MoveStatus(done=True, pos=tardis, elapsed=0.0, success=True, settle_time=0.0)
+</pre></div>
+</div>
+</div>
 </div>
 <p>Where is the <em>tardis</em> now?</p>
 <div class="cell docutils container">
@@ -867,11 +872,39 @@ solver:
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>h=4.0, k=1.0, l=0
+wavelength=1.61198
+theta=40.2199, mu=0, chi=0, phi=0, delta=56.097, gamma=-1.0837
+</pre></div>
+</div>
+</div>
 </div>
 <p>Show more details.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pa</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>diffractometer=&#39;tardis&#39;
+HklSolver(name=&#39;hkl_soleil&#39;, version=&#39;5.1.2&#39;, geometry=&#39;E6C&#39;, engine_name=&#39;hkl&#39;, mode=&#39;lifting_detector_mu&#39;)
+Sample(name=&#39;cmazzoli&#39;, lattice=Lattice(a=9.069, c=10.39, gamma=120.0, system=&#39;hexagonal&#39;))
+Reflection(name=&#39;r1&#39;, h=3, k=3, l=0)
+Reflection(name=&#39;r2&#39;, h=5, k=2, l=0)
+Orienting reflections: [&#39;r1&#39;, &#39;r2&#39;]
+U=[[0.391544524019, -0.919974864499, 0.018415602128], [0.919884370594, 0.391838271968, 0.016598595077], [-0.022486227972, 0.010441135564, 0.999692628881]]
+UB=[[0.313235509421, -0.480759304678, 0.011136539049], [0.735907238528, 0.639427042267, 0.010037733273], [-0.017988976072, -0.001760659657, 0.604548030557]]
+constraint: -181.0 &lt;= theta &lt;= 181.0
+constraint: 0.0 &lt;= mu &lt;= 0.0
+constraint: 0.0 &lt;= chi &lt;= 0.0
+constraint: 0.0 &lt;= phi &lt;= 0.0
+constraint: -5.0 &lt;= delta &lt;= 180.0
+constraint: -5.0 &lt;= gamma &lt;= 180.0
+h=4.0, k=1.0, l=0
+wavelength=1.61198
+theta=40.2199, mu=0, chi=0, phi=0, delta=56.097, gamma=-1.0837
 </pre></div>
 </div>
 </div>

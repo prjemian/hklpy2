@@ -28,7 +28,7 @@ the tools in Bluesky's |hklpy2| package.
 ``reflex_beg``   not necessary                                                  Initializes the reflections file
 ``reflex_end``   not necessary                                                  Closes the reflections file
 ``setlat``       :meth:`~hklpy2.blocks.sample.Sample.lattice`                   Update current sample lattice.
-``setmode``      ``diffractometer.core.solver.mode = "psi_constant``            Set the diffractometer mode for the `forward()` computation.
+``setmode``      ``diffractometer.core.mode = "psi_constant``                   Set the diffractometer mode for the `forward()` computation.
 --               ``diffractometer.core.constraints``                            Show the current set of constraints (cut points).
 ``cuts``         :meth:`~hklpy2.blocks.sample.Sample.lattice`                   Add constraints to the diffractometer `forward()` computation.
 ``freeze``       :meth:`~hklpy2.blocks.sample.Sample.lattice`                   Hold an axis constant during the diffractometer `forward()` computation.

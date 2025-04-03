@@ -138,6 +138,7 @@ Package Contents
 
    .. autosummary::
 
+       ~all_extra_axis_names
        ~extra_axis_names
        ~extras
        ~geometry
@@ -175,6 +176,11 @@ Package Contents
       :meth:`forward` computation.
 
 
+   .. py:attribute:: _all_extra_axis_names
+      :value: None
+
+
+
    .. py:attribute:: _sample
       :value: None
 
@@ -196,6 +202,13 @@ Package Contents
 
       Add coordinates of a diffraction condition (a reflection).
 
+
+
+   .. py:property:: all_extra_axis_names
+      :type: list[str]
+
+
+      Unique, sorted list of extra axis names in all modes for chosen engine.
 
 
    .. py:method:: calculate_UB(r1: hklpy2.blocks.reflection.Reflection, r2: hklpy2.blocks.reflection.Reflection) -> list[list[float]]
@@ -413,8 +426,7 @@ Package Contents
 
    .. autosummary::
 
-       ~geometry
-       ~solver
+       ~solver_signature
        ~wavelength
 
    .. rubric:: Python Methods
@@ -442,15 +454,9 @@ Package Contents
        ~real_axis_names
        ~sample
        ~samples
-       ~solver_name
 
 
-   .. py:attribute:: geometry
-
-      Name of backend |solver| geometry.
-
-
-   .. py:attribute:: solver
+   .. py:attribute:: solver_signature
 
       Name of backend |solver| (library).
 
@@ -641,11 +647,6 @@ Package Contents
    .. py:property:: sample
 
       Current sample object.
-
-
-   .. py:property:: solver_name
-
-      Backend |solver| library name.
 
 
    .. py:method:: wh(digits=4, full=False)

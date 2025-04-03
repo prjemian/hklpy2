@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=26ffa1e9"></script>
+    <script src="../_static/documentation_options.js?v=47cb9828"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
@@ -335,7 +335,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../concepts/wavelength.html">Wavelength</a></li>
 </ul>
 </details></li>
-<li class="toctree-l1"><a class="reference internal" href="../geometry_tables.html">Diffractometers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../diffractometers.html">Diffractometers</a></li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="../examples.html">Examples</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">Demonstrate <strong>hklpy2</strong>’s API</a></li>
 <li class="toctree-l2"><a class="reference internal" href="constraints.html">Constraints</a></li>
@@ -450,8 +450,8 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-03-26 12:20:47.933934
-hklpy2.__version__=&#39;0.0.28.dev92+g12cedce&#39;
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-04-02 18:24:05.616028
+hklpy2.__version__=&#39;0.0.29.dev8+ga47beec.d20250402&#39;
 hklpy2.solvers()={&#39;hkl_soleil&#39;: &#39;hklpy2.backends.hkl_soleil:HklSolver&#39;, &#39;no_op&#39;: &#39;hklpy2.backends.no_op:NoOpSolver&#39;, &#39;th_tth&#39;: &#39;hklpy2.backends.th_tth_q:ThTthSolver&#39;}
 </pre></div>
 </div>
@@ -460,7 +460,7 @@ hklpy2.solvers()={&#39;hkl_soleil&#39;: &#39;hklpy2.backends.hkl_soleil:HklSolve
 </section>
 <section id="easy-to-create-a-simulated-diffractometer">
 <h2>Easy to create a simulated diffractometer<a class="headerlink" href="#easy-to-create-a-simulated-diffractometer" title="Link to this heading">#</a></h2>
-<p>Create the simulated <a class="reference internal" href="../geometry_tables.html#geometries-hkl-soleil-e4cv"><span class="std std-ref">E4CV</span></a> (4-circle) diffractometer.</p>
+<p>Create the simulated <a class="reference internal" href="../diffractometers.html#geometries-hkl-soleil-e4cv"><span class="std std-ref">E4CV</span></a> (4-circle) diffractometer.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">hklpy2</span><span class="w"> </span><span class="kn">import</span> <span class="n">creator</span>
@@ -643,27 +643,25 @@ fourc.inverse(10, 0, 0, 20)=Hklpy2DiffractometerPseudoPos(h=2.182127379109, k=0,
 </ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">fourc</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">geometries</span><span class="p">()</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">fourc</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">geometries</span><span class="p">()</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>fourc.core.solver.geometries()=[&#39;APS POLAR&#39;, &#39;E4CH&#39;, &#39;E4CV&#39;, &#39;E6C&#39;, &#39;ESRF ID01 PSIC&#39;, &#39;K4CV&#39;, &#39;K6C&#39;, &#39;PETRA3 P09 EH2&#39;, &#39;PETRA3 P23 4C&#39;, &#39;PETRA3 P23 6C&#39;, &#39;SOLEIL MARS&#39;, &#39;SOLEIL NANOSCOPIUM ROBOT&#39;, &#39;SOLEIL SIRIUS KAPPA&#39;, &#39;SOLEIL SIRIUS TURRET&#39;, &#39;SOLEIL SIXS MED1+2&#39;, &#39;SOLEIL SIXS MED2+2&#39;, &#39;SOLEIL SIXS MED2+3&#39;, &#39;SOLEIL SIXS MED2+3 v2&#39;, &#39;ZAXIS&#39;]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>fourc.core.geometries()=[&#39;APS POLAR&#39;, &#39;E4CH&#39;, &#39;E4CV&#39;, &#39;E6C&#39;, &#39;ESRF ID01 PSIC&#39;, &#39;K4CV&#39;, &#39;K6C&#39;, &#39;PETRA3 P09 EH2&#39;, &#39;PETRA3 P23 4C&#39;, &#39;PETRA3 P23 6C&#39;, &#39;SOLEIL MARS&#39;, &#39;SOLEIL NANOSCOPIUM ROBOT&#39;, &#39;SOLEIL SIRIUS KAPPA&#39;, &#39;SOLEIL SIRIUS TURRET&#39;, &#39;SOLEIL SIXS MED1+2&#39;, &#39;SOLEIL SIXS MED2+2&#39;, &#39;SOLEIL SIXS MED2+3&#39;, &#39;SOLEIL SIXS MED2+3 v2&#39;, &#39;ZAXIS&#39;]
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">fourc</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">fourc</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">fourc</span><span class="o">.</span><span class="n">solver_signature</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">fourc</span><span class="o">.</span><span class="n">wavelength</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>fourc.solver.get()=&#39;hkl_soleil&#39;
-fourc.geometry.get()=&#39;E4CV&#39;
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>fourc.solver_signature.get()=&quot;HklSolver(name=&#39;hkl_soleil&#39;, version=&#39;5.1.2&#39;, geometry=&#39;E4CV&#39;, engine_name=&#39;hkl&#39;, mode=&#39;bissector&#39;)&quot;
 fourc.wavelength.get()=1.0
 </pre></div>
 </div>
@@ -671,26 +669,26 @@ fourc.wavelength.get()=1.0
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">fourc</span><span class="o">.</span><span class="n">solver_name</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">fourc</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver_name</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">fourc</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">fourc</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">axes_xref</span><span class="si">=!r}</span><span class="s2">&quot;</span><span class="p">)</span>  <span class="c1"># our names to solver&#39;s names</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">fourc</span><span class="o">.</span><span class="n">pseudo_axis_names</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>  <span class="c1"># our full ordered lists of names</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">fourc</span><span class="o">.</span><span class="n">real_axis_names</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">fourc</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">pseudo_axis_names</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>  <span class="c1"># solver&#39;s ordered lists of names</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">fourc</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">real_axis_names</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">fourc</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">extra_axis_names</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">fourc</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver_pseudo_axis_names</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>  <span class="c1"># solver&#39;s ordered lists of names</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">fourc</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver_real_axis_names</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">fourc</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">solver_extra_axis_names</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>fourc.solver_name=&#39;hkl_soleil&#39;
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>fourc.core.solver_name=&#39;hkl_soleil&#39;
 fourc.core.solver=HklSolver(name=&#39;hkl_soleil&#39;, version=&#39;5.1.2&#39;, geometry=&#39;E4CV&#39;, engine_name=&#39;hkl&#39;, mode=&#39;bissector&#39;)
 fourc.core.axes_xref={&#39;h&#39;: &#39;h&#39;, &#39;k&#39;: &#39;k&#39;, &#39;l&#39;: &#39;l&#39;, &#39;omega&#39;: &#39;omega&#39;, &#39;chi&#39;: &#39;chi&#39;, &#39;phi&#39;: &#39;phi&#39;, &#39;tth&#39;: &#39;tth&#39;}
 fourc.pseudo_axis_names=[&#39;h&#39;, &#39;k&#39;, &#39;l&#39;]
 fourc.real_axis_names=[&#39;omega&#39;, &#39;chi&#39;, &#39;phi&#39;, &#39;tth&#39;]
-fourc.core.solver.pseudo_axis_names=[&#39;h&#39;, &#39;k&#39;, &#39;l&#39;]
-fourc.core.solver.real_axis_names=[&#39;omega&#39;, &#39;chi&#39;, &#39;phi&#39;, &#39;tth&#39;]
-fourc.core.solver.extra_axis_names=[]
+fourc.core.solver_pseudo_axis_names=[&#39;h&#39;, &#39;k&#39;, &#39;l&#39;]
+fourc.core.solver_real_axis_names=[&#39;omega&#39;, &#39;chi&#39;, &#39;phi&#39;, &#39;tth&#39;]
+fourc.core.solver_extra_axis_names=[]
 </pre></div>
 </div>
 </div>
@@ -749,14 +747,12 @@ tth                  SoftPositioner      (&#39;fourc_tth&#39;)
 
 config keys
 -----------
-fourc_geometry
-fourc_solver
+fourc_solver_signature
 fourc_wavelength
 
 configuration attrs
 -------------------
-geometry             AttributeSignal     (&#39;fourc_geometry&#39;)
-solver               AttributeSignal     (&#39;fourc_solver&#39;)
+solver_signature     AttributeSignal     (&#39;fourc_solver_signature&#39;)
 wavelength           AttributeSignal     (&#39;fourc_wavelength&#39;)
 h                    Hklpy2PseudoAxis    (&#39;fourc_h&#39;)
 k                    Hklpy2PseudoAxis    (&#39;fourc_k&#39;)
