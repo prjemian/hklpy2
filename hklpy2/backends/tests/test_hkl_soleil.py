@@ -231,7 +231,7 @@ def test_summary():
     assert k4cv is not None
 
     # TODO: expand this test
-    summary = k4cv.core.solver.summary
+    summary = k4cv.core.solver_summary
     assert isinstance(summary, Table)
 
 

@@ -5,6 +5,7 @@ import uuid
 from collections import namedtuple
 from contextlib import nullcontext as does_not_raise
 
+import pyRestTable
 import pytest
 
 from ..diffract import DiffractometerBase
@@ -309,16 +310,16 @@ def test_axes_xref_reversed(gonio, context, expected):
 def test_reset_samples():
     gonio = creator(name="gonio", solver="hkl_soleil", geometry="SOLEIL SIXS MED1+2")
     assert isinstance(gonio, DiffractometerBase)
-    assert len(gonio.core.samples) == 1
+    assert len(gonio.samples) == 1
     assert gonio.sample.name == DEFAULT_SAMPLE_NAME
 
     gonio.add_sample("vibranium", 2 * math.pi)
-    assert len(gonio.core.samples) == 2
+    assert len(gonio.samples) == 2
     gonio.add_sample("kryptonite", 0.01)
-    assert len(gonio.core.samples) == 3
+    assert len(gonio.samples) == 3
 
     gonio.core.reset_samples()
-    assert len(gonio.core.samples) == 1
+    assert len(gonio.samples) == 1
     assert gonio.sample.name == DEFAULT_SAMPLE_NAME
 
 
@@ -339,3 +340,161 @@ def test_signature(solver: str, geometry: str):
     assert isinstance(signature, str)
     assert solver in signature
     assert geometry in signature
+
+
+@pytest.mark.parametrize(
+    "solver, geometry, mode",
+    [
+        ["hkl_soleil", "E4CV", "bissector"],
+        ["hkl_soleil", "E4CV", "double_diffraction"],
+        ["th_tth", "TH TTH Q", "bissector"],
+    ],
+)
+def test_modes(solver: str, geometry: str, mode: str):
+    sim = creator(name="sim", solver=solver, geometry=geometry)
+    assert isinstance(sim, DiffractometerBase)
+    core = sim.core
+    assert isinstance(core, Core)
+
+    assert mode in core.modes  # Is it available?
+    core.mode = mode  # Set it.
+    assert core.mode == mode  # Check it.
+
+
+@pytest.mark.parametrize(
+    "solver, geometry",
+    [
+        ["hkl_soleil", "E4CV"],
+        ["hkl_soleil", "APS POLAR"],
+        ["th_tth", "TH TTH Q"],
+    ],
+)
+def test_solver_summary(solver: str, geometry: str):
+    sim = creator(name="sim", solver=solver, geometry=geometry)
+    assert isinstance(sim, DiffractometerBase)
+    summary = sim.core.solver_summary
+    assert isinstance(summary, pyRestTable.Table)
+
+
+@pytest.mark.parametrize(
+    "solver, geometry, solver_kwargs, expected",
+    [
+        ["hkl_soleil", "E4CV", {}, "h2 k2 l2 psi".split()],
+        [
+            "hkl_soleil",
+            "K6C",
+            {},
+            "azimuth chi h2 incidence k2 l2 omega phi psi x y z".split(),
+        ],
+        ["hkl_soleil", "APS POLAR", {}, "h2 k2 l2 psi".split()],
+        ["hkl_soleil", "APS POLAR", {"engine": "psi"}, "h2 k2 l2".split()],
+        ["th_tth", "TH TTH Q", {}, []],
+    ],
+)
+def test_all_extras(solver, geometry, solver_kwargs, expected):
+    sim = creator(
+        name="sim",
+        solver=solver,
+        geometry=geometry,
+        solver_kwargs=solver_kwargs,
+    )
+    assert isinstance(sim.core.all_extras, dict)
+    assert list(sim.core.all_extras) == list(sorted(expected))
+
+
+@pytest.mark.parametrize(
+    "solver, geometry, solver_kwargs, mode, expected",
+    [
+        ["hkl_soleil", "E4CV", {}, "bissector", []],
+        [
+            "hkl_soleil",
+            "K6C",
+            {},
+            "constant_incidence",
+            "x y z incidence azimuth".split(),
+        ],
+        [
+            "hkl_soleil",
+            "K6C",
+            {"engine": "eulerians"},
+            "eulerians",
+            ["solutions"],
+        ],
+        ["hkl_soleil", "APS POLAR", {}, "lifting detector tau", []],
+        [
+            "hkl_soleil",
+            "APS POLAR",
+            {"engine": "psi"},
+            "psi_vertical",
+            "h2 k2 l2".split(),
+        ],
+        ["th_tth", "TH TTH Q", {}, "bissector", []],
+    ],
+)
+def test_extras_getter(solver, geometry, solver_kwargs, mode, expected):
+    sim = creator(
+        name="sim",
+        solver=solver,
+        geometry=geometry,
+        solver_kwargs=solver_kwargs,
+    )
+    sim.core.mode = mode
+    assert isinstance(sim.core.extras, dict)
+    assert list(sim.core.extras) == expected
+
+
+@pytest.mark.parametrize(
+    "solver, geometry, solver_kwargs, mode, values, context, expected",
+    [
+        ["hkl_soleil", "E4CV", {}, "bissector", dict(), does_not_raise(), None],
+        [
+            "hkl_soleil",
+            "E4CV",
+            {},
+            "bissector",
+            dict(h2=1),  # Parameter 'h2' not defined in the current mode.
+            pytest.raises(KeyError),
+            "Unexpected extra axis name(s)",
+        ],
+        [
+            "hkl_soleil",
+            "ZAXIS",
+            dict(engine="qper_qpar"),
+            "qper, qpar",
+            dict(x=1, y=2, z=3),
+            does_not_raise(),
+            None,
+        ],
+        [
+            "hkl_soleil",
+            "SOLEIL SIXS MED2+3 v2",
+            dict(engine="hkl"),
+            "emergence_fixed",
+            dict(z=3),  # incomplete dictionary is OK
+            does_not_raise(),
+            None,
+        ],
+    ],
+)
+def test_extras_setter(
+    solver,
+    geometry,
+    solver_kwargs,
+    mode,
+    values,
+    context,
+    expected,
+):
+    with context as reason:
+        sim = creator(
+            name="sim",
+            solver=solver,
+            geometry=geometry,
+            solver_kwargs=solver_kwargs,
+        )
+        sim.core.mode = mode
+        sim.core.extras = values
+        for key, value in values.items():
+            assert key in sim.core.all_extras
+            assert sim.core.extras.get(key) in (None, value)
+    assert_context_result(expected, reason)

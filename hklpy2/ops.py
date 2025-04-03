@@ -33,6 +33,7 @@ __all__ = ["Core"]
 
 Number = Union[int, float]
 logger = logging.getLogger(__name__)
+DEFAULT_EXTRA_VALUE = 0
 DEFAULT_SAMPLE_NAME = "sample"
 
 
@@ -59,6 +60,7 @@ class Core:
         ~assign_axes
         ~calc_UB
         ~forward
+        ~geometries
         ~inverse
         ~local_pseudo_axes
         ~local_real_axes
@@ -74,19 +76,28 @@ class Core:
 
     .. autosummary::
 
+        ~all_extras
+        ~extras
+        ~geometry
+        ~mode
+        ~modes
         ~sample
         ~solver
+        ~solver_extra_axis_names
+        ~solver_name
+        ~solver_pseudo_axis_names
+        ~solver_real_axis_names
         ~solver_signature
+        ~solver_summary
     """
 
     from .blocks.sample import Sample
 
     def __init__(self, diffractometer, default_sample: bool = True) -> None:
-        # axes names cross-reference
-        # keys: diffractometer axis names
-        # values: solver axis names
-        self.axes_xref = {}
+        self.axes_xref = {}  # cross-reference:  diffractometer name : solver name
         self.diffractometer = diffractometer
+        self._extras = {}  # Dictionary of any extra solver axis (across all modes).
+        self._mode = None
         self._sample_name = None
         self._samples = {}
         self._solver = None
@@ -102,23 +113,18 @@ class Core:
         """Describe the diffractometer as a dictionary."""
         from .__init__ import __version__
 
-        dfrct = self.diffractometer
-        # 2025-02-26: Apparently not needed, not easy to setup either.
-        #     Retain in comment, just in case...
-        # if not hasattr(dfrct, "name") or not hasattr(dfrct, "_source"):
-        #     return {}  # Ophyd Device not initialized yet.  Empty dict is OK.
-
         config = {
             "_header": {
                 "datetime": str(datetime.datetime.now()),
                 "hklpy2_version": __version__,
-                "python_class": dfrct.__class__.__name__,
+                "python_class": self.diffractometer.__class__.__name__,
             },
             "name": self.diffractometer.name,
             "axes": {
                 "pseudo_axes": self.diffractometer.pseudo_axis_names,
                 "real_axes": self.diffractometer.real_axis_names,
                 "axes_xref": self.axes_xref,
+                "extra_axes": self.all_extras,
             },
             "sample_name": self.sample.name,
             "samples": {k: v._asdict() for k, v in self._samples.items()},
@@ -127,14 +133,27 @@ class Core:
         }
         config["_header"].update(self.diffractometer._source._asdict())
 
-        if self.solver.name == "hkl_soleil":
+        if "engine_name" in dir(self.solver):
             config["solver"]["engine"] = self.solver.engine_name
-            config["axes"]["extra_axes"] = self.solver.extras
 
         return config
 
+    def _axes_names_s2d(self, axis_dict: dict[str, float]) -> dict[str, float]:
+        """Convert keys of axis dictionary from solver to diffractometer."""
+        reverse = self.axes_xref_reversed
+        return {reverse[k]: v for k, v in axis_dict.items()}
+
+    def _axes_names_d2s(self, axis_dict: dict[str, float]) -> dict[str, float]:
+        """Convert keys of axis dictionary from diffractometer to solver."""
+        return {self.axes_xref[k]: v for k, v in axis_dict.items()}
+
     def _fromdict(self, config):
         """Redefine diffractometer from a (configuration) dictionary."""
+        # Since this code might raise, validate first.
+        extras = self._validate_extras(config["axes"]["extra_axes"], self.all_extras)
+        if len(extras) > 0:
+            self._extras.update(extras)
+
         for key, sample in config["samples"].items():
             sample_object = self.add_sample(key, 1, replace=True)
             sample_object._fromdict(sample, core=self)
@@ -152,6 +171,26 @@ class Core:
                 axis_local = self.axes_xref_reversed[axis_canonical]
                 constraint["label"] = axis_local
         self.constraints._fromdict(config["constraints"], core=self)
+
+    def _validate_extras(
+        self,
+        values: dict[str, Number],
+        expected: dict[str, Number],
+    ) -> dict[str, Number]:
+        """Validate that the supplied extras are acceptable."""
+        extras, unexpected = {}, []
+        for key, value in values.items():
+            if key in expected:
+                extras[key] = value
+            else:
+                unexpected.append(key)
+        if len(unexpected) > 0:
+            raise KeyError(
+                f"Unexpected extra axis name(s) {unexpected!r}."
+                # ..
+                f"  Expected names: {expected}."
+            )
+        return extras
 
     def _validate_pseudos(self, pseudos) -> bool:
         """Validate that the supplied pseudos are acceptable."""
@@ -218,7 +257,7 @@ class Core:
         logger.debug(
             "name=%r, geometry=%r, wavelength=%r",
             name,
-            self.solver.geometry,
+            self.geometry,
             wavelength,
         )
 
@@ -238,7 +277,7 @@ class Core:
             pdict,
             rdict,
             wavelength,
-            self.solver.geometry,
+            self.geometry,
             pnames,
             rnames,
         )
@@ -268,6 +307,11 @@ class Core:
         if self.solver is not None:
             self.solver.sample = self.sample
         return self.sample
+
+    @property
+    def all_extras(self) -> list[str]:
+        """Sorted dictionary of |solver| extra parameters in any mode."""
+        return self._extras
 
     def assign_axes(self, pseudos: list[str], reals: list[str]) -> None:
         """
@@ -309,15 +353,6 @@ class Core:
         logger.debug("axes_xref=%r", self.axes_xref)
         self.configuration = Configuration(self.diffractometer)
 
-    def _axes_names_s2d(self, axis_dict: dict[str, float]) -> dict[str, float]:
-        """Convert keys of axis dictionary from solver to diffractometer."""
-        reverse = self.axes_xref_reversed
-        return {reverse[k]: v for k, v in axis_dict.items()}
-
-    def _axes_names_d2s(self, axis_dict: dict[str, float]) -> dict[str, float]:
-        """Convert keys of axis dictionary from diffractometer to solver."""
-        return {self.axes_xref[k]: v for k, v in axis_dict.items()}
-
     @property
     def axes_xref_reversed(self):
         """Map axis names from solver to diffractometer."""
@@ -358,6 +393,21 @@ class Core:
         self._solver_needs_update = False
         return ub
 
+    @property
+    def extras(self) -> list[str]:
+        """Ordered dictionary of |solver| extra parameters in current mode."""
+        every = self.all_extras
+        current = {axis: every[axis] for axis in self.solver_extra_axis_names}
+        return current
+
+    @extras.setter
+    def extras(self, values: dict[str, Number]):
+        """Set |solver| extra parameters for the current mode."""
+        incoming = self._validate_extras(values, self.extras)
+        if len(incoming) > 0:
+            self._extras.update(incoming)
+            self._solver_needs_update = True
+
     def forward(self, pseudos: AnyAxesType, wavelength: float = None) -> list:
         """Compute [{names:reals}] from {names: pseudos} (hkl -> angles)."""
         logger.debug(
@@ -380,6 +430,16 @@ class Core:
                 solutions.append(self.diffractometer.RealPosition(**reals))
 
         return solutions
+
+    def geometries(self) -> list[str]:
+        """Return all available |solver| geometries."""
+        # Not a @property since it's a classmethod of a Solver.
+        return self.solver.geometries()
+
+    @property
+    def geometry(self) -> str:
+        """Return the |solver| geometry."""
+        return self.solver.geometry
 
     def inverse(
         self, reals: Union[AnyAxesType, None], wavelength: float = None
@@ -443,6 +503,26 @@ class Core:
             for k in self.solver.real_axis_names
         ]
 
+    @property
+    def mode(self) -> str:
+        """Return the current computation mode."""
+        if self._mode is None:
+            self._mode = self.solver.mode
+            self._solver_needs_update = True
+        return self._mode
+
+    @mode.setter
+    def mode(self, value: str) -> None:
+        """Set the computation mode to be used."""
+        if value in self.modes:
+            self._mode = value
+            self._solver_needs_update = True
+
+    @property
+    def modes(self) -> list[str]:
+        """Return the list of available |solver| modes."""
+        return self.solver.modes
+
     def refine_lattice(self, reflections: list = None) -> Lattice:
         """
         Return the sample lattice computed from 3 or more reflections.
@@ -478,6 +558,64 @@ class Core:
         # Create the default sample.
         self.add_sample(DEFAULT_SAMPLE_NAME, 1)
 
+    @property
+    def sample(self) -> Sample:
+        """Current Sample (Python object)."""
+        return self.samples[self._sample_name]
+
+    @sample.setter
+    def sample(self, value: str) -> None:
+        self._sample_name = value
+        if self.solver is not None:
+            try:
+                self.solver.U = self.sample.U
+                self.solver.UB = self.sample.UB
+            except AttributeError:
+                pass  # property is not settable
+
+    @property
+    def samples(self) -> dict:
+        """Sample dictionary."""
+        return self._samples
+
+    @property
+    def solver(self) -> SolverBase:
+        """Backend |solver| object."""
+        return self._solver
+
+    @property
+    def solver_extra_axis_names(self) -> list[str]:
+        """Ordered list of any |solver| extra axis names in current mode."""
+        self.update_solver()
+        return self.solver.extra_axis_names
+
+    @property
+    def solver_name(self) -> str:
+        """Name of |solver|."""
+        return self.solver.name
+
+    @property
+    def solver_pseudo_axis_names(self) -> list[str]:
+        """Ordered list of |solver| pseudo axis names."""
+        self.update_solver()
+        return self.solver.pseudo_axis_names
+
+    @property
+    def solver_real_axis_names(self) -> list[str]:
+        """Ordered list of |solver| real axis names."""
+        self.update_solver()
+        return self.solver.real_axis_names
+
+    @property
+    def solver_signature(self) -> str:
+        """Return 'repr(self.solver)' for use as ophyd.AttributeSignal."""
+        return repr(self.solver)
+
+    @property
+    def solver_summary(self) -> str:
+        """Return table of solver's geometry (modes, axes).."""
+        return self.solver.summary
+
     def set_solver(
         self,
         name: str,
@@ -501,6 +639,9 @@ class Core:
             kwargs,
         )
         self._solver = solver_factory(name, geometry, **kwargs)
+        self._extras = {
+            k: DEFAULT_EXTRA_VALUE for k in self.solver.all_extra_axis_names
+        }
         self.update_solver()
         self._solver_needs_update = True
         return self._solver
@@ -542,45 +683,27 @@ class Core:
 
     def update_solver(self, wavelength: Optional[float] = None) -> None:
         """Update solver data if needed."""
-        if self._solver_needs_update or wavelength is not None:
+        if self.solver.mode != self.mode or wavelength is not None:
+            self._solver_needs_update = True  # force the update
+
+        if self._solver_needs_update:
             self.solver.sample = self.sample  # lattice & reflections
             self.solver.wavelength = wavelength or self.diffractometer.wavelength.get()
-            # print(f"DEBUG update_solver(): {self.sample.UB=}")
+            self.solver.mode = self.mode
+
+            try:
+                self.solver.extras = {
+                    axis: self._extras[axis]
+                    # multiline
+                    for axis in self.solver.extra_axis_names
+                }
+            except AttributeError:
+                pass  # Some solvers have no setter for extras
+
             try:
                 self.solver.U = self.sample.U
                 self.solver.UB = self.sample.UB
             except AttributeError:
                 pass  # Some solvers have no setter for U & UB
+
             self._solver_needs_update = False
-
-    # ---- get/set properties
-
-    @property
-    def sample(self) -> Sample:
-        """Current Sample (Python object)."""
-        return self.samples[self._sample_name]
-
-    @sample.setter
-    def sample(self, value: str) -> None:
-        self._sample_name = value
-        if self.solver is not None:
-            try:
-                self.solver.U = self.sample.U
-                self.solver.UB = self.sample.UB
-            except AttributeError:
-                pass  # property is not settable
-
-    @property
-    def samples(self) -> dict:
-        """Sample dictionary."""
-        return self._samples
-
-    @property
-    def solver_signature(self) -> str:
-        """Return 'repr(self.solver)' for use as ophyd.AttributeSignal."""
-        return repr(self.solver)
-
-    @property
-    def solver(self) -> SolverBase:
-        """Backend |solver| object."""
-        return self._solver

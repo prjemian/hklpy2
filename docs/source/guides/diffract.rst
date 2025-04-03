@@ -181,11 +181,11 @@ What are the axes expected by this |solver|?
 
 .. code-block:: Python
 
-    >>> twoc.core.solver.pseudo_axis_names
+    >>> twoc.core.solver_pseudo_axis_names
     ['q']
-    >>> twoc.core.solver.real_axis_names
+    >>> twoc.core.solver_real_axis_names
     ['th', 'tth']
-    >>> twoc.core.solver.extra_axis_names
+    >>> twoc.core.solver_extra_axis_names
     []
 
 Show the cross-reference mapping from diffractometer

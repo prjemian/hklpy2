@@ -230,8 +230,8 @@ def test_refine(remove, context, expected):
         e4cv = creator(name="e4cv")
         add_oriented_vibranium_to_e4cv(e4cv)
         if remove is not None:
-            e4cv.core.sample.reflections.pop(remove)
-        e4cv.core.sample.refine_lattice()
+            e4cv.sample.reflections.pop(remove)
+        e4cv.sample.refine_lattice()
 
     assert_context_result(expected, reason)
 
@@ -248,8 +248,8 @@ def test_remove_reflection(rname, context, expected):
         e4cv = creator(name="e4cv")
         add_oriented_vibranium_to_e4cv(e4cv)
         e4cv.core.calc_UB("r040", "r400")
-        e4cv.core.sample.remove_reflection(rname)
-        assert rname not in e4cv.core.sample.reflections.order
+        e4cv.sample.remove_reflection(rname)
+        assert rname not in e4cv.sample.reflections.order
 
     assert_context_result(expected, reason)
 
@@ -281,8 +281,8 @@ def test_matrix_validation(name, value, context, expected):
     with context as reason:
         e4cv = creator(name="e4cv")
         if name == "U":
-            e4cv.core.sample.U = value
+            e4cv.sample.U = value
         else:
-            e4cv.core.sample.UB = value
+            e4cv.sample.UB = value
 
     assert_context_result(expected, reason)

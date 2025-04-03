@@ -7,6 +7,7 @@
 Diffractometers
 ===============
 
+.. index:: diffractometers
 .. index:: geometries
 
 

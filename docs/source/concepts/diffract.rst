@@ -194,12 +194,12 @@ real positioners in addition to limiting the motion of a real positioner.
 Further, a mode can specify an additional reflection which will be used to
 determine the outcome of the ``forward()`` transformation.
 
-============================  =======================
-object                        meaning
-============================  =======================
-``DFRCT.core.solver.mode``    mode selected now
-``DFRCT.core.solver.modes``   list of possible modes
-============================  =======================
+=====================  =======================
+object                 meaning
+=====================  =======================
+``DFRCT.core.mode``    mode selected now
+``DFRCT.core.modes``   list of possible modes
+=====================  =======================
 
 Here, ``DFRCT`` is the diffractometer object (such as ``e4cv`` above).
 

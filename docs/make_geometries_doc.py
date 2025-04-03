@@ -11,7 +11,7 @@ from pyRestTable import Table
 import hklpy2
 
 DOCS_DIR = pathlib.Path(__file__).parent / "source"
-GEO_DOC = DOCS_DIR / "geometry_tables.rst"
+GEO_DOC = DOCS_DIR / "diffractometers.rst"
 H1, H2, H3, H4 = "= - ^ ~".split()
 PAGE_TITLE = "Diffractometers"
 

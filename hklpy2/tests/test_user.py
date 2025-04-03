@@ -233,11 +233,12 @@ def test_pa(fourc, capsys):
         "constraint: -180.0 <= chi <= 180.0",
         "constraint: -180.0 <= phi <= 180.0",
         "constraint: -180.0 <= tth <= 180.0",
+        "Mode: bissector",
         "h=0, k=0, l=0",
         "wavelength=1.0",
         "omega=0, chi=0, phi=0, tth=0",
     ]
-    assert len(out) == len(expected)
+    assert len(out) == len(expected), f"{out=}"
     assert out == expected
 
 

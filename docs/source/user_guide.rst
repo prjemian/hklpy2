@@ -10,7 +10,7 @@ User Guide
 
    quickstart
    concepts
-   geometry_tables
+   diffractometers
    examples
    guides
    install
