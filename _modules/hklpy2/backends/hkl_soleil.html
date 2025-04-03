@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../../../_static/documentation_options.js?v=47cb9828"></script>
+    <script src="../../../_static/documentation_options.js?v=6f257b49"></script>
     <script src="../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -412,22 +412,14 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">..blocks.reflection</span><span class="w"> </span><span class="kn">import</span> <span class="n">Reflection</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">..blocks.sample</span><span class="w"> </span><span class="kn">import</span> <span class="n">Sample</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">..misc</span><span class="w"> </span><span class="kn">import</span> <span class="n">IDENTITY_MATRIX_3X3</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">..misc</span><span class="w"> </span><span class="kn">import</span> <span class="n">SolverError</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">..misc</span><span class="w"> </span><span class="kn">import</span> <span class="n">SolverNoForwardSolutions</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">..misc</span><span class="w"> </span><span class="kn">import</span> <span class="n">check_value_in_list</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">..misc</span><span class="w"> </span><span class="kn">import</span> <span class="n">roundoff</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">..misc</span><span class="w"> </span><span class="kn">import</span> <span class="n">unique_name</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">SolverBase</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.hkl_soleil_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">gi_require_library</span>
 
-<span class="k">if</span> <span class="n">platform</span><span class="o">.</span><span class="n">system</span><span class="p">()</span> <span class="o">!=</span> <span class="s2">&quot;Linux&quot;</span><span class="p">:</span>  <span class="c1"># TODO: How to test?</span>
-    <span class="c1"># see https://softwareengineering.stackexchange.com/questions/222383</span>
-    <span class="k">raise</span> <span class="n">SolverError</span><span class="p">(</span><span class="s2">&quot;&#39;hkl_soleil&#39; only available for linux 64-bit.&quot;</span><span class="p">)</span>
-<span class="k">try</span><span class="p">:</span>
-    <span class="kn">import</span><span class="w"> </span><span class="nn">gi</span>
-<span class="k">except</span> <span class="ne">ModuleNotFoundError</span><span class="p">:</span>  <span class="c1"># TODO: How to test?  Mock?</span>
-    <span class="k">raise</span> <span class="n">SolverError</span><span class="p">(</span><span class="s2">&quot;No gobject-introspection library.  Is libhkl installed?&quot;</span><span class="p">)</span>
-
-<span class="n">gi</span><span class="o">.</span><span class="n">require_version</span><span class="p">(</span><span class="s2">&quot;Hkl&quot;</span><span class="p">,</span> <span class="s2">&quot;5.0&quot;</span><span class="p">)</span>
+<span class="n">gi_require_library</span><span class="p">(</span><span class="n">platform</span><span class="o">.</span><span class="n">system</span><span class="p">(),</span> <span class="s2">&quot;Hkl&quot;</span><span class="p">,</span> <span class="s2">&quot;5.0&quot;</span><span class="p">)</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">gi.repository</span><span class="w"> </span><span class="kn">import</span> <span class="n">GLib</span>  <span class="c1"># noqa: E402, F401  # W0611</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">gi.repository</span><span class="w"> </span><span class="kn">import</span> <span class="n">Hkl</span> <span class="k">as</span> <span class="n">libhkl</span>  <span class="c1"># noqa: E402</span>
