@@ -46,22 +46,14 @@ from ..blocks.lattice import Lattice
 from ..blocks.reflection import Reflection
 from ..blocks.sample import Sample
 from ..misc import IDENTITY_MATRIX_3X3
-from ..misc import SolverError
 from ..misc import SolverNoForwardSolutions
 from ..misc import check_value_in_list
 from ..misc import roundoff
 from ..misc import unique_name
 from .base import SolverBase
+from .hkl_soleil_utils import gi_require_library
 
-if platform.system() != "Linux":  # TODO: How to test?
-    # see https://softwareengineering.stackexchange.com/questions/222383
-    raise SolverError("'hkl_soleil' only available for linux 64-bit.")
-try:
-    import gi
-except ModuleNotFoundError:  # TODO: How to test?  Mock?
-    raise SolverError("No gobject-introspection library.  Is libhkl installed?")
-
-gi.require_version("Hkl", "5.0")
+gi_require_library(platform.system(), "Hkl", "5.0")
 
 from gi.repository import GLib  # noqa: E402, F401  # W0611
 from gi.repository import Hkl as libhkl  # noqa: E402
