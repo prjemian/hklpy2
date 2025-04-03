@@ -15,10 +15,11 @@ It could be re-organized.
   * Axes
     * [x] Make it easy to provide additional axes
       * [ ] rotation about arbitrary vector
+      * [ ] scan along a crystallographic *zone*
       * [x] Solvers with different reciprocal-space axes
-      * [~] extra parameters, as required by solver
+      * [x] extra parameters, as required by solver
     * [x] user can choose different names for any of the diffractometer axes
-  * [~] Default diffractometer geometries
+  * [x] Default diffractometer geometries
   * [ ] Bragg Peak optimization tools
   * [x] Defining orientation matrix or matrices (set UB)
   * [x] Simulating diffraction and diffractometer modes
@@ -26,7 +27,7 @@ It could be re-organized.
   * [x] Choice of calculation engines other than the hkl C package
   * Solver API
     * [x] a structure (dict or struct) describing a geometry (motors, reference positions, and constraints)
-    * [ ] observed mapping between real and reciprocal space to give you the "U" of the UB matrix
+    * [x] observed mapping between real and reciprocal space to give you the "U" of the UB matrix
     * [ ] the crystallography to give you the "B"
     * [x] Solver: custom project
     * [x] Solver: python-wrapped components from `libhkl`
@@ -49,12 +50,12 @@ It could be re-organized.
   * [x] `libhkl`
   * [ ] [*ad-hoc* geometries](https://github.com/bluesky/hklpy/issues/244)
   * [ ] [diffcalc](https://github.com/bluesky/hklpy/issues/163)
+  * [ ] [SPEC server](https://certif.com/spec_help/server.html)
   * [x] [TwoC unknown](https://github.com/bluesky/hklpy/issues/165)
   * [ ] [xrayutilities](https://github.com/bluesky/hklpy/issues/162)
-  * [ ] [SPEC server](https://certif.com/spec_help/server.html)
 * [ ] Documentation
   * [ ] Choosing the default `forward()` solution.
-  * [ ] documentation from hklpy.
+  * [x] documentation from hklpy.
   * [x] How to calculate UB from 2 reflections.
   * [ ] How to hold axes fixed during `forward()` transformation.
   * [ ] How to migrate from hklpy v1.
@@ -152,7 +153,7 @@ It could be re-organized.
       * [x] list all available geometries
       * [x] set
     * mode
-      * [!] set (does not apply, only 1 mode)
+      * [ ] set
       * [x] list available
     * [x] orientation : calculate (does not apply, empty [] as result)
     * [x] sample : add
