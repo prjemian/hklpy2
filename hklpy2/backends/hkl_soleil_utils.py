@@ -6,14 +6,14 @@ from ..misc import SolverError
 def gi_require_library(system: str, library: str, version: str) -> None:
     """
     Setup current session to load 'library' with the 'gi' package.
-    
+
     This function was written so the procedure here can test as if it
     was running on other OS.
-    
+
     .. seealso: https://softwareengineering.stackexchange.com/questions/222383
-    
+
     Example::
-    
+
         gi_require_library(platform.system(), "Hkl", "5.0")
     """
     if system != "Linux":

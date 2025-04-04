@@ -171,9 +171,10 @@ class DiffractometerBase(PseudoPositioner):
 
         self._backend = None
         self._forward_solution = pick_first_item
-        self._source = MonochromaticXrayWavelength()
-
         self.core = Core(self)
+        self._source = MonochromaticXrayWavelength(
+            wavelength_updated=self.core._solver_needs_update,
+        )
 
         super().__init__(prefix, **kwargs)
 

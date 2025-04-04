@@ -23,6 +23,7 @@ logger = logging.getLogger(__name__)
 
 DEFAULT_ENERGY_UNITS = "keV"
 DEFAULT_WAVELENGTH = 1.0
+DEFAULT_WAVELENGTH_DEADBAND = 0.000_1
 DEFAULT_WAVELENGTH_UNITS = "angstrom"
 
 XRAY_ENERGY_EQUIVALENT_ = 8.065_543_937e5
@@ -43,6 +44,12 @@ X-ray voltage wavelength product (:math:`h \\nu`), per NIST standard.
 class WavelengthBase(ABC):
     """
     Base for all wavelength (:math:`\\lambda`) classes.
+
+    Parameters
+
+    units str:
+        Engineering units of wavelength.  It is expected that
+        wavelength and unit cell dimensions have the same units.
 
     .. autosummary::
 
@@ -65,7 +72,7 @@ class WavelengthBase(ABC):
     """
     # Choices: ``any``, ``continuous``, ``monochromatic``, ``time-of-flight``
 
-    def __init__(self, *, units: str = None):
+    def __init__(self, *, units: str = None, **kwargs):
         self._wavelength_units = units or DEFAULT_WAVELENGTH_UNITS
 
     def _asdict(self):
@@ -132,7 +139,11 @@ class ConstantMonochromaticWavelength(WavelengthBase):
     source_type = "any"
     spectrum_type = "monochromatic"
 
-    def __init__(self, wavelength: float, **kwargs):
+    def __init__(
+        self,
+        wavelength: float,
+        **kwargs,
+    ):
         super().__init__(**kwargs)
         self._wavelength = wavelength
 
@@ -155,6 +166,27 @@ class MonochromaticXrayWavelength(WavelengthBase):
     """
     Monochromatic X-ray wavelength (and units).
 
+    Parameters
+
+    wavelength float:
+        Monochromatic wavelength of the incident radiation.  It is expected that
+        wavelength and unit cell dimensions have the same units.
+
+    units str:
+        Engineering units of wavelength.  It is expected that
+        wavelength and unit cell dimensions have the same units.
+
+    wavelength_updated bool:
+        Caller provided boolean to signal when wavelength has been updated.
+        Set ``True`` from ``wavelength.setter`` property.
+
+    wavelength_deadband float:
+        Variation in wavelength less than this number will not cause
+        wavelength_updated to be updated.
+
+    energy_units str:
+        Engineering units of energy.
+
     .. autosummary::
 
         ~wavelength
@@ -169,11 +201,19 @@ class MonochromaticXrayWavelength(WavelengthBase):
     spectrum_type = "monochromatic"
 
     def __init__(
-        self, wavelength: float = DEFAULT_WAVELENGTH, energy_units: str = None, **kwargs
+        self,
+        wavelength: float = DEFAULT_WAVELENGTH,
+        energy_units: str = None,
+        wavelength_updated: bool = False,
+        wavelength_deadband: float = DEFAULT_WAVELENGTH_DEADBAND,
+        **kwargs,
     ):
         self.energy_units = energy_units or DEFAULT_ENERGY_UNITS
+        self.wavelength_updated = wavelength_updated
         super().__init__(**kwargs)
         self._wavelength = wavelength
+        self.wavelength_deadband = wavelength_deadband
+        self.wavelength_reference = wavelength
 
     @property
     def wavelength(self) -> float:
@@ -183,6 +223,9 @@ class MonochromaticXrayWavelength(WavelengthBase):
     @wavelength.setter
     def wavelength(self, value: float) -> None:
         self._wavelength = value
+        if abs(value - self.wavelength_reference) > self.wavelength_deadband:
+            self.wavelength_updated = True
+            self.wavelength_reference = value
 
     @property
     def energy(self) -> float:
