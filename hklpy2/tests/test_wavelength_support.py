@@ -6,6 +6,7 @@ import pytest
 from ..misc import WavelengthError
 from ..tests.common import assert_context_result
 from ..wavelength_support import DEFAULT_ENERGY_UNITS
+from ..wavelength_support import DEFAULT_WAVELENGTH_DEADBAND
 from ..wavelength_support import DEFAULT_WAVELENGTH_UNITS
 from ..wavelength_support import ConstantMonochromaticWavelength
 from ..wavelength_support import MonochromaticXrayWavelength
@@ -97,15 +98,26 @@ def test_MonochromaticXrayWavelength_set_w(
     e_units,
     tol,
 ):
-    wl = MonochromaticXrayWavelength(2, units=w_units)
+    flag: bool = False
+
+    def request_solver_update(value: bool = True):
+        """Mimic Core.request_solver_update() function."""
+        nonlocal flag
+        flag = value
+
+    wl = MonochromaticXrayWavelength(
+        2,
+        units=w_units,
+        wavelength_updated=request_solver_update,
+    )
     wl.energy_units = e_units or DEFAULT_ENERGY_UNITS
     assert wl.wavelength_units == w_units or DEFAULT_WAVELENGTH_UNITS
-    assert not wl.wavelength_updated
+    assert not flag
 
     wl.energy = energy
-    assert wl.wavelength_updated
     assert math.isclose(wl.wavelength, wavelength, rel_tol=0.01)
     assert math.isclose(wl.energy, energy, abs_tol=tol), f"{wl.energy=!r}"
+    assert flag
 
 
 @pytest.mark.parametrize(
@@ -136,3 +148,31 @@ def test_MonochromaticXrayWavelength_change_units(
     assert wl.wavelength_units == (w_units or "angstrom")
     assert math.isclose(wl.wavelength, wavelength, rel_tol=tol)
     assert math.isclose(wl.energy, energy, rel_tol=tol)
+
+
+@pytest.mark.parametrize(
+    "factor, context, expected",
+    [
+        [2, does_not_raise(), None],
+        [
+            1 + DEFAULT_WAVELENGTH_DEADBAND / 2,
+            pytest.raises(AssertionError),
+            "test response",
+        ],
+        [
+            1 + DEFAULT_WAVELENGTH_DEADBAND * 2,
+            does_not_raise(),
+            None,
+        ],
+    ],
+)
+def test_mono_wavelength_changed(factor, context, expected):
+    from ..diffract import creator
+
+    with context as reason:
+        sim = creator(name="sim")
+        assert not sim.core._solver_needs_update
+
+        sim._source.energy *= factor
+        assert sim.core._solver_needs_update, "test response"
+    assert_context_result(expected, reason)

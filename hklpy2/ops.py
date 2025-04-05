@@ -66,11 +66,13 @@ class Core:
         ~local_real_axes
         ~refine_lattice
         ~remove_sample
+        ~request_solver_update
         ~reset_constraints
         ~reset_samples
         ~set_solver
         ~standardize_pseudos
         ~standardize_reals
+        ~update_solver
 
     .. rubric:: Python Properties
 
@@ -101,9 +103,9 @@ class Core:
         self._sample_name = None
         self._samples = {}
         self._solver = None
-        self._solver_needs_update: bool = True
         self.constraints = None
         self.configuration = None
+        self.request_solver_update()
 
         if default_sample:
             # first sample is cubic, no reflections
@@ -303,7 +305,7 @@ class Core:
         lattice = Lattice(a, b, c, alpha, beta, gamma, digits)
         self._samples[name] = Sample(self, name, lattice)
         self.sample = name
-        self._solver_needs_update = True  # 58  test_diffract line 410: 2 pi a
+        self.request_solver_update(True)  # 58  test_diffract line 410: 2 pi a
         if self.solver is not None:
             self.solver.sample = self.sample
         return self.sample
@@ -390,7 +392,7 @@ class Core:
         ub = self.solver.calculate_UB(*two_reflections)
         self.sample.U = self.solver.U
         self.sample.UB = ub
-        self._solver_needs_update = False
+        self.request_solver_update(False)
         return ub
 
     @property
@@ -406,7 +408,7 @@ class Core:
         incoming = self._validate_extras(values, self.extras)
         if len(incoming) > 0:
             self._extras.update(incoming)
-            self._solver_needs_update = True
+            self.request_solver_update(True)
 
     def forward(self, pseudos: AnyAxesType, wavelength: float = None) -> list:
         """Compute [{names:reals}] from {names: pseudos} (hkl -> angles)."""
@@ -508,7 +510,7 @@ class Core:
         """Return the current computation mode."""
         if self._mode is None:
             self._mode = self.solver.mode
-            self._solver_needs_update = True
+            self.request_solver_update(True)
         return self._mode
 
     @mode.setter
@@ -516,7 +518,7 @@ class Core:
         """Set the computation mode to be used."""
         if value in self.modes:
             self._mode = value
-            self._solver_needs_update = True
+            self.request_solver_update(True)
 
     @property
     def modes(self) -> list[str]:
@@ -547,6 +549,15 @@ class Core:
 
         self._samples.pop(name)
         self._sample_name = list(self.samples)[0]
+
+    def request_solver_update(self, flag: bool = True) -> None:
+        """
+        Set (or clear) signal to trigger a solver update.
+
+        Needs to be a method (not a property) so it can be called from a
+        wavelength method.
+        """
+        self._solver_needs_update = flag
 
     def reset_constraints(self):
         """Restore diffractometer constraints to default settings."""
@@ -625,11 +636,14 @@ class Core:
         """
         Create an instance of the backend |solver| library and geometry.
 
-        .. rubric:: Parameters
+        Parameters
 
-        * ``solver`` (str): Name of the |solver| library.
-        * ``geometry`` (str): Name of the |solver| geometry.
-        * ``kwargs`` (dict): Any keyword arguments needed by the |solver|.
+        solver str:
+            Name of the |solver| library.
+        geometry str:
+            Name of the |solver| geometry.
+        kwargs dict:
+            Any keyword arguments needed by the |solver|.
         """
         logger.debug(
             "(%s) solver=%r, geometry=%r, kwargs=%r",
@@ -640,10 +654,11 @@ class Core:
         )
         self._solver = solver_factory(name, geometry, **kwargs)
         self._extras = {
-            k: DEFAULT_EXTRA_VALUE for k in self.solver.all_extra_axis_names
+            k: DEFAULT_EXTRA_VALUE
+            #
+            for k in self.solver.all_extra_axis_names
         }
         self.update_solver()
-        self._solver_needs_update = True
         return self._solver
 
     def standardize_pseudos(self, pseudos: AnyAxesType) -> AxesDict:
@@ -684,7 +699,7 @@ class Core:
     def update_solver(self, wavelength: Optional[float] = None) -> None:
         """Update solver data if needed."""
         if self.solver.mode != self.mode or wavelength is not None:
-            self._solver_needs_update = True  # force the update
+            self.request_solver_update(True)  # force the update
 
         if self._solver_needs_update:
             self.solver.sample = self.sample  # lattice & reflections
@@ -706,4 +721,4 @@ class Core:
             except AttributeError:
                 pass  # Some solvers have no setter for U & UB
 
-            self._solver_needs_update = False
+            self.request_solver_update(False)

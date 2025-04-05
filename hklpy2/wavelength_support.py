@@ -121,6 +121,9 @@ class WavelengthBase(ABC):
 
     @wavelength_units.setter
     def wavelength_units(self, value) -> None:
+        # Raise pint.DimensionalityError if not convertible to our units.
+        pint.UnitRegistry().convert(1, value, DEFAULT_WAVELENGTH_UNITS)
+
         if hasattr(self, "_wavelength") and hasattr(self, "_wavelength_units"):
             # When wavelength_units change, convert existing
             # wavelength value to new units.
@@ -183,8 +186,8 @@ class MonochromaticXrayWavelength(WavelengthBase):
         Engineering units of wavelength.  It is expected that
         wavelength and unit cell dimensions have the same units.
 
-    wavelength_updated bool:
-        Caller provided boolean to signal when wavelength has been updated.
+    wavelength_updated object:
+        Caller provided function to signal when wavelength has been updated.
         Set ``True`` from ``wavelength.setter`` property.
 
     wavelength_deadband float:
@@ -211,7 +214,7 @@ class MonochromaticXrayWavelength(WavelengthBase):
         self,
         wavelength: float = DEFAULT_WAVELENGTH,
         energy_units: str = None,
-        wavelength_updated: bool = False,
+        wavelength_updated: object = None,
         wavelength_deadband: float = DEFAULT_WAVELENGTH_DEADBAND,
         **kwargs,
     ):
@@ -231,7 +234,8 @@ class MonochromaticXrayWavelength(WavelengthBase):
     def wavelength(self, value: float) -> None:
         self._wavelength = value
         if abs(value - self.wavelength_reference) > self.wavelength_deadband:
-            self.wavelength_updated = True
+            if self.wavelength_updated is not None:
+                self.wavelength_updated(True)
             self.wavelength_reference = value
 
     @property
@@ -267,8 +271,8 @@ class MonochromaticXrayWavelength(WavelengthBase):
     def energy_units(self, value) -> None:
         """
         Engineering units of the X-ray photon energy.
+
+        Will raise ``pint.DimensionalityError`` if not convertible to our units.
         """
-        # Will it convert to to our energy units?
-        # Raises pint.DimensionalityError if not convertible.
         pint.UnitRegistry().convert(1, value, DEFAULT_ENERGY_UNITS)
         self._energy_units = value
