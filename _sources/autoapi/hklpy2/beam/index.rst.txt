@@ -1,7 +1,7 @@
-hklpy2.wavelength_support
-=========================
+hklpy2.beam
+===========
 
-.. py:module:: hklpy2.wavelength_support
+.. py:module:: hklpy2.beam
 
 .. autoapi-nested-parse::
 
@@ -23,12 +23,13 @@ Attributes
 
 .. autoapisummary::
 
-   hklpy2.wavelength_support.logger
-   hklpy2.wavelength_support.DEFAULT_ENERGY_UNITS
-   hklpy2.wavelength_support.DEFAULT_WAVELENGTH
-   hklpy2.wavelength_support.DEFAULT_WAVELENGTH_UNITS
-   hklpy2.wavelength_support.XRAY_ENERGY_EQUIVALENT_
-   hklpy2.wavelength_support.A_KEV
+   hklpy2.beam.logger
+   hklpy2.beam.DEFAULT_ENERGY_UNITS
+   hklpy2.beam.DEFAULT_WAVELENGTH
+   hklpy2.beam.DEFAULT_WAVELENGTH_DEADBAND
+   hklpy2.beam.DEFAULT_WAVELENGTH_UNITS
+   hklpy2.beam.XRAY_ENERGY_EQUIVALENT_
+   hklpy2.beam.A_KEV
 
 
 Classes
@@ -36,9 +37,9 @@ Classes
 
 .. autoapisummary::
 
-   hklpy2.wavelength_support.WavelengthBase
-   hklpy2.wavelength_support.ConstantMonochromaticWavelength
-   hklpy2.wavelength_support.MonochromaticXrayWavelength
+   hklpy2.beam.WavelengthBase
+   hklpy2.beam.ConstantMonochromaticWavelength
+   hklpy2.beam.MonochromaticXrayWavelength
 
 
 Module Contents
@@ -52,6 +53,10 @@ Module Contents
 
 .. py:data:: DEFAULT_WAVELENGTH
    :value: 1.0
+
+
+.. py:data:: DEFAULT_WAVELENGTH_DEADBAND
+   :value: 0.0001
 
 
 .. py:data:: DEFAULT_WAVELENGTH_UNITS
@@ -74,12 +79,18 @@ Module Contents
 
    X-ray voltage wavelength product (:math:`h \nu`), per NIST standard.
 
-.. py:class:: WavelengthBase(*, units: str = None)
+.. py:class:: WavelengthBase(*, units: str = None, **kwargs)
 
    Bases: :py:obj:`abc.ABC`
 
 
    Base for all wavelength (:math:`\lambda`) classes.
+
+   Parameters
+
+   units str:
+       Engineering units of wavelength.  It is expected that
+       wavelength and unit cell dimensions have the same units.
 
    .. autosummary::
 
@@ -177,7 +188,7 @@ Module Contents
    .. py:attribute:: _wavelength
 
 
-   .. py:method:: _fromdict(config)
+   .. py:method:: _fromdict(config: dict[str, float | int | str])
 
       Restore configuration from dictionary but not wavelength.
 
@@ -190,12 +201,33 @@ Module Contents
       Wavelength (:math:`\lambda`).
 
 
-.. py:class:: MonochromaticXrayWavelength(wavelength: float = DEFAULT_WAVELENGTH, energy_units: str = None, **kwargs)
+.. py:class:: MonochromaticXrayWavelength(wavelength: float = DEFAULT_WAVELENGTH, energy_units: str = None, wavelength_updated: object = None, wavelength_deadband: float = DEFAULT_WAVELENGTH_DEADBAND, **kwargs)
 
    Bases: :py:obj:`WavelengthBase`
 
 
    Monochromatic X-ray wavelength (and units).
+
+   Parameters
+
+   wavelength float:
+       Monochromatic wavelength of the incident radiation.  It is expected that
+       wavelength and unit cell dimensions have the same units.
+
+   units str:
+       Engineering units of wavelength.  It is expected that
+       wavelength and unit cell dimensions have the same units.
+
+   wavelength_updated object:
+       Caller provided function to signal when wavelength has been updated.
+       Set ``True`` from ``wavelength.setter`` property.
+
+   wavelength_deadband float:
+       Variation in wavelength less than this number will not cause
+       wavelength_updated to be updated.
+
+   energy_units str:
+       Engineering units of energy.
 
    .. autosummary::
 
@@ -228,7 +260,22 @@ Module Contents
       Engineering units of the X-ray photon energy.
 
 
+   .. py:attribute:: wavelength_updated
+      :value: None
+
+
+
    .. py:attribute:: _wavelength
+      :value: 1.0
+
+
+
+   .. py:attribute:: wavelength_deadband
+      :value: 0.0001
+
+
+
+   .. py:attribute:: wavelength_reference
       :value: 1.0
 
 

@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../../../_static/documentation_options.js?v=6f257b49"></script>
+    <script src="../../../_static/documentation_options.js?v=75af13e9"></script>
     <script src="../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -325,6 +325,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../backends/th_tth_q/index.html">hklpy2.backends.th_tth_q</a></li>
 </ul>
 </details></li>
+<li class="toctree-l2"><a class="reference internal" href="../beam/index.html">hklpy2.beam</a></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../blocks/index.html">hklpy2.blocks</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l3"><a class="reference internal" href="../blocks/configure/index.html">hklpy2.blocks.configure</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../blocks/constraints/index.html">hklpy2.blocks.constraints</a></li>
@@ -337,7 +338,6 @@
 <li class="toctree-l2"><a class="reference internal" href="../misc/index.html">hklpy2.misc</a></li>
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">hklpy2.ops</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../user/index.html">hklpy2.user</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../wavelength_support/index.html">hklpy2.wavelength_support</a></li>
 </ul>
 </details></li>
 </ul>
@@ -485,20 +485,26 @@ library.</p>
 <tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.ops.Core.remove_sample" title="hklpy2.ops.Core.remove_sample"><code class="xref py py-obj docutils literal notranslate"><span class="pre">remove_sample</span></code></a>(name)</p></td>
 <td><p>Remove the named sample.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.ops.Core.reset_constraints" title="hklpy2.ops.Core.reset_constraints"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reset_constraints</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.ops.Core.request_solver_update" title="hklpy2.ops.Core.request_solver_update"><code class="xref py py-obj docutils literal notranslate"><span class="pre">request_solver_update</span></code></a>([flag])</p></td>
+<td><p>Set (or clear) signal to trigger a solver update.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.ops.Core.reset_constraints" title="hklpy2.ops.Core.reset_constraints"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reset_constraints</span></code></a>()</p></td>
 <td><p>Restore diffractometer constraints to default settings.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.ops.Core.reset_samples" title="hklpy2.ops.Core.reset_samples"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reset_samples</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.ops.Core.reset_samples" title="hklpy2.ops.Core.reset_samples"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reset_samples</span></code></a>()</p></td>
 <td><p>Restore diffractometer samples to default settings.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.ops.Core.set_solver" title="hklpy2.ops.Core.set_solver"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_solver</span></code></a>(name, geometry, **kwargs)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.ops.Core.set_solver" title="hklpy2.ops.Core.set_solver"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_solver</span></code></a>(name, geometry, **kwargs)</p></td>
 <td><p>Create an instance of the backend <strong>Solver</strong> library and geometry.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.ops.Core.standardize_pseudos" title="hklpy2.ops.Core.standardize_pseudos"><code class="xref py py-obj docutils literal notranslate"><span class="pre">standardize_pseudos</span></code></a>(pseudos)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.ops.Core.standardize_pseudos" title="hklpy2.ops.Core.standardize_pseudos"><code class="xref py py-obj docutils literal notranslate"><span class="pre">standardize_pseudos</span></code></a>(pseudos)</p></td>
 <td><p>Convert user-supplied pseudos into dictionary in solver's order.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.ops.Core.standardize_reals" title="hklpy2.ops.Core.standardize_reals"><code class="xref py py-obj docutils literal notranslate"><span class="pre">standardize_reals</span></code></a>(reals)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.ops.Core.standardize_reals" title="hklpy2.ops.Core.standardize_reals"><code class="xref py py-obj docutils literal notranslate"><span class="pre">standardize_reals</span></code></a>(reals)</p></td>
 <td><p>Convert user-supplied reals into dictionary in solver's order.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.ops.Core.update_solver" title="hklpy2.ops.Core.update_solver"><code class="xref py py-obj docutils literal notranslate"><span class="pre">update_solver</span></code></a>([wavelength])</p></td>
+<td><p>Update solver data if needed.</p></td>
 </tr>
 </tbody>
 </table>
@@ -581,11 +587,6 @@ library.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="hklpy2.ops.Core._solver">
 <span class="sig-name descname"><span class="pre">_solver</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="reference internal" href="../../../_modules/hklpy2/ops.html#Core._solver"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.ops.Core._solver" title="Link to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="hklpy2.ops.Core._solver_needs_update">
-<span class="sig-name descname"><span class="pre">_solver_needs_update</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><span class="pre">bool</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></em><a class="reference internal" href="../../../_modules/hklpy2/ops.html#Core._solver_needs_update"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.ops.Core._solver_needs_update" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -754,6 +755,14 @@ as ophyd Components in the diffractometer.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="hklpy2.ops.Core.request_solver_update">
+<span class="sig-name descname"><span class="pre">request_solver_update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">flag</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../../_modules/hklpy2/ops.html#Core.request_solver_update"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.ops.Core.request_solver_update" title="Link to this definition">#</a></dt>
+<dd><p>Set (or clear) signal to trigger a solver update.</p>
+<p>Needs to be a method (not a property) so it can be called from a
+wavelength method.</p>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="hklpy2.ops.Core.reset_constraints">
 <span class="sig-name descname"><span class="pre">reset_constraints</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/hklpy2/ops.html#Core.reset_constraints"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.ops.Core.reset_constraints" title="Link to this definition">#</a></dt>
 <dd><p>Restore diffractometer constraints to default settings.</p>
@@ -823,12 +832,15 @@ as ophyd Components in the diffractometer.</p>
 <dt class="sig sig-object py" id="hklpy2.ops.Core.set_solver">
 <span class="sig-name descname"><span class="pre">set_solver</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">geometry</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><span class="pre">dict</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="../backends/base/index.html#hklpy2.backends.base.SolverBase" title="hklpy2.backends.base.SolverBase"><span class="pre">hklpy2.backends.base.SolverBase</span></a></span></span><a class="reference internal" href="../../../_modules/hklpy2/ops.html#Core.set_solver"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.ops.Core.set_solver" title="Link to this definition">#</a></dt>
 <dd><p>Create an instance of the backend <strong>Solver</strong> library and geometry.</p>
-<p class="rubric">Parameters</p>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">solver</span></code> (str): Name of the <strong>Solver</strong> library.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">geometry</span></code> (str): Name of the <strong>Solver</strong> geometry.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">kwargs</span></code> (dict): Any keyword arguments needed by the <strong>Solver</strong>.</p></li>
-</ul>
+<p>Parameters</p>
+<dl class="simple">
+<dt>solver str:</dt><dd><p>Name of the <strong>Solver</strong> library.</p>
+</dd>
+<dt>geometry str:</dt><dd><p>Name of the <strong>Solver</strong> geometry.</p>
+</dd>
+<dt>kwargs dict:</dt><dd><p>Any keyword arguments needed by the <strong>Solver</strong>.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -926,7 +938,6 @@ as ophyd Components in the diffractometer.</p>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.ops.Core._sample_name"><code class="docutils literal notranslate"><span class="pre">Core._sample_name</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.ops.Core._samples"><code class="docutils literal notranslate"><span class="pre">Core._samples</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.ops.Core._solver"><code class="docutils literal notranslate"><span class="pre">Core._solver</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.ops.Core._solver_needs_update"><code class="docutils literal notranslate"><span class="pre">Core._solver_needs_update</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.ops.Core.constraints"><code class="docutils literal notranslate"><span class="pre">Core.constraints</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.ops.Core.configuration"><code class="docutils literal notranslate"><span class="pre">Core.configuration</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.ops.Core._asdict"><code class="docutils literal notranslate"><span class="pre">Core._asdict()</span></code></a></li>
@@ -952,6 +963,7 @@ as ophyd Components in the diffractometer.</p>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.ops.Core.modes"><code class="docutils literal notranslate"><span class="pre">Core.modes</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.ops.Core.refine_lattice"><code class="docutils literal notranslate"><span class="pre">Core.refine_lattice()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.ops.Core.remove_sample"><code class="docutils literal notranslate"><span class="pre">Core.remove_sample()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.ops.Core.request_solver_update"><code class="docutils literal notranslate"><span class="pre">Core.request_solver_update()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.ops.Core.reset_constraints"><code class="docutils literal notranslate"><span class="pre">Core.reset_constraints()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.ops.Core.reset_samples"><code class="docutils literal notranslate"><span class="pre">Core.reset_samples()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.ops.Core.sample"><code class="docutils literal notranslate"><span class="pre">Core.sample</span></code></a></li>

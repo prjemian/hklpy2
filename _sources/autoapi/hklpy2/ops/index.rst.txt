@@ -56,11 +56,13 @@ Module Contents
        ~local_real_axes
        ~refine_lattice
        ~remove_sample
+       ~request_solver_update
        ~reset_constraints
        ~reset_samples
        ~set_solver
        ~standardize_pseudos
        ~standardize_reals
+       ~update_solver
 
    .. rubric:: Python Properties
 
@@ -105,12 +107,6 @@ Module Contents
 
    .. py:attribute:: _solver
       :value: None
-
-
-
-   .. py:attribute:: _solver_needs_update
-      :type:  bool
-      :value: True
 
 
 
@@ -290,6 +286,15 @@ Module Contents
 
 
 
+   .. py:method:: request_solver_update(flag: bool = True) -> None
+
+      Set (or clear) signal to trigger a solver update.
+
+      Needs to be a method (not a property) so it can be called from a
+      wavelength method.
+
+
+
    .. py:method:: reset_constraints()
 
       Restore diffractometer constraints to default settings.
@@ -369,11 +374,14 @@ Module Contents
 
       Create an instance of the backend |solver| library and geometry.
 
-      .. rubric:: Parameters
+      Parameters
 
-      * ``solver`` (str): Name of the |solver| library.
-      * ``geometry`` (str): Name of the |solver| geometry.
-      * ``kwargs`` (dict): Any keyword arguments needed by the |solver|.
+      solver str:
+          Name of the |solver| library.
+      geometry str:
+          Name of the |solver| geometry.
+      kwargs dict:
+          Any keyword arguments needed by the |solver|.
 
 
 
