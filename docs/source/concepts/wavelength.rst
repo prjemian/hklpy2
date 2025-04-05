@@ -6,4 +6,4 @@ Wavelength
 
 .. TODO #35
 
-.. seealso:: :mod:`~hklpy2.wavelength_support`
+.. seealso:: :mod:`~hklpy2.beam`

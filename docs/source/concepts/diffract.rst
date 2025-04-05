@@ -26,9 +26,9 @@ only the pseudos and reals that are identified.
       - define subclass of :class:`~hklpy2.diffract.DiffractometerBase()` and create instance
       - create instance of :class:`~hklpy2.blocks.sample.Sample()`
       - create instance of :class:`~hklpy2.blocks.lattice.Lattice()`
-      - create instance of :class:`~hklpy2.wavelength_support.WavelengthBase()` subclass
+      - create instance of :class:`~hklpy2.beam.WavelengthBase()` subclass
       - create instance of :class:`~hklpy2.backends.base.SolverBase()` subclass
-      - set :attr:`~hklpy2.wavelength_support.WavelengthBase.wavelength`
+      - set :attr:`~hklpy2.beam.WavelengthBase.wavelength`
       - list *available* solvers: (:func:`~hklpy2.misc.solvers`)
       - review saved orientation details
 
@@ -94,9 +94,9 @@ wavelength (and energy)
 -----------------------
 
 The `diffractometer._source` describes the radiation source using the
-:class:`~hklpy2.wavelength_support.WavelengthBase` class.  Wavelength is the
+:class:`~hklpy2.beam.WavelengthBase` class.  Wavelength is the
 term common to both neutron and X-ray diffractometer users.
-:class:`~hklpy2.wavelength_support.MonochromaticXrayWavelength` is the default.
+:class:`~hklpy2.beam.MonochromaticXrayWavelength` is the default.
 This supports conversion between wavelength and X-ray photon energy.
 
 .. tip:: Neutron users would make a similar class with different calculations
@@ -231,7 +231,6 @@ and :attr:`~hklpy2.ops.Core.sample`)
     ~hklpy2.diffract.DiffractometerBase.add_sample (method)
     ~hklpy2.diffract.DiffractometerBase.sample (property)
     ~hklpy2.diffract.DiffractometerBase.samples (property)
-    ~hklpy2.diffract.DiffractometerBase.solver_name (property)
 
 .. rubric:: Solver-related methods and properties
 .. autosummary::

@@ -26,6 +26,7 @@ from ophyd.pseudopos import pseudo_position_argument
 from ophyd.pseudopos import real_position_argument
 from ophyd.signal import AttributeSignal
 
+from .beam import MonochromaticXrayWavelength
 from .blocks.reflection import Reflection
 from .blocks.sample import Sample
 from .misc import AnyAxesType
@@ -33,7 +34,6 @@ from .misc import AxesDict
 from .misc import DiffractometerError
 from .misc import load_yaml_file
 from .misc import roundoff
-from .wavelength_support import MonochromaticXrayWavelength
 
 __all__ = """
     DiffractometerBase
