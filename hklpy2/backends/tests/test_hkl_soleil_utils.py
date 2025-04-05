@@ -53,12 +53,12 @@ def test_gi_require_library(system, library, version, context, expected):
 
 def test_import_gi_failure():
     """Special case when 'gi' package is not installed."""
-    import pkgutil
+    import importlib.util
     import sys
 
     # Is the "gi" module available?
     gi_module = None
-    if "gi" in [name for loader, name, ispkg in pkgutil.iter_modules()]:
+    if importlib.util.find_spec("gi") is not None:
         import gi  # noqa
 
         # Remove it from the dictionary.
