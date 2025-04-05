@@ -77,25 +77,32 @@ class WavelengthBase(ABC):
 
     def _asdict(self):
         """Return source parameters as a dict."""
-        return {
+        info = {
             "source_type": self.source_type,
-            "energy_units": self.energy_units,
-            "energy": self.energy,
             "wavelength_units": self.wavelength_units,
             "wavelength": self.wavelength,
         }
+        if hasattr(self, "energy"):
+            info.update(
+                {
+                    "energy_units": self.energy_units,
+                    "energy": self.energy,
+                }
+            )
+        return info
 
     def _fromdict_core(self, config):
         """Restore most items from config dictionary."""
         if not isinstance(config, dict):
-            raise TypeError(f"Unrecognized configuration: {config=}")
+            raise TypeError(f"Unrecognized configuration: {config!r}")
         if self.source_type != config["source_type"]:
             raise ValueError(
-                f"Source type ({config['source_type']})"
-                f" does not match expected {self.source_type}"
+                f"Unexpected source type: Received ({config['source_type']!r})"
+                f" Expected: {self.source_type!r}"
             )
         self.wavelength_units = config["wavelength_units"]
-        self.energy_units = config["energy_units"]
+        if hasattr(self, "energy_units") is not None:
+            self.energy_units = config.get("energy_units", DEFAULT_ENERGY_UNITS)
 
     def _fromdict(self, config):
         """Restore configuration from dictionary."""
@@ -147,7 +154,7 @@ class ConstantMonochromaticWavelength(WavelengthBase):
         super().__init__(**kwargs)
         self._wavelength = wavelength
 
-    def _fromdict(self, config):
+    def _fromdict(self, config: dict[str, (float | int | str)]):
         """Restore configuration from dictionary but not wavelength."""
         self._fromdict_core(config)
 
@@ -261,8 +268,7 @@ class MonochromaticXrayWavelength(WavelengthBase):
         """
         Engineering units of the X-ray photon energy.
         """
-        if hasattr(self, "_energy") and hasattr(self, "_energy_units"):
-            # Convert existing energy value to new units.
-            energy = pint.Quantity(self._energy, self._energy_units)
-            self._energy = energy.to(value).magnitude
+        # Will it convert to to our energy units?
+        # Raises pint.DimensionalityError if not convertible.
+        pint.UnitRegistry().convert(1, value, DEFAULT_ENERGY_UNITS)
         self._energy_units = value

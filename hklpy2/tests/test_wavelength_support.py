@@ -1,4 +1,5 @@
 import math
+from contextlib import nullcontext as does_not_raise
 
 import pytest
 
@@ -28,12 +29,56 @@ def test_ConstantMonochromaticWavelength(context, expected):
     assert math.isclose(wl.wavelength, 0.1, abs_tol=0.000_1)
 
     with context as reason:
-        wl.wavelength = 2.0  # try to change it
+        wl.wavelength = 2  # try to change it
     assert_context_result(expected, reason)
 
 
 @pytest.mark.parametrize(
-    "wavelength, wunits, energy, eunits, tol",
+    "info, context, expected",
+    [
+        [
+            {
+                "source_type": "any",
+                "wavelength_units": "angstrom",
+                "wavelength": 1.0,
+            },
+            does_not_raise(),
+            None,
+        ],
+        [
+            {
+                "source_type": "any",
+                "wavelength_units": "angstrom",
+                "wavelength": 2,
+            },
+            does_not_raise(),
+            None,
+        ],
+        [
+            "not a dict",
+            pytest.raises(TypeError),
+            "Unrecognized configuration: 'not a dict'",
+        ],
+        [
+            {
+                "source_type": "torch",
+                "wavelength_units": "um",
+                "wavelength": 0.5,
+            },
+            pytest.raises(ValueError),
+            "Unexpected source type: Received",
+        ],
+    ],
+)
+def test_ConstantMonochromaticWavelength_restore(info, context, expected):
+    with context as reason:
+        wl = ConstantMonochromaticWavelength(1.0)
+        wl._fromdict(info)
+    assert_context_result(expected, reason)
+
+
+@pytest.mark.parametrize(
+    "wavelength, w_units, energy, e_units, tol",
     [
         [1, None, 12.4, "keV", 0.1],
         [1, None, 12.4, None, 0.1],
@@ -45,30 +90,49 @@ def test_ConstantMonochromaticWavelength(context, expected):
         [0.1, "um", 12.4, "eV", 0.1],
     ],
 )
-def test_MonochromaticXrayWavelength_set_w(wavelength, wunits, energy, eunits, tol):
-    wl = MonochromaticXrayWavelength(wavelength, units=wunits)
-    assert wl.wavelength_units == wunits or DEFAULT_WAVELENGTH_UNITS
+def test_MonochromaticXrayWavelength_set_w(
+    wavelength,
+    w_units,
+    energy,
+    e_units,
+    tol,
+):
+    wl = MonochromaticXrayWavelength(2, units=w_units)
+    wl.energy_units = e_units or DEFAULT_ENERGY_UNITS
+    assert wl.wavelength_units == w_units or DEFAULT_WAVELENGTH_UNITS
+    assert not wl.wavelength_updated
+
+    wl.energy = energy
+    assert wl.wavelength_updated
     assert math.isclose(wl.wavelength, wavelength, rel_tol=0.01)
-    wl.energy_units = eunits or DEFAULT_ENERGY_UNITS
     assert math.isclose(wl.energy, energy, abs_tol=tol), f"{wl.energy=!r}"
 
 
-def test_MonochromaticXrayWavelength_change_units():
-    wavelength = 1.0
-    rtol = 0.001
+@pytest.mark.parametrize(
+    "wavelength, w_units, energy, e_units, tol",
+    [
+        [1, None, 12.39842, "keV", 0.001],
+        [1, "angstrom", 12.39842, None, 0.001],
+        [1, "angstrom", 12.39842, "keV", 0.001],
+        [100, "pm", 12.39842, "keV", 0.0001],
+        [0.1, "nm", 12.39842, "keV", 0.001],
+        [1, "angstrom", 12398.42, "eV", 0.001],
+    ],
+)
+def test_MonochromaticXrayWavelength_change_units(
+    wavelength,
+    w_units,
+    energy,
+    e_units,
+    tol,
+):
     wl = MonochromaticXrayWavelength(1.0, units="angstrom")
-    assert wl.wavelength_units == "angstrom"
-    assert math.isclose(wl.wavelength, wavelength, rel_tol=rtol)
-    assert math.isclose(wl.energy, 12.39842, rel_tol=rtol)
+    if e_units is not None:
+        wl.energy_units = e_units
+    if w_units is not None:
+        wl.wavelength_units = w_units
 
-    wl.wavelength_units = "pm"
-    assert math.isclose(wl.wavelength, 100 * wavelength, rel_tol=rtol)
-    assert math.isclose(wl.energy, 12.39842, rel_tol=rtol)
-
-    wl.wavelength_units = "nm"
-    assert math.isclose(wl.wavelength, 0.1 * wavelength, rel_tol=rtol)
-    assert math.isclose(wl.energy, 12.39842, rel_tol=rtol)
-
-    wl.energy_units = "eV"
-    assert math.isclose(wl.wavelength, 0.1 * wavelength, rel_tol=rtol)
-    assert math.isclose(wl.energy, 12398.42, rel_tol=rtol)
+    assert wl.energy_units == (e_units or "keV")
+    assert wl.wavelength_units == (w_units or "angstrom")
+    assert math.isclose(wl.wavelength, wavelength, rel_tol=tol)
+    assert math.isclose(wl.energy, energy, rel_tol=tol)
