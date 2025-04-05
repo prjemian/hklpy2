@@ -29,6 +29,7 @@ from typing import Union
 
 from pyRestTable import Table
 
+from .beam import MonochromaticXrayWavelength
 from .blocks.lattice import Lattice
 from .blocks.reflection import Reflection
 from .diffract import DiffractometerBase
@@ -36,7 +37,6 @@ from .misc import AnyAxesType
 from .misc import AxesDict
 from .misc import AxesTuple
 from .ops import CoreError
-from .wavelength_support import MonochromaticXrayWavelength
 
 __all__ = """
     add_reflection

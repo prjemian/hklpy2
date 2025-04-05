@@ -158,7 +158,7 @@ class SolverNoForwardSolutions(SolverError):
 
 
 class WavelengthError(Hklpy2Error):
-    """Custom exceptions from :mod:`hklpy2.wavelength_support`."""
+    """Custom exceptions from :mod:`hklpy2.beam`."""
 
 
 # Custom preprocessors

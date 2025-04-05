@@ -7,6 +7,7 @@ import numpy.testing
 import pytest
 from pyRestTable import Table
 
+from ..beam import ConstantMonochromaticWavelength
 from ..blocks.lattice import SI_LATTICE_PARAMETER
 from ..diffract import creator
 from ..misc import ReflectionError
@@ -27,7 +28,6 @@ from ..user import set_lattice
 from ..user import setor
 from ..user import solver_summary
 from ..user import wh
-from ..wavelength_support import ConstantMonochromaticWavelength
 from .common import TESTS_DIR
 from .common import assert_context_result
 
