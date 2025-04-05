@@ -53,18 +53,16 @@ def test_gi_require_library(system, library, version, context, expected):
 
 def test_import_gi_failure():
     """Special case when 'gi' package is not installed."""
+    import importlib.util
     import sys
 
-    # Load the 'gi' package if possible.
-    try:
+    # Is the "gi" module available?
+    gi_module = None
+    if importlib.util.find_spec("gi") is not None:
         import gi  # noqa
-    except (ImportError, ModuleNotFoundError):
-        pass
 
-    gi_module = sys.modules.get("gi")
-    if gi_module is not None:
         # Remove it from the dictionary.
-        del sys.modules["gi"]
+        gi_module = sys.modules.pop("gi")
 
     # Import the function after manipulating 'sys.modules'.
     from ..hkl_soleil_utils import gi_require_library
