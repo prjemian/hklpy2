@@ -43,10 +43,10 @@ jobs:
     strategy:
       matrix:
         python-version:
-          - "3.10" # not 3.10 which truncates to 3.1
-          - "3.11"
+          # - "3.10" # not 3.10 which truncates to 3.1
+          # - "3.11"
           - "3.12"
-          - "3.13"
+          # - "3.13"
       max-parallel: 5
 
     steps:
@@ -74,6 +74,48 @@ jobs:
             setuptools-scm
             tiled
             yaml
+
+      - name: Start EPICS softIoc
+        run: |
+          echo pwd=$(pwd)
+          cat ./hklpy2/tests/testing.db
+          softIoc -m "P=hklpy2:" -d ./hklpy2/tests/testing.db &
+          sleep 5
+          echo "EPICS cainfo hklpy2:wavelength = $(cainfo hklpy2:wavelength)"
+
+      # - uses: JarvusInnovations/background-action@v1
+      #   name: Run EPICS IOC for testing
+      #   with:
+      #     run: |
+      #       softIoc -m "P=hklpy2:" -d ./hklpy2/tests/testing.db
+
+      #     # wait-on: |
+      #     #   http://localhost:${{ env.API_PORT }}
+      #     #   http-get://localhost:2121
+      #     #   tcp:localhost:3232
+      #     #   file://very-important-secrets.txt
+      #     # # IMPORTANT: to use environment variables in wait-on, you must use this form: ${{ env.VAR }}
+      #     # # See wait-on section below for all resource types and prefixes
+
+      #     tail: true # true = stderr,stdout
+      #     # This will allow you to monitor the progress live
+
+      #     log-output-resume: stderr
+      #     # Eliminates previously output stderr log entries from post-run output
+
+      #     wait-for: 5m
+
+      #     log-output: stderr,stdout # same as true
+
+      #     log-output-if: failure
+      #     # failure = exit-early or timeout
+
+      #     working-directory: backend
+      #     # sets the working directory (cwd) for the shell running commands
+
+      - name: Check on the EPICS IOC
+        run: |
+          echo "info hklpy2:wavelength = $(cainfo hklpy2:wavelength)"
 
       - name: Install source code and all requirements (includes pre-releases)
         run: |

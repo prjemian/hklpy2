@@ -8,7 +8,11 @@ Supports compatible unit conversions.
     ~A_KEV
     ~ConstantMonochromaticWavelength
     ~MonochromaticXrayWavelength
+    ~MonochromatorRO
     ~WavelengthBase
+
+# TODO: #82 Consider WavelengthBase as ophyd.Device
+# TODO #82: Can WavelengthBase become a Component of DiffractometerBase?
 """
 
 import logging
@@ -174,7 +178,12 @@ class ConstantMonochromaticWavelength(WavelengthBase):
 
 class MonochromaticXrayWavelength(WavelengthBase):
     """
-    Monochromatic X-ray wavelength (and units).
+    Monochromatic (& changeable) X-ray wavelength (and units).
+
+    In this class, wavelength and energy are local Signals, not
+    tied to any control system.
+
+    .. seealso:: :class:`Monochromator`
 
     Parameters
 
@@ -276,3 +285,17 @@ class MonochromaticXrayWavelength(WavelengthBase):
         """
         pint.UnitRegistry().convert(1, value, DEFAULT_ENERGY_UNITS)
         self._energy_units = value
+
+
+class MonochromatorRO(WavelengthBase):
+    """
+    Support for wavelength and energy supplied by monochromator.
+
+    .. seealso:: :class:`MonochromaticXrayWavelength`
+    """
+
+    # TODO #82
+    # energy RO signal
+    # wavelength RO signal
+    # energy offset signal
+    # units for all these
