@@ -80,8 +80,8 @@ jobs:
           echo pwd=$(pwd)
           cat ./hklpy2/tests/testing.db
           caRepeater &
-          softIoc -m "P=hklpy2:" -d ./hklpy2/tests/testing.db ./hklpy2/tests/st.cmd &
-          sleep 5
+          softIoc -m "P=hklpy2:" -d ./hklpy2/tests/testing.db ./hklpy2/tests/st.cmd > softioc.log 2>&1 &
+          # sleep 5
 
       - name: Install source code and all requirements (includes pre-releases)
         run: |
