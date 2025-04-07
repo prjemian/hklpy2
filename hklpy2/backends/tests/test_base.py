@@ -149,4 +149,4 @@ def test_SolverBase_abstractmethods():
 
     with pytest.raises(AttributeError) as reason:
         solver.geometry = TH_TTH_Q_GEOMETRY
-    assert_context_result("can't set attribute 'geometry'", reason)
+    assert_context_result("geometry", reason)

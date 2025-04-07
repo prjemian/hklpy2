@@ -79,6 +79,7 @@ jobs:
         run: |
           echo pwd=$(pwd)
           cat ./hklpy2/tests/testing.db
+          caRepeater &
           softIoc -m "P=hklpy2:" -d ./hklpy2/tests/testing.db ./hklpy2/tests/st.cmd &
           sleep 5
 
