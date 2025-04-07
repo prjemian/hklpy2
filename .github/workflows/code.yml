@@ -78,6 +78,7 @@ jobs:
       - name: Start EPICS softIoc
         run: |
           echo pwd=$(pwd)
+          netstat -tuln | grep -E '5064|5065'
           cat ./hklpy2/tests/testing.db
           caRepeater &
           softIoc -m "P=hklpy2:" -d ./hklpy2/tests/testing.db ./hklpy2/tests/st.cmd > softioc.log 2>&1 &
