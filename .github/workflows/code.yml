@@ -79,6 +79,7 @@ jobs:
         run: |
           echo pwd=$(pwd)
           cat ./hklpy2/tests/testing.db
+          export EPICS_CA_SERVER_PORT=5064
           sudo ufw allow 5064/tcp
           caRepeater &
           softIoc \
