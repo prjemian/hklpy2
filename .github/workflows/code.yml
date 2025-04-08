@@ -84,12 +84,13 @@ jobs:
           softIoc \
             -m "P=hklpy2:" \
             -d ./hklpy2/tests/testing.db \
-            -x "ioc:" \
+            -x "hklpy2:" \
             ./hklpy2/tests/st.cmd &
-          # sleep 5
+          sleep 5
+          echo "netstat"
           netstat -tuln | grep -E '5064|5065'
+          echo "ufw status"
           sudo ufw status
-          sudo iptables -L -n
 
       - name: Install source code and all requirements (includes pre-releases)
         run: |
