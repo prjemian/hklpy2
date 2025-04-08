@@ -87,7 +87,7 @@ jobs:
             -S \
             -m "P=hklpy2:" \
             -d ./hklpy2/tests/testing.db \
-            -x "hklpy2:" \
+            -x "hklpy2" \
             ./hklpy2/tests/st.cmd &
           # export SOFTIOC_PID=$!
           # echo "Soft IOC PID=${SOFTIOC_PID}"
@@ -116,7 +116,7 @@ jobs:
         run: |
           # ps "${SOFTIOC_PID}"
           echo "info hklpy2:wavelength = $(cainfo hklpy2:wavelength)"
-          # echo $(caget hklpy2:BaseVersion)
+          echo $(caget hklpy2:BaseVersion)
 
       - name: Run tests with pytest & coverage
         shell: bash -l {0}
