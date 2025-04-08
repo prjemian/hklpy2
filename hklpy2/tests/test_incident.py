@@ -81,7 +81,13 @@ def check_keys(wl, ref, tol=0.001):
             does_not_raise(),
             None,
         ],
-        [Wavelength, dict(wavelength_units="banana"), {}, pytest.raises(pint.UndefinedUnitError), "banana"],
+        [
+            Wavelength,
+            dict(wavelength_units="banana"),
+            {},
+            pytest.raises(pint.UndefinedUnitError),
+            "banana",
+        ],
         [
             Wavelength,
             dict(source_type="unit testing"),
@@ -102,8 +108,20 @@ def check_keys(wl, ref, tol=0.001):
             does_not_raise(),
             None,
         ],
-        [WavelengthXray, dict(energy_units="banana"), {}, pytest.raises(pint.UndefinedUnitError), "banana"],
-        [WavelengthXray, dict(energy_units="eV"), dict(energy_units="eV"), does_not_raise(), None],
+        [
+            WavelengthXray,
+            dict(energy_units="banana"),
+            {},
+            pytest.raises(pint.UndefinedUnitError),
+            "banana",
+        ],
+        [
+            WavelengthXray,
+            dict(energy_units="eV"),
+            dict(energy_units="eV"),
+            does_not_raise(),
+            None,
+        ],
         [WavelengthXray, dict(energy=10), dict(energy=10), does_not_raise(), None],
     ],
 )

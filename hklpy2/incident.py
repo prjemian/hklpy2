@@ -12,12 +12,12 @@ Wavelength of the monochromatic source radiation.
 .. rubric:: Which class to use?
 
 :class:`EpicsMonochromatorRO`
-    Such as synchrotron X-ray monochromator.
-    Wavelength and Energy provided by EPICS PVs.
+    Such as synchrotron X-ray monochromator. Wavelength and Energy provided by
+    EPICS PVs.  Use EPICS tools to change energy or wavelength.
 :class:`EpicsWavelengthRO`
-    Such as X-ray source or reactor neutron source using helical velocity
-    selector.
-    Wavelength provided by an EPICS PV.  
+    Wavelength provided by an EPICS PV.  Such as X-ray source or reactor neutron
+    source using helical velocity selector.  Use EPICS tools to change
+    wavelength.
 `Wavelength`
     Constant wavelength sources, such as X-ray tube or rotating anode.
 `WavelengthXray`
@@ -93,7 +93,9 @@ class _WavelengthBase(Device):
     """
     wavelength = Component(SignalRO, value=DEFAULT_WAVELENGTH, kind="hinted")
     """Constant wavelength (:math:`\\lambda`) of incident monochromatic beam."""
-    wavelength_units = Component(SignalRO, value=DEFAULT_WAVELENGTH_UNITS, kind="config")
+    wavelength_units = Component(
+        SignalRO, value=DEFAULT_WAVELENGTH_UNITS, kind="config"
+    )
     """Constant engineering units of wavelength. (Same units as unit cell lengths.)"""
 
     _keyset: list[str] = "source_type wavelength wavelength_units".split()
@@ -178,7 +180,9 @@ class Wavelength(_WavelengthBase):
 class WavelengthXray(Wavelength):
     """Monochromatic X-ray wavelength and photon energy."""
 
-    energy = Component(AttributeSignal, attr="_energy", kind="hinted", write_access=True)
+    energy = Component(
+        AttributeSignal, attr="_energy", kind="hinted", write_access=True
+    )
     """
     Monochromatic X-ray photon energy (:math:`E`).
 
@@ -196,7 +200,11 @@ class WavelengthXray(Wavelength):
     unit string is not recognized.
     """
 
-    _keyset: list[str] = "source_type energy wavelength energy_units wavelength_units".split()
+    _keyset: list[str] = """
+        source_type
+        energy wavelength
+        energy_units wavelength_units
+        """.split()
     """List of Component names for '_asdict()' and '_fromdict()'."""
 
     def __init__(
@@ -231,7 +239,9 @@ class EpicsWavelengthRO(_WavelengthBase):
     """Monochromatic wavelength (:math:`\\lambda`) from an EPICS PV."""
 
     wavelength = FC(EpicsSignalRO, "{prefix}{_pv_wavelength}", kind="hinted")
-    wavelength_units = Component(SignalRO, value=DEFAULT_WAVELENGTH_UNITS, kind="config")
+    wavelength_units = Component(
+        SignalRO, value=DEFAULT_WAVELENGTH_UNITS, kind="config"
+    )
 
     def __init__(
         self,
@@ -264,7 +274,9 @@ class EpicsMonochromatorRO(EpicsWavelengthRO):
     energy = FC(EpicsSignalRO, "{prefix}{_pv_energy}", kind="hinted")
     energy_units = Component(SignalRO, value=DEFAULT_ENERGY_UNITS, kind="config")
 
-    _keyset: list[str] = "source_type energy wavelength energy_units wavelength_units".split()
+    _keyset: list[str] = (
+        "source_type energy wavelength energy_units wavelength_units".split()
+    )
     """List of Component names for '_asdict()' and '_fromdict()'."""
 
     def __init__(

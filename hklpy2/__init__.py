@@ -36,7 +36,6 @@ from .incident import A_KEV  # noqa: E402, F401
 from .misc import SOLVER_ENTRYPOINT_GROUP  # noqa: E402, F401
 from .misc import ConfigurationRunWrapper  # noqa: E402, F401
 from .misc import SolverError  # noqa: E402, F401
-from .misc import WavelengthError  # noqa: E402, F401
 from .misc import check_value_in_list  # noqa: E402, F401
 from .misc import get_solver  # noqa: E402, F401
 from .misc import solver_factory  # noqa: E402, F401

@@ -32,7 +32,8 @@ def tardis():
             gamma=None,
         ),
     )
-    diffractometer.beam.energy_units.put("eV")  # TODO #82
+    # TODO: #82 unit conversions?
+    diffractometer.beam.energy_units.put("eV")
     diffractometer.beam.wavelength_units.put("angstrom")
     diffractometer.core.mode = TARDIS_SOLVER_MODE
     diffractometer.core.constraints["gamma"].limits = -5, 180

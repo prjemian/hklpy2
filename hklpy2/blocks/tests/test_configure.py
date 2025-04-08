@@ -22,7 +22,7 @@ sim2c = creator(name="sim2c", solver="th_tth", geometry="TH TTH Q")
 twopi = 2 * math.pi
 
 
-@pytest.mark.parametrize(  # TODO #82
+@pytest.mark.parametrize(
     "keypath, value",
     [
         ["_header.datetime", None],
@@ -36,6 +36,7 @@ twopi = 2 * math.pi
         ["beam.energy", e4cv.beam.energy.get()],
         ["beam.source_type", e4cv.beam.source_type.get()],
         ["beam.wavelength_units", e4cv.beam.wavelength_units.get()],
+        # TODO: #82 apply unit conversion
         ["beam.wavelength", e4cv.beam.wavelength.get()],
         ["constraints.chi.high_limit", 180.2],
         ["constraints.omega.label", "omega"],

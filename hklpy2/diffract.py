@@ -57,10 +57,12 @@ def pick_first_item(now: tuple, solutions: list):
     User can provide an alternative function and assign to diffractometer's
     :meth:`~hklpy2.diffract.DiffractometerBase._forward_solution` method.
 
-    .. rubric:: Parameters
+    PARAMETERS
 
-    * ``now`` (*tuple*) : Current position.
-    * ``solutions`` (*[tuple]*) : List of positions.
+    now tuple :
+        Current position.
+    solutions list[tuple] :
+        List of positions.
     """
     if len(solutions) == 0:
         raise DiffractometerError("No solutions.")
@@ -87,7 +89,7 @@ class DiffractometerBase(PseudoPositioner):
     """
     Base class for all diffractometers.
 
-    .. rubric:: Parameters
+    PARAMETERS
 
     *   ``solver`` (*str*) : Name of |solver| library.
         (default: unspecified)
@@ -183,26 +185,36 @@ class DiffractometerBase(PseudoPositioner):
         self,
         pseudos,
         reals=None,
-        wavelength=None,
-        name=None,
+        wavelength: float = None,
+        name: str = None,
         replace: bool = False,
     ) -> Reflection:
         """
         Add a new reflection with this geometry to the selected sample.
 
-        .. rubric:: Parameters
+        PARAMETERS
 
-        * ``pseudos`` (various): pseudo-space axes and values.
-        * ``reals`` (various): dictionary of real-space axes and values.
-        * ``wavelength`` (float): Wavelength of incident radiation.
-          If ``None``, diffractometer's current wavelength will be assigned.
-        * ``name`` (str): Reference name for this reflection.
-          If ``None``, a random name will be assigned.
-        * ``replace`` (bool): If ``True``, replace existing reflection of
-          this name.  (default: ``False``)
+        pseudos various:
+            Pseudo-space axes and values.
+        reals various:
+            Dictionary of real-space axes and values.
+        wavelength float:
+            Wavelength of incident radiation. If ``None``, diffractometer's
+            current wavelength will be assigned.
+        name str:
+            Reference name for this reflection.
+            If ``None``, a random name will be assigned.
+        replace bool:
+            If ``True``, replace existing reflection matching this name.
+            (default: ``False``)
         """
+        # TODO: #82 apply unit conversion
         return self.core.add_reflection(
-            pseudos, reals, wavelength or self.beam.wavelength.get(), name, replace
+            pseudos,
+            reals,
+            wavelength or self.beam.wavelength.get(),
+            name,
+            replace,
         )
 
     def add_sample(
@@ -602,6 +614,7 @@ class DiffractometerBase(PseudoPositioner):
             print(f"Mode: {self.core.mode}")
 
         print_axes(self.pseudo_axis_names)
+        # TODO: #82 from self.beam._asdict()?
         print(f"wavelength={self.beam.wavelength.get()}")
         print_axes(self.real_axis_names)
         extras = self.core.extras

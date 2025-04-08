@@ -347,14 +347,6 @@ def test_set_energy(beam_kwargs, energy, units, context, expected):
         numpy.testing.assert_approx_equal(beam.energy.get(), energy)
     assert_context_result(expected, reason)
 
-    # Edge case  # TODO #82 Needs diffractometer built with Wavelength class instead
-    # wavelength = beam.wavelength.get()
-    # get_diffractometer().beam = Wavelength(wavelength, name="wl")  # TODO #82
-    # with pytest.raises(TypeError) as reason:
-    #     set_energy(energy)
-    # expected = "'set_energy()' not supported "
-    # assert_context_result(expected, reason)
-
 
 def test_setor(fourc):
     set_diffractometer(fourc)

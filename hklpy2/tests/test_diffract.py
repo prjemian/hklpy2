@@ -303,7 +303,6 @@ def test_move_forward_with_extras(pseudos, extras, mode, context, expected):
     fourc = creator()
     fourc.restore(HKLPY2_DIR / "tests" / "e4cv_orient.yml")
     fourc.core.mode = mode
-    # fourc.beam.wavelength.put(6)  # TODO #82
     assert fourc.core.mode == mode
 
     RE = bluesky.RunEngine()

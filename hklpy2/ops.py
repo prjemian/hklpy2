@@ -704,6 +704,7 @@ class Core:
         if self._solver_needs_update:
             self.solver.sample = self.sample  # lattice & reflections
             self.solver.wavelength = (
+                # TODO: #82 apply unit conversion
                 wavelength or self.diffractometer.beam.wavelength.get()
             )
             self.solver.mode = self.mode

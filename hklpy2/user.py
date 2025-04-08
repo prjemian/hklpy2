@@ -495,7 +495,7 @@ def set_diffractometer(diffractometer: DiffractometerBase = None) -> None:
     _choice.diffractometer = diffractometer
 
 
-def set_energy(value: float, units=None):  # TODO #82 Refactor
+def set_energy(value: float, units=None):  # TODO #82 replace with set_wavelength
     """
     Set the energy (thus wavelength) to be used (does not change control system value).
 
@@ -506,7 +506,7 @@ def set_energy(value: float, units=None):  # TODO #82 Refactor
         >>> set_energy(12400, units="eV")
     """
 
-    beam = _choice.diffractometer.beam  # TODO #82
+    beam = _choice.diffractometer.beam
     if not hasattr(beam, "energy"):
         raise AttributeError(f"{beam} does not have an 'energy' attribute.")
     signal = beam.energy

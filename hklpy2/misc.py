@@ -8,6 +8,7 @@ Miscellaneous Support.
     ~check_value_in_list
     ~compare_float_dicts
     ~dict_device_factory
+    ~dynamic_import
     ~flatten_lists
     ~get_run_orientation
     ~get_solver
@@ -53,7 +54,6 @@ Miscellaneous Support.
     ~SampleError
     ~SolverError
     ~SolverNoForwardSolutions
-    ~WavelengthError
 """
 
 import logging
@@ -155,10 +155,6 @@ class SolverError(Hklpy2Error):
 
 class SolverNoForwardSolutions(SolverError):
     """A solver did not find any 'forward()' solutions."""
-
-
-class WavelengthError(Hklpy2Error):  # TODO #82
-    """Custom exceptions from :mod:`hklpy2.incident`."""
 
 
 # Custom preprocessors
@@ -409,13 +405,13 @@ def dynamic_import(full_path: str) -> type:
 
     EXAMPLES::
 
-        obj = dynamic_import("ophyd.EpicsMotor")
-        m1 = obj("gp:m1", name="m1")
+        klass = dynamic_import("ophyd.EpicsMotor")
+        m1 = klass("gp:m1", name="m1")
 
-        IocStats = dynamic_import("instrument.devices.ioc_stats.IocInfoDevice")
-        gp_stats = IocStats("gp:", name="gp_stats")
+        creator = dynamic_import("hklpy2.diffract.creator")
+        fourc = creator(name="fourc")
 
-    From the apstools package.
+    From the `apstools <https://github.com/BCDA-APS/apstools>`_ package.
     """
     from importlib import import_module
 
