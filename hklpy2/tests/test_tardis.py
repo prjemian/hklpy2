@@ -32,7 +32,6 @@ def tardis():
             gamma=None,
         ),
     )
-    # TODO: #82 unit conversions?
     diffractometer.beam.energy_units.put("eV")
     diffractometer.beam.wavelength_units.put("angstrom")
     diffractometer.core.mode = TARDIS_SOLVER_MODE

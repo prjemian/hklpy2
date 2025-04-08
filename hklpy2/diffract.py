@@ -208,7 +208,6 @@ class DiffractometerBase(PseudoPositioner):
             If ``True``, replace existing reflection matching this name.
             (default: ``False``)
         """
-        # TODO: #82 apply unit conversion
         return self.core.add_reflection(
             pseudos,
             reals,

@@ -226,13 +226,37 @@ class WavelengthXray(Wavelength):
 
     @property
     def _energy(self) -> float:
-        """."""
-        return A_KEV / self.wavelength.get()
+        """Return the energy, computed from wavelength, in the current units."""
+        from .misc import convert_units
+
+        wavelength = convert_units(
+            self.wavelength.get(),
+            self.wavelength_units.get(),
+            DEFAULT_WAVELENGTH_UNITS,
+        )
+        return convert_units(
+            A_KEV / wavelength,
+            DEFAULT_ENERGY_UNITS,
+            self.energy_units.get(),
+        )
 
     @_energy.setter
     def _energy(self, value: float):
-        """."""
-        self.wavelength.put(A_KEV / value)
+        """Given energy, set the wavelength, in the current units."""
+        from .misc import convert_units
+
+        energy = convert_units(
+            value,
+            self.energy_units.get(),
+            DEFAULT_ENERGY_UNITS,
+        )
+        self.wavelength.put(
+            convert_units(
+                A_KEV / energy,
+                DEFAULT_WAVELENGTH_UNITS,
+                self.wavelength_units.get(),
+            )
+        )
 
 
 class EpicsWavelengthRO(_WavelengthBase):
