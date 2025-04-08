@@ -7,6 +7,7 @@ Miscellaneous Support.
     ~axes_to_dict
     ~check_value_in_list
     ~compare_float_dicts
+    ~convert_units
     ~dict_device_factory
     ~dynamic_import
     ~flatten_lists
@@ -71,6 +72,7 @@ from typing import Union
 import numpy
 import numpy.typing
 import pandas as pd
+import pint
 import tqdm
 import yaml
 from ophyd import Component
@@ -376,6 +378,11 @@ def compare_float_dicts(a1, a2, tol=1e-4):
         if not test:
             return False  # no need to go further
     return False not in tests
+
+
+def convert_units(value: float, old_units: str, new_units: str) -> float:
+    """Convert 'value' from old units to new."""
+    return pint.Quantity(value, old_units).to(new_units).magnitude
 
 
 def dict_device_factory(data: dict, **kwargs):

@@ -41,7 +41,7 @@ class Core:
     """
     Core operations of a diffractometer, coordinating with sample & |solver|.
 
-    .. rubric:: Parameters
+    PARAMETERS
 
     diffractometer (DiffractometerBase):
         The diffractometer parent.
@@ -242,15 +242,21 @@ class Core:
         """
         Add a new reflection.
 
-        .. rubric:: Parameters
+        PARAMETERS
 
-        * ``pseudos`` (various): pseudo-space axes and values.
-        * ``reals`` (various): dictionary of real-space axes and values.
-        * ``wavelength`` (float): Wavelength of incident radiation.
-        * ``name`` (str): Reference name for this reflection.
-          If ``None``, a random name will be assigned.
-        * ``replace`` (bool): If ``True``, replace existing reflection of
-          this name.  (default: ``False``)
+        pseudos various:
+            Pseudo-space axes and values.
+        reals various:
+            Dictionary of real-space axes and values.
+        wavelength float:
+            Wavelength of incident radiation.  Units as specified
+            by ``diffractometer.beam.wavelength_units``.
+        name str:
+            Reference name for this reflection.  If ``None``, a random name will
+            be assigned.
+        replace bool:
+            When ``True``, replace existing reflection of this name.
+            (default: ``False``)
         """
         from .blocks.reflection import Reflection
 
@@ -636,7 +642,7 @@ class Core:
         """
         Create an instance of the backend |solver| library and geometry.
 
-        Parameters
+        PARAMETERS
 
         solver str:
             Name of the |solver| library.
