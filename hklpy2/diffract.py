@@ -26,9 +26,9 @@ from ophyd.pseudopos import pseudo_position_argument
 from ophyd.pseudopos import real_position_argument
 from ophyd.signal import AttributeSignal
 
-from .beam import MonochromaticXrayWavelength
 from .blocks.reflection import Reflection
 from .blocks.sample import Sample
+from .incident import WavelengthXray
 from .misc import AnyAxesType
 from .misc import AxesDict
 from .misc import DiffractometerError
@@ -106,8 +106,8 @@ class DiffractometerBase(PseudoPositioner):
 
     .. autosummary::
 
+        ~beam
         ~solver_signature
-        ~wavelength
 
     .. rubric:: Python Methods
 
@@ -145,14 +145,8 @@ class DiffractometerBase(PseudoPositioner):
     )
     """Name of backend |solver| (library)."""
 
-    wavelength = Cpt(
-        AttributeSignal,
-        attr="_source.wavelength",
-        doc="Wavelength of incident radiation.",
-        write_access=True,
-        kind="config",
-    )
-    """Wavelength of incident radiation."""
+    beam = Cpt(WavelengthXray)
+    """Incident monochromatic beam."""
 
     def __init__(
         self,
@@ -172,16 +166,10 @@ class DiffractometerBase(PseudoPositioner):
         self._backend = None
         self._forward_solution = pick_first_item
         self.core = Core(self)
-        self._source = MonochromaticXrayWavelength(
-            wavelength_updated=self.core.request_solver_update,
-        )
 
         super().__init__(prefix, **kwargs)
 
-        # After __init__, syncs solver with the diffractometer.wavelength signal.
-        #   This code in ops.Core
-        #   self._solver.wavelength = self.diffractometer.wavelength.get()
-        #   TODO: #35 Refactor?
+        # After __init__, Core syncs solver with the diffractometer wavelength.
         if isinstance(solver, str) and isinstance(geometry, str):
             self.core.set_solver(solver, geometry, **solver_kwargs)
 
@@ -214,7 +202,7 @@ class DiffractometerBase(PseudoPositioner):
           this name.  (default: ``False``)
         """
         return self.core.add_reflection(
-            pseudos, reals, wavelength or self.wavelength.get(), name, replace
+            pseudos, reals, wavelength or self.beam.wavelength.get(), name, replace
         )
 
     def add_sample(
@@ -331,8 +319,15 @@ class DiffractometerBase(PseudoPositioner):
             raise KeyError("Configuration is missing '_header' key.")
         # Note: python_class key is not testable, could be anything.
 
-        if restore_wavelength:
-            self._source._fromdict(header)
+        bcfg = config["beam"].copy()
+        if not restore_wavelength:
+            bcfg.pop("energy", None)
+            bcfg.pop("wavelength", None)
+        if bcfg.get("energy") is not None and bcfg.get("wavelength") is not None:
+            # Don't restore BOTH energy & wavelength
+            bcfg.pop("energy", None)
+        bcfg["class"] = self.beam.__class__.__name__
+        self.beam._fromdict(bcfg)
 
         self.core.configuration._fromdict(
             config,
@@ -607,7 +602,7 @@ class DiffractometerBase(PseudoPositioner):
             print(f"Mode: {self.core.mode}")
 
         print_axes(self.pseudo_axis_names)
-        print(f"wavelength={self.wavelength.get()}")
+        print(f"wavelength={self.beam.wavelength.get()}")
         print_axes(self.real_axis_names)
         extras = self.core.extras
         if len(extras) > 0:
@@ -620,7 +615,8 @@ def creator(
     name: str = "",
     solver: str = "hkl_soleil",
     geometry: str = "E4CV",
-    solver_kwargs: dict = {},
+    beam_kwargs: dict[str, object] = {},
+    solver_kwargs: dict[str, object] = {},
     pseudos: list = [],
     reals: list[str] | dict[str, str | None] = {},
     aliases: dict[str, list[str]] = {},
@@ -673,7 +669,10 @@ def creator(
         Name of the backend solver providing the geometry. (default: '"hkl_soleil"')
     geometry : str
         Name of the diffractometer geometry. (default: '"E4CV"')
-    solver_kwargs : str
+    beam_kwargs : dict[str, object]
+        Additional configuration for the incident beam.
+        (default: '{"class": "hklpy2.incident.WavelengthXray"}')
+    solver_kwargs : dict[str, object]
         Additional configuration for the solver. (default: '{"engine": "hkl"}')
     pseudos : list
         Specification of the names of any pseudo axis positioners
@@ -714,6 +713,7 @@ def creator(
     DiffractometerClass = diffractometer_class_factory(
         solver=solver,
         geometry=geometry,
+        beam_kwargs=beam_kwargs,
         solver_kwargs=solver_kwargs,
         pseudos=pseudos,
         reals=reals,
@@ -722,6 +722,8 @@ def creator(
         class_bases=class_bases,
         aliases=aliases,
     )
+    if name == "":
+        name = geometry.lower()
     return DiffractometerClass(prefix, name=name, labels=labels, **kwargs)
 
 
@@ -729,7 +731,8 @@ def diffractometer_class_factory(
     *,
     solver: str = "hkl_soleil",
     geometry: str = "E4CV",
-    solver_kwargs: dict = {"engine": "hkl"},
+    beam_kwargs: dict[str, object] = {},
+    solver_kwargs: dict[str, object] = {"engine": "hkl"},
     pseudos: list = [],
     reals: list[str] | dict[str, str | None] = {},
     motor_labels: list = ["motors"],
@@ -746,6 +749,9 @@ def diffractometer_class_factory(
         Name of the backend solver providing the geometry. (default: '"hkl_soleil"')
     geometry : str
         Name of the diffractometer geometry. (default: '"E4CV"')
+    beam_kwargs : dict[str, object]
+        Additional configuration for the incident beam.
+        (default: '{"class": "hklpy2.incident.WavelengthXray"}')
     solver_kwargs : str
         Additional configuration for the solver. (default: '{"engine": "hkl"}')
     pseudos : list
@@ -778,6 +784,7 @@ def diffractometer_class_factory(
 
         (default: '{}' which means use the first diffractometer axes from each to match the solver.)
     """
+    from .misc import dynamic_import
     from .misc import solver_factory
 
     # print(f"diffractometer_class_factory({solver=!r}, {geometry=!r})")
@@ -809,6 +816,11 @@ def diffractometer_class_factory(
 
     factory_class_attributes = {}  # Set defaults for this custom class.
     aliases = {}
+
+    beam_class = beam_kwargs.pop("class", "hklpy2.incident.WavelengthXray")
+    if isinstance(beam_class, str):
+        beam_class = dynamic_import(beam_class)
+    factory_class_attributes["beam"] = Cpt(beam_class, **beam_kwargs)
 
     # Find the chosen solver.  It describes its various axes.
     solver_object = solver_factory(solver, geometry, **solver_kwargs)

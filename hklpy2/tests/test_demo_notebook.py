@@ -63,7 +63,7 @@ def test_as_in_demo_notebook(fourc):
     assert "E4CV" in fourc.core.geometries()
     assert "hkl_soleil" in fourc.solver_signature.get()
     assert "E4CV" in fourc.solver_signature.get()
-    assert fourc.wavelength.get() == 1.0
+    assert fourc.beam.wavelength.get() == 1.0
     assert fourc.core.axes_xref == {
         "h": "h",
         "k": "k",

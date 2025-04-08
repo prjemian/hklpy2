@@ -157,8 +157,8 @@ class SolverNoForwardSolutions(SolverError):
     """A solver did not find any 'forward()' solutions."""
 
 
-class WavelengthError(Hklpy2Error):
-    """Custom exceptions from :mod:`hklpy2.beam`."""
+class WavelengthError(Hklpy2Error):  # TODO #82
+    """Custom exceptions from :mod:`hklpy2.incident`."""
 
 
 # Custom preprocessors
@@ -398,6 +398,50 @@ def dict_device_factory(data: dict, **kwargs):
     }
     fc = type("DictionaryDevice", (Device,), component_dict)
     return fc
+
+
+def dynamic_import(full_path: str) -> type:
+    """
+    Import the object given its import path as text.
+
+    Motivated by specification of class names for plugins
+    when using ``apstools.devices.ad_creator()``.
+
+    EXAMPLES::
+
+        obj = dynamic_import("ophyd.EpicsMotor")
+        m1 = obj("gp:m1", name="m1")
+
+        IocStats = dynamic_import("instrument.devices.ioc_stats.IocInfoDevice")
+        gp_stats = IocStats("gp:", name="gp_stats")
+
+    From the apstools package.
+    """
+    from importlib import import_module
+
+    import_object = None
+
+    if "." not in full_path:
+        # fmt: off
+        raise ValueError(
+            "Must use a dotted path, no local imports."
+            f" Received: {full_path!r}"
+        )
+        # fmt: on
+
+    if full_path.startswith("."):
+        # fmt: off
+        raise ValueError(
+            "Must use absolute path, no relative imports."
+            f" Received: {full_path!r}"
+        )
+        # fmt: on
+
+    module_name, object_name = full_path.rsplit(".", 1)
+    module_object = import_module(module_name)
+    import_object = getattr(module_object, object_name)
+
+    return import_object
 
 
 def flatten_lists(xs):

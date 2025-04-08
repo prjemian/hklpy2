@@ -7,9 +7,9 @@ import numpy.testing
 import pytest
 from pyRestTable import Table
 
-from ..beam import ConstantMonochromaticWavelength
 from ..blocks.lattice import SI_LATTICE_PARAMETER
 from ..diffract import creator
+from ..incident import WavelengthXray
 from ..misc import ReflectionError
 from ..ops import CoreError
 from ..user import add_sample
@@ -311,38 +311,49 @@ def test_set_lattice(fourc):
 
 
 @pytest.mark.parametrize(
-    "energy, units, offset, context, expected",
+    "beam_kwargs, energy, units, context, expected",
     [
-        [8, "keV", 0, does_not_raise(), None],
-        [8.1, "keV", -0.03, does_not_raise(), None],
-        [7500, "eV", 0, does_not_raise(), None],
-        [7100, "eV", 25, does_not_raise(), None],
+        [{"class": WavelengthXray}, 8, "keV", does_not_raise(), None],
+        [{"class": WavelengthXray}, 8.1, "keV", does_not_raise(), None],
+        [{"class": WavelengthXray}, 7500, "eV", does_not_raise(), None],
+        [{"class": WavelengthXray}, 7100, "eV", does_not_raise(), None],
+        [
+            {"class": "hklpy2.incident.Wavelength"},
+            9,
+            "keV",
+            pytest.raises(AttributeError),
+            "does not have an 'energy' attribute",
+        ],
+        [
+            {
+                "class": "hklpy2.incident.EpicsMonochromatorRO",
+                "pv_energy": "hklpy2:energy",
+                "pv_wavelength": "hklpy2:wavelength",
+            },
+            9,
+            "keV",
+            pytest.raises(TypeError),
+            "'set_energy()' not supported",
+        ],
     ],
 )
-def test_set_energy(fourc, energy, units, offset, context, expected):
+def test_set_energy(beam_kwargs, energy, units, context, expected):
     with context as reason:
-        set_diffractometer(fourc)
-        source = get_diffractometer()._source
+        set_diffractometer(creator(beam_kwargs=beam_kwargs))
+        beam = get_diffractometer().beam
 
-        set_energy(energy, units=units, offset=None)  # TODO: #35
-        # numpy.testing.assert_approx_equal(source.energy_offset, 0)
-        assert source.energy_units == units
-        numpy.testing.assert_approx_equal(source.energy, energy)
+        set_energy(energy, units=units)
+        assert beam.energy_units.get() == units
+        numpy.testing.assert_approx_equal(beam.energy.get(), energy)
     assert_context_result(expected, reason)
 
-    if offset != 0:  # TODO: #35
-        with pytest.raises(NotImplementedError) as reason:
-            set_energy(energy, units=units, offset=offset)
-        expected = "energy offset not implemented"
-        assert_context_result(expected, reason)
-
-    # Edge case
-    wavelength = source.wavelength
-    get_diffractometer()._source = ConstantMonochromaticWavelength(wavelength)
-    with pytest.raises(TypeError) as reason:
-        set_energy(energy)
-    expected = "'set_energy()' not supported "
-    assert_context_result(expected, reason)
+    # Edge case  # TODO #82 Needs diffractometer built with Wavelength class instead
+    # wavelength = beam.wavelength.get()
+    # get_diffractometer().beam = Wavelength(wavelength, name="wl")  # TODO #82
+    # with pytest.raises(TypeError) as reason:
+    #     set_energy(energy)
+    # expected = "'set_energy()' not supported "
+    # assert_context_result(expected, reason)
 
 
 def test_setor(fourc):

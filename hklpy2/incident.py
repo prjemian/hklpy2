@@ -11,22 +11,23 @@ Wavelength of the monochromatic source radiation.
 
 .. rubric:: Which class to use?
 
-``EpicsMonochromatorRO``
-    Wavelength and Energy provided by EPICS PVs.  Use synchrotron X-ray
-    monochromator.
-``EpicsWavelengthRO``
-    Wavelength provided by an EPICS PV.  Can use with reactor neutron source
-    using helical velocity selector or X-ray source.
-``Wavelength``
+:class:`EpicsMonochromatorRO`
+    Such as synchrotron X-ray monochromator.
+    Wavelength and Energy provided by EPICS PVs.
+:class:`EpicsWavelengthRO`
+    Such as X-ray source or reactor neutron source using helical velocity
+    selector.
+    Wavelength provided by an EPICS PV.  
+`Wavelength`
     Constant wavelength sources, such as X-ray tube or rotating anode.
-``WavelengthXray``
+`WavelengthXray`
     Changeable-wavelength X-ray sources, such as testing, simulation, or when no
     EPICS PVs are available.
 
 The EPICS-related classes here have read-only support. Control of the EPICS PVs
 is beyond the scope of diffractometer controls. Refer to the EPICS controls for
 the monochromator or wavelength PV.  Or, create a subclass of
-:class:`WavelengthDictMixin()`.
+:class:`~hklpy2.incident._WavelengthBase()`.
 
 The :class:`hklpy2.ops.Core()` class is responsible for converting
 the engineering units.

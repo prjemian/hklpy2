@@ -25,6 +25,7 @@ from ..misc import SolverError
 from ..misc import axes_to_dict
 from ..misc import compare_float_dicts
 from ..misc import dict_device_factory
+from ..misc import dynamic_import
 from ..misc import flatten_lists
 from ..misc import get_run_orientation
 from ..misc import get_solver
@@ -409,5 +410,35 @@ def test_list_orientation_runs(devices, cat, RE):
 def test_axes_type_annotations(value, annotation, context, expected):
     with context as reason:
         assert istype(value, annotation)
+
+    assert_context_result(expected, reason)
+
+
+@pytest.mark.parametrize(
+    "name, context, expected",
+    [
+        ["ophyd.EpicsMotor", does_not_raise(), None],
+        ["hklpy2.diffract.creator", does_not_raise(), None],
+        [
+            "hklpy2.diffract.does_not_exist",
+            pytest.raises(AttributeError),
+            "has no attribute 'does_not_exist'",
+        ],
+        [
+            "does.not.exist",
+            pytest.raises(ModuleNotFoundError),
+            "No module named 'does'",
+        ],
+        ["LocalName", pytest.raises(ValueError), "Must use a dotted path"],
+        [
+            ".test_utils.CATALOG",
+            pytest.raises(ValueError),
+            "Must use absolute path, no relative imports",
+        ],
+    ],
+)
+def test_dynamic_import(name, context, expected):
+    with context as reason:
+        dynamic_import(name)
 
     assert_context_result(expected, reason)

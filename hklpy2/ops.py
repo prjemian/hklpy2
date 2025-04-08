@@ -132,8 +132,8 @@ class Core:
             "samples": {k: v._asdict() for k, v in self._samples.items()},
             "constraints": self.constraints._asdict(),
             "solver": self.solver._metadata,
+            "beam": self.diffractometer.beam._asdict(),
         }
-        config["_header"].update(self.diffractometer._source._asdict())
 
         if "engine_name" in dir(self.solver):
             config["solver"]["engine"] = self.solver.engine_name
@@ -703,7 +703,9 @@ class Core:
 
         if self._solver_needs_update:
             self.solver.sample = self.sample  # lattice & reflections
-            self.solver.wavelength = wavelength or self.diffractometer.wavelength.get()
+            self.solver.wavelength = (
+                wavelength or self.diffractometer.beam.wavelength.get()
+            )
             self.solver.mode = self.mode
 
             try:

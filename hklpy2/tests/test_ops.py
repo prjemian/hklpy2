@@ -23,7 +23,7 @@ from .models import TwoC
 
 SKIP_EXACT_VALUE_TEST = str(uuid.uuid4())
 
-fourc = creator(name="fourc")
+fourc = creator()
 
 
 @pytest.mark.parametrize(
@@ -31,7 +31,7 @@ fourc = creator(name="fourc")
     [
         ["E4CV", "hkl_soleil", "fourc", "_header", SKIP_EXACT_VALUE_TEST],
         ["E4CV", "hkl_soleil", "fourc", "_header.datetime", SKIP_EXACT_VALUE_TEST],
-        ["E4CV", "hkl_soleil", "fourc", "_header.wavelength", SKIP_EXACT_VALUE_TEST],
+        ["E4CV", "hkl_soleil", "fourc", "beam.wavelength", SKIP_EXACT_VALUE_TEST],
         ["E4CV", "hkl_soleil", "fourc", "name", "fourc"],
         ["E4CV", "hkl_soleil", "fourc", "solver.geometry", "E4CV"],
         ["E4CV", "hkl_soleil", "fourc", "solver.name", "hkl_soleil"],
@@ -40,7 +40,7 @@ fourc = creator(name="fourc")
         #
         ["TH TTH Q", "th_tth", "t2t", "_header", SKIP_EXACT_VALUE_TEST],
         ["TH TTH Q", "th_tth", "t2t", "_header.datetime", SKIP_EXACT_VALUE_TEST],
-        ["TH TTH Q", "th_tth", "t2t", "_header.wavelength", SKIP_EXACT_VALUE_TEST],
+        ["TH TTH Q", "th_tth", "t2t", "beam.wavelength", SKIP_EXACT_VALUE_TEST],
         ["TH TTH Q", "th_tth", "t2t", "name", "t2t"],
         [
             "TH TTH Q",

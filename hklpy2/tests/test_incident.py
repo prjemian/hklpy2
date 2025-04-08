@@ -1,19 +1,21 @@
+"""Test the incident beam module."""
+
 import math
 from contextlib import nullcontext as does_not_raise
 
 import pint
 import pytest
 
-# from ..phoenix import DEFAULT_WAVELENGTH_DEADBAND
-from ..phoenix import DEFAULT_ENERGY_UNITS
-from ..phoenix import DEFAULT_SOURCE_TYPE
-from ..phoenix import DEFAULT_WAVELENGTH
-from ..phoenix import DEFAULT_WAVELENGTH_UNITS
-from ..phoenix import EpicsMonochromatorRO
-from ..phoenix import EpicsWavelengthRO
-from ..phoenix import Wavelength
-from ..phoenix import WavelengthXray
-from ..phoenix import _WavelengthBase
+# from ..incident import DEFAULT_WAVELENGTH_DEADBAND
+from ..incident import DEFAULT_ENERGY_UNITS
+from ..incident import DEFAULT_SOURCE_TYPE
+from ..incident import DEFAULT_WAVELENGTH
+from ..incident import DEFAULT_WAVELENGTH_UNITS
+from ..incident import EpicsMonochromatorRO
+from ..incident import EpicsWavelengthRO
+from ..incident import Wavelength
+from ..incident import WavelengthXray
+from ..incident import _WavelengthBase
 from .common import assert_context_result
 
 IOC_PREFIX = "hklpy2:"

@@ -29,7 +29,6 @@ from typing import Union
 
 from pyRestTable import Table
 
-from .beam import MonochromaticXrayWavelength
 from .blocks.lattice import Lattice
 from .blocks.reflection import Reflection
 from .diffract import DiffractometerBase
@@ -496,7 +495,7 @@ def set_diffractometer(diffractometer: DiffractometerBase = None) -> None:
     _choice.diffractometer = diffractometer
 
 
-def set_energy(value: float, units=None, offset=None):
+def set_energy(value: float, units=None):  # TODO #82 Refactor
     """
     Set the energy (thus wavelength) to be used (does not change control system value).
 
@@ -507,21 +506,16 @@ def set_energy(value: float, units=None, offset=None):
         >>> set_energy(12400, units="eV")
     """
 
-    source = _choice.diffractometer._source
-    if not isinstance(source, MonochromaticXrayWavelength):
-        raise TypeError(
-            f"'set_energy()' not supported for {source!r},"
-            f" requires {MonochromaticXrayWavelength}."
-        )
+    beam = _choice.diffractometer.beam  # TODO #82
+    if not hasattr(beam, "energy"):
+        raise AttributeError(f"{beam} does not have an 'energy' attribute.")
+    signal = beam.energy
+    if not signal.write_access:
+        raise TypeError(f"'set_energy()' not supported for {beam!r},")
     # No ophyd objects in this module.  These are float values using properties.
     if units is not None:
-        source.energy_units = units
-    if offset is not None:
-        source.energy_offset = offset  # TODO: #35 requires feature addition
-        raise NotImplementedError(
-            "Monochromatic source energy offset not implemented (yet)."
-        )
-    source.energy = value
+        beam.energy_units.put(units)
+    beam.energy.put(value)
 
 
 def set_lattice(
@@ -634,7 +628,7 @@ def setor(
     # as self._hkl_geometry.wavelength_set(wavelength, self._units)
     # The code here uses that procedure.
     if wavelength not in (None, 0):
-        diffractometer._source.wavelength = wavelength
+        diffractometer.beam.wavelength.put(wavelength)
 
     def make_name():
         while True:

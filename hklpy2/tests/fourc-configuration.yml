@@ -1,17 +1,19 @@
 #hklpy2 configuration file
 
 _header:
-  datetime: '2024-09-26 17:15:41.875799'
-  energy_units: keV
-  energy: 11.363646219141787
+  datetime: '2025-04-07'
   hklpy2_version: 0.0.25.dev88+g6e0f270.d20240926
   python_class: Fourc
-  source_type: X-ray
-  wavelength_units: angstrom
-  wavelength: 1.09106
   file: fourc-configuration.yml
   comment: 'E4CV with Fourc axes names and vibranium orientation'
 name: fourc
+beam:
+  class: WavelengthXray
+  source_type: X-ray
+  energy_units: keV
+  energy: 11.363646219141787
+  wavelength_units: angstrom
+  wavelength: 1.09106
 axes:
   pseudo_axes:
   - h
@@ -75,45 +77,45 @@ samples:
     - r1
     - r2
     U:
-    - - -0.0
-      - -0.0
-      - -1.0
+    - - 0.0
+      - 0.0
+      - -1
     - - 0.0
       - 1.0
-      - -0.0
+      - 0.0
     - - 1.0
-      - -0.0
-      - -0.0
+      - 0.0
+      - 0.0
     UB:
-    - - -0.0
-      - -0.0
-      - -1.0
+    - - 0.0
+      - 0.0
+      - -1
     - - 0.0
       - 1.0
-      - -0.0
+      - 0.0
     - - 1.0
-      - -0.0
-      - -0.0
+      - 0.0
+      - 0.0
     digits: 3
 constraints:
   theta:
     label: theta
-    low_limit: -180.0
+    low_limit: -180
     high_limit: 180.0
     class: LimitsConstraint
   chi:
     label: chi
-    low_limit: -180.0
+    low_limit: -180
     high_limit: 180.0
     class: LimitsConstraint
   phi:
     label: phi
-    low_limit: -180.0
+    low_limit: -180
     high_limit: 180.0
     class: LimitsConstraint
   ttheta:
     label: ttheta
-    low_limit: -180.0
+    low_limit: -180
     high_limit: 180.0
     class: LimitsConstraint
 solver:
@@ -121,8 +123,7 @@ solver:
   geometry: E4CV
   version: 5.0.0.3512
   mode: bissector
-  description: HklSolver(name='hkl_soleil', version='5.0.0.3512', geometry='E4CV',
-    engine_name='hkl', mode='bissector')
+  description: HklSolver(name='hkl_soleil', version='5.0.0.3512', geometry='E4CV', engine_name='hkl', mode='bissector')
   real_axes:
   - omega
   - chi
