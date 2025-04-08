@@ -79,13 +79,17 @@ jobs:
         run: |
           echo pwd=$(pwd)
           cat ./hklpy2/tests/testing.db
+          sudo ufw allow 5064/tcp
           caRepeater &
-          softIoc -m "P=hklpy2:" -d ./hklpy2/tests/testing.db ./hklpy2/tests/st.cmd > softioc.log 2>&1 &
+          softIoc \
+            -m "P=hklpy2:" \
+            -d ./hklpy2/tests/testing.db \
+            -x "ioc:" \
+            ./hklpy2/tests/st.cmd &
           # sleep 5
           netstat -tuln | grep -E '5064|5065'
           sudo ufw status
           sudo iptables -L -n
-          sudo firewall-cmd --list-all
 
       - name: Install source code and all requirements (includes pre-releases)
         run: |
