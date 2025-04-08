@@ -77,21 +77,24 @@ jobs:
 
       - name: Start EPICS softIoc
         run: |
-          echo pwd=$(pwd)
-          cat ./hklpy2/tests/testing.db
-          export EPICS_CA_SERVER_PORT=5064
-          sudo ufw allow 5064/tcp
+          # echo pwd=$(pwd)
+          # cat ./hklpy2/tests/testing.db
+          # export EPICS_CA_SERVER_PORT=5064
+          # sudo ufw allow 5064/tcp
           caRepeater &
           softIoc \
+            -S \
             -m "P=hklpy2:" \
             -d ./hklpy2/tests/testing.db \
             -x "hklpy2:" \
             ./hklpy2/tests/st.cmd &
+          SOFTIOC_PID=$!
+          echo "Soft IOC PID=${SOFTIOC_PID}"
           sleep 5
           echo "netstat"
           netstat -tuln | grep -E '5064|5065'
-          echo "ufw status"
-          sudo ufw status
+          echo ps
+          ps "${SOFTIOC_PID}"
 
       - name: Install source code and all requirements (includes pre-releases)
         run: |
@@ -111,6 +114,7 @@ jobs:
       - name: Check on the EPICS IOC
         run: |
           echo "info hklpy2:wavelength = $(cainfo hklpy2:wavelength)"
+          echo $(caget hklpy2:BaseVersion)
 
       - name: Run tests with pytest & coverage
         shell: bash -l {0}
