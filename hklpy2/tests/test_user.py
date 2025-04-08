@@ -23,8 +23,8 @@ from ..user import pa
 from ..user import remove_reflection
 from ..user import remove_sample
 from ..user import set_diffractometer
-from ..user import set_energy
 from ..user import set_lattice
+from ..user import set_wavelength
 from ..user import setor
 from ..user import solver_summary
 from ..user import wh
@@ -311,18 +311,21 @@ def test_set_lattice(fourc):
 
 
 @pytest.mark.parametrize(
-    "beam_kwargs, energy, units, context, expected",
+    "beam_kwargs, wavelength, units, context, expected",
     [
-        [{"class": WavelengthXray}, 8, "keV", does_not_raise(), None],
-        [{"class": WavelengthXray}, 8.1, "keV", does_not_raise(), None],
-        [{"class": WavelengthXray}, 7500, "eV", does_not_raise(), None],
-        [{"class": WavelengthXray}, 7100, "eV", does_not_raise(), None],
+        [{"class": WavelengthXray}, 1.5, "angstrom", does_not_raise(), None],
+        [{"class": WavelengthXray}, 1.54, "angstrom", does_not_raise(), None],
+        [{"class": WavelengthXray}, 120, "pm", does_not_raise(), None],
+        [{"class": WavelengthXray}, 121, "pm", does_not_raise(), None],
         [
-            {"class": "hklpy2.incident.Wavelength"},
-            9,
-            "keV",
-            pytest.raises(AttributeError),
-            "does not have an 'energy' attribute",
+            {
+                "class": "hklpy2.incident.EpicsWavelengthRO",
+                "pv_wavelength": "hklpy2:wavelength",
+            },
+            2,
+            "angstrom",
+            pytest.raises(TypeError),
+            "'set_wavelength()' not supported",
         ],
         [
             {
@@ -330,21 +333,21 @@ def test_set_lattice(fourc):
                 "pv_energy": "hklpy2:energy",
                 "pv_wavelength": "hklpy2:wavelength",
             },
-            9,
-            "keV",
+            2,
+            "angstrom",
             pytest.raises(TypeError),
-            "'set_energy()' not supported",
+            "'set_wavelength()' not supported",
         ],
     ],
 )
-def test_set_energy(beam_kwargs, energy, units, context, expected):
+def test_set_wavelength(beam_kwargs, wavelength, units, context, expected):
     with context as reason:
         set_diffractometer(creator(beam_kwargs=beam_kwargs))
         beam = get_diffractometer().beam
 
-        set_energy(energy, units=units)
-        assert beam.energy_units.get() == units
-        numpy.testing.assert_approx_equal(beam.energy.get(), energy)
+        set_wavelength(wavelength, units=units)
+        assert beam.wavelength_units.get() == units
+        numpy.testing.assert_approx_equal(beam.wavelength.get(), wavelength)
     assert_context_result(expected, reason)
 
 

@@ -12,11 +12,11 @@ Simplified interface for |hklpy2| diffractometer users.
     ~list_samples
     ~or_swap
     ~remove_reflection
-    ~remove_sample
     ~pa
+    ~remove_sample
     ~set_diffractometer
-    ~set_energy
     ~set_lattice
+    ~set_wavelength
     ~setor
     ~solver_summary
     ~wh
@@ -50,8 +50,8 @@ __all__ = """
     remove_reflection
     remove_sample
     set_diffractometer
-    set_energy
     set_lattice
+    set_wavelength
     setor
     solver_summary
     wh
@@ -495,27 +495,25 @@ def set_diffractometer(diffractometer: DiffractometerBase = None) -> None:
     _choice.diffractometer = diffractometer
 
 
-def set_energy(value: float, units=None):  # TODO #82 replace with set_wavelength
+def set_wavelength(value: float, units=None):
     """
-    Set the energy (thus wavelength) to be used (does not change control system value).
+    Set the wavelength; if Signal has write access, changes control system.
 
     EXAMPLE:
 
     .. code-block:: python
 
-        >>> set_energy(12400, units="eV")
+        >>> set_wavelength(123.45, units="pm")
     """
 
     beam = _choice.diffractometer.beam
-    if not hasattr(beam, "energy"):
-        raise AttributeError(f"{beam} does not have an 'energy' attribute.")
-    signal = beam.energy
-    if not signal.write_access:
-        raise TypeError(f"'set_energy()' not supported for {beam!r},")
-    # No ophyd objects in this module.  These are float values using properties.
+    if not beam.wavelength.write_access:
+        raise TypeError(
+            f"'set_wavelength()' not supported for {beam.wavelength.name!r},"
+        )
     if units is not None:
-        beam.energy_units.put(units)
-    beam.energy.put(value)
+        beam.wavelength_units.put(units)
+    beam.wavelength.put(value)
 
 
 def set_lattice(
