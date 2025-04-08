@@ -103,12 +103,10 @@ jobs:
 
       - name: Check on the EPICS IOC
         run: |
-          # ps "${SOFTIOC_PID}"
           echo "info hklpy2:wavelength = $(cainfo hklpy2:wavelength)"
           echo $(caget hklpy2:BaseVersion)
           echo $(caget -t hklpy2:energy.{NAME,VAL,EGU,DESC})
           echo $(caget -t hklpy2:wavelength.{NAME,VAL,EGU,DESC})
-          echo $(caget hklpy2:BaseVersion)
 
       - name: Run tests with pytest & coverage
         shell: bash -l {0}
