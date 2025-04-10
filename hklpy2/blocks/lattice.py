@@ -90,6 +90,8 @@ class Lattice:
 
             lattice1 == lattice2
         """
+        if not isinstance(latt, self.__class__):
+            return False
         digits = min(self.digits, latt.digits)
         return compare_float_dicts(
             self._asdict(), latt._asdict(), min(self.digits, digits)

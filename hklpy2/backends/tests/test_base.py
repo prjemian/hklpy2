@@ -121,13 +121,13 @@ def test_SolverBase():
 
     with pytest.raises(TypeError) as reason:
         solver.lattice = 1.0
-    assert_context_result("Must supply Lattice object", reason)
-    solver.lattice = Lattice(1, 2, 3)
-    assert solver.lattice == Lattice(1, 2, 3)
+    assert_context_result("Must supply", reason)
+    solver.lattice = dict(a=1, b=2, c=3, alpha=90, beta=90, gamma=90)
+    assert solver.lattice == dict(a=1, b=2, c=3, alpha=90, beta=90, gamma=90)
 
     with pytest.raises(TypeError) as reason:
         solver.sample = 1.0
-    assert_context_result("Must supply Sample object", reason)
+    assert_context_result("Must supply", reason)
 
 
 def test_SolverBase_abstractmethods():

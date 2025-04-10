@@ -611,10 +611,11 @@ class DiffractometerBase(PseudoPositioner):
             for v in self.core.constraints.values():
                 print(f"constraint: {v}")
             print(f"Mode: {self.core.mode}")
+            print(f"beam={self.beam._asdict()}")
+        else:
+            print(f"wavelength={self.beam.wavelength.get()}")
 
         print_axes(self.pseudo_axis_names)
-        # TODO: #82 from self.beam._asdict()?
-        print(f"wavelength={self.beam.wavelength.get()}")
         print_axes(self.real_axis_names)
         extras = self.core.extras
         if len(extras) > 0:

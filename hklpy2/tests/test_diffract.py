@@ -218,8 +218,8 @@ def test_diffractometer_wh(capsys):
     captured = capsys.readouterr()
     lines = captured.out.splitlines()
     assert len(lines) == 3, f"{captured.out=}"
-    assert lines[1].startswith("wavelength=")
-    assert lines[0].startswith("h=")
+    assert lines[0].startswith("wavelength=")
+    assert lines[1].startswith("h=")
     assert lines[2].startswith("omega=")
 
     e4cv.core.mode = "psi_constant"
@@ -239,8 +239,8 @@ def test_diffractometer_wh(capsys):
     for _r in e4cv.core.constraints:
         expected.append("constraint: ")
     expected.append(f"Mode: {e4cv.core.mode}")
+    expected.append("beam=")
     expected.append(f"{e4cv.pseudo_axis_names[0]}=")
-    expected.append("wavelength=")
     expected.append(f"{e4cv.real_axis_names[0]}=")
     extra_names = e4cv.core.solver_extra_axis_names
     if len(extra_names) > 0:
@@ -403,7 +403,7 @@ def test_orientation():
     UBe = [[0, 0, e], [0, e, 0], [e, 0, 0]]
     assert_almost_equal(UB, UBe, 3)
 
-    result = fourc.forward(4, 0, 0)
+    result = fourc.forward(4, 0, 0, wavelength=1.54)
     reals = [-145.4509, 0, 0, 69.0982]  # at wavelength = 1.54
     assert_almost_equal(list(result._asdict().values()), reals, 3)
 
