@@ -375,7 +375,9 @@ class Core:
             raise CoreError("Did you forget to call `assign_axes()`?")
         return {v: k for k, v in self.axes_xref.items()}
 
-    def calc_UB(self, r1: Union[Reflection, str], r2: Union[Reflection, str]) -> List[List[Number]]:
+    def calc_UB(
+        self, r1: Union[Reflection, str], r2: Union[Reflection, str]
+    ) -> List[List[Number]]:
         """
         Calculate and return the UB (orientation) matrix with two reflections.
 
