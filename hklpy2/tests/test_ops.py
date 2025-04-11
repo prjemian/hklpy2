@@ -10,6 +10,7 @@ import pytest
 
 from ..diffract import DiffractometerBase
 from ..diffract import creator
+from ..misc import ConfigurationError
 from ..ops import DEFAULT_SAMPLE_NAME
 from ..ops import Core
 from ..ops import CoreError
@@ -497,4 +498,286 @@ def test_extras_setter(
         for key, value in values.items():
             assert key in sim.core.all_extras
             assert sim.core.extras.get(key) in (None, value)
+    assert_context_result(expected, reason)
+
+
+@pytest.mark.parametrize(
+    "setup, config, context, expected",
+    [
+        [{}, {}, pytest.raises(KeyError), "'axes'"],
+        [{}, {"axes": {}}, pytest.raises(KeyError), "'extra_axes'"],
+        [  # 2
+            {},
+            {
+                "axes": {"extra_axes": 0},
+            },
+            pytest.raises(AttributeError),
+            "'items'",
+        ],
+        [  # 3
+            {},
+            {
+                "axes": {"extra_axes": {}},
+            },
+            pytest.raises(KeyError),
+            "'samples'",
+        ],
+        [  # 4
+            {},
+            {
+                "axes": {"extra_axes": {}},
+                "samples": 0,
+            },
+            pytest.raises(AttributeError),
+            "'items'",
+        ],
+        [  # 5
+            {},
+            {
+                "axes": {"extra_axes": {}},
+                "samples": {},
+            },
+            pytest.raises(KeyError),
+            "'constraints'",
+        ],
+        [  # 6
+            {},
+            {
+                "axes": {"extra_axes": {}},
+                "samples": {},
+                "sample_name": 0,
+            },
+            pytest.raises(KeyError),
+            "0",
+        ],
+        [  # 7
+            {},
+            {
+                "axes": {"extra_axes": {}},
+                "samples": {},
+                "sample_name": "wrong_name",
+            },
+            pytest.raises(KeyError),
+            "'wrong_name'",
+        ],
+        [  # 8
+            {},
+            {
+                "axes": {"extra_axes": {}},
+                "samples": {},
+                "sample_name": "sample",
+            },
+            pytest.raises(KeyError),
+            "'constraints'",
+        ],
+        [  # 9
+            {},
+            {
+                "axes": {"extra_axes": {}},
+                "samples": {},
+                "constraints": 0,
+            },
+            pytest.raises(AttributeError),
+            "'items'",
+        ],
+        [  # 10
+            {},
+            {
+                "axes": {"extra_axes": {}},
+                "samples": {},
+                "constraints": {},
+            },
+            does_not_raise(),
+            None,
+        ],
+        [  # 11
+            {},
+            {
+                "axes": {"extra_axes": {}},
+                "samples": {},
+                "constraints": {"not_dict": 0},
+            },
+            pytest.raises(TypeError),
+            "'int' object is not subscriptable",
+        ],
+        [  # 12
+            {},
+            {
+                "axes": {"extra_axes": {}},
+                "samples": {},
+                "constraints": {"needs_class": {}},
+            },
+            pytest.raises(KeyError),
+            "'class'",
+        ],
+        [  # 13
+            {},
+            {
+                "axes": {"extra_axes": {}},
+                "samples": {},
+                "constraints": {"abc": {"class": 0}},
+            },
+            pytest.raises(KeyError),
+            "'abc'",
+        ],
+        [  # 14
+            {},
+            {
+                "axes": {"extra_axes": {}},
+                "samples": {},
+                "constraints": {"tth": {"class": 0}},
+            },
+            pytest.raises(ConfigurationError),
+            "Wrong configuration class",
+        ],
+        [  # 15
+            {},
+            {
+                "axes": {"extra_axes": {}},
+                "samples": {},
+                "constraints": {"tth": {"class": "LimitsConstraint"}},
+            },
+            pytest.raises(KeyError),
+            "'label'",
+        ],
+        [  # 16
+            {},
+            {
+                "axes": {"extra_axes": {}},
+                "samples": {},
+                "constraints": {"tth": {"class": "LimitsConstraint", "label": 0}},
+            },
+            pytest.raises(KeyError),
+            "'real_axes'",
+        ],
+        [  # 17
+            {},
+            {
+                "axes": {"extra_axes": {}, "real_axes": 0},
+                "samples": {},
+                "constraints": {"tth": {"class": "LimitsConstraint", "label": 0}},
+            },
+            pytest.raises(TypeError),
+            "argument of type 'int' is not iterable",
+        ],
+        [  # 18
+            {},
+            {
+                "axes": {"extra_axes": {}, "real_axes": []},
+                "samples": {},
+                "constraints": {"tth": {"class": "LimitsConstraint", "label": 0}},
+            },
+            pytest.raises(KeyError),
+            "Constraint label axis=0 not found",
+        ],
+        [  # 19
+            {},
+            {
+                "axes": {"extra_axes": {}, "real_axes": []},
+                "samples": {},
+                "constraints": {"tth": {"class": "LimitsConstraint", "label": "tth"}},
+            },
+            pytest.raises(ConfigurationError),
+            "'low_limit'",
+        ],
+        [  # 20
+            {},
+            {
+                "axes": {"extra_axes": {}, "real_axes": []},
+                "samples": {},
+                "constraints": {
+                    "tth": {
+                        "class": "LimitsConstraint",
+                        "label": "tth",
+                        "high_limit": 125,
+                        "low_limit": -5,
+                    }
+                },
+            },
+            does_not_raise(),
+            None,
+        ],
+        [  # 21
+            {},
+            {
+                "axes": {
+                    "extra_axes": {},
+                    "real_axes": [
+                        "omega",
+                        "chi",
+                        "phi",
+                        "tth",
+                    ],
+                },
+                "samples": {},
+                "constraints": {
+                    "tth": {
+                        "class": "LimitsConstraint",
+                        "label": "tth",
+                        "high_limit": 125,
+                        "low_limit": -5,
+                    }
+                },
+            },
+            pytest.raises(KeyError),
+            "'axes_xref'",
+        ],
+        [  # 22
+            {},
+            {
+                "axes": {
+                    "extra_axes": {},
+                    "real_axes": [
+                        "omega",
+                        "chi",
+                        "phi",
+                        "tth",
+                    ],
+                    "axes_xref": {},
+                },
+                "samples": {},
+                "constraints": {
+                    "tth": {
+                        "class": "LimitsConstraint",
+                        "label": "tth",
+                        "high_limit": 125,
+                        "low_limit": -5,
+                    }
+                },
+            },
+            pytest.raises(KeyError),
+            "'tth'",
+        ],
+        [  # 23
+            {},
+            {
+                "axes": {
+                    "extra_axes": {},
+                    "real_axes": [
+                        "omega",
+                        "chi",
+                        "phi",
+                        "tth",
+                    ],
+                    "axes_xref": {"tth": "tth"},
+                },
+                "samples": {},
+                "constraints": {
+                    "tth": {
+                        "class": "LimitsConstraint",
+                        "label": "tth",
+                        "high_limit": 125,
+                        "low_limit": -5,
+                    }
+                },
+            },
+            does_not_raise(),
+            None,
+        ],
+    ],  # does_not_raise(), None],
+)
+def test__fromdict(setup, config, context, expected):
+    with context as reason:
+        sim = creator(**setup)
+        sim.core._fromdict(config)
     assert_context_result(expected, reason)

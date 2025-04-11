@@ -168,6 +168,7 @@ class Core:
         for key, constraint in config["constraints"].items():
             if (
                 constraint["class"] == "LimitsConstraint"
+                # .
                 and constraint["label"] in config["axes"]["real_axes"]
             ):
                 # By convention, the 'key' here is the axis name when config was written.
@@ -374,9 +375,7 @@ class Core:
             raise CoreError("Did you forget to call `assign_axes()`?")
         return {v: k for k, v in self.axes_xref.items()}
 
-    def calc_UB(
-        self, r1: Union[Reflection, str], r2: Union[Reflection, str]
-    ) -> List[List[Number]]:
+    def calc_UB(self, r1: Union[Reflection, str], r2: Union[Reflection, str]) -> List[List[Number]]:
         """
         Calculate and return the UB (orientation) matrix with two reflections.
 
@@ -391,6 +390,7 @@ class Core:
             if reflection is None:
                 raise KeyError(
                     f"{reflection!r} unknown."
+                    # .
                     f"  Knowns: {list(self.sample.reflections)!r}"
                 )
             return reflection
@@ -454,7 +454,9 @@ class Core:
         return self.solver.geometry
 
     def inverse(
-        self, reals: Union[AnyAxesType, None], wavelength: float = None
+        self,
+        reals: Union[AnyAxesType, None],
+        wavelength: float = None,
     ) -> AxesDict:
         """Compute (pseudos) from {names: reals} (angles -> hkl)."""
         logger.debug(
@@ -467,7 +469,7 @@ class Core:
             # Original values.
             for axis in self.diffractometer._get_pseudo_positioners()
         }
-        if self.solver is None:
+        if self.solver is None or len(self.axes_xref) == 0:
             # Called from the constructor before solver is defined.
             return pseudos  # current values of pseudos
 

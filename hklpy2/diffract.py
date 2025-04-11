@@ -812,7 +812,7 @@ def diffractometer_class_factory(
     if not isinstance(aliases, dict):
         raise TypeError(f"Expected a dict.  Received {aliases=!r}")
 
-    def make_component(axis_type, labels=[], pv=None):
+    def make_component_axis(axis_type, labels=[], pv=None):
         if axis_type == "pseudo":
             return Cpt(Hklpy2PseudoAxis, "", kind=H_OR_N)
         elif axis_type == "real":
@@ -844,12 +844,12 @@ def diffractometer_class_factory(
             solver_axes = solver_object.pseudo_axis_names
             all_axes = pseudos if len(pseudos) > 0 else solver_axes
             for axis in all_axes:
-                factory_class_attributes[axis] = make_component(singular)
+                factory_class_attributes[axis] = make_component_axis(singular)
         else:
             solver_axes = solver_object.real_axis_names
             all_axes = list(reals) if len(reals) > 0 else solver_axes
             for axis in all_axes:
-                factory_class_attributes[axis] = make_component(
+                factory_class_attributes[axis] = make_component_axis(
                     singular,
                     labels=motor_labels,
                     pv=reals.get(axis, None),

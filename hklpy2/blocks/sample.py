@@ -128,6 +128,8 @@ class Sample:
 
     @lattice.setter
     def lattice(self, value):
+        if isinstance(value, dict):
+            value = Lattice(**value)
         if not isinstance(value, Lattice):
             raise TypeError(f"Must supply Lattice() object, received {value!r}")
         self._lattice = value

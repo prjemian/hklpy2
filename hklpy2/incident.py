@@ -82,7 +82,7 @@ class _WavelengthBase(Device):
         ~_fromdict
     """
 
-    source_type = Component(SignalRO, value=DEFAULT_SOURCE_TYPE, kind="hinted")
+    source_type = Component(SignalRO, value=DEFAULT_SOURCE_TYPE, kind="config")
     """
     Description of the incident radiation.
 
