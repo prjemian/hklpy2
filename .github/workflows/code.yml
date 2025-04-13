@@ -75,6 +75,17 @@ jobs:
             tiled
             yaml
 
+      - name: Start EPICS softIoc
+        run: |
+          caRepeater &
+          softIoc \
+            -S \
+            -m "P=hklpy2:" \
+            -d ./hklpy2/tests/testing.db \
+            -x "hklpy2" \
+            ./hklpy2/tests/st.cmd &
+          sleep 15
+
       - name: Install source code and all requirements (includes pre-releases)
         run: |
           set -vxeuo pipefail
@@ -89,6 +100,13 @@ jobs:
           conda config --show
           micromamba env list
           printenv | sort
+
+      - name: Check on the EPICS IOC
+        run: |
+          echo "info hklpy2:wavelength = $(cainfo hklpy2:wavelength)"
+          echo $(caget hklpy2:BaseVersion)
+          echo $(caget -t hklpy2:energy.{NAME,VAL,EGU,DESC})
+          echo $(caget -t hklpy2:wavelength.{NAME,VAL,EGU,DESC})
 
       - name: Run tests with pytest & coverage
         shell: bash -l {0}

@@ -45,10 +45,10 @@ def test_sample_constructor_no_core(context, expected):
             "Must supply Lattice() object,",
         ],
         [
-            dict(a=1, b=2, c=3, alpha=4, beta=5, gamma=6),  # <-- not a Lattice
+            dict(a=1, b=2, c=3, alpha=4, beta=5, gamma=6),  # <-- dict is acceptable
             None,
-            pytest.raises(TypeError),
-            "Must supply Lattice() object,",
+            does_not_raise(),
+            None,
         ],
         [
             Lattice(4),

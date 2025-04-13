@@ -1,0 +1,18 @@
+# file: testing.db
+# EPICS database record instance file
+
+# usage: softIoc -m "P=hklpy2:" -d testing.db st.cmd
+
+record(ao, "$(P)energy") {
+    field(DESC, "X-ray photon energy.")
+    field(VAL, 12.3984)
+    field(EGU, "keV")
+    field(PREC, 4)
+}
+
+record(ao, "$(P)wavelength") {
+    field(DESC, "X-ray photon wavelength.")
+    field(VAL, 1.0000)
+    field(EGU, "angstrom")
+    field(PREC, 4)
+}

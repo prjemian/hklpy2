@@ -4,11 +4,6 @@ _header:
   datetime: '2025-03-13 01:24:41.222680'
   hklpy2_version: 0.0.28.dev44+g09f42ff
   python_class: Hklpy2Diffractometer
-  source_type: X-ray
-  energy_units: keV
-  energy: 10.003370326044433
-  wavelength_units: angstrom
-  wavelength: 1.239424258
   file: e4cv-LNO_LAO.yml
   comment: ''
 name: fourc
@@ -45,15 +40,15 @@ samples:
     reflections: {}
     reflections_order: []
     U: &id001
-    - - 1
-      - 0
-      - 0
-    - - 0
-      - 1
-      - 0
-    - - 0
-      - 0
-      - 1
+      - - 1
+        - 0
+        - 0
+      - - 0
+        - 1
+        - 0
+      - - 0
+        - 0
+        - 1
     UB: *id001
     digits: 4
   LNO_LAO:
@@ -121,28 +116,27 @@ samples:
 constraints:
   th:
     label: th
-    low_limit: -180.0
+    low_limit: -180
     high_limit: 180.0
     class: LimitsConstraint
   chi:
     label: chi
-    low_limit: -180.0
+    low_limit: -180
     high_limit: 180.0
     class: LimitsConstraint
   phi:
     label: phi
-    low_limit: -50.0
+    low_limit: -50
     high_limit: 100.0
     class: LimitsConstraint
   tth:
     label: tth
-    low_limit: -2.0
+    low_limit: -2
     high_limit: 180.0
     class: LimitsConstraint
 solver:
   name: hkl_soleil
-  description: HklSolver(name='hkl_soleil', version='5.1.2', geometry='E4CV', engine_name='hkl',
-    mode='bissector')
+  description: HklSolver(name='hkl_soleil', version='5.1.2', geometry='E4CV', engine_name='hkl', mode='bissector')
   geometry: E4CV
   real_axes:
   - omega
@@ -151,3 +145,10 @@ solver:
   - tth
   version: 5.1.2
   engine: hkl
+beam:
+  class: WavelengthXray
+  source_type: Synchrotron X-ray Source
+  energy_units: keV
+  energy: 10.003370326044433
+  wavelength_units: angstrom
+  wavelength: 1.239424258

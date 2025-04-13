@@ -11,5 +11,6 @@ def test_NoOpSolver():
     assert solver.refineLattice([]) is None
     assert solver.extra_axis_names == []
     assert solver.forward({}) == [{}]
+    assert solver.inverse({}) == {}
     assert solver.calculate_UB(None, None) == []
     assert solver.addReflection(None) is None

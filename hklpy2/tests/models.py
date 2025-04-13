@@ -24,7 +24,7 @@ def e4cv_config():
 
 def add_oriented_vibranium_to_e4cv(e4cv):
     e4cv.add_sample("vibranium", 2 * math.pi, digits=3, replace=True)
-    e4cv.wavelength.put(1.54)
+    e4cv.beam.wavelength.put(1.54)
     e4cv.add_reflection(
         (4, 0, 0), dict(omega=-145.451, chi=0, phi=0, tth=69.066), name="r400"
     )

@@ -108,13 +108,13 @@ def test_creator_reals(
     pseudos, reals, positioner_class, context, expected, config_file
 ):
     with context as reason:
-        diffractometer = creator(name="diffractometer", pseudos=pseudos, reals=reals)
-        assert diffractometer is not None
-        for axis in diffractometer.real_axis_names:
+        sim = creator(pseudos=pseudos, reals=reals)
+        assert sim is not None
+        for axis in sim.real_axis_names:
             if len(reals) > 0:
                 assert axis in reals
-            assert isinstance(getattr(diffractometer, axis), positioner_class)
-        diffractometer.restore(HKLPY2_DIR / "tests" / config_file)
+            assert isinstance(getattr(sim, axis), positioner_class)
+        sim.restore(HKLPY2_DIR / "tests" / config_file)
 
     assert_context_result(expected, reason)
 
@@ -139,9 +139,9 @@ def test_DiffractometerBase():
 )
 def test_limits(axis, value, context, expected):
     with context as reason:
-        fourc = creator(name="fourc")
-        assert hasattr(fourc, axis)
-        pseudo = getattr(fourc, axis)
+        sim = creator()
+        assert hasattr(sim, axis)
+        pseudo = getattr(sim, axis)
         assert pseudo.limits == (0, 0)
         assert pseudo.check_value(value) is None
 
@@ -179,47 +179,47 @@ def test_limits(axis, value, context, expected):
 )
 def test_diffractometer_class_models(base, pseudos, reals, context, expected):
     with context as reason:
-        gonio = base(name="gonio")
-        assert isinstance(gonio, DiffractometerBase)
-        assert isinstance(gonio.sample, Sample)
-        assert isinstance(gonio.core, Core)
-        assert not gonio.moving
+        sim = base(name="sim")
+        assert isinstance(sim, DiffractometerBase)
+        assert isinstance(sim.sample, Sample)
+        assert isinstance(sim.core, Core)
+        assert not sim.moving
 
         # These property methods _must_ work immediately.
-        assert isinstance(gonio.position, tuple), f"{type(gonio.position)=!r}"
-        assert isinstance(gonio.real_position, tuple), f"{type(gonio.real_position)=!r}"
-        assert isinstance(gonio.report, dict), f"{type(gonio.report)=!r}"
+        assert isinstance(sim.position, tuple), f"{type(sim.position)=!r}"
+        assert isinstance(sim.real_position, tuple), f"{type(sim.real_position)=!r}"
+        assert isinstance(sim.report, dict), f"{type(sim.report)=!r}"
 
-        assert [axis.attr_name for axis in gonio._pseudo] == pseudos
-        assert [axis.attr_name for axis in gonio._real] == reals
-        assert list(gonio.position._fields) == pseudos
-        assert list(gonio.real_position._fields) == reals
-        assert len(gonio.pseudo_axis_names) >= len(pseudos)
-        assert len(gonio.real_axis_names) >= len(reals)
+        assert [axis.attr_name for axis in sim._pseudo] == pseudos
+        assert [axis.attr_name for axis in sim._real] == reals
+        assert list(sim.position._fields) == pseudos
+        assert list(sim.real_position._fields) == reals
+        assert len(sim.pseudo_axis_names) >= len(pseudos)
+        assert len(sim.real_axis_names) >= len(reals)
 
-        assert len(gonio.samples) == 1
-        assert gonio.sample.name == "sample"  # default sample
+        assert len(sim.samples) == 1
+        assert sim.sample.name == "sample"  # default sample
 
-        gonio.core.add_sample("test", 5)
-        assert len(gonio.samples) == 2
-        assert gonio.sample.name == "test"
+        sim.core.add_sample("test", 5)
+        assert len(sim.samples) == 2
+        assert sim.sample.name == "test"
 
-        assert isinstance(gonio.core.solver, SolverBase)
+        assert isinstance(sim.core.solver, SolverBase)
     assert_context_result(expected, reason)
 
 
 def test_diffractometer_wh(capsys):
     from ..diffract import creator
 
-    e4cv = creator(name="e4cv")
+    e4cv = creator()
     e4cv.restore(HKLPY2_DIR / "tests" / "e4cv_orient.yml")
 
     e4cv.wh()
     captured = capsys.readouterr()
     lines = captured.out.splitlines()
     assert len(lines) == 3, f"{captured.out=}"
-    assert lines[1].startswith("wavelength=")
-    assert lines[0].startswith("h=")
+    assert lines[0].startswith("wavelength=")
+    assert lines[1].startswith("h=")
     assert lines[2].startswith("omega=")
 
     e4cv.core.mode = "psi_constant"
@@ -239,8 +239,8 @@ def test_diffractometer_wh(capsys):
     for _r in e4cv.core.constraints:
         expected.append("constraint: ")
     expected.append(f"Mode: {e4cv.core.mode}")
+    expected.append("beam=")
     expected.append(f"{e4cv.pseudo_axis_names[0]}=")
-    expected.append("wavelength=")
     expected.append(f"{e4cv.real_axis_names[0]}=")
     extra_names = e4cv.core.solver_extra_axis_names
     if len(extra_names) > 0:
@@ -276,7 +276,7 @@ def test_full_position(mode, keys, context, expected, config_file):
     assert config_file.endswith(".yml")
 
     with context as reason:
-        fourc = creator(name="fourc")
+        fourc = creator()
         fourc.restore(HKLPY2_DIR / "tests" / config_file)
         fourc.core.mode = mode
         pos = fourc.full_position()
@@ -300,10 +300,9 @@ def test_full_position(mode, keys, context, expected, config_file):
 def test_move_forward_with_extras(pseudos, extras, mode, context, expected):
     from ..diffract import creator
 
-    fourc = creator(name="fourc")
+    fourc = creator()
     fourc.restore(HKLPY2_DIR / "tests" / "e4cv_orient.yml")
     fourc.core.mode = mode
-    # fourc.wavelength.put(6)
     assert fourc.core.mode == mode
 
     RE = bluesky.RunEngine()
@@ -337,7 +336,7 @@ def test_move_forward_with_extras(pseudos, extras, mode, context, expected):
 def test_move_reals(pos, context, expected):
     from ..diffract import creator
 
-    fourc = creator(name="fourc")
+    fourc = creator()
     with context as reason:
         fourc.move_reals(pos)
 
@@ -348,7 +347,7 @@ def test_null_core():
     """Tests special cases when diffractometer.core is None."""
     from ..diffract import creator
 
-    fourc = creator(name="fourc")
+    fourc = creator()
     assert fourc.core is not None
     assert len(fourc.samples) > 0
     assert fourc.sample is not None
@@ -367,12 +366,12 @@ def test_orientation():
     from ..blocks.lattice import SI_LATTICE_PARAMETER
     from ..diffract import creator
 
-    fourc = creator(name="fourc")
+    fourc = creator()
     fourc.add_sample("silicon", SI_LATTICE_PARAMETER)
-    fourc.wavelength.put(1.0)
+    fourc.beam.wavelength.put(1.0)
     assert math.isclose(
-        fourc.wavelength.get(), 1.0, abs_tol=0.01
-    ), f"{fourc.wavelength.get()=!r}"
+        fourc.beam.wavelength.get(), 1.0, abs_tol=0.01
+    ), f"{fourc.beam.wavelength.get()=!r}"
 
     fourc.add_reflection(
         (4, 0, 0),
@@ -388,8 +387,8 @@ def test_orientation():
     )
 
     assert math.isclose(
-        fourc.wavelength.get(), 1.0, abs_tol=0.01
-    ), f"{fourc.wavelength.get()=!r}"
+        fourc.beam.wavelength.get(), 1.0, abs_tol=0.01
+    ), f"{fourc.beam.wavelength.get()=!r}"
     assert fourc.sample.reflections.order == "(400) (040)".split()
 
     result = fourc.core.calc_UB(*fourc.sample.reflections.order)
@@ -404,7 +403,7 @@ def test_orientation():
     UBe = [[0, 0, e], [0, e, 0], [e, 0, 0]]
     assert_almost_equal(UB, UBe, 3)
 
-    result = fourc.forward(4, 0, 0)
+    result = fourc.forward(4, 0, 0, wavelength=1.54)
     reals = [-145.4509, 0, 0, 69.0982]  # at wavelength = 1.54
     assert_almost_equal(list(result._asdict().values()), reals, 3)
 
@@ -413,11 +412,10 @@ def test_orientation():
     assert_almost_equal(list(result._asdict().values()), reals, 3)
 
     assert math.isclose(  # still did not change the diffractometer wavelength
-        fourc.wavelength.get(), 1.0, abs_tol=0.01
-    ), f"{fourc.wavelength.get()=!r}"
+        fourc.beam.wavelength.get(), 1.0, abs_tol=0.01
+    ), f"{fourc.beam.wavelength.get()=!r}"
 
-    fourc.wavelength.put(1.54)
-    fourc.core._solver_needs_update = True  # FIXME: in wavelength.setter
+    fourc.beam.wavelength.put(1.54)
     result = fourc.inverse(-145, 0, 0, 70)
     pseudos = [4.0456, 0, 0]  # at wavelength = 1.54
     assert_almost_equal(list(result._asdict().values()), pseudos, 3)
@@ -482,7 +480,7 @@ def test_repeated_reflections(
 ):
     from ..diffract import creator
 
-    e4cv = creator(name="e4cv")
+    e4cv = creator()
     e4cv.add_reflection(
         dict(h=1, k=0, l=0),
         dict(omega=10, chi=0, phi=0, tth=20),
@@ -529,7 +527,7 @@ def test_repeated_reflections(
                 start=5,
                 finish=10,
                 num=3,
-                pseudos=dict(h=2, k=-1, l=10),  # l=10 is unreachable
+                pseudos=dict(h=2, k=-1, l=100),  # l=100 is unreachable
                 reals=None,
                 extras=dict(h2=2, k2=2, l2=0, psi=0),
                 fail_on_exception=True,
@@ -617,7 +615,7 @@ def test_repeated_reflections(
 def test_scan_extra(scan_kwargs, mode, context, expected):
     from ..diffract import creator
 
-    fourc = creator(name="fourc")
+    fourc = creator()
     fourc.restore(HKLPY2_DIR / "tests" / "e4cv_orient.yml")
     fourc.core.mode = mode
     assert fourc.core.mode == mode
@@ -654,7 +652,7 @@ def test_scan_extra(scan_kwargs, mode, context, expected):
 def test_scan_extra_print_fail(scan_kwargs, mode, context, expected, capsys):
     from ..diffract import creator
 
-    fourc = creator(name="fourc")
+    fourc = creator()
     fourc.restore(HKLPY2_DIR / "tests" / "e4cv_orient.yml")
     fourc.core.mode = mode
     assert fourc.core.mode == mode
@@ -675,7 +673,7 @@ def test_set_UB():
     """UB chosen to get hkl ~= (1.0, 0, 0), to 3 digits."""
     from ..diffract import creator
 
-    fourc = creator(name="fourc")
+    fourc = creator()
 
     e = 6.28319  # 2 pi.
     assert_almost_equal(
@@ -700,7 +698,7 @@ def test_set_UB():
 def test_e4cv_constant_phi():
     from ..diffract import creator
 
-    e4cv = creator(name="e4cv")
+    e4cv = creator()
 
     # Approximate the code presented as the example problem.
     refl = dict(h=1, k=1, l=1)
@@ -764,8 +762,57 @@ def test_miller_args(miller, context, expected):
     """Test the Miller indices arguments: h, k, l."""
 
     with context as reason:
-        e4cv = creator(name="e4cv")
+        e4cv = creator()
         e4cv.add_reflection(miller)
+    assert_context_result(expected, reason)
+
+
+@pytest.mark.parametrize(
+    "input, ref, context, expected",
+    [
+        [
+            dict(restore_wavelength=False),
+            dict(energy=12.3984, wavelength=1.0),
+            does_not_raise(),
+            None,
+        ],
+        [
+            dict(restore_wavelength=True),
+            dict(energy=8.0509, wavelength=1.54),
+            does_not_raise(),
+            None,
+        ],
+    ],
+)
+def test_restore(input, ref, context, expected):
+    from ..incident import A_KEV
+    from ..incident import DEFAULT_WAVELENGTH
+    from ..misc import load_yaml_file
+
+    with context as reason:
+        input["config"] = load_yaml_file(HKLPY2_DIR / "tests" / "e4cv_orient.yml")
+        e4cv = creator()
+        assert math.isclose(
+            e4cv.beam.energy.get(),
+            A_KEV / DEFAULT_WAVELENGTH,
+            abs_tol=0.001,
+        )
+        assert math.isclose(
+            e4cv.beam.wavelength.get(),
+            DEFAULT_WAVELENGTH,
+            abs_tol=0.001,
+        )
+        e4cv.restore(**input)
+        assert math.isclose(
+            e4cv.beam.energy.get(),
+            ref.get("energy", A_KEV / DEFAULT_WAVELENGTH),
+            abs_tol=0.001,
+        )
+        assert math.isclose(
+            e4cv.beam.wavelength.get(),
+            ref.get("wavelength", DEFAULT_WAVELENGTH),
+            abs_tol=0.001,
+        )
     assert_context_result(expected, reason)
 
 
@@ -776,18 +823,18 @@ def test_failed_restore():
     assert isinstance(config, dict)
     assert "_header" in config
     with does_not_raise():
-        e4cv = creator(name="e4cv")
+        e4cv = creator()
         e4cv.restore(config)
 
     config.pop("_header")
     with pytest.raises(KeyError) as reason:
-        e4cv = creator(name="e4cv")
+        e4cv = creator()
         e4cv.restore(config)
     expected = "Configuration is missing '_header' key"
     assert_context_result(expected, reason)
 
     with pytest.raises(TypeError) as reason:
-        e4cv = creator(name="e4cv")
+        e4cv = creator()
         e4cv.restore(12345)
     expected = "Unrecognized configuration"
     assert_context_result(expected, reason)
@@ -834,7 +881,7 @@ def test_diffractometer_class_factory(specs, context, expected):
     ],
 )
 def test_signature(solver: str, geometry: str):
-    sim = creator(name="sim", solver=solver, geometry=geometry)
+    sim = creator(solver=solver, geometry=geometry)
     assert isinstance(sim, DiffractometerBase)
 
     signature = sim.solver_signature

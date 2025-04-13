@@ -42,24 +42,21 @@ import platform
 
 from pyRestTable import Table
 
-from ..blocks.lattice import Lattice
-from ..blocks.reflection import Reflection
-from ..blocks.sample import Sample
 from ..misc import IDENTITY_MATRIX_3X3
 from ..misc import SolverNoForwardSolutions
 from ..misc import check_value_in_list
+from ..misc import istype
 from ..misc import roundoff
 from ..misc import unique_name
+from .base import Lattice
+from .base import Reflection
+from .base import Sample
 from .base import SolverBase
-from .hkl_soleil_utils import gi_require_library
-
-gi_require_library(platform.system(), "Hkl", "5.0")
-
-from gi.repository import GLib  # noqa: E402, F401  # W0611
-from gi.repository import Hkl as libhkl  # noqa: E402
+from .hkl_soleil_utils import setup_libhkl
 
 logger = logging.getLogger(__name__)
 
+libhkl = setup_libhkl(platform.system(), "Hkl", "5.0")
 AXES_READ = 0
 AXES_WRITTEN = 1
 LIBHKL_DETECTOR_TYPE = 0
@@ -135,15 +132,18 @@ class HklSolver(SolverBase):
     Wraps the |libhkl| library, written by Frédéric-Emmanuel PICCA (Soleil),
     with support for many common diffractometer geometries.
 
-    .. rubric:: Parameters
+    PARAMETERS
 
-    * geometry: (str) Name of geometry.
-    * engine: (str) Name of computation engine.  (default: ``"hkl"``)
-    * mode: (str) Name of operating mode.  (default: current mode)
-    * pseudos: ([PseudoPositioner]) List of pseudo positioners.
-      (default: ``[]``)
-    * reals: ([PositionerBase]) List of real positioners.
-      (default: ``[]``)
+    geometry: str
+        Name of geometry.
+    engine: str
+        Name of computation engine.  (default: ``"hkl"``)
+    mode: str
+        Name of operating mode.  (default: current mode)
+    pseudos: list[PseudoPositioner]
+        List of pseudo positioners. (default: ``[]``)
+    reals: list[PositionerBase]
+        List of real positioners. (default: ``[]``)
 
     .. note:: The lists of ``pseudos`` and ``reals`` are the
        corresponding axes of the diffractometer, in the order expected by
@@ -226,15 +226,19 @@ class HklSolver(SolverBase):
 
     def addReflection(self, reflection: Reflection) -> None:
         """Add coordinates of a diffraction condition (a reflection)."""
-        if not isinstance(reflection, Reflection):
-            raise TypeError(f"Must supply Reflection object, received {reflection!r}")
+        if not istype(reflection, Reflection):
+            raise TypeError(
+                f"Must supply {Reflection!r} object, received {reflection!r}"
+            )
 
         logger.debug("reflection: %r", reflection)
-        pseudos = list(reflection.pseudos.values())
-        reals = list(reflection.reals.values())
-        self.wavelength = reflection.wavelength
+        pseudos = list(reflection["pseudos"].values())
+        reals = list(reflection["reals"].values())
+        w0 = self.wavelength
+        self.wavelength = reflection["wavelength"]
         self._hkl_geometry.axis_values_set(reals, LIBHKL_USER_UNITS)
-        self.sample.add_reflection(self._hkl_geometry, self._hkl_detector, *pseudos)
+        self._sample.add_reflection(self._hkl_geometry, self._hkl_detector, *pseudos)
+        self.wavelength = w0
 
     @property
     def axes_c(self) -> list[str]:
@@ -270,14 +274,14 @@ class HklSolver(SolverBase):
 
         The method of Busing & Levy, Acta Cryst 22 (1967) 457.
         """
-        if self.sample is None:
+        if self._sample is None:
             return
         # Remove all reflections first
         self.removeAllReflections()
         self.addReflection(r1)
         self.addReflection(r2)
-        self.sample.compute_UB_busing_levy(*self.sample.reflections_get())
-        logger.debug("%r reflections", len(self.sample.reflections_get()))
+        self._sample.compute_UB_busing_levy(*self._sample.reflections_get())
+        logger.debug("%r reflections", len(self._sample.reflections_get()))
         return self.UB
 
     @property
@@ -335,6 +339,8 @@ class HklSolver(SolverBase):
 
     def forward(self, pseudos: dict) -> list[dict[str, float]]:
         """Compute list of solutions(reals) from pseudos (hkl -> [angles])."""
+        from gi.repository import GLib  # noqa: E402, F401  # W0611
+
         logger.debug("(%r) forward(%r)", __name__, pseudos)
 
         try:
@@ -413,31 +419,33 @@ class HklSolver(SolverBase):
         return pdict
 
     @property
-    def lattice(self) -> libhkl.Lattice:
+    def lattice(self) -> Lattice:
         """
-        Crystal lattice parameters.  (Not used by this |solver|.)
+        Dictionary of crystal lattice parameters.
         """
-        return self.sample.lattice_get()
+        values = self._sample.lattice_get().get(LIBHKL_USER_UNITS)
+        keys = "a b c alpha beta gamma".split()
+        return {k: getattr(values, k) for k in keys}
 
     @lattice.setter
-    def lattice(self, value):
-        if not isinstance(value, Lattice):
-            raise TypeError(f"Must supply Lattice object, received {value!r}")
+    def lattice(self, value: Lattice):
+        if not istype(value, dict):
+            raise TypeError(f"Must supply {Lattice} object, received {value!r}")
 
         logger.debug("lattice.setter(): value=%s", value)
-        self.sample.lattice_set(
+        self._sample.lattice_set(
             libhkl.Lattice.new(
-                value.a,
-                value.b,
-                value.c,
-                math.radians(value.alpha),
-                math.radians(value.beta),
-                math.radians(value.gamma),
+                value["a"],
+                value["b"],
+                value["c"],
+                math.radians(value["alpha"]),
+                math.radians(value["beta"]),
+                math.radians(value["gamma"]),
             )
         )
         logger.debug(
             "sample lattice: %r",
-            self.sample.lattice_get().get(LIBHKL_USER_UNITS),
+            self._sample.lattice_get().get(LIBHKL_USER_UNITS),
         )
 
     @property
@@ -470,6 +478,26 @@ class HklSolver(SolverBase):
         """Ordered list of the real axis names (such as th, tth)."""
         return self._hkl_geometry.axis_names_get()  # Do NOT sort.
 
+    @property
+    def reflections(self) -> dict:
+        """List of defined reflections (no store reflection names in libhkl)."""
+        rlist = {}
+        for refl in self._sample.reflections_get():
+            values = refl.hkl_get()
+            name = f"x{id(refl):x}"  # make up a name from object's id
+            rlist[name] = dict(
+                name=name,
+                pseudos={k: getattr(values, k) for k in self.pseudo_axis_names},
+                reals=dict(
+                    zip(
+                        refl.geometry_get().axis_names_get(),
+                        refl.geometry_get().axis_values_get(1),
+                    )
+                ),
+                wavelength=refl.geometry_get().wavelength_get(LIBHKL_USER_UNITS),
+            )
+        return rlist
+
     def refineLattice(self, reflections: list[Reflection]) -> Lattice:
         """
         Refine the lattice parameters from a list of reflections.
@@ -482,36 +510,32 @@ class HklSolver(SolverBase):
         for r in reflections:
             self.addReflection(r)
 
-        self.sample.affine()  # refine the lattice
+        self._sample.affine()  # refine the lattice
 
-        # get the refined lattice
-        lattice = self.lattice.get(LIBHKL_USER_UNITS)
-        return Lattice(
-            lattice.a,
-            lattice.b,
-            lattice.c,
-            lattice.alpha,
-            lattice.beta,
-            lattice.gamma,
-        )
+        return self.lattice
 
     def removeAllReflections(self) -> None:
         """Remove all reflections."""
-        refs = self.sample.reflections_get()
+        refs = self._sample.reflections_get()
         for ref in refs:
-            self.sample.del_reflection(ref)
+            self._sample.del_reflection(ref)
 
     @property
-    def sample(self) -> libhkl.Sample:
+    def sample(self) -> Sample:
         """
         Crystalline sample.  libhkl's sample object.
         """
-        return self._sample
+        sample = dict(
+            name=self._sample.name_get(),
+            lattice=self.lattice,
+            reflections=self.reflections,
+        )
+        return sample
 
     @sample.setter
     def sample(self, value: Sample):
-        if not isinstance(value, Sample):
-            raise TypeError(f"Must supply Sample object, received {value!r}")
+        if not istype(value, dict):
+            raise TypeError(f"Must supply {Sample} object, received {value!r}")
 
         # Just drop the old sample and make a new one.
         # Python knows its correct name.
@@ -522,16 +546,18 @@ class HklSolver(SolverBase):
         self._hkl_engine_list.init(self._hkl_geometry, self._hkl_detector, sample)
         logger.debug(
             "sample name=%r, libhkl name=%r",
-            value.name,
+            value["name"],
             sample.name_get(),
         )
 
-        self.lattice = value.lattice
+        self.lattice = value["lattice"]
 
-        logger.debug("%r ordering reflections: %r", value.reflections.order)
-        for name in value.reflections.order:
-            self.addReflection(value.reflections[name])
-        # print(f"{sample.reflections_get()=!r}")
+        logger.debug("%r ordering reflections: %r", str(self), value["order"])
+        for name in value["order"]:
+            for refl in value["reflections"]:
+                if refl["name"] == name:
+                    self.addReflection(refl)
+                    break
 
     @property
     def _summary_dict(self):
@@ -610,30 +636,30 @@ class HklSolver(SolverBase):
 
         Rotation matrix,  (3x3).
         """
-        if self.sample is None:
+        if self._sample is None:
             return IDENTITY_MATRIX_3X3
-        matrix = to_numpy(self.sample.U_get())
+        matrix = to_numpy(self._sample.U_get())
         return matrix.round(decimals=ROUNDOFF_DIGITS).tolist()
 
     @U.setter
     def U(self, value: list[list[float]]) -> None:
-        if self.sample is not None:
+        if self._sample is not None:
             logger.debug("U.setter(): value=%s", value)
-            self.sample.U_set(to_hkl(value))
+            self._sample.U_set(to_hkl(value))
 
     @property
     def UB(self) -> list[list[float]]:
         """Orientation matrix (3x3)."""
-        if self.sample is None:
+        if self._sample is None:
             return IDENTITY_MATRIX_3X3
-        matrix = to_numpy(self.sample.UB_get())
+        matrix = to_numpy(self._sample.UB_get())
         return matrix.round(decimals=ROUNDOFF_DIGITS).tolist()
 
     @UB.setter
     def UB(self, value: list[list[float]]) -> None:
-        if self.sample is not None:
+        if self._sample is not None:
             logger.debug("UB.setter(): value=%s", value)
-            self.sample.UB_set(to_hkl(value))
+            self._sample.UB_set(to_hkl(value))
 
     @property
     def wavelength(self) -> float:
@@ -652,8 +678,8 @@ class HklSolver(SolverBase):
             name=self.name,
             geometry=self.geometry,
             engine=self.engine_name,
-            sample=self.sample.name_get(),
-            lattice=self.lattice.get(LIBHKL_USER_UNITS),
+            sample=self._sample.name_get(),
+            lattice=self.lattice,
             U=self.U,
             UB=self.UB,
             wavelength=self.wavelength,

@@ -7,9 +7,9 @@ import numpy.testing
 import pytest
 from pyRestTable import Table
 
-from ..beam import ConstantMonochromaticWavelength
 from ..blocks.lattice import SI_LATTICE_PARAMETER
 from ..diffract import creator
+from ..incident import WavelengthXray
 from ..misc import ReflectionError
 from ..ops import CoreError
 from ..user import add_sample
@@ -23,11 +23,13 @@ from ..user import pa
 from ..user import remove_reflection
 from ..user import remove_sample
 from ..user import set_diffractometer
-from ..user import set_energy
 from ..user import set_lattice
+from ..user import set_wavelength
 from ..user import setor
 from ..user import solver_summary
 from ..user import wh
+from .common import PV_ENERGY
+from .common import PV_WAVELENGTH
 from .common import TESTS_DIR
 from .common import assert_context_result
 
@@ -234,8 +236,12 @@ def test_pa(fourc, capsys):
         "constraint: -180.0 <= phi <= 180.0",
         "constraint: -180.0 <= tth <= 180.0",
         "Mode: bissector",
+        (
+            "beam={'class': 'WavelengthXray', 'source_type': 'Synchrotron X-ray Source',"
+            " 'energy': 12.398419843856837, 'wavelength': 1.0, 'energy_units': 'keV',"
+            " 'wavelength_units': 'angstrom'}"
+        ),
         "h=0, k=0, l=0",
-        "wavelength=1.0",
         "omega=0, chi=0, phi=0, tth=0",
     ]
     assert len(out) == len(expected), f"{out=}"
@@ -311,37 +317,43 @@ def test_set_lattice(fourc):
 
 
 @pytest.mark.parametrize(
-    "energy, units, offset, context, expected",
+    "beam_kwargs, wavelength, units, context, expected",
     [
-        [8, "keV", 0, does_not_raise(), None],
-        [8.1, "keV", -0.03, does_not_raise(), None],
-        [7500, "eV", 0, does_not_raise(), None],
-        [7100, "eV", 25, does_not_raise(), None],
+        [{"class": WavelengthXray}, 1.5, "angstrom", does_not_raise(), None],
+        [{"class": WavelengthXray}, 1.54, "angstrom", does_not_raise(), None],
+        [{"class": WavelengthXray}, 120, "pm", does_not_raise(), None],
+        [{"class": WavelengthXray}, 121, "pm", does_not_raise(), None],
+        [
+            {
+                "class": "hklpy2.incident.EpicsWavelengthRO",
+                "pv_wavelength": PV_WAVELENGTH,
+            },
+            2,
+            "angstrom",
+            pytest.raises(TypeError),
+            "'set_wavelength()' not supported",
+        ],
+        [
+            {
+                "class": "hklpy2.incident.EpicsMonochromatorRO",
+                "pv_energy": PV_ENERGY,
+                "pv_wavelength": PV_WAVELENGTH,
+            },
+            2,
+            "angstrom",
+            pytest.raises(TypeError),
+            "'set_wavelength()' not supported",
+        ],
     ],
 )
-def test_set_energy(fourc, energy, units, offset, context, expected):
+def test_set_wavelength(beam_kwargs, wavelength, units, context, expected):
     with context as reason:
-        set_diffractometer(fourc)
-        source = get_diffractometer()._source
+        set_diffractometer(creator(beam_kwargs=beam_kwargs))
+        beam = get_diffractometer().beam
 
-        set_energy(energy, units=units, offset=None)  # TODO: #35
-        # numpy.testing.assert_approx_equal(source.energy_offset, 0)
-        assert source.energy_units == units
-        numpy.testing.assert_approx_equal(source.energy, energy)
-    assert_context_result(expected, reason)
-
-    if offset != 0:  # TODO: #35
-        with pytest.raises(NotImplementedError) as reason:
-            set_energy(energy, units=units, offset=offset)
-        expected = "energy offset not implemented"
-        assert_context_result(expected, reason)
-
-    # Edge case
-    wavelength = source.wavelength
-    get_diffractometer()._source = ConstantMonochromaticWavelength(wavelength)
-    with pytest.raises(TypeError) as reason:
-        set_energy(energy)
-    expected = "'set_energy()' not supported "
+        set_wavelength(wavelength, units=units)
+        assert beam.wavelength_units.get() == units
+        numpy.testing.assert_approx_equal(beam.wavelength.get(), wavelength)
     assert_context_result(expected, reason)
 
 
@@ -388,8 +400,8 @@ def test_wh(fourc, capsys):
     assert err == ""
     out = [v.rstrip() for v in out.strip().splitlines()]
     expected = [
-        "h=0, k=0, l=0",
         "wavelength=1.0",
+        "h=0, k=0, l=0",
         "omega=0, chi=0, phi=0, tth=0",
     ]
     assert len(out) == len(expected)

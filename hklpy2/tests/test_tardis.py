@@ -32,8 +32,8 @@ def tardis():
             gamma=None,
         ),
     )
-    diffractometer._source.energy_units = "eV"
-    diffractometer._source.wavelength_units = "angstrom"
+    diffractometer.beam.energy_units.put("eV")
+    diffractometer.beam.wavelength_units.put("angstrom")
     diffractometer.core.mode = TARDIS_SOLVER_MODE
     diffractometer.core.constraints["gamma"].limits = -5, 180
     return diffractometer
@@ -188,11 +188,11 @@ def test_restore_and_move(sample, wavelength, ppos, rpos, digits, context, expec
         assert isinstance(tardis, DiffractometerBase)
         tardis.restore(TARDIS_CONFIG_YAML, clear=True)
 
-        assert tardis._source.energy_units == "eV"
-        assert tardis._source.wavelength_units == "angstrom"
+        assert tardis.beam.energy_units.get() == "eV"
+        assert tardis.beam.wavelength_units.get() == "angstrom"
 
         # set the test parameters
-        tardis.wavelength.put(wavelength)
+        tardis.beam.wavelength.put(wavelength)
         tardis.sample = sample
         tardis.core.mode = TARDIS_SOLVER_MODE
 
@@ -238,7 +238,7 @@ def test_axis_inversion():
     assert isinstance(tardis, DiffractometerBase)
     tardis.restore(TARDIS_CONFIG_YAML, clear=True)
 
-    tardis.wavelength.put(13.317314547644292)
+    tardis.beam.wavelength.put(13.317314547644292)
     tardis.sample = "KCF"
     tardis.core.mode = TARDIS_SOLVER_MODE
 

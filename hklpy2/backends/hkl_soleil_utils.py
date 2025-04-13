@@ -3,7 +3,7 @@
 from ..misc import SolverError
 
 
-def gi_require_library(system: str, library: str, version: str) -> None:
+def setup_libhkl(system: str, library: str, version: str) -> object:
     """
     Setup current session to load 'library' with the 'gi' package.
 
@@ -28,3 +28,7 @@ def gi_require_library(system: str, library: str, version: str) -> None:
         gi.require_version(library, version)
     except Exception as exinfo:
         raise SolverError(f"Cannot load 'gi' library: {library}, {version}") from exinfo
+
+    from gi.repository import Hkl as libhkl
+
+    return libhkl

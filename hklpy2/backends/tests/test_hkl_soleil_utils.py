@@ -44,10 +44,10 @@ from ...tests.common import assert_context_result
 )
 def test_gi_require_library(system, library, version, context, expected):
     """Exercise the gi_require_library() function."""
-    from ..hkl_soleil_utils import gi_require_library
+    from ..hkl_soleil_utils import setup_libhkl
 
     with context as reason:
-        gi_require_library(system, library, version)
+        setup_libhkl(system, library, version)
     assert_context_result(expected, reason)
 
 
@@ -65,12 +65,12 @@ def test_import_gi_failure():
         gi_module = sys.modules.pop("gi")
 
     # Import the function after manipulating 'sys.modules'.
-    from ..hkl_soleil_utils import gi_require_library
+    from ..hkl_soleil_utils import setup_libhkl
 
     # Proceed with testing, as above.
     expected = "Cannot import 'gi' (gobject-introspection) library."
     with pytest.raises(SolverError) as reason:
-        gi_require_library("Linux", "Hkl", "5.0")
+        setup_libhkl("Linux", "Hkl", "5.0")
     assert_context_result(expected, reason)
 
     # Restore the 'gi' package to the dictionary.

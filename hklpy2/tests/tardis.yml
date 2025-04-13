@@ -1,16 +1,11 @@
 #hklpy2 configuration file
 
 _header:
-  datetime: '2025-02-24 07:15:04.494795'
-  energy_units: eV
-  energy: 931.0
-  hklpy2_version: 0.0.26.dev51+g2b5e600.d20250224
+  datetime: '2025-04-09 21:38:25.942848'
+  hklpy2_version: 0.0.29.dev43+gdc399a0.d20250410
   python_class: Hklpy2Diffractometer
-  source_type: X-ray
-  wavelength_units: angstrom
-  wavelength: 13.317314547644292
-  file: dev_tardis-3-samples.yml
-  comment: NSLS-II tardis with oriented KCF & ESRF samples
+  file: dev_tardis-cmazzoli.yml
+  comment: NSLS-II tardis with oriented sample from @cmazzoli
 name: tardis
 axes:
   pseudo_axes:
@@ -34,8 +29,12 @@ axes:
     phi: phi
     delta: gamma
     gamma: delta
-  extra_axes: {}
-sample_name: sample
+  extra_axes:
+    h2: 0
+    k2: 0
+    l2: 0
+    psi: 0
+sample_name: esrf_sample
 samples:
   sample:
     name: sample
@@ -48,7 +47,7 @@ samples:
       gamma: 90.0
     reflections: {}
     reflections_order: []
-    U: &id001
+    U:
     - - 1
       - 0
       - 0
@@ -58,7 +57,16 @@ samples:
     - - 0
       - 0
       - 1
-    UB: *id001
+    UB:
+    - - 6.283185307179586
+      - 0.0
+      - 0.0
+    - - 0.0
+      - 6.283185307179586
+      - 0.0
+    - - 0.0
+      - 0.0
+      - 6.283185307179586
     digits: 4
   KCF:
     name: KCF
@@ -195,7 +203,7 @@ samples:
 constraints:
   theta:
     label: theta
-    low_limit: -181.0
+    low_limit: -181
     high_limit: 181.0
     class: LimitsConstraint
   mu:
@@ -215,18 +223,17 @@ constraints:
     class: LimitsConstraint
   delta:
     label: delta
-    low_limit: -5.0
+    low_limit: -5
     high_limit: 180.0
     class: LimitsConstraint
   gamma:
     label: gamma
-    low_limit: -5.0
+    low_limit: -5
     high_limit: 180.0
     class: LimitsConstraint
 solver:
   name: hkl_soleil
-  description: HklSolver(name='hkl_soleil', version='5.1.2', geometry='E6C', engine_name='hkl',
-    mode='lifting_detector_mu')
+  description: HklSolver(name='hkl_soleil', version='5.1.2', geometry='E6C', engine_name='hkl', mode='bissector_vertical')
   geometry: E6C
   real_axes:
   - mu
@@ -237,3 +244,10 @@ solver:
   - delta
   version: 5.1.2
   engine: hkl
+beam:
+  class: WavelengthXray
+  source_type: Synchrotron X-ray Source
+  energy: 7691.422873644113
+  wavelength: 1.61198
+  energy_units: eV
+  wavelength_units: angstrom

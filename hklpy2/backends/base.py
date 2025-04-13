@@ -9,25 +9,30 @@ Abstract base class for all solvers.
 import logging
 from abc import ABC
 from abc import abstractmethod
+from typing import Dict
 
 from pyRestTable import Table
 
-from ..blocks.lattice import Lattice
-from ..blocks.reflection import Reflection
-from ..blocks.sample import Sample
 from ..misc import IDENTITY_MATRIX_3X3
+from ..misc import istype
 
 logger = logging.getLogger(__name__)
+
+Lattice = Dict[str, float]
+Reflection = Dict[str, object]
+Sample = Dict[str, object]
 
 
 class SolverBase(ABC):
     """
     Base class for all |hklpy2| |solver| classes.
 
-    .. rubric:: Parameters
+    PARAMETERS
 
-    * ``geometry``: (str) Name of geometry.
-    * ``mode``: (str) Name of operating mode.  (default: current mode)
+    geometry : str
+        Name of geometry.
+    mode: str
+        Name of operating mode.  (default: current mode)
 
     Example::
 
@@ -206,7 +211,7 @@ class SolverBase(ABC):
         # return {}
 
     @property
-    def lattice(self) -> object:
+    def lattice(self) -> Lattice:
         """
         Crystal lattice parameters.  (Not used by this |solver|.)
         """
@@ -214,8 +219,8 @@ class SolverBase(ABC):
 
     @lattice.setter
     def lattice(self, value: Lattice):
-        if not isinstance(value, Lattice):
-            raise TypeError(f"Must supply Lattice object, received {value!r}")
+        if not istype(value, Lattice):
+            raise TypeError(f"Must supply {Lattice} object, received {value!r}")
         self._lattice = value
 
     @property
@@ -276,8 +281,8 @@ class SolverBase(ABC):
 
     @sample.setter
     def sample(self, value: Sample):
-        if not isinstance(value, Sample):
-            raise TypeError(f"Must supply Sample object, received {value!r}")
+        if not istype(value, Sample):
+            raise TypeError(f"Must supply {Sample} object, received {value!r}")
         self._sample = value
 
     @property

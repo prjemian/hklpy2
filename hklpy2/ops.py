@@ -22,10 +22,12 @@ from .blocks.constraints import RealAxisConstraints
 from .blocks.lattice import Lattice
 from .blocks.reflection import Reflection
 from .blocks.sample import Sample
+from .incident import DEFAULT_WAVELENGTH_UNITS
 from .misc import AnyAxesType
 from .misc import AxesDict
 from .misc import CoreError
 from .misc import axes_to_dict
+from .misc import convert_units
 from .misc import solver_factory
 from .misc import unique_name
 
@@ -41,7 +43,7 @@ class Core:
     """
     Core operations of a diffractometer, coordinating with sample & |solver|.
 
-    .. rubric:: Parameters
+    PARAMETERS
 
     diffractometer (DiffractometerBase):
         The diffractometer parent.
@@ -132,8 +134,8 @@ class Core:
             "samples": {k: v._asdict() for k, v in self._samples.items()},
             "constraints": self.constraints._asdict(),
             "solver": self.solver._metadata,
+            "beam": self.diffractometer.beam._asdict(),
         }
-        config["_header"].update(self.diffractometer._source._asdict())
 
         if "engine_name" in dir(self.solver):
             config["solver"]["engine"] = self.solver.engine_name
@@ -166,6 +168,7 @@ class Core:
         for key, constraint in config["constraints"].items():
             if (
                 constraint["class"] == "LimitsConstraint"
+                # .
                 and constraint["label"] in config["axes"]["real_axes"]
             ):
                 # By convention, the 'key' here is the axis name when config was written.
@@ -242,15 +245,21 @@ class Core:
         """
         Add a new reflection.
 
-        .. rubric:: Parameters
+        PARAMETERS
 
-        * ``pseudos`` (various): pseudo-space axes and values.
-        * ``reals`` (various): dictionary of real-space axes and values.
-        * ``wavelength`` (float): Wavelength of incident radiation.
-        * ``name`` (str): Reference name for this reflection.
-          If ``None``, a random name will be assigned.
-        * ``replace`` (bool): If ``True``, replace existing reflection of
-          this name.  (default: ``False``)
+        pseudos various:
+            Pseudo-space axes and values.
+        reals various:
+            Dictionary of real-space axes and values.
+        wavelength float:
+            Wavelength of incident radiation.  Units as specified
+            by ``diffractometer.beam.wavelength_units``.
+        name str:
+            Reference name for this reflection.  If ``None``, a random name will
+            be assigned.
+        replace bool:
+            When ``True``, replace existing reflection of this name.
+            (default: ``False``)
         """
         from .blocks.reflection import Reflection
 
@@ -307,7 +316,7 @@ class Core:
         self.sample = name
         self.request_solver_update(True)  # 58  test_diffract line 410: 2 pi a
         if self.solver is not None:
-            self.solver.sample = self.sample
+            self.solver.sample = self.to_solver_units()["sample"]
         return self.sample
 
     @property
@@ -383,13 +392,16 @@ class Core:
             if reflection is None:
                 raise KeyError(
                     f"{reflection!r} unknown."
+                    # .
                     f"  Knowns: {list(self.sample.reflections)!r}"
                 )
             return reflection
 
         two_reflections = [_get(r1), _get(r2)]
         self.sample.reflections.set_orientation_reflections(two_reflections)
-        ub = self.solver.calculate_UB(*two_reflections)
+
+        solver_reflections = self._reflections_to_solver(two_reflections)
+        ub = self.solver.calculate_UB(*solver_reflections)
         self.sample.U = self.solver.U
         self.sample.UB = ub
         self.request_solver_update(False)
@@ -444,7 +456,9 @@ class Core:
         return self.solver.geometry
 
     def inverse(
-        self, reals: Union[AnyAxesType, None], wavelength: float = None
+        self,
+        reals: Union[AnyAxesType, None],
+        wavelength: float = None,
     ) -> AxesDict:
         """Compute (pseudos) from {names: reals} (angles -> hkl)."""
         logger.debug(
@@ -457,7 +471,7 @@ class Core:
             # Original values.
             for axis in self.diffractometer._get_pseudo_positioners()
         }
-        if self.solver is None:
+        if self.solver is None or len(self.axes_xref) == 0:
             # Called from the constructor before solver is defined.
             return pseudos  # current values of pseudos
 
@@ -537,8 +551,25 @@ class Core:
             "Refining lattice using reflections %r",
             [r.name for r in reflections],
         )
-        lattice = self.solver.refineLattice(reflections)
+        lattice = self.solver.refineLattice(self._reflections_to_solver(reflections))
+        # TODO unit conversions: lattice
         return lattice
+
+    def _reflections_to_solver(self, refl_list: list) -> dict:
+        """(internal) Convert units in list of reflections to be sent to a solver."""
+        k = "wavelength"
+        wl_units = self.diffractometer.beam.wavelength_units.get()
+        wl_units_solver = DEFAULT_WAVELENGTH_UNITS
+        reflections = []
+        for refl in refl_list:
+            if isinstance(refl, str):
+                refl = self.sample.reflections[refl]
+            refl = refl._asdict()
+            refl[k] = convert_units(refl[k], wl_units, wl_units_solver)
+            reflections.append(refl)
+        # TODO reals (angle) could have units, assume in degrees now
+        # TODO reflection wavelength should have its own units
+        return reflections
 
     def remove_sample(self, name):
         """Remove the named sample.  No error if name is not known."""
@@ -636,7 +667,7 @@ class Core:
         """
         Create an instance of the backend |solver| library and geometry.
 
-        Parameters
+        PARAMETERS
 
         solver str:
             Name of the |solver| library.
@@ -696,14 +727,42 @@ class Core:
 
         return axes_to_dict(reals, self.local_real_axes)
 
+    def to_solver_units(self, wavelength: float = None) -> dict:
+        """Convert quantities from diffractometer units to solver units."""
+        # TODO Lattice should have its own units
+        uc_units = DEFAULT_WAVELENGTH_UNITS  # uc: Unit Cell length
+        uc_units_solver = DEFAULT_WAVELENGTH_UNITS
+        # Lattice angles are degrees
+        wl_units = self.diffractometer.beam.wavelength_units.get()
+        wl_units_solver = DEFAULT_WAVELENGTH_UNITS
+
+        lattice = self.sample.lattice._asdict()
+        for k in "a b c".split():
+            lattice[k] = convert_units(lattice[k], uc_units, uc_units_solver)
+
+        reflections = self._reflections_to_solver(self.sample.reflections)
+        wavelength = wavelength or self.diffractometer.beam.wavelength.get()
+
+        return dict(
+            sample=dict(
+                name=self.sample.name,
+                lattice=lattice,
+                order=self.sample.reflections.order,
+                reflections=reflections,
+            ),
+            wavelength=convert_units(wavelength, wl_units, wl_units_solver),
+        )
+
     def update_solver(self, wavelength: Optional[float] = None) -> None:
         """Update solver data if needed."""
         if self.solver.mode != self.mode or wavelength is not None:
             self.request_solver_update(True)  # force the update
 
         if self._solver_needs_update:
-            self.solver.sample = self.sample  # lattice & reflections
-            self.solver.wavelength = wavelength or self.diffractometer.wavelength.get()
+            std = self.to_solver_units(wavelength)
+
+            self.solver.wavelength = std["wavelength"]
+            self.solver.sample = std["sample"]
             self.solver.mode = self.mode
 
             try:

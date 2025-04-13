@@ -12,11 +12,11 @@ Simplified interface for |hklpy2| diffractometer users.
     ~list_samples
     ~or_swap
     ~remove_reflection
-    ~remove_sample
     ~pa
+    ~remove_sample
     ~set_diffractometer
-    ~set_energy
     ~set_lattice
+    ~set_wavelength
     ~setor
     ~solver_summary
     ~wh
@@ -29,7 +29,6 @@ from typing import Union
 
 from pyRestTable import Table
 
-from .beam import MonochromaticXrayWavelength
 from .blocks.lattice import Lattice
 from .blocks.reflection import Reflection
 from .diffract import DiffractometerBase
@@ -51,8 +50,8 @@ __all__ = """
     remove_reflection
     remove_sample
     set_diffractometer
-    set_energy
     set_lattice
+    set_wavelength
     setor
     solver_summary
     wh
@@ -496,32 +495,25 @@ def set_diffractometer(diffractometer: DiffractometerBase = None) -> None:
     _choice.diffractometer = diffractometer
 
 
-def set_energy(value: float, units=None, offset=None):
+def set_wavelength(value: float, units=None):
     """
-    Set the energy (thus wavelength) to be used (does not change control system value).
+    Set the wavelength; if Signal has write access, changes control system.
 
     EXAMPLE:
 
     .. code-block:: python
 
-        >>> set_energy(12400, units="eV")
+        >>> set_wavelength(123.45, units="pm")
     """
 
-    source = _choice.diffractometer._source
-    if not isinstance(source, MonochromaticXrayWavelength):
+    beam = _choice.diffractometer.beam
+    if not beam.wavelength.write_access:
         raise TypeError(
-            f"'set_energy()' not supported for {source!r},"
-            f" requires {MonochromaticXrayWavelength}."
+            f"'set_wavelength()' not supported for {beam.wavelength.name!r},"
         )
-    # No ophyd objects in this module.  These are float values using properties.
     if units is not None:
-        source.energy_units = units
-    if offset is not None:
-        source.energy_offset = offset  # TODO: #35 requires feature addition
-        raise NotImplementedError(
-            "Monochromatic source energy offset not implemented (yet)."
-        )
-    source.energy = value
+        beam.wavelength_units.put(units)
+    beam.wavelength.put(value)
 
 
 def set_lattice(
@@ -634,7 +626,7 @@ def setor(
     # as self._hkl_geometry.wavelength_set(wavelength, self._units)
     # The code here uses that procedure.
     if wavelength not in (None, 0):
-        diffractometer._source.wavelength = wavelength
+        diffractometer.beam.wavelength.put(wavelength)
 
     def make_name():
         while True:

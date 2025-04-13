@@ -27,18 +27,15 @@ except (LookupError, ModuleNotFoundError):
 
 
 from .backends import SolverBase  # noqa: E402, F401
-from .beam import A_KEV  # noqa: E402, F401
-from .beam import ConstantMonochromaticWavelength  # noqa: E402, F401
-from .beam import MonochromaticXrayWavelength  # noqa: E402, F401
 from .blocks.configure import Configuration  # noqa: E402, F401
 from .blocks.lattice import SI_LATTICE_PARAMETER  # noqa: E402, F401
 from .diffract import DiffractometerBase  # noqa: E402, F401
 from .diffract import creator  # noqa: E402, F401, F403
 from .diffract import diffractometer_class_factory  # noqa: E402, F401, F403
+from .incident import A_KEV  # noqa: E402, F401
 from .misc import SOLVER_ENTRYPOINT_GROUP  # noqa: E402, F401
 from .misc import ConfigurationRunWrapper  # noqa: E402, F401
 from .misc import SolverError  # noqa: E402, F401
-from .misc import WavelengthError  # noqa: E402, F401
 from .misc import check_value_in_list  # noqa: E402, F401
 from .misc import get_solver  # noqa: E402, F401
 from .misc import solver_factory  # noqa: E402, F401

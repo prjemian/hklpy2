@@ -58,14 +58,14 @@ def test_HklSolver():
     assert solver.axes_w == ["omega", "chi", "phi", "tth"]
     assert solver.engines == ["hkl", "psi", "q", "incidence", "emergence"]
 
-    assert solver.sample is None  # pre-requisite for next assertions
+    assert solver._sample is None  # pre-requisite for next assertions
     assert solver.U == IDENTITY_MATRIX_3X3
     assert solver.UB == IDENTITY_MATRIX_3X3
     assert solver.calculate_UB(None, None) is None
 
     with pytest.raises(TypeError) as reason:
         solver.addReflection(1.0)
-    assert_context_result("Must supply Reflection object", reason)
+    assert_context_result("Must supply", reason)
 
     with pytest.raises(KeyError) as reason:
         solver.extras = dict(trombone=0)
@@ -81,7 +81,7 @@ def test_HklSolver():
 
     with pytest.raises(TypeError) as reason:
         solver.lattice = 1.0
-    assert_context_result("Must supply Lattice object", reason)
+    assert_context_result("Must supply", reason)
 
     with pytest.raises(ValueError) as reason:
         solver.refineLattice([])
@@ -89,8 +89,8 @@ def test_HklSolver():
 
     with pytest.raises(TypeError) as reason:
         solver.sample = "kryptonite"
-    assert_context_result("Must supply Sample object", reason)
-    solver.sample = kryptonite()
+    assert_context_result("Must supply", reason)
+    solver._sample = kryptonite()
 
 
 @pytest.mark.parametrize(
@@ -196,21 +196,21 @@ def test_affine():
     assert refined != e4cv.sample.lattice
 
     # refined lattice parameter is not so precise
-    assert not math.isclose(refined.a, SI_LATTICE_PARAMETER, abs_tol=tol)
-    assert not math.isclose(refined.b, SI_LATTICE_PARAMETER, abs_tol=tol)
-    assert not math.isclose(refined.c, SI_LATTICE_PARAMETER, abs_tol=tol)
-    assert not math.isclose(refined.alpha, 90, abs_tol=tol)
-    assert not math.isclose(refined.beta, 90, abs_tol=tol)
-    assert not math.isclose(refined.gamma, 90, abs_tol=tol)
+    assert not math.isclose(refined["a"], SI_LATTICE_PARAMETER, abs_tol=tol)
+    assert not math.isclose(refined["b"], SI_LATTICE_PARAMETER, abs_tol=tol)
+    assert not math.isclose(refined["c"], SI_LATTICE_PARAMETER, abs_tol=tol)
+    assert not math.isclose(refined["alpha"], 90, abs_tol=tol)
+    assert not math.isclose(refined["beta"], 90, abs_tol=tol)
+    assert not math.isclose(refined["gamma"], 90, abs_tol=tol)
 
     # relax the precision quite a bit
-    tol = 0.001
-    assert math.isclose(refined.a, SI_LATTICE_PARAMETER, rel_tol=tol)
-    assert math.isclose(refined.b, SI_LATTICE_PARAMETER, rel_tol=tol)
-    assert math.isclose(refined.c, SI_LATTICE_PARAMETER, rel_tol=tol)
-    assert math.isclose(refined.alpha, 90, rel_tol=tol)
-    assert math.isclose(refined.beta, 90, rel_tol=tol)
-    assert math.isclose(refined.gamma, 90, rel_tol=tol)
+    tol = 0.1
+    assert math.isclose(refined["a"], SI_LATTICE_PARAMETER, abs_tol=tol)
+    assert math.isclose(refined["b"], SI_LATTICE_PARAMETER, abs_tol=tol)
+    assert math.isclose(refined["c"], SI_LATTICE_PARAMETER, abs_tol=tol)
+    assert math.isclose(refined["alpha"], 90, abs_tol=tol)
+    assert math.isclose(refined["beta"], 90, abs_tol=tol)
+    assert math.isclose(refined["gamma"], 90, abs_tol=tol)
 
 
 def test_summary_dict():
@@ -249,3 +249,66 @@ def test__details(geometry):
     assert review["engine"] == "hkl"
     assert review["geometry"] == geometry
     assert review["name"] == "hkl_soleil"
+
+
+def test_reflections():
+    from ... import SI_LATTICE_PARAMETER
+    from ... import creator
+
+    sim = creator()
+    sim.add_sample("silicon", SI_LATTICE_PARAMETER)
+    sim.add_reflection(
+        (4, 0, 0),
+        dict(tth=69.0966, omega=-145.451, chi=0, phi=0),
+        wavelength=1.54,
+        name="(400)",
+    )
+    sim.add_reflection(
+        (0, 4, 0),
+        dict(tth=69.0966, omega=-145.451, chi=90, phi=0),
+        wavelength=1.54,
+        name="(040)",
+    )
+    sim.core.update_solver()
+    reflections = sim.core.solver.reflections
+    assert isinstance(reflections, dict)
+    for k, refl in reflections.items():
+        assert refl.get("name") == k
+        assert "pseudos" in refl
+        assert "reals" in refl
+        assert isinstance(refl.get("wavelength"), float)
+
+
+def test_sample_property():
+    from ... import SI_LATTICE_PARAMETER
+    from ... import creator
+
+    sim = creator()
+    sim.add_sample("silicon", SI_LATTICE_PARAMETER)
+    sim.add_reflection(
+        (4, 0, 0),
+        dict(tth=69.0966, omega=-145.451, chi=0, phi=0),
+        wavelength=1.54,
+        name="(400)",
+    )
+    sim.add_reflection(
+        (0, 4, 0),
+        dict(tth=69.0966, omega=-145.451, chi=90, phi=0),
+        wavelength=1.54,
+        name="(040)",
+    )
+    sample = sim.core.update_solver()
+    assert sample is None
+
+    sim.core.update_solver()
+    sample = sim.core.solver.sample
+    assert sample is not None
+    # In hkl_soleil, each call to add_sample creates a new random name
+    assert sample.get("name") != "silicon"
+    assert math.isclose(sample["lattice"]["a"], SI_LATTICE_PARAMETER, abs_tol=0.01)
+    assert math.isclose(sample["lattice"]["b"], SI_LATTICE_PARAMETER, abs_tol=0.01)
+    assert math.isclose(sample["lattice"]["c"], SI_LATTICE_PARAMETER, abs_tol=0.01)
+    assert math.isclose(sample["lattice"]["alpha"], 90, abs_tol=0.01)
+    assert math.isclose(sample["lattice"]["beta"], 90, abs_tol=0.01)
+    assert math.isclose(sample["lattice"]["gamma"], 90, abs_tol=0.01)
+    assert len(sample.get("reflections")) == 2

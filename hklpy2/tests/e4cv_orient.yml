@@ -1,17 +1,19 @@
 #hklpy2 configuration file
 
 _header:
-  datetime: '2024-09-25 12:50:28.232913'
-  energy_units: keV
-  energy: 8.050921976530415
+  datetime: '2025-04-07'
   hklpy2_version: 0.0.25.dev80+g1b7412b.d20240925
   python_class: SimulatedE4CV
-  source_type: X-ray
-  wavelength_units: angstrom
-  wavelength: 1.54
   file: e4cv_orient.yml
   comment: 'example: two samples, one oriented'
 name: e4cv
+beam:
+  class: WavelengthXray
+  energy_units: keV
+  energy: 8.050921976530415
+  source_type: X-ray
+  wavelength_units: angstrom
+  wavelength: 1.54
 axes:
   pseudo_axes:
   - h
@@ -45,15 +47,15 @@ samples:
     reflections: {}
     reflections_order: []
     U: &id001
-    - - 1
-      - 0
-      - 0
-    - - 0
-      - 1
-      - 0
-    - - 0
-      - 0
-      - 1
+      - - 1
+        - 0
+        - 0
+      - - 0
+        - 1
+        - 0
+      - - 0
+        - 0
+        - 1
     UB: *id001
     digits: 4
   vibranium:
@@ -115,22 +117,22 @@ samples:
     - - 0.000279252677
       - -0.999999961009
       - -2.2e-11
-    - - -7.7982e-08
-      - -0.0
-      - -1.0
+    - - -7.7982e-8
+      - 0.0
+      - -1
     - - 0.999999961009
       - 0.000279252677
-      - -7.7982e-08
+      - -7.7982e-8
     UB:
     - - 0.000279252677
       - -0.999999961009
       - -2.2e-11
-    - - -7.7982e-08
+    - - -7.7982e-8
       - 0.0
-      - -1.0
+      - -1
     - - 0.999999961009
       - 0.000279252677
-      - -7.7982e-08
+      - -7.7982e-8
     digits: 4
 constraints:
   omega:
@@ -158,8 +160,7 @@ solver:
   geometry: E4CV
   version: 5.0.0.3512
   mode: bissector
-  description: HklSolver(name='hkl_soleil', version='5.0.0.3512', geometry='E4CV',
-    engine_name='hkl', mode='bissector')
+  description: HklSolver(name='hkl_soleil', version='5.0.0.3512', geometry='E4CV', engine_name='hkl', mode='bissector')
   real_axes:
   - omega
   - chi

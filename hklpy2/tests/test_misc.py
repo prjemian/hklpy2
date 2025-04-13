@@ -1,3 +1,4 @@
+import math
 import pathlib
 import types
 from collections import namedtuple
@@ -6,6 +7,7 @@ from typing import Union
 
 import databroker
 import numpy
+import pint
 import pytest
 from bluesky import RunEngine
 from bluesky import plans as bp
@@ -24,7 +26,9 @@ from ..misc import ConfigurationRunWrapper
 from ..misc import SolverError
 from ..misc import axes_to_dict
 from ..misc import compare_float_dicts
+from ..misc import convert_units
 from ..misc import dict_device_factory
+from ..misc import dynamic_import
 from ..misc import flatten_lists
 from ..misc import get_run_orientation
 from ..misc import get_solver
@@ -409,5 +413,52 @@ def test_list_orientation_runs(devices, cat, RE):
 def test_axes_type_annotations(value, annotation, context, expected):
     with context as reason:
         assert istype(value, annotation)
+
+    assert_context_result(expected, reason)
+
+
+@pytest.mark.parametrize(
+    "name, context, expected",
+    [
+        ["ophyd.EpicsMotor", does_not_raise(), None],
+        ["hklpy2.diffract.creator", does_not_raise(), None],
+        [
+            "hklpy2.diffract.does_not_exist",
+            pytest.raises(AttributeError),
+            "has no attribute 'does_not_exist'",
+        ],
+        [
+            "does.not.exist",
+            pytest.raises(ModuleNotFoundError),
+            "No module named 'does'",
+        ],
+        ["LocalName", pytest.raises(ValueError), "Must use a dotted path"],
+        [
+            ".test_utils.CATALOG",
+            pytest.raises(ValueError),
+            "Must use absolute path, no relative imports",
+        ],
+    ],
+)
+def test_dynamic_import(name, context, expected):
+    with context as reason:
+        dynamic_import(name)
+
+    assert_context_result(expected, reason)
+
+
+@pytest.mark.parametrize(
+    "value, units1, units2, ref, context, expected",
+    [
+        [32, "fahrenheit", "celsius", 0, does_not_raise(), None],
+        [100, "pm", "angstrom", 1, does_not_raise(), None],
+        [0.1, "nm", "angstrom", 1, does_not_raise(), None],
+        [12400, "eV", "keV", 12.4, does_not_raise(), None],
+        [0.1, "nm", "banana", 1, pytest.raises(pint.UndefinedUnitError), "'banana'"],
+    ],
+)
+def test_convert_units(value, units1, units2, ref, context, expected):
+    with context as reason:
+        assert math.isclose(convert_units(value, units1, units2), ref, abs_tol=0.01)
 
     assert_context_result(expected, reason)

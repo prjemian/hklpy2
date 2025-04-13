@@ -7,7 +7,9 @@ Miscellaneous Support.
     ~axes_to_dict
     ~check_value_in_list
     ~compare_float_dicts
+    ~convert_units
     ~dict_device_factory
+    ~dynamic_import
     ~flatten_lists
     ~get_run_orientation
     ~get_solver
@@ -53,7 +55,6 @@ Miscellaneous Support.
     ~SampleError
     ~SolverError
     ~SolverNoForwardSolutions
-    ~WavelengthError
 """
 
 import logging
@@ -71,6 +72,7 @@ from typing import Union
 import numpy
 import numpy.typing
 import pandas as pd
+import pint
 import tqdm
 import yaml
 from ophyd import Component
@@ -155,10 +157,6 @@ class SolverError(Hklpy2Error):
 
 class SolverNoForwardSolutions(SolverError):
     """A solver did not find any 'forward()' solutions."""
-
-
-class WavelengthError(Hklpy2Error):
-    """Custom exceptions from :mod:`hklpy2.beam`."""
 
 
 # Custom preprocessors
@@ -382,6 +380,11 @@ def compare_float_dicts(a1, a2, tol=1e-4):
     return False not in tests
 
 
+def convert_units(value: float, old_units: str, new_units: str) -> float:
+    """Convert 'value' from old units to new."""
+    return pint.Quantity(value, old_units).to(new_units).magnitude
+
+
 def dict_device_factory(data: dict, **kwargs):
     """
     Create a ``DictionaryDevice()`` class using the supplied dictionary.
@@ -398,6 +401,50 @@ def dict_device_factory(data: dict, **kwargs):
     }
     fc = type("DictionaryDevice", (Device,), component_dict)
     return fc
+
+
+def dynamic_import(full_path: str) -> type:
+    """
+    Import the object given its import path as text.
+
+    Motivated by specification of class names for plugins
+    when using ``apstools.devices.ad_creator()``.
+
+    EXAMPLES::
+
+        klass = dynamic_import("ophyd.EpicsMotor")
+        m1 = klass("gp:m1", name="m1")
+
+        creator = dynamic_import("hklpy2.diffract.creator")
+        fourc = creator(name="fourc")
+
+    From the `apstools <https://github.com/BCDA-APS/apstools>`_ package.
+    """
+    from importlib import import_module
+
+    import_object = None
+
+    if "." not in full_path:
+        # fmt: off
+        raise ValueError(
+            "Must use a dotted path, no local imports."
+            f" Received: {full_path!r}"
+        )
+        # fmt: on
+
+    if full_path.startswith("."):
+        # fmt: off
+        raise ValueError(
+            "Must use absolute path, no relative imports."
+            f" Received: {full_path!r}"
+        )
+        # fmt: on
+
+    module_name, object_name = full_path.rsplit(".", 1)
+    module_object = import_module(module_name)
+    import_object = getattr(module_object, object_name)
+
+    return import_object
 
 
 def flatten_lists(xs):
