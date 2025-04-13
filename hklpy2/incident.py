@@ -40,6 +40,9 @@ the engineering units.
     A similar handling could be made for neutron monochromators.
 """
 
+import atexit
+import weakref
+
 import pint
 from ophyd import Component
 from ophyd import Device
@@ -98,6 +101,11 @@ class _WavelengthBase(Device):
     )
     """Constant engineering units of wavelength. (Same units as unit cell lengths.)"""
 
+    wavelength_deadband = Component(
+        Signal, value=DEFAULT_WAVELENGTH_DEADBAND, kind="config"
+    )
+    """Allowed variation in wavelength before signaling change to diffractometer."""
+
     _keyset: list[str] = "source_type wavelength wavelength_units".split()
     """List of Component names for '_asdict()' and '_fromdict()'."""
 
@@ -124,6 +132,62 @@ class _WavelengthBase(Device):
                     signal = getattr(self, attr)
                     if signal.write_access:
                         signal.put(value)
+
+    def __init__(
+        self,
+        prefix: str = "",
+        *,
+        source_type: str = None,
+        wavelength: float = None,
+        wavelength_units: str = None,
+        wavelength_deadband: float = DEFAULT_WAVELENGTH_DEADBAND,
+        connection_timeout: float = None,
+        **kwargs,
+    ):
+        """."""
+        super().__init__(prefix, **kwargs)
+
+        if source_type is not None:
+            self.source_type._readback = source_type
+
+        if wavelength_units is not None:
+            # validate first
+            pint.UnitRegistry().convert(1, wavelength_units, DEFAULT_WAVELENGTH_UNITS)
+            self.wavelength_units.put(wavelength_units)
+
+        if wavelength is not None:
+            self.wavelength.wait_for_connection(timeout=connection_timeout)
+            self.wavelength.put(wavelength)
+
+        if wavelength_deadband is not None and self.wavelength_deadband.connected:
+            self.wavelength_deadband.put(wavelength_deadband)
+        self._wavelength_reference = None
+        self.wavelength_updated_func = None
+
+        self.wavelength.subscribe(self.cb_wavelength)
+
+        # cancel subscriptions before object is garbage collected
+        weakref.finalize(self.wavelength, self.wavelength.unsubscribe_all)
+        atexit.register(self.cleanup_subscriptions)
+
+    def cb_wavelength(self, *args, **kwargs):
+        """
+        Called when wavelength changes (EPICS CA monitor event) or on-demand.
+
+        When wavelength changes more than deadband from reference, call the
+        supplied function with a value of ``True``.
+        """
+        if self.wavelength.connected and self.wavelength_updated_func is not None:
+            wl = self.wavelength.get()
+            if self._wavelength_reference is None:
+                self._wavelength_reference = wl
+            if abs(wl - self._wavelength_reference) > self.wavelength_deadband.get():
+                self._wavelength_reference = wl
+                self.wavelength_updated_func(True)
+
+    def cleanup_subscriptions(self):
+        """Clear subscriptions on exit."""
+        self.wavelength.unsubscribe_all()
 
 
 class Wavelength(_WavelengthBase):
@@ -155,26 +219,6 @@ class Wavelength(_WavelengthBase):
     """Wavelength (:math:`\\lambda`) of incident monochromatic beam."""
     wavelength_units = Component(Signal, value=DEFAULT_WAVELENGTH_UNITS, kind="config")
     """Engineering units of wavelength. (Same units as unit cell lengths.)"""
-
-    def __init__(
-        self,
-        prefix: str = "",
-        *,
-        source_type: str = None,
-        wavelength=None,
-        wavelength_units=None,
-        **kwargs,
-    ):
-        """."""
-        super().__init__(prefix, **kwargs)
-        if source_type is not None:
-            self.source_type._readback = source_type
-        if wavelength_units is not None:
-            # validate first
-            pint.UnitRegistry().convert(1, wavelength_units, DEFAULT_WAVELENGTH_UNITS)
-            self.wavelength_units.put(wavelength_units)
-        if wavelength is not None:
-            self.wavelength.put(wavelength)
 
 
 class WavelengthXray(Wavelength):

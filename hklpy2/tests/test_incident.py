@@ -5,6 +5,7 @@ from contextlib import nullcontext as does_not_raise
 
 import pint
 import pytest
+from ophyd.utils import ReadOnlyError
 
 # from ..incident import DEFAULT_WAVELENGTH_DEADBAND
 from ..incident import DEFAULT_ENERGY_UNITS
@@ -49,8 +50,8 @@ def check_keys(wl, ref, tol=0.001):
             _WavelengthBase,
             dict(wavelength=0.5),
             {},
-            pytest.raises(TypeError),
-            "unexpected keyword argument 'wavelength'",
+            pytest.raises(ReadOnlyError),
+            "The signal wl_wavelength is readonly.",
         ],
         [
             Wavelength,
@@ -229,5 +230,25 @@ def test_EpicsClasses(Klass, input, ref, context, expected):
         wl = Klass(name="wl", **input)
         wl.wait_for_connection(timeout=0.25)
         check_keys(wl, ref)
+
+    assert_context_result(expected, reason)
+
+
+@pytest.mark.parametrize(
+    "Klass, parms, context, expected",
+    [
+        [
+            WavelengthXray,
+            {},
+            does_not_raise(),
+            None,
+        ],
+    ],
+)
+def test_wavelength_update(Klass, parms, context, expected):
+    with context as reason:
+        wl = Klass(**parms, name="wl")
+        wl.wait_for_connection()
+        # TODO: change the wavelength and test the update feature
 
     assert_context_result(expected, reason)

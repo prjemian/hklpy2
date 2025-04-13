@@ -416,7 +416,7 @@ def test_orientation():
     ), f"{fourc.beam.wavelength.get()=!r}"
 
     fourc.beam.wavelength.put(1.54)
-    fourc.core._solver_needs_update = True  # FIXME: in wavelength.setter  # TODO #82
+    # fourc.core._solver_needs_update = True  # FIXME: in wavelength.setter  # TODO #82
     result = fourc.inverse(-145, 0, 0, 70)
     pseudos = [4.0456, 0, 0]  # at wavelength = 1.54
     assert_almost_equal(list(result._asdict().values()), pseudos, 3)

@@ -180,6 +180,7 @@ class DiffractometerBase(PseudoPositioner):
         if len(reals) == 0:
             reals = [axis.attr_name for axis in self._real]
         self.core.assign_axes(pseudos, reals)
+        self.beam.wavelength_updated_func = self.core.request_solver_update
 
     def add_reflection(
         self,
