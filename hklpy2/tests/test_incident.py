@@ -1,5 +1,6 @@
 """Test the incident beam module."""
 
+import logging
 import math
 from contextlib import nullcontext as does_not_raise
 
@@ -7,19 +8,22 @@ import pint
 import pytest
 from ophyd.utils import ReadOnlyError
 
-# from ..incident import DEFAULT_WAVELENGTH_DEADBAND
+from ..diffract import creator
 from ..incident import DEFAULT_ENERGY_UNITS
 from ..incident import DEFAULT_SOURCE_TYPE
 from ..incident import DEFAULT_WAVELENGTH
+from ..incident import DEFAULT_WAVELENGTH_DEADBAND
 from ..incident import DEFAULT_WAVELENGTH_UNITS
 from ..incident import EpicsMonochromatorRO
 from ..incident import EpicsWavelengthRO
 from ..incident import Wavelength
 from ..incident import WavelengthXray
 from ..incident import _WavelengthBase
+from .common import PV_WAVELENGTH
 from .common import assert_context_result
 
-IOC_PREFIX = "hklpy2:"
+logger = logging.getLogger(__name__)
+IOC_PREFIX = PV_WAVELENGTH.split(":")[0] + ":"
 
 
 def check_keys(wl, ref, tol=0.001):
@@ -235,20 +239,77 @@ def test_EpicsClasses(Klass, input, ref, context, expected):
 
 
 @pytest.mark.parametrize(
-    "Klass, parms, context, expected",
+    "parms, moves, context, expected",
     [
         [
-            WavelengthXray,
-            {},
+            {
+                "class": WavelengthXray,
+                "wavelength_deadband": DEFAULT_WAVELENGTH_DEADBAND,
+            },
+            [
+                (1.1, True),
+                (1.10001, False),
+                (1.100111, True),
+            ],
+            does_not_raise(),
+            None,
+        ],
+        [
+            {"class": Wavelength, "wavelength_deadband": 0.01},
+            [
+                (1.1, True),
+                (1.10999, False),
+                (1.111, True),
+                (1.1111, False),
+                (1.1011, False),
+                (1.1001, True),
+                (1.0, True),
+            ],
             does_not_raise(),
             None,
         ],
     ],
 )
-def test_wavelength_update(Klass, parms, context, expected):
+def test_wavelength_update(parms, moves, context, expected):
     with context as reason:
-        wl = Klass(**parms, name="wl")
-        wl.wait_for_connection()
-        # TODO: change the wavelength and test the update feature
+        sim = creator(beam_kwargs=parms)
+        sim.wait_for_connection()
+
+        for position, updated in moves:
+            sim.core._solver_needs_update = False
+            sim.beam.wavelength.put(position)
+            assert sim.core._solver_needs_update == updated, f"{position=}"
+
+    assert_context_result(expected, reason)
+
+
+@pytest.mark.parametrize(
+    "parms, moves, context, expected",
+    [
+        [
+            {
+                "class": WavelengthXray,
+                "wavelength_deadband": DEFAULT_WAVELENGTH_DEADBAND,
+            },
+            [
+                (1.1, True),
+                (1.10001, False),
+                (1.100111, True),
+            ],
+            does_not_raise(),
+            None,
+        ],
+    ],
+)
+def test_cleanup(parms, moves, context, expected):
+    with context as reason:
+        sim = creator(beam_kwargs=parms)
+        sim.wait_for_connection()
+        sim.beam.cleanup_subscriptions()
+
+        for position, _ in moves:
+            sim.core._solver_needs_update = False
+            sim.beam.wavelength.put(position)
+            assert not sim.core._solver_needs_update, f"{position=}"
 
     assert_context_result(expected, reason)

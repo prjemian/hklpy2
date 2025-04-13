@@ -41,6 +41,7 @@ the engineering units.
 """
 
 import atexit
+import logging
 import weakref
 
 import pint
@@ -52,6 +53,7 @@ from ophyd import Signal
 from ophyd import SignalRO
 from ophyd.signal import AttributeSignal
 
+logger = logging.getLogger(__name__)
 DEFAULT_ENERGY_UNITS = "keV"
 DEFAULT_SOURCE_TYPE = "Synchrotron X-ray Source"
 DEFAULT_WAVELENGTH = 1.0
@@ -170,7 +172,7 @@ class _WavelengthBase(Device):
         weakref.finalize(self.wavelength, self.wavelength.unsubscribe_all)
         atexit.register(self.cleanup_subscriptions)
 
-    def cb_wavelength(self, *args, **kwargs):
+    def cb_wavelength(self, value, **kwargs):
         """
         Called when wavelength changes (EPICS CA monitor event) or on-demand.
 
@@ -178,11 +180,11 @@ class _WavelengthBase(Device):
         supplied function with a value of ``True``.
         """
         if self.wavelength.connected and self.wavelength_updated_func is not None:
-            wl = self.wavelength.get()
             if self._wavelength_reference is None:
-                self._wavelength_reference = wl
-            if abs(wl - self._wavelength_reference) > self.wavelength_deadband.get():
-                self._wavelength_reference = wl
+                self._wavelength_reference = value
+                self.wavelength_updated_func(True)
+            if abs(value - self._wavelength_reference) > self.wavelength_deadband.get():
+                self._wavelength_reference = value
                 self.wavelength_updated_func(True)
 
     def cleanup_subscriptions(self):

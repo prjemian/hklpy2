@@ -28,6 +28,8 @@ from ..user import set_wavelength
 from ..user import setor
 from ..user import solver_summary
 from ..user import wh
+from .common import PV_ENERGY
+from .common import PV_WAVELENGTH
 from .common import TESTS_DIR
 from .common import assert_context_result
 
@@ -324,7 +326,7 @@ def test_set_lattice(fourc):
         [
             {
                 "class": "hklpy2.incident.EpicsWavelengthRO",
-                "pv_wavelength": "hklpy2:wavelength",
+                "pv_wavelength": PV_WAVELENGTH,
             },
             2,
             "angstrom",
@@ -334,8 +336,8 @@ def test_set_lattice(fourc):
         [
             {
                 "class": "hklpy2.incident.EpicsMonochromatorRO",
-                "pv_energy": "hklpy2:energy",
-                "pv_wavelength": "hklpy2:wavelength",
+                "pv_energy": PV_ENERGY,
+                "pv_wavelength": PV_WAVELENGTH,
             },
             2,
             "angstrom",
