@@ -16,9 +16,9 @@ Submodules
    :maxdepth: 1
 
    /autoapi/hklpy2/backends/index
-   /autoapi/hklpy2/beam/index
    /autoapi/hklpy2/blocks/index
    /autoapi/hklpy2/diffract/index
+   /autoapi/hklpy2/incident/index
    /autoapi/hklpy2/misc/index
    /autoapi/hklpy2/ops/index
    /autoapi/hklpy2/user/index
@@ -32,8 +32,8 @@ Attributes
    hklpy2.__settings_orgName__
    hklpy2.__package_name__
    hklpy2.__version__
-   hklpy2.A_KEV
    hklpy2.SI_LATTICE_PARAMETER
+   hklpy2.A_KEV
    hklpy2.SOLVER_ENTRYPOINT_GROUP
 
 
@@ -43,7 +43,6 @@ Exceptions
 .. autoapisummary::
 
    hklpy2.SolverError
-   hklpy2.WavelengthError
 
 
 Classes
@@ -52,8 +51,6 @@ Classes
 .. autoapisummary::
 
    hklpy2.SolverBase
-   hklpy2.ConstantMonochromaticWavelength
-   hklpy2.MonochromaticXrayWavelength
    hklpy2.Configuration
    hklpy2.DiffractometerBase
    hklpy2.ConfigurationRunWrapper
@@ -94,10 +91,12 @@ Package Contents
 
    Base class for all |hklpy2| |solver| classes.
 
-   .. rubric:: Parameters
+   PARAMETERS
 
-   * ``geometry``: (str) Name of geometry.
-   * ``mode``: (str) Name of operating mode.  (default: current mode)
+   geometry : str
+       Name of geometry.
+   mode: str
+       Name of operating mode.  (default: current mode)
 
    Example::
 
@@ -196,7 +195,7 @@ Package Contents
       Dictionary with this solver's summary metadata.
 
 
-   .. py:method:: addReflection(reflection: hklpy2.blocks.reflection.Reflection) -> None
+   .. py:method:: addReflection(reflection: Reflection) -> None
       :abstractmethod:
 
 
@@ -211,7 +210,7 @@ Package Contents
       Unique, sorted list of extra axis names in all modes for chosen engine.
 
 
-   .. py:method:: calculate_UB(r1: hklpy2.blocks.reflection.Reflection, r2: hklpy2.blocks.reflection.Reflection) -> list[list[float]]
+   .. py:method:: calculate_UB(r1: Reflection, r2: Reflection) -> list[list[float]]
       :abstractmethod:
 
 
@@ -284,7 +283,7 @@ Package Contents
 
 
    .. py:property:: lattice
-      :type: object
+      :type: Lattice
 
 
       Crystal lattice parameters.  (Not used by this |solver|.)
@@ -317,7 +316,7 @@ Package Contents
       Ordered list of the real axis names (such as th, tth).
 
 
-   .. py:method:: refineLattice(reflections: list[hklpy2.blocks.reflection.Reflection]) -> hklpy2.blocks.lattice.Lattice
+   .. py:method:: refineLattice(reflections: list[Reflection]) -> Lattice
       :abstractmethod:
 
 
@@ -358,156 +357,6 @@ Package Contents
    .. py:property:: UB
 
       Orientation matrix (3x3).
-
-
-.. py:data:: A_KEV
-   :value: 12.398419843856837
-
-
-   X-ray voltage wavelength product (:math:`h \nu`), per NIST standard.
-
-.. py:class:: ConstantMonochromaticWavelength(wavelength: float, **kwargs)
-
-   Bases: :py:obj:`WavelengthBase`
-
-
-   Monochromatic wavelength (and units); cannot be changed.
-
-   Just wavelength.  Can be used with any type of radiation source.
-
-   .. autosummary::
-
-       ~wavelength
-       ~wavelength_units
-       ~source_type
-       ~spectrum_type
-
-
-   .. py:attribute:: source_type
-      :value: 'any'
-
-
-      Nature of the incident radiation.
-
-
-   .. py:attribute:: spectrum_type
-      :value: 'monochromatic'
-
-
-      Description of the spectrum of the incident radiation.
-
-
-   .. py:attribute:: _wavelength
-
-
-   .. py:method:: _fromdict(config: dict[str, float | int | str])
-
-      Restore configuration from dictionary but not wavelength.
-
-
-
-   .. py:property:: wavelength
-      :type: float
-
-
-      Wavelength (:math:`\lambda`).
-
-
-.. py:class:: MonochromaticXrayWavelength(wavelength: float = DEFAULT_WAVELENGTH, energy_units: str = None, wavelength_updated: object = None, wavelength_deadband: float = DEFAULT_WAVELENGTH_DEADBAND, **kwargs)
-
-   Bases: :py:obj:`WavelengthBase`
-
-
-   Monochromatic X-ray wavelength (and units).
-
-   Parameters
-
-   wavelength float:
-       Monochromatic wavelength of the incident radiation.  It is expected that
-       wavelength and unit cell dimensions have the same units.
-
-   units str:
-       Engineering units of wavelength.  It is expected that
-       wavelength and unit cell dimensions have the same units.
-
-   wavelength_updated object:
-       Caller provided function to signal when wavelength has been updated.
-       Set ``True`` from ``wavelength.setter`` property.
-
-   wavelength_deadband float:
-       Variation in wavelength less than this number will not cause
-       wavelength_updated to be updated.
-
-   energy_units str:
-       Engineering units of energy.
-
-   .. autosummary::
-
-       ~wavelength
-       ~wavelength_units
-       ~energy
-       ~energy_units
-       ~source_type
-       ~spectrum_type
-
-
-   .. py:attribute:: source_type
-      :value: 'X-ray'
-
-
-      Nature of the incident radiation.
-
-
-   .. py:attribute:: spectrum_type
-      :value: 'monochromatic'
-
-
-      Description of the spectrum of the incident radiation.
-
-
-   .. py:property:: energy_units
-      :type: str
-
-
-      Engineering units of the X-ray photon energy.
-
-
-   .. py:attribute:: wavelength_updated
-      :value: None
-
-
-
-   .. py:attribute:: _wavelength
-      :value: 1.0
-
-
-
-   .. py:attribute:: wavelength_deadband
-      :value: 0.0001
-
-
-
-   .. py:attribute:: wavelength_reference
-      :value: 1.0
-
-
-
-   .. py:property:: wavelength
-      :type: float
-
-
-      Wavelength (:math:`\lambda`).
-
-
-   .. py:property:: energy
-      :type: float
-
-
-      Incident monochromatic X-ray photon energy (:math:`E`).
-
-      .. math::
-
-          \lambda = (h \nu) / E
 
 
 .. py:class:: Configuration(diffractometer)
@@ -557,7 +406,7 @@ Package Contents
 
    Base class for all diffractometers.
 
-   .. rubric:: Parameters
+   PARAMETERS
 
    *   ``solver`` (*str*) : Name of |solver| library.
        (default: unspecified)
@@ -576,8 +425,8 @@ Package Contents
 
    .. autosummary::
 
+       ~beam
        ~solver_signature
-       ~wavelength
 
    .. rubric:: Python Methods
 
@@ -611,9 +460,9 @@ Package Contents
       Name of backend |solver| (library).
 
 
-   .. py:attribute:: wavelength
+   .. py:attribute:: beam
 
-      Wavelength of incident radiation.
+      Incident monochromatic beam.
 
 
    .. py:attribute:: _backend
@@ -627,23 +476,25 @@ Package Contents
    .. py:attribute:: core
 
 
-   .. py:attribute:: _source
-
-
-   .. py:method:: add_reflection(pseudos, reals=None, wavelength=None, name=None, replace: bool = False) -> hklpy2.blocks.reflection.Reflection
+   .. py:method:: add_reflection(pseudos, reals=None, wavelength: float = None, name: str = None, replace: bool = False) -> hklpy2.blocks.reflection.Reflection
 
       Add a new reflection with this geometry to the selected sample.
 
-      .. rubric:: Parameters
+      PARAMETERS
 
-      * ``pseudos`` (various): pseudo-space axes and values.
-      * ``reals`` (various): dictionary of real-space axes and values.
-      * ``wavelength`` (float): Wavelength of incident radiation.
-        If ``None``, diffractometer's current wavelength will be assigned.
-      * ``name`` (str): Reference name for this reflection.
-        If ``None``, a random name will be assigned.
-      * ``replace`` (bool): If ``True``, replace existing reflection of
-        this name.  (default: ``False``)
+      pseudos various:
+          Pseudo-space axes and values.
+      reals various:
+          Dictionary of real-space axes and values.
+      wavelength float:
+          Wavelength of incident radiation. If ``None``, diffractometer's
+          current wavelength will be assigned.
+      name str:
+          Reference name for this reflection.
+          If ``None``, a random name will be assigned.
+      replace bool:
+          If ``True``, replace existing reflection matching this name.
+          (default: ``False``)
 
 
 
@@ -805,7 +656,7 @@ Package Contents
 
 
 
-.. py:function:: creator(*, prefix: str = '', name: str = '', solver: str = 'hkl_soleil', geometry: str = 'E4CV', solver_kwargs: dict = {}, pseudos: list = [], reals: list[str] | dict[str, str | None] = {}, aliases: dict[str, list[str]] = {}, motor_labels: list = ['motors'], labels: list = ['diffractometer'], class_name: str = 'Hklpy2Diffractometer', class_bases: list = [DiffractometerBase], **kwargs)
+.. py:function:: creator(*, prefix: str = '', name: str = '', solver: str = 'hkl_soleil', geometry: str = 'E4CV', beam_kwargs: dict[str, object] = {}, solver_kwargs: dict[str, object] = {}, pseudos: list = [], reals: list[str] | dict[str, str | None] = {}, aliases: dict[str, list[str]] = {}, motor_labels: list = ['motors'], labels: list = ['diffractometer'], class_name: str = 'Hklpy2Diffractometer', class_bases: list = [DiffractometerBase], **kwargs)
 
    Factory function to create a diffractometer instance.
 
@@ -849,7 +700,10 @@ Package Contents
        Name of the backend solver providing the geometry. (default: '"hkl_soleil"')
    geometry : str
        Name of the diffractometer geometry. (default: '"E4CV"')
-   solver_kwargs : str
+   beam_kwargs : dict[str, object]
+       Additional configuration for the incident beam.
+       (default: '{"class": "hklpy2.incident.WavelengthXray"}')
+   solver_kwargs : dict[str, object]
        Additional configuration for the solver. (default: '{"engine": "hkl"}')
    pseudos : list
        Specification of the names of any pseudo axis positioners
@@ -887,7 +741,7 @@ Package Contents
        the new diffractometer object.
 
 
-.. py:function:: diffractometer_class_factory(*, solver: str = 'hkl_soleil', geometry: str = 'E4CV', solver_kwargs: dict = {'engine': 'hkl'}, pseudos: list = [], reals: list[str] | dict[str, str | None] = {}, motor_labels: list = ['motors'], class_name: str = 'Hklpy2Diffractometer', class_bases: list = [DiffractometerBase], aliases: dict[str, list[str]] = {}) -> DiffractometerBase
+.. py:function:: diffractometer_class_factory(*, solver: str = 'hkl_soleil', geometry: str = 'E4CV', beam_kwargs: dict[str, object] = {}, solver_kwargs: dict[str, object] = {'engine': 'hkl'}, pseudos: list = [], reals: list[str] | dict[str, str | None] = {}, motor_labels: list = ['motors'], class_name: str = 'Hklpy2Diffractometer', class_bases: list = [DiffractometerBase], aliases: dict[str, list[str]] = {}) -> DiffractometerBase
 
    Build a custom class for this diffractometer geometry.
 
@@ -897,6 +751,9 @@ Package Contents
        Name of the backend solver providing the geometry. (default: '"hkl_soleil"')
    geometry : str
        Name of the diffractometer geometry. (default: '"E4CV"')
+   beam_kwargs : dict[str, object]
+       Additional configuration for the incident beam.
+       (default: '{"class": "hklpy2.incident.WavelengthXray"}')
    solver_kwargs : str
        Additional configuration for the solver. (default: '{"engine": "hkl"}')
    pseudos : list
@@ -929,6 +786,12 @@ Package Contents
 
        (default: '{}' which means use the first diffractometer axes from each to match the solver.)
 
+
+.. py:data:: A_KEV
+   :value: 12.398419843856837
+
+
+   X-ray voltage wavelength product (:math:`h \nu`), per NIST standard.
 
 .. py:data:: SOLVER_ENTRYPOINT_GROUP
    :value: 'hklpy2.solver'
@@ -1032,14 +895,6 @@ Package Contents
 
 
    Custom exceptions from a |solver|.
-
-
-.. py:exception:: WavelengthError
-
-   Bases: :py:obj:`Hklpy2Error`
-
-
-   Custom exceptions from :mod:`hklpy2.beam`.
 
 
 .. py:function:: check_value_in_list(title, value, examples, blank_ok=False)

@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=75af13e9"></script>
+    <script src="../_static/documentation_options.js?v=f5a963c8"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
@@ -476,7 +476,7 @@ specifying both $hkl$ (as <code class="docutils literal notranslate"><span class
 </section>
 <section id="overview">
 <h2>Overview<a class="headerlink" href="#overview" title="Link to this heading">#</a></h2>
-<p>To work with $\psi$ we’ll use the <code class="docutils literal notranslate"><span class="pre">&quot;hkl&quot;</span></code> engine of the E6C <a class="reference internal" href="#../geometry_tables.rst"><span class="xref myst">geometry</span></a>. To compute
+<p>To work with $\psi$ we’ll use the <code class="docutils literal notranslate"><span class="pre">&quot;hkl&quot;</span></code> engine of the E6C <a class="reference internal" href="../diffractometers.html"><span class="std std-doc">geometry</span></a>. To compute
 $\psi$ we’ll use the <code class="docutils literal notranslate"><span class="pre">&quot;psi&quot;</span></code> engine.  This table summarizes our use:</p>
 <div class="pst-scrollable-table-container"><table class="table">
 <thead>
@@ -660,7 +660,7 @@ e6c_psi.core.extras={&#39;h2&#39;: 0, &#39;k2&#39;: 0, &#39;l2&#39;: 0}
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
 
-<span class="n">e6c_hkl</span><span class="o">.</span><span class="n">wavelength</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="mf">1.54</span><span class="p">)</span>  <span class="c1"># angstrom (8.0509 keV)</span>
+<span class="n">e6c_hkl</span><span class="o">.</span><span class="n">beam</span><span class="o">.</span><span class="n">wavelength</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="mf">1.54</span><span class="p">)</span>  <span class="c1"># angstrom (8.0509 keV)</span>
 
 <span class="n">e6c_hkl</span><span class="o">.</span><span class="n">add_sample</span><span class="p">(</span><span class="s2">&quot;vibranium&quot;</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">digits</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
 
@@ -869,14 +869,14 @@ e6c_psi.real_position=Hklpy2DiffractometerRealPos(mu=0, omega=113.608391926862, 
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Hklpy2Diffractometer(prefix=&#39;&#39;, name=&#39;e6c_hkl&#39;, settle_time=0.0, timeout=None, egu=&#39;&#39;, limits=(0, 0), source=&#39;computed&#39;, read_attrs=[&#39;h&#39;, &#39;h.readback&#39;, &#39;h.setpoint&#39;, &#39;k&#39;, &#39;k.readback&#39;, &#39;k.setpoint&#39;, &#39;l&#39;, &#39;l.readback&#39;, &#39;l.setpoint&#39;, &#39;mu&#39;, &#39;omega&#39;, &#39;chi&#39;, &#39;phi&#39;, &#39;gamma&#39;, &#39;delta&#39;], configuration_attrs=[&#39;solver_signature&#39;, &#39;wavelength&#39;, &#39;h&#39;, &#39;k&#39;, &#39;l&#39;], concurrent=True)
-h=1.0, k=1.0, l=1.0
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Hklpy2Diffractometer(prefix=&#39;&#39;, name=&#39;e6c_hkl&#39;, settle_time=0.0, timeout=None, egu=&#39;&#39;, limits=(0, 0), source=&#39;computed&#39;, read_attrs=[&#39;beam&#39;, &#39;beam.wavelength&#39;, &#39;beam.energy&#39;, &#39;h&#39;, &#39;h.readback&#39;, &#39;h.setpoint&#39;, &#39;k&#39;, &#39;k.readback&#39;, &#39;k.setpoint&#39;, &#39;l&#39;, &#39;l.readback&#39;, &#39;l.setpoint&#39;, &#39;mu&#39;, &#39;omega&#39;, &#39;chi&#39;, &#39;phi&#39;, &#39;gamma&#39;, &#39;delta&#39;], configuration_attrs=[&#39;solver_signature&#39;, &#39;beam&#39;, &#39;beam.source_type&#39;, &#39;beam.wavelength_units&#39;, &#39;beam.energy_units&#39;, &#39;h&#39;, &#39;k&#39;, &#39;l&#39;], concurrent=True)
 wavelength=1.54
+h=1.0, k=1.0, l=1.0
 mu=0, omega=113.6084, chi=80.2262, phi=130.0027, gamma=0, delta=-24.5098
 h2=1 k2=1 l2=0 psi=12
-Hklpy2Diffractometer(prefix=&#39;&#39;, name=&#39;e6c_psi&#39;, settle_time=0.0, timeout=None, egu=&#39;&#39;, limits=(0, 0), source=&#39;computed&#39;, read_attrs=[&#39;psi&#39;, &#39;psi.readback&#39;, &#39;psi.setpoint&#39;, &#39;mu&#39;, &#39;omega&#39;, &#39;chi&#39;, &#39;phi&#39;, &#39;gamma&#39;, &#39;delta&#39;], configuration_attrs=[&#39;solver_signature&#39;, &#39;wavelength&#39;, &#39;psi&#39;], concurrent=True)
-psi=12.0
+Hklpy2Diffractometer(prefix=&#39;&#39;, name=&#39;e6c_psi&#39;, settle_time=0.0, timeout=None, egu=&#39;&#39;, limits=(0, 0), source=&#39;computed&#39;, read_attrs=[&#39;beam&#39;, &#39;beam.wavelength&#39;, &#39;beam.energy&#39;, &#39;psi&#39;, &#39;psi.readback&#39;, &#39;psi.setpoint&#39;, &#39;mu&#39;, &#39;omega&#39;, &#39;chi&#39;, &#39;phi&#39;, &#39;gamma&#39;, &#39;delta&#39;], configuration_attrs=[&#39;solver_signature&#39;, &#39;beam&#39;, &#39;beam.source_type&#39;, &#39;beam.wavelength_units&#39;, &#39;beam.energy_units&#39;, &#39;psi&#39;], concurrent=True)
 wavelength=1.0
+psi=12.0
 mu=0, omega=113.6084, chi=80.2262, phi=130.0027, gamma=0, delta=-24.5098
 h2=1 k2=1 l2=0
 </pre></div>
@@ -951,29 +951,29 @@ positioner values will be available for plotting later.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Transient Scan ID: 1     Time: 2025-04-02 18:42:05
-Persistent Unique Scan ID: &#39;dd55a11f-8669-4fff-85d8-a82bbd22a970&#39;
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Transient Scan ID: 1     Time: 2025-04-09 22:34:11
+Persistent Unique Scan ID: &#39;0a427fcd-af67-4ae1-a6e7-ecf715168ab7&#39;
 New stream: &#39;primary&#39;
-+-----------+------------+------------+------------+------------+------------+---------------+-------------+-------------+---------------+---------------+------------+--------------------+
-|   seq_num |       time |  e6c_hkl_h |  e6c_hkl_k |  e6c_hkl_l | e6c_hkl_mu | e6c_hkl_omega | e6c_hkl_chi | e6c_hkl_phi | e6c_hkl_gamma | e6c_hkl_delta |  noisy_det | e6c_hkl_extras_psi |
-+-----------+------------+------------+------------+------------+------------+---------------+-------------+-------------+---------------+---------------+------------+--------------------+
-|         1 | 18:42:05.8 |     -0.000 |      0.000 |      2.000 |          0 |       165.812 |      90.000 |     155.434 |             0 |       -28.375 |      1.063 |              0.000 |
-|         2 | 18:42:05.8 |      0.000 |      0.000 |      2.000 |          0 |       165.812 |      90.000 |     144.720 |             0 |       -28.375 |      0.997 |             10.714 |
-|         3 | 18:42:05.8 |     -0.000 |      0.000 |      2.000 |          0 |       165.812 |      90.000 |     134.005 |             0 |       -28.375 |      0.989 |             21.429 |
-|         4 | 18:42:05.9 |      0.000 |      0.000 |      2.000 |          0 |       165.812 |      90.000 |     123.291 |             0 |       -28.375 |      1.075 |             32.143 |
-|         5 | 18:42:05.9 |      0.000 |     -0.000 |      2.000 |          0 |       165.812 |      90.000 |     112.577 |             0 |       -28.375 |      0.924 |             42.857 |
-|         6 | 18:42:05.9 |      0.000 |      0.000 |      2.000 |          0 |       165.812 |      90.000 |     101.863 |             0 |       -28.375 |      0.901 |             53.571 |
-|         7 | 18:42:05.9 |      0.000 |     -0.000 |      2.000 |          0 |       165.812 |      90.000 |      91.148 |             0 |       -28.375 |      0.970 |             64.286 |
-|         8 | 18:42:06.0 |      0.000 |     -0.000 |      2.000 |          0 |       165.812 |      90.000 |      80.434 |             0 |       -28.375 |      1.090 |             75.000 |
-|         9 | 18:42:06.0 |     -0.000 |     -0.000 |      2.000 |          0 |       165.812 |      90.000 |      69.720 |             0 |       -28.375 |      1.050 |             85.714 |
-|        10 | 18:42:06.0 |     -0.000 |     -0.000 |      2.000 |          0 |       165.812 |      90.000 |      59.005 |             0 |       -28.375 |      0.944 |             96.429 |
-|        11 | 18:42:06.0 |     -0.000 |     -0.000 |      2.000 |          0 |       165.812 |      90.000 |      48.291 |             0 |       -28.375 |      0.999 |            107.143 |
-|        12 | 18:42:06.0 |     -0.000 |     -0.000 |      2.000 |          0 |       165.812 |      90.000 |      37.577 |             0 |       -28.375 |      0.930 |            117.857 |
-|        13 | 18:42:06.0 |      0.000 |     -0.000 |      2.000 |          0 |       165.812 |      90.000 |      26.863 |             0 |       -28.375 |      1.058 |            128.571 |
-|        14 | 18:42:06.1 |     -0.000 |     -0.000 |      2.000 |          0 |       165.812 |      90.000 |      16.148 |             0 |       -28.375 |      0.990 |            139.286 |
-|        15 | 18:42:06.1 |     -0.000 |     -0.000 |      2.000 |          0 |       165.812 |      90.000 |       5.434 |             0 |       -28.375 |      1.018 |            150.000 |
-+-----------+------------+------------+------------+------------+------------+---------------+-------------+-------------+---------------+---------------+------------+--------------------+
-generator scan_extra [&#39;dd55a11f&#39;] (scan num: 1)
++-----------+------------+------------+--------------------+-------------------------+---------------------+------------+------------+------------+------------+---------------+-------------+-------------+---------------+---------------+
+|   seq_num |       time |  noisy_det | e6c_hkl_extras_psi | e6c_hkl_beam_wavelength | e6c_hkl_beam_energy |  e6c_hkl_h |  e6c_hkl_k |  e6c_hkl_l | e6c_hkl_mu | e6c_hkl_omega | e6c_hkl_chi | e6c_hkl_phi | e6c_hkl_gamma | e6c_hkl_delta |
++-----------+------------+------------+--------------------+-------------------------+---------------------+------------+------------+------------+------------+---------------+-------------+-------------+---------------+---------------+
+|         1 | 22:34:11.5 |      0.917 |              0.000 |                   1.540 |               8.051 |     -0.000 |      0.000 |      2.000 |          0 |       165.812 |      90.000 |     155.434 |             0 |       -28.375 |
+|         2 | 22:34:11.5 |      0.937 |             10.714 |                   1.540 |               8.051 |      0.000 |      0.000 |      2.000 |          0 |       165.812 |      90.000 |     144.720 |             0 |       -28.375 |
+|         3 | 22:34:11.5 |      1.019 |             21.429 |                   1.540 |               8.051 |     -0.000 |      0.000 |      2.000 |          0 |       165.812 |      90.000 |     134.005 |             0 |       -28.375 |
+|         4 | 22:34:11.5 |      0.937 |             32.143 |                   1.540 |               8.051 |      0.000 |      0.000 |      2.000 |          0 |       165.812 |      90.000 |     123.291 |             0 |       -28.375 |
+|         5 | 22:34:11.5 |      0.942 |             42.857 |                   1.540 |               8.051 |      0.000 |     -0.000 |      2.000 |          0 |       165.812 |      90.000 |     112.577 |             0 |       -28.375 |
+|         6 | 22:34:11.5 |      0.970 |             53.571 |                   1.540 |               8.051 |      0.000 |      0.000 |      2.000 |          0 |       165.812 |      90.000 |     101.863 |             0 |       -28.375 |
+|         7 | 22:34:11.6 |      1.021 |             64.286 |                   1.540 |               8.051 |      0.000 |     -0.000 |      2.000 |          0 |       165.812 |      90.000 |      91.148 |             0 |       -28.375 |
+|         8 | 22:34:11.6 |      0.912 |             75.000 |                   1.540 |               8.051 |      0.000 |     -0.000 |      2.000 |          0 |       165.812 |      90.000 |      80.434 |             0 |       -28.375 |
+|         9 | 22:34:11.6 |      0.988 |             85.714 |                   1.540 |               8.051 |     -0.000 |     -0.000 |      2.000 |          0 |       165.812 |      90.000 |      69.720 |             0 |       -28.375 |
+|        10 | 22:34:11.6 |      0.999 |             96.429 |                   1.540 |               8.051 |     -0.000 |     -0.000 |      2.000 |          0 |       165.812 |      90.000 |      59.005 |             0 |       -28.375 |
+|        11 | 22:34:11.6 |      0.973 |            107.143 |                   1.540 |               8.051 |     -0.000 |     -0.000 |      2.000 |          0 |       165.812 |      90.000 |      48.291 |             0 |       -28.375 |
+|        12 | 22:34:11.6 |      1.086 |            117.857 |                   1.540 |               8.051 |     -0.000 |     -0.000 |      2.000 |          0 |       165.812 |      90.000 |      37.577 |             0 |       -28.375 |
+|        13 | 22:34:11.7 |      0.966 |            128.571 |                   1.540 |               8.051 |      0.000 |     -0.000 |      2.000 |          0 |       165.812 |      90.000 |      26.863 |             0 |       -28.375 |
+|        14 | 22:34:11.7 |      0.996 |            139.286 |                   1.540 |               8.051 |     -0.000 |     -0.000 |      2.000 |          0 |       165.812 |      90.000 |      16.148 |             0 |       -28.375 |
+|        15 | 22:34:11.7 |      1.015 |            150.000 |                   1.540 |               8.051 |     -0.000 |     -0.000 |      2.000 |          0 |       165.812 |      90.000 |       5.434 |             0 |       -28.375 |
++-----------+------------+------------+--------------------+-------------------------+---------------------+------------+------------+------------+------------+---------------+-------------+-------------+---------------+---------------+
+generator scan_extra [&#39;0a427fcd&#39;] (scan num: 1)
 </pre></div>
 </div>
 </div>
@@ -1026,7 +1026,7 @@ name.</p>
   &#39;dims&#39;: dict(self._ds.dims),
 </pre></div>
 </div>
-<img alt="../_images/c9fc95b5255eab453285bd75c1eff72aba1e94b6079e26f4209ce296b8479ed5.png" src="../_images/c9fc95b5255eab453285bd75c1eff72aba1e94b6079e26f4209ce296b8479ed5.png" />
+<img alt="../_images/64888a9bf296860aead8b8ce6624d3cbe161780503d1359773b013c3ca4f6d60.png" src="../_images/64888a9bf296860aead8b8ce6624d3cbe161780503d1359773b013c3ca4f6d60.png" />
 </div>
 </div>
 </section>

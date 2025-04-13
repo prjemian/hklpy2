@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../../_static/documentation_options.js?v=75af13e9"></script>
+    <script src="../../_static/documentation_options.js?v=f5a963c8"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/design-tabs.js?v=f930bc37"></script>
@@ -378,11 +378,11 @@
 <span class="sd">    ~list_samples</span>
 <span class="sd">    ~or_swap</span>
 <span class="sd">    ~remove_reflection</span>
-<span class="sd">    ~remove_sample</span>
 <span class="sd">    ~pa</span>
+<span class="sd">    ~remove_sample</span>
 <span class="sd">    ~set_diffractometer</span>
-<span class="sd">    ~set_energy</span>
 <span class="sd">    ~set_lattice</span>
+<span class="sd">    ~set_wavelength</span>
 <span class="sd">    ~setor</span>
 <span class="sd">    ~solver_summary</span>
 <span class="sd">    ~wh</span>
@@ -395,7 +395,6 @@
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyRestTable</span><span class="w"> </span><span class="kn">import</span> <span class="n">Table</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">.beam</span><span class="w"> </span><span class="kn">import</span> <span class="n">MonochromaticXrayWavelength</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.blocks.lattice</span><span class="w"> </span><span class="kn">import</span> <span class="n">Lattice</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.blocks.reflection</span><span class="w"> </span><span class="kn">import</span> <span class="n">Reflection</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.diffract</span><span class="w"> </span><span class="kn">import</span> <span class="n">DiffractometerBase</span>
@@ -419,8 +418,8 @@
 <span class="s2">    remove_reflection</span>
 <span class="s2">    remove_sample</span>
 <span class="s2">    set_diffractometer</span>
-<span class="s2">    set_energy</span>
 <span class="s2">    set_lattice</span>
+<span class="s2">    set_wavelength</span>
 <span class="s2">    setor</span>
 <span class="s2">    solver_summary</span>
 <span class="s2">    wh</span>
@@ -916,34 +915,27 @@
 
 
 
-<div class="viewcode-block" id="set_energy">
-<a class="viewcode-back" href="../../autoapi/hklpy2/user/index.html#hklpy2.user.set_energy">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">set_energy</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="set_wavelength">
+<a class="viewcode-back" href="../../autoapi/hklpy2/user/index.html#hklpy2.user.set_wavelength">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">set_wavelength</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Set the energy (thus wavelength) to be used (does not change control system value).</span>
+<span class="sd">    Set the wavelength; if Signal has write access, changes control system.</span>
 
 <span class="sd">    EXAMPLE:</span>
 
 <span class="sd">    .. code-block:: python</span>
 
-<span class="sd">        &gt;&gt;&gt; set_energy(12400, units=&quot;eV&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; set_wavelength(123.45, units=&quot;pm&quot;)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">source</span> <span class="o">=</span> <span class="n">_choice</span><span class="o">.</span><span class="n">diffractometer</span><span class="o">.</span><span class="n">_source</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">MonochromaticXrayWavelength</span><span class="p">):</span>
+    <span class="n">beam</span> <span class="o">=</span> <span class="n">_choice</span><span class="o">.</span><span class="n">diffractometer</span><span class="o">.</span><span class="n">beam</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">beam</span><span class="o">.</span><span class="n">wavelength</span><span class="o">.</span><span class="n">write_access</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;&#39;set_energy()&#39; not supported for </span><span class="si">{</span><span class="n">source</span><span class="si">!r}</span><span class="s2">,&quot;</span>
-            <span class="sa">f</span><span class="s2">&quot; requires </span><span class="si">{</span><span class="n">MonochromaticXrayWavelength</span><span class="si">}</span><span class="s2">.&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;&#39;set_wavelength()&#39; not supported for </span><span class="si">{</span><span class="n">beam</span><span class="o">.</span><span class="n">wavelength</span><span class="o">.</span><span class="n">name</span><span class="si">!r}</span><span class="s2">,&quot;</span>
         <span class="p">)</span>
-    <span class="c1"># No ophyd objects in this module.  These are float values using properties.</span>
     <span class="k">if</span> <span class="n">units</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">source</span><span class="o">.</span><span class="n">energy_units</span> <span class="o">=</span> <span class="n">units</span>
-    <span class="k">if</span> <span class="n">offset</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">source</span><span class="o">.</span><span class="n">energy_offset</span> <span class="o">=</span> <span class="n">offset</span>  <span class="c1"># TODO: #35 requires feature addition</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
-            <span class="s2">&quot;Monochromatic source energy offset not implemented (yet).&quot;</span>
-        <span class="p">)</span>
-    <span class="n">source</span><span class="o">.</span><span class="n">energy</span> <span class="o">=</span> <span class="n">value</span></div>
+        <span class="n">beam</span><span class="o">.</span><span class="n">wavelength_units</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">units</span><span class="p">)</span>
+    <span class="n">beam</span><span class="o">.</span><span class="n">wavelength</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">value</span><span class="p">)</span></div>
 
 
 
@@ -1062,7 +1054,7 @@
     <span class="c1"># as self._hkl_geometry.wavelength_set(wavelength, self._units)</span>
     <span class="c1"># The code here uses that procedure.</span>
     <span class="k">if</span> <span class="n">wavelength</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">0</span><span class="p">):</span>
-        <span class="n">diffractometer</span><span class="o">.</span><span class="n">_source</span><span class="o">.</span><span class="n">wavelength</span> <span class="o">=</span> <span class="n">wavelength</span>
+        <span class="n">diffractometer</span><span class="o">.</span><span class="n">beam</span><span class="o">.</span><span class="n">wavelength</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">wavelength</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">make_name</span><span class="p">():</span>
         <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>

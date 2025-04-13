@@ -31,7 +31,7 @@ Module Contents
 
    Core operations of a diffractometer, coordinating with sample & |solver|.
 
-   .. rubric:: Parameters
+   PARAMETERS
 
    diffractometer (DiffractometerBase):
        The diffractometer parent.
@@ -160,15 +160,21 @@ Module Contents
 
       Add a new reflection.
 
-      .. rubric:: Parameters
+      PARAMETERS
 
-      * ``pseudos`` (various): pseudo-space axes and values.
-      * ``reals`` (various): dictionary of real-space axes and values.
-      * ``wavelength`` (float): Wavelength of incident radiation.
-      * ``name`` (str): Reference name for this reflection.
-        If ``None``, a random name will be assigned.
-      * ``replace`` (bool): If ``True``, replace existing reflection of
-        this name.  (default: ``False``)
+      pseudos various:
+          Pseudo-space axes and values.
+      reals various:
+          Dictionary of real-space axes and values.
+      wavelength float:
+          Wavelength of incident radiation.  Units as specified
+          by ``diffractometer.beam.wavelength_units``.
+      name str:
+          Reference name for this reflection.  If ``None``, a random name will
+          be assigned.
+      replace bool:
+          When ``True``, replace existing reflection of this name.
+          (default: ``False``)
 
 
 
@@ -280,6 +286,12 @@ Module Contents
 
 
 
+   .. py:method:: _reflections_to_solver(refl_list: list) -> dict
+
+      (internal) Convert units in list of reflections to be sent to a solver.
+
+
+
    .. py:method:: remove_sample(name)
 
       Remove the named sample.  No error if name is not known.
@@ -374,7 +386,7 @@ Module Contents
 
       Create an instance of the backend |solver| library and geometry.
 
-      Parameters
+      PARAMETERS
 
       solver str:
           Name of the |solver| library.
@@ -409,6 +421,12 @@ Module Contents
       * namedtuple: (omega=120, chi=35.3, phi=45, tth=-120)
       * ordered list: [120, 35.3, 45, -120]  (for omega, chi, phi, tth)
       * ordered tuple: (120, 35.3, 45, -120)  (for omega, chi, phi, tth)
+
+
+
+   .. py:method:: to_solver_units(wavelength: float = None) -> dict
+
+      Convert quantities from diffractometer units to solver units.
 
 
 

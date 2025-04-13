@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=75af13e9"></script>
+    <script src="../_static/documentation_options.js?v=f5a963c8"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
@@ -711,7 +711,7 @@ then compute the UB matrix.  Follow in the section below.</p>
 <p>Compute the UB matrix using <em>hklpy</em> (&amp; <em>libhkl</em>).</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fourc</span><span class="o">.</span><span class="n">wavelength</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="mf">1.239424258</span><span class="p">)</span> <span class="c1"># Angstrom</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fourc</span><span class="o">.</span><span class="n">beam</span><span class="o">.</span><span class="n">wavelength</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="mf">1.239424258</span><span class="p">)</span> <span class="c1"># Angstrom</span>
 
 <span class="n">refs</span> <span class="o">=</span> <span class="p">[</span>
     <span class="n">setor</span><span class="p">(</span>
@@ -764,8 +764,8 @@ E4CV [UB] [[-0.095549863427, -1.654278751664, 0.002428444976], [0.000263111155, 
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tbl</span> <span class="o">=</span> <span class="n">pyRestTable</span><span class="o">.</span><span class="n">Table</span><span class="p">()</span>
 <span class="n">tbl</span><span class="o">.</span><span class="n">labels</span> <span class="o">=</span> <span class="s2">&quot;term value&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
-<span class="n">tbl</span><span class="o">.</span><span class="n">addRow</span><span class="p">((</span><span class="s2">&quot;energy, keV&quot;</span><span class="p">,</span> <span class="n">fourc</span><span class="o">.</span><span class="n">_source</span><span class="o">.</span><span class="n">energy</span><span class="p">))</span>
-<span class="n">tbl</span><span class="o">.</span><span class="n">addRow</span><span class="p">((</span><span class="s2">&quot;wavelength, angstrom&quot;</span><span class="p">,</span> <span class="n">fourc</span><span class="o">.</span><span class="n">_source</span><span class="o">.</span><span class="n">wavelength</span><span class="p">))</span>
+<span class="n">tbl</span><span class="o">.</span><span class="n">addRow</span><span class="p">((</span><span class="s2">&quot;energy, keV&quot;</span><span class="p">,</span> <span class="n">fourc</span><span class="o">.</span><span class="n">beam</span><span class="o">.</span><span class="n">energy</span><span class="o">.</span><span class="n">get</span><span class="p">()))</span>
+<span class="n">tbl</span><span class="o">.</span><span class="n">addRow</span><span class="p">((</span><span class="s2">&quot;wavelength, angstrom&quot;</span><span class="p">,</span> <span class="n">fourc</span><span class="o">.</span><span class="n">beam</span><span class="o">.</span><span class="n">wavelength</span><span class="o">.</span><span class="n">get</span><span class="p">()))</span>
 <span class="n">tbl</span><span class="o">.</span><span class="n">addRow</span><span class="p">((</span><span class="s2">&quot;position&quot;</span><span class="p">,</span> <span class="n">fourc</span><span class="o">.</span><span class="n">position</span><span class="p">))</span>
 <span class="n">tbl</span><span class="o">.</span><span class="n">addRow</span><span class="p">((</span><span class="s2">&quot;sample name&quot;</span><span class="p">,</span> <span class="n">fourc</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">name</span><span class="p">))</span>
 <span class="n">tbl</span><span class="o">.</span><span class="n">addRow</span><span class="p">((</span><span class="s2">&quot;lattice&quot;</span><span class="p">,</span> <span class="n">fourc</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">lattice</span><span class="p">))</span>

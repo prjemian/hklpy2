@@ -26,9 +26,9 @@ only the pseudos and reals that are identified.
       - define subclass of :class:`~hklpy2.diffract.DiffractometerBase()` and create instance
       - create instance of :class:`~hklpy2.blocks.sample.Sample()`
       - create instance of :class:`~hklpy2.blocks.lattice.Lattice()`
-      - create instance of :class:`~hklpy2.beam.WavelengthBase()` subclass
+      - create instance of :class:`~hklpy2.incident._WavelengthBase()` subclass
       - create instance of :class:`~hklpy2.backends.base.SolverBase()` subclass
-      - set :attr:`~hklpy2.beam.WavelengthBase.wavelength`
+      - set :attr:`~hklpy2.incident._WavelengthBase.wavelength`
       - list *available* solvers: (:func:`~hklpy2.misc.solvers`)
       - review saved orientation details
 
@@ -93,11 +93,11 @@ All operations are coordinated through :ref:`concepts.ops`.  This is ``fourc.cor
 wavelength (and energy)
 -----------------------
 
-The `diffractometer._source` describes the radiation source using the
-:class:`~hklpy2.beam.WavelengthBase` class.  Wavelength is the
-term common to both neutron and X-ray diffractometer users.
-:class:`~hklpy2.beam.MonochromaticXrayWavelength` is the default.
-This supports conversion between wavelength and X-ray photon energy.
+The `diffractometer.beam` describes the radiation source using the
+:class:`~hklpy2.incident._WavelengthBase` class (or subclass).  Wavelength is
+the term common to both neutron and X-ray diffractometer users.
+:class:`~hklpy2.incident.WavelengthXray` is the default. This supports
+conversion between wavelength and X-ray photon energy.
 
 .. tip:: Neutron users would make a similar class with different calculations
   between wavelength and energy.

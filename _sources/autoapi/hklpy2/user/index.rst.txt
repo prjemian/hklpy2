@@ -18,11 +18,11 @@ hklpy2.user
        ~list_samples
        ~or_swap
        ~remove_reflection
-       ~remove_sample
        ~pa
+       ~remove_sample
        ~set_diffractometer
-       ~set_energy
        ~set_lattice
+       ~set_wavelength
        ~setor
        ~solver_summary
        ~wh
@@ -67,7 +67,7 @@ Functions
    hklpy2.user.remove_reflection
    hklpy2.user.remove_sample
    hklpy2.user.set_diffractometer
-   hklpy2.user.set_energy
+   hklpy2.user.set_wavelength
    hklpy2.user.set_lattice
    hklpy2.user.setor
    hklpy2.user.wh
@@ -384,15 +384,15 @@ Module Contents
    .. seealso:: :func:`~hklpy2.user.get_diffractometer`
 
 
-.. py:function:: set_energy(value: float, units=None, offset=None)
+.. py:function:: set_wavelength(value: float, units=None)
 
-   Set the energy (thus wavelength) to be used (does not change control system value).
+   Set the wavelength; if Signal has write access, changes control system.
 
    EXAMPLE:
 
    .. code-block:: python
 
-       >>> set_energy(12400, units="eV")
+       >>> set_wavelength(123.45, units="pm")
 
 
 .. py:function:: set_lattice(a: float, b: float = None, c: float = None, alpha: float = 90, beta: float = None, gamma: float = None, digits: int = 4)

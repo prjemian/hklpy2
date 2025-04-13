@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../../_static/documentation_options.js?v=75af13e9"></script>
+    <script src="../../_static/documentation_options.js?v=f5a963c8"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/design-tabs.js?v=f930bc37"></script>
@@ -388,10 +388,12 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">.blocks.lattice</span><span class="w"> </span><span class="kn">import</span> <span class="n">Lattice</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.blocks.reflection</span><span class="w"> </span><span class="kn">import</span> <span class="n">Reflection</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.blocks.sample</span><span class="w"> </span><span class="kn">import</span> <span class="n">Sample</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.incident</span><span class="w"> </span><span class="kn">import</span> <span class="n">DEFAULT_WAVELENGTH_UNITS</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.misc</span><span class="w"> </span><span class="kn">import</span> <span class="n">AnyAxesType</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.misc</span><span class="w"> </span><span class="kn">import</span> <span class="n">AxesDict</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.misc</span><span class="w"> </span><span class="kn">import</span> <span class="n">CoreError</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.misc</span><span class="w"> </span><span class="kn">import</span> <span class="n">axes_to_dict</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.misc</span><span class="w"> </span><span class="kn">import</span> <span class="n">convert_units</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.misc</span><span class="w"> </span><span class="kn">import</span> <span class="n">solver_factory</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.misc</span><span class="w"> </span><span class="kn">import</span> <span class="n">unique_name</span>
 
@@ -409,7 +411,7 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Core operations of a diffractometer, coordinating with sample &amp; |solver|.</span>
 
-<span class="sd">    .. rubric:: Parameters</span>
+<span class="sd">    PARAMETERS</span>
 
 <span class="sd">    diffractometer (DiffractometerBase):</span>
 <span class="sd">        The diffractometer parent.</span>
@@ -529,8 +531,8 @@
             <span class="s2">&quot;samples&quot;</span><span class="p">:</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span><span class="o">.</span><span class="n">_asdict</span><span class="p">()</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_samples</span><span class="o">.</span><span class="n">items</span><span class="p">()},</span>
             <span class="s2">&quot;constraints&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">constraints</span><span class="o">.</span><span class="n">_asdict</span><span class="p">(),</span>
             <span class="s2">&quot;solver&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">_metadata</span><span class="p">,</span>
+            <span class="s2">&quot;beam&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">diffractometer</span><span class="o">.</span><span class="n">beam</span><span class="o">.</span><span class="n">_asdict</span><span class="p">(),</span>
         <span class="p">}</span>
-        <span class="n">config</span><span class="p">[</span><span class="s2">&quot;_header&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">diffractometer</span><span class="o">.</span><span class="n">_source</span><span class="o">.</span><span class="n">_asdict</span><span class="p">())</span>
 
         <span class="k">if</span> <span class="s2">&quot;engine_name&quot;</span> <span class="ow">in</span> <span class="nb">dir</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="p">):</span>
             <span class="n">config</span><span class="p">[</span><span class="s2">&quot;solver&quot;</span><span class="p">][</span><span class="s2">&quot;engine&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">engine_name</span>
@@ -572,6 +574,7 @@
         <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">constraint</span> <span class="ow">in</span> <span class="n">config</span><span class="p">[</span><span class="s2">&quot;constraints&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="k">if</span> <span class="p">(</span>
                 <span class="n">constraint</span><span class="p">[</span><span class="s2">&quot;class&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;LimitsConstraint&quot;</span>
+                <span class="c1"># .</span>
                 <span class="ow">and</span> <span class="n">constraint</span><span class="p">[</span><span class="s2">&quot;label&quot;</span><span class="p">]</span> <span class="ow">in</span> <span class="n">config</span><span class="p">[</span><span class="s2">&quot;axes&quot;</span><span class="p">][</span><span class="s2">&quot;real_axes&quot;</span><span class="p">]</span>
             <span class="p">):</span>
                 <span class="c1"># By convention, the &#39;key&#39; here is the axis name when config was written.</span>
@@ -657,15 +660,21 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Add a new reflection.</span>
 
-<span class="sd">        .. rubric:: Parameters</span>
+<span class="sd">        PARAMETERS</span>
 
-<span class="sd">        * ``pseudos`` (various): pseudo-space axes and values.</span>
-<span class="sd">        * ``reals`` (various): dictionary of real-space axes and values.</span>
-<span class="sd">        * ``wavelength`` (float): Wavelength of incident radiation.</span>
-<span class="sd">        * ``name`` (str): Reference name for this reflection.</span>
-<span class="sd">          If ``None``, a random name will be assigned.</span>
-<span class="sd">        * ``replace`` (bool): If ``True``, replace existing reflection of</span>
-<span class="sd">          this name.  (default: ``False``)</span>
+<span class="sd">        pseudos various:</span>
+<span class="sd">            Pseudo-space axes and values.</span>
+<span class="sd">        reals various:</span>
+<span class="sd">            Dictionary of real-space axes and values.</span>
+<span class="sd">        wavelength float:</span>
+<span class="sd">            Wavelength of incident radiation.  Units as specified</span>
+<span class="sd">            by ``diffractometer.beam.wavelength_units``.</span>
+<span class="sd">        name str:</span>
+<span class="sd">            Reference name for this reflection.  If ``None``, a random name will</span>
+<span class="sd">            be assigned.</span>
+<span class="sd">        replace bool:</span>
+<span class="sd">            When ``True``, replace existing reflection of this name.</span>
+<span class="sd">            (default: ``False``)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">.blocks.reflection</span><span class="w"> </span><span class="kn">import</span> <span class="n">Reflection</span>
 
@@ -725,7 +734,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">sample</span> <span class="o">=</span> <span class="n">name</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">request_solver_update</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># 58  test_diffract line 410: 2 pi a</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">solver</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">sample</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sample</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">sample</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_solver_units</span><span class="p">()[</span><span class="s2">&quot;sample&quot;</span><span class="p">]</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">sample</span></div>
 
 
@@ -813,13 +822,16 @@
             <span class="k">if</span> <span class="n">reflection</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span>
                     <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">reflection</span><span class="si">!r}</span><span class="s2"> unknown.&quot;</span>
+                    <span class="c1"># .</span>
                     <span class="sa">f</span><span class="s2">&quot;  Knowns: </span><span class="si">{</span><span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">reflections</span><span class="p">)</span><span class="si">!r}</span><span class="s2">&quot;</span>
                 <span class="p">)</span>
             <span class="k">return</span> <span class="n">reflection</span>
 
         <span class="n">two_reflections</span> <span class="o">=</span> <span class="p">[</span><span class="n">_get</span><span class="p">(</span><span class="n">r1</span><span class="p">),</span> <span class="n">_get</span><span class="p">(</span><span class="n">r2</span><span class="p">)]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">reflections</span><span class="o">.</span><span class="n">set_orientation_reflections</span><span class="p">(</span><span class="n">two_reflections</span><span class="p">)</span>
-        <span class="n">ub</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">calculate_UB</span><span class="p">(</span><span class="o">*</span><span class="n">two_reflections</span><span class="p">)</span>
+
+        <span class="n">solver_reflections</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reflections_to_solver</span><span class="p">(</span><span class="n">two_reflections</span><span class="p">)</span>
+        <span class="n">ub</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">calculate_UB</span><span class="p">(</span><span class="o">*</span><span class="n">solver_reflections</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">U</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">U</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">UB</span> <span class="o">=</span> <span class="n">ub</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">request_solver_update</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
@@ -889,7 +901,9 @@
 <div class="viewcode-block" id="Core.inverse">
 <a class="viewcode-back" href="../../autoapi/hklpy2/ops/index.html#hklpy2.ops.Core.inverse">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">inverse</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">reals</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">AnyAxesType</span><span class="p">,</span> <span class="kc">None</span><span class="p">],</span> <span class="n">wavelength</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">reals</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">AnyAxesType</span><span class="p">,</span> <span class="kc">None</span><span class="p">],</span>
+        <span class="n">wavelength</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AxesDict</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute (pseudos) from {names: reals} (angles -&gt; hkl).&quot;&quot;&quot;</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
@@ -902,7 +916,7 @@
             <span class="c1"># Original values.</span>
             <span class="k">for</span> <span class="n">axis</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">diffractometer</span><span class="o">.</span><span class="n">_get_pseudo_positioners</span><span class="p">()</span>
         <span class="p">}</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">solver</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">solver</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">axes_xref</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             <span class="c1"># Called from the constructor before solver is defined.</span>
             <span class="k">return</span> <span class="n">pseudos</span>  <span class="c1"># current values of pseudos</span>
 
@@ -997,8 +1011,28 @@
             <span class="s2">&quot;Refining lattice using reflections </span><span class="si">%r</span><span class="s2">&quot;</span><span class="p">,</span>
             <span class="p">[</span><span class="n">r</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">reflections</span><span class="p">],</span>
         <span class="p">)</span>
-        <span class="n">lattice</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">refineLattice</span><span class="p">(</span><span class="n">reflections</span><span class="p">)</span>
+        <span class="n">lattice</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">refineLattice</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_reflections_to_solver</span><span class="p">(</span><span class="n">reflections</span><span class="p">))</span>
+        <span class="c1"># TODO unit conversions: lattice</span>
         <span class="k">return</span> <span class="n">lattice</span></div>
+
+
+<div class="viewcode-block" id="Core._reflections_to_solver">
+<a class="viewcode-back" href="../../autoapi/hklpy2/ops/index.html#hklpy2.ops.Core._reflections_to_solver">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_reflections_to_solver</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">refl_list</span><span class="p">:</span> <span class="nb">list</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;(internal) Convert units in list of reflections to be sent to a solver.&quot;&quot;&quot;</span>
+        <span class="n">k</span> <span class="o">=</span> <span class="s2">&quot;wavelength&quot;</span>
+        <span class="n">wl_units</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">diffractometer</span><span class="o">.</span><span class="n">beam</span><span class="o">.</span><span class="n">wavelength_units</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="n">wl_units_solver</span> <span class="o">=</span> <span class="n">DEFAULT_WAVELENGTH_UNITS</span>
+        <span class="n">reflections</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">refl</span> <span class="ow">in</span> <span class="n">refl_list</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">refl</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+                <span class="n">refl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">reflections</span><span class="p">[</span><span class="n">refl</span><span class="p">]</span>
+            <span class="n">refl</span> <span class="o">=</span> <span class="n">refl</span><span class="o">.</span><span class="n">_asdict</span><span class="p">()</span>
+            <span class="n">refl</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">convert_units</span><span class="p">(</span><span class="n">refl</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="n">wl_units</span><span class="p">,</span> <span class="n">wl_units_solver</span><span class="p">)</span>
+            <span class="n">reflections</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">refl</span><span class="p">)</span>
+        <span class="c1"># TODO reals (angle) could have units, assume in degrees now</span>
+        <span class="c1"># TODO reflection wavelength should have its own units</span>
+        <span class="k">return</span> <span class="n">reflections</span></div>
 
 
 <div class="viewcode-block" id="Core.remove_sample">
@@ -1138,7 +1172,7 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Create an instance of the backend |solver| library and geometry.</span>
 
-<span class="sd">        Parameters</span>
+<span class="sd">        PARAMETERS</span>
 
 <span class="sd">        solver str:</span>
 <span class="sd">            Name of the |solver| library.</span>
@@ -1205,6 +1239,35 @@
         <span class="k">return</span> <span class="n">axes_to_dict</span><span class="p">(</span><span class="n">reals</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">local_real_axes</span><span class="p">)</span></div>
 
 
+<div class="viewcode-block" id="Core.to_solver_units">
+<a class="viewcode-back" href="../../autoapi/hklpy2/ops/index.html#hklpy2.ops.Core.to_solver_units">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_solver_units</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">wavelength</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert quantities from diffractometer units to solver units.&quot;&quot;&quot;</span>
+        <span class="c1"># TODO Lattice should have its own units</span>
+        <span class="n">uc_units</span> <span class="o">=</span> <span class="n">DEFAULT_WAVELENGTH_UNITS</span>  <span class="c1"># uc: Unit Cell length</span>
+        <span class="n">uc_units_solver</span> <span class="o">=</span> <span class="n">DEFAULT_WAVELENGTH_UNITS</span>
+        <span class="c1"># Lattice angles are degrees</span>
+        <span class="n">wl_units</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">diffractometer</span><span class="o">.</span><span class="n">beam</span><span class="o">.</span><span class="n">wavelength_units</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="n">wl_units_solver</span> <span class="o">=</span> <span class="n">DEFAULT_WAVELENGTH_UNITS</span>
+
+        <span class="n">lattice</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">lattice</span><span class="o">.</span><span class="n">_asdict</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="s2">&quot;a b c&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">():</span>
+            <span class="n">lattice</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">convert_units</span><span class="p">(</span><span class="n">lattice</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="n">uc_units</span><span class="p">,</span> <span class="n">uc_units_solver</span><span class="p">)</span>
+
+        <span class="n">reflections</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reflections_to_solver</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">reflections</span><span class="p">)</span>
+        <span class="n">wavelength</span> <span class="o">=</span> <span class="n">wavelength</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">diffractometer</span><span class="o">.</span><span class="n">beam</span><span class="o">.</span><span class="n">wavelength</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span>
+            <span class="n">sample</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
+                <span class="n">name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                <span class="n">lattice</span><span class="o">=</span><span class="n">lattice</span><span class="p">,</span>
+                <span class="n">order</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">reflections</span><span class="o">.</span><span class="n">order</span><span class="p">,</span>
+                <span class="n">reflections</span><span class="o">=</span><span class="n">reflections</span><span class="p">,</span>
+            <span class="p">),</span>
+            <span class="n">wavelength</span><span class="o">=</span><span class="n">convert_units</span><span class="p">(</span><span class="n">wavelength</span><span class="p">,</span> <span class="n">wl_units</span><span class="p">,</span> <span class="n">wl_units_solver</span><span class="p">),</span>
+        <span class="p">)</span></div>
+
+
 <div class="viewcode-block" id="Core.update_solver">
 <a class="viewcode-back" href="../../autoapi/hklpy2/ops/index.html#hklpy2.ops.Core.update_solver">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">update_solver</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">wavelength</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -1213,8 +1276,10 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">request_solver_update</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># force the update</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_solver_needs_update</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">sample</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sample</span>  <span class="c1"># lattice &amp; reflections</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">wavelength</span> <span class="o">=</span> <span class="n">wavelength</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">diffractometer</span><span class="o">.</span><span class="n">wavelength</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+            <span class="n">std</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_solver_units</span><span class="p">(</span><span class="n">wavelength</span><span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">wavelength</span> <span class="o">=</span> <span class="n">std</span><span class="p">[</span><span class="s2">&quot;wavelength&quot;</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">sample</span> <span class="o">=</span> <span class="n">std</span><span class="p">[</span><span class="s2">&quot;sample&quot;</span><span class="p">]</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">mode</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span>
 
             <span class="k">try</span><span class="p">:</span>

@@ -70,10 +70,12 @@ Module Contents
    User can provide an alternative function and assign to diffractometer's
    :meth:`~hklpy2.diffract.DiffractometerBase._forward_solution` method.
 
-   .. rubric:: Parameters
+   PARAMETERS
 
-   * ``now`` (*tuple*) : Current position.
-   * ``solutions`` (*[tuple]*) : List of positions.
+   now tuple :
+       Current position.
+   solutions list[tuple] :
+       List of positions.
 
 
 .. py:class:: Hklpy2PseudoAxis(prefix='', *, limits=None, egu='', parent=None, name=None, source='computed', target_initial_position=False, **kwargs)
@@ -99,7 +101,7 @@ Module Contents
 
    Base class for all diffractometers.
 
-   .. rubric:: Parameters
+   PARAMETERS
 
    *   ``solver`` (*str*) : Name of |solver| library.
        (default: unspecified)
@@ -118,8 +120,8 @@ Module Contents
 
    .. autosummary::
 
+       ~beam
        ~solver_signature
-       ~wavelength
 
    .. rubric:: Python Methods
 
@@ -153,9 +155,9 @@ Module Contents
       Name of backend |solver| (library).
 
 
-   .. py:attribute:: wavelength
+   .. py:attribute:: beam
 
-      Wavelength of incident radiation.
+      Incident monochromatic beam.
 
 
    .. py:attribute:: _backend
@@ -169,23 +171,25 @@ Module Contents
    .. py:attribute:: core
 
 
-   .. py:attribute:: _source
-
-
-   .. py:method:: add_reflection(pseudos, reals=None, wavelength=None, name=None, replace: bool = False) -> hklpy2.blocks.reflection.Reflection
+   .. py:method:: add_reflection(pseudos, reals=None, wavelength: float = None, name: str = None, replace: bool = False) -> hklpy2.blocks.reflection.Reflection
 
       Add a new reflection with this geometry to the selected sample.
 
-      .. rubric:: Parameters
+      PARAMETERS
 
-      * ``pseudos`` (various): pseudo-space axes and values.
-      * ``reals`` (various): dictionary of real-space axes and values.
-      * ``wavelength`` (float): Wavelength of incident radiation.
-        If ``None``, diffractometer's current wavelength will be assigned.
-      * ``name`` (str): Reference name for this reflection.
-        If ``None``, a random name will be assigned.
-      * ``replace`` (bool): If ``True``, replace existing reflection of
-        this name.  (default: ``False``)
+      pseudos various:
+          Pseudo-space axes and values.
+      reals various:
+          Dictionary of real-space axes and values.
+      wavelength float:
+          Wavelength of incident radiation. If ``None``, diffractometer's
+          current wavelength will be assigned.
+      name str:
+          Reference name for this reflection.
+          If ``None``, a random name will be assigned.
+      replace bool:
+          If ``True``, replace existing reflection matching this name.
+          (default: ``False``)
 
 
 
@@ -347,7 +351,7 @@ Module Contents
 
 
 
-.. py:function:: creator(*, prefix: str = '', name: str = '', solver: str = 'hkl_soleil', geometry: str = 'E4CV', solver_kwargs: dict = {}, pseudos: list = [], reals: list[str] | dict[str, str | None] = {}, aliases: dict[str, list[str]] = {}, motor_labels: list = ['motors'], labels: list = ['diffractometer'], class_name: str = 'Hklpy2Diffractometer', class_bases: list = [DiffractometerBase], **kwargs)
+.. py:function:: creator(*, prefix: str = '', name: str = '', solver: str = 'hkl_soleil', geometry: str = 'E4CV', beam_kwargs: dict[str, object] = {}, solver_kwargs: dict[str, object] = {}, pseudos: list = [], reals: list[str] | dict[str, str | None] = {}, aliases: dict[str, list[str]] = {}, motor_labels: list = ['motors'], labels: list = ['diffractometer'], class_name: str = 'Hklpy2Diffractometer', class_bases: list = [DiffractometerBase], **kwargs)
 
    Factory function to create a diffractometer instance.
 
@@ -391,7 +395,10 @@ Module Contents
        Name of the backend solver providing the geometry. (default: '"hkl_soleil"')
    geometry : str
        Name of the diffractometer geometry. (default: '"E4CV"')
-   solver_kwargs : str
+   beam_kwargs : dict[str, object]
+       Additional configuration for the incident beam.
+       (default: '{"class": "hklpy2.incident.WavelengthXray"}')
+   solver_kwargs : dict[str, object]
        Additional configuration for the solver. (default: '{"engine": "hkl"}')
    pseudos : list
        Specification of the names of any pseudo axis positioners
@@ -429,7 +436,7 @@ Module Contents
        the new diffractometer object.
 
 
-.. py:function:: diffractometer_class_factory(*, solver: str = 'hkl_soleil', geometry: str = 'E4CV', solver_kwargs: dict = {'engine': 'hkl'}, pseudos: list = [], reals: list[str] | dict[str, str | None] = {}, motor_labels: list = ['motors'], class_name: str = 'Hklpy2Diffractometer', class_bases: list = [DiffractometerBase], aliases: dict[str, list[str]] = {}) -> DiffractometerBase
+.. py:function:: diffractometer_class_factory(*, solver: str = 'hkl_soleil', geometry: str = 'E4CV', beam_kwargs: dict[str, object] = {}, solver_kwargs: dict[str, object] = {'engine': 'hkl'}, pseudos: list = [], reals: list[str] | dict[str, str | None] = {}, motor_labels: list = ['motors'], class_name: str = 'Hklpy2Diffractometer', class_bases: list = [DiffractometerBase], aliases: dict[str, list[str]] = {}) -> DiffractometerBase
 
    Build a custom class for this diffractometer geometry.
 
@@ -439,6 +446,9 @@ Module Contents
        Name of the backend solver providing the geometry. (default: '"hkl_soleil"')
    geometry : str
        Name of the diffractometer geometry. (default: '"E4CV"')
+   beam_kwargs : dict[str, object]
+       Additional configuration for the incident beam.
+       (default: '{"class": "hklpy2.incident.WavelengthXray"}')
    solver_kwargs : str
        Additional configuration for the solver. (default: '{"engine": "hkl"}')
    pseudos : list

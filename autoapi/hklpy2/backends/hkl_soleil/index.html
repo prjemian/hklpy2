@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../../../../_static/documentation_options.js?v=75af13e9"></script>
+    <script src="../../../../_static/documentation_options.js?v=f5a963c8"></script>
     <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -325,7 +325,6 @@
 <li class="toctree-l3"><a class="reference internal" href="../th_tth_q/index.html">hklpy2.backends.th_tth_q</a></li>
 </ul>
 </details></li>
-<li class="toctree-l2"><a class="reference internal" href="../../beam/index.html">hklpy2.beam</a></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../blocks/index.html">hklpy2.blocks</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../blocks/configure/index.html">hklpy2.blocks.configure</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../blocks/constraints/index.html">hklpy2.blocks.constraints</a></li>
@@ -335,6 +334,7 @@
 </ul>
 </details></li>
 <li class="toctree-l2"><a class="reference internal" href="../../diffract/index.html">hklpy2.diffract</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../incident/index.html">hklpy2.incident</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../misc/index.html">hklpy2.misc</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../ops/index.html">hklpy2.ops</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../user/index.html">hklpy2.user</a></li>
@@ -460,22 +460,25 @@ choose the mode and set the parameter before the forward() transformation.</p>
 <tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.backends.hkl_soleil.logger" title="hklpy2.backends.hkl_soleil.logger"><code class="xref py py-obj docutils literal notranslate"><span class="pre">logger</span></code></a></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.backends.hkl_soleil.AXES_READ" title="hklpy2.backends.hkl_soleil.AXES_READ"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AXES_READ</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.backends.hkl_soleil.libhkl" title="hklpy2.backends.hkl_soleil.libhkl"><code class="xref py py-obj docutils literal notranslate"><span class="pre">libhkl</span></code></a></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.backends.hkl_soleil.AXES_WRITTEN" title="hklpy2.backends.hkl_soleil.AXES_WRITTEN"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AXES_WRITTEN</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.backends.hkl_soleil.AXES_READ" title="hklpy2.backends.hkl_soleil.AXES_READ"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AXES_READ</span></code></a></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.backends.hkl_soleil.LIBHKL_DETECTOR_TYPE" title="hklpy2.backends.hkl_soleil.LIBHKL_DETECTOR_TYPE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LIBHKL_DETECTOR_TYPE</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.backends.hkl_soleil.AXES_WRITTEN" title="hklpy2.backends.hkl_soleil.AXES_WRITTEN"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AXES_WRITTEN</span></code></a></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.backends.hkl_soleil.LIBHKL_UNITS" title="hklpy2.backends.hkl_soleil.LIBHKL_UNITS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LIBHKL_UNITS</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.backends.hkl_soleil.LIBHKL_DETECTOR_TYPE" title="hklpy2.backends.hkl_soleil.LIBHKL_DETECTOR_TYPE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LIBHKL_DETECTOR_TYPE</span></code></a></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.backends.hkl_soleil.LIBHKL_USER_UNITS" title="hklpy2.backends.hkl_soleil.LIBHKL_USER_UNITS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LIBHKL_USER_UNITS</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.backends.hkl_soleil.LIBHKL_UNITS" title="hklpy2.backends.hkl_soleil.LIBHKL_UNITS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LIBHKL_UNITS</span></code></a></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.backends.hkl_soleil.ROUNDOFF_DIGITS" title="hklpy2.backends.hkl_soleil.ROUNDOFF_DIGITS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ROUNDOFF_DIGITS</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.backends.hkl_soleil.LIBHKL_USER_UNITS" title="hklpy2.backends.hkl_soleil.LIBHKL_USER_UNITS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LIBHKL_USER_UNITS</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.backends.hkl_soleil.ROUNDOFF_DIGITS" title="hklpy2.backends.hkl_soleil.ROUNDOFF_DIGITS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ROUNDOFF_DIGITS</span></code></a></p></td>
 <td><p></p></td>
 </tr>
 </tbody>
@@ -518,6 +521,11 @@ choose the mode and set the parameter before the forward() transformation.</p>
 <dl class="py data">
 <dt class="sig sig-object py" id="hklpy2.backends.hkl_soleil.logger">
 <span class="sig-prename descclassname"><span class="pre">hklpy2.backends.hkl_soleil.</span></span><span class="sig-name descname"><span class="pre">logger</span></span><a class="reference internal" href="../../../../_modules/hklpy2/backends/hkl_soleil.html#logger"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.backends.hkl_soleil.logger" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="hklpy2.backends.hkl_soleil.libhkl">
+<span class="sig-prename descclassname"><span class="pre">hklpy2.backends.hkl_soleil.</span></span><span class="sig-name descname"><span class="pre">libhkl</span></span><a class="reference internal" href="../../../../_modules/hklpy2/backends/hkl_soleil.html#libhkl"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.backends.hkl_soleil.libhkl" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py data">
@@ -597,16 +605,19 @@ choose the mode and set the parameter before the forward() transformation.</p>
 <p><code class="docutils literal notranslate"><span class="pre">&quot;hkl_soleil&quot;</span></code> (Linux x86_64 only) <strong>Hkl/Soleil</strong>.</p>
 <p>Wraps the <strong>Hkl/Soleil</strong> library, written by Frédéric-Emmanuel PICCA (Soleil),
 with support for many common diffractometer geometries.</p>
-<p class="rubric">Parameters</p>
-<ul class="simple">
-<li><p>geometry: (str) Name of geometry.</p></li>
-<li><p>engine: (str) Name of computation engine.  (default: <code class="docutils literal notranslate"><span class="pre">&quot;hkl&quot;</span></code>)</p></li>
-<li><p>mode: (str) Name of operating mode.  (default: current mode)</p></li>
-<li><p>pseudos: ([PseudoPositioner]) List of pseudo positioners.
-(default: <code class="docutils literal notranslate"><span class="pre">[]</span></code>)</p></li>
-<li><p>reals: ([PositionerBase]) List of real positioners.
-(default: <code class="docutils literal notranslate"><span class="pre">[]</span></code>)</p></li>
-</ul>
+<p>PARAMETERS</p>
+<dl class="simple">
+<dt>geometry: str</dt><dd><p>Name of geometry.</p>
+</dd>
+<dt>engine: str</dt><dd><p>Name of computation engine.  (default: <code class="docutils literal notranslate"><span class="pre">&quot;hkl&quot;</span></code>)</p>
+</dd>
+<dt>mode: str</dt><dd><p>Name of operating mode.  (default: current mode)</p>
+</dd>
+<dt>pseudos: list[PseudoPositioner]</dt><dd><p>List of pseudo positioners. (default: <code class="docutils literal notranslate"><span class="pre">[]</span></code>)</p>
+</dd>
+<dt>reals: list[PositionerBase]</dt><dd><p>List of real positioners. (default: <code class="docutils literal notranslate"><span class="pre">[]</span></code>)</p>
+</dd>
+</dl>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>The lists of <code class="docutils literal notranslate"><span class="pre">pseudos</span></code> and <code class="docutils literal notranslate"><span class="pre">reals</span></code> are the
@@ -680,7 +691,7 @@ sets of names.</p>
 <td><p>Name of selected diffractometer geometry.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.backends.hkl_soleil.HklSolver.lattice" title="hklpy2.backends.hkl_soleil.HklSolver.lattice"><code class="xref py py-obj docutils literal notranslate"><span class="pre">lattice</span></code></a></p></td>
-<td><p>Crystal lattice parameters.</p></td>
+<td><p>Dictionary of crystal lattice parameters.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.backends.hkl_soleil.HklSolver.mode" title="hklpy2.backends.hkl_soleil.HklSolver.mode"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mode</span></code></a></p></td>
 <td><p>Name of the current geometry operating mode.</p></td>
@@ -758,7 +769,7 @@ sets of names.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="hklpy2.backends.hkl_soleil.HklSolver.addReflection">
-<span class="sig-name descname"><span class="pre">addReflection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">reflection</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../../blocks/reflection/index.html#hklpy2.blocks.reflection.Reflection" title="hklpy2.blocks.reflection.Reflection"><span class="pre">hklpy2.blocks.reflection.Reflection</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../../../_modules/hklpy2/backends/hkl_soleil.html#HklSolver.addReflection"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.backends.hkl_soleil.HklSolver.addReflection" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">addReflection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">reflection</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">hklpy2.backends.base.Reflection</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../../../_modules/hklpy2/backends/hkl_soleil.html#HklSolver.addReflection"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.backends.hkl_soleil.HklSolver.addReflection" title="Link to this definition">#</a></dt>
 <dd><p>Add coordinates of a diffraction condition (a reflection).</p>
 </dd></dl>
 
@@ -784,14 +795,14 @@ sets of names.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="hklpy2.backends.hkl_soleil.HklSolver.calculate_UB">
-<span class="sig-name descname"><span class="pre">calculate_UB</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">r1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../../blocks/reflection/index.html#hklpy2.blocks.reflection.Reflection" title="hklpy2.blocks.reflection.Reflection"><span class="pre">hklpy2.blocks.reflection.Reflection</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">r2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../../blocks/reflection/index.html#hklpy2.blocks.reflection.Reflection" title="hklpy2.blocks.reflection.Reflection"><span class="pre">hklpy2.blocks.reflection.Reflection</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../../../_modules/hklpy2/backends/hkl_soleil.html#HklSolver.calculate_UB"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.backends.hkl_soleil.HklSolver.calculate_UB" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">calculate_UB</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">r1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">hklpy2.backends.base.Reflection</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">r2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">hklpy2.backends.base.Reflection</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../../../_modules/hklpy2/backends/hkl_soleil.html#HklSolver.calculate_UB"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.backends.hkl_soleil.HklSolver.calculate_UB" title="Link to this definition">#</a></dt>
 <dd><p>Calculate the UB (orientation) matrix with two reflections.</p>
 <p>The method of Busing &amp; Levy, Acta Cryst 22 (1967) 457.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="hklpy2.backends.hkl_soleil.HklSolver.engine">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">engine</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">gi.repository.Hkl.Engine</span></em><a class="reference internal" href="../../../../_modules/hklpy2/backends/hkl_soleil.html#HklSolver.engine"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.backends.hkl_soleil.HklSolver.engine" title="Link to this definition">#</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">engine</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">libhkl</span></em><a class="reference internal" href="../../../../_modules/hklpy2/backends/hkl_soleil.html#HklSolver.engine"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.backends.hkl_soleil.HklSolver.engine" title="Link to this definition">#</a></dt>
 <dd><p>Selected computational engine for this geometry.</p>
 </dd></dl>
 
@@ -842,8 +853,8 @@ sets of names.</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="hklpy2.backends.hkl_soleil.HklSolver.lattice">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">lattice</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">gi.repository.Hkl.Lattice</span></em><a class="reference internal" href="../../../../_modules/hklpy2/backends/hkl_soleil.html#HklSolver.lattice"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.backends.hkl_soleil.HklSolver.lattice" title="Link to this definition">#</a></dt>
-<dd><p>Crystal lattice parameters.  (Not used by this <strong>Solver</strong>.)</p>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">lattice</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">hklpy2.backends.base.Lattice</span></em><a class="reference internal" href="../../../../_modules/hklpy2/backends/hkl_soleil.html#HklSolver.lattice"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.backends.hkl_soleil.HklSolver.lattice" title="Link to this definition">#</a></dt>
+<dd><p>Dictionary of crystal lattice parameters.</p>
 </dd></dl>
 
 <dl class="py property">
@@ -870,9 +881,15 @@ sets of names.</p>
 <dd><p>Ordered list of the real axis names (such as th, tth).</p>
 </dd></dl>
 
+<dl class="py property">
+<dt class="sig sig-object py" id="hklpy2.backends.hkl_soleil.HklSolver.reflections">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">reflections</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><span class="pre">dict</span></a></em><a class="reference internal" href="../../../../_modules/hklpy2/backends/hkl_soleil.html#HklSolver.reflections"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.backends.hkl_soleil.HklSolver.reflections" title="Link to this definition">#</a></dt>
+<dd><p>List of defined reflections (no store reflection names in libhkl).</p>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="hklpy2.backends.hkl_soleil.HklSolver.refineLattice">
-<span class="sig-name descname"><span class="pre">refineLattice</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">reflections</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../../blocks/reflection/index.html#hklpy2.blocks.reflection.Reflection" title="hklpy2.blocks.reflection.Reflection"><span class="pre">hklpy2.blocks.reflection.Reflection</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="../../blocks/lattice/index.html#hklpy2.blocks.lattice.Lattice" title="hklpy2.blocks.lattice.Lattice"><span class="pre">hklpy2.blocks.lattice.Lattice</span></a></span></span><a class="reference internal" href="../../../../_modules/hklpy2/backends/hkl_soleil.html#HklSolver.refineLattice"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.backends.hkl_soleil.HklSolver.refineLattice" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">refineLattice</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">reflections</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><span class="pre">hklpy2.backends.base.Reflection</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">hklpy2.backends.base.Lattice</span></span></span><a class="reference internal" href="../../../../_modules/hklpy2/backends/hkl_soleil.html#HklSolver.refineLattice"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.backends.hkl_soleil.HklSolver.refineLattice" title="Link to this definition">#</a></dt>
 <dd><p>Refine the lattice parameters from a list of reflections.</p>
 <p>hkl_soleil uses a simplex method.</p>
 </dd></dl>
@@ -885,7 +902,7 @@ sets of names.</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="hklpy2.backends.hkl_soleil.HklSolver.sample">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">sample</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">gi.repository.Hkl.Sample</span></em><a class="reference internal" href="../../../../_modules/hklpy2/backends/hkl_soleil.html#HklSolver.sample"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.backends.hkl_soleil.HklSolver.sample" title="Link to this definition">#</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">sample</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">hklpy2.backends.base.Sample</span></em><a class="reference internal" href="../../../../_modules/hklpy2/backends/hkl_soleil.html#HklSolver.sample"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.backends.hkl_soleil.HklSolver.sample" title="Link to this definition">#</a></dt>
 <dd><p>Crystalline sample.  libhkl’s sample object.</p>
 </dd></dl>
 
@@ -1002,6 +1019,7 @@ sets of names.</p>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#functions">Functions</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-contents">Module Contents</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.backends.hkl_soleil.logger"><code class="docutils literal notranslate"><span class="pre">logger</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.backends.hkl_soleil.libhkl"><code class="docutils literal notranslate"><span class="pre">libhkl</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.backends.hkl_soleil.AXES_READ"><code class="docutils literal notranslate"><span class="pre">AXES_READ</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.backends.hkl_soleil.AXES_WRITTEN"><code class="docutils literal notranslate"><span class="pre">AXES_WRITTEN</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.backends.hkl_soleil.LIBHKL_DETECTOR_TYPE"><code class="docutils literal notranslate"><span class="pre">LIBHKL_DETECTOR_TYPE</span></code></a></li>
@@ -1040,6 +1058,7 @@ sets of names.</p>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.backends.hkl_soleil.HklSolver.modes"><code class="docutils literal notranslate"><span class="pre">HklSolver.modes</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.backends.hkl_soleil.HklSolver.pseudo_axis_names"><code class="docutils literal notranslate"><span class="pre">HklSolver.pseudo_axis_names</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.backends.hkl_soleil.HklSolver.real_axis_names"><code class="docutils literal notranslate"><span class="pre">HklSolver.real_axis_names</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.backends.hkl_soleil.HklSolver.reflections"><code class="docutils literal notranslate"><span class="pre">HklSolver.reflections</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.backends.hkl_soleil.HklSolver.refineLattice"><code class="docutils literal notranslate"><span class="pre">HklSolver.refineLattice()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.backends.hkl_soleil.HklSolver.removeAllReflections"><code class="docutils literal notranslate"><span class="pre">HklSolver.removeAllReflections()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.backends.hkl_soleil.HklSolver.sample"><code class="docutils literal notranslate"><span class="pre">HklSolver.sample</span></code></a></li>

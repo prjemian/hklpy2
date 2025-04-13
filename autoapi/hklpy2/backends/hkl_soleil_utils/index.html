@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../../../../_static/documentation_options.js?v=75af13e9"></script>
+    <script src="../../../../_static/documentation_options.js?v=f5a963c8"></script>
     <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -325,7 +325,6 @@
 <li class="toctree-l3"><a class="reference internal" href="../th_tth_q/index.html">hklpy2.backends.th_tth_q</a></li>
 </ul>
 </details></li>
-<li class="toctree-l2"><a class="reference internal" href="../../beam/index.html">hklpy2.beam</a></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../blocks/index.html">hklpy2.blocks</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../blocks/configure/index.html">hklpy2.blocks.configure</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../blocks/constraints/index.html">hklpy2.blocks.constraints</a></li>
@@ -335,6 +334,7 @@
 </ul>
 </details></li>
 <li class="toctree-l2"><a class="reference internal" href="../../diffract/index.html">hklpy2.diffract</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../incident/index.html">hklpy2.incident</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../misc/index.html">hklpy2.misc</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../ops/index.html">hklpy2.ops</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../user/index.html">hklpy2.user</a></li>
@@ -413,7 +413,7 @@
 <h2>Functions<a class="headerlink" href="#functions" title="Link to this heading">#</a></h2>
 <div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.backends.hkl_soleil_utils.gi_require_library" title="hklpy2.backends.hkl_soleil_utils.gi_require_library"><code class="xref py py-obj docutils literal notranslate"><span class="pre">gi_require_library</span></code></a>(→ None)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.backends.hkl_soleil_utils.setup_libhkl" title="hklpy2.backends.hkl_soleil_utils.setup_libhkl"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setup_libhkl</span></code></a>(→ object)</p></td>
 <td><p>Setup current session to load 'library' with the 'gi' package.</p></td>
 </tr>
 </tbody>
@@ -423,8 +423,8 @@
 <section id="module-contents">
 <h2>Module Contents<a class="headerlink" href="#module-contents" title="Link to this heading">#</a></h2>
 <dl class="py function">
-<dt class="sig sig-object py" id="hklpy2.backends.hkl_soleil_utils.gi_require_library">
-<span class="sig-prename descclassname"><span class="pre">hklpy2.backends.hkl_soleil_utils.</span></span><span class="sig-name descname"><span class="pre">gi_require_library</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">system</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">library</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">version</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../../../_modules/hklpy2/backends/hkl_soleil_utils.html#gi_require_library"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.backends.hkl_soleil_utils.gi_require_library" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py" id="hklpy2.backends.hkl_soleil_utils.setup_libhkl">
+<span class="sig-prename descclassname"><span class="pre">hklpy2.backends.hkl_soleil_utils.</span></span><span class="sig-name descname"><span class="pre">setup_libhkl</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">system</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">library</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">version</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.13)"><span class="pre">object</span></a></span></span><a class="reference internal" href="../../../../_modules/hklpy2/backends/hkl_soleil_utils.html#setup_libhkl"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.backends.hkl_soleil_utils.setup_libhkl" title="Link to this definition">#</a></dt>
 <dd><p>Setup current session to load ‘library’ with the ‘gi’ package.</p>
 <p>This function was written so the procedure here can test as if it
 was running on other OS.</p>
@@ -486,7 +486,7 @@ was running on other OS.</p>
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#functions">Functions</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-contents">Module Contents</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.backends.hkl_soleil_utils.gi_require_library"><code class="docutils literal notranslate"><span class="pre">gi_require_library()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.backends.hkl_soleil_utils.setup_libhkl"><code class="docutils literal notranslate"><span class="pre">setup_libhkl()</span></code></a></li>
 </ul>
 </li>
 </ul>

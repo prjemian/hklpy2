@@ -12,7 +12,7 @@
     "**Objective**\n",
     "\n",
     "Add one or more real positioners to the standard positioners of the 2-circle\n",
-    "diffractometer (*tth_tth*, *TH TTH Q* [geometry](../geometry_tables.rst)).  Use\n",
+    "diffractometer (*tth_tth*, *TH TTH Q* [geometry](../diffractometers.rst)).  Use\n",
     "simulated motors for the example (no EPICS required)."
    ]
   },
@@ -65,10 +65,10 @@
      "name": "stdout",
      "output_type": "stream",
      "text": [
-      "q=0\n",
       "wavelength=1.0\n",
+      "q=0\n",
       "th=0, tth=0\n",
-      "th2th.component_names=('geometry', 'solver', 'wavelength', 'q', 'th', 'tth')\n"
+      "th2th.component_names=('solver_signature', 'beam', 'q', 'th', 'tth')\n"
      ]
     }
    ],
@@ -95,10 +95,10 @@
      "name": "stdout",
      "output_type": "stream",
      "text": [
-      "q=0\n",
       "wavelength=1.0\n",
+      "q=0\n",
       "th=0, tth=0\n",
-      "th2th.component_names=('geometry', 'solver', 'wavelength', 'q', 'th', 'tth', 'spinner')\n"
+      "th2th.component_names=('solver_signature', 'beam', 'q', 'th', 'tth', 'spinner')\n"
      ]
     }
    ],
@@ -164,8 +164,8 @@
      "name": "stdout",
      "output_type": "stream",
      "text": [
-      "Q=0\n",
       "wavelength=1.0\n",
+      "Q=0\n",
       "sample=0, detector=0\n"
      ]
     }
@@ -206,27 +206,31 @@
      "name": "stdout",
      "output_type": "stream",
      "text": [
-      "q=0\n",
       "wavelength=1.0\n",
+      "q=0\n",
       "th=0, tth=0\n"
      ]
     },
     {
      "data": {
       "text/plain": [
-       "OrderedDict([('th2tth_q', {'value': 0, 'timestamp': 1743011146.56252}),\n",
+       "OrderedDict([('th2tth_beam_wavelength',\n",
+       "              {'value': 1.0, 'timestamp': 1744256777.7262537}),\n",
+       "             ('th2tth_beam_energy',\n",
+       "              {'value': 12.398419843856837, 'timestamp': 1744256777.7262843}),\n",
+       "             ('th2tth_q', {'value': 0, 'timestamp': 1744256777.7263556}),\n",
        "             ('th2tth_q_setpoint',\n",
-       "              {'value': 0, 'timestamp': 1743011146.5625339}),\n",
-       "             ('th2tth_th', {'value': 0, 'timestamp': 1743011146.5971136}),\n",
-       "             ('th2tth_tth', {'value': 0, 'timestamp': 1743011146.5971181}),\n",
-       "             ('th2tth_spinner', {'value': 0, 'timestamp': 1743011146.5971215}),\n",
-       "             ('th2tth_atth', {'value': 0, 'timestamp': 1743011146.5971239}),\n",
+       "              {'value': 0, 'timestamp': 1744256777.726387}),\n",
+       "             ('th2tth_th', {'value': 0, 'timestamp': 1744256777.7611496}),\n",
+       "             ('th2tth_tth', {'value': 0, 'timestamp': 1744256777.7611551}),\n",
+       "             ('th2tth_spinner', {'value': 0, 'timestamp': 1744256777.7611592}),\n",
+       "             ('th2tth_atth', {'value': 0, 'timestamp': 1744256777.7611616}),\n",
        "             ('th2tth_temperature',\n",
-       "              {'value': 25, 'timestamp': 1743011146.5629923}),\n",
-       "             ('th2tth_xy_x', {'value': 0, 'timestamp': 1743011146.5971382}),\n",
-       "             ('th2tth_xy_y', {'value': 0, 'timestamp': 1743011146.597141}),\n",
+       "              {'value': 25, 'timestamp': 1744256777.726868}),\n",
+       "             ('th2tth_xy_x', {'value': 0, 'timestamp': 1744256777.7611754}),\n",
+       "             ('th2tth_xy_y', {'value': 0, 'timestamp': 1744256777.7611783}),\n",
        "             ('th2tth_xy_solenoid_lock',\n",
-       "              {'value': True, 'timestamp': 1743011146.563218})])"
+       "              {'value': True, 'timestamp': 1744256777.7270894})])"
       ]
      },
      "execution_count": 6,

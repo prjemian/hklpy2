@@ -42,6 +42,7 @@ Attributes
 .. autoapisummary::
 
    hklpy2.backends.hkl_soleil.logger
+   hklpy2.backends.hkl_soleil.libhkl
    hklpy2.backends.hkl_soleil.AXES_READ
    hklpy2.backends.hkl_soleil.AXES_WRITTEN
    hklpy2.backends.hkl_soleil.LIBHKL_DETECTOR_TYPE
@@ -73,6 +74,8 @@ Module Contents
 ---------------
 
 .. py:data:: logger
+
+.. py:data:: libhkl
 
 .. py:data:: AXES_READ
    :value: 0
@@ -134,15 +137,18 @@ Module Contents
    Wraps the |libhkl| library, written by Frédéric-Emmanuel PICCA (Soleil),
    with support for many common diffractometer geometries.
 
-   .. rubric:: Parameters
+   PARAMETERS
 
-   * geometry: (str) Name of geometry.
-   * engine: (str) Name of computation engine.  (default: ``"hkl"``)
-   * mode: (str) Name of operating mode.  (default: current mode)
-   * pseudos: ([PseudoPositioner]) List of pseudo positioners.
-     (default: ``[]``)
-   * reals: ([PositionerBase]) List of real positioners.
-     (default: ``[]``)
+   geometry: str
+       Name of geometry.
+   engine: str
+       Name of computation engine.  (default: ``"hkl"``)
+   mode: str
+       Name of operating mode.  (default: current mode)
+   pseudos: list[PseudoPositioner]
+       List of pseudo positioners. (default: ``[]``)
+   reals: list[PositionerBase]
+       List of real positioners. (default: ``[]``)
 
    .. note:: The lists of ``pseudos`` and ``reals`` are the
       corresponding axes of the diffractometer, in the order expected by
@@ -226,7 +232,7 @@ Module Contents
    .. py:method:: __repr__() -> str
 
 
-   .. py:method:: addReflection(reflection: hklpy2.blocks.reflection.Reflection) -> None
+   .. py:method:: addReflection(reflection: hklpy2.backends.base.Reflection) -> None
 
       Add coordinates of a diffraction condition (a reflection).
 
@@ -257,7 +263,7 @@ Module Contents
       Updated by 'forward()' computation.
 
 
-   .. py:method:: calculate_UB(r1: hklpy2.blocks.reflection.Reflection, r2: hklpy2.blocks.reflection.Reflection) -> list[list[float]]
+   .. py:method:: calculate_UB(r1: hklpy2.backends.base.Reflection, r2: hklpy2.backends.base.Reflection) -> list[list[float]]
 
       Calculate the UB (orientation) matrix with two reflections.
 
@@ -266,7 +272,7 @@ Module Contents
 
 
    .. py:property:: engine
-      :type: gi.repository.Hkl.Engine
+      :type: libhkl
 
 
       Selected computational engine for this geometry.
@@ -327,10 +333,10 @@ Module Contents
 
 
    .. py:property:: lattice
-      :type: gi.repository.Hkl.Lattice
+      :type: hklpy2.backends.base.Lattice
 
 
-      Crystal lattice parameters.  (Not used by this |solver|.)
+      Dictionary of crystal lattice parameters.
 
 
    .. py:property:: mode
@@ -361,7 +367,14 @@ Module Contents
       Ordered list of the real axis names (such as th, tth).
 
 
-   .. py:method:: refineLattice(reflections: list[hklpy2.blocks.reflection.Reflection]) -> hklpy2.blocks.lattice.Lattice
+   .. py:property:: reflections
+      :type: dict
+
+
+      List of defined reflections (no store reflection names in libhkl).
+
+
+   .. py:method:: refineLattice(reflections: list[hklpy2.backends.base.Reflection]) -> hklpy2.backends.base.Lattice
 
       Refine the lattice parameters from a list of reflections.
 
@@ -376,7 +389,7 @@ Module Contents
 
 
    .. py:property:: sample
-      :type: gi.repository.Hkl.Sample
+      :type: hklpy2.backends.base.Sample
 
 
       Crystalline sample.  libhkl's sample object.

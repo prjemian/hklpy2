@@ -19,6 +19,9 @@ Attributes
 .. autoapisummary::
 
    hklpy2.backends.base.logger
+   hklpy2.backends.base.Lattice
+   hklpy2.backends.base.Reflection
+   hklpy2.backends.base.Sample
 
 
 Classes
@@ -34,6 +37,12 @@ Module Contents
 
 .. py:data:: logger
 
+.. py:data:: Lattice
+
+.. py:data:: Reflection
+
+.. py:data:: Sample
+
 .. py:class:: SolverBase(geometry: str, *, mode: str = '', **kwargs)
 
    Bases: :py:obj:`abc.ABC`
@@ -41,10 +50,12 @@ Module Contents
 
    Base class for all |hklpy2| |solver| classes.
 
-   .. rubric:: Parameters
+   PARAMETERS
 
-   * ``geometry``: (str) Name of geometry.
-   * ``mode``: (str) Name of operating mode.  (default: current mode)
+   geometry : str
+       Name of geometry.
+   mode: str
+       Name of operating mode.  (default: current mode)
 
    Example::
 
@@ -143,7 +154,7 @@ Module Contents
       Dictionary with this solver's summary metadata.
 
 
-   .. py:method:: addReflection(reflection: hklpy2.blocks.reflection.Reflection) -> None
+   .. py:method:: addReflection(reflection: Reflection) -> None
       :abstractmethod:
 
 
@@ -158,7 +169,7 @@ Module Contents
       Unique, sorted list of extra axis names in all modes for chosen engine.
 
 
-   .. py:method:: calculate_UB(r1: hklpy2.blocks.reflection.Reflection, r2: hklpy2.blocks.reflection.Reflection) -> list[list[float]]
+   .. py:method:: calculate_UB(r1: Reflection, r2: Reflection) -> list[list[float]]
       :abstractmethod:
 
 
@@ -231,7 +242,7 @@ Module Contents
 
 
    .. py:property:: lattice
-      :type: object
+      :type: Lattice
 
 
       Crystal lattice parameters.  (Not used by this |solver|.)
@@ -264,7 +275,7 @@ Module Contents
       Ordered list of the real axis names (such as th, tth).
 
 
-   .. py:method:: refineLattice(reflections: list[hklpy2.blocks.reflection.Reflection]) -> hklpy2.blocks.lattice.Lattice
+   .. py:method:: refineLattice(reflections: list[Reflection]) -> Lattice
       :abstractmethod:
 
 

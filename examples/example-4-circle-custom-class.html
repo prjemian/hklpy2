@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=75af13e9"></script>
+    <script src="../_static/documentation_options.js?v=f5a963c8"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
@@ -439,6 +439,7 @@ Add many additional axes, both in real (rotation angle) space and in reciprocal
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">hklpy2</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">hklpy2.diffract</span><span class="w"> </span><span class="kn">import</span> <span class="n">Hklpy2PseudoAxis</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">hklpy2.incident</span><span class="w"> </span><span class="kn">import</span> <span class="n">Wavelength</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">ophyd</span><span class="w"> </span><span class="kn">import</span> <span class="n">Component</span> <span class="k">as</span> <span class="n">Cpt</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">ophyd</span><span class="w"> </span><span class="kn">import</span> <span class="n">EpicsMotor</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">ophyd</span><span class="w"> </span><span class="kn">import</span> <span class="n">Kind</span>
@@ -449,6 +450,12 @@ Add many additional axes, both in real (rotation angle) space and in reciprocal
 
 <span class="k">class</span><span class="w"> </span><span class="nc">Fourc</span><span class="p">(</span><span class="n">hklpy2</span><span class="o">.</span><span class="n">DiffractometerBase</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Test case.&quot;&quot;&quot;</span>
+
+    <span class="n">beam</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span>
+        <span class="n">Wavelength</span><span class="p">,</span>
+        <span class="n">source_type</span><span class="o">=</span><span class="s2">&quot;Simulated Wavelength-only Source&quot;</span><span class="p">,</span>
+        <span class="n">kind</span><span class="o">=</span><span class="n">NORMAL_HINTED</span><span class="p">,</span>
+    <span class="p">)</span>
 
     <span class="c1"># Pseudo-space axes, in order expected by hkl_soleil E4CV, engine=&quot;hkl&quot;</span>
     <span class="n">h</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">Hklpy2PseudoAxis</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">NORMAL_HINTED</span><span class="p">)</span>  <span class="c1"># noqa: E741</span>
@@ -471,7 +478,7 @@ Add many additional axes, both in real (rotation angle) space and in reciprocal
     <span class="n">psi</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">SoftPositioner</span><span class="p">,</span> <span class="n">limits</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">170</span><span class="p">,</span> <span class="mi">170</span><span class="p">),</span> <span class="n">init_pos</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">NORMAL_HINTED</span><span class="p">)</span>
 
     <span class="c1"># another Component, not used (yet)</span>
-    <span class="n">energy</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">SoftPositioner</span><span class="p">,</span> <span class="n">limits</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">35</span><span class="p">),</span> <span class="n">init_pos</span><span class="o">=</span><span class="mf">12.4</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">NORMAL_HINTED</span><span class="p">)</span>
+    <span class="n">temperature</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">SoftPositioner</span><span class="p">,</span> <span class="n">limits</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">75</span><span class="p">,</span> <span class="mi">45</span><span class="p">),</span> <span class="n">init_pos</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">NORMAL_HINTED</span><span class="p">)</span>
 
     <span class="c1"># Just the axes in expected order by hkl_soleil E4CV.</span>
     <span class="n">_pseudo</span> <span class="o">=</span> <span class="s2">&quot;h k l&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
@@ -483,8 +490,8 @@ Add many additional axes, both in real (rotation angle) space and in reciprocal
             <span class="n">solver</span><span class="o">=</span><span class="s2">&quot;hkl_soleil&quot;</span><span class="p">,</span>
             <span class="n">geometry</span><span class="o">=</span><span class="s2">&quot;E4CV&quot;</span><span class="p">,</span>
             <span class="n">solver_kwargs</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">engine</span><span class="o">=</span><span class="s2">&quot;hkl&quot;</span><span class="p">),</span>
-            <span class="n">pseudos</span><span class="o">=</span><span class="s2">&quot;h k l&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">(),</span>
-            <span class="n">reals</span><span class="o">=</span><span class="s2">&quot;theta chi phi ttheta&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">(),</span>
+            <span class="n">pseudos</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;h&quot;</span><span class="p">,</span> <span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="s2">&quot;l&quot;</span><span class="p">],</span>
+            <span class="n">reals</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;theta&quot;</span><span class="p">,</span> <span class="s2">&quot;chi&quot;</span><span class="p">,</span> <span class="s2">&quot;phi&quot;</span><span class="p">,</span> <span class="s2">&quot;ttheta&quot;</span><span class="p">],</span>
             <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
         <span class="p">)</span>
 
@@ -496,7 +503,7 @@ Add many additional axes, both in real (rotation angle) space and in reciprocal
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Fourc(prefix=&#39;gp:&#39;, name=&#39;fourc&#39;, settle_time=0.0, timeout=None, egu=&#39;&#39;, limits=(0, 0), source=&#39;computed&#39;, read_attrs=[&#39;h&#39;, &#39;h.readback&#39;, &#39;h.setpoint&#39;, &#39;k&#39;, &#39;k.readback&#39;, &#39;k.setpoint&#39;, &#39;l&#39;, &#39;l.readback&#39;, &#39;l.setpoint&#39;, &#39;ttheta&#39;, &#39;ttheta.user_readback&#39;, &#39;ttheta.user_setpoint&#39;, &#39;theta&#39;, &#39;theta.user_readback&#39;, &#39;theta.user_setpoint&#39;, &#39;chi&#39;, &#39;chi.user_readback&#39;, &#39;chi.user_setpoint&#39;, &#39;phi&#39;, &#39;phi.user_readback&#39;, &#39;phi.user_setpoint&#39;, &#39;h2&#39;, &#39;h2.readback&#39;, &#39;h2.setpoint&#39;, &#39;k2&#39;, &#39;k2.readback&#39;, &#39;k2.setpoint&#39;, &#39;l2&#39;, &#39;l2.readback&#39;, &#39;l2.setpoint&#39;, &#39;psi&#39;, &#39;energy&#39;], configuration_attrs=[&#39;geometry&#39;, &#39;solver&#39;, &#39;wavelength&#39;, &#39;h&#39;, &#39;k&#39;, &#39;l&#39;, &#39;ttheta&#39;, &#39;ttheta.user_offset&#39;, &#39;ttheta.user_offset_dir&#39;, &#39;ttheta.velocity&#39;, &#39;ttheta.acceleration&#39;, &#39;ttheta.motor_egu&#39;, &#39;theta&#39;, &#39;theta.user_offset&#39;, &#39;theta.user_offset_dir&#39;, &#39;theta.velocity&#39;, &#39;theta.acceleration&#39;, &#39;theta.motor_egu&#39;, &#39;chi&#39;, &#39;chi.user_offset&#39;, &#39;chi.user_offset_dir&#39;, &#39;chi.velocity&#39;, &#39;chi.acceleration&#39;, &#39;chi.motor_egu&#39;, &#39;phi&#39;, &#39;phi.user_offset&#39;, &#39;phi.user_offset_dir&#39;, &#39;phi.velocity&#39;, &#39;phi.acceleration&#39;, &#39;phi.motor_egu&#39;, &#39;h2&#39;, &#39;k2&#39;, &#39;l2&#39;], concurrent=True)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Fourc(prefix=&#39;gp:&#39;, name=&#39;fourc&#39;, settle_time=0.0, timeout=None, egu=&#39;&#39;, limits=(0, 0), source=&#39;computed&#39;, read_attrs=[&#39;beam&#39;, &#39;beam.wavelength&#39;, &#39;h&#39;, &#39;h.readback&#39;, &#39;h.setpoint&#39;, &#39;k&#39;, &#39;k.readback&#39;, &#39;k.setpoint&#39;, &#39;l&#39;, &#39;l.readback&#39;, &#39;l.setpoint&#39;, &#39;ttheta&#39;, &#39;ttheta.user_readback&#39;, &#39;ttheta.user_setpoint&#39;, &#39;theta&#39;, &#39;theta.user_readback&#39;, &#39;theta.user_setpoint&#39;, &#39;chi&#39;, &#39;chi.user_readback&#39;, &#39;chi.user_setpoint&#39;, &#39;phi&#39;, &#39;phi.user_readback&#39;, &#39;phi.user_setpoint&#39;, &#39;h2&#39;, &#39;h2.readback&#39;, &#39;h2.setpoint&#39;, &#39;k2&#39;, &#39;k2.readback&#39;, &#39;k2.setpoint&#39;, &#39;l2&#39;, &#39;l2.readback&#39;, &#39;l2.setpoint&#39;, &#39;psi&#39;, &#39;temperature&#39;], configuration_attrs=[&#39;solver_signature&#39;, &#39;beam&#39;, &#39;beam.source_type&#39;, &#39;beam.wavelength_units&#39;, &#39;h&#39;, &#39;k&#39;, &#39;l&#39;, &#39;ttheta&#39;, &#39;ttheta.user_offset&#39;, &#39;ttheta.user_offset_dir&#39;, &#39;ttheta.velocity&#39;, &#39;ttheta.acceleration&#39;, &#39;ttheta.motor_egu&#39;, &#39;theta&#39;, &#39;theta.user_offset&#39;, &#39;theta.user_offset_dir&#39;, &#39;theta.velocity&#39;, &#39;theta.acceleration&#39;, &#39;theta.motor_egu&#39;, &#39;chi&#39;, &#39;chi.user_offset&#39;, &#39;chi.user_offset_dir&#39;, &#39;chi.velocity&#39;, &#39;chi.acceleration&#39;, &#39;chi.motor_egu&#39;, &#39;phi&#39;, &#39;phi.user_offset&#39;, &#39;phi.user_offset_dir&#39;, &#39;phi.velocity&#39;, &#39;phi.acceleration&#39;, &#39;phi.motor_egu&#39;, &#39;h2&#39;, &#39;k2&#39;, &#39;l2&#39;], concurrent=True)
 </pre></div>
 </div>
 </div>
@@ -510,8 +517,8 @@ Add many additional axes, both in real (rotation angle) space and in reciprocal
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Brief &#39;where&#39; report:
-h=0, k=0, l=0
 wavelength=1.0
+h=0, k=0, l=0
 theta=0, chi=0, phi=0, ttheta=0
 </pre></div>
 </div>
@@ -536,8 +543,9 @@ constraint: -180.0 &lt;= theta &lt;= 180.0
 constraint: -180.0 &lt;= chi &lt;= 180.0
 constraint: -180.0 &lt;= phi &lt;= 180.0
 constraint: -180.0 &lt;= ttheta &lt;= 180.0
+Mode: bissector
+beam={&#39;class&#39;: &#39;Wavelength&#39;, &#39;source_type&#39;: &#39;Simulated Wavelength-only Source&#39;, &#39;wavelength&#39;: 1.0, &#39;wavelength_units&#39;: &#39;angstrom&#39;}
 h=0, k=0, l=0
-wavelength=1.0
 theta=0, chi=0, phi=0, ttheta=0
 </pre></div>
 </div>

@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=75af13e9"></script>
+    <script src="../_static/documentation_options.js?v=f5a963c8"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
@@ -432,7 +432,7 @@
 <p>The steps to setup <em>TARDIS</em> in <strong>hklpy2</strong> are described below. Includes adding a
 sample and orienting it with the method of Busing &amp; Levy, Acta Cryst 22 (1967)
 457, then calculating and moving in $hkl$.</p>
-<p><em>TARDIS</em> is an environmental chamber with a 3-axis diffractometer (see <em>hkl_soleil, E6C</em> geometry in the <a class="reference internal" href="#../geometry_tables.rst"><span class="xref myst">tables</span></a>).  Some of the real axes are
+<p><em>TARDIS</em> is an environmental chamber with a 3-axis diffractometer (see <em>hkl_soleil, E6C</em> geometry in the <a class="reference internal" href="../diffractometers.html"><span class="std std-doc">tables</span></a>).  Some of the real axes are
 <a class="reference external" href="https://github.com/NSLS-II-CSX/profile_collection/blob/fc5d2bc5c542d83c2593b4f5066f52a5b04d748d/startup/csx1/startup/tardis.py#L31-L37">renamed</a>.
 Some E6C axes do not exist in <em>TARDIS</em>; they are fixed at zero.</p>
 <p>The <em>TARDIS</em> axes, in the order expected by the E6C geometry:</p>
@@ -520,11 +520,11 @@ are <em>eV</em>, wavelength units are <em>angstrom</em>.</p>
 </div>
 </div>
 <p>Configure some basic operating parameters.</p>
-<p><strong>NOTE</strong>: Length units are <em>angstrom</em>, angles are <em>degrees</em>, and energy is <em>eV</em>.</p>
+<p><strong>NOTE</strong>: Length units are <em>angstrom</em>, angles are <em>degrees</em>, and energy (when available) is <em>eV</em>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tardis</span><span class="o">.</span><span class="n">_source</span><span class="o">.</span><span class="n">wavelength_units</span> <span class="o">=</span> <span class="s2">&quot;angstrom&quot;</span>
-<span class="n">tardis</span><span class="o">.</span><span class="n">_source</span><span class="o">.</span><span class="n">energy_units</span> <span class="o">=</span> <span class="s2">&quot;eV&quot;</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tardis</span><span class="o">.</span><span class="n">beam</span><span class="o">.</span><span class="n">wavelength_units</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;angstrom&quot;</span><span class="p">)</span>
+<span class="n">tardis</span><span class="o">.</span><span class="n">beam</span><span class="o">.</span><span class="n">energy_units</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;eV&quot;</span><span class="p">)</span>
 
 <span class="n">tardis</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">constraints</span><span class="p">[</span><span class="s2">&quot;theta&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">limits</span> <span class="o">=</span> <span class="o">-</span><span class="mi">181</span><span class="p">,</span> <span class="mi">181</span>
 <span class="n">tardis</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">constraints</span><span class="p">[</span><span class="s2">&quot;mu&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">limits</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span>
@@ -566,7 +566,7 @@ are <em>eV</em>, wavelength units are <em>angstrom</em>.</p>
 <h2>Set the wavelength of the source.<a class="headerlink" href="#set-the-wavelength-of-the-source" title="Link to this heading">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tardis</span><span class="o">.</span><span class="n">wavelength</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="mf">1.61198</span><span class="p">)</span>  <span class="c1"># ophyd signal, use .put()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tardis</span><span class="o">.</span><span class="n">beam</span><span class="o">.</span><span class="n">wavelength</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="mf">1.61198</span><span class="p">)</span>  <span class="c1"># ophyd signal, use .put()</span>
 </pre></div>
 </div>
 </div>
@@ -633,14 +633,9 @@ any order we choose.</p>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-C66">#hklpy2 configuration file</span>
 
 _header:
-  datetime: <span class=" -Color -Color-Yellow">&#39;2025-03-29 11:53:14.186769&#39;</span>
-  hklpy2_version: <span class=" -Color -Color-Green">0.0.29</span>.dev3+g27885c5.d20250329
+  datetime: <span class=" -Color -Color-Yellow">&#39;2025-04-09 21:38:25.942848&#39;</span>
+  hklpy2_version: <span class=" -Color -Color-Green">0.0.29</span>.dev43+gdc399a0.d20250410
   python_class: Hklpy2Diffractometer
-  source_type: X-ray
-  energy_units: eV
-  energy: <span class=" -Color -Color-Green">7691.422873644113</span>
-  wavelength_units: angstrom
-  wavelength: <span class=" -Color -Color-Green">1.61198</span>
   file: dev_tardis-cmazzoli.yml
   comment: NSLS-II tardis <span class=" -Color -Color-Bold -Color-Bold-C28">with</span> oriented sample <span class=" -Color -Color-Bold -Color-Bold-C28">from</span> @cmazzoli
 name: tardis
@@ -666,7 +661,11 @@ axes:
     phi: phi
     delta: gamma
     gamma: delta
-  extra_axes: {}
+  extra_axes:
+    h2: <span class=" -Color -Color-Green">0</span>
+    k2: <span class=" -Color -Color-Green">0</span>
+    l2: <span class=" -Color -Color-Green">0</span>
+    psi: <span class=" -Color -Color-Green">0</span>
 sample_name: cmazzoli
 samples:
   sample:
@@ -801,7 +800,7 @@ constraints:
 solver:
   name: hkl_soleil
   description: HklSolver(name=<span class=" -Color -Color-Yellow">&#39;hkl_soleil&#39;</span>, version=<span class=" -Color -Color-Yellow">&#39;5.1.2&#39;</span>, geometry=<span class=" -Color -Color-Yellow">&#39;E6C&#39;</span>, engine_name=<span class=" -Color -Color-Yellow">&#39;hkl&#39;</span>,
-    mode=<span class=" -Color -Color-Yellow">&#39;lifting_detector_mu&#39;</span>)
+    mode=<span class=" -Color -Color-Yellow">&#39;bissector_vertical&#39;</span>)
   geometry: E6C
   real_axes:
   - mu
@@ -812,6 +811,13 @@ solver:
   - delta
   version: <span class=" -Color -Color-Green">5.1.2</span>
   engine: hkl
+beam:
+  <span class=" -Color -Color-Bold -Color-Bold-C28">class</span>: WavelengthXray
+  source_type: Synchrotron X-ray Source
+  energy: <span class=" -Color -Color-Green">7691.422873644113</span>
+  wavelength: <span class=" -Color -Color-Green">1.61198</span>
+  energy_units: eV
+  wavelength_units: angstrom
 </pre></div>
 </div>
 </div>
@@ -828,7 +834,7 @@ solver:
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Hklpy2DiffractometerRealPos(theta=47.298770262588, mu=0, chi=0, phi=0, delta=48.462236849798, gamma=-1.057775537788)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Hklpy2DiffractometerRealPos(theta=47.298769610172, mu=0, chi=0, phi=0, delta=48.462235401856, gamma=-1.057775860103)
 </pre></div>
 </div>
 </div>
@@ -873,8 +879,8 @@ solver:
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>h=4.0, k=1.0, l=0
-wavelength=1.61198
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>wavelength=1.61198
+h=4.0, k=1.0, l=0
 theta=40.2199, mu=0, chi=0, phi=0, delta=56.097, gamma=-1.0837
 </pre></div>
 </div>
@@ -902,8 +908,9 @@ constraint: 0.0 &lt;= chi &lt;= 0.0
 constraint: 0.0 &lt;= phi &lt;= 0.0
 constraint: -5.0 &lt;= delta &lt;= 180.0
 constraint: -5.0 &lt;= gamma &lt;= 180.0
+Mode: lifting_detector_mu
+beam={&#39;class&#39;: &#39;WavelengthXray&#39;, &#39;source_type&#39;: &#39;Synchrotron X-ray Source&#39;, &#39;energy&#39;: 7691.422873644113, &#39;wavelength&#39;: 1.61198, &#39;energy_units&#39;: &#39;eV&#39;, &#39;wavelength_units&#39;: &#39;angstrom&#39;}
 h=4.0, k=1.0, l=0
-wavelength=1.61198
 theta=40.2199, mu=0, chi=0, phi=0, delta=56.097, gamma=-1.0837
 </pre></div>
 </div>

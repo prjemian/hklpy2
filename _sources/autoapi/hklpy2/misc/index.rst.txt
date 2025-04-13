@@ -13,7 +13,9 @@ hklpy2.misc
        ~axes_to_dict
        ~check_value_in_list
        ~compare_float_dicts
+       ~convert_units
        ~dict_device_factory
+       ~dynamic_import
        ~flatten_lists
        ~get_run_orientation
        ~get_solver
@@ -59,7 +61,6 @@ hklpy2.misc
        ~SampleError
        ~SolverError
        ~SolverNoForwardSolutions
-       ~WavelengthError
 
 
 
@@ -94,7 +95,6 @@ Exceptions
    hklpy2.misc.SampleError
    hklpy2.misc.SolverError
    hklpy2.misc.SolverNoForwardSolutions
-   hklpy2.misc.WavelengthError
 
 
 Classes
@@ -113,7 +113,9 @@ Functions
    hklpy2.misc.axes_to_dict
    hklpy2.misc.check_value_in_list
    hklpy2.misc.compare_float_dicts
+   hklpy2.misc.convert_units
    hklpy2.misc.dict_device_factory
+   hklpy2.misc.dynamic_import
    hklpy2.misc.flatten_lists
    hklpy2.misc.get_solver
    hklpy2.misc.get_run_orientation
@@ -258,14 +260,6 @@ Module Contents
    A solver did not find any 'forward()' solutions.
 
 
-.. py:exception:: WavelengthError
-
-   Bases: :py:obj:`Hklpy2Error`
-
-
-   Custom exceptions from :mod:`hklpy2.beam`.
-
-
 .. py:class:: ConfigurationRunWrapper(*devices, knowns=None)
 
    Write configuration of supported device(s) to a bluesky run.
@@ -385,11 +379,34 @@ Module Contents
    Compare two dictionaries.  Values are all floats.
 
 
+.. py:function:: convert_units(value: float, old_units: str, new_units: str) -> float
+
+   Convert 'value' from old units to new.
+
+
 .. py:function:: dict_device_factory(data: dict, **kwargs)
 
    Create a ``DictionaryDevice()`` class using the supplied dictionary.
 
    .. index:: factory; dict_device_factory, dict_device_factory
+
+.. py:function:: dynamic_import(full_path: str) -> type
+
+   Import the object given its import path as text.
+
+   Motivated by specification of class names for plugins
+   when using ``apstools.devices.ad_creator()``.
+
+   EXAMPLES::
+
+       klass = dynamic_import("ophyd.EpicsMotor")
+       m1 = klass("gp:m1", name="m1")
+
+       creator = dynamic_import("hklpy2.diffract.creator")
+       fourc = creator(name="fourc")
+
+   From the `apstools <https://github.com/BCDA-APS/apstools>`_ package.
+
 
 .. py:function:: flatten_lists(xs)
 

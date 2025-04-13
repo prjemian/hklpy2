@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=75af13e9"></script>
+    <script src="../_static/documentation_options.js?v=f5a963c8"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
@@ -433,7 +433,7 @@
 a diffractometer object.  Such components could include additional motor axes, azimuthal reference vectors, temperature, etc.</p>
 <p><strong>Objective</strong></p>
 <p>Add one or more real positioners to the standard positioners of the 2-circle
-diffractometer (<em>tth_tth</em>, <em>TH TTH Q</em> <a class="reference internal" href="#../geometry_tables.rst"><span class="xref myst">geometry</span></a>).  Use
+diffractometer (<em>tth_tth</em>, <em>TH TTH Q</em> <a class="reference internal" href="../diffractometers.html"><span class="std std-doc">geometry</span></a>).  Use
 simulated motors for the example (no EPICS required).</p>
 <section id="standard-2-circle">
 <h2>Standard 2-circle<a class="headerlink" href="#standard-2-circle" title="Link to this heading">#</a></h2>
@@ -476,10 +476,10 @@ simulated motors for the example (no EPICS required).</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>q=0
-wavelength=1.0
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>wavelength=1.0
+q=0
 th=0, tth=0
-th2th.component_names=(&#39;geometry&#39;, &#39;solver&#39;, &#39;wavelength&#39;, &#39;q&#39;, &#39;th&#39;, &#39;tth&#39;)
+th2th.component_names=(&#39;solver_signature&#39;, &#39;beam&#39;, &#39;q&#39;, &#39;th&#39;, &#39;tth&#39;)
 </pre></div>
 </div>
 </div>
@@ -502,10 +502,10 @@ th2th.component_names=(&#39;geometry&#39;, &#39;solver&#39;, &#39;wavelength&#39
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>q=0
-wavelength=1.0
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>wavelength=1.0
+q=0
 th=0, tth=0
-th2th.component_names=(&#39;geometry&#39;, &#39;solver&#39;, &#39;wavelength&#39;, &#39;q&#39;, &#39;th&#39;, &#39;tth&#39;, &#39;spinner&#39;)
+th2th.component_names=(&#39;solver_signature&#39;, &#39;beam&#39;, &#39;q&#39;, &#39;th&#39;, &#39;tth&#39;, &#39;spinner&#39;)
 </pre></div>
 </div>
 </div>
@@ -546,8 +546,8 @@ to the pseudo positioners?</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Q=0
-wavelength=1.0
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>wavelength=1.0
+Q=0
 sample=0, detector=0
 </pre></div>
 </div>
@@ -614,24 +614,28 @@ Let’s skip the factory function and show how to build a structure directly.</p
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>q=0
-wavelength=1.0
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>wavelength=1.0
+q=0
 th=0, tth=0
 </pre></div>
 </div>
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>OrderedDict([(&#39;th2tth_q&#39;, {&#39;value&#39;: 0, &#39;timestamp&#39;: 1743011146.56252}),
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>OrderedDict([(&#39;th2tth_beam_wavelength&#39;,
+              {&#39;value&#39;: 1.0, &#39;timestamp&#39;: 1744256777.7262537}),
+             (&#39;th2tth_beam_energy&#39;,
+              {&#39;value&#39;: 12.398419843856837, &#39;timestamp&#39;: 1744256777.7262843}),
+             (&#39;th2tth_q&#39;, {&#39;value&#39;: 0, &#39;timestamp&#39;: 1744256777.7263556}),
              (&#39;th2tth_q_setpoint&#39;,
-              {&#39;value&#39;: 0, &#39;timestamp&#39;: 1743011146.5625339}),
-             (&#39;th2tth_th&#39;, {&#39;value&#39;: 0, &#39;timestamp&#39;: 1743011146.5971136}),
-             (&#39;th2tth_tth&#39;, {&#39;value&#39;: 0, &#39;timestamp&#39;: 1743011146.5971181}),
-             (&#39;th2tth_spinner&#39;, {&#39;value&#39;: 0, &#39;timestamp&#39;: 1743011146.5971215}),
-             (&#39;th2tth_atth&#39;, {&#39;value&#39;: 0, &#39;timestamp&#39;: 1743011146.5971239}),
+              {&#39;value&#39;: 0, &#39;timestamp&#39;: 1744256777.726387}),
+             (&#39;th2tth_th&#39;, {&#39;value&#39;: 0, &#39;timestamp&#39;: 1744256777.7611496}),
+             (&#39;th2tth_tth&#39;, {&#39;value&#39;: 0, &#39;timestamp&#39;: 1744256777.7611551}),
+             (&#39;th2tth_spinner&#39;, {&#39;value&#39;: 0, &#39;timestamp&#39;: 1744256777.7611592}),
+             (&#39;th2tth_atth&#39;, {&#39;value&#39;: 0, &#39;timestamp&#39;: 1744256777.7611616}),
              (&#39;th2tth_temperature&#39;,
-              {&#39;value&#39;: 25, &#39;timestamp&#39;: 1743011146.5629923}),
-             (&#39;th2tth_xy_x&#39;, {&#39;value&#39;: 0, &#39;timestamp&#39;: 1743011146.5971382}),
-             (&#39;th2tth_xy_y&#39;, {&#39;value&#39;: 0, &#39;timestamp&#39;: 1743011146.597141}),
+              {&#39;value&#39;: 25, &#39;timestamp&#39;: 1744256777.726868}),
+             (&#39;th2tth_xy_x&#39;, {&#39;value&#39;: 0, &#39;timestamp&#39;: 1744256777.7611754}),
+             (&#39;th2tth_xy_y&#39;, {&#39;value&#39;: 0, &#39;timestamp&#39;: 1744256777.7611783}),
              (&#39;th2tth_xy_solenoid_lock&#39;,
-              {&#39;value&#39;: True, &#39;timestamp&#39;: 1743011146.563218})])
+              {&#39;value&#39;: True, &#39;timestamp&#39;: 1744256777.7270894})])
 </pre></div>
 </div>
 </div>

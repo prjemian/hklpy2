@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=75af13e9"></script>
+    <script src="../_static/documentation_options.js?v=f5a963c8"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
@@ -508,14 +508,9 @@ Reflection(name=&#39;r2&#39;, h=0, k=1, l=0)
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;_header&#39;: {&#39;datetime&#39;: &#39;2025-03-26 12:38:33.168087&#39;,
-  &#39;hklpy2_version&#39;: &#39;0.0.28.dev92+g12cedce.d20250326&#39;,
-  &#39;python_class&#39;: &#39;Hklpy2Diffractometer&#39;,
-  &#39;source_type&#39;: &#39;X-ray&#39;,
-  &#39;energy_units&#39;: &#39;keV&#39;,
-  &#39;energy&#39;: 12.398419843856837,
-  &#39;wavelength_units&#39;: &#39;angstrom&#39;,
-  &#39;wavelength&#39;: 1.0},
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;_header&#39;: {&#39;datetime&#39;: &#39;2025-04-09 22:40:32.858039&#39;,
+  &#39;hklpy2_version&#39;: &#39;0.0.29.dev43+gdc399a0.d20250410&#39;,
+  &#39;python_class&#39;: &#39;Hklpy2Diffractometer&#39;},
  &#39;name&#39;: &#39;sim4c&#39;,
  &#39;axes&#39;: {&#39;pseudo_axes&#39;: [&#39;h&#39;, &#39;k&#39;, &#39;l&#39;],
   &#39;real_axes&#39;: [&#39;omega&#39;, &#39;chi&#39;, &#39;phi&#39;, &#39;tth&#39;],
@@ -526,7 +521,7 @@ Reflection(name=&#39;r2&#39;, h=0, k=1, l=0)
    &#39;chi&#39;: &#39;chi&#39;,
    &#39;phi&#39;: &#39;phi&#39;,
    &#39;tth&#39;: &#39;tth&#39;},
-  &#39;extra_axes&#39;: {}},
+  &#39;extra_axes&#39;: {&#39;h2&#39;: 0, &#39;k2&#39;: 0, &#39;l2&#39;: 0, &#39;psi&#39;: 0}},
  &#39;sample_name&#39;: &#39;vibranium&#39;,
  &#39;samples&#39;: {&#39;sample&#39;: {&#39;name&#39;: &#39;sample&#39;,
    &#39;lattice&#39;: {&#39;a&#39;: 1,
@@ -586,7 +581,13 @@ Reflection(name=&#39;r2&#39;, h=0, k=1, l=0)
   &#39;geometry&#39;: &#39;E4CV&#39;,
   &#39;real_axes&#39;: [&#39;omega&#39;, &#39;chi&#39;, &#39;phi&#39;, &#39;tth&#39;],
   &#39;version&#39;: &#39;5.1.2&#39;,
-  &#39;engine&#39;: &#39;hkl&#39;}}
+  &#39;engine&#39;: &#39;hkl&#39;},
+ &#39;beam&#39;: {&#39;class&#39;: &#39;WavelengthXray&#39;,
+  &#39;source_type&#39;: &#39;Synchrotron X-ray Source&#39;,
+  &#39;energy&#39;: 12.398419843856837,
+  &#39;wavelength&#39;: 1.0,
+  &#39;energy_units&#39;: &#39;keV&#39;,
+  &#39;wavelength_units&#39;: &#39;angstrom&#39;}}
 </pre></div>
 </div>
 </div>
@@ -617,14 +618,9 @@ reported above.</p>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-C66">#hklpy2 configuration file</span>
 
 _header:
-  datetime: <span class=" -Color -Color-Yellow">&#39;2025-03-26 12:38:33.327299&#39;</span>
-  hklpy2_version: <span class=" -Color -Color-Green">0.0.28</span>.dev92+g12cedce.d20250326
+  datetime: <span class=" -Color -Color-Yellow">&#39;2025-04-09 22:40:32.876949&#39;</span>
+  hklpy2_version: <span class=" -Color -Color-Green">0.0.29</span>.dev43+gdc399a0.d20250410
   python_class: Hklpy2Diffractometer
-  source_type: X-ray
-  energy_units: keV
-  energy: <span class=" -Color -Color-Green">12.398419843856837</span>
-  wavelength_units: angstrom
-  wavelength: <span class=" -Color -Color-Green">1.0</span>
   file: dev_e4cv-vibranium.yml
   comment: example
 name: sim4c
@@ -646,7 +642,11 @@ axes:
     chi: chi
     phi: phi
     tth: tth
-  extra_axes: {}
+  extra_axes:
+    h2: <span class=" -Color -Color-Green">0</span>
+    k2: <span class=" -Color -Color-Green">0</span>
+    l2: <span class=" -Color -Color-Green">0</span>
+    psi: <span class=" -Color -Color-Green">0</span>
 sample_name: vibranium
 samples:
   sample:
@@ -776,6 +776,13 @@ solver:
   - tth
   version: <span class=" -Color -Color-Green">5.1.2</span>
   engine: hkl
+beam:
+  <span class=" -Color -Color-Bold -Color-Bold-C28">class</span>: WavelengthXray
+  source_type: Synchrotron X-ray Source
+  energy: <span class=" -Color -Color-Green">12.398419843856837</span>
+  wavelength: <span class=" -Color -Color-Green">1.0</span>
+  energy_units: keV
+  wavelength_units: angstrom
 </pre></div>
 </div>
 </div>
@@ -828,14 +835,9 @@ We’ll just recreate the <code class="docutils literal notranslate"><span class
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;_header&#39;: {&#39;datetime&#39;: &#39;2025-03-26 12:38:34.229223&#39;,
-  &#39;hklpy2_version&#39;: &#39;0.0.28.dev92+g12cedce.d20250326&#39;,
-  &#39;python_class&#39;: &#39;Hklpy2Diffractometer&#39;,
-  &#39;source_type&#39;: &#39;X-ray&#39;,
-  &#39;energy_units&#39;: &#39;keV&#39;,
-  &#39;energy&#39;: 12.398419843856837,
-  &#39;wavelength_units&#39;: &#39;angstrom&#39;,
-  &#39;wavelength&#39;: 1.0},
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;_header&#39;: {&#39;datetime&#39;: &#39;2025-04-09 22:40:34.219904&#39;,
+  &#39;hklpy2_version&#39;: &#39;0.0.29.dev43+gdc399a0.d20250410&#39;,
+  &#39;python_class&#39;: &#39;Hklpy2Diffractometer&#39;},
  &#39;name&#39;: &#39;sim4c&#39;,
  &#39;axes&#39;: {&#39;pseudo_axes&#39;: [&#39;h&#39;, &#39;k&#39;, &#39;l&#39;],
   &#39;real_axes&#39;: [&#39;omega&#39;, &#39;chi&#39;, &#39;phi&#39;, &#39;tth&#39;],
@@ -846,7 +848,7 @@ We’ll just recreate the <code class="docutils literal notranslate"><span class
    &#39;chi&#39;: &#39;chi&#39;,
    &#39;phi&#39;: &#39;phi&#39;,
    &#39;tth&#39;: &#39;tth&#39;},
-  &#39;extra_axes&#39;: {}},
+  &#39;extra_axes&#39;: {&#39;h2&#39;: 0, &#39;k2&#39;: 0, &#39;l2&#39;: 0, &#39;psi&#39;: 0}},
  &#39;sample_name&#39;: &#39;vibranium&#39;,
  &#39;samples&#39;: {&#39;sample&#39;: {&#39;name&#39;: &#39;sample&#39;,
    &#39;lattice&#39;: {&#39;a&#39;: 1,
@@ -906,7 +908,13 @@ We’ll just recreate the <code class="docutils literal notranslate"><span class
   &#39;geometry&#39;: &#39;E4CV&#39;,
   &#39;real_axes&#39;: [&#39;omega&#39;, &#39;chi&#39;, &#39;phi&#39;, &#39;tth&#39;],
   &#39;version&#39;: &#39;5.1.2&#39;,
-  &#39;engine&#39;: &#39;hkl&#39;}}
+  &#39;engine&#39;: &#39;hkl&#39;},
+ &#39;beam&#39;: {&#39;class&#39;: &#39;WavelengthXray&#39;,
+  &#39;source_type&#39;: &#39;Synchrotron X-ray Source&#39;,
+  &#39;energy&#39;: 12.398419843856837,
+  &#39;wavelength&#39;: 1.0,
+  &#39;energy_units&#39;: &#39;keV&#39;,
+  &#39;wavelength_units&#39;: &#39;angstrom&#39;}}
 </pre></div>
 </div>
 </div>
@@ -1000,14 +1008,9 @@ dictionary.  (Compare with similar views shown above.)</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;sim4c&#39;: {&#39;_header&#39;: {&#39;datetime&#39;: &#39;2025-03-26 12:38:35.208902&#39;,
-   &#39;hklpy2_version&#39;: &#39;0.0.28.dev92+g12cedce.d20250326&#39;,
-   &#39;python_class&#39;: &#39;Hklpy2Diffractometer&#39;,
-   &#39;source_type&#39;: &#39;X-ray&#39;,
-   &#39;energy_units&#39;: &#39;keV&#39;,
-   &#39;energy&#39;: 12.398419843856837,
-   &#39;wavelength_units&#39;: &#39;angstrom&#39;,
-   &#39;wavelength&#39;: 1.0},
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;sim4c&#39;: {&#39;_header&#39;: {&#39;datetime&#39;: &#39;2025-04-09 22:40:35.333565&#39;,
+   &#39;hklpy2_version&#39;: &#39;0.0.29.dev43+gdc399a0.d20250410&#39;,
+   &#39;python_class&#39;: &#39;Hklpy2Diffractometer&#39;},
   &#39;name&#39;: &#39;sim4c&#39;,
   &#39;axes&#39;: {&#39;pseudo_axes&#39;: [&#39;h&#39;, &#39;k&#39;, &#39;l&#39;],
    &#39;real_axes&#39;: [&#39;omega&#39;, &#39;chi&#39;, &#39;phi&#39;, &#39;tth&#39;],
@@ -1018,7 +1021,7 @@ dictionary.  (Compare with similar views shown above.)</p>
     &#39;chi&#39;: &#39;chi&#39;,
     &#39;phi&#39;: &#39;phi&#39;,
     &#39;tth&#39;: &#39;tth&#39;},
-   &#39;extra_axes&#39;: {}},
+   &#39;extra_axes&#39;: {&#39;h2&#39;: 0, &#39;k2&#39;: 0, &#39;l2&#39;: 0, &#39;psi&#39;: 0}},
   &#39;sample_name&#39;: &#39;vibranium&#39;,
   &#39;samples&#39;: {&#39;sample&#39;: {&#39;name&#39;: &#39;sample&#39;,
     &#39;lattice&#39;: {&#39;a&#39;: 1,
@@ -1078,7 +1081,13 @@ dictionary.  (Compare with similar views shown above.)</p>
    &#39;geometry&#39;: &#39;E4CV&#39;,
    &#39;real_axes&#39;: [&#39;omega&#39;, &#39;chi&#39;, &#39;phi&#39;, &#39;tth&#39;],
    &#39;version&#39;: &#39;5.1.2&#39;,
-   &#39;engine&#39;: &#39;hkl&#39;}}}
+   &#39;engine&#39;: &#39;hkl&#39;},
+  &#39;beam&#39;: {&#39;class&#39;: &#39;WavelengthXray&#39;,
+   &#39;source_type&#39;: &#39;Synchrotron X-ray Source&#39;,
+   &#39;energy&#39;: 12.398419843856837,
+   &#39;wavelength&#39;: 1.0,
+   &#39;energy_units&#39;: &#39;keV&#39;,
+   &#39;wavelength_units&#39;: &#39;angstrom&#39;}}}
 </pre></div>
 </div>
 </div>
@@ -1097,9 +1106,9 @@ object from the previous steps.</p>
 </div>
 <div class="cell_output docutils container">
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>BlueskyRun
-  uid=&#39;3a88e279-fb84-43f5-b8fb-df6a3fbfe1d1&#39;
+  uid=&#39;669471b2-40a8-4c29-877c-9838b4621c15&#39;
   exit_status=&#39;success&#39;
-  2025-03-26 12:38:35.213 -- 2025-03-26 12:38:35.226
+  2025-04-09 22:40:35.337 -- 2025-04-09 22:40:35.359
   Streams:
     * primary
 </pre></div>
@@ -1142,14 +1151,9 @@ Confirm by examining the sample dictionary.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;_header&#39;: {&#39;datetime&#39;: &#39;2025-03-26 12:38:35.208902&#39;,
-  &#39;hklpy2_version&#39;: &#39;0.0.28.dev92+g12cedce.d20250326&#39;,
-  &#39;python_class&#39;: &#39;Hklpy2Diffractometer&#39;,
-  &#39;source_type&#39;: &#39;X-ray&#39;,
-  &#39;energy_units&#39;: &#39;keV&#39;,
-  &#39;energy&#39;: 12.398419843856837,
-  &#39;wavelength_units&#39;: &#39;angstrom&#39;,
-  &#39;wavelength&#39;: 1.0},
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;_header&#39;: {&#39;datetime&#39;: &#39;2025-04-09 22:40:35.333565&#39;,
+  &#39;hklpy2_version&#39;: &#39;0.0.29.dev43+gdc399a0.d20250410&#39;,
+  &#39;python_class&#39;: &#39;Hklpy2Diffractometer&#39;},
  &#39;name&#39;: &#39;sim4c&#39;,
  &#39;axes&#39;: {&#39;pseudo_axes&#39;: [&#39;h&#39;, &#39;k&#39;, &#39;l&#39;],
   &#39;real_axes&#39;: [&#39;omega&#39;, &#39;chi&#39;, &#39;phi&#39;, &#39;tth&#39;],
@@ -1160,7 +1164,7 @@ Confirm by examining the sample dictionary.</p>
    &#39;chi&#39;: &#39;chi&#39;,
    &#39;phi&#39;: &#39;phi&#39;,
    &#39;tth&#39;: &#39;tth&#39;},
-  &#39;extra_axes&#39;: {}},
+  &#39;extra_axes&#39;: {&#39;h2&#39;: 0, &#39;k2&#39;: 0, &#39;l2&#39;: 0, &#39;psi&#39;: 0}},
  &#39;sample_name&#39;: &#39;vibranium&#39;,
  &#39;samples&#39;: {&#39;sample&#39;: {&#39;name&#39;: &#39;sample&#39;,
    &#39;lattice&#39;: {&#39;a&#39;: 1,
@@ -1220,7 +1224,13 @@ Confirm by examining the sample dictionary.</p>
   &#39;geometry&#39;: &#39;E4CV&#39;,
   &#39;real_axes&#39;: [&#39;omega&#39;, &#39;chi&#39;, &#39;phi&#39;, &#39;tth&#39;],
   &#39;version&#39;: &#39;5.1.2&#39;,
-  &#39;engine&#39;: &#39;hkl&#39;}}
+  &#39;engine&#39;: &#39;hkl&#39;},
+ &#39;beam&#39;: {&#39;class&#39;: &#39;WavelengthXray&#39;,
+  &#39;source_type&#39;: &#39;Synchrotron X-ray Source&#39;,
+  &#39;energy&#39;: 12.398419843856837,
+  &#39;wavelength&#39;: 1.0,
+  &#39;energy_units&#39;: &#39;keV&#39;,
+  &#39;wavelength_units&#39;: &#39;angstrom&#39;}}
 </pre></div>
 </div>
 </div>
