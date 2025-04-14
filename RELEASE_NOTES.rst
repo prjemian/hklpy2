@@ -28,14 +28,19 @@ describe future plans.
     1.0.0
     #####
 
-    release expected 2025-Q4
+    Release expected 2025-Q4.
+
+    0.1.1
+    #####
+
+    Release expected by 2025-06-01.
 
 0.1.0
 #####
 
-.. rubric:: Initial project development complete.
+Released 2025-04-14.
 
-release expected by 2025-04-17
+Initial project development complete.
 
 Notice
 ------
