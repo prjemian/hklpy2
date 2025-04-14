@@ -43,7 +43,9 @@ Released 2025-04-14.
 Fixes
 -----
 
+* Do not package unit test code.
 * Packaging changes in ``pyproject.toml``.
+* Unit test changes affecting hklpy2/__init__.py.
 
 0.1.0
 #####
