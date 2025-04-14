@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools_scm[toml]>=8", "setuptools>=70.1"]
+requires = ["setuptools_scm[toml]>=8", "setuptools>=77.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -14,16 +14,15 @@ dynamic = ["version"]
 readme = "README.md"
 requires-python = ">=3.10"
 keywords = ["bluesky", "diffraction", "diffractometer"]
-# https://packaging.python.org/en/latest/specifications/declaring-project-metadata/?highlight=license
-license = { file = "LICENSE" }
+# https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#license
+license = "LicenseRef-UChicago-Argonne-LLC-License"
+license-files = ["LICEN[CS]E*"]
 # https://pypi.org/classifiers/
 classifiers = [
-  "Development Status :: 2 - Pre-Alpha",
+  "Development Status :: 3 - Alpha",
   "Environment :: Console",
   "Environment :: OpenStack",
   "Intended Audience :: Science/Research",
-  "License :: Freely Distributable",
-  "License :: Public Domain",
   "Operating System :: OS Independent",
   "Programming Language :: Python :: 3",
   "Programming Language :: Python",
@@ -137,5 +136,8 @@ addopts = ["--import-mode=importlib"]
 #   # Warnings inherited from upstream packages.
 #   "ignore:.*'wheel' package is no longer the canonical*:DeprecationWarning",
 # ]
+
+[tool.setuptools]
+py-modules = ["hklpy2"]
 
 [tool.setuptools_scm]
