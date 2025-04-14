@@ -431,3 +431,24 @@ def test_solver_summary(fourc, capsys):
     assert "azimuth" in summary
     assert "incidence" in summary
     assert "h2, k2, l2, psi" in summary
+
+
+@pytest.mark.parametrize(
+    "pseudos, text, context, expected",
+    [
+        [(1, 0, 0), "RealPos(", does_not_raise(), None],
+        [
+            (1, 0, 11_110),  # A reflection far beyond the Ewald sphere.
+            "No forward solutions found.",
+            does_not_raise(),
+            None,
+        ],
+    ],
+)
+def test_cahkl_no_solutions(pseudos, text, context, expected):
+    with context as reason:
+        sim = creator()
+        set_diffractometer(sim)
+        assert text in str(cahkl(*pseudos))
+
+    assert_context_result(expected, reason)
