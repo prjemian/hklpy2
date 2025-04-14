@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>hklpy2 &#8212; hklpy2 0.0</title>
+    <title>hklpy2 &#8212; hklpy2 0.1</title>
   
   
   
@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../../_static/documentation_options.js?v=828725f0"></script>
+    <script src="../../_static/documentation_options.js?v=01f34227"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/design-tabs.js?v=f930bc37"></script>
@@ -55,7 +55,7 @@
     <link rel="prev" title="API Reference" href="../index.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="0.0" />
+  <meta name="docsearch:version" content="0.1" />
   </head>
   
   
@@ -117,7 +117,7 @@
   
   
   
-    <p class="title logo__title">hklpy2 0.0</p>
+    <p class="title logo__title">hklpy2 0.1</p>
   
 </a></div>
     
@@ -480,22 +480,25 @@
 <h2>Functions<a class="headerlink" href="#functions" title="Link to this heading">#</a></h2>
 <div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.creator" title="hklpy2.creator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">creator</span></code></a>(*[, prefix, name, solver, geometry, ...])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2._get_version" title="hklpy2._get_version"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_get_version</span></code></a>()</p></td>
+<td><p>Make the version code testable.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.creator" title="hklpy2.creator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">creator</span></code></a>(*[, prefix, name, solver, geometry, ...])</p></td>
 <td><p>Factory function to create a diffractometer instance.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.diffractometer_class_factory" title="hklpy2.diffractometer_class_factory"><code class="xref py py-obj docutils literal notranslate"><span class="pre">diffractometer_class_factory</span></code></a>(→ DiffractometerBase)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.diffractometer_class_factory" title="hklpy2.diffractometer_class_factory"><code class="xref py py-obj docutils literal notranslate"><span class="pre">diffractometer_class_factory</span></code></a>(→ DiffractometerBase)</p></td>
 <td><p>Build a custom class for this diffractometer geometry.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.check_value_in_list" title="hklpy2.check_value_in_list"><code class="xref py py-obj docutils literal notranslate"><span class="pre">check_value_in_list</span></code></a>(title, value, examples[, blank_ok])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.check_value_in_list" title="hklpy2.check_value_in_list"><code class="xref py py-obj docutils literal notranslate"><span class="pre">check_value_in_list</span></code></a>(title, value, examples[, blank_ok])</p></td>
 <td><p>Raise ValueError exception if value is not in the list of examples.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.get_solver" title="hklpy2.get_solver"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_solver</span></code></a>(solver_name)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.get_solver" title="hklpy2.get_solver"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_solver</span></code></a>(solver_name)</p></td>
 <td><p>Load a Solver class from a named entry point.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.solver_factory" title="hklpy2.solver_factory"><code class="xref py py-obj docutils literal notranslate"><span class="pre">solver_factory</span></code></a>(solver_name, geometry, **kwargs)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.solver_factory" title="hklpy2.solver_factory"><code class="xref py py-obj docutils literal notranslate"><span class="pre">solver_factory</span></code></a>(solver_name, geometry, **kwargs)</p></td>
 <td><p>Create a <strong>Solver</strong> object with geometry and axes.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.solvers" title="hklpy2.solvers"><code class="xref py py-obj docutils literal notranslate"><span class="pre">solvers</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.solvers" title="hklpy2.solvers"><code class="xref py py-obj docutils literal notranslate"><span class="pre">solvers</span></code></a>()</p></td>
 <td><p>Dictionary of available Solver classes, mapped by entry point name.</p></td>
 </tr>
 </tbody>
@@ -514,9 +517,15 @@
 <span class="sig-prename descclassname"><span class="pre">hklpy2.</span></span><span class="sig-name descname"><span class="pre">__package_name__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'hklpy2'</span></em><a class="reference internal" href="../../_modules/hklpy2.html#__package_name__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.__package_name__" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
+<dl class="py function">
+<dt class="sig sig-object py" id="hklpy2._get_version">
+<span class="sig-prename descclassname"><span class="pre">hklpy2.</span></span><span class="sig-name descname"><span class="pre">_get_version</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hklpy2.html#_get_version"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2._get_version" title="Link to this definition">#</a></dt>
+<dd><p>Make the version code testable.</p>
+</dd></dl>
+
 <dl class="py data">
 <dt class="sig sig-object py" id="hklpy2.__version__">
-<span class="sig-prename descclassname"><span class="pre">hklpy2.</span></span><span class="sig-name descname"><span class="pre">__version__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="reference internal" href="../../_modules/hklpy2.html#__version__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.__version__" title="Link to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">hklpy2.</span></span><span class="sig-name descname"><span class="pre">__version__</span></span><a class="reference internal" href="../../_modules/hklpy2.html#__version__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.__version__" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py class">
@@ -631,7 +640,7 @@ as best fits the underlying support library.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="hklpy2.SolverBase.version">
-<span class="sig-name descname"><span class="pre">version</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#hklpy2.SolverBase.version" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">version</span></span><a class="headerlink" href="#hklpy2.SolverBase.version" title="Link to this definition">#</a></dt>
 <dd><p>Version of this Solver.</p>
 </dd></dl>
 
@@ -1520,6 +1529,7 @@ the <cite>.read_configuration()</cite> method can be added to this tuple.</p>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#package-contents">Package Contents</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.__settings_orgName__"><code class="docutils literal notranslate"><span class="pre">__settings_orgName__</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.__package_name__"><code class="docutils literal notranslate"><span class="pre">__package_name__</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2._get_version"><code class="docutils literal notranslate"><span class="pre">_get_version()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.__version__"><code class="docutils literal notranslate"><span class="pre">__version__</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.SolverBase"><code class="docutils literal notranslate"><span class="pre">SolverBase</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hklpy2.SolverBase.name"><code class="docutils literal notranslate"><span class="pre">SolverBase.name</span></code></a></li>
