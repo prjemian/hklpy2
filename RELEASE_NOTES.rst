@@ -30,7 +30,7 @@ describe future plans.
 
     Release expected 2025-Q4.
 
-    0.1.1
+    0.1.2
     #####
 
     Release expected by 2025-05-01.
@@ -39,6 +39,18 @@ describe future plans.
     ------
 
     Move project to https://github.com/bluesky/hklpy2 from https://github.com/prjemian/hklpy2.
+
+0.1.2
+#####
+
+Released 2025-04-14.
+
+Fixes
+-----
+
+* Do not package unit test code.
+* Packaging changes in ``pyproject.toml``.
+* Unit test changes affecting hklpy2/__init__.py.
 
 0.1.0
 #####
