@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=01f34227"></script>
+    <script src="../_static/documentation_options.js?v=92734c54"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
@@ -395,9 +395,12 @@
 
     <span class="k">if</span> <span class="n">importlib</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">find_spec</span><span class="p">(</span><span class="s2">&quot;setuptools_scm&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Preferred source of package version information.&quot;&quot;&quot;</span>
-        <span class="kn">from</span><span class="w"> </span><span class="nn">setuptools_scm</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_version</span>
+        <span class="kn">import</span><span class="w"> </span><span class="nn">setuptools_scm</span>
 
-        <span class="n">text</span> <span class="o">=</span> <span class="n">get_version</span><span class="p">(</span><span class="n">root</span><span class="o">=</span><span class="s2">&quot;..&quot;</span><span class="p">,</span> <span class="n">relative_to</span><span class="o">=</span><span class="vm">__file__</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">text</span> <span class="o">=</span> <span class="n">setuptools_scm</span><span class="o">.</span><span class="n">get_version</span><span class="p">(</span><span class="n">root</span><span class="o">=</span><span class="s2">&quot;..&quot;</span><span class="p">,</span> <span class="n">relative_to</span><span class="o">=</span><span class="vm">__file__</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">LookupError</span><span class="p">:</span>
+            <span class="k">pass</span>  <span class="c1"># TODO: How to test this?</span>
 
     <span class="k">return</span> <span class="n">text</span></div>
 
