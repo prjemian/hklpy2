@@ -35,7 +35,7 @@ describe future plans.
 
     Release expected by 2025-06-01.
 
-0.1.1
+0.1.2
 #####
 
 Released 2025-04-14.
