@@ -16,20 +16,22 @@ __package_name__ = "hklpy2"
 
 
 def _get_version():
-    """Make this code testable."""
-    try:
-        import setuptools_scm
+    """Make the version code testable."""
+    import importlib.metadata
+    import importlib.util
 
-        text = setuptools_scm.get_version(root="..", relative_to=__file__)
-    except (LookupError, ModuleNotFoundError):
-        import importlib.metadata
+    text = importlib.metadata.version(__package_name__)
 
-        text = importlib.metadata.version(__package_name__)
+    if importlib.util.find_spec("setuptools_scm") is not None:
+        """Preferred source of package version information."""
+        from setuptools_scm import get_version
+
+        text = get_version(root="..", relative_to=__file__)
 
     return text
 
 
-__version__ = _get_version()
+__version__ = _get_version()  # Must define before these imports.
 from .backends import SolverBase  # noqa: E402, F401
 from .blocks.configure import Configuration  # noqa: E402, F401
 from .blocks.lattice import SI_LATTICE_PARAMETER  # noqa: E402, F401
