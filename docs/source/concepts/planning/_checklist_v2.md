@@ -8,8 +8,8 @@ It could be re-organized.
   * [ ] user-requested changes
   * [x] move libhkl to be a replaceable back-end computation library
   * [x] easy to save/restore configuration
-  * [ ] easy to use different *engines*
-    * [ ] documentation
+  * [x] easy to use different *engines*
+    * [x] documentation
     * [x] example(s)
     * [x] tests
   * Axes

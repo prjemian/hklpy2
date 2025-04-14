@@ -6,7 +6,7 @@ the [*hklpy*](https://github.com/bluesky/hklpy) package.
 
 Here's a block diagram of the new API:
 
-![Block Diagram](../_static/hklpy2-block-diagram.png)
+![Block Diagram](/_static/hklpy2-block-diagram.png)
 
 ## hklpy release v2.0 project
 
