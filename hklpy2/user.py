@@ -35,6 +35,7 @@ from .diffract import DiffractometerBase
 from .misc import AnyAxesType
 from .misc import AxesDict
 from .misc import AxesTuple
+from .misc import SolverNoForwardSolutions
 from .ops import CoreError
 
 __all__ = """
@@ -150,7 +151,7 @@ def cahkl(h: float, k: float, l: float):  # noqa: E741
     """
     Calculate motor positions for specified 'h, k l' - DOES NOT MOVE motors.
 
-    Returns a namedtuple.
+    Returns a 'RealPos' object or the text of the exception.
 
     EXAMPLE:
 
@@ -164,7 +165,10 @@ def cahkl(h: float, k: float, l: float):  # noqa: E741
             tth=24.509837696782)
     """
     diffractometer = get_diffractometer()
-    solutions = diffractometer.core.forward(pseudos=(h, k, l))
+    try:
+        solutions = diffractometer.core.forward(pseudos=(h, k, l))
+    except SolverNoForwardSolutions as exinfo:
+        return str(exinfo)
     return diffractometer._forward_solution(
         diffractometer.real_position,
         solutions,

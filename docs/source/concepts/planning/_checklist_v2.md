@@ -41,7 +41,7 @@ It could be re-organized.
     * [x] [label each reflection](https://github.com/bluesky/hklpy/issues/293)
     * [x] [write orientation reflections with scan](https://github.com/bluesky/hklpy/issues/158),
       [also](https://github.com/bluesky/hklpy/issues/247)
-    * [ ] [`cahkl()` should make nice report when reflection can't be reached](https://github.com/bluesky/hklpy/issues/178)
+    * [x] [`cahkl()` should make nice report when reflection can't be reached](https://github.com/bluesky/hklpy/issues/178)
   * Other
     * [x] [modify existing sample](https://github.com/bluesky/hklpy/issues/157)
     * [x] [control display precision in `wh()` and `pa()`](https://github.com/bluesky/hklpy/issues/179)
