@@ -24,9 +24,12 @@ def _get_version():
 
     if importlib.util.find_spec("setuptools_scm") is not None:
         """Preferred source of package version information."""
-        from setuptools_scm import get_version
+        import setuptools_scm
 
-        text = get_version(root="..", relative_to=__file__)
+        try:
+            text = setuptools_scm.get_version(root="..", relative_to=__file__)
+        except LookupError:
+            pass
 
     return text
 

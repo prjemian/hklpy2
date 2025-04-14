@@ -30,10 +30,20 @@ describe future plans.
 
     Release expected 2025-Q4.
 
-    0.1.1
+    0.1.2
     #####
 
     Release expected by 2025-06-01.
+
+0.1.1
+#####
+
+Released 2025-04-14.
+
+Fixes
+-----
+
+* Packaging changes in ``pyproject.toml``.
 
 0.1.0
 #####
