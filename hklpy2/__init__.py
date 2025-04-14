@@ -29,7 +29,7 @@ def _get_version():
         try:
             text = setuptools_scm.get_version(root="..", relative_to=__file__)
         except LookupError:
-            pass
+            pass  # TODO: How to test this?
 
     return text
 
