@@ -41,15 +41,17 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=a8739591"></script>
+    <script src="../_static/documentation_options.js?v=828725f0"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'concepts/wavelength';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Diffractometers" href="../diffractometers.html" />
+    <link rel="next" title="Feature Checklist for v2" href="planning/_checklist_v2.html" />
     <link rel="prev" title="User Friendliness" href="user.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -319,8 +321,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Quickstart</a></li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="../concepts.html">Concepts</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="__overview.html">Overview</a></li>
-<li class="toctree-l2"><a class="reference internal" href="_checklist_v2.html">Feature Checklist for v2</a></li>
-<li class="toctree-l2"><a class="reference internal" href="_design-discussion.html">Design for hklpy2</a></li>
 <li class="toctree-l2"><a class="reference internal" href="constraints.html">Constraints</a></li>
 <li class="toctree-l2"><a class="reference internal" href="creator.html">Diffractometer creator</a></li>
 <li class="toctree-l2"><a class="reference internal" href="diffract.html">Diffractometer</a></li>
@@ -331,6 +331,8 @@
 <li class="toctree-l2"><a class="reference internal" href="solvers.html">Solvers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="user.html">User Friendliness</a></li>
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">Wavelength</a></li>
+<li class="toctree-l2"><a class="reference internal" href="planning/_checklist_v2.html">Feature Checklist for v2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="planning/_design-discussion.html">Design for hklpy2</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1"><a class="reference internal" href="../diffractometers.html">Diffractometers</a></li>
@@ -430,10 +432,41 @@
                   
   <section id="wavelength">
 <span id="concepts-wavelength"></span><h1>Wavelength<a class="headerlink" href="#wavelength" title="Link to this heading">#</a></h1>
+<p>In diffraction, the wavelength of the incident radiation sets the radius of the
+Ewald sphere. <a class="footnote-reference brackets" href="#id2" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>  Only <span class="math notranslate nohighlight">\(hkl\)</span> reflections which lie within the Ewald sphere are
+accessible to the experiment.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>While the <em>energy</em> of the incident beam may be interesting to
+diffractometer users at X-ray synchrotrons, <em>wavelength</em> is the general term
+used by diffraction science.</p>
+</div>
+<p>Here, a diffractometer (as a subclass of
+<a class="reference internal" href="../autoapi/hklpy2/diffract/index.html#hklpy2.diffract.DiffractometerBase" title="hklpy2.diffract.DiffractometerBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">DiffractometerBase</span></code></a>) is a <em>positioner</em> that expects the
+incident radiation to be <em>monochromatic</em>.  Knowledge of wavelength is essential
+for diffractometer operations.  Simulators are provided for the general case
+(<a class="reference internal" href="../autoapi/hklpy2/incident/index.html#hklpy2.incident.Wavelength" title="hklpy2.incident.Wavelength"><code class="xref py py-class docutils literal notranslate"><span class="pre">Wavelength()</span></code></a>) for any type of monochromatic
+radiation) and for the case of X-rays
+(<a class="reference internal" href="../autoapi/hklpy2/incident/index.html#hklpy2.incident.WavelengthXray" title="hklpy2.incident.WavelengthXray"><code class="xref py py-class docutils literal notranslate"><span class="pre">WavelengthXray()</span></code></a>) where photon energy is computed
+from the wavelength.</p>
+<p>When the wavelength (and possibly the energy) is known from EPICS, <em>read-only</em>
+support is provided for the general case
+(<a class="reference internal" href="../autoapi/hklpy2/incident/index.html#hklpy2.incident.EpicsWavelengthRO" title="hklpy2.incident.EpicsWavelengthRO"><code class="xref py py-class docutils literal notranslate"><span class="pre">EpicsWavelengthRO()</span></code></a>) and for a monochromator
+(<a class="reference internal" href="../autoapi/hklpy2/incident/index.html#hklpy2.incident.EpicsMonochromatorRO" title="hklpy2.incident.EpicsMonochromatorRO"><code class="xref py py-class docutils literal notranslate"><span class="pre">EpicsMonochromatorRO()</span></code></a>) which provides both
+wavelength and energy. Control of these EPICS PVs is beyond the scope of
+diffractometer controls. Refer to EPICS for control of the monochromator or
+wavelength PV.  Or, create a custom subclass of
+<a class="reference internal" href="../autoapi/hklpy2/incident/index.html#hklpy2.incident._WavelengthBase" title="hklpy2.incident._WavelengthBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">_WavelengthBase()</span></code></a>.</p>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
-<p><a class="reference internal" href="../autoapi/hklpy2/incident/index.html#module-hklpy2.incident" title="hklpy2.incident"><code class="xref py py-mod docutils literal notranslate"><span class="pre">incident</span></code></a></p>
+<p>The <a class="reference internal" href="../autoapi/hklpy2/incident/index.html#module-hklpy2.incident" title="hklpy2.incident"><code class="xref py py-mod docutils literal notranslate"><span class="pre">incident</span></code></a> module.</p>
 </div>
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="id2" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
+<p><a class="reference external" href="https://dictionary.iucr.org/Ewald_sphere">https://dictionary.iucr.org/Ewald_sphere</a></p>
+</aside>
+</aside>
 </section>
 
 
@@ -456,11 +489,11 @@
       </div>
     </a>
     <a class="right-next"
-       href="../diffractometers.html"
+       href="planning/_checklist_v2.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Diffractometers</p>
+        <p class="prev-next-title">Feature Checklist for v2</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>

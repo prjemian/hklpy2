@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../../_static/documentation_options.js?v=a8739591"></script>
+    <script src="../../_static/documentation_options.js?v=828725f0"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/design-tabs.js?v=f930bc37"></script>
@@ -390,20 +390,22 @@
 <span class="sd">    Changeable-wavelength X-ray sources, such as testing, simulation, or when no</span>
 <span class="sd">    EPICS PVs are available.</span>
 
-<span class="sd">The EPICS-related classes here have read-only support. Control of the EPICS PVs</span>
-<span class="sd">is beyond the scope of diffractometer controls. Refer to the EPICS controls for</span>
-<span class="sd">the monochromator or wavelength PV.  Or, create a subclass of</span>
+<span class="sd">The EPICS-related classes here have read-only support for wavelength (and</span>
+<span class="sd">associated energy). Control of the EPICS PVs is beyond the scope of</span>
+<span class="sd">diffractometer controls. Refer to the EPICS controls for the monochromator or</span>
+<span class="sd">wavelength PV. Or, create a subclass of</span>
 <span class="sd">:class:`~hklpy2.incident._WavelengthBase()`.</span>
 
 <span class="sd">The :class:`hklpy2.ops.Core()` class is responsible for converting</span>
 <span class="sd">the engineering units.</span>
 
-<span class="sd">.. note:: While the _energy_ of the incident beam may be interesting to</span>
-<span class="sd">    diffractometer users at X-ray synchrotrons, _wavelength_ is the general term</span>
+<span class="sd">.. note:: While the *energy* of the incident beam may be interesting to</span>
+<span class="sd">    diffractometer users at X-ray synchrotrons, *wavelength* is the general term</span>
 <span class="sd">    used by both neutron and X-ray diffraction science.  Some classes provide</span>
 <span class="sd">    for energy as it is in common use with diffractometers at X-ray synchrotrons.</span>
 
-<span class="sd">    A similar handling could be made for neutron monochromators.</span>
+<span class="sd">    A similar handling could be made for monochromators with other types of</span>
+<span class="sd">    radiation such as neutrons.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">atexit</span>
