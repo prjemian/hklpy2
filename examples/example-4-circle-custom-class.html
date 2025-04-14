@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=f5a963c8"></script>
+    <script src="../_static/documentation_options.js?v=a8739591"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
@@ -50,7 +50,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="hkl_soleil E4CH" href="hkl_soleil-e4ch.html" />
-    <link rel="prev" title="Constraints" href="constraints.html" />
+    <link rel="prev" title="Example 4-circle diffractometer using creator()" href="example-4-circle-creator.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="0.0" />
@@ -337,6 +337,7 @@
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="../examples.html">Examples</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="_api_demo.html">Demonstrate <strong>hklpy2</strong>’s API</a></li>
 <li class="toctree-l2"><a class="reference internal" href="constraints.html">Constraints</a></li>
+<li class="toctree-l2"><a class="reference internal" href="example-4-circle-creator.html">Example 4-circle diffractometer using creator()</a></li>
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">Example 4-circle diffractometer custom Python class</a></li>
 <li class="toctree-l2"><a class="reference internal" href="hkl_soleil-e4ch.html"><strong>hkl_soleil</strong> E4CH</a></li>
 <li class="toctree-l2"><a class="reference internal" href="hkl_soleil-e4cv.html"><strong>hkl_soleil</strong> E4CV</a></li>
@@ -431,7 +432,9 @@
 <span id="example-e4cv-custom-class"></span><h1>Example 4-circle diffractometer custom Python class<a class="headerlink" href="#example-4-circle-diffractometer-custom-python-class" title="Link to this heading">#</a></h1>
 <p>It’s always possible to define your own subclass of
 <a class="reference internal" href="../autoapi/hklpy2/diffract/index.html#hklpy2.diffract.DiffractometerBase" title="hklpy2.diffract.DiffractometerBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">DiffractometerBase()</span></code></a> when you need more control than
-provided by <a class="reference internal" href="../autoapi/hklpy2/diffract/index.html#hklpy2.diffract.creator" title="hklpy2.diffract.creator"><code class="xref py py-func docutils literal notranslate"><span class="pre">creator()</span></code></a>.</p>
+provided by <a class="reference internal" href="../autoapi/hklpy2/diffract/index.html#hklpy2.diffract.creator" title="hklpy2.diffract.creator"><code class="xref py py-func docutils literal notranslate"><span class="pre">creator()</span></code></a>. (See
+<a class="reference internal" href="example-4-circle-creator.html"><span class="doc">Example 4-circle diffractometer using creator()</span></a> for the same diffractometer built with the
+<a class="reference internal" href="../autoapi/hklpy2/diffract/index.html#hklpy2.diffract.creator" title="hklpy2.diffract.creator"><code class="xref py py-func docutils literal notranslate"><span class="pre">creator()</span></code></a> function.)</p>
 <p>Here’s a brief example of a 4-circle diffractometer with a custom Python class.
 Add many additional axes, both in real (rotation angle) space and in reciprocal
 (pseudo) space.</p>
@@ -439,7 +442,7 @@ Add many additional axes, both in real (rotation angle) space and in reciprocal
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">hklpy2</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">hklpy2.diffract</span><span class="w"> </span><span class="kn">import</span> <span class="n">Hklpy2PseudoAxis</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">hklpy2.incident</span><span class="w"> </span><span class="kn">import</span> <span class="n">Wavelength</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">hklpy2.incident</span><span class="w"> </span><span class="kn">import</span> <span class="n">EpicsMonochromatorRO</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">ophyd</span><span class="w"> </span><span class="kn">import</span> <span class="n">Component</span> <span class="k">as</span> <span class="n">Cpt</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">ophyd</span><span class="w"> </span><span class="kn">import</span> <span class="n">EpicsMotor</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">ophyd</span><span class="w"> </span><span class="kn">import</span> <span class="n">Kind</span>
@@ -452,8 +455,14 @@ Add many additional axes, both in real (rotation angle) space and in reciprocal
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Test case.&quot;&quot;&quot;</span>
 
     <span class="n">beam</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span>
-        <span class="n">Wavelength</span><span class="p">,</span>
-        <span class="n">source_type</span><span class="o">=</span><span class="s2">&quot;Simulated Wavelength-only Source&quot;</span><span class="p">,</span>
+        <span class="n">EpicsMonochromatorRO</span><span class="p">,</span>
+        <span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="n">source_type</span><span class="o">=</span><span class="s2">&quot;Simulated read-only EPICS Monochromator&quot;</span><span class="p">,</span>
+        <span class="n">pv_energy</span><span class="o">=</span><span class="s2">&quot;BraggERdbkAO&quot;</span><span class="p">,</span>  <span class="c1"># the energy readback PV</span>
+        <span class="n">energy_units</span><span class="o">=</span><span class="s2">&quot;keV&quot;</span><span class="p">,</span>
+        <span class="n">pv_wavelength</span><span class="o">=</span><span class="s2">&quot;BraggLambdaRdbkAO&quot;</span><span class="p">,</span>  <span class="c1"># the wavelength readback PV</span>
+        <span class="n">wavelength_units</span><span class="o">=</span><span class="s2">&quot;angstrom&quot;</span><span class="p">,</span>
+        <span class="n">wavelength_deadband</span><span class="o">=</span><span class="mf">0.000_150</span><span class="p">,</span>
         <span class="n">kind</span><span class="o">=</span><span class="n">NORMAL_HINTED</span><span class="p">,</span>
     <span class="p">)</span>
 
@@ -484,9 +493,10 @@ Add many additional axes, both in real (rotation angle) space and in reciprocal
     <span class="n">_pseudo</span> <span class="o">=</span> <span class="s2">&quot;h k l&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
     <span class="n">_real</span> <span class="o">=</span> <span class="s2">&quot;theta chi phi ttheta&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prefix</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="c1"># kwargs[&quot;prefix&quot;] = prefix</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
-            <span class="o">*</span><span class="n">args</span><span class="p">,</span>
+            <span class="n">prefix</span><span class="o">=</span><span class="n">prefix</span><span class="p">,</span>
             <span class="n">solver</span><span class="o">=</span><span class="s2">&quot;hkl_soleil&quot;</span><span class="p">,</span>
             <span class="n">geometry</span><span class="o">=</span><span class="s2">&quot;E4CV&quot;</span><span class="p">,</span>
             <span class="n">solver_kwargs</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">engine</span><span class="o">=</span><span class="s2">&quot;hkl&quot;</span><span class="p">),</span>
@@ -503,7 +513,7 @@ Add many additional axes, both in real (rotation angle) space and in reciprocal
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Fourc(prefix=&#39;gp:&#39;, name=&#39;fourc&#39;, settle_time=0.0, timeout=None, egu=&#39;&#39;, limits=(0, 0), source=&#39;computed&#39;, read_attrs=[&#39;beam&#39;, &#39;beam.wavelength&#39;, &#39;h&#39;, &#39;h.readback&#39;, &#39;h.setpoint&#39;, &#39;k&#39;, &#39;k.readback&#39;, &#39;k.setpoint&#39;, &#39;l&#39;, &#39;l.readback&#39;, &#39;l.setpoint&#39;, &#39;ttheta&#39;, &#39;ttheta.user_readback&#39;, &#39;ttheta.user_setpoint&#39;, &#39;theta&#39;, &#39;theta.user_readback&#39;, &#39;theta.user_setpoint&#39;, &#39;chi&#39;, &#39;chi.user_readback&#39;, &#39;chi.user_setpoint&#39;, &#39;phi&#39;, &#39;phi.user_readback&#39;, &#39;phi.user_setpoint&#39;, &#39;h2&#39;, &#39;h2.readback&#39;, &#39;h2.setpoint&#39;, &#39;k2&#39;, &#39;k2.readback&#39;, &#39;k2.setpoint&#39;, &#39;l2&#39;, &#39;l2.readback&#39;, &#39;l2.setpoint&#39;, &#39;psi&#39;, &#39;temperature&#39;], configuration_attrs=[&#39;solver_signature&#39;, &#39;beam&#39;, &#39;beam.source_type&#39;, &#39;beam.wavelength_units&#39;, &#39;h&#39;, &#39;k&#39;, &#39;l&#39;, &#39;ttheta&#39;, &#39;ttheta.user_offset&#39;, &#39;ttheta.user_offset_dir&#39;, &#39;ttheta.velocity&#39;, &#39;ttheta.acceleration&#39;, &#39;ttheta.motor_egu&#39;, &#39;theta&#39;, &#39;theta.user_offset&#39;, &#39;theta.user_offset_dir&#39;, &#39;theta.velocity&#39;, &#39;theta.acceleration&#39;, &#39;theta.motor_egu&#39;, &#39;chi&#39;, &#39;chi.user_offset&#39;, &#39;chi.user_offset_dir&#39;, &#39;chi.velocity&#39;, &#39;chi.acceleration&#39;, &#39;chi.motor_egu&#39;, &#39;phi&#39;, &#39;phi.user_offset&#39;, &#39;phi.user_offset_dir&#39;, &#39;phi.velocity&#39;, &#39;phi.acceleration&#39;, &#39;phi.motor_egu&#39;, &#39;h2&#39;, &#39;k2&#39;, &#39;l2&#39;], concurrent=True)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Fourc(prefix=&#39;gp:&#39;, name=&#39;fourc&#39;, settle_time=0.0, timeout=None, egu=&#39;&#39;, limits=(0, 0), source=&#39;computed&#39;, read_attrs=[&#39;beam&#39;, &#39;beam.wavelength&#39;, &#39;beam.energy&#39;, &#39;h&#39;, &#39;h.readback&#39;, &#39;h.setpoint&#39;, &#39;k&#39;, &#39;k.readback&#39;, &#39;k.setpoint&#39;, &#39;l&#39;, &#39;l.readback&#39;, &#39;l.setpoint&#39;, &#39;ttheta&#39;, &#39;ttheta.user_readback&#39;, &#39;ttheta.user_setpoint&#39;, &#39;theta&#39;, &#39;theta.user_readback&#39;, &#39;theta.user_setpoint&#39;, &#39;chi&#39;, &#39;chi.user_readback&#39;, &#39;chi.user_setpoint&#39;, &#39;phi&#39;, &#39;phi.user_readback&#39;, &#39;phi.user_setpoint&#39;, &#39;h2&#39;, &#39;h2.readback&#39;, &#39;h2.setpoint&#39;, &#39;k2&#39;, &#39;k2.readback&#39;, &#39;k2.setpoint&#39;, &#39;l2&#39;, &#39;l2.readback&#39;, &#39;l2.setpoint&#39;, &#39;psi&#39;, &#39;temperature&#39;], configuration_attrs=[&#39;solver_signature&#39;, &#39;beam&#39;, &#39;beam.source_type&#39;, &#39;beam.wavelength_units&#39;, &#39;beam.wavelength_deadband&#39;, &#39;beam.energy_units&#39;, &#39;h&#39;, &#39;k&#39;, &#39;l&#39;, &#39;ttheta&#39;, &#39;ttheta.user_offset&#39;, &#39;ttheta.user_offset_dir&#39;, &#39;ttheta.velocity&#39;, &#39;ttheta.acceleration&#39;, &#39;ttheta.motor_egu&#39;, &#39;theta&#39;, &#39;theta.user_offset&#39;, &#39;theta.user_offset_dir&#39;, &#39;theta.velocity&#39;, &#39;theta.acceleration&#39;, &#39;theta.motor_egu&#39;, &#39;chi&#39;, &#39;chi.user_offset&#39;, &#39;chi.user_offset_dir&#39;, &#39;chi.velocity&#39;, &#39;chi.acceleration&#39;, &#39;chi.motor_egu&#39;, &#39;phi&#39;, &#39;phi.user_offset&#39;, &#39;phi.user_offset_dir&#39;, &#39;phi.velocity&#39;, &#39;phi.acceleration&#39;, &#39;phi.motor_egu&#39;, &#39;h2&#39;, &#39;k2&#39;, &#39;l2&#39;], concurrent=True)
 </pre></div>
 </div>
 </div>
@@ -517,7 +527,7 @@ Add many additional axes, both in real (rotation angle) space and in reciprocal
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Brief &#39;where&#39; report:
-wavelength=1.0
+wavelength=1.2155268902481402
 h=0, k=0, l=0
 theta=0, chi=0, phi=0, ttheta=0
 </pre></div>
@@ -544,7 +554,7 @@ constraint: -180.0 &lt;= chi &lt;= 180.0
 constraint: -180.0 &lt;= phi &lt;= 180.0
 constraint: -180.0 &lt;= ttheta &lt;= 180.0
 Mode: bissector
-beam={&#39;class&#39;: &#39;Wavelength&#39;, &#39;source_type&#39;: &#39;Simulated Wavelength-only Source&#39;, &#39;wavelength&#39;: 1.0, &#39;wavelength_units&#39;: &#39;angstrom&#39;}
+beam={&#39;class&#39;: &#39;EpicsMonochromatorRO&#39;, &#39;source_type&#39;: &#39;Simulated read-only EPICS Monochromator&#39;, &#39;energy&#39;: 10.200041232710992, &#39;wavelength&#39;: 1.2155268902481402, &#39;energy_units&#39;: &#39;keV&#39;, &#39;wavelength_units&#39;: &#39;angstrom&#39;, &#39;wavelength_PV&#39;: &#39;gp:BraggLambdaRdbkAO&#39;, &#39;energy_PV&#39;: &#39;gp:BraggERdbkAO&#39;}
 h=0, k=0, l=0
 theta=0, chi=0, phi=0, ttheta=0
 </pre></div>
@@ -559,7 +569,7 @@ theta=0, chi=0, phi=0, ttheta=0
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>FourcRealPos(theta=29.999992418917, chi=1.3051987e-05, phi=89.999997321112, ttheta=59.999984837834)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>FourcRealPos(theta=-37.427950523067, chi=-1.3100774e-05, phi=-90.000002713098, ttheta=-74.855901046133)
 </pre></div>
 </div>
 </div>
@@ -571,12 +581,12 @@ theta=0, chi=0, phi=0, ttheta=0
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[FourcRealPos(theta=29.999992418917, chi=1.3051987e-05, phi=89.999997321112, ttheta=59.999984837834),
- FourcRealPos(theta=-29.999992418917, chi=-1.3051987e-05, phi=-90.000002678888, ttheta=-59.999984837834),
- FourcRealPos(theta=-150.000007581083, chi=-1.3051987e-05, phi=-90.000002678888, ttheta=59.999984837834),
- FourcRealPos(theta=29.999992418917, chi=179.999986948013, phi=-90.000002678888, ttheta=59.999984837834),
- FourcRealPos(theta=-29.999992418917, chi=-179.999986948013, phi=89.999997321112, ttheta=-59.999984837834),
- FourcRealPos(theta=-150.000007581083, chi=-179.999986948013, phi=89.999997321112, ttheta=59.999984837834)]
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[FourcRealPos(theta=-37.427950303513, chi=-1.3030092e-05, phi=-90.000002721039, ttheta=-74.855900607027),
+ FourcRealPos(theta=37.427950303513, chi=1.3030092e-05, phi=89.999997278961, ttheta=74.855900607027),
+ FourcRealPos(theta=-142.572049696487, chi=-1.3030092e-05, phi=-90.000002721039, ttheta=74.855900607027),
+ FourcRealPos(theta=-37.427950303513, chi=-179.999986969908, phi=89.999997278961, ttheta=-74.855900607027),
+ FourcRealPos(theta=37.427950303513, chi=179.999986969908, phi=-90.000002721039, ttheta=74.855900607027),
+ FourcRealPos(theta=-142.572049696487, chi=-179.999986969908, phi=89.999997278961, ttheta=74.855900607027)]
 </pre></div>
 </div>
 </div>
@@ -588,7 +598,7 @@ theta=0, chi=0, phi=0, ttheta=0
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;h&#39;: 1.000000229316, &#39;k&#39;: -2.28495e-07, &#39;l&#39;: -4.7217e-08}
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;h&#39;: 0.822688693552, &#39;k&#39;: -1.8798e-07, &#39;l&#39;: -3.8844e-08}
 </pre></div>
 </div>
 </div>
@@ -606,12 +616,12 @@ theta=0, chi=0, phi=0, ttheta=0
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="constraints.html"
+       href="example-4-circle-creator.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Constraints</p>
+        <p class="prev-next-title">Example 4-circle diffractometer using creator()</p>
       </div>
     </a>
     <a class="right-next"
