@@ -20,7 +20,7 @@ Releases
 
 Brief notes describing each release and what's new.
 
-Project `milestones <https://github.com/prjemian/hklpy2/milestones>`_
+Project `milestones <https://github.com/bluesky/hklpy2/milestones>`_
 describe future plans.
 
 .. comment
@@ -33,7 +33,12 @@ describe future plans.
     0.1.1
     #####
 
-    Release expected by 2025-06-01.
+    Release expected by 2025-05-01.
+
+    Notice
+    ------
+
+    Move project to https://github.com/bluesky/hklpy2 from https://github.com/prjemian/hklpy2.
 
 0.1.0
 #####
