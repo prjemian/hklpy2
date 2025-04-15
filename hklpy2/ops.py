@@ -264,6 +264,7 @@ class Core:
         from .blocks.reflection import Reflection
 
         self._validate_pseudos(pseudos)
+        wavelength = wavelength or self.diffractometer.beam.wavelength.get()
 
         logger.debug(
             "name=%r, geometry=%r, wavelength=%r",
