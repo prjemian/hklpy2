@@ -4,8 +4,9 @@ hklpy2
 
 .. index:: !hklpy
 
-|hklpy2| - the 2nd generation Python package for practical use of diffractometers with the
-`Bluesky Framework <https://blueskyproject.io>`_.
+|hklpy2| - 2nd generation controls for diffractometers as
+PseudoPositioners in the `Bluesky Framework <https://blueskyproject.io>`_.
+
 
 .. toctree::
    :glob:
@@ -49,7 +50,7 @@ About
 ===============   ================
 about             details
 ===============   ================
-home              https://bluesky.github.io/hklpy2
+home              https://blueskyproject.io/hklpy2/
 source            https://github.com/bluesky/hklpy2
 full version      |release|
 published         |today|

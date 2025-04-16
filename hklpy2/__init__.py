@@ -11,7 +11,7 @@ Package-level initialization.
 # The full license is in the file LICENSE, distributed with this software.
 # -----------------------------------------------------------------------------
 
-__settings_orgName__ = "prjemian"
+__settings_orgName__ = "bluesky"
 __package_name__ = "hklpy2"
 
 

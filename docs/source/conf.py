@@ -78,7 +78,7 @@ html_title = f"{project} {version}"
 html_static_path = ["_static"]
 
 html_context = {
-    "github_user": "prjemian",
+    "github_user": "bluesky",
     "github_repo": "hklpy2",
     "github_version": "main",
     "doc_path": "docs",
