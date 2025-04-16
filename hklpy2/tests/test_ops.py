@@ -11,6 +11,7 @@ import pytest
 from ..diffract import DiffractometerBase
 from ..diffract import creator
 from ..misc import ConfigurationError
+from ..misc import ReflectionError
 from ..ops import DEFAULT_SAMPLE_NAME
 from ..ops import Core
 from ..ops import CoreError
@@ -780,4 +781,61 @@ def test__fromdict(setup, config, context, expected):
     with context as reason:
         sim = creator(**setup)
         sim.core._fromdict(config)
+    assert_context_result(expected, reason)
+
+
+@pytest.mark.parametrize(
+    "parms, context, expected",
+    [
+        [
+            dict(
+                pseudos=(0, 1, 0),
+                reals=None,
+                wavelength=1.2,
+                name="r2",
+                replace=False,
+            ),
+            does_not_raise(),
+            None,
+        ],
+        [  # issue 97
+            dict(
+                pseudos=(0, 1, 0),
+                reals=None,
+                wavelength=None,  # in #97, this raised exception
+                name="r2",
+                replace=False,
+            ),
+            does_not_raise(),
+            None,
+        ],
+        [
+            dict(
+                pseudos=(0, 1, 0),
+                reals=None,
+                wavelength=1.2,
+                name="r1",
+                replace=False,
+            ),
+            pytest.raises(ReflectionError),
+            " known.  Use 'replace=True' to overwrite.",
+        ],
+        [
+            dict(
+                pseudos=(0, 0, 1),  # same as "first"
+                reals=(1, 2, 3, 4),  # same as "first"
+                name="r2",
+            ),
+            pytest.raises(ReflectionError),
+            "matches one or more existing reflections.",
+        ],
+    ],
+)
+def test_add_reflection(parms, context, expected):
+    with context as reason:
+        sim = creator()
+        # add first reflection
+        sim.core.add_reflection((0, 0, 1), (1, 2, 3, 4), name="r1")
+        # add supplied reflection
+        sim.core.add_reflection(**parms)
     assert_context_result(expected, reason)

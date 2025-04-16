@@ -20,7 +20,7 @@ Releases
 
 Brief notes describing each release and what's new.
 
-Project `milestones <https://github.com/prjemian/hklpy2/milestones>`_
+Project `milestones <https://github.com/bluesky/hklpy2/milestones>`_
 describe future plans.
 
 .. comment
@@ -30,10 +30,21 @@ describe future plans.
 
     Release expected 2025-Q4.
 
-    0.1.2
+    0.1.3
     #####
 
-    Release expected by 2025-06-01.
+    Release expected by 2025-05-01.
+
+    Notice
+    ------
+
+    * Move project from https://github.com/prjemian/hklpy2
+      to https://github.com/bluesky/hklpy2.
+
+    Fixes
+    -----
+
+    * core.add_reflection() should define when wavelength=None
 
 0.1.2
 #####

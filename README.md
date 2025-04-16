@@ -15,8 +15,8 @@ Framework](https://blueskyproject.io).
 
 ## About
 
-- home: https://prjemian.github.io/hklpy2
-- source: https://github.com/prjemian/hklpy2
+- home: https://bluesky.github.io/hklpy2
+- source: https://github.com/bluesky/hklpy2
 - license: [Argonne Open Source License](/LICENSE)
 - design: [API](/docs/source/api.rst), [concepts](/docs/source/concepts.rst), [checklist](/docs/source/concepts/planning/_checklist_v2.md)
 - **hklpy**, v1: [docs](https://blueskyproject.io/hklpy/), [source](https://github.com/bluesky/hklpy)
