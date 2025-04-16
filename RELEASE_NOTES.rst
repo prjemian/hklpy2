@@ -30,21 +30,26 @@ describe future plans.
 
     Release expected 2025-Q4.
 
-    0.1.3
+    0.1.4
     #####
 
     Release expected by 2025-05-01.
 
-    Notice
-    ------
+0.1.3
+#####
 
-    * Move project from https://github.com/prjemian/hklpy2
-      to https://github.com/bluesky/hklpy2.
+Release expected by 2025-05-01.
 
-    Fixes
-    -----
+Notice
+------
 
-    * core.add_reflection() should define when wavelength=None
+* Move project from https://github.com/prjemian/hklpy2
+  to https://github.com/bluesky/hklpy2.
+
+Fixes
+-----
+
+* core.add_reflection() should define when wavelength=None
 
 0.1.2
 #####
