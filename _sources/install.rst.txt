@@ -31,19 +31,19 @@ Pip - Source
 
 Install directly from the GitHub source code repository.  Either:
 
-``pip install https://github.com/prjemian/hklpy2/archive/main.zip``
+``pip install https://github.com/bluesky/hklpy2/archive/main.zip``
 
 or editable install (this is for developers) from local clone of source code.
 
 First, clone the repository (into directory ``hklpy2``):
 
-``git clone https://github.com/prjemian/hklpy2``
+``git clone https://github.com/bluesky/hklpy2``
 
 Then, install from the new ``hklpy2`` directory:
 
 ``pip install -e hklpy2 --no-deps``
 
-.. seealso:: https://github.com/prjemian/hklpy2
+.. seealso:: https://github.com/bluesky/hklpy2
 
 Development
 ===========

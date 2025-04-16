@@ -1,7 +1,7 @@
 # Design for hklpy2
 
 Gather the discussion points, thoughts, issues, etc. for development of
-[*hklpy2*](https://github.com/prjemian/hklpy2), the second generation of
+[*hklpy2*](https://github.com/bluesky/hklpy2), the second generation of
 the [*hklpy*](https://github.com/bluesky/hklpy) package.
 
 Here's a block diagram of the new API:
