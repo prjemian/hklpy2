@@ -38,13 +38,14 @@ describe future plans.
 0.1.3
 #####
 
-Release expected by 2025-05-01.
+Released 2025-04-16.
 
 Notice
 ------
 
-* Move project from https://github.com/prjemian/hklpy2
-  to https://github.com/bluesky/hklpy2.
+* Move project to bluesky organization on GitHub.
+  * home: https://blueskyproject.io/hklpy2/
+  * code: https://github.com/bluesky/hklpy2
 
 Fixes
 -----
