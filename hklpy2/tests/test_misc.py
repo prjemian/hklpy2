@@ -23,11 +23,13 @@ from ..misc import AxesDict
 from ..misc import AxesList
 from ..misc import AxesTuple
 from ..misc import ConfigurationRunWrapper
+from ..misc import DiffractometerError
 from ..misc import SolverError
 from ..misc import axes_to_dict
 from ..misc import compare_float_dicts
 from ..misc import convert_units
 from ..misc import dict_device_factory
+from ..misc import distance_between_pos_tuples
 from ..misc import dynamic_import
 from ..misc import flatten_lists
 from ..misc import get_run_orientation
@@ -35,6 +37,8 @@ from ..misc import get_solver
 from ..misc import istype
 from ..misc import list_orientation_runs
 from ..misc import load_yaml_file
+from ..misc import pick_closest_solution
+from ..misc import pick_first_solution
 from ..misc import roundoff
 from ..tests.common import HKLPY2_DIR
 from ..tests.common import assert_context_result
@@ -460,5 +464,118 @@ def test_dynamic_import(name, context, expected):
 def test_convert_units(value, units1, units2, ref, context, expected):
     with context as reason:
         assert math.isclose(convert_units(value, units1, units2), ref, abs_tol=0.01)
+
+    assert_context_result(expected, reason)
+
+
+@pytest.mark.parametrize(
+    "pos1, pos2, dist, tol, context, expected",
+    [
+        [
+            namedtuple("Position", "a b c".split())(0, 0, 0),
+            namedtuple("Position", "a b c".split())(1, 1, 1),
+            1,
+            1e-6,
+            does_not_raise(),
+            None,
+        ],
+        [
+            namedtuple("Position", "a b c".split())(0, 0, 0),
+            namedtuple("NameIgnored", "a b c".split())(1, 0, 0),
+            math.sqrt(1 / 3),
+            1e-6,
+            does_not_raise(),
+            None,
+        ],
+        [
+            namedtuple("Position", "x y z".split())(0, 0, 0),
+            namedtuple("Position", "a b c".split())(1, 1, 1),
+            1,
+            1e-6,
+            pytest.raises(AttributeError),
+            "'Position' object has no attribute 'x'",
+        ],
+        [
+            namedtuple("Position", "d e".split())(0, 0),
+            namedtuple("Position", "a b c".split())(1, 1, 1),
+            1,
+            1e-6,
+            pytest.raises(AttributeError),
+            "are not the same length.",
+        ],
+        [
+            (),
+            namedtuple("Ignored", "a b c".split())(1, 0, 0),
+            0,
+            1e-6,
+            pytest.raises(AttributeError),
+            "are not the same length.",
+        ],
+        [
+            (),
+            (),
+            0,
+            1e-6,
+            does_not_raise(),
+            None,
+        ],
+    ],
+)
+def test_distance_between_pos_tuples(pos1, pos2, dist, tol, context, expected):
+    with context as reason:
+        assert math.isclose(
+            distance_between_pos_tuples(pos1, pos2),
+            dist,
+            abs_tol=tol,
+        )
+
+    assert_context_result(expected, reason)
+
+
+@pytest.mark.parametrize(
+    "pos, possibilities, function, selected, context, expected",
+    [
+        [
+            (),
+            "a b c".split(),
+            pick_first_solution,
+            "a",
+            does_not_raise(),
+            None,
+        ],
+        [
+            "a b c".split(),
+            (),
+            pick_first_solution,
+            None,
+            pytest.raises(DiffractometerError),
+            "No solutions.",
+        ],
+        [
+            namedtuple("Position", "a b c".split())(0, 0, 0),
+            [
+                namedtuple("Position", "a b c".split())(1, -1, 1),
+                namedtuple("Position", "a b c".split())(1, 1, 1),
+                namedtuple("Position", "a b c".split())(3, 2, 1),
+            ],
+            pick_closest_solution,
+            namedtuple("Position", "a b c".split())(1, -1, 1),  # first, closest
+            does_not_raise(),
+            None,
+        ],
+        [
+            namedtuple("Position", "a b c".split())(0, 0, 0),
+            [],
+            pick_closest_solution,
+            None,
+            pytest.raises(DiffractometerError),
+            "No solutions.",
+        ],
+    ],
+)
+def test_choice_function(pos, possibilities, function, selected, context, expected):
+    with context as reason:
+        choice = function(pos, possibilities)
+        assert choice == selected
 
     assert_context_result(expected, reason)
