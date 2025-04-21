@@ -42,10 +42,10 @@ Glossary
     !constraint
 
 :constraint: Limitations on acceptable positions for a *diffractometer's*
-  computed ``forward()`` solutions (from $hkl$ to angles).  A *solver's*
+  computed ``forward()`` solutions (from :math:`hkl` to angles).  A *solver's*
   ``forward()`` computation returns a list of solutions, where a solution
   is the set of real-space angles that position the *diffractometer* to the
-  desired $hkl$ value.  A constraint can be used to reject solutions for
+  desired :math:`hkl` value.  A constraint can be used to reject solutions for
   undesired angles.
 
 ..  index::
@@ -158,7 +158,7 @@ Glossary
     !OR
 
 :OR: Orienting Reflection, a *reflection* used to define the *sample*
-  *orientation* (and compute the $UB$ matrix).
+  *orientation* (and compute the :math:`UB` matrix).
 
 ..  index::
     !definition; orientation

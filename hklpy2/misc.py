@@ -9,6 +9,7 @@ Miscellaneous Support.
     ~compare_float_dicts
     ~convert_units
     ~dict_device_factory
+    ~distance_between_pos_tuples
     ~dynamic_import
     ~flatten_lists
     ~get_run_orientation
@@ -17,6 +18,8 @@ Miscellaneous Support.
     ~list_orientation_runs
     ~load_yaml
     ~load_yaml_file
+    ~pick_closest_solution
+    ~pick_first_solution
     ~roundoff
     ~solver_factory
     ~solvers
@@ -66,6 +69,7 @@ import warnings
 from collections.abc import Iterable
 from importlib.metadata import entry_points
 from typing import Any
+from typing import NamedTuple
 from typing import Type
 from typing import Union
 
@@ -403,6 +407,21 @@ def dict_device_factory(data: dict, **kwargs):
     return fc
 
 
+def distance_between_pos_tuples(pos1: NamedTuple, pos2: NamedTuple):
+    """Return the RMS distance between 'pos1' and 'pos2'."""
+    if len(pos1) != len(pos2):
+        raise AttributeError(f"{pos1=} and {pos2=} are not the same length.")
+    if len(pos1) == 0:
+        rms = 0
+    else:
+        sum = 0
+        for axis in pos1._fields:
+            delta = getattr(pos1, axis) - getattr(pos2, axis)
+            sum += delta * delta
+        rms = math.sqrt(sum / len(pos1._fields))
+    return rms
+
+
 def dynamic_import(full_path: str) -> type:
     """
     Import the object given its import path as text.
@@ -664,6 +683,68 @@ def load_yaml_file(file):
     if not path.exists():
         raise FileExistsError(f"YAML file '{path}' does not exist.")
     return load_yaml(open(path, "r").read())
+
+
+def pick_closest_solution(
+    position: NamedTuple,
+    solutions: list[NamedTuple],
+) -> NamedTuple:
+    """
+    Find the solution closest to the current real position.
+
+    Used by :meth:`~hklpy2.diffract.DiffractometerBase.forward()` method to pick
+    a solution from a list of possible solutions.  Assign to diffractometer's
+    :attr:`~hklpy2.diffract.DiffractometerBase._forward_solution` method.
+
+    PARAMETERS
+
+    position tuple :
+        Current position.
+    solutions list[tuple] :
+        List of positions.
+
+    .. seealso::
+        :attr:`~hklpy2.diffract.DiffractometerBase._forward_solution`,
+        :func:`~hklpy2.misc.pick_first_solution`
+    """
+    if len(solutions) == 0:
+        raise DiffractometerError("No solutions.")
+
+    nearest = None
+    separation = None
+    for candidate in solutions:
+        rms = distance_between_pos_tuples(position, candidate)
+        if separation is None or rms < separation:
+            separation = rms
+            nearest = candidate
+    return nearest
+
+
+def pick_first_solution(
+    position: NamedTuple,
+    solutions: list[NamedTuple],
+) -> NamedTuple:
+    """
+    Choose first solution from list.
+
+    Used by :meth:`~hklpy2.diffract.DiffractometerBase.forward()` method to pick
+    a solution from a list of possible solutions.  Assign to diffractometer's
+    :attr:`~hklpy2.diffract.DiffractometerBase._forward_solution` method.
+
+    PARAMETERS
+
+    position tuple :
+        Current position.  (Required for general case, not used here.)
+    solutions list[tuple] :
+        List of positions.
+
+    .. seealso::
+        :attr:`~hklpy2.diffract.DiffractometerBase._forward_solution`,
+        :func:`~hklpy2.misc.pick_closest_solution`
+    """
+    if len(solutions) == 0:
+        raise DiffractometerError("No solutions.")
+    return solutions[0]
 
 
 def roundoff(value, digits=4):

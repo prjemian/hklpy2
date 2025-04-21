@@ -7,11 +7,11 @@ Base class for all diffractometers
     ~diffractometer_class_factory
     ~DiffractometerBase
     ~Hklpy2PseudoAxis
-    ~pick_first_item
 """
 
 import logging
 import pathlib
+from typing import Callable
 from typing import Optional
 
 import yaml
@@ -31,15 +31,14 @@ from .blocks.sample import Sample
 from .incident import WavelengthXray
 from .misc import AnyAxesType
 from .misc import AxesDict
-from .misc import DiffractometerError
 from .misc import load_yaml_file
+from .misc import pick_first_solution
 from .misc import roundoff
 
 __all__ = """
     DiffractometerBase
     diffractometer_class_factory
     creator
-    pick_first_item
 """.split()
 logger = logging.getLogger(__name__)
 
@@ -47,30 +46,8 @@ DEFAULT_PHOTON_ENERGY_KEV = 8.0
 H_OR_N = Kind.hinted | Kind.normal
 
 
-def pick_first_item(now: tuple, solutions: list):
-    """
-    Choose first item from list.
-
-    Used by '.forward()' method to pick the first solution
-    from a list of possible solutions.
-
-    User can provide an alternative function and assign to diffractometer's
-    :meth:`~hklpy2.diffract.DiffractometerBase._forward_solution` method.
-
-    PARAMETERS
-
-    now tuple :
-        Current position.
-    solutions list[tuple] :
-        List of positions.
-    """
-    if len(solutions) == 0:
-        raise DiffractometerError("No solutions.")
-    return solutions[0]
-
-
 class Hklpy2PseudoAxis(PseudoSingle):
-    "Override to allow additional pseudos."
+    """Override to allow additional pseudos."""
 
     @required_for_connection(description="{device.name} readback subscription")
     def _sub_proxy_readback(self, obj=None, value=None, **kwargs):
@@ -79,7 +56,7 @@ class Hklpy2PseudoAxis(PseudoSingle):
         pseudo axis.
         """
         if hasattr(value, "__getitem__"):
-            if self._idx is not None:  # <-- filters out any extra pseudos
+            if self._idx is not None:  # Extra pseudos are ignored here.
                 value = value[self._idx]
 
         return self._run_subs(obj=self, value=value, **kwargs)
@@ -91,16 +68,25 @@ class DiffractometerBase(PseudoPositioner):
 
     PARAMETERS
 
-    *   ``solver`` (*str*) : Name of |solver| library.
+    solver : str
+        Name of |solver| library.
         (default: unspecified)
-    *   ``geometry``: (*str*) : Name of |solver| geometry.
+    geometry : str
+        Name of |solver| geometry.
         (default: unspecified)
-    *   ``solver_kwargs`` (*dict*) : Any additional keyword arguments needed
-        by |solver| library. (default: empty)
-    *   ``pseudos`` ([str]) : List of diffractometer axis names to be used
+    solver_kwargs : Dict(str, Any)
+        Any additional keyword arguments needed by |solver| library.
+        (default: empty)
+    pseudos : List[str]
+        List of diffractometer axis names to be used
         as pseudo axes. (default: unspecified)
-    *   ``reals`` ([str]) : List of diffractometer axis names to be used as
+    reals : List[str]
+        List of diffractometer axis names to be used as
         real axes. (default: unspecified)
+    forward_solution_function : Callable
+        Function to pick one solution from list of possibilities.
+        Used by :meth:`~hklpy2.diffract.DiffractometerBase.forward`.
+        (default: :func:`~hklpy2.misc.pick_first_solution`)
 
     .. rubric:: (ophyd) Components
 
@@ -110,6 +96,12 @@ class DiffractometerBase(PseudoPositioner):
 
         ~beam
         ~solver_signature
+
+    .. rubric:: Python Attributes
+
+    .. autosummary::
+
+        ~_forward_solution
 
     .. rubric:: Python Methods
 
@@ -150,6 +142,23 @@ class DiffractometerBase(PseudoPositioner):
     beam = Cpt(WavelengthXray)
     """Incident monochromatic beam."""
 
+    _forward_solution: Callable = pick_first_solution
+    """
+    Pick a solution from the solution(s) return from
+    :meth:`~hklpy2.ops.Core.forward`.
+
+    Choices include:
+
+    * (default) :func:`hklpy2.misc.pick_first_solution`
+    * :func:`hklpy2.misc.pick_closest_solution`
+    * User-supplied function matching the same interface.
+
+    .. seealso::
+        :meth:`hklpy2.diffract.DiffractometerBase.forward`,
+        :meth:`hklpy2.ops.Core.forward`
+
+    """
+
     def __init__(
         self,
         prefix: str = "",
@@ -159,14 +168,13 @@ class DiffractometerBase(PseudoPositioner):
         solver_kwargs: dict = {},
         pseudos: list[str] = [],
         reals: list[str] = [],
+        forward_solution_function: Optional[Callable] = None,
         **kwargs,
     ):
         from .ops import Core
 
-        # print(f"DiffractometerBase({solver=!r}, {geometry=!r})")
-
         self._backend = None
-        self._forward_solution = pick_first_item
+        self._forward_solution = forward_solution_function or pick_first_solution
         self.core = Core(self)
 
         super().__init__(prefix, **kwargs)
@@ -638,6 +646,7 @@ def creator(
     labels: list = ["diffractometer"],
     class_name: str = "Hklpy2Diffractometer",
     class_bases: list = [DiffractometerBase],
+    forward_solution_function: Optional[str] = None,
     **kwargs,
 ):
     """
@@ -719,6 +728,12 @@ def creator(
     class_bases : list
         List of base classes to use for the diffractometer class.
         (default: '[DiffractometerBase]')
+    forward_solution_function : str
+        Name of function to pick one solution from list of possibilities.
+        Used by :meth:`~hklpy2.diffract.DiffractometerBase.forward`.
+        (default: :func:`~hklpy2.misc.pick_first_solution`)
+
+        Will be assigned to :attr:`hklpy2.diffract.DiffractometerBase._forward_solution`.
     kwargs : any
         Additional keyword arguments will be added when constructing
         the new diffractometer object.
@@ -735,6 +750,7 @@ def creator(
         class_name=class_name,
         class_bases=class_bases,
         aliases=aliases,
+        forward_solution_function=forward_solution_function,
     )
     if name == "":
         name = geometry.lower()
@@ -753,6 +769,7 @@ def diffractometer_class_factory(
     class_name: str = "Hklpy2Diffractometer",
     class_bases: list = [DiffractometerBase],
     aliases: dict[str, list[str]] = {},
+    forward_solution_function: Optional[str] = None,
 ) -> DiffractometerBase:
     """
     Build a custom class for this diffractometer geometry.
@@ -797,6 +814,12 @@ def diffractometer_class_factory(
         Aliases of diffractometer axes for solver's pseudos and reals.
 
         (default: '{}' which means use the first diffractometer axes from each to match the solver.)
+    forward_solution_function : str
+        Name of function to pick one solution from list of possibilities.
+        Used by :meth:`~hklpy2.diffract.DiffractometerBase.forward`.
+        (default: :func:`~hklpy2.misc.pick_first_solution`)
+
+        Will be assigned to :attr:`hklpy2.diffract.DiffractometerBase._forward_solution`.
     """
     from .misc import dynamic_import
     from .misc import solver_factory
@@ -835,6 +858,12 @@ def diffractometer_class_factory(
     if isinstance(beam_class, str):
         beam_class = dynamic_import(beam_class)
     factory_class_attributes["beam"] = Cpt(beam_class, **beam_kwargs)
+
+    if forward_solution_function is None:
+        forward_solution_function = "hklpy2.misc.pick_first_solution"
+    factory_class_attributes["_forward_solution"] = dynamic_import(
+        forward_solution_function,
+    )
 
     # Find the chosen solver.  It describes its various axes.
     solver_object = solver_factory(solver, geometry, **solver_kwargs)

@@ -19,7 +19,6 @@ from ..blocks.sample import Sample
 from ..diffract import DiffractometerBase
 from ..diffract import creator
 from ..diffract import diffractometer_class_factory
-from ..diffract import pick_first_item
 from ..misc import ConfigurationError
 from ..misc import DiffractometerError
 from ..misc import SolverNoForwardSolutions
@@ -34,15 +33,6 @@ from .models import MultiAxis99
 from .models import MultiAxis99NoSolver
 from .models import NoOpTh2Th
 from .models import TwoC
-
-
-def test_choice_function():
-    choice = pick_first_item((), "a b c".split())
-    assert choice == "a"
-
-    with pytest.raises(DiffractometerError) as reason:
-        pick_first_item((), [])
-    assert_context_result("No solutions.", reason)
 
 
 @pytest.mark.parametrize(
@@ -116,6 +106,35 @@ def test_creator_reals(
             assert isinstance(getattr(sim, axis), positioner_class)
         sim.restore(HKLPY2_DIR / "tests" / config_file)
 
+    assert_context_result(expected, reason)
+
+
+@pytest.mark.parametrize(
+    "setup, context, expected",
+    [
+        [{}, does_not_raise(), None],
+        [dict(forward_solution_function=None), does_not_raise(), None],
+        [
+            dict(forward_solution_function="hklpy2.misc.pick_closest_solution"),
+            does_not_raise(),
+            None,
+        ],
+        [
+            dict(forward_solution_function="hklpy2.misc.pick_first_solution"),
+            does_not_raise(),
+            None,
+        ],
+        [
+            dict(forward_solution_function="cannot.find.this.function"),
+            pytest.raises(ModuleNotFoundError),
+            "No module named 'cannot'",
+        ],
+    ],
+)
+def test_creator_setup(setup, context, expected):
+    with context as reason:
+        sim = creator(**setup)
+        assert sim is not None
     assert_context_result(expected, reason)
 
 

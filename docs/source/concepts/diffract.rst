@@ -166,7 +166,7 @@ measured or computed.
 
 There are several use cases for a set of reflections:
 
-* Computation of the $UB matrix (for 2 or more non-parallel reflections).
+* Computation of the :math:`UB` matrix (for 2 or more non-parallel reflections).
 * Documentation of observed (or theoretical) reflection settings.
 * Reference settings so as to re-position the diffractometer.
 * Define a crystallographic zone or axis to guide the diffractometer for measurements.
