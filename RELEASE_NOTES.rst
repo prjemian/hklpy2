@@ -35,6 +35,11 @@ describe future plans.
 
     Release expected by 2025-05-01.
 
+    New Features
+    ------------
+
+    * Added 'pick_closest_solution()' as alternative 'forward()' decision function.
+
 0.1.3
 #####
 
