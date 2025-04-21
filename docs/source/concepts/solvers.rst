@@ -111,8 +111,8 @@ Solver: th_tth
 ~~~~~~~~~~~~~~~~~~~~~~
 
 This solver was built as a demonstration of a minimal all Python solver.  It
-provides basic support for $\theta, 2\theta$ geometry with a $Q$ pseudo axis.
-It can be used on any OS where Python runs.
+provides basic support for :math:`\theta, 2\theta` geometry with a :math:`Q`
+pseudo axis. It can be used on any OS where Python runs.
 
 How to write a Solver
 ----------------------

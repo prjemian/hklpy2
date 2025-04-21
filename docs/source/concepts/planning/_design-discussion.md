@@ -33,9 +33,12 @@ This is a starting format for suggestions, but it may become clear that a differ
 
 ## Review of terminology coordinate systems
 
-- $B$ goes from *hkl* to an orthonormal basis in the crystal reference frame
-- $U$ goes from the crystal reference frame to the reciprocal lab frame (expressing how the crystal is stuck onto the diffractometer)
-- Solving the diffractometer equation goes from the reciprocal lab frame to diffractometer angles. (Some people loosely call this "real space" but perhaps they shouldn't. It's angles.)
+- {math}`B` goes from *hkl* to an orthonormal basis in the crystal reference frame
+- {math}`U` goes from the crystal reference frame to the reciprocal lab frame
+  (expressing how the crystal is stuck onto the diffractometer)
+- Solving the diffractometer equation goes from the reciprocal lab frame to
+  diffractometer angles. (Some people loosely call this "real space" but perhaps
+  they shouldn't. It's angles.)
 
 ## Desired API
 
