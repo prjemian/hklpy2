@@ -239,7 +239,7 @@ class SolverBase(ABC):
 
     @mode.setter
     def mode(self, value: str):
-        from .. import check_value_in_list  # avoid circular import here
+        from ..misc import check_value_in_list  # avoid circular import here
 
         check_value_in_list("Mode", value, self.modes, blank_ok=True)
         self._mode = value
