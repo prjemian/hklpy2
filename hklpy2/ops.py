@@ -540,21 +540,27 @@ class Core:
         """Return the list of available |solver| modes."""
         return self.solver.modes
 
-    def refine_lattice(self, reflections: list = None) -> Lattice:
+    def refine_lattice(self, *reflections: list[Reflection]) -> Lattice:
         """
         Return the sample lattice computed from 3 or more reflections.
 
         Do not change the sample lattice.  Let the user decide that.
         """
-        if reflections is None:
+        if len(reflections) == 0:
             reflections = list(self.sample.reflections.values())
-        logger.debug(
-            "Refining lattice using reflections %r",
-            [r.name for r in reflections],
-        )
+        rnames = [r.name for r in reflections]
+        if len(reflections) < 3:
+            raise CoreError(
+                # fmt: off
+                "Must have at least 3 reflections to refine lattice."
+                f" Known reflections: {rnames}"
+                # fmt: on
+            )
+        logger.debug("Refining lattice using reflections %r", rnames)
+        # TODO unit conversions: lattice
         lattice = self.solver.refineLattice(self._reflections_to_solver(reflections))
         # TODO unit conversions: lattice
-        return lattice
+        return Lattice(**lattice)
 
     def _reflections_to_solver(self, refl_list: list) -> dict:
         """(internal) Convert units in list of reflections to be sent to a solver."""

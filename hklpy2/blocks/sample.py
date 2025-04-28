@@ -4,7 +4,6 @@ A Crystalline Sample.
 .. autosummary::
 
     ~Sample
-    ~SampleError
 """
 
 import logging
@@ -13,7 +12,6 @@ import math
 import numpy as np
 from numpy.linalg import norm
 
-from ..misc import SampleError
 from ..misc import unique_name
 from .lattice import Lattice
 from .reflection import ReflectionsDict
@@ -97,10 +95,7 @@ class Sample:
 
     def refine_lattice(self):
         """Refine the lattice parameters from 3 or more reflections."""
-        if len(self.reflections) < 3:
-            raise SampleError("Need 3 or more reflections to refine lattice.")
-
-        # self.core.refineLattice()  # TODO: #40
+        self.lattice = self.core.refine_lattice()
 
     def remove_reflection(self, name: str) -> None:
         """Remove the named reflection."""

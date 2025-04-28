@@ -78,6 +78,8 @@ def test_equal():
     l1.digits = 4
     assert l1 != l2
 
+    assert l1 != dict(a=4, alpha=90)
+
 
 @pytest.mark.parametrize(
     "config, context, expected",

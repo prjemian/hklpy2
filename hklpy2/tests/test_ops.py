@@ -15,6 +15,7 @@ from ..misc import ReflectionError
 from ..ops import DEFAULT_SAMPLE_NAME
 from ..ops import Core
 from ..ops import CoreError
+from ..tests.models import add_oriented_vibranium_to_e4cv
 from ..user import set_diffractometer
 from ..user import setor
 from .common import assert_context_result
@@ -838,4 +839,24 @@ def test_add_reflection(parms, context, expected):
         sim.core.add_reflection((0, 0, 1), (1, 2, 3, 4), name="r1")
         # add supplied reflection
         sim.core.add_reflection(**parms)
+    assert_context_result(expected, reason)
+
+
+@pytest.mark.parametrize(
+    "rnames, context, expected",
+    [
+        [[], does_not_raise(), None],
+        [["r400", "r040", "r004"], does_not_raise(), None],
+        [[], does_not_raise(), None],
+        [["r400", "r040"], pytest.raises(CoreError), ""],
+        [["r400", "r040", "wrong"], pytest.raises(KeyError), ""],
+    ],
+)
+def test_refine_lattice(rnames, context, expected):
+    with context as reason:
+        e4cv = creator()
+        add_oriented_vibranium_to_e4cv(e4cv)
+        reflections = [e4cv.sample.reflections[key] for key in rnames]
+        e4cv.core.refine_lattice(*reflections)
+
     assert_context_result(expected, reason)
