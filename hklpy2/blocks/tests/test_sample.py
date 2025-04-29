@@ -4,7 +4,7 @@ import pytest
 
 from ...diffract import creator
 from ...misc import IDENTITY_MATRIX_3X3
-from ...misc import SampleError
+from ...misc import CoreError
 from ...misc import load_yaml
 from ...misc import unique_name
 from ...tests.common import assert_context_result
@@ -221,11 +221,11 @@ def test_fromdict():
     "remove, context, expected",
     [
         [None, does_not_raise(), None],
-        ["r004", pytest.raises(SampleError), ""],
+        ["r004", pytest.raises(CoreError), ""],
         ["wrong", pytest.raises(KeyError), ""],
     ],
 )
-def test_refine(remove, context, expected):
+def test_refine_lattice(remove, context, expected):
     with context as reason:
         e4cv = creator(name="e4cv")
         add_oriented_vibranium_to_e4cv(e4cv)

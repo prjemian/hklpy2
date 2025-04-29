@@ -196,21 +196,21 @@ def test_affine():
     assert refined != e4cv.sample.lattice
 
     # refined lattice parameter is not so precise
-    assert not math.isclose(refined["a"], SI_LATTICE_PARAMETER, abs_tol=tol)
-    assert not math.isclose(refined["b"], SI_LATTICE_PARAMETER, abs_tol=tol)
-    assert not math.isclose(refined["c"], SI_LATTICE_PARAMETER, abs_tol=tol)
-    assert not math.isclose(refined["alpha"], 90, abs_tol=tol)
-    assert not math.isclose(refined["beta"], 90, abs_tol=tol)
-    assert not math.isclose(refined["gamma"], 90, abs_tol=tol)
+    assert not math.isclose(refined.a, SI_LATTICE_PARAMETER, abs_tol=tol)
+    assert not math.isclose(refined.b, SI_LATTICE_PARAMETER, abs_tol=tol)
+    assert not math.isclose(refined.c, SI_LATTICE_PARAMETER, abs_tol=tol)
+    assert not math.isclose(refined.alpha, 90, abs_tol=tol)
+    assert not math.isclose(refined.beta, 90, abs_tol=tol)
+    assert not math.isclose(refined.gamma, 90, abs_tol=tol)
 
     # relax the precision quite a bit
     tol = 0.1
-    assert math.isclose(refined["a"], SI_LATTICE_PARAMETER, abs_tol=tol)
-    assert math.isclose(refined["b"], SI_LATTICE_PARAMETER, abs_tol=tol)
-    assert math.isclose(refined["c"], SI_LATTICE_PARAMETER, abs_tol=tol)
-    assert math.isclose(refined["alpha"], 90, abs_tol=tol)
-    assert math.isclose(refined["beta"], 90, abs_tol=tol)
-    assert math.isclose(refined["gamma"], 90, abs_tol=tol)
+    assert math.isclose(refined.a, SI_LATTICE_PARAMETER, abs_tol=tol)
+    assert math.isclose(refined.b, SI_LATTICE_PARAMETER, abs_tol=tol)
+    assert math.isclose(refined.c, SI_LATTICE_PARAMETER, abs_tol=tol)
+    assert math.isclose(refined.alpha, 90, abs_tol=tol)
+    assert math.isclose(refined.beta, 90, abs_tol=tol)
+    assert math.isclose(refined.gamma, 90, abs_tol=tol)
 
 
 def test_summary_dict():

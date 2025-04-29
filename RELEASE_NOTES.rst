@@ -38,7 +38,14 @@ describe future plans.
     New Features
     ------------
 
+    * Added FAQ document.
     * Added 'pick_closest_solution()' as alternative 'forward()' decision function.
+
+    Maintenance
+    -----------
+
+    * Completed 'refineLattice()' method for both Core and Sample classes.
+    * Utility function 'check_value_in_list()' not needed at package level.
 
 0.1.3
 #####
