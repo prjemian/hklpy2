@@ -41,11 +41,13 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=360bc84d"></script>
+    <script src="../_static/documentation_options.js?v=d3068bf2"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'examples/nslsii-tardis';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -360,9 +362,10 @@
 <li class="toctree-l2"><a class="reference internal" href="../guides/how_extra_reals_and_pseudos.html">Diffractometer Extra Motors and/or Pseudos</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../guides/howto_write_solver.html">How to write a new Solver</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../guides/spec_xref.html">SPEC commands in hklpy2</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../guides/var_engines.html">Use <code class="docutils literal notranslate"><span class="pre">E4CV</span></code>’s $Q$ calculation engine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/var_engines.html">Use <code class="docutils literal notranslate"><span class="pre">E4CV</span></code>’s <code class="docutils literal notranslate"><span class="pre">q</span></code> calculation engine</a></li>
 </ul>
 </details></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">FAQ</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
 </ul>
@@ -432,8 +435,10 @@
 <h1><strong>NSLS-II</strong> <strong>tardis</strong> diffractometer<a class="headerlink" href="#nsls-ii-tardis-diffractometer" title="Link to this heading">#</a></h1>
 <p>The steps to setup <em>TARDIS</em> in <strong>hklpy2</strong> are described below. Includes adding a
 sample and orienting it with the method of Busing &amp; Levy, Acta Cryst 22 (1967)
-457, then calculating and moving in $hkl$.</p>
-<p><em>TARDIS</em> is an environmental chamber with a 3-axis diffractometer (see <em>hkl_soleil, E6C</em> geometry in the <a class="reference internal" href="../diffractometers.html"><span class="std std-doc">tables</span></a>).  Some of the real axes are
+457, then calculating and moving in <span class="math notranslate nohighlight">\(hkl\)</span>.</p>
+<p><em>TARDIS</em> is an environmental chamber with a 3-axis diffractometer (see
+<em>hkl_soleil, E6C</em> geometry in the <a class="reference internal" href="../diffractometers.html"><span class="std std-doc">tables</span></a>).  Some of
+the real axes are
 <a class="reference external" href="https://github.com/NSLS-II-CSX/profile_collection/blob/fc5d2bc5c542d83c2593b4f5066f52a5b04d748d/startup/csx1/startup/tardis.py#L31-L37">renamed</a>.
 Some E6C axes do not exist in <em>TARDIS</em>; they are fixed at zero.</p>
 <p>The <em>TARDIS</em> axes, in the order expected by the E6C geometry:</p>
@@ -595,7 +600,7 @@ any order we choose.</p>
 </div>
 </div>
 </div>
-<p>Calculate the $UB$ (orientation) matrix.</p>
+<p>Calculate the <span class="math notranslate nohighlight">\(UB\)</span> (orientation) matrix.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">calc_UB</span><span class="p">(</span><span class="n">r1</span><span class="p">,</span> <span class="n">r2</span><span class="p">)</span>

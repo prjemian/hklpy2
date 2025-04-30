@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=360bc84d"></script>
+    <script src="../_static/documentation_options.js?v=d3068bf2"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
@@ -362,9 +362,10 @@
 <li class="toctree-l2"><a class="reference internal" href="../guides/how_extra_reals_and_pseudos.html">Diffractometer Extra Motors and/or Pseudos</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../guides/howto_write_solver.html">How to write a new Solver</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../guides/spec_xref.html">SPEC commands in hklpy2</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../guides/var_engines.html">Use <code class="docutils literal notranslate"><span class="pre">E4CV</span></code>’s $Q$ calculation engine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/var_engines.html">Use <code class="docutils literal notranslate"><span class="pre">E4CV</span></code>’s <code class="docutils literal notranslate"><span class="pre">q</span></code> calculation engine</a></li>
 </ul>
 </details></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">FAQ</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
 </ul>
@@ -479,8 +480,8 @@ omega=0, chi=0, phi=0, tth=0
 </div>
 </div>
 </div>
-<p>Create a $\theta-2\theta$ 2-circle diffractometer
-using <code class="docutils literal notranslate"><span class="pre">&quot;th_tth&quot;</span></code>, a different backend solver.  This demonstrates the ability to choose between
+<p>Create a <span class="math notranslate nohighlight">\(\theta:2\theta\)</span> 2-circle diffractometer using <code class="docutils literal notranslate"><span class="pre">&quot;th_tth&quot;</span></code>, a
+different backend solver.  This demonstrates the ability to choose between
 different backend solvers.</p>
 <p>The <code class="docutils literal notranslate"><span class="pre">&quot;th_tth&quot;</span></code> <a class="reference external" href="https://blueskyproject.io/hklpy2/api/backends/th_tth_q.html">solver</a>
 was written in Python to demonstrate this new capability as a design goal for <strong>hklpy2</strong>.</p>
@@ -575,7 +576,7 @@ all samples: fourc.samples={&#39;sample&#39;: Sample(name=&#39;sample&#39;, latt
 </section>
 <section id="orienting-reflections">
 <h2>Orienting Reflections<a class="headerlink" href="#orienting-reflections" title="Link to this heading">#</a></h2>
-<p>Add a couple reflections (with the eventual goal of calculating the $UB$ matrix).</p>
+<p>Add a couple reflections (with the eventual goal of calculating the <span class="math notranslate nohighlight">\(UB\)</span> matrix).</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">r1</span> <span class="o">=</span> <span class="n">fourc</span><span class="o">.</span><span class="n">add_reflection</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">20</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;r1&quot;</span><span class="p">)</span>

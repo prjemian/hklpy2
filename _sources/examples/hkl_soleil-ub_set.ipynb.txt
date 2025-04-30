@@ -6,13 +6,13 @@
    "source": [
     "# **hkl_soleil** UB matrix : Set directly\n",
     "\n",
-    "$UB$ is the 3x3 orientation matrix used to transform coordinates between\n",
+    "{math}`UB` is the 3x3 orientation matrix used to transform coordinates between\n",
     "reciprocal space directions (of the crystal lattice planes) and the rotational\n",
     "axes of the diffractometer.\n",
     "\n",
-    "It is possible to set $UB$ directly, as shown below.\n",
+    "It is possible to set {math}`UB` directly, as shown below.\n",
     "\n",
-    "Alternatively, $UB$ can be [calculated](./hkl_soleil-ub_calc.ipynb) from two\n",
+    "Alternatively, {math}`UB` can be [calculated](./hkl_soleil-ub_calc.ipynb) from two\n",
     "non-parallel reflections, using the method of Busing and Levy (*Acta Cryst*\n",
     "**22** (1967) 457)."
    ]
@@ -23,8 +23,8 @@
    "source": [
     "## Quick example\n",
     "\n",
-    "In **hklpy2**, the $UB$ matrix is a property of the *sample*.  For a\n",
-    "diffractometer object named `diffractometer`, set $UB$ such as:\n",
+    "In **hklpy2**, the {math}`UB` matrix is a property of the *sample*.  For a\n",
+    "diffractometer object named `diffractometer`, set {math}`UB` such as:\n",
     "\n",
     "```py\n",
     "diffractometer.sample.UB = [\n",
@@ -64,7 +64,7 @@
    "source": [
     "### Defaults\n",
     "\n",
-    "The diffractometer object starts with a default sample.  The structure is cubic ($a=b=c$, 90 degree corners)."
+    "The diffractometer object starts with a default sample.  The structure is cubic ({math}`a=b=c`, 90 degree corners)."
    ]
   },
   {
@@ -93,9 +93,9 @@
    "source": [
     "This is the sample the solver will be using.\n",
     "\n",
-    "$U$ (a property of the *sample*) is the orientation of the sample's crystal\n",
+    "{math}`U` (a property of the *sample*) is the orientation of the sample's crystal\n",
     "lattice as mounted on the diffractometer sample holder.  The default is to\n",
-    "assume $U=I$, where $I$ is the 3x3 identity matrix.  "
+    "assume {math}`U=I`, where {math}`I` is the 3x3 identity matrix.  "
    ]
   },
   {
@@ -122,10 +122,10 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "The default $UB$ (without knowing how the crystal planes are oriented with\n",
-    "respect to the diffractometer) of this cubic crystal is $(2\\pi/a) I$ where $I$\n",
-    "is the 3x3 identity matrix and $a$ is the lattice parameter.  Like $U$, this is\n",
-    "provided by the *solver*, in this case `\"hkl_soleil\"`."
+    "The default {math}`UB` (without knowing how the crystal planes are oriented with\n",
+    "respect to the diffractometer) of this cubic crystal is {math}`(2\\pi/a) I` where\n",
+    "{math}`a` is the lattice parameter.  Like {math}`U`, this is provided by the\n",
+    "*solver*, in this case `\"hkl_soleil\"`."
    ]
   },
   {
@@ -236,7 +236,7 @@
    "source": [
     "## Set UB to new matrix\n",
     "\n",
-    "The solver's $UB$ matrix can be re-defined by providing a new Python matrix.\n",
+    "The solver's {math}`UB` matrix can be re-defined by providing a new Python matrix.\n",
     "Here is a matrix for a cubic sample, oriented previously:\n",
     "\n",
     "```\n",
@@ -346,7 +346,7 @@
     {
      "data": {
       "text/plain": [
-       "<function hklpy2.diffract.pick_first_item(now: tuple, solutions: list)>"
+       "<function hklpy2.diffract.pick_first_solution(now: tuple, solutions: list[tuple])>"
       ]
      },
      "execution_count": 11,
@@ -382,6 +382,29 @@
     }
    ],
    "source": [
+    "diffractometer.forward(1, 1, 1)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 13,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "Hklpy2DiffractometerRealPos(omega=-59.999921375969, chi=-28.211225311916, phi=40.202361982144, tth=-119.999842751938)"
+      ]
+     },
+     "execution_count": 13,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "from hklpy2.diffract import pick_closest_solution\n",
+    "\n",
+    "diffractometer._forward_solution = pick_closest_solution\n",
     "diffractometer.forward(1, 1, 1)"
    ]
   }

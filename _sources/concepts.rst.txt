@@ -22,7 +22,7 @@ Overview
 The |hklpy2| *diffractometer* [#]_ is an ophyd *PseudoPositioner*, [#]_
 providing both *pseudo* coordinates and *real* coordinates.  Movement in one
 coordinate space updates the coordinates of the other space.  For
-diffractometers, the orientation matrix ($UB$) enables transformation between the
+diffractometers, the orientation matrix (:math:`UB`) enables transformation between the
 two spaces.
 
 .. note:: A monochromatic [#]_ radiation source is expected.  See
@@ -51,9 +51,10 @@ from        to          solution(s)     transformation
 *pseudos*   *reals*     0, 1 or more   :meth:`hklpy2.ops.Core.forward()`
 ==========  =========   ============== ================
 
-.. note:: The diffractometer's `forward()` method picks the default solution from
-   the list returned from ``core.forward()``.  Initially, the first solution in
-   the list is chosen.
+.. note:: The diffractometer's `forward()` method picks the default solution
+   from the list returned from ``core.forward()``.  Initially, the first
+   solution in the list is chosen.
+   See :attr:`~hklpy2.diffract.DiffractometerBase._forward_solution`.
 
 Solvers
 ===============

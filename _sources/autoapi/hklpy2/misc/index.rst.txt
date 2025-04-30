@@ -15,6 +15,7 @@ hklpy2.misc
        ~compare_float_dicts
        ~convert_units
        ~dict_device_factory
+       ~distance_between_pos_tuples
        ~dynamic_import
        ~flatten_lists
        ~get_run_orientation
@@ -23,6 +24,8 @@ hklpy2.misc
        ~list_orientation_runs
        ~load_yaml
        ~load_yaml_file
+       ~pick_closest_solution
+       ~pick_first_solution
        ~roundoff
        ~solver_factory
        ~solvers
@@ -115,6 +118,7 @@ Functions
    hklpy2.misc.compare_float_dicts
    hklpy2.misc.convert_units
    hklpy2.misc.dict_device_factory
+   hklpy2.misc.distance_between_pos_tuples
    hklpy2.misc.dynamic_import
    hklpy2.misc.flatten_lists
    hklpy2.misc.get_solver
@@ -123,6 +127,8 @@ Functions
    hklpy2.misc.list_orientation_runs
    hklpy2.misc.load_yaml
    hklpy2.misc.load_yaml_file
+   hklpy2.misc.pick_closest_solution
+   hklpy2.misc.pick_first_solution
    hklpy2.misc.roundoff
    hklpy2.misc.solver_factory
    hklpy2.misc.solvers
@@ -390,6 +396,11 @@ Module Contents
 
    .. index:: factory; dict_device_factory, dict_device_factory
 
+.. py:function:: distance_between_pos_tuples(pos1: NamedTuple, pos2: NamedTuple)
+
+   Return the RMS distance between 'pos1' and 'pos2'.
+
+
 .. py:function:: dynamic_import(full_path: str) -> type
 
    Import the object given its import path as text.
@@ -550,6 +561,46 @@ Module Contents
 .. py:function:: load_yaml_file(file)
 
    Return contents of a YAML file as a Python object.
+
+
+.. py:function:: pick_closest_solution(position: NamedTuple, solutions: list[NamedTuple]) -> NamedTuple
+
+   Find the solution closest to the current real position.
+
+   Used by :meth:`~hklpy2.diffract.DiffractometerBase.forward()` method to pick
+   a solution from a list of possible solutions.  Assign to diffractometer's
+   :attr:`~hklpy2.diffract.DiffractometerBase._forward_solution` method.
+
+   PARAMETERS
+
+   position tuple :
+       Current position.
+   solutions list[tuple] :
+       List of positions.
+
+   .. seealso::
+       :attr:`~hklpy2.diffract.DiffractometerBase._forward_solution`,
+       :func:`~hklpy2.misc.pick_first_solution`
+
+
+.. py:function:: pick_first_solution(position: NamedTuple, solutions: list[NamedTuple]) -> NamedTuple
+
+   Choose first solution from list.
+
+   Used by :meth:`~hklpy2.diffract.DiffractometerBase.forward()` method to pick
+   a solution from a list of possible solutions.  Assign to diffractometer's
+   :attr:`~hklpy2.diffract.DiffractometerBase._forward_solution` method.
+
+   PARAMETERS
+
+   position tuple :
+       Current position.  (Required for general case, not used here.)
+   solutions list[tuple] :
+       List of positions.
+
+   .. seealso::
+       :attr:`~hklpy2.diffract.DiffractometerBase._forward_solution`,
+       :func:`~hklpy2.misc.pick_closest_solution`
 
 
 .. py:function:: roundoff(value, digits=4)

@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=360bc84d"></script>
+    <script src="../_static/documentation_options.js?v=d3068bf2"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
@@ -362,9 +362,10 @@
 <li class="toctree-l2"><a class="reference internal" href="../guides/how_extra_reals_and_pseudos.html">Diffractometer Extra Motors and/or Pseudos</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../guides/howto_write_solver.html">How to write a new Solver</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../guides/spec_xref.html">SPEC commands in hklpy2</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../guides/var_engines.html">Use <code class="docutils literal notranslate"><span class="pre">E4CV</span></code>’s $Q$ calculation engine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/var_engines.html">Use <code class="docutils literal notranslate"><span class="pre">E4CV</span></code>’s <code class="docutils literal notranslate"><span class="pre">q</span></code> calculation engine</a></li>
 </ul>
 </details></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">FAQ</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
 </ul>
@@ -610,7 +611,7 @@ and reals at a specified wavelength.  These values may be
 measured or computed.</p>
 <p>There are several use cases for a set of reflections:</p>
 <ul class="simple">
-<li><p>Computation of the $UB matrix (for 2 or more non-parallel reflections).</p></li>
+<li><p>Computation of the <span class="math notranslate nohighlight">\(UB\)</span> matrix (for 2 or more non-parallel reflections).</p></li>
 <li><p>Documentation of observed (or theoretical) reflection settings.</p></li>
 <li><p>Reference settings so as to re-position the diffractometer.</p></li>
 <li><p>Define a crystallographic zone or axis to guide the diffractometer for measurements.</p></li>
@@ -774,16 +775,19 @@ and <a class="reference internal" href="../autoapi/hklpy2/ops/index.html#hklpy2.
 <tr class="row-even"><td><p><a class="reference internal" href="../autoapi/hklpy2/blocks/sample/index.html#hklpy2.blocks.sample.Sample.refine_lattice" title="hklpy2.blocks.sample.Sample.refine_lattice"><code class="xref py py-obj docutils literal notranslate"><span class="pre">refine_lattice</span></code></a>()</p></td>
 <td><p>Refine the lattice parameters from 3 or more reflections.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="../autoapi/hklpy2/blocks/sample/index.html#hklpy2.blocks.sample.Sample.reflections" title="hklpy2.blocks.sample.Sample.reflections"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reflections</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="../autoapi/hklpy2/ops/index.html#hklpy2.ops.Core.refine_lattice" title="hklpy2.ops.Core.refine_lattice"><code class="xref py py-obj docutils literal notranslate"><span class="pre">refine_lattice</span></code></a>(*reflections)</p></td>
+<td><p>Return the sample lattice computed from 3 or more reflections.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../autoapi/hklpy2/blocks/sample/index.html#hklpy2.blocks.sample.Sample.reflections" title="hklpy2.blocks.sample.Sample.reflections"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reflections</span></code></a></p></td>
 <td><p>Ordered dictionary of orientation reflections.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="../autoapi/hklpy2/ops/index.html#hklpy2.ops.Core.set_solver" title="hklpy2.ops.Core.set_solver"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_solver</span></code></a>(name, geometry, **kwargs)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="../autoapi/hklpy2/ops/index.html#hklpy2.ops.Core.set_solver" title="hklpy2.ops.Core.set_solver"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_solver</span></code></a>(name, geometry, **kwargs)</p></td>
 <td><p>Create an instance of the backend <strong>Solver</strong> library and geometry.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="../autoapi/hklpy2/blocks/sample/index.html#hklpy2.blocks.sample.Sample.U" title="hklpy2.blocks.sample.Sample.U"><code class="xref py py-obj docutils literal notranslate"><span class="pre">U</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="../autoapi/hklpy2/blocks/sample/index.html#hklpy2.blocks.sample.Sample.U" title="hklpy2.blocks.sample.Sample.U"><code class="xref py py-obj docutils literal notranslate"><span class="pre">U</span></code></a></p></td>
 <td><p>Return the matrix, U, crystal orientation on the diffractometer.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="../autoapi/hklpy2/blocks/sample/index.html#hklpy2.blocks.sample.Sample.UB" title="hklpy2.blocks.sample.Sample.UB"><code class="xref py py-obj docutils literal notranslate"><span class="pre">UB</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="../autoapi/hklpy2/blocks/sample/index.html#hklpy2.blocks.sample.Sample.UB" title="hklpy2.blocks.sample.Sample.UB"><code class="xref py py-obj docutils literal notranslate"><span class="pre">UB</span></code></a></p></td>
 <td><p>Return the crystal orientation matrix, UB.</p></td>
 </tr>
 </tbody>

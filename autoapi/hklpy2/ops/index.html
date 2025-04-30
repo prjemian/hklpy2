@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../../../_static/documentation_options.js?v=360bc84d"></script>
+    <script src="../../../_static/documentation_options.js?v=d3068bf2"></script>
     <script src="../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -479,7 +479,7 @@ library.</p>
 <tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.ops.Core.local_real_axes" title="hklpy2.ops.Core.local_real_axes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">local_real_axes</span></code></a></p></td>
 <td><p>List of the diffractometer real axes expected by the solver.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.ops.Core.refine_lattice" title="hklpy2.ops.Core.refine_lattice"><code class="xref py py-obj docutils literal notranslate"><span class="pre">refine_lattice</span></code></a>([reflections])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#hklpy2.ops.Core.refine_lattice" title="hklpy2.ops.Core.refine_lattice"><code class="xref py py-obj docutils literal notranslate"><span class="pre">refine_lattice</span></code></a>(*reflections)</p></td>
 <td><p>Return the sample lattice computed from 3 or more reflections.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#hklpy2.ops.Core.remove_sample" title="hklpy2.ops.Core.remove_sample"><code class="xref py py-obj docutils literal notranslate"><span class="pre">remove_sample</span></code></a>(name)</p></td>
@@ -749,7 +749,7 @@ as ophyd Components in the diffractometer.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="hklpy2.ops.Core.refine_lattice">
-<span class="sig-name descname"><span class="pre">refine_lattice</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">reflections</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><span class="pre">list</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="../blocks/lattice/index.html#hklpy2.blocks.lattice.Lattice" title="hklpy2.blocks.lattice.Lattice"><span class="pre">hklpy2.blocks.lattice.Lattice</span></a></span></span><a class="reference internal" href="../../../_modules/hklpy2/ops.html#Core.refine_lattice"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.ops.Core.refine_lattice" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">refine_lattice</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">reflections</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../blocks/reflection/index.html#hklpy2.blocks.reflection.Reflection" title="hklpy2.blocks.reflection.Reflection"><span class="pre">hklpy2.blocks.reflection.Reflection</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="../blocks/lattice/index.html#hklpy2.blocks.lattice.Lattice" title="hklpy2.blocks.lattice.Lattice"><span class="pre">hklpy2.blocks.lattice.Lattice</span></a></span></span><a class="reference internal" href="../../../_modules/hklpy2/ops.html#Core.refine_lattice"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hklpy2.ops.Core.refine_lattice" title="Link to this definition">#</a></dt>
 <dd><p>Return the sample lattice computed from 3 or more reflections.</p>
 <p>Do not change the sample lattice.  Let the user decide that.</p>
 </dd></dl>

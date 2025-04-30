@@ -53,7 +53,7 @@ Only accept ``forward()`` solutions where ``omega`` :math:`>= 0`.
 Apply axis cuts
 ~~~~~~~~~~~~~~~~~~
 
-Only accept ``forward()`` solutions where ``chi`` is between $\\pm90$:
+Only accept ``forward()`` solutions where ``chi`` is between :math:`\\pm90`:
 
 .. code-block:: python
    :linenos:

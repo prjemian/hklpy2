@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../../_static/documentation_options.js?v=360bc84d"></script>
+    <script src="../../_static/documentation_options.js?v=d3068bf2"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/design-tabs.js?v=f930bc37"></script>
@@ -373,11 +373,11 @@
 <span class="sd">    ~diffractometer_class_factory</span>
 <span class="sd">    ~DiffractometerBase</span>
 <span class="sd">    ~Hklpy2PseudoAxis</span>
-<span class="sd">    ~pick_first_item</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">pathlib</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Callable</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">yaml</span>
@@ -397,8 +397,8 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">.incident</span><span class="w"> </span><span class="kn">import</span> <span class="n">WavelengthXray</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.misc</span><span class="w"> </span><span class="kn">import</span> <span class="n">AnyAxesType</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.misc</span><span class="w"> </span><span class="kn">import</span> <span class="n">AxesDict</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">.misc</span><span class="w"> </span><span class="kn">import</span> <span class="n">DiffractometerError</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.misc</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_yaml_file</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.misc</span><span class="w"> </span><span class="kn">import</span> <span class="n">pick_first_solution</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.misc</span><span class="w"> </span><span class="kn">import</span> <span class="n">roundoff</span>
 
 <div class="viewcode-block" id="__all__">
@@ -407,7 +407,6 @@
 <span class="s2">    DiffractometerBase</span>
 <span class="s2">    diffractometer_class_factory</span>
 <span class="s2">    creator</span>
-<span class="s2">    pick_first_item</span>
 <span class="s2">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">()</span></div>
 
 <div class="viewcode-block" id="logger">
@@ -425,35 +424,10 @@
 
 
 
-<div class="viewcode-block" id="pick_first_item">
-<a class="viewcode-back" href="../../autoapi/hklpy2/diffract/index.html#hklpy2.diffract.pick_first_item">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">pick_first_item</span><span class="p">(</span><span class="n">now</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">,</span> <span class="n">solutions</span><span class="p">:</span> <span class="nb">list</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Choose first item from list.</span>
-
-<span class="sd">    Used by &#39;.forward()&#39; method to pick the first solution</span>
-<span class="sd">    from a list of possible solutions.</span>
-
-<span class="sd">    User can provide an alternative function and assign to diffractometer&#39;s</span>
-<span class="sd">    :meth:`~hklpy2.diffract.DiffractometerBase._forward_solution` method.</span>
-
-<span class="sd">    PARAMETERS</span>
-
-<span class="sd">    now tuple :</span>
-<span class="sd">        Current position.</span>
-<span class="sd">    solutions list[tuple] :</span>
-<span class="sd">        List of positions.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">solutions</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">DiffractometerError</span><span class="p">(</span><span class="s2">&quot;No solutions.&quot;</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">solutions</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span></div>
-
-
-
 <div class="viewcode-block" id="Hklpy2PseudoAxis">
 <a class="viewcode-back" href="../../autoapi/hklpy2/diffract/index.html#hklpy2.diffract.Hklpy2PseudoAxis">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">Hklpy2PseudoAxis</span><span class="p">(</span><span class="n">PseudoSingle</span><span class="p">):</span>
-    <span class="s2">&quot;Override to allow additional pseudos.&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Override to allow additional pseudos.&quot;&quot;&quot;</span>
 
     <span class="nd">@required_for_connection</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">{device.name}</span><span class="s2"> readback subscription&quot;</span><span class="p">)</span>
 <div class="viewcode-block" id="Hklpy2PseudoAxis._sub_proxy_readback">
@@ -464,7 +438,7 @@
 <span class="sd">        pseudo axis.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="s2">&quot;__getitem__&quot;</span><span class="p">):</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_idx</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># &lt;-- filters out any extra pseudos</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_idx</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># Extra pseudos are ignored here.</span>
                 <span class="n">value</span> <span class="o">=</span> <span class="n">value</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_idx</span><span class="p">]</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_run_subs</span><span class="p">(</span><span class="n">obj</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">value</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
@@ -480,16 +454,25 @@
 
 <span class="sd">    PARAMETERS</span>
 
-<span class="sd">    *   ``solver`` (*str*) : Name of |solver| library.</span>
+<span class="sd">    solver : str</span>
+<span class="sd">        Name of |solver| library.</span>
 <span class="sd">        (default: unspecified)</span>
-<span class="sd">    *   ``geometry``: (*str*) : Name of |solver| geometry.</span>
+<span class="sd">    geometry : str</span>
+<span class="sd">        Name of |solver| geometry.</span>
 <span class="sd">        (default: unspecified)</span>
-<span class="sd">    *   ``solver_kwargs`` (*dict*) : Any additional keyword arguments needed</span>
-<span class="sd">        by |solver| library. (default: empty)</span>
-<span class="sd">    *   ``pseudos`` ([str]) : List of diffractometer axis names to be used</span>
+<span class="sd">    solver_kwargs : Dict(str, Any)</span>
+<span class="sd">        Any additional keyword arguments needed by |solver| library.</span>
+<span class="sd">        (default: empty)</span>
+<span class="sd">    pseudos : List[str]</span>
+<span class="sd">        List of diffractometer axis names to be used</span>
 <span class="sd">        as pseudo axes. (default: unspecified)</span>
-<span class="sd">    *   ``reals`` ([str]) : List of diffractometer axis names to be used as</span>
+<span class="sd">    reals : List[str]</span>
+<span class="sd">        List of diffractometer axis names to be used as</span>
 <span class="sd">        real axes. (default: unspecified)</span>
+<span class="sd">    forward_solution_function : Callable</span>
+<span class="sd">        Function to pick one solution from list of possibilities.</span>
+<span class="sd">        Used by :meth:`~hklpy2.diffract.DiffractometerBase.forward`.</span>
+<span class="sd">        (default: :func:`~hklpy2.misc.pick_first_solution`)</span>
 
 <span class="sd">    .. rubric:: (ophyd) Components</span>
 
@@ -499,6 +482,12 @@
 
 <span class="sd">        ~beam</span>
 <span class="sd">        ~solver_signature</span>
+
+<span class="sd">    .. rubric:: Python Attributes</span>
+
+<span class="sd">    .. autosummary::</span>
+
+<span class="sd">        ~_forward_solution</span>
 
 <span class="sd">    .. rubric:: Python Methods</span>
 
@@ -545,6 +534,26 @@
 
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Incident monochromatic beam.&quot;&quot;&quot;</span>
 
+<div class="viewcode-block" id="DiffractometerBase._forward_solution">
+<a class="viewcode-back" href="../../autoapi/hklpy2/diffract/index.html#hklpy2.diffract.DiffractometerBase._forward_solution">[docs]</a>
+    <span class="n">_forward_solution</span><span class="p">:</span> <span class="n">Callable</span> <span class="o">=</span> <span class="n">pick_first_solution</span></div>
+
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Pick a solution from the solution(s) return from</span>
+<span class="sd">    :meth:`~hklpy2.ops.Core.forward`.</span>
+
+<span class="sd">    Choices include:</span>
+
+<span class="sd">    * (default) :func:`hklpy2.misc.pick_first_solution`</span>
+<span class="sd">    * :func:`hklpy2.misc.pick_closest_solution`</span>
+<span class="sd">    * User-supplied function matching the same interface.</span>
+
+<span class="sd">    .. seealso::</span>
+<span class="sd">        :meth:`hklpy2.diffract.DiffractometerBase.forward`,</span>
+<span class="sd">        :meth:`hklpy2.ops.Core.forward`</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">prefix</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
@@ -554,20 +563,16 @@
         <span class="n">solver_kwargs</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{},</span>
         <span class="n">pseudos</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[],</span>
         <span class="n">reals</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[],</span>
+        <span class="n">forward_solution_function</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
     <span class="p">):</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">.ops</span><span class="w"> </span><span class="kn">import</span> <span class="n">Core</span>
-
-        <span class="c1"># print(f&quot;DiffractometerBase({solver=!r}, {geometry=!r})&quot;)</span>
 
 <div class="viewcode-block" id="DiffractometerBase._backend">
 <a class="viewcode-back" href="../../autoapi/hklpy2/diffract/index.html#hklpy2.diffract.DiffractometerBase._backend">[docs]</a>
         <span class="bp">self</span><span class="o">.</span><span class="n">_backend</span> <span class="o">=</span> <span class="kc">None</span></div>
 
-<div class="viewcode-block" id="DiffractometerBase._forward_solution">
-<a class="viewcode-back" href="../../autoapi/hklpy2/diffract/index.html#hklpy2.diffract.DiffractometerBase._forward_solution">[docs]</a>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_forward_solution</span> <span class="o">=</span> <span class="n">pick_first_item</span></div>
-
+        <span class="bp">self</span><span class="o">.</span><span class="n">_forward_solution</span> <span class="o">=</span> <span class="n">forward_solution_function</span> <span class="ow">or</span> <span class="n">pick_first_solution</span>
 <div class="viewcode-block" id="DiffractometerBase.core">
 <a class="viewcode-back" href="../../autoapi/hklpy2/diffract/index.html#hklpy2.diffract.DiffractometerBase.core">[docs]</a>
         <span class="bp">self</span><span class="o">.</span><span class="n">core</span> <span class="o">=</span> <span class="n">Core</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
@@ -1096,6 +1101,7 @@
     <span class="n">labels</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;diffractometer&quot;</span><span class="p">],</span>
     <span class="n">class_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;Hklpy2Diffractometer&quot;</span><span class="p">,</span>
     <span class="n">class_bases</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[</span><span class="n">DiffractometerBase</span><span class="p">],</span>
+    <span class="n">forward_solution_function</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -1177,6 +1183,12 @@
 <span class="sd">    class_bases : list</span>
 <span class="sd">        List of base classes to use for the diffractometer class.</span>
 <span class="sd">        (default: &#39;[DiffractometerBase]&#39;)</span>
+<span class="sd">    forward_solution_function : str</span>
+<span class="sd">        Name of function to pick one solution from list of possibilities.</span>
+<span class="sd">        Used by :meth:`~hklpy2.diffract.DiffractometerBase.forward`.</span>
+<span class="sd">        (default: :func:`~hklpy2.misc.pick_first_solution`)</span>
+
+<span class="sd">        Will be assigned to :attr:`hklpy2.diffract.DiffractometerBase._forward_solution`.</span>
 <span class="sd">    kwargs : any</span>
 <span class="sd">        Additional keyword arguments will be added when constructing</span>
 <span class="sd">        the new diffractometer object.</span>
@@ -1193,6 +1205,7 @@
         <span class="n">class_name</span><span class="o">=</span><span class="n">class_name</span><span class="p">,</span>
         <span class="n">class_bases</span><span class="o">=</span><span class="n">class_bases</span><span class="p">,</span>
         <span class="n">aliases</span><span class="o">=</span><span class="n">aliases</span><span class="p">,</span>
+        <span class="n">forward_solution_function</span><span class="o">=</span><span class="n">forward_solution_function</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
         <span class="n">name</span> <span class="o">=</span> <span class="n">geometry</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
@@ -1214,6 +1227,7 @@
     <span class="n">class_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;Hklpy2Diffractometer&quot;</span><span class="p">,</span>
     <span class="n">class_bases</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[</span><span class="n">DiffractometerBase</span><span class="p">],</span>
     <span class="n">aliases</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{},</span>
+    <span class="n">forward_solution_function</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DiffractometerBase</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Build a custom class for this diffractometer geometry.</span>
@@ -1258,6 +1272,12 @@
 <span class="sd">        Aliases of diffractometer axes for solver&#39;s pseudos and reals.</span>
 
 <span class="sd">        (default: &#39;{}&#39; which means use the first diffractometer axes from each to match the solver.)</span>
+<span class="sd">    forward_solution_function : str</span>
+<span class="sd">        Name of function to pick one solution from list of possibilities.</span>
+<span class="sd">        Used by :meth:`~hklpy2.diffract.DiffractometerBase.forward`.</span>
+<span class="sd">        (default: :func:`~hklpy2.misc.pick_first_solution`)</span>
+
+<span class="sd">        Will be assigned to :attr:`hklpy2.diffract.DiffractometerBase._forward_solution`.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">.misc</span><span class="w"> </span><span class="kn">import</span> <span class="n">dynamic_import</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">.misc</span><span class="w"> </span><span class="kn">import</span> <span class="n">solver_factory</span>
@@ -1296,6 +1316,12 @@
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">beam_class</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
         <span class="n">beam_class</span> <span class="o">=</span> <span class="n">dynamic_import</span><span class="p">(</span><span class="n">beam_class</span><span class="p">)</span>
     <span class="n">factory_class_attributes</span><span class="p">[</span><span class="s2">&quot;beam&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">beam_class</span><span class="p">,</span> <span class="o">**</span><span class="n">beam_kwargs</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">forward_solution_function</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">forward_solution_function</span> <span class="o">=</span> <span class="s2">&quot;hklpy2.misc.pick_first_solution&quot;</span>
+    <span class="n">factory_class_attributes</span><span class="p">[</span><span class="s2">&quot;_forward_solution&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dynamic_import</span><span class="p">(</span>
+        <span class="n">forward_solution_function</span><span class="p">,</span>
+    <span class="p">)</span>
 
     <span class="c1"># Find the chosen solver.  It describes its various axes.</span>
     <span class="n">solver_object</span> <span class="o">=</span> <span class="n">solver_factory</span><span class="p">(</span><span class="n">solver</span><span class="p">,</span> <span class="n">geometry</span><span class="p">,</span> <span class="o">**</span><span class="n">solver_kwargs</span><span class="p">)</span>

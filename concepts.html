@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="_static/documentation_options.js?v=360bc84d"></script>
+    <script src="_static/documentation_options.js?v=d3068bf2"></script>
     <script src="_static/doctools.js?v=9bcbadda"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/design-tabs.js?v=f930bc37"></script>
@@ -362,9 +362,10 @@
 <li class="toctree-l2"><a class="reference internal" href="guides/how_extra_reals_and_pseudos.html">Diffractometer Extra Motors and/or Pseudos</a></li>
 <li class="toctree-l2"><a class="reference internal" href="guides/howto_write_solver.html">How to write a new Solver</a></li>
 <li class="toctree-l2"><a class="reference internal" href="guides/spec_xref.html">SPEC commands in hklpy2</a></li>
-<li class="toctree-l2"><a class="reference internal" href="guides/var_engines.html">Use <code class="docutils literal notranslate"><span class="pre">E4CV</span></code>’s $Q$ calculation engine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/var_engines.html">Use <code class="docutils literal notranslate"><span class="pre">E4CV</span></code>’s <code class="docutils literal notranslate"><span class="pre">q</span></code> calculation engine</a></li>
 </ul>
 </details></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">FAQ</a></li>
 <li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="glossary.html">Glossary</a></li>
 </ul>
@@ -442,7 +443,7 @@
 <p>The <strong>hklpy2</strong> <em>diffractometer</em> <a class="footnote-reference brackets" href="#id5" id="id2" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a> is an ophyd <em>PseudoPositioner</em>, <a class="footnote-reference brackets" href="#id6" id="id3" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a>
 providing both <em>pseudo</em> coordinates and <em>real</em> coordinates.  Movement in one
 coordinate space updates the coordinates of the other space.  For
-diffractometers, the orientation matrix ($UB$) enables transformation between the
+diffractometers, the orientation matrix (<span class="math notranslate nohighlight">\(UB\)</span>) enables transformation between the
 two spaces.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -495,9 +496,10 @@ two spaces.</p>
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>The diffractometer’s <cite>forward()</cite> method picks the default solution from
-the list returned from <code class="docutils literal notranslate"><span class="pre">core.forward()</span></code>.  Initially, the first solution in
-the list is chosen.</p>
+<p>The diffractometer’s <cite>forward()</cite> method picks the default solution
+from the list returned from <code class="docutils literal notranslate"><span class="pre">core.forward()</span></code>.  Initially, the first
+solution in the list is chosen.
+See <a class="reference internal" href="autoapi/hklpy2/diffract/index.html#hklpy2.diffract.DiffractometerBase._forward_solution" title="hklpy2.diffract.DiffractometerBase._forward_solution"><code class="xref py py-attr docutils literal notranslate"><span class="pre">_forward_solution</span></code></a>.</p>
 </div>
 </section>
 <section id="solvers">

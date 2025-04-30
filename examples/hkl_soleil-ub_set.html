@@ -41,11 +41,13 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=360bc84d"></script>
+    <script src="../_static/documentation_options.js?v=d3068bf2"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'examples/hkl_soleil-ub_set';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -360,9 +362,10 @@
 <li class="toctree-l2"><a class="reference internal" href="../guides/how_extra_reals_and_pseudos.html">Diffractometer Extra Motors and/or Pseudos</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../guides/howto_write_solver.html">How to write a new Solver</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../guides/spec_xref.html">SPEC commands in hklpy2</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../guides/var_engines.html">Use <code class="docutils literal notranslate"><span class="pre">E4CV</span></code>’s $Q$ calculation engine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/var_engines.html">Use <code class="docutils literal notranslate"><span class="pre">E4CV</span></code>’s <code class="docutils literal notranslate"><span class="pre">q</span></code> calculation engine</a></li>
 </ul>
 </details></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">FAQ</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
 </ul>
@@ -430,17 +433,17 @@
                   
   <section id="hkl-soleil-ub-matrix-set-directly">
 <h1><strong>hkl_soleil</strong> UB matrix : Set directly<a class="headerlink" href="#hkl-soleil-ub-matrix-set-directly" title="Link to this heading">#</a></h1>
-<p>$UB$ is the 3x3 orientation matrix used to transform coordinates between
+<p><span class="math notranslate nohighlight">\(UB\)</span> is the 3x3 orientation matrix used to transform coordinates between
 reciprocal space directions (of the crystal lattice planes) and the rotational
 axes of the diffractometer.</p>
-<p>It is possible to set $UB$ directly, as shown below.</p>
-<p>Alternatively, $UB$ can be <a class="reference internal" href="hkl_soleil-ub_calc.html"><span class="std std-doc">calculated</span></a> from two
+<p>It is possible to set <span class="math notranslate nohighlight">\(UB\)</span> directly, as shown below.</p>
+<p>Alternatively, <span class="math notranslate nohighlight">\(UB\)</span> can be <a class="reference internal" href="hkl_soleil-ub_calc.html"><span class="std std-doc">calculated</span></a> from two
 non-parallel reflections, using the method of Busing and Levy (<em>Acta Cryst</em>
 <strong>22</strong> (1967) 457).</p>
 <section id="quick-example">
 <h2>Quick example<a class="headerlink" href="#quick-example" title="Link to this heading">#</a></h2>
-<p>In <strong>hklpy2</strong>, the $UB$ matrix is a property of the <em>sample</em>.  For a
-diffractometer object named <code class="docutils literal notranslate"><span class="pre">diffractometer</span></code>, set $UB$ such as:</p>
+<p>In <strong>hklpy2</strong>, the <span class="math notranslate nohighlight">\(UB\)</span> matrix is a property of the <em>sample</em>.  For a
+diffractometer object named <code class="docutils literal notranslate"><span class="pre">diffractometer</span></code>, set <span class="math notranslate nohighlight">\(UB\)</span> such as:</p>
 <div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="n">diffractometer</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">UB</span> <span class="o">=</span> <span class="p">[</span>
     <span class="p">[</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">6.24</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">],</span>
     <span class="p">[</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">6.24</span><span class="p">],</span>
@@ -466,7 +469,7 @@ geometry from the solver’s <code class="docutils literal notranslate"><span cl
 </div>
 <section id="defaults">
 <h3>Defaults<a class="headerlink" href="#defaults" title="Link to this heading">#</a></h3>
-<p>The diffractometer object starts with a default sample.  The structure is cubic ($a=b=c$, 90 degree corners).</p>
+<p>The diffractometer object starts with a default sample.  The structure is cubic (<span class="math notranslate nohighlight">\(a=b=c\)</span>, 90 degree corners).</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diffractometer</span><span class="o">.</span><span class="n">sample</span>
@@ -480,9 +483,9 @@ geometry from the solver’s <code class="docutils literal notranslate"><span cl
 </div>
 </div>
 <p>This is the sample the solver will be using.</p>
-<p>$U$ (a property of the <em>sample</em>) is the orientation of the sample’s crystal
+<p><span class="math notranslate nohighlight">\(U\)</span> (a property of the <em>sample</em>) is the orientation of the sample’s crystal
 lattice as mounted on the diffractometer sample holder.  The default is to
-assume $U=I$, where $I$ is the 3x3 identity matrix.</p>
+assume <span class="math notranslate nohighlight">\(U=I\)</span>, where <span class="math notranslate nohighlight">\(I\)</span> is the 3x3 identity matrix.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diffractometer</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">U</span>
@@ -495,10 +498,10 @@ assume $U=I$, where $I$ is the 3x3 identity matrix.</p>
 </div>
 </div>
 </div>
-<p>The default $UB$ (without knowing how the crystal planes are oriented with
-respect to the diffractometer) of this cubic crystal is $(2\pi/a) I$ where $I$
-is the 3x3 identity matrix and $a$ is the lattice parameter.  Like $U$, this is
-provided by the <em>solver</em>, in this case <code class="docutils literal notranslate"><span class="pre">&quot;hkl_soleil&quot;</span></code>.</p>
+<p>The default <span class="math notranslate nohighlight">\(UB\)</span> (without knowing how the crystal planes are oriented with
+respect to the diffractometer) of this cubic crystal is <span class="math notranslate nohighlight">\((2\pi/a) I\)</span> where
+<span class="math notranslate nohighlight">\(a\)</span> is the lattice parameter.  Like <span class="math notranslate nohighlight">\(U\)</span>, this is provided by the
+<em>solver</em>, in this case <code class="docutils literal notranslate"><span class="pre">&quot;hkl_soleil&quot;</span></code>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diffractometer</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">UB</span>
@@ -560,7 +563,7 @@ precision, we should not expect the precise values of (1.0, 1.0, 1.0).</p>
 </section>
 <section id="set-ub-to-new-matrix">
 <h2>Set UB to new matrix<a class="headerlink" href="#set-ub-to-new-matrix" title="Link to this heading">#</a></h2>
-<p>The solver’s $UB$ matrix can be re-defined by providing a new Python matrix.
+<p>The solver’s <span class="math notranslate nohighlight">\(UB\)</span> matrix can be re-defined by providing a new Python matrix.
 Here is a matrix for a cubic sample, oriented previously:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[[</span><span class="mf">0.545455316412</span><span class="p">,</span> <span class="o">-</span><span class="mf">6.239788968842</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.495930309978</span><span class="p">],</span>
  <span class="p">[</span><span class="o">-</span><span class="mf">0.547615630691</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.543471652084</span><span class="p">,</span> <span class="mf">6.235639164201</span><span class="p">],</span>
@@ -624,7 +627,7 @@ Here is a matrix for a cubic sample, oriented previously:</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;function hklpy2.diffract.pick_first_item(now: tuple, solutions: list)&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;function hklpy2.diffract.pick_first_solution(now: tuple, solutions: list[tuple])&gt;
 </pre></div>
 </div>
 </div>
@@ -633,6 +636,21 @@ Here is a matrix for a cubic sample, oriented previously:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diffractometer</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Hklpy2DiffractometerRealPos(omega=-59.999921375969, chi=-28.211225311916, phi=40.202361982144, tth=-119.999842751938)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">hklpy2.diffract</span><span class="w"> </span><span class="kn">import</span> <span class="n">pick_closest_solution</span>
+
+<span class="n">diffractometer</span><span class="o">.</span><span class="n">_forward_solution</span> <span class="o">=</span> <span class="n">pick_closest_solution</span>
+<span class="n">diffractometer</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
