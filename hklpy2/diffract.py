@@ -11,6 +11,7 @@ Base class for all diffractometers
 
 import logging
 import pathlib
+from collections.abc import Iterable
 from typing import Callable
 from typing import Optional
 
@@ -115,6 +116,7 @@ class DiffractometerBase(PseudoPositioner):
         ~inverse
         ~move_dict
         ~move_forward_with_extras
+        ~move_inverse_with_extras
         ~move_reals
         ~restore
         ~scan_extra
@@ -398,20 +400,16 @@ class DiffractometerBase(PseudoPositioner):
         )
         yield from bps.mv(*moves)
 
-    def move_forward_with_extras(
-        self,
-        pseudos: AnyAxesType,  # (h, k, l)
-        extras: AxesDict,  # (h2, k2, l2, psi)
-    ):
+    def move_forward_with_extras(self, pseudos: AnyAxesType, extras: AxesDict):
         """
-        (plan stub) Set extras and compute forward solution at fixed Q and extras.
+        (plan stub) Compute forward solution at fixed pseudos and extras.
 
         EXAMPLE::
 
             RE(
                 move_forward_with_extras(
                     diffractometer,
-                    Q=dict(h=2, k=1, l=0),
+                    pseudos=dict(h=2, k=1, l=0),
                     extras=dict(h2=2, k2=2, l2=0, psi=25),
                 )
             )
@@ -420,6 +418,25 @@ class DiffractometerBase(PseudoPositioner):
         self.core.update_solver()
         solution = self.forward(self.core.standardize_pseudos(pseudos))
         yield from self.move_dict(solution)
+
+    def move_inverse_with_extras(self, reals: AnyAxesType, extras: AxesDict):
+        """
+        (plan stub) Compute inverse solution at fixed reals and extras.
+
+        EXAMPLE::
+
+            RE(
+                move_inverse_with_extras(
+                    diffractometer,
+                    reals=dict(omega=10, chi=0, phi=0, phi=20),
+                    extras=dict(h2=2, k2=2, l2=0, psi=25),
+                )
+            )
+        """
+        self.core.extras = extras
+        self.core.update_solver()
+        pseudos = self.inverse(self.core.standardize_reals(reals))
+        yield from self.move_dict(pseudos)
 
     @real_position_argument
     def move_reals(self, reals: AnyAxesType) -> None:
@@ -431,7 +448,7 @@ class DiffractometerBase(PseudoPositioner):
 
     def scan_extra(
         self,
-        detectors: list,
+        detectors: Iterable,
         axis: Optional[str] = None,  # name of extra parameter to be scanned
         start: Optional[float] = None,
         finish: Optional[float] = None,
@@ -448,18 +465,15 @@ class DiffractometerBase(PseudoPositioner):
         """
         Scan one extra diffractometer parameter, such as 'psi'.
 
-        * TODO: one **or more** (such as bp.scan)
-        * TODO: support "inverse" transformation scan
+        * TODO: #107 one **or more** (such as bp.scan)
 
-        * iterate extra positions as decribed:
+        * iterate extra positions as described:
             * set extras
             * solution = forward(pseudos)
             * move to solution
             * acquire (trigger) all controls
             * read and record all controls
         """
-        from collections.abc import Iterable
-
         import numpy
         from bluesky import plan_stubs as bps
         from bluesky import preprocessors as bpp
@@ -469,16 +483,12 @@ class DiffractometerBase(PseudoPositioner):
         self.core.update_solver()
 
         # validate
-        if not isinstance(detectors, Iterable):
-            raise TypeError(f"{detectors=} is not iterable.")
         if axis not in self.core.solver_extra_axis_names:
             raise KeyError(f"{axis!r} not in {self.core.solver_extra_axis_names}")
-        if reals is not None:
-            raise NotImplementedError("Inverse transformation.")  # FIXME: #37
         if pseudos is None and reals is None:
             raise ValueError("Must define either pseudos or reals.")
-        # if pseudos is not None and reals is not None:  # TODO: #37
-        #     raise ValueError("Cannot define both pseudos and reals.")
+        if pseudos is not None and reals is not None:
+            raise ValueError("Cannot define both pseudos and reals.")
 
         _md = {
             "diffractometer": {
@@ -522,8 +532,8 @@ class DiffractometerBase(PseudoPositioner):
                     """Move extras, then reals or pseudos, move to the solution."""
                     if reals is None:
                         yield from self.move_forward_with_extras(pseudos, extras)
-                    # else: # TODO: #37
-                    #     yield from self.inverse_move_with_extras(reals, extras)
+                    else:
+                        yield from self.move_inverse_with_extras(reals, extras)
 
                 def acquire(objects):
                     """Tell each object to acquire its data."""
@@ -550,7 +560,7 @@ class DiffractometerBase(PseudoPositioner):
                     if fail_on_exception:
                         raise reason
                     else:
-                        # Scan psi beyond limits will trigger this code.
+                        # Scan axis beyond limits will trigger this code.
                         print(f"FAIL: {axis}={value} {reason}")  # Inform the user!
 
         return (yield from _inner())
