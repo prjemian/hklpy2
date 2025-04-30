@@ -584,16 +584,16 @@ def test_repeated_reflections(
                 fail_on_exception=True,
             ),
             "psi_constant",
-            pytest.raises(NotImplementedError),
-            "Inverse transformation.",
+            does_not_raise(),
+            None,
         ],
         [
             dict(
                 detectors=noisy_det,
             ),
             "psi_constant",
-            pytest.raises(TypeError),
-            " is not iterable.",
+            pytest.raises(KeyError),
+            "None not in ['h2', 'k2', 'l2', 'psi']",
         ],
         [
             dict(
@@ -623,11 +623,8 @@ def test_repeated_reflections(
                 reals=dict(omega=1, chi=2, phi=3, tth=4),
             ),
             "psi_constant",
-            pytest.raises(NotImplementedError),
-            "Inverse transformation",
-            # TODO: will change with #37
-            # pytest.raises(ValueError),
-            # "Cannot define both pseudos and reals.",
+            pytest.raises(ValueError),
+            "Cannot define both pseudos and reals.",
         ],
     ],
 )
